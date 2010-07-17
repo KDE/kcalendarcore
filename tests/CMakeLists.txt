@@ -9,7 +9,7 @@ add_definitions( -DICALTESTDATADIR="\\"${CMAKE_SOURCE_DIR}/tests/data/\\"" )
 MACRO(KCALCORE_UNIT_TESTS)
   FOREACH(_testname ${ARGN})
     kde4_add_unit_test(${_testname} NOGUI ${_testname}.cpp)
-    target_link_libraries(${_testname} kcalcore ${QT_QTTEST_LIBRARY} ${QT_QTGUI_LIBRARY} ${LIBICAL_LIBRARIES})
+    target_link_libraries(${_testname} kcalcore ${QT_QTTEST_LIBRARY} ${QT_QTGUI_LIBRARY} ${LIBICAL_LIBRARIES} ${KDE4_KDECORE_LIBS})
   ENDFOREACH(_testname)
 ENDMACRO(KCALCORE_UNIT_TESTS)
 
