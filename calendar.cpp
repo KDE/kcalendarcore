@@ -410,7 +410,7 @@ Incidence::List Calendar::duplicates( const Incidence::Ptr &incidence )
     Incidence::List values = d->mNotebookIncidences.values();
     Incidence::List::const_iterator it;
 
-    for ( it = values.begin(); it != values.end(); ++it ) {
+    for ( it = values.constBegin(); it != values.constEnd(); ++it ) {
       if ( ( ( incidence->dtStart() == (*it)->dtStart() ) ||
              ( !incidence->dtStart().isValid() && !(*it)->dtStart().isValid() ) ) &&
            ( incidence->summary() == (*it)->summary() ) ) {

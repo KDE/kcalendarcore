@@ -233,7 +233,7 @@ bool Incidence::equals( const IncidenceBase &incidence ) const
 
   Alarm::List::ConstIterator a1 = alarms().constBegin();
   Alarm::List::ConstIterator a1end = alarms().constEnd();
-  Alarm::List::ConstIterator a2 = i2->alarms().begin();
+  Alarm::List::ConstIterator a2 = i2->alarms().constBegin();
   Alarm::List::ConstIterator a2end = i2->alarms().constEnd();
   for ( ; a1 != a1end && a2 != a2end; ++a1, ++a2 ) {
     if ( **a1 == **a2 ) {
