@@ -1,0 +1,2 @@
+Do NOT add any translatable messages to this library.
+Translatable stuff can be put into the kcalutils library as needed.
