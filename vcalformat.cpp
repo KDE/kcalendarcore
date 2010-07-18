@@ -355,7 +355,7 @@ VObject *VCalFormat::eventToVTodo( const Todo::Ptr &anEvent )
 
   // alarm stuff
   Alarm::List::ConstIterator it;
-  for ( it = anEvent->alarms().begin(); it != anEvent->alarms().end(); ++it ) {
+  for ( it = anEvent->alarms().constBegin(); it != anEvent->alarms().constEnd(); ++it ) {
     Alarm::Ptr alarm = *it;
     if ( alarm->enabled() ) {
       VObject *a;
