@@ -36,6 +36,7 @@
 
 #include "incidencebase.h"
 #include "calformat.h"
+#include "visitor.h"
 
 #include <kurl.h>
 
