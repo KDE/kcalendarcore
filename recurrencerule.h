@@ -65,7 +65,7 @@ class KCALCORE_EXPORT RecurrenceRule
     };
 
     /** structure for describing the n-th weekday of the month/year. */
-    class WDayPos
+    class KCALCORE_EXPORT WDayPos
     {
       public:
         explicit WDayPos( int ps = 0, short dy = 0 );
