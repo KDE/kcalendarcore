@@ -453,7 +453,7 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
 
       @return notebook uid
      */
-    virtual QString notebook( const Incidence::Ptr &incidence ) const;
+    virtual QString notebook( const Incidence::ConstPtr &incidence ) const;
 
     /**
       Get incidence's notebook.

@@ -537,7 +537,7 @@ bool Calendar::setNotebook( const Incidence::Ptr &inc, const QString &notebook )
   return true;
 }
 
-QString Calendar::notebook( const Incidence::Ptr &incidence ) const
+QString Calendar::notebook( const Incidence::ConstPtr &incidence ) const
 {
   if ( incidence ) {
     return d->mUidToNotebook.value( incidence->uid() );
