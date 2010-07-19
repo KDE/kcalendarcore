@@ -16,7 +16,7 @@ ENDMACRO(KCALCORE_UNIT_TESTS)
 MACRO(KCALCORE_EXECUTABLE_TESTS)
   FOREACH(_testname ${ARGN})
     kde4_add_executable(${_testname} NOGUI TEST ${_testname}.cpp)
-    target_link_libraries(${_testname} kcalcore ${QT_QTTEST_LIBRARY})
+    target_link_libraries(${_testname} kcalcore ${QT_QTTEST_LIBRARY} ${QT_QTCORE_LIBRARY} ${KDE4_KDECORE_LIBS})
   ENDFOREACH(_testname)
 ENDMACRO(KCALCORE_EXECUTABLE_TESTS)
 
