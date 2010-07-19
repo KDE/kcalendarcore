@@ -76,6 +76,11 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
     typedef QSharedPointer<Alarm> Ptr;
 
     /**
+       A shared pointer to a non-mutable Alarm object.
+    */
+    typedef QSharedPointer<const Alarm> ConstPtr;
+
+    /**
       List of alarms.
     */
     typedef QList<Ptr> List;

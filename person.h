@@ -54,6 +54,11 @@ class KCALCORE_EXPORT Person
     */
     typedef QSharedPointer<Person> Ptr;
 
+    /**
+      A shared pointer to a non-mutable Person object.
+    */
+    typedef QSharedPointer<const Person> ConstPtr;
+
      /**
        List of persons.
      */
