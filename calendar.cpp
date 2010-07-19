@@ -1081,8 +1081,8 @@ void Calendar::removeRelations( const Incidence::Ptr &incidence )
 //  incidence->setRelatedTo( Incidence::Ptr() );
 }
 
-bool Calendar::isAncestorOf( const Incidence::Ptr &ancestor,
-                             const Incidence::Ptr &incidence ) const
+bool Calendar::isAncestorOf( const Incidence::ConstPtr &ancestor,
+                             const Incidence::ConstPtr &incidence ) const
 {
   if ( !incidence || incidence->relatedTo().isEmpty() ) {
     return false;
