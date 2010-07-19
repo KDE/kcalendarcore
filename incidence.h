@@ -28,8 +28,8 @@
   @author Reinhold Kainhofer \<reinhold@kainhofer.com\>
 */
 
-#ifndef INCIDENCE_H
-#define INCIDENCE_H
+#ifndef KCALCORE_INCIDENCE_H
+#define KCALCORE_INCIDENCE_H
 
 #include "kcalcore_export.h"
 #include "alarm.h"
