@@ -33,7 +33,7 @@
 
 using namespace KCalCore;
 
-bool KCalCore::Events::startDateLessThan( const Event::Ptr &e1, const Event::Ptr &e2 )
+bool KCalCore::Events::startDateLessThan( const Event::ConstPtr &e1, const Event::ConstPtr &e2 )
 {
   const KDateTime d1= e1->dtStart();
   KDateTime::Comparison res = d1.compare( e2->dtStart() );
@@ -44,7 +44,7 @@ bool KCalCore::Events::startDateLessThan( const Event::Ptr &e1, const Event::Ptr
   }
 }
 
-bool KCalCore::Events::startDateMoreThan( const Event::Ptr &e1, const Event::Ptr &e2 )
+bool KCalCore::Events::startDateMoreThan( const Event::ConstPtr &e1, const Event::ConstPtr &e2 )
 {
   const KDateTime d1= e1->dtStart();
   KDateTime::Comparison res = d1.compare( e2->dtStart() );
@@ -55,17 +55,17 @@ bool KCalCore::Events::startDateMoreThan( const Event::Ptr &e1, const Event::Ptr
   }
 }
 
-bool KCalCore::Events::summaryLessThan( const Event::Ptr &e1, const Event::Ptr &e2 )
+bool KCalCore::Events::summaryLessThan( const Event::ConstPtr &e1, const Event::ConstPtr &e2 )
 {
   return QString::compare( e1->summary(), e2->summary(), Qt::CaseInsensitive ) < 0;
 }
 
-bool KCalCore::Events::summaryMoreThan( const Event::Ptr &e1, const Event::Ptr &e2 )
+bool KCalCore::Events::summaryMoreThan( const Event::ConstPtr &e1, const Event::ConstPtr &e2 )
 {
   return QString::compare( e1->summary(), e2->summary(), Qt::CaseInsensitive ) > 0;
 }
 
-bool KCalCore::Events::endDateLessThan( const Event::Ptr &e1, const Event::Ptr &e2 )
+bool KCalCore::Events::endDateLessThan( const Event::ConstPtr &e1, const Event::ConstPtr &e2 )
 {
   const KDateTime d1= e1->dtEnd();
   KDateTime::Comparison res = d1.compare( e2->dtEnd() );
@@ -76,7 +76,7 @@ bool KCalCore::Events::endDateLessThan( const Event::Ptr &e1, const Event::Ptr &
   }
 }
 
-bool KCalCore::Events::endDateMoreThan( const Event::Ptr &e1, const Event::Ptr &e2 )
+bool KCalCore::Events::endDateMoreThan( const Event::ConstPtr &e1, const Event::ConstPtr &e2 )
 {
   const KDateTime d1= e1->dtEnd();
   KDateTime::Comparison res = d1.compare( e2->dtEnd() );
@@ -87,32 +87,32 @@ bool KCalCore::Events::endDateMoreThan( const Event::Ptr &e1, const Event::Ptr &
   }
 }
 
-bool KCalCore::Journals::dateLessThan( const Journal::Ptr &j1, const Journal::Ptr &j2 )
+bool KCalCore::Journals::dateLessThan( const Journal::ConstPtr &j1, const Journal::ConstPtr &j2 )
 {
   const KDateTime d1 = j1->dtStart();
   KDateTime::Comparison res = d1.compare( j2->dtStart() );
   return ( res & KDateTime::Before || res & KDateTime::AtStart );
 }
 
-bool KCalCore::Journals::dateMoreThan( const Journal::Ptr &j1, const Journal::Ptr &j2 )
+bool KCalCore::Journals::dateMoreThan( const Journal::ConstPtr &j1, const Journal::ConstPtr &j2 )
 {
   const KDateTime d1= j1->dtStart();
   KDateTime::Comparison res = d1.compare( j2->dtStart() );
   return ( res & KDateTime::After || res & KDateTime::AtEnd );
 }
 
-bool KCalCore::Journals::summaryLessThan( const Journal::Ptr &j1, const Journal::Ptr &j2 )
+bool KCalCore::Journals::summaryLessThan( const Journal::ConstPtr &j1, const Journal::ConstPtr &j2 )
 {
 
   return QString::compare( j1->summary(), j2->summary(), Qt::CaseInsensitive ) < 0;
 }
 
-bool KCalCore::Journals::summaryMoreThan( const Journal::Ptr &j1, const Journal::Ptr &j2 )
+bool KCalCore::Journals::summaryMoreThan( const Journal::ConstPtr &j1, const Journal::ConstPtr &j2 )
 {
   return QString::compare( j1->summary(), j2->summary(), Qt::CaseInsensitive ) > 0;
 }
 
-bool KCalCore::Todos::startDateLessThan( const Todo::Ptr &t1, const Todo::Ptr &t2 )
+bool KCalCore::Todos::startDateLessThan( const Todo::ConstPtr &t1, const Todo::ConstPtr &t2 )
 {
   const KDateTime d1= t1->dtStart();
   KDateTime::Comparison res = d1.compare( t2->dtStart() );
@@ -123,7 +123,7 @@ bool KCalCore::Todos::startDateLessThan( const Todo::Ptr &t1, const Todo::Ptr &t
   }
 }
 
-bool KCalCore::Todos::startDateMoreThan( const Todo::Ptr &t1, const Todo::Ptr &t2 )
+bool KCalCore::Todos::startDateMoreThan( const Todo::ConstPtr &t1, const Todo::ConstPtr &t2 )
 {
   const KDateTime d1= t1->dtStart();
   KDateTime::Comparison res = d1.compare( t2->dtStart() );
@@ -134,7 +134,7 @@ bool KCalCore::Todos::startDateMoreThan( const Todo::Ptr &t1, const Todo::Ptr &t
   }
 }
 
-bool KCalCore::Todos::dueDateLessThan( const Todo::Ptr &t1, const Todo::Ptr &t2 )
+bool KCalCore::Todos::dueDateLessThan( const Todo::ConstPtr &t1, const Todo::ConstPtr &t2 )
 {
   const KDateTime d1= t1->dtDue();
   KDateTime::Comparison res = d1.compare( t2->dtDue() );
@@ -145,7 +145,7 @@ bool KCalCore::Todos::dueDateLessThan( const Todo::Ptr &t1, const Todo::Ptr &t2 
   }
 }
 
-bool KCalCore::Todos::dueDateMoreThan( const Todo::Ptr &t1, const Todo::Ptr &t2 )
+bool KCalCore::Todos::dueDateMoreThan( const Todo::ConstPtr &t1, const Todo::ConstPtr &t2 )
 {
   const KDateTime d1= t1->dtDue();
   KDateTime::Comparison res = d1.compare( t2->dtDue() );
@@ -156,7 +156,7 @@ bool KCalCore::Todos::dueDateMoreThan( const Todo::Ptr &t1, const Todo::Ptr &t2 
   }
 }
 
-bool KCalCore::Todos::priorityLessThan( const Todo::Ptr &t1, const Todo::Ptr &t2 )
+bool KCalCore::Todos::priorityLessThan( const Todo::ConstPtr &t1, const Todo::ConstPtr &t2 )
 {
   if ( t1->priority() < t2->priority() ) {
     return true;
@@ -167,7 +167,7 @@ bool KCalCore::Todos::priorityLessThan( const Todo::Ptr &t1, const Todo::Ptr &t2
   }
 }
 
-bool KCalCore::Todos::priorityMoreThan( const Todo::Ptr &t1, const Todo::Ptr &t2 )
+bool KCalCore::Todos::priorityMoreThan( const Todo::ConstPtr &t1, const Todo::ConstPtr &t2 )
 {
   if ( t1->priority() > t2->priority() ) {
     return true;
@@ -178,7 +178,7 @@ bool KCalCore::Todos::priorityMoreThan( const Todo::Ptr &t1, const Todo::Ptr &t2
   }
 }
 
-bool KCalCore::Todos::percentLessThan( const Todo::Ptr &t1, const Todo::Ptr &t2 )
+bool KCalCore::Todos::percentLessThan( const Todo::ConstPtr &t1, const Todo::ConstPtr &t2 )
 {
   if ( t1->percentComplete() < t2->percentComplete() ) {
     return true;
@@ -189,7 +189,7 @@ bool KCalCore::Todos::percentLessThan( const Todo::Ptr &t1, const Todo::Ptr &t2 
   }
 }
 
-bool KCalCore::Todos::percentMoreThan( const Todo::Ptr &t1, const Todo::Ptr &t2 )
+bool KCalCore::Todos::percentMoreThan( const Todo::ConstPtr &t1, const Todo::ConstPtr &t2 )
 {
   if ( t1->percentComplete() > t2->percentComplete() ) {
     return true;
@@ -200,17 +200,17 @@ bool KCalCore::Todos::percentMoreThan( const Todo::Ptr &t1, const Todo::Ptr &t2 
   }
 }
 
-bool KCalCore::Todos::summaryLessThan( const Todo::Ptr &t1, const Todo::Ptr &t2 )
+bool KCalCore::Todos::summaryLessThan( const Todo::ConstPtr &t1, const Todo::ConstPtr &t2 )
 {
   return QString::compare( t1->summary(), t2->summary(), Qt::CaseInsensitive ) < 0;
 }
 
-bool KCalCore::Todos::summaryMoreThan( const Todo::Ptr &t1, const Todo::Ptr &t2 )
+bool KCalCore::Todos::summaryMoreThan( const Todo::ConstPtr &t1, const Todo::ConstPtr &t2 )
 {
   return QString::compare( t1->summary(), t2->summary(), Qt::CaseInsensitive ) > 0;
 }
 
-bool KCalCore::Todos::createdLessThan( const Todo::Ptr &t1, const Todo::Ptr &t2 )
+bool KCalCore::Todos::createdLessThan( const Todo::ConstPtr &t1, const Todo::ConstPtr &t2 )
 {
   const KDateTime d1= t1->created();
   KDateTime::Comparison res = d1.compare( t2->created() );
@@ -221,7 +221,7 @@ bool KCalCore::Todos::createdLessThan( const Todo::Ptr &t1, const Todo::Ptr &t2 
   }
 }
 
-bool KCalCore::Todos::createdMoreThan( const Todo::Ptr &t1, const Todo::Ptr &t2 )
+bool KCalCore::Todos::createdMoreThan( const Todo::ConstPtr &t1, const Todo::ConstPtr &t2 )
 {
   const KDateTime d1= t1->created();
   KDateTime::Comparison res = d1.compare( t2->created() );
@@ -232,7 +232,7 @@ bool KCalCore::Todos::createdMoreThan( const Todo::Ptr &t1, const Todo::Ptr &t2 
   }
 }
 
-bool KCalCore::Incidences::dateLessThan( const Incidence::Ptr &i1, const Incidence::Ptr &i2 )
+bool KCalCore::Incidences::dateLessThan( const Incidence::ConstPtr &i1, const Incidence::ConstPtr &i2 )
 {
   const KDateTime d1 = i1->dateTime( Incidence::RoleSort );
   const KDateTime d2 = i2->dateTime( Incidence::RoleSort );
@@ -245,7 +245,7 @@ bool KCalCore::Incidences::dateLessThan( const Incidence::Ptr &i1, const Inciden
   }
 }
 
-bool KCalCore::Incidences::dateMoreThan( const Incidence::Ptr &i1, const Incidence::Ptr &i2 )
+bool KCalCore::Incidences::dateMoreThan( const Incidence::ConstPtr &i1, const Incidence::ConstPtr &i2 )
 {
   const KDateTime d1 = i1->dateTime( Incidence::RoleSort );
   const KDateTime d2 = i2->dateTime( Incidence::RoleSort );
@@ -258,7 +258,7 @@ bool KCalCore::Incidences::dateMoreThan( const Incidence::Ptr &i1, const Inciden
   }
 }
 
-bool KCalCore::Incidences::createdLessThan( const Incidence::Ptr &i1, const Incidence::Ptr &i2 )
+bool KCalCore::Incidences::createdLessThan( const Incidence::ConstPtr &i1, const Incidence::ConstPtr &i2 )
 {
   const KDateTime d1= i1->created();
   KDateTime::Comparison res = d1.compare( i2->created() );
@@ -269,7 +269,7 @@ bool KCalCore::Incidences::createdLessThan( const Incidence::Ptr &i1, const Inci
   }
 }
 
-bool KCalCore::Incidences::createdMoreThan( const Incidence::Ptr &i1, const Incidence::Ptr &i2 )
+bool KCalCore::Incidences::createdMoreThan( const Incidence::ConstPtr &i1, const Incidence::ConstPtr &i2 )
 {
   const KDateTime d1= i1->created();
   KDateTime::Comparison res = d1.compare( i2->created() );
@@ -280,17 +280,17 @@ bool KCalCore::Incidences::createdMoreThan( const Incidence::Ptr &i1, const Inci
   }
 }
 
-bool KCalCore::Incidences::summaryLessThan( const Incidence::Ptr &i1, const Incidence::Ptr &i2 )
+bool KCalCore::Incidences::summaryLessThan( const Incidence::ConstPtr &i1, const Incidence::ConstPtr &i2 )
 {
   return QString::compare( i1->summary(), i2->summary(), Qt::CaseInsensitive ) < 0;
 }
 
-bool KCalCore::Incidences::summaryMoreThan( const Incidence::Ptr &i1, const Incidence::Ptr &i2 )
+bool KCalCore::Incidences::summaryMoreThan( const Incidence::ConstPtr &i1, const Incidence::ConstPtr &i2 )
 {
   return QString::compare( i1->summary(), i2->summary(), Qt::CaseInsensitive ) > 0;
 }
 
-bool KCalCore::Persons::countMoreThan( const Person::Ptr &p1, const Person::Ptr &p2 )
+bool KCalCore::Persons::countMoreThan( const Person::ConstPtr &p1, const Person::ConstPtr &p2 )
 {
   return p1->count() > p2->count();
 }
