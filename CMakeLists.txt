@@ -14,12 +14,6 @@ if(KCALCORE_FOR_MEEGO)
   add_definitions(-DKCALCORE_FOR_MEEGO)
 endif(KCALCORE_FOR_MEEGO)
 
-############### search packages used by KDE ###############
-
-set(LIBICAL_MIN_VERSION "0.42")
-find_package(Libical)
-macro_log_feature(LIBICAL_FOUND "libical" "Reference implementation of the iCalendar data type and serialization format" "http://sourceforge.net/projects/freeassociation" TRUE "${LIBICAL_MIN_VERSION}" "Required for the critical PIM kcalcore library.")
-
 ###########################################################
 
 add_definitions(-DKDE_DEFAULT_DEBUG_AREA=5810)
