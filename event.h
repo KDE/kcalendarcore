@@ -186,6 +186,11 @@ class KCALCORE_EXPORT Event : public Incidence
     */
     QLatin1String mimeType() const;
 
+    /**
+       Returns the Akonadi specific sub MIME type of a KCalCore::Event.
+    */
+    static QLatin1String eventMimeType();
+
   protected:
     /**
       Compares two events for equality.

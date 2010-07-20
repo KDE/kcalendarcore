@@ -104,6 +104,11 @@ class KCALCORE_EXPORT Journal : public Incidence
     */
     QLatin1String mimeType() const;
 
+    /**
+       Returns the Akonadi specific sub MIME type of a KCalCore::Journal.
+    */
+    static QLatin1String journalMimeType();
+
   protected:
     /**
       Compare this with @p journal for equality.

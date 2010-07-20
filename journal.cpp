@@ -99,5 +99,10 @@ void Journal::virtual_hook( int id, void *data )
 
 QLatin1String Journal::mimeType() const
 {
-  return sJournalMimeType;
+  return Journal::journalMimeType();
+}
+
+QLatin1String KCalCore::Journal::journalMimeType()
+{
+  return QLatin1String( "application/x-vnd.akonadi.calendar.journal" );
 }

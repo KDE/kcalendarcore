@@ -514,5 +514,10 @@ void Todo::virtual_hook( int id, void *data )
 
 QLatin1String Todo::mimeType() const
 {
-  return sTodoMimeType;
+  return Todo::todoMimeType();
+}
+
+QLatin1String Todo::todoMimeType()
+{
+  return QLatin1String( "application/x-vnd.akonadi.calendar.todo" );
 }

@@ -229,6 +229,11 @@ class KCALCORE_EXPORT FreeBusy : public IncidenceBase
     */
     QLatin1String mimeType() const;
 
+    /**
+       Returns the Akonadi specific sub MIME type of a KCalCore::FreeBusy.
+    */
+    static QLatin1String freeBusyMimeType();
+
   protected:
     /**
       Compare this with @p freebusy for equality.

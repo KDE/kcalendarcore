@@ -392,5 +392,10 @@ bool FreeBusy::Private::addLocalPeriod( FreeBusy *fb,
 
 QLatin1String FreeBusy::mimeType() const
 {
-  return sFreeBusyMimeType;
+  return FreeBusy::freeBusyMimeType();
+}
+
+QLatin1String KCalCore::FreeBusy::freeBusyMimeType()
+{
+  return QLatin1String( "application/x-vnd.akonadi.calendar.freebusy" );
 }

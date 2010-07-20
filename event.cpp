@@ -287,5 +287,10 @@ void Event::virtual_hook( int id, void *data )
 
 QLatin1String KCalCore::Event::mimeType() const
 {
-  return sEventMimeType;
+  return Event::eventMimeType();
+}
+
+QLatin1String Event::eventMimeType()
+{
+  return QLatin1String( "application/x-vnd.akonadi.calendar.event" );
 }

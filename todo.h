@@ -302,6 +302,11 @@ class KCALCORE_EXPORT Todo : public Incidence
     */
     QLatin1String mimeType() const;
 
+    /**
+       Returns the Akonadi specific sub MIME type of a KCalCore::Todo.
+    */
+    static QLatin1String todoMimeType();
+
   protected:
     /**
       Compare this with @p todo for equality.

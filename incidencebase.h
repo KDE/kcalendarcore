@@ -80,11 +80,6 @@ class Journal;
 class FreeBusy;
 class Visitor;
 
-static QLatin1String sEventMimeType( "application/x-vnd.akonadi.calendar.event" );
-static QLatin1String sTodoMimeType( "application/x-vnd.akonadi.calendar.todo" );
-static QLatin1String sJournalMimeType( "application/x-vnd.akonadi.calendar.journal" );
-static QLatin1String sFreeBusyMimeType( "application/x-vnd.akonadi.calendar.freebusy" );
-
 /**
   @brief
   An abstract class that provides a common base for all calendar incidence
