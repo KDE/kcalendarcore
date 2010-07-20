@@ -39,7 +39,6 @@
 
 namespace KCalCore {
 
-class Calendar;
 class FreeBusy;
 
 /**
