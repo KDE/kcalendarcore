@@ -508,7 +508,11 @@ void Incidence::setRelatedTo( const QString &relatedToUid, RelType relType )
 
 QString Incidence::relatedTo( RelType relType ) const
 {
-  return d->mRelatedToUid[relType];
+  if ( d->mRelatedToUid.contains( relType ) ) {
+    return d->mRelatedToUid[relType];
+  } else {
+    return QString();
+  }
 }
 
 // %%%%%%%%%%%%  Recurrence-related methods %%%%%%%%%%%%%%%%%%%%
