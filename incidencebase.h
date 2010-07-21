@@ -185,13 +185,24 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
 
     /**
       Assignment operator.
+      All data belonging to derived classes are also copied. @see assign().
       The caller guarantees that both types match.
+
+      @code
+      if ( i1.type() == i2.type() ) {
+        i1 = i2;
+      } else {
+        kDebug() << "Invalid assignment!";
+      }
+      @endcode
+
       @param other is the IncidenceBase to assign.
      */
     IncidenceBase &operator=( const IncidenceBase &other );
 
     /**
       Compares this with IncidenceBase @p ib for equality.
+      All data belonging to derived classes are also compared. @see equals().
       @param ib is the IncidenceBase to compare against.
       @return true if the incidences are equal; false otherwise.
     */
