@@ -179,14 +179,6 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
     IncidenceBase();
 
     /**
-      Constructs an IncidenceBase as a copy of another IncidenceBase object.
-
-      @param ib is the IncidenceBase to copy.
-    */
-
-    IncidenceBase( const IncidenceBase &ib );
-
-    /**
       Destroys the IncidenceBase.
     */
     virtual ~IncidenceBase();
@@ -585,6 +577,13 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       CustomProperties::customPropertyUpdated()
     */
     virtual void customPropertyUpdated();
+
+    /**
+      Constructs an IncidenceBase as a copy of another IncidenceBase object.
+
+      @param ib is the IncidenceBase to copy.
+    */
+    IncidenceBase( const IncidenceBase &ib );
 
     /**
       Provides polymorfic comparison for equality.

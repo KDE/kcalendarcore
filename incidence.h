@@ -125,12 +125,6 @@ class KCALCORE_EXPORT Incidence
     Incidence();
 
     /**
-      Copy constructor.
-      @param other is the incidence to copy.
-    */
-    Incidence( const Incidence &other );
-
-    /**
       Destroys an incidence.
     */
     virtual ~Incidence();
@@ -784,6 +778,13 @@ class KCALCORE_EXPORT Incidence
     virtual void recurrenceUpdated( Recurrence *recurrence );
 
   protected:
+
+    /**
+      Copy constructor.
+      @param other is the incidence to copy.
+    */
+    Incidence( const Incidence &other );
+
     /**
       Compares this with Incidence @p incidence for equality.
       @param incidence is the Incidence to compare against.
