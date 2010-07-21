@@ -50,6 +50,8 @@ namespace KCalCore {
 */
 class KCALCORE_EXPORT CustomProperties
 {
+    friend KCALCORE_EXPORT QDataStream& operator<<( QDataStream& s, const KCalCore::CustomProperties& properties );
+    friend KCALCORE_EXPORT QDataStream& operator>>( QDataStream& s, KCalCore::CustomProperties& properties );
   public:
     /**
       Constructs an empty custom properties instance.
@@ -205,6 +207,16 @@ class KCALCORE_EXPORT CustomProperties
     Private *const d;
     //@endcond
 };
+
+/**
+  Serializes the @p properties object into the @p stream.
+*/
+KCALCORE_EXPORT QDataStream& operator<<( QDataStream& stream, const KCalCore::CustomProperties& properties );
+
+/**
+  Initializes the @p properties object from the @p stream.
+*/
+KCALCORE_EXPORT QDataStream& operator>>( QDataStream& stream, KCalCore::CustomProperties& properties );
 
 }
 

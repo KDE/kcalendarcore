@@ -31,6 +31,8 @@
 
 #include "customproperties.h"
 
+#include <QDataStream>
+
 using namespace KCalCore;
 
 //@cond PRIVATE
@@ -227,3 +229,14 @@ bool checkName( const QByteArray &name )
   return true;
 }
 //@endcond
+
+QDataStream& KCalCore::operator<<( QDataStream& stream, const KCalCore::CustomProperties& properties )
+{
+  return stream << properties.d->mProperties << properties.d->mPropertyParameters;
+}
+
+QDataStream& KCalCore::operator>>( QDataStream& stream, KCalCore::CustomProperties& properties )
+{
+  return stream >> properties.d->mProperties >> properties.d->mPropertyParameters;
+}
+

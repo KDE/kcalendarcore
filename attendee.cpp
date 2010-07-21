@@ -178,3 +178,22 @@ const CustomProperties &Attendee::customProperties() const
 {
   return d->mCustomProperties;
 }
+
+QDataStream &KCalCore::operator<<( QDataStream &stream, const KCalCore::Attendee &attendee )
+{
+  return stream << attendee.d->mRSVP << attendee.d->mRole << attendee.d->mStatus << attendee.d->mUid
+          << attendee.d->mDelegate  << attendee.d->mDelegator << attendee.d->mCustomProperties;
+}
+
+QDataStream &KCalCore::operator>>( QDataStream &stream, KCalCore::Attendee &attendee )
+{
+  uint role;
+  uint status;
+  stream >> attendee.d->mRSVP >> role >> status >> attendee.d->mUid >> attendee.d->mDelegate
+         >> attendee.d->mDelegator >> attendee.d->mCustomProperties;
+
+  attendee.d->mRole = Attendee::Role( role );
+  attendee.d->mStatus = Attendee::PartStat( status );
+
+  return stream;
+}

@@ -179,3 +179,14 @@ uint qHash( const KCalCore::Person &key )
 {
   return qHash( key.fullName() );
 }
+
+QDataStream& KCalCore::operator<<( QDataStream& stream, const KCalCore::Person& person )
+{
+  return stream << person.d->mName << person.d->mEmail << person.d->mCount;
+}
+
+QDataStream& KCalCore::operator>>( QDataStream& stream, Person& person )
+{
+  return stream >> person.d->mName >>person.d->mEmail >> person.d->mCount;
+}
+
