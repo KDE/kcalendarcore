@@ -420,7 +420,7 @@ void IncidenceBase::deleteAttendee( const Attendee::Ptr &a, bool doupdate )
   }
 }
 
-const Attendee::List &IncidenceBase::attendees() const
+Attendee::List IncidenceBase::attendees() const
 {
   return d->mAttendees;
 }

@@ -474,7 +474,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
     /**
       Returns a list of incidence attendees.
     */
-    const Attendee::List &attendees() const;
+    Attendee::List attendees() const;
 
     /**
       Returns the number of incidence attendees.
