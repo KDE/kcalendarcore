@@ -653,7 +653,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
 
       @see setLocationRadius()
     */
-    int locationRadius();
+    int locationRadius() const;
 
   protected:
     /**

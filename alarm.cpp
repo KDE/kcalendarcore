@@ -827,7 +827,7 @@ void Alarm::setLocationRadius( int locationRadius )
   }
 }
 
-int Alarm::locationRadius()
+int Alarm::locationRadius() const
 {
   return d->mLocationRadius;
 }
