@@ -273,7 +273,7 @@ VObject *VCalFormat::eventToVTodo( const Todo::Ptr &anEvent )
   if ( anEvent->attendeeCount() > 0 ) {
     Attendee::List::ConstIterator it;
     Attendee::Ptr curAttendee;
-    for ( it = anEvent->attendees().begin(); it != anEvent->attendees().end();
+    for ( it = anEvent->attendees().constBegin(); it != anEvent->attendees().constEnd();
           ++it ) {
       curAttendee = *it;
       if ( !curAttendee->email().isEmpty() && !curAttendee->name().isEmpty() ) {
