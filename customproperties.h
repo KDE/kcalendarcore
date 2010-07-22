@@ -130,7 +130,7 @@ class KCALCORE_EXPORT CustomProperties
       @see removeNonKDECustomProperty().
     */
     void setNonKDECustomProperty( const QByteArray &name, const QString &value,
-                                  QString parameters = QString() );
+                                  const QString &parameters = QString() );
 
     /**
       Delete a non-KDE or non-standard custom calendar property.

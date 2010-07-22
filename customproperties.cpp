@@ -137,7 +137,7 @@ QByteArray CustomProperties::customPropertyName( const QByteArray &app, const QB
 }
 
 void CustomProperties::setNonKDECustomProperty( const QByteArray &name, const QString &value,
-                                                QString parameters )
+                                                const QString &parameters )
 {
   if ( value.isNull() || !checkName( name ) ) {
     return;
