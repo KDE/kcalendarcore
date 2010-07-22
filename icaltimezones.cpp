@@ -224,7 +224,7 @@ ICalTimeZone ICalTimeZones::zone( const ICalTimeZone &zone ) const
 /******************************************************************************/
 
 ICalTimeZoneBackend::ICalTimeZoneBackend()
-  : KTimeZoneBackend(), d( 0 )
+  : KTimeZoneBackend()
 {}
 
 ICalTimeZoneBackend::ICalTimeZoneBackend( ICalTimeZoneSource *source,
@@ -232,12 +232,11 @@ ICalTimeZoneBackend::ICalTimeZoneBackend( ICalTimeZoneSource *source,
                                           const QString &countryCode,
                                           float latitude, float longitude,
                                           const QString &comment )
-  : KTimeZoneBackend( source, name, countryCode, latitude, longitude, comment ), d( 0 )
+  : KTimeZoneBackend( source, name, countryCode, latitude, longitude, comment )
 {}
 
 ICalTimeZoneBackend::ICalTimeZoneBackend( const KTimeZone &tz, const QDate &earliest )
-  : KTimeZoneBackend( 0, tz.name(), tz.countryCode(), tz.latitude(), tz.longitude(), tz.comment() ),
-    d( 0 )
+  : KTimeZoneBackend( 0, tz.name(), tz.countryCode(), tz.latitude(), tz.longitude(), tz.comment() )
 {
   Q_UNUSED( earliest );
 }

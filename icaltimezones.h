@@ -355,7 +355,8 @@ class KCALCORE_EXPORT ICalTimeZoneBackend : public KTimeZoneBackend
     virtual void virtual_hook( int id, void *data );
 
   private:
-    ICalTimeZonePrivate *const d;
+    ICalTimeZonePrivate *d; //krazy:exclude=dpointer
+                            //(non-const d-pointer for KTimeZoneBackend-derived classes)
 };
 
 /**
