@@ -34,6 +34,8 @@
 #include "freebusy.h"
 #include "visitor.h"
 
+#include "icalformat.h"
+
 #include <kdebug.h>
 
 using namespace KCalCore;
@@ -399,3 +401,27 @@ QLatin1String KCalCore::FreeBusy::freeBusyMimeType()
 {
   return QLatin1String( "application/x-vnd.akonadi.calendar.freebusy" );
 }
+
+QDataStream& KCalCore::operator<<(QDataStream& stream, const KCalCore::FreeBusy::Ptr& fb)
+{
+  KCalCore::ICalFormat format;
+  QString data = format.createScheduleMessage( fb, iTIPPublish );
+  return stream << data;
+}
+
+QDataStream& KCalCore::operator>>(QDataStream& stream, KCalCore::FreeBusy::Ptr& fb)
+{
+  QString freeBusyVCal;
+  stream >> freeBusyVCal;
+
+  KCalCore::ICalFormat format;
+  fb = format.parseFreeBusy( freeBusyVCal );
+
+  if ( !fb ) {
+    kDebug() << "Error parsing free/busy";
+    kDebug() << freeBusyVCal;
+  }
+
+  return stream;
+}
+

@@ -49,6 +49,8 @@ class FreeBusy;
 */
 class KCALCORE_EXPORT FreeBusy : public IncidenceBase
 {
+  friend KCALCORE_EXPORT QDataStream& operator<<( QDataStream& s, const KCalCore::FreeBusy::Ptr& fb );
+  friend KCALCORE_EXPORT QDataStream& operator>>( QDataStream& s, KCalCore::FreeBusy::Ptr& fb );
   public:
 
     /**
@@ -272,6 +274,14 @@ class KCALCORE_EXPORT FreeBusy : public IncidenceBase
     Private *const d;
     //@endcond
 };
+/**
+  Serializes the @p fb object into the @p stream.
+*/
+KCALCORE_EXPORT QDataStream& operator<<( QDataStream& stream, const KCalCore::FreeBusy::Ptr& fb );
+/**
+  Initializes the @p fb object from the @p stream.
+*/
+KCALCORE_EXPORT QDataStream& operator>>( QDataStream& stream, KCalCore::FreeBusy::Ptr& fb );
 
 }
 
