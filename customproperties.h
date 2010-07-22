@@ -211,12 +211,14 @@ class KCALCORE_EXPORT CustomProperties
 /**
   Serializes the @p properties object into the @p stream.
 */
-KCALCORE_EXPORT QDataStream& operator<<( QDataStream& stream, const KCalCore::CustomProperties& properties );
+KCALCORE_EXPORT QDataStream& operator<<( QDataStream& stream,
+                                         const KCalCore::CustomProperties& properties );
 
 /**
   Initializes the @p properties object from the @p stream.
 */
-KCALCORE_EXPORT QDataStream& operator>>( QDataStream& stream, KCalCore::CustomProperties& properties );
+KCALCORE_EXPORT QDataStream& operator>>( QDataStream& stream,
+                                         KCalCore::CustomProperties& properties );
 
 }
 

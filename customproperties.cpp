@@ -230,12 +230,14 @@ bool checkName( const QByteArray &name )
 }
 //@endcond
 
-QDataStream& KCalCore::operator<<( QDataStream& stream, const KCalCore::CustomProperties& properties )
+QDataStream& KCalCore::operator<<( QDataStream& stream,
+                                   const KCalCore::CustomProperties& properties )
 {
   return stream << properties.d->mProperties << properties.d->mPropertyParameters;
 }
 
-QDataStream& KCalCore::operator>>( QDataStream& stream, KCalCore::CustomProperties& properties )
+QDataStream& KCalCore::operator>>( QDataStream& stream,
+                                   KCalCore::CustomProperties& properties )
 {
   return stream >> properties.d->mProperties >> properties.d->mPropertyParameters;
 }
