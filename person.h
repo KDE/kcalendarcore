@@ -181,6 +181,13 @@ class KCALCORE_EXPORT Person
     bool operator==( const Person &person ) const;
 
     /**
+      Compares this with @p person for non-equality.
+
+      @param person is the person to compare.
+    */
+    bool operator!=( const Person &person ) const;
+
+    /**
       Sets this person equal to @p person.
 
       @param person is the person to copy.

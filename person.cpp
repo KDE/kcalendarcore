@@ -92,6 +92,12 @@ bool KCalCore::Person::operator==( const Person &person ) const
     d->mEmail == person.d->mEmail;
 }
 
+bool KCalCore::Person::operator!=( const Person &person ) const
+{
+  return ! (*this == person);
+}
+
+
 Person &KCalCore::Person::operator=( const Person &person )
 {
   // check for self assignment
