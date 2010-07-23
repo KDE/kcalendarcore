@@ -473,6 +473,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
 
     /**
       Returns a list of incidence attendees.
+      All pointers in the list are valid.
     */
     Attendee::List attendees() const;
 
