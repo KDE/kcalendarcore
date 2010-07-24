@@ -29,7 +29,7 @@
 #ifndef KCALCORE_ATTENDEE_H
 #define KCALCORE_ATTENDEE_H
 
-#include <QMetaType>
+#include <QtCore/QMetaType>
 
 #include "kcalcore_export.h"
 #include "customproperties.h"
@@ -267,19 +267,23 @@ class KCALCORE_EXPORT Attendee : private Person
     class Private;
     Private *const d;
     //@endcond
-    friend KCALCORE_EXPORT QDataStream& operator<<( QDataStream& s, const KCalCore::Attendee::Ptr& att );
-    friend KCALCORE_EXPORT QDataStream& operator>>( QDataStream& s, KCalCore::Attendee::Ptr& att );
+
+    friend KCALCORE_EXPORT QDataStream &operator<<( QDataStream &s,
+                                                    const KCalCore::Attendee::Ptr &attendee );
+    friend KCALCORE_EXPORT QDataStream &operator>>( QDataStream &s,
+                                                    KCalCore::Attendee::Ptr &attendee );
 };
 
 /**
   Serializes the @p attendee object into the @p stream.
 */
-KCALCORE_EXPORT QDataStream& operator<<( QDataStream& stream, const KCalCore::Attendee::Ptr& attendee );
+KCALCORE_EXPORT QDataStream &operator<<( QDataStream &stream,
+                                         const KCalCore::Attendee::Ptr &attendee );
 
 /**
   Initializes the @p attendee object from the @p stream.
 */
-KCALCORE_EXPORT QDataStream& operator>>( QDataStream& stream, KCalCore::Attendee::Ptr& attendee );
+KCALCORE_EXPORT QDataStream &operator>>( QDataStream &stream, KCalCore::Attendee::Ptr &attendee );
 }
 
 Q_DECLARE_METATYPE( KCalCore::Attendee::Ptr );

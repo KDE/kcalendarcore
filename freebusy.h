@@ -37,7 +37,7 @@
 #include "incidencebase.h"
 #include "period.h"
 
-#include <QMetaType>
+#include <QtCore/QMetaType>
 
 namespace KCalCore {
 
@@ -51,8 +51,11 @@ class FreeBusy;
 */
 class KCALCORE_EXPORT FreeBusy : public IncidenceBase
 {
-  friend KCALCORE_EXPORT QDataStream& operator<<( QDataStream& s, const KCalCore::FreeBusy::Ptr& fb );
-  friend KCALCORE_EXPORT QDataStream& operator>>( QDataStream& s, KCalCore::FreeBusy::Ptr& fb );
+  friend KCALCORE_EXPORT QDataStream &operator<<( QDataStream &s,
+                                                  const KCalCore::FreeBusy::Ptr &freebusy );
+  friend KCALCORE_EXPORT QDataStream &operator>>( QDataStream &s,
+                                                  KCalCore::FreeBusy::Ptr &freebusy );
+
   public:
 
     /**
@@ -276,15 +279,17 @@ class KCALCORE_EXPORT FreeBusy : public IncidenceBase
     Private *const d;
     //@endcond
 };
+
 /**
   Serializes the @p fb object into the @p stream.
 */
-KCALCORE_EXPORT QDataStream& operator<<( QDataStream& stream, const KCalCore::FreeBusy::Ptr& fb );
+KCALCORE_EXPORT QDataStream &operator<<( QDataStream &stream,
+                                         const KCalCore::FreeBusy::Ptr &freebusy );
 /**
   Initializes the @p fb object from the @p stream.
 */
-KCALCORE_EXPORT QDataStream& operator>>( QDataStream& stream, KCalCore::FreeBusy::Ptr& fb );
-
+KCALCORE_EXPORT QDataStream &operator>>( QDataStream &stream,
+                                         KCalCore::FreeBusy::Ptr &freebusy );
 }
 
 Q_DECLARE_METATYPE( KCalCore::FreeBusy::Ptr );

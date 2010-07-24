@@ -501,8 +501,10 @@ KDateTime Todo::dateTime( DateTimeRole role ) const
   }
 }
 
-void Todo::setDateTime( const KDateTime &/*dateTime*/, DateTimeRole /*role*/ )
+void Todo::setDateTime( const KDateTime &dateTime, DateTimeRole role )
 {
+  Q_UNUSED( dateTime );
+  Q_UNUSED( role );
 }
 
 void Todo::virtual_hook( int id, void *data )

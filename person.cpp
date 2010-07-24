@@ -96,9 +96,8 @@ bool KCalCore::Person::operator==( const Person &person ) const
 
 bool KCalCore::Person::operator!=( const Person &person ) const
 {
-  return ! (*this == person);
+  return !( *this == person );
 }
-
 
 Person &KCalCore::Person::operator=( const Person &person )
 {
@@ -188,19 +187,21 @@ uint qHash( const KCalCore::Person &key )
   return qHash( key.fullName() );
 }
 
-QDataStream& KCalCore::operator<<( QDataStream& stream, const KCalCore::Person::Ptr& person )
+QDataStream &KCalCore::operator<<( QDataStream &stream, const KCalCore::Person::Ptr &person )
 {
-  return stream << person->d->mName << person->d->mEmail << person->d->mCount;
+  return stream << person->d->mName
+                << person->d->mEmail
+                << person->d->mCount;
 }
 
-QDataStream& KCalCore::operator>>( QDataStream& stream, Person::Ptr& person )
+QDataStream &KCalCore::operator>>( QDataStream &stream, Person::Ptr &person )
 {
   QString name, email;
   int count;
 
   stream >> name >> email >> count;
 
-  Person::Ptr person_tmp( new Person( name, email ));
+  Person::Ptr person_tmp( new Person( name, email ) );
   person_tmp->setCount( count );
   person.swap( person_tmp );
   return stream;

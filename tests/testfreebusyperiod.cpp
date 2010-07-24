@@ -33,49 +33,46 @@ using namespace KCalCore;
 
 void FreeBusyPeriodTest::testValidity()
 {
-    const KDateTime p1DateTime( QDate( 2006, 8, 30 ), QTime( 7, 0, 0 ), KDateTime::UTC );
-    FreeBusyPeriod p1( p1DateTime,
-              Duration( 60 ) );
+  const KDateTime p1DateTime( QDate( 2006, 8, 30 ), QTime( 7, 0, 0 ), KDateTime::UTC );
+  FreeBusyPeriod p1( p1DateTime, Duration( 60 ) );
 
-    QString summary = "I can haz summary?";
-    QString location = "The Moon";
-    p1.setSummary( summary );
-    p1.setLocation( location );
+  QString summary = "I can haz summary?";
+  QString location = "The Moon";
+  p1.setSummary( summary );
+  p1.setLocation( location );
 
-    QVERIFY( p1.hasDuration() );
-    QCOMPARE( p1.duration().asSeconds(), 60 );
-    QVERIFY( p1.start() == KDateTime( QDate( 2006, 8, 30 ), QTime( 7, 0, 0 ), KDateTime::UTC ) );
+  QVERIFY( p1.hasDuration() );
+  QCOMPARE( p1.duration().asSeconds(), 60 );
+  QVERIFY( p1.start() == KDateTime( QDate( 2006, 8, 30 ), QTime( 7, 0, 0 ), KDateTime::UTC ) );
 
-    QCOMPARE( p1.summary(), summary );
-    QCOMPARE( p1.location(), location );
+  QCOMPARE( p1.summary(), summary );
+  QCOMPARE( p1.location(), location );
 }
 
 void FreeBusyPeriodTest::testAssign()
 {
-    const KDateTime p1DateTime( QDate( 2006, 8, 30 ), QTime( 7, 0, 0 ), KDateTime::UTC );
-    FreeBusyPeriod p1( p1DateTime,
-              Duration( 60 ) );
-    FreeBusyPeriod p2;
+  const KDateTime p1DateTime( QDate( 2006, 8, 30 ), QTime( 7, 0, 0 ), KDateTime::UTC );
+  FreeBusyPeriod p1( p1DateTime, Duration( 60 ) );
+  FreeBusyPeriod p2;
 
-    QString summary = "I can haz summary?";
-    QString location = "The Moon";
-    p1.setSummary( summary );
-    p1.setLocation( location );
+  QString summary = "I can haz summary?";
+  QString location = "The Moon";
+  p1.setSummary( summary );
+  p1.setLocation( location );
 
-    p2 = p1;
+  p2 = p1;
 
-    QVERIFY( p2.hasDuration() );
-    QVERIFY( p2.duration().asSeconds() == 60 );
-    QVERIFY( p2.start() == KDateTime( QDate( 2006, 8, 30 ), QTime( 7, 0, 0 ), KDateTime::UTC ) );
-        QCOMPARE( p1.summary(), summary );
-    QCOMPARE( p1.location(), location );
+  QVERIFY( p2.hasDuration() );
+  QVERIFY( p2.duration().asSeconds() == 60 );
+  QVERIFY( p2.start() == KDateTime( QDate( 2006, 8, 30 ), QTime( 7, 0, 0 ), KDateTime::UTC ) );
+  QCOMPARE( p1.summary(), summary );
+  QCOMPARE( p1.location(), location );
 }
 
 void FreeBusyPeriodTest::testDataStreamOut()
 {
-    const KDateTime p1DateTime( QDate( 2006, 8, 30 ), QTime( 7, 0, 0 ), KDateTime::UTC );
-    FreeBusyPeriod p1( p1DateTime,
-              Duration( 60 ) );
+  const KDateTime p1DateTime( QDate( 2006, 8, 30 ), QTime( 7, 0, 0 ), KDateTime::UTC );
+  FreeBusyPeriod p1( p1DateTime, Duration( 60 ) );
 
   p1.setSummary( "I can haz summary?" );
   p1.setLocation( "The Moon" );

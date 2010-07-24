@@ -232,7 +232,8 @@ bool KCalCore::Todos::createdMoreThan( const Todo::ConstPtr &t1, const Todo::Con
   }
 }
 
-bool KCalCore::Incidences::dateLessThan( const Incidence::ConstPtr &i1, const Incidence::ConstPtr &i2 )
+bool KCalCore::Incidences::dateLessThan( const Incidence::ConstPtr &i1,
+                                         const Incidence::ConstPtr &i2 )
 {
   const KDateTime d1 = i1->dateTime( Incidence::RoleSort );
   const KDateTime d2 = i2->dateTime( Incidence::RoleSort );
@@ -245,7 +246,8 @@ bool KCalCore::Incidences::dateLessThan( const Incidence::ConstPtr &i1, const In
   }
 }
 
-bool KCalCore::Incidences::dateMoreThan( const Incidence::ConstPtr &i1, const Incidence::ConstPtr &i2 )
+bool KCalCore::Incidences::dateMoreThan( const Incidence::ConstPtr &i1,
+                                         const Incidence::ConstPtr &i2 )
 {
   const KDateTime d1 = i1->dateTime( Incidence::RoleSort );
   const KDateTime d2 = i2->dateTime( Incidence::RoleSort );
@@ -258,7 +260,8 @@ bool KCalCore::Incidences::dateMoreThan( const Incidence::ConstPtr &i1, const In
   }
 }
 
-bool KCalCore::Incidences::createdLessThan( const Incidence::ConstPtr &i1, const Incidence::ConstPtr &i2 )
+bool KCalCore::Incidences::createdLessThan( const Incidence::ConstPtr &i1,
+                                            const Incidence::ConstPtr &i2 )
 {
   const KDateTime d1= i1->created();
   KDateTime::Comparison res = d1.compare( i2->created() );
@@ -269,7 +272,8 @@ bool KCalCore::Incidences::createdLessThan( const Incidence::ConstPtr &i1, const
   }
 }
 
-bool KCalCore::Incidences::createdMoreThan( const Incidence::ConstPtr &i1, const Incidence::ConstPtr &i2 )
+bool KCalCore::Incidences::createdMoreThan( const Incidence::ConstPtr &i1,
+                                            const Incidence::ConstPtr &i2 )
 {
   const KDateTime d1= i1->created();
   KDateTime::Comparison res = d1.compare( i2->created() );
@@ -280,12 +284,14 @@ bool KCalCore::Incidences::createdMoreThan( const Incidence::ConstPtr &i1, const
   }
 }
 
-bool KCalCore::Incidences::summaryLessThan( const Incidence::ConstPtr &i1, const Incidence::ConstPtr &i2 )
+bool KCalCore::Incidences::summaryLessThan( const Incidence::ConstPtr &i1,
+                                            const Incidence::ConstPtr &i2 )
 {
   return QString::compare( i1->summary(), i2->summary(), Qt::CaseInsensitive ) < 0;
 }
 
-bool KCalCore::Incidences::summaryMoreThan( const Incidence::ConstPtr &i1, const Incidence::ConstPtr &i2 )
+bool KCalCore::Incidences::summaryMoreThan( const Incidence::ConstPtr &i1,
+                                            const Incidence::ConstPtr &i2 )
 {
   return QString::compare( i1->summary(), i2->summary(), Qt::CaseInsensitive ) > 0;
 }

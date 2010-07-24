@@ -274,8 +274,10 @@ KDateTime Event::dateTime( DateTimeRole role ) const
   }
 }
 
-void Event::setDateTime( const KDateTime &/*dateTime*/, DateTimeRole /*role*/ )
+void Event::setDateTime( const KDateTime &dateTime, DateTimeRole role )
 {
+  Q_UNUSED( dateTime );
+  Q_UNUSED( role );
 }
 
 void Event::virtual_hook( int id, void *data )

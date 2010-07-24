@@ -95,7 +95,6 @@ void PersonTest::testDataStreamIn()
 void PersonTest::testDataStreamOut()
 {
   Person::Ptr person1( new Person( "fred", "fred@flintstone.com" ) );
-  int initial_count = person1->count();
 
   QByteArray byteArray;
   QDataStream out_stream( &byteArray, QIODevice::WriteOnly );

@@ -35,8 +35,8 @@
 
 #include <QtCore/QString>
 #include <QtCore/QHash>
+#include <QtCore/QMetaType>
 #include <QtCore/QSharedPointer>
-#include <QMetaType>
 
 namespace KCalCore {
 
@@ -198,19 +198,22 @@ class KCALCORE_EXPORT Person
     class Private;
     Private *const d;
    //@endcond
-    friend KCALCORE_EXPORT QDataStream& operator<<( QDataStream& s, const KCalCore::Person::Ptr& per );
-    friend KCALCORE_EXPORT QDataStream& operator>>( QDataStream& s, KCalCore::Person::Ptr& per );
+
+    friend KCALCORE_EXPORT QDataStream &operator<<( QDataStream &s,
+                                                    const KCalCore::Person::Ptr &person );
+    friend KCALCORE_EXPORT QDataStream &operator>>( QDataStream &s,
+                                                    KCalCore::Person::Ptr &person );
 };
 
 /**
   Serializes the @p person object into the @p stream.
 */
-KCALCORE_EXPORT QDataStream& operator<<( QDataStream& stream, const KCalCore::Person::Ptr& person );
+KCALCORE_EXPORT QDataStream &operator<<( QDataStream &stream, const KCalCore::Person::Ptr &person );
 
 /**
   Initializes the @p person object from the @p stream.
 */
-KCALCORE_EXPORT QDataStream& operator>>( QDataStream& stream, KCalCore::Person::Ptr& person );
+KCALCORE_EXPORT QDataStream &operator>>( QDataStream &stream, KCalCore::Person::Ptr &person );
 
 }
 
@@ -219,5 +222,6 @@ KCALCORE_EXPORT QDataStream& operator>>( QDataStream& stream, KCalCore::Person::
   @param key is a Person.
 */
 KCALCORE_EXPORT uint qHash( const KCalCore::Person &key );
+
 Q_DECLARE_METATYPE( KCalCore::Person::Ptr );
 #endif

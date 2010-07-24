@@ -183,13 +183,18 @@ const CustomProperties &Attendee::customProperties() const
 
 QDataStream &KCalCore::operator<<( QDataStream &stream, const KCalCore::Attendee::Ptr &attendee )
 {
-  KCalCore::Person::Ptr p( new KCalCore::Person( *((Person*) attendee.data() )) );
+  KCalCore::Person::Ptr p( new KCalCore::Person( *( (Person *)attendee.data() ) ) );
   stream << p;
-  return stream << attendee->d->mRSVP << attendee->d->mRole << attendee->d->mStatus << attendee->d->mUid
-          << attendee->d->mDelegate  << attendee->d->mDelegator << attendee->d->mCustomProperties;
+  return stream << attendee->d->mRSVP
+                << int( attendee->d->mRole )
+                << int( attendee->d->mStatus )
+                << attendee->d->mUid
+                << attendee->d->mDelegate
+                << attendee->d->mDelegator
+                << attendee->d->mCustomProperties;
 }
 
-QDataStream &KCalCore::operator>>( QDataStream& stream, KCalCore::Attendee::Ptr& attendee )
+QDataStream &KCalCore::operator>>( QDataStream &stream, KCalCore::Attendee::Ptr &attendee )
 {
   bool RSVP;
   Attendee::Role role;
@@ -203,12 +208,19 @@ QDataStream &KCalCore::operator>>( QDataStream& stream, KCalCore::Attendee::Ptr&
 
   KCalCore::Person::Ptr person( new Person() );
   stream >> person;
-  stream >> RSVP >> role_int >> status_int >> uid >> delegate >> delegator >> customProperties;
+  stream >> RSVP
+         >> role_int
+         >> status_int
+         >> uid
+         >> delegate
+         >> delegator
+         >> customProperties;
 
   role = Attendee::Role( role_int );
   status = Attendee::PartStat( status_int );
- 
-  Attendee::Ptr att_temp( new KCalCore::Attendee( person->name(), person->email(), RSVP, status, role, uid ) );
+
+  Attendee::Ptr att_temp( new KCalCore::Attendee( person->name(), person->email(),
+                                                  RSVP, status, role, uid ) );
   att_temp->setDelegate( delegate );
   att_temp->setDelegator( delegator );
   att_temp->d->mCustomProperties = customProperties;

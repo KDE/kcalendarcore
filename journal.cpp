@@ -86,8 +86,10 @@ KDateTime Journal::dateTime( DateTimeRole role ) const
   }
 }
 
-void Journal::setDateTime( const KDateTime &/*dateTime*/, DateTimeRole /*role*/ )
+void Journal::setDateTime( const KDateTime &dateTime, DateTimeRole role )
 {
+  Q_UNUSED( dateTime );
+  Q_UNUSED( role );
 }
 
 void Journal::virtual_hook( int id, void *data )

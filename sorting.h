@@ -90,17 +90,23 @@ namespace Journals {
 
 namespace Incidences {
 
-  KCALCORE_EXPORT bool dateLessThan( const Incidence::ConstPtr &i1, const Incidence::ConstPtr &i2 );
+  KCALCORE_EXPORT bool dateLessThan( const Incidence::ConstPtr &i1,
+                                     const Incidence::ConstPtr &i2 );
 
-  KCALCORE_EXPORT bool dateMoreThan( const Incidence::ConstPtr &i1, const Incidence::ConstPtr &i2 );
+  KCALCORE_EXPORT bool dateMoreThan( const Incidence::ConstPtr &i1,
+                                     const Incidence::ConstPtr &i2 );
 
-  KCALCORE_EXPORT bool createdLessThan( const Incidence::ConstPtr &i1, const Incidence::ConstPtr &i2 );
+  KCALCORE_EXPORT bool createdLessThan( const Incidence::ConstPtr &i1,
+                                        const Incidence::ConstPtr &i2 );
 
-  KCALCORE_EXPORT bool createdMoreThan( const Incidence::ConstPtr &i1, const Incidence::ConstPtr &i2 );
+  KCALCORE_EXPORT bool createdMoreThan( const Incidence::ConstPtr &i1,
+                                        const Incidence::ConstPtr &i2 );
 
-  KCALCORE_EXPORT bool summaryLessThan( const Incidence::ConstPtr &i1, const Incidence::ConstPtr &i2 );
+  KCALCORE_EXPORT bool summaryLessThan( const Incidence::ConstPtr &i1,
+                                        const Incidence::ConstPtr &i2 );
 
-  KCALCORE_EXPORT bool summaryMoreThan( const Incidence::ConstPtr &i1, const Incidence::ConstPtr &i2 );
+  KCALCORE_EXPORT bool summaryMoreThan( const Incidence::ConstPtr &i1,
+                                        const Incidence::ConstPtr &i2 );
 
 }
 

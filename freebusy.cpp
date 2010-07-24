@@ -344,8 +344,10 @@ KDateTime FreeBusy::dateTime( DateTimeRole role ) const
   return KDateTime();
 }
 
-void FreeBusy::setDateTime( const KDateTime &/*dateTime*/, DateTimeRole /*role*/ )
+void FreeBusy::setDateTime( const KDateTime &dateTime, DateTimeRole role )
 {
+  Q_UNUSED( dateTime );
+  Q_UNUSED( role );
 }
 
 void FreeBusy::virtual_hook( int id, void *data )
@@ -402,22 +404,22 @@ QLatin1String KCalCore::FreeBusy::freeBusyMimeType()
   return QLatin1String( "application/x-vnd.akonadi.calendar.freebusy" );
 }
 
-QDataStream& KCalCore::operator<<(QDataStream& stream, const KCalCore::FreeBusy::Ptr& fb)
+QDataStream &KCalCore::operator<<( QDataStream &stream, const KCalCore::FreeBusy::Ptr &freebusy )
 {
   KCalCore::ICalFormat format;
-  QString data = format.createScheduleMessage( fb, iTIPPublish );
+  QString data = format.createScheduleMessage( freebusy, iTIPPublish );
   return stream << data;
 }
 
-QDataStream& KCalCore::operator>>(QDataStream& stream, KCalCore::FreeBusy::Ptr& fb)
+QDataStream &KCalCore::operator>>( QDataStream &stream, KCalCore::FreeBusy::Ptr &freebusy )
 {
   QString freeBusyVCal;
   stream >> freeBusyVCal;
 
   KCalCore::ICalFormat format;
-  fb = format.parseFreeBusy( freeBusyVCal );
+  freebusy = format.parseFreeBusy( freeBusyVCal );
 
-  if ( !fb ) {
+  if ( !freebusy ) {
     kDebug() << "Error parsing free/busy";
     kDebug() << freeBusyVCal;
   }

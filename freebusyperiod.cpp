@@ -106,24 +106,24 @@ void FreeBusyPeriod::setLocation( const QString &location )
   d->mLocation = location;
 }
 
-QDataStream& KCalCore::operator<<( QDataStream& stream, const KCalCore::FreeBusyPeriod& period )
+QDataStream &KCalCore::operator<<( QDataStream &stream, const KCalCore::FreeBusyPeriod &period )
 {
-    KCalCore::Period periodParent = static_cast<KCalCore::Period>( period );
-    stream << periodParent;
-    stream << period.summary() << period.location();
-    return stream;
+  KCalCore::Period periodParent = static_cast<KCalCore::Period>( period );
+  stream << periodParent;
+  stream << period.summary() << period.location();
+  return stream;
 }
 
-QDataStream& KCalCore::operator>>( QDataStream& stream, FreeBusyPeriod& period )
+QDataStream &KCalCore::operator>>( QDataStream &stream, FreeBusyPeriod &period )
 {
-    KCalCore::Period periodParent;
-    QString summary, location;
+  KCalCore::Period periodParent;
+  QString summary, location;
 
-    stream >> periodParent >> summary >> location;
+  stream >> periodParent >> summary >> location;
 
-    period = periodParent;
-    period.setLocation( location );
-    period.setSummary( summary );
-    return stream;
+  period = periodParent;
+  period.setLocation( location );
+  period.setSummary( summary );
+  return stream;
 }
 

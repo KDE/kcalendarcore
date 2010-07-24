@@ -35,7 +35,7 @@
 #include "kcalcore_export.h"
 #include "period.h"
 
-#include <QMetaType>
+#include <QtCore/QMetaType>
 
 namespace KCalCore {
 
@@ -110,14 +110,21 @@ class KCALCORE_EXPORT FreeBusyPeriod : public Period
     class Private;
     Private *const d;
     //@endcond
-    friend KCALCORE_EXPORT QDataStream& operator<<( QDataStream& stream, const KCalCore::FreeBusyPeriod& period );
-    friend KCALCORE_EXPORT QDataStream& operator>>( QDataStream& stream, KCalCore::FreeBusyPeriod& period );
+
+    friend KCALCORE_EXPORT QDataStream &operator<<( QDataStream &stream,
+                                                    const KCalCore::FreeBusyPeriod &period );
+    friend KCALCORE_EXPORT QDataStream &operator>>( QDataStream &stream,
+                                                    KCalCore::FreeBusyPeriod &period );
 };
+
 /** Write @p period to the datastream @p stream, in binary format. */
-KCALCORE_EXPORT QDataStream& operator<<( QDataStream& stream, const KCalCore::FreeBusyPeriod& period );
+KCALCORE_EXPORT QDataStream &operator<<( QDataStream &stream,
+                                         const KCalCore::FreeBusyPeriod &period );
 
 /** Read a Period object into @p period from @p stream, in binary format. */
-KCALCORE_EXPORT QDataStream& operator>>( QDataStream& stream, KCalCore::FreeBusyPeriod& period );
+KCALCORE_EXPORT QDataStream &operator>>( QDataStream &stream, KCalCore::FreeBusyPeriod &period );
 }
+
 Q_DECLARE_METATYPE( KCalCore::FreeBusyPeriod );
+
 #endif
