@@ -226,8 +226,8 @@ QDataStream & operator>>(QDataStream &s, KDateTime &kdt)
     KDateTime::Spec spec;
     quint8 flags;
     s >> dt >> spec >> flags;
-    kdt.setDateTime(dt);
     kdt.setTimeSpec(spec);
+    kdt.setDateTime(dt);
     if (flags & 0x01)
         kdt.setDateOnly(true);
     return s;
@@ -241,7 +241,6 @@ QDataStream& KCalCore::operator<<( QDataStream& stream, const KCalCore::Period& 
 QDataStream& KCalCore::operator>>( QDataStream& stream, KCalCore::Period& period )
 {
     stream >> period.d->mStart >> period.d->mEnd >> period.d->mDailyDuration >> period.d->mHasDuration;
-
     return stream;
 }
 
