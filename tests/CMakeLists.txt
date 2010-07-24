@@ -35,6 +35,7 @@ KCALCORE_UNIT_TESTS(
   testjournal
   testmemorycalendar
   testperiod
+  testfreebusyperiod
   testperson
   testsortablelist
   testtodo
