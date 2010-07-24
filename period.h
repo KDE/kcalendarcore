@@ -38,6 +38,8 @@
 #include <kdatetime.h>
 
 #include <QtCore/QList>
+#include <QDataStream>
+#include <QMetaType>
 
 namespace KCalCore {
 
@@ -193,8 +195,16 @@ class KCALCORE_EXPORT Period
     class Private;
     Private *const d;
     //@endcond
+    friend KCALCORE_EXPORT QDataStream& operator<<( QDataStream& stream, const KCalCore::Period& period );
+    friend KCALCORE_EXPORT QDataStream& operator>>( QDataStream& stream, KCalCore::Period& period );
 };
 
+/** Write @p period to the datastream @p stream, in binary format. */
+KCALCORE_EXPORT QDataStream& operator<<( QDataStream& stream, const KCalCore::Period& period );
+
+/** Read a Period object into @p period from @p stream, in binary format. */
+KCALCORE_EXPORT QDataStream& operator>>( QDataStream& stream, KCalCore::Period& period );
 }
 
+Q_DECLARE_METATYPE( KCalCore::Period );
 #endif

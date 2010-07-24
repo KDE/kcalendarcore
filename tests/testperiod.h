@@ -30,6 +30,8 @@ class PeriodTest : public QObject
   private Q_SLOTS:
     void testValidity();
     void testCompare();
+    void testDataStreamOut();
+    void testDataStreamIn();
 };
 
 #endif

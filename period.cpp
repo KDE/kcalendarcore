@@ -32,6 +32,9 @@
 
 #include "period.h"
 
+#include <KDateTime>
+#include <KSystemTimeZones>
+
 using namespace KCalCore;
 
 //@cond PRIVATE
@@ -143,3 +146,102 @@ void Period::shiftTimes( const KDateTime::Spec &oldSpec,
     d->mEnd.setTimeSpec( newSpec );
   }
 }
+
+
+//HACK KDE5
+// The following KDateTime::Spec and KDateTime operators are taken from
+// kdatetime.cpp in kdelibs/kdecore/date, because the declaration isn't
+// exported.
+QDataStream & operator<<(QDataStream &s, const KDateTime::Spec &spec)
+{
+    // The specification type is encoded in order to insulate from changes
+    // to the SpecType enum.
+    switch (spec.type())
+    {
+        case KDateTime::UTC:
+            s << static_cast<quint8>('u');
+            break;
+        case KDateTime::OffsetFromUTC:
+            s << static_cast<quint8>('o') << spec.utcOffset();
+            break;
+        case KDateTime::TimeZone:
+            s << static_cast<quint8>('z') << (spec.timeZone().isValid() ? spec.timeZone().name() : QString());
+            break;
+        case KDateTime::ClockTime:
+            s << static_cast<quint8>('c');
+            break;
+        case KDateTime::Invalid:
+        default:
+            s << static_cast<quint8>(' ');
+            break;
+    }
+    return s;
+}
+
+QDataStream & operator>>(QDataStream &s, KDateTime::Spec &spec)
+{
+    // The specification type is encoded in order to insulate from changes
+    // to the SpecType enum.
+    quint8 t;
+    s >> t;
+    switch (static_cast<char>(t))
+    {
+        case 'u':
+            spec.setType(KDateTime::UTC);
+            break;
+        case 'o':
+        {
+            int utcOffset;
+            s >> utcOffset;
+            spec.setType(KDateTime::OffsetFromUTC, utcOffset);
+            break;
+        }
+        case 'z':
+        {
+            QString zone;
+            s >> zone;
+            KTimeZone tz = KSystemTimeZones::zone(zone);
+            spec.setType(tz);
+            break;
+        }
+        case 'c':
+            spec.setType(KDateTime::ClockTime);
+            break;
+        default:
+            spec.setType(KDateTime::Invalid);
+            break;
+    }
+    return s;
+}
+
+QDataStream & operator<<(QDataStream &s, const KDateTime &dt)
+{
+    s << dt.dateTime() << dt.timeSpec() << quint8(dt.isDateOnly() ? 0x01 : 0x00);
+    return s;
+}
+
+QDataStream & operator>>(QDataStream &s, KDateTime &kdt)
+{
+    QDateTime dt;
+    KDateTime::Spec spec;
+    quint8 flags;
+    s >> dt >> spec >> flags;
+    kdt.setDateTime(dt);
+    kdt.setTimeSpec(spec);
+    if (flags & 0x01)
+        kdt.setDateOnly(true);
+    return s;
+}
+
+QDataStream& KCalCore::operator<<( QDataStream& stream, const KCalCore::Period& period )
+{
+    return stream << period.d->mStart << period.d->mEnd << period.d->mDailyDuration << period.d->mHasDuration;
+}
+
+QDataStream& KCalCore::operator>>( QDataStream& stream, KCalCore::Period& period )
+{
+    stream >> period.d->mStart >> period.d->mEnd >> period.d->mDailyDuration >> period.d->mHasDuration;
+
+    return stream;
+}
+
