@@ -107,3 +107,25 @@ void FreeBusyTest::testAssign()
   fb2.setDtEnd( dt.addDays( 1 ) );
   QVERIFY( fb2 == fb3 );
 }
+
+void FreeBusyTest::testDataStream()
+{
+  const KDateTime firstDateTime( QDate( 2007, 7, 23 ), QTime( 7, 0, 0 ), KDateTime::UTC );
+  FreeBusy::Ptr fb1( new FreeBusy( firstDateTime,
+    KDateTime( QDate( 2007, 7, 23 ), QTime( 8, 0, 0 ), KDateTime::UTC ) ) );
+
+  QByteArray byteArray;
+  QDataStream out_stream( &byteArray, QIODevice::WriteOnly );
+
+  out_stream << fb1;
+
+  QDataStream in_stream( &byteArray, QIODevice::ReadOnly );
+
+  FreeBusy::Ptr fb2;
+
+  in_stream >> fb2;
+
+  QVERIFY( fb1->dtEnd() == fb2->dtEnd() );
+  QVERIFY( fb1->busyPeriods() == fb2->busyPeriods() );
+//   QVERIFY( *fb1 == *fb2 );
+}

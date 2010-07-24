@@ -37,6 +37,8 @@
 #include "incidencebase.h"
 #include "period.h"
 
+#include <QMetaType>
+
 namespace KCalCore {
 
 class FreeBusy;
@@ -284,5 +286,7 @@ KCALCORE_EXPORT QDataStream& operator<<( QDataStream& stream, const KCalCore::Fr
 KCALCORE_EXPORT QDataStream& operator>>( QDataStream& stream, KCalCore::FreeBusy::Ptr& fb );
 
 }
+
+Q_DECLARE_METATYPE( KCalCore::FreeBusy::Ptr );
 
 #endif

@@ -36,6 +36,7 @@
 #include <QtCore/QString>
 #include <QtCore/QHash>
 #include <QtCore/QSharedPointer>
+#include <QMetaType>
 
 namespace KCalCore {
 
@@ -218,5 +219,5 @@ KCALCORE_EXPORT QDataStream& operator>>( QDataStream& stream, KCalCore::Person::
   @param key is a Person.
 */
 KCALCORE_EXPORT uint qHash( const KCalCore::Person &key );
-
+Q_DECLARE_METATYPE( KCalCore::Person::Ptr );
 #endif

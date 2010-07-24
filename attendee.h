@@ -29,6 +29,8 @@
 #ifndef KCALCORE_ATTENDEE_H
 #define KCALCORE_ATTENDEE_H
 
+#include <QMetaType>
+
 #include "kcalcore_export.h"
 #include "customproperties.h"
 #include "person.h"
@@ -278,8 +280,8 @@ KCALCORE_EXPORT QDataStream& operator<<( QDataStream& stream, const KCalCore::At
   Initializes the @p attendee object from the @p stream.
 */
 KCALCORE_EXPORT QDataStream& operator>>( QDataStream& stream, KCalCore::Attendee::Ptr& attendee );
-
-
 }
+
+Q_DECLARE_METATYPE( KCalCore::Attendee::Ptr );
 
 #endif

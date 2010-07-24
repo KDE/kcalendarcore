@@ -31,6 +31,7 @@ class FreeBusyTest : public QObject
     void testValidity();
     void testAddSort();
     void testAssign();
+    void testDataStream();
 };
 
 #endif
