@@ -1,6 +1,8 @@
 /*
   This file is part of the kcalcore library.
   Copyright (c) 2006,2008 Allen Winter <winter@kde.org>
+  Copyright (C) 2010 Casey Link <unnamedrambler@gmail.com>
+  Copyright (C) 2009-2010 Klaralvdalens Datakonsult AB, a KDAB Group company <info@kdab.net>
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Library General Public
@@ -30,6 +32,8 @@ class AttendeeTest : public QObject
     void testValidity();
     void testCompare();
     void testAssign();
+    void testDataStreamOut();
+    void testDataStreamIn();
 };
 
 #endif

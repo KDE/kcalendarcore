@@ -2,6 +2,8 @@
   This file is part of the kcalcore library.
 
   Copyright (c) 2009 Allen Winter <winter@kde.org>
+  Copyright (C) 2010 Casey Link <unnamedrambler@gmail.com>
+  Copyright (C) 2009-2010 Klaralvdalens Datakonsult AB, a KDAB Group company <info@kdab.net>
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Library General Public
@@ -154,3 +156,52 @@ void CustomPropertiesTest::testEmpty()
   cp.setNonKDECustomProperty( key, empty );
   QCOMPARE( cp.nonKDECustomProperty( key ), empty );
 }
+
+void CustomPropertiesTest::testDataStreamIn()
+{
+  QMap<QByteArray, QString> cpmap;
+  cpmap.insert( "X-key1", QString( "val1" ) );
+  cpmap.insert( "X-key2", QString( "val2" ) );
+  cpmap.insert( "X-key3", QString( "val3" ) );
+  cpmap.insert( "X-key4", QString( "val4" ) );
+  cpmap.insert( "X-key5", QString( "val5" ) );
+
+  CustomProperties cp;
+  cp.setCustomProperties( cpmap );
+  QByteArray byteArray;
+  QDataStream out_stream( &byteArray, QIODevice::WriteOnly );
+
+  out_stream << cp;
+
+  QDataStream in_stream( &byteArray, QIODevice::ReadOnly );
+
+  QMap<QByteArray, QString> cpmap2;
+
+  in_stream >> cpmap2;
+
+  QVERIFY( cpmap == cpmap2 );
+}
+
+void CustomPropertiesTest::testDataStreamOut()
+{
+  QMap<QByteArray, QString> cpmap;
+  cpmap.insert( "X-key1", QString( "val1" ) );
+  cpmap.insert( "X-key2", QString( "val2" ) );
+  cpmap.insert( "X-key3", QString( "val3" ) );
+  cpmap.insert( "X-key4", QString( "val4" ) );
+  cpmap.insert( "X-key5", QString( "val5" ) );
+
+  CustomProperties cp, cp2;
+  cp.setCustomProperties( cpmap );
+  QByteArray byteArray;
+  QDataStream out_stream( &byteArray, QIODevice::WriteOnly );
+
+  out_stream << cp;
+
+  QDataStream in_stream( &byteArray, QIODevice::ReadOnly );
+
+  in_stream >> cp2;
+
+  QVERIFY( cp2 == cp );
+}
+

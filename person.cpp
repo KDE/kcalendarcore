@@ -3,6 +3,8 @@
 
   Copyright (c) 2001 Cornelius Schumacher <schumacher@kde.org>
   Copyright (C) 2003-2004 Reinhold Kainhofer <reinhold@kainhofer.com>
+  Copyright (C) 2010 Casey Link <unnamedrambler@gmail.com>
+  Copyright (C) 2009-2010 Klaralvdalens Datakonsult AB, a KDAB Group company <info@kdab.net>
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Library General Public
@@ -186,13 +188,21 @@ uint qHash( const KCalCore::Person &key )
   return qHash( key.fullName() );
 }
 
-QDataStream& KCalCore::operator<<( QDataStream& stream, const KCalCore::Person& person )
+QDataStream& KCalCore::operator<<( QDataStream& stream, const KCalCore::Person::Ptr& person )
 {
-  return stream << person.d->mName << person.d->mEmail << person.d->mCount;
+  return stream << person->d->mName << person->d->mEmail << person->d->mCount;
 }
 
-QDataStream& KCalCore::operator>>( QDataStream& stream, Person& person )
+QDataStream& KCalCore::operator>>( QDataStream& stream, Person::Ptr& person )
 {
-  return stream >> person.d->mName >>person.d->mEmail >> person.d->mCount;
+  QString name, email;
+  int count;
+
+  stream >> name >> email >> count;
+
+  Person::Ptr person_tmp( new Person( name, email ));
+  person_tmp->setCount( count );
+  person.swap( person_tmp );
+  return stream;
 }
 

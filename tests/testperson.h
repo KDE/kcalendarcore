@@ -31,6 +31,8 @@ class PersonTest : public QObject
     void testValidity();
     void testCompare();
     void testStringify();
+    void testDataStreamIn();
+    void testDataStreamOut();
 };
 
 #endif

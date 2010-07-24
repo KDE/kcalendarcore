@@ -2,6 +2,8 @@
   This file is part of the kcalcore library.
 
   Copyright (c) 2009 Allen Winter <winter@kde.org>
+  Copyright (C) 2010 Casey Link <unnamedrambler@gmail.com>
+  Copyright (C) 2009-2010 Klaralvdalens Datakonsult AB, a KDAB Group company <info@kdab.net>
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Library General Public
@@ -33,6 +35,8 @@ class CustomPropertiesTest : public QObject
     void testMapValidity();
     void testMapCompare();
     void testEmpty();
+    void testDataStreamOut();
+    void testDataStreamIn();
 };
 
 #endif

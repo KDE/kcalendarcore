@@ -2,6 +2,8 @@
   This file is part of the kcalcore library.
 
   Copyright (C) 2006-2009 Allen Winter <winter@kde.org>
+  Copyright (C) 2010 Casey Link <unnamedrambler@gmail.com>
+  Copyright (C) 2009-2010 Klaralvdalens Datakonsult AB, a KDAB Group company <info@kdab.net>
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Library General Public
@@ -22,7 +24,7 @@
 #include "testperson.h"
 #include "testperson.moc"
 #include "../person.h"
-
+#include <KDebug>
 #include <qtest_kde.h>
 QTEST_KDEMAIN( PersonTest, NoGUI )
 
@@ -64,3 +66,49 @@ void PersonTest::testStringify()
   person1.setEmail( QString() );
   QVERIFY( person1.fullName().isEmpty() );
 }
+
+void PersonTest::testDataStreamIn()
+{
+  Person::Ptr person1( new Person( "fred", "fred@flintstone.com" ) );
+  int initial_count = person1->count();
+
+  QByteArray byteArray;
+  QDataStream out_stream( &byteArray, QIODevice::WriteOnly );
+
+  out_stream << person1;
+
+  QDataStream in_stream( &byteArray, QIODevice::ReadOnly );
+
+  QString name, email;
+  int count;
+
+  in_stream >> name;
+  QVERIFY( name == "fred" );
+
+  in_stream >> email;
+  QVERIFY( email == "fred@flintstone.com" );
+
+  in_stream >> count;
+  QVERIFY( count == initial_count );
+}
+
+void PersonTest::testDataStreamOut()
+{
+  Person::Ptr person1( new Person( "fred", "fred@flintstone.com" ) );
+  int initial_count = person1->count();
+
+  QByteArray byteArray;
+  QDataStream out_stream( &byteArray, QIODevice::WriteOnly );
+
+  out_stream << person1;
+
+  QDataStream in_stream( &byteArray, QIODevice::ReadOnly );
+  Person::Ptr person2;
+
+  in_stream >> person2;
+
+  QVERIFY( person2->name() == person1->name() );
+  QVERIFY( person2->email() == person1->email() );
+  QVERIFY( person2->count() == person1->count() );
+}
+

@@ -48,8 +48,6 @@ namespace KCalCore {
 */
 class KCALCORE_EXPORT Person
 {
-    friend KCALCORE_EXPORT QDataStream& operator<<( QDataStream& s, const KCalCore::Person& per );
-    friend KCALCORE_EXPORT QDataStream& operator>>( QDataStream& s, KCalCore::Person& per );
   public:
     /**
       A shared pointer to a Person object.
@@ -199,17 +197,19 @@ class KCALCORE_EXPORT Person
     class Private;
     Private *const d;
    //@endcond
+    friend KCALCORE_EXPORT QDataStream& operator<<( QDataStream& s, const KCalCore::Person::Ptr& per );
+    friend KCALCORE_EXPORT QDataStream& operator>>( QDataStream& s, KCalCore::Person::Ptr& per );
 };
 
 /**
   Serializes the @p person object into the @p stream.
 */
-KCALCORE_EXPORT QDataStream& operator<<( QDataStream& stream, const KCalCore::Person& person );
+KCALCORE_EXPORT QDataStream& operator<<( QDataStream& stream, const KCalCore::Person::Ptr& person );
 
 /**
   Initializes the @p person object from the @p stream.
 */
-KCALCORE_EXPORT QDataStream& operator>>( QDataStream& stream, KCalCore::Person& person );
+KCALCORE_EXPORT QDataStream& operator>>( QDataStream& stream, KCalCore::Person::Ptr& person );
 
 }
 

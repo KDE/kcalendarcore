@@ -54,8 +54,6 @@ namespace KCalCore {
 */
 class KCALCORE_EXPORT Attendee : private Person
 {
-  friend KCALCORE_EXPORT QDataStream& operator<<( QDataStream& s, const KCalCore::Attendee& att );
-  friend KCALCORE_EXPORT QDataStream& operator>>( QDataStream& s, KCalCore::Attendee& att );
   public:
     using Person::setEmail;
     using Person::email;
@@ -267,17 +265,19 @@ class KCALCORE_EXPORT Attendee : private Person
     class Private;
     Private *const d;
     //@endcond
+    friend KCALCORE_EXPORT QDataStream& operator<<( QDataStream& s, const KCalCore::Attendee::Ptr& att );
+    friend KCALCORE_EXPORT QDataStream& operator>>( QDataStream& s, KCalCore::Attendee::Ptr& att );
 };
 
 /**
   Serializes the @p attendee object into the @p stream.
 */
-KCALCORE_EXPORT QDataStream& operator<<( QDataStream& stream, const KCalCore::Attendee& attendee );
+KCALCORE_EXPORT QDataStream& operator<<( QDataStream& stream, const KCalCore::Attendee::Ptr& attendee );
 
 /**
   Initializes the @p attendee object from the @p stream.
 */
-KCALCORE_EXPORT QDataStream& operator>>( QDataStream& stream, KCalCore::Attendee& attendee );
+KCALCORE_EXPORT QDataStream& operator>>( QDataStream& stream, KCalCore::Attendee::Ptr& attendee );
 
 
 }

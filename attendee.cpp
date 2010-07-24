@@ -2,6 +2,8 @@
   This file is part of the kcalcore library.
 
   Copyright (c) 2001 Cornelius Schumacher <schumacher@kde.org>
+  Copyright (C) 2010 Casey Link <unnamedrambler@gmail.com>
+  Copyright (C) 2009-2010 Klaralvdalens Datakonsult AB, a KDAB Group company <info@kdab.net>
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Library General Public
@@ -30,7 +32,7 @@
 */
 
 #include "attendee.h"
-
+#include <kcal/alarm.h>
 using namespace KCalCore;
 
 /**
@@ -179,25 +181,37 @@ const CustomProperties &Attendee::customProperties() const
   return d->mCustomProperties;
 }
 
-QDataStream &KCalCore::operator<<( QDataStream &stream, const KCalCore::Attendee &attendee )
+QDataStream &KCalCore::operator<<( QDataStream &stream, const KCalCore::Attendee::Ptr &attendee )
 {
-  const KCalCore::Person *p = static_cast<const KCalCore::Person*>( &attendee );
-  stream << (*p);
-  return stream << attendee.d->mRSVP << attendee.d->mRole << attendee.d->mStatus << attendee.d->mUid
-          << attendee.d->mDelegate  << attendee.d->mDelegator << attendee.d->mCustomProperties;
+  KCalCore::Person::Ptr p( new KCalCore::Person( *((Person*) attendee.data() )) );
+  stream << p;
+  return stream << attendee->d->mRSVP << attendee->d->mRole << attendee->d->mStatus << attendee->d->mUid
+          << attendee->d->mDelegate  << attendee->d->mDelegator << attendee->d->mCustomProperties;
 }
 
-QDataStream &KCalCore::operator>>( QDataStream &stream, KCalCore::Attendee &attendee )
+QDataStream &KCalCore::operator>>( QDataStream& stream, KCalCore::Attendee::Ptr& attendee )
 {
-  uint role;
-  uint status;
-  KCalCore::Person *p = static_cast< KCalCore::Person*>( &attendee );
-  stream >> (*p);
-  stream >> attendee.d->mRSVP >> role >> status >> attendee.d->mUid >> attendee.d->mDelegate
-         >> attendee.d->mDelegator >> attendee.d->mCustomProperties;
+  bool RSVP;
+  Attendee::Role role;
+  Attendee::PartStat status;
+  QString uid;
+  QString delegate;
+  QString delegator;
+  CustomProperties customProperties;
+  uint role_int;
+  uint status_int;
 
-  attendee.d->mRole = Attendee::Role( role );
-  attendee.d->mStatus = Attendee::PartStat( status );
+  KCalCore::Person::Ptr person( new Person() );
+  stream >> person;
+  stream >> RSVP >> role_int >> status_int >> uid >> delegate >> delegator >> customProperties;
 
+  role = Attendee::Role( role_int );
+  status = Attendee::PartStat( status_int );
+ 
+  Attendee::Ptr att_temp( new KCalCore::Attendee( person->name(), person->email(), RSVP, status, role, uid ) );
+  att_temp->setDelegate( delegate );
+  att_temp->setDelegator( delegator );
+  att_temp->d->mCustomProperties = customProperties;
+  attendee.swap( att_temp );
   return stream;
 }
