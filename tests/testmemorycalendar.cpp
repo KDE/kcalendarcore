@@ -35,18 +35,18 @@ using namespace KCalCore;
 
 void MemoryCalendarTest::testValidity()
 {
-  MemoryCalendar cal( KDateTime::UTC );
-  cal.setProductId( QLatin1String( "fredware calendar" ) );
-  QVERIFY( cal.productId() == QLatin1String( "fredware calendar" ) );
-  QVERIFY( cal.timeZoneId() == QLatin1String( "UTC" ) );
-  QVERIFY( cal.timeSpec() == KDateTime::UTC );
-  cal.close();
+  MemoryCalendar::Ptr cal( new MemoryCalendar( KDateTime::UTC ) );
+  cal->setProductId( QLatin1String( "fredware calendar" ) );
+  QVERIFY( cal->productId() == QLatin1String( "fredware calendar" ) );
+  QVERIFY( cal->timeZoneId() == QLatin1String( "UTC" ) );
+  QVERIFY( cal->timeSpec() == KDateTime::UTC );
+  cal->close();
 }
 
 void MemoryCalendarTest::testEvents()
 {
-  MemoryCalendar cal( KDateTime::UTC );
-  cal.setProductId( QLatin1String( "fredware calendar" ) );
+  MemoryCalendar::Ptr cal( new MemoryCalendar( KDateTime::UTC ) );
+  cal->setProductId( QLatin1String( "fredware calendar" ) );
   QDate dt = QDate::currentDate();
 
   Event::Ptr event1 = Event::Ptr( new Event() );
@@ -65,19 +65,19 @@ void MemoryCalendarTest::testEvents()
   event2->setDescription( "This is a description of the second event" );
   event2->setLocation( "the other place" );
 
-  QVERIFY( cal.addEvent( event1 ) );
-  QVERIFY( cal.addEvent( event2 ) );
+  QVERIFY( cal->addEvent( event1 ) );
+  QVERIFY( cal->addEvent( event2 ) );
 
-  FileStorage store( &cal, "foo.ics" );
+  FileStorage store( cal, "foo.ics" );
   QVERIFY( store.save() );
-  cal.close();
+  cal->close();
   unlink( "foo.ics" );
 }
 
 void MemoryCalendarTest::testIncidences()
 {
-  MemoryCalendar cal( KDateTime::UTC );
-  cal.setProductId( QLatin1String( "fredware calendar" ) );
+  MemoryCalendar::Ptr cal( new MemoryCalendar( KDateTime::UTC ) );
+  cal->setProductId( QLatin1String( "fredware calendar" ) );
   QDate dt = QDate::currentDate();
 
   Event::Ptr event1 = Event::Ptr( new Event() );
@@ -96,8 +96,8 @@ void MemoryCalendarTest::testIncidences()
   event2->setDescription( "This is a description of the second event" );
   event2->setLocation( "the other place" );
 
-  QVERIFY( cal.addEvent( event1 ) );
-  QVERIFY( cal.addEvent( event2 ) );
+  QVERIFY( cal->addEvent( event1 ) );
+  QVERIFY( cal->addEvent( event2 ) );
 
   Todo::Ptr todo1 = Todo::Ptr( new Todo() );
   todo1->setUid( "3" );
@@ -115,19 +115,19 @@ void MemoryCalendarTest::testIncidences()
   todo2->setDescription( "This is a description of a todo" );
   todo2->setLocation( "<html><a href=\"http://www.fred.com\">this place</a></html>", true );
 
-  QVERIFY( cal.addTodo( todo1 ) );
-  QVERIFY( cal.addTodo( todo2 ) );
+  QVERIFY( cal->addTodo( todo1 ) );
+  QVERIFY( cal->addTodo( todo2 ) );
 
-  FileStorage store( &cal, "foo.ics" );
+  FileStorage store( cal, "foo.ics" );
   QVERIFY( store.save() );
-  cal.close();
+  cal->close();
 
   QVERIFY( store.load() );
-  Todo::Ptr todo = cal.incidence( "4" ).staticCast<Todo>();
+  Todo::Ptr todo = cal->incidence( "4" ).staticCast<Todo>();
   QVERIFY( todo->uid() == "4" );
   QVERIFY( todo->summaryIsRich() );
   QVERIFY( todo->locationIsRich() );
-  cal.close();
+  cal->close();
   unlink( "foo.ics" );
 }
 
@@ -136,15 +136,15 @@ void MemoryCalendarTest::testRelationsCrash()
   // Before, there was a crash that occurred only when reloading a calendar in which
   // the incidences had special relations.
   // This test tests that scenario, and will crash if it fails.
-  MemoryCalendar cal( KDateTime::UTC );
-  FileStorage store1( &cal, ICALTESTDATADIR "test_relations.ics" );
+  MemoryCalendar::Ptr cal( new MemoryCalendar( KDateTime::UTC ) );
+  FileStorage store1( cal, ICALTESTDATADIR "test_relations.ics" );
   store1.load();
-  const Todo::List oldTodos = cal.todos();
+  const Todo::List oldTodos = cal->todos();
   kDebug()<<"Loaded " << oldTodos.count() << " todos into oldTodos.";
 
-  FileStorage store2( &cal, ICALTESTDATADIR "test_relations.ics" );
+  FileStorage store2( cal, ICALTESTDATADIR "test_relations.ics" );
   store2.load();
-  const Todo::List newTodos = cal.todos();
+  const Todo::List newTodos = cal->todos();
   kDebug()<<"Loaded " << newTodos.count() << " into newTodos.";
 
   // We can saftely access the old deleted todos here, since they are not really deleted
@@ -171,5 +171,5 @@ void MemoryCalendarTest::testRelationsCrash()
     }
   }
 */
-  cal.close();
+  cal->close();
 }

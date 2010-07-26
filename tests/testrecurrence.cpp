@@ -75,17 +75,17 @@ int main( int argc, char **argv )
     outstream = new QTextStream( &outfile );
   }
 
-  MemoryCalendar cal( KDateTime::UTC );
+  MemoryCalendar::Ptr cal( new MemoryCalendar( KDateTime::UTC ) );
 
   KDateTime::Spec viewSpec;
-  FileStorage store( &cal, input );
+  FileStorage store( cal, input );
   if ( !store.load() ) return 1;
-  QString tz = cal.nonKDECustomProperty( "X-LibKCal-Testsuite-OutTZ" );
+  QString tz = cal->nonKDECustomProperty( "X-LibKCal-Testsuite-OutTZ" );
   if ( !tz.isEmpty() ) {
     viewSpec = KDateTime::Spec( KSystemTimeZones::zone( tz ) );
   }
 
-  Incidence::List inc = cal.incidences();
+  Incidence::List inc = cal->incidences();
 
   for ( Incidence::List::Iterator it = inc.begin(); it != inc.end(); ++it ) {
     Incidence::Ptr incidence = *it;
