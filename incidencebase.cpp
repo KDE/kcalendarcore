@@ -507,7 +507,7 @@ bool IncidenceBase::hasDuration() const
 
 void IncidenceBase::registerObserver( IncidenceBase::IncidenceObserver *observer )
 {
-  if ( !d->mObservers.contains( observer ) ) {
+  if ( observer && !d->mObservers.contains( observer ) ) {
     d->mObservers.append( observer );
   }
 }
