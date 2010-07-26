@@ -31,6 +31,8 @@
 
 #include "kcalcore_export.h"
 
+#include <kcalcore/memorycalendar.h>
+
 #include <QtCore/QObject>
 
 namespace KCalCore {
@@ -53,7 +55,7 @@ class KCALCORE_EXPORT CalStorage : public QObject
       Construcst a new storage object for a calendar.
       @param calendar is a pointer to a valid MemoryCalendar object.
     */
-    explicit CalStorage( KCalCore::MemoryCalendar *calendar );
+    explicit CalStorage( const MemoryCalendar::Ptr &calendar );
 
     /**
       Destuctor.
@@ -63,7 +65,7 @@ class KCALCORE_EXPORT CalStorage : public QObject
     /**
       Returns a pointer to the calendar whose storage is being managed.
     */
-    KCalCore::MemoryCalendar *calendar() const;
+    MemoryCalendar::Ptr calendar() const;
 
     /**
       Opens the calendar for storage.

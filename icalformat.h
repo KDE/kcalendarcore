@@ -73,13 +73,13 @@ class KCALCORE_EXPORT ICalFormat : public CalFormat
       @copydoc
       CalFormat::load()
     */
-    bool load( MemoryCalendar *calendar, const QString &fileName );
+    bool load( const MemoryCalendar::Ptr &calendar, const QString &fileName );
 
     /**
       @copydoc
       CalFormat::save()
     */
-    bool save( MemoryCalendar *calendar, const QString &fileName );
+    bool save( const MemoryCalendar::Ptr &calendar, const QString &fileName );
 
     /**
       @copydoc
@@ -87,7 +87,7 @@ class KCALCORE_EXPORT ICalFormat : public CalFormat
 
       @note The notebook is ignored and the default one is used
     */
-    bool fromString( MemoryCalendar *calendar, const QString &string,
+    bool fromString( const MemoryCalendar::Ptr &calendar, const QString &string,
                      bool deleted = false, const QString &notebook = QString() );
 
     /**
@@ -96,7 +96,7 @@ class KCALCORE_EXPORT ICalFormat : public CalFormat
       @param string is a QString containing the data to be parsed.
 
       @return non-zero pointer if the parsing was successful; 0 otherwise.
-      @see fromString(MemoryCalendar *, const QString &), fromRawString()
+      @see fromString(const MemoryCalendar::Ptr &, const QString &), fromRawString()
     */
     Incidence::Ptr fromString( const QString &string );
 
@@ -113,14 +113,14 @@ class KCALCORE_EXPORT ICalFormat : public CalFormat
       @copydoc
       CalFormat::fromRawString()
     */
-    bool fromRawString( MemoryCalendar *calendar, const QByteArray &string,
+    bool fromRawString( const MemoryCalendar::Ptr &calendar, const QByteArray &string,
                         bool deleted = false, const QString &notebook = QString() );
 
     /**
       @copydoc
       CalFormat::toString()
     */
-    QString toString( MemoryCalendar *calendar,
+    QString toString( const MemoryCalendar::Ptr &calendar,
                       const QString &notebook = QString(), bool deleted = false );
 
     /**
@@ -130,7 +130,7 @@ class KCALCORE_EXPORT ICalFormat : public CalFormat
 
       @return the QString will be Null if the conversion was unsuccessful.
     */
-    QString toString( Incidence::Ptr incidence );
+    QString toString( const Incidence::Ptr &incidence );
 
     /**
       Converts a RecurrenceRule to a QString.
@@ -148,7 +148,7 @@ class KCALCORE_EXPORT ICalFormat : public CalFormat
       into iCal formatted text.
       @return the QString will be Null if the conversion was unsuccessful.
     */
-    QString toICalString( Incidence::Ptr incidence );
+    QString toICalString( const Incidence::Ptr &incidence );
 
     /**
       Creates a scheduling message string for an Incidence.
@@ -158,7 +158,7 @@ class KCALCORE_EXPORT ICalFormat : public CalFormat
 
       @return a QString containing the message if successful; 0 otherwise.
     */
-    QString createScheduleMessage( IncidenceBase::Ptr incidence,
+    QString createScheduleMessage( const IncidenceBase::Ptr &incidence,
                                    iTIPMethod method );
 
     /**
@@ -171,7 +171,7 @@ class KCALCORE_EXPORT ICalFormat : public CalFormat
       @return a pointer to a ScheduleMessage object if successful; 0 otherwise.
       The calling routine may later free the return memory.
     */
-    ScheduleMessage *parseScheduleMessage( MemoryCalendar *calendar, const QString &string );
+    ScheduleMessage *parseScheduleMessage( const MemoryCalendar::Ptr &calendar, const QString &string );
 
     /**
       Converts a QString into a FreeBusy object.

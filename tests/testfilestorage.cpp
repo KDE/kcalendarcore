@@ -32,17 +32,17 @@ using namespace KCalCore;
 
 void FileStorageTest::testValidity()
 {
-  MemoryCalendar cal( KDateTime::UTC );
-  FileStorage fs( &cal, QLatin1String( "fred.ics" ) );
+  MemoryCalendar::Ptr cal( new MemoryCalendar( KDateTime::UTC ) );
+  FileStorage fs( cal, QLatin1String( "fred.ics" ) );
   QCOMPARE( fs.fileName(), QLatin1String( "fred.ics" ) );
-  QCOMPARE( fs.calendar(), &cal );
-  cal.close();
+  QCOMPARE( fs.calendar(), cal );
+  cal->close();
 }
 
 void FileStorageTest::testSave()
 {
-  MemoryCalendar cal( QLatin1String( "UTC" ) );
-  FileStorage fs( &cal, QLatin1String( "fred.ics" ) );
+  MemoryCalendar::Ptr cal( new MemoryCalendar( QLatin1String( "UTC" ) ) );
+  FileStorage fs( cal, QLatin1String( "fred.ics" ) );
 
   QDate dt = QDate::currentDate();
 
@@ -53,7 +53,7 @@ void FileStorageTest::testSave()
   event1->setSummary( "Event1 Summary" );
   event1->setDescription( "This is a description of the first event" );
   event1->setLocation( "the place" );
-  cal.addEvent( event1 );
+  cal->addEvent( event1 );
 
   Event::Ptr event2 = Event::Ptr( new Event() );
   event2->setUid( "2" );
@@ -62,19 +62,19 @@ void FileStorageTest::testSave()
   event2->setSummary( "Event2 Summary" );
   event2->setDescription( "This is a description of the second event" );
   event2->setLocation( "the other place" );
-  cal.addEvent( event2 );
+  cal->addEvent( event2 );
 
   QVERIFY( fs.open() );
   QVERIFY( fs.save() );
   QVERIFY( fs.close() );
-  cal.close();
+  cal->close();
   unlink( "fred.ics" );
 }
 
 void FileStorageTest::testSaveLoadSave()
 {
-  MemoryCalendar cal( QLatin1String( "UTC" ) );
-  FileStorage fs( &cal, QLatin1String( "fred.ics" ) );
+  MemoryCalendar::Ptr cal( new MemoryCalendar( QLatin1String( "UTC" ) ) );
+  FileStorage fs( cal, QLatin1String( "fred.ics" ) );
 
   QDate dt = QDate::currentDate();
 
@@ -85,7 +85,7 @@ void FileStorageTest::testSaveLoadSave()
   event1->setSummary( "Event1 Summary" );
   event1->setDescription( "This is a description of the first event" );
   event1->setLocation( "the place" );
-  cal.addEvent( event1 );
+  cal->addEvent( event1 );
 
   Event::Ptr event2 = Event::Ptr( new Event() );
   event2->setUid( "2" );
@@ -94,7 +94,7 @@ void FileStorageTest::testSaveLoadSave()
   event2->setSummary( "Event2 Summary" );
   event2->setDescription( "This is a description of the second event" );
   event2->setLocation( "the other place" );
-  cal.addEvent( event2 );
+  cal->addEvent( event2 );
 
   QVERIFY( fs.open() );
   QVERIFY( fs.save() );

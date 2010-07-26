@@ -98,7 +98,7 @@ class KCalCore::MemoryCalendar::Private
 
 MemoryCalendar::MemoryCalendar( const KDateTime::Spec &timeSpec )
   : Calendar( timeSpec ),
-    d( new KCalCore::MemoryCalendar::Private( this ) )
+  d( new KCalCore::MemoryCalendar::Private( this ) )
 {
 }
 

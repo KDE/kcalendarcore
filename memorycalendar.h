@@ -41,11 +41,17 @@ class CalFormat;
 
 /**
   @brief
-  This class provides a calendar stored as a local file.
+  This class provides a calendar stored in memory.
 */
 class KCALCORE_EXPORT MemoryCalendar : public Calendar
 {
   public:
+
+    /**
+      A shared pointer to a MemoryCalendar
+    */
+    typedef QSharedPointer<MemoryCalendar> Ptr;
+
     /**
       @copydoc
       Calendar::Calendar(const KDateTime::Spec &)

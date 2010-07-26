@@ -38,6 +38,7 @@
 #include "journal.h"
 #include "event.h"
 #include "person.h"
+#include "calendar.h"
 #include "schedulemessage.h"
 
 #include <kdatetime.h>
@@ -51,7 +52,6 @@ namespace KCalCore {
 class Alarm;
 class Attachment;
 class Attendee;
-class Calendar;
 class Duration;
 class Event;
 class FreeBusy;
@@ -88,7 +88,7 @@ class ICalFormatImpl
       existing in @p calendar are not affected except that if a new incidence
       with the same UID is found, the existing incidence is replaced.
     */
-    bool populate( Calendar *calendar, icalcomponent *fs,
+    bool populate( const Calendar::Ptr &calendar, icalcomponent *fs,
                    bool deleted = false, const QString &notebook = QString() );
 
     icalcomponent *writeIncidence( const IncidenceBase::Ptr &incidence,
@@ -222,9 +222,9 @@ class ICalFormatImpl
 
     static icaldatetimeperiodtype writeICalDatePeriod( const QDate &date );
 
-    icalcomponent *createCalendarComponent( Calendar *calendar = 0 );
+    icalcomponent *createCalendarComponent( const Calendar::Ptr &calendar = Calendar::Ptr() );
 
-    icalcomponent *createScheduleComponent( IncidenceBase::Ptr incidence,
+    icalcomponent *createScheduleComponent( const IncidenceBase::Ptr &incidence,
                                             iTIPMethod method );
 
   protected:

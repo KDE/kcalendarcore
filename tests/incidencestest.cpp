@@ -59,14 +59,14 @@ int main( int argc, char **argv )
   event1->recurrence()->setDaily( 2 );
   event1->recurrence()->setDuration( 3 );
 
-  QString eventString1 = f.toString( event1 );
+  QString eventString1 = f.toString( event1.staticCast<Incidence>() );
   if ( verbose ) {
     kDebug() << "EVENT1 START:" << eventString1 << "EVENT1 END";
   }
 
   Incidence::Ptr event2 = Incidence::Ptr( event1->clone() );
 
-  QString eventString2 = f.toString( event2 );
+  QString eventString2 = f.toString( event2.staticCast<Incidence>() );
   if( verbose ) {
     kDebug() << "EVENT2 START:" << eventString2 << "EVENT2 END";
   }
@@ -79,7 +79,7 @@ int main( int argc, char **argv )
 
   Todo::Ptr todo1 = Todo::Ptr( new Todo );
   todo1->setSummary( "Test todo" );
-  QString todoString1 = f.toString( todo1 );
+  QString todoString1 = f.toString( todo1.staticCast<Incidence>() );
   if( verbose ) {
     kDebug() << "todo1 START:" << todoString1 << "todo1 END";
   }

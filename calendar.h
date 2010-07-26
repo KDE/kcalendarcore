@@ -119,6 +119,8 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
 
   public:
 
+  typedef QSharedPointer<Calendar> Ptr;
+
     /**
       Constructs a calendar with a specified time zone @p timeZoneid.
       The time specification is used as the default for creating or

@@ -58,7 +58,7 @@ using namespace KCalCore;
 class KCalCore::VCalFormat::Private
 {
   public:
-    MemoryCalendar *mCalendar;
+    MemoryCalendar::Ptr mCalendar;
     Event::List mEventsRelate;  // Events with relations
     Todo::List mTodosRelate;    // To-dos with relations
 };
@@ -73,7 +73,7 @@ VCalFormat::~VCalFormat()
   delete d;
 }
 
-bool VCalFormat::load( MemoryCalendar *calendar, const QString &fileName )
+bool VCalFormat::load( const MemoryCalendar::Ptr &calendar, const QString &fileName )
 {
   d->mCalendar = calendar;
 
@@ -102,7 +102,7 @@ bool VCalFormat::load( MemoryCalendar *calendar, const QString &fileName )
   return true;
 }
 
-bool VCalFormat::save( MemoryCalendar *calendar, const QString &fileName )
+bool VCalFormat::save( const MemoryCalendar::Ptr &calendar, const QString &fileName )
 {
   d->mCalendar = calendar;
 
@@ -142,13 +142,13 @@ bool VCalFormat::save( MemoryCalendar *calendar, const QString &fileName )
   return false;
 }
 
-bool VCalFormat::fromString( MemoryCalendar *calendar, const QString &string,
+bool VCalFormat::fromString( const MemoryCalendar::Ptr &calendar, const QString &string,
                              bool deleted, const QString &notebook )
 {
   return fromRawString( calendar, string.toUtf8(), deleted, notebook );
 }
 
-bool VCalFormat::fromRawString( MemoryCalendar *calendar, const QByteArray &string,
+bool VCalFormat::fromRawString( const MemoryCalendar::Ptr &calendar, const QByteArray &string,
                                 bool deleted, const QString &notebook )
 {
   d->mCalendar = calendar;
@@ -175,7 +175,7 @@ bool VCalFormat::fromRawString( MemoryCalendar *calendar, const QByteArray &stri
   return true;
 }
 
-QString VCalFormat::toString( MemoryCalendar *calendar, const QString &notebook, bool deleted )
+QString VCalFormat::toString( const MemoryCalendar::Ptr &calendar, const QString &notebook, bool deleted )
 {
   // TODO: Factor out VCalFormat::asString()
   d->mCalendar = calendar;

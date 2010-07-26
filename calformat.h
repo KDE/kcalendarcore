@@ -32,11 +32,11 @@
 #include "kcalcore_export.h"
 #include "exceptions.h"
 
+#include <kcalcore/memorycalendar.h>
+
 #include <QtCore/QString>
 
 namespace KCalCore {
-
-class MemoryCalendar;
 
 /**
   @brief
@@ -66,7 +66,7 @@ class KCALCORE_EXPORT CalFormat
 
       @return true if successful; false otherwise.
     */
-    virtual bool load( MemoryCalendar *calendar, const QString &fileName ) = 0;
+    virtual bool load( const MemoryCalendar::Ptr &calendar, const QString &fileName ) = 0;
 
     /**
       Writes the calendar to disk.
@@ -76,7 +76,7 @@ class KCALCORE_EXPORT CalFormat
 
       @return true if successful; false otherwise.
     */
-    virtual bool save( MemoryCalendar *calendar, const QString &fileName ) = 0;
+    virtual bool save( const MemoryCalendar::Ptr &calendar, const QString &fileName ) = 0;
 
     /**
       Loads a calendar from a string
@@ -89,7 +89,7 @@ class KCALCORE_EXPORT CalFormat
       @return true if successful; false otherwise.
       @see fromRawString(), toString().
     */
-    virtual bool fromString( MemoryCalendar *calendar, const QString &string,
+    virtual bool fromString( const MemoryCalendar::Ptr &calendar, const QString &string,
                              bool deleted = false, const QString &notebook = QString() ) = 0;
 
     /**
@@ -106,7 +106,7 @@ class KCALCORE_EXPORT CalFormat
       @return true if successful; false otherwise.
       @see fromString(), toString().
     */
-    virtual bool fromRawString( MemoryCalendar *calendar, const QByteArray &string,
+    virtual bool fromRawString( const MemoryCalendar::Ptr &calendar, const QByteArray &string,
                                 bool deleted = false, const QString &notebook = QString() ) = 0;
 
     /**
@@ -119,7 +119,7 @@ class KCALCORE_EXPORT CalFormat
       an empty string otherwise.
       @see fromString(), fromRawString().
     */
-    virtual QString toString( MemoryCalendar *calendar, const QString &notebook = QString(),
+    virtual QString toString( const MemoryCalendar::Ptr &calendar, const QString &notebook = QString(),
                               bool deleted = false ) = 0;
 
     /**

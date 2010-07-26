@@ -2404,7 +2404,7 @@ Duration ICalFormatImpl::readICalDuration( icaldurationtype d )
   }
 }
 
-icalcomponent *ICalFormatImpl::createCalendarComponent( Calendar *cal )
+icalcomponent *ICalFormatImpl::createCalendarComponent( const Calendar::Ptr &cal )
 {
   icalcomponent *calendar;
 
@@ -2442,7 +2442,7 @@ icalcomponent *ICalFormatImpl::createCalendarComponent( Calendar *cal )
   */
   // Custom properties
   if( cal != 0 ) {
-    d->writeCustomProperties( calendar, cal );
+    d->writeCustomProperties( calendar, cal.data() );
   }
 
   return calendar;
@@ -2451,7 +2451,7 @@ icalcomponent *ICalFormatImpl::createCalendarComponent( Calendar *cal )
 // take a raw vcalendar (i.e. from a file on disk, clipboard, etc. etc.
 // and break it down from its tree-like format into the dictionary format
 // that is used internally in the ICalFormatImpl.
-bool ICalFormatImpl::populate( Calendar *cal, icalcomponent *calendar,
+bool ICalFormatImpl::populate( const Calendar::Ptr &cal, icalcomponent *calendar,
                                bool deleted, const QString &notebook )
 {
   Q_UNUSED(notebook);
@@ -2512,7 +2512,7 @@ bool ICalFormatImpl::populate( Calendar *cal, icalcomponent *calendar,
   tzs.parse( calendar, *tzlist );
 
   // custom properties
-  d->readCustomProperties( calendar, cal );
+  d->readCustomProperties( calendar, cal.data() );
 
   // Store all events with a relatedTo property in a list for post-processing
   d->mEventsRelate.clear();
@@ -2681,7 +2681,7 @@ void ICalFormatImpl::dumpIcalRecurrence( const icalrecurrencetype &r )
   }
 }
 
-icalcomponent *ICalFormatImpl::createScheduleComponent( IncidenceBase::Ptr incidence,
+icalcomponent *ICalFormatImpl::createScheduleComponent( const IncidenceBase::Ptr &incidence,
                                                         iTIPMethod method )
 {
   icalcomponent *message = createCalendarComponent();

@@ -55,7 +55,7 @@ class KCALCORE_EXPORT FileStorage : public CalStorage
       memory for @p format is deleted by this destructor. If no format is
       specified, then iCalendar format is assumed.
     */
-    explicit FileStorage( KCalCore::MemoryCalendar *calendar,
+    explicit FileStorage( const MemoryCalendar::Ptr &calendar,
                           const QString &fileName = QString(),
                           KCalCore::CalFormat *format = 0 );
 

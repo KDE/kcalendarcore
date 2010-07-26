@@ -45,8 +45,8 @@ int main( int argc, char **argv )
 
   Q_UNUSED( args );
 
-  MemoryCalendar cal( KDateTime::UTC );
-  FileStorage store( &cal, "cal" );
+  MemoryCalendar::Ptr cal( new MemoryCalendar( KDateTime::UTC ) );
+  FileStorage store( cal, "cal" );
   store.load();
 
   Todo::List todoList;
@@ -54,7 +54,7 @@ int main( int argc, char **argv )
 
   // Build dictionary to look up Task object from Todo uid.  Each task is a
   // QListViewItem, and is initially added with the view as the parent.
-  todoList = cal.rawTodos();
+  todoList = cal->rawTodos();
   kDebug() << ( *todoList.begin() )->uid();
   QString result = ( *todoList.begin() )->customProperty( QByteArray( "karm" ),
                                                           QByteArray( "totalTaskTime" ) );

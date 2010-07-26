@@ -74,7 +74,7 @@ ICalFormat::~ICalFormat()
   delete d;
 }
 
-bool ICalFormat::load( MemoryCalendar *calendar, const QString &fileName )
+bool ICalFormat::load( const MemoryCalendar::Ptr &calendar, const QString &fileName )
 {
   kDebug() << fileName;
 
@@ -99,7 +99,7 @@ bool ICalFormat::load( MemoryCalendar *calendar, const QString &fileName )
   }
 }
 
-bool ICalFormat::save( MemoryCalendar *calendar, const QString &fileName )
+bool ICalFormat::save( const MemoryCalendar::Ptr &calendar, const QString &fileName )
 {
   kDebug() << fileName;
 
@@ -137,13 +137,13 @@ bool ICalFormat::save( MemoryCalendar *calendar, const QString &fileName )
   return true;
 }
 
-bool ICalFormat::fromString( MemoryCalendar *cal, const QString &string,
+bool ICalFormat::fromString( const MemoryCalendar::Ptr &cal, const QString &string,
                              bool deleted, const QString &notebook )
 {
   return fromRawString( cal, string.toUtf8(), deleted, notebook );
 }
 
-bool ICalFormat::fromRawString( MemoryCalendar *cal, const QByteArray &string,
+bool ICalFormat::fromRawString( const MemoryCalendar::Ptr &cal, const QByteArray &string,
                                 bool deleted, const QString &notebook )
 {
   Q_UNUSED( notebook );
@@ -201,19 +201,19 @@ bool ICalFormat::fromRawString( MemoryCalendar *cal, const QByteArray &string,
 
 Incidence::Ptr ICalFormat::fromString( const QString &string )
 {
-  MemoryCalendar cal( d->mTimeSpec );
-  fromString( &cal, string );
+  MemoryCalendar::Ptr cal( new MemoryCalendar( d->mTimeSpec ) );
+  fromString( cal, string );
 
   Incidence::Ptr ical;
-  Event::List elist = cal.events();
+  Event::List elist = cal->events();
   if ( elist.count() > 0 ) {
     ical = elist.first();
   } else {
-    Todo::List tlist = cal.todos();
+    Todo::List tlist = cal->todos();
     if ( tlist.count() > 0 ) {
       ical = tlist.first();
     } else {
-      Journal::List jlist = cal.journals();
+      Journal::List jlist = cal->journals();
       if ( jlist.count() > 0 ) {
         ical = jlist.first();
       }
@@ -223,7 +223,7 @@ Incidence::Ptr ICalFormat::fromString( const QString &string )
   return ical ? Incidence::Ptr( ical->clone() ) : Incidence::Ptr();
 }
 
-QString ICalFormat::toString( MemoryCalendar *cal, const QString &notebook, bool deleted )
+QString ICalFormat::toString( const MemoryCalendar::Ptr &cal, const QString &notebook, bool deleted )
 {
   icalcomponent *calendar = d->mImpl->createCalendarComponent( cal );
   icalcomponent *component;
@@ -303,14 +303,14 @@ QString ICalFormat::toString( MemoryCalendar *cal, const QString &notebook, bool
   return text;
 }
 
-QString ICalFormat::toICalString( Incidence::Ptr incidence )
+QString ICalFormat::toICalString( const Incidence::Ptr &incidence )
 {
-  MemoryCalendar cal( d->mTimeSpec );
-  cal.addIncidence( Incidence::Ptr( incidence->clone() ) );
-  return toString( &cal );
+  MemoryCalendar::Ptr cal( new MemoryCalendar( d->mTimeSpec ) );
+  cal->addIncidence( Incidence::Ptr( incidence->clone() ) );
+  return toString( cal );
 }
 
-QString ICalFormat::toString( Incidence::Ptr incidence )
+QString ICalFormat::toString( const Incidence::Ptr &incidence )
 {
   icalcomponent *component;
 
@@ -352,7 +352,7 @@ bool ICalFormat::fromString( RecurrenceRule *recurrence, const QString &rrule )
   return success;
 }
 
-QString ICalFormat::createScheduleMessage( IncidenceBase::Ptr incidence,
+QString ICalFormat::createScheduleMessage( const IncidenceBase::Ptr &incidence,
                                            iTIPMethod method )
 {
   icalcomponent *message = 0;
@@ -416,7 +416,7 @@ FreeBusy::Ptr ICalFormat::parseFreeBusy( const QString &str )
   return freeBusy;
 }
 
-ScheduleMessage *ICalFormat::parseScheduleMessage( MemoryCalendar *cal,
+ScheduleMessage *ICalFormat::parseScheduleMessage( const MemoryCalendar::Ptr &cal,
                                                    const QString &messageText )
 {
   setTimeSpec( cal->timeSpec() );
