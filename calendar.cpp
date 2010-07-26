@@ -57,7 +57,7 @@ using namespace KCalCore;
 class KCalCore::Calendar::Private
 {
   public:
-    Private( const Person::Ptr &owner )
+    Private()
       : mTimeZones( new ICalTimeZones ),
         mModified( false ),
         mNewObserver( false ),
@@ -68,8 +68,7 @@ class KCalCore::Calendar::Private
       mFilter = mDefaultFilter;
       mFilter->setEnabled( false );
 
-      // user information, for translated strings pass a proper owner through the ctor
-      mOwner = owner ? owner : Person::Ptr( new Person() );
+      mOwner = Person::Ptr( new Person() );
       mOwner->setName( "Unknown Name" );
       mOwner->setEmail( "unknown@nowhere" );
     }
@@ -185,15 +184,15 @@ class DeleteVisitor : public Visitor
 };
 //@endcond
 
-Calendar::Calendar( const KDateTime::Spec &timeSpec, const Person::Ptr &owner )
-  : d( new KCalCore::Calendar::Private( owner ) )
+Calendar::Calendar( const KDateTime::Spec &timeSpec )
+  : d( new KCalCore::Calendar::Private )
 {
   d->mTimeSpec = timeSpec;
   d->mViewTimeSpec = timeSpec;
 }
 
-Calendar::Calendar( const QString &timeZoneId, const Person::Ptr &owner )
-  : d( new KCalCore::Calendar::Private( owner ) )
+Calendar::Calendar( const QString &timeZoneId )
+  : d( new KCalCore::Calendar::Private )
 {
   setTimeZoneId( timeZoneId );
 }
@@ -210,8 +209,8 @@ Person::Ptr Calendar::owner() const
 
 void Calendar::setOwner( const Person::Ptr &owner )
 {
+  Q_ASSERT( owner );
   d->mOwner = owner;
-
   setModified( true );
 }
 

@@ -128,9 +128,8 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
       The constructor also calls setViewTimeSpec(@p timeSpec).
 
       @param timeSpec time specification
-      @param owner is the owner of the calendar.
     */
-    explicit Calendar( const KDateTime::Spec &timeSpec, const Person::Ptr &owner = Person::Ptr() );
+    explicit Calendar( const KDateTime::Spec &timeSpec );
 
     /**
       Construct Calendar object using a time zone ID.
@@ -144,10 +143,8 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
       assumed to be valid.  If no time zone is found, the viewing time
       specification is set to local clock time.
       @e Example: "Europe/Berlin"
-
-      @param owner is the owner of the calendar.
     */
-    explicit Calendar( const QString &timeZoneId, const Person::Ptr &owner = Person::Ptr() );
+    explicit Calendar( const QString &timeZoneId );
 
     /**
       Destroys the calendar.
@@ -173,7 +170,7 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
     /**
       Sets the owner of the calendar to @p owner.
 
-      @param owner is a Person object.
+      @param owner is a Person object. Must be a non-null pointer.
 
       @see owner()
     */
