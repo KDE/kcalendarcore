@@ -44,7 +44,6 @@ class KCalCore::Attachment::Private
     Private( const QString &mime, bool binary )
       : mSize( 0 ),
         mMimeType( mime ),
-        mData( 0 ),
         mBinary( binary ),
         mLocal( false ),
         mShowInline( false )
@@ -53,22 +52,22 @@ class KCalCore::Attachment::Private
       : mSize( other.mSize ),
         mMimeType( other.mMimeType ),
         mUri( other.mUri ),
-        mData( qstrdup( other.mData ) ),
+        mData( other.mData ),
         mLabel( other.mLabel ),
         mBinary( other.mBinary ),
         mLocal( other.mLocal ),
         mShowInline( other.mShowInline )
     {}
+
     ~Private()
     {
-      delete[] mData;
     }
 
     QByteArray mDataCache;
     uint mSize;
     QString mMimeType;
     QString mUri;
-    char *mData;
+    QByteArray mData;
     QString mLabel;
     bool mBinary;
     bool mLocal;
@@ -87,10 +86,10 @@ Attachment::Attachment( const QString &uri, const QString &mime )
   d->mUri = uri;
 }
 
-Attachment::Attachment( const char *base64, const QString &mime )
+Attachment::Attachment( const QByteArray &base64, const QString &mime )
   : d( new Attachment::Private( mime, true ) )
 {
-  d->mData = qstrdup( base64 );
+  d->mData = base64;
 }
 
 Attachment::~Attachment()
@@ -123,16 +122,16 @@ bool Attachment::isBinary() const
   return d->mBinary;
 }
 
-char *Attachment::data() const
+QByteArray Attachment::data() const
 {
   if ( d->mBinary ) {
     return d->mData;
   } else {
-    return 0;
+    return QByteArray();
   }
 }
 
-QByteArray &Attachment::decodedData() const
+QByteArray Attachment::decodedData() const
 {
   if ( d->mDataCache.isNull() ) {
     d->mDataCache = QByteArray::fromBase64( d->mData );
@@ -143,15 +142,14 @@ QByteArray &Attachment::decodedData() const
 
 void Attachment::setDecodedData( const QByteArray &data )
 {
-  setData( data.toBase64().constData() );
+  setData( data.toBase64() );
   d->mDataCache = data;
   d->mSize = d->mDataCache.size();
 }
 
-void Attachment::setData( const char *base64 )
+void Attachment::setData( const QByteArray &base64 )
 {
-  delete[] d->mData;
-  d->mData = qstrdup( base64 );
+  d->mData = base64;
   d->mBinary = true;
   d->mDataCache = QByteArray();
   d->mSize = 0;

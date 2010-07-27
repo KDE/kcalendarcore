@@ -786,11 +786,11 @@ icalproperty *ICalFormatImpl::writeAttachment( Attachment::Ptr att )
   if ( att->isUri() ) {
     attach = icalattach_new_from_url( att->uri().toUtf8().data() );
   } else {
-    attach = icalattach_new_from_data ( ( unsigned char * )att->data(), 0, 0 );
+    attach = icalattach_new_from_data ( (unsigned char*) att->data().data(), 0, 0 );
   }
   icalproperty *p = icalproperty_new_attach( attach );
 
-  icalattach_unref(attach);
+  icalattach_unref( attach );
 
   if ( !att->mimeType().isEmpty() ) {
     icalproperty_add_parameter(
@@ -1406,7 +1406,7 @@ Attachment::Ptr ICalFormatImpl::readAttachment( icalproperty *attach )
 {
   Attachment::Ptr attachment;
 
-  const char *p;
+  QByteArray p;
   icalvalue *value = icalproperty_get_value( attach );
 
   switch( icalvalue_isa( value ) ) {
@@ -1414,13 +1414,13 @@ Attachment::Ptr ICalFormatImpl::readAttachment( icalproperty *attach )
   {
     icalattach *a = icalproperty_get_attach( attach );
     if ( !icalattach_get_is_url( a ) ) {
-      p = reinterpret_cast<const char *>( icalattach_get_data( a ) );
-      if ( p ) {
+      p = QByteArray( reinterpret_cast<const char *>( icalattach_get_data( a ) ) );
+      if ( !p.isEmpty() ) {
         attachment = Attachment::Ptr( new Attachment( p ) );
       }
     } else {
       p = icalattach_get_url( a );
-      if ( p ) {
+      if ( !p.isEmpty() ) {
         attachment = Attachment::Ptr( new Attachment( QString::fromUtf8( p ) ) );
       }
     }
@@ -1429,8 +1429,8 @@ Attachment::Ptr ICalFormatImpl::readAttachment( icalproperty *attach )
   case ICAL_BINARY_VALUE:
   {
     icalattach *a = icalproperty_get_attach( attach );
-    p = reinterpret_cast<const char *>( icalattach_get_data( a ) );
-    if ( p ) {
+    p = QByteArray( reinterpret_cast<const char *>( icalattach_get_data( a ) ) );
+    if ( !p.isEmpty() ) {
       attachment = Attachment::Ptr( new Attachment( p ) );
     }
     break;

@@ -32,17 +32,17 @@ void AttachmentTest::testValidity()
 {
   Attachment attachment( QString( "http://www.kde.org" ) );
   QCOMPARE( attachment.uri(), QString::fromLatin1( "http://www.kde.org" ) );
-  QCOMPARE( attachment.data(), (char*)0 );
+  QCOMPARE( attachment.data(), QByteArray() );
   QVERIFY( attachment.decodedData().isEmpty() );
   QVERIFY( !attachment.isBinary() );
 
   attachment.setDecodedData( "foo" );
   QVERIFY( attachment.isBinary() );
   QCOMPARE( attachment.decodedData(), QByteArray( "foo" ) );
-  QCOMPARE( attachment.data(), "Zm9v" );
+  QCOMPARE( attachment.data(), QByteArray( "Zm9v" ) );
   QCOMPARE( attachment.size(), 3U );
 
-  Attachment attachment2 = Attachment( "Zm9v" );
+  Attachment attachment2 = Attachment( QByteArray( "Zm9v" ) );
   QCOMPARE( attachment2.size(), 3U );
   QCOMPARE( attachment2.decodedData(), QByteArray( "foo" ) );
   attachment2.setDecodedData( "123456" );
@@ -51,11 +51,11 @@ void AttachmentTest::testValidity()
   Attachment attachment3( attachment2 );
   QCOMPARE( attachment3.size(), attachment2.size() );
 
-  const char *fred = "jkajskldfasjfklasjfaskfaskfasfkasfjdasfkasjf";
-  Attachment attachment4( fred, "image/nonsense" );
+  QByteArray fred( "jkajskldfasjfklasjfaskfaskfasfkasfjdasfkasjf" );
+  Attachment attachment4( fred, QByteArray( "image/nonsense" ) );
   QCOMPARE( fred, attachment4.data() );
   QVERIFY( attachment4.isBinary() );
-  const char *ethel = "a9fafafjafkasmfasfasffksjklfjau";
+  QByteArray ethel( "a9fafafjafkasmfasfasffksjklfjau" );
   attachment4.setData( ethel );
   QCOMPARE( ethel, attachment4.data() );
 

@@ -88,7 +88,8 @@ class KCALCORE_EXPORT Attachment
       @param base64 is the binary data in base64 format for the attachment.
       @param mime is the (optional) @acronym MIME type of the attachment
     */
-    explicit Attachment( const char *base64, const QString &mime = QString() );
+    explicit Attachment( const QByteArray &base64,
+                         const QString &mime = QString() );
 
     /**
       Constructs an attachment by copying another attachment.
@@ -135,19 +136,19 @@ class KCALCORE_EXPORT Attachment
     /**
       Sets the base64 encoded binary blob data of the attachment.
 
-      @param base64 is a character string containing base64 encoded binary data.
+      @param base64 contains the base64 encoded binary data.
 
       @see data(), decodedData()
     */
-    void setData( const char *base64 );
+    void setData( const QByteArray &base64 );
 
     /**
-      Returns a pointer to a character string containing the base64 encoded
+      Returns a pointer to a QByteArray containing the base64 encoded
       binary data of the attachment.
 
       @see setData(), setDecodedData()
     */
-    char *data() const;
+    QByteArray data() const;
 
     /**
       Sets the decoded attachment data.
@@ -164,7 +165,7 @@ class KCALCORE_EXPORT Attachment
 
       @see setDecodedData(), setData()
     */
-    QByteArray &decodedData() const;
+    QByteArray decodedData() const;
 
     /**
       Returns the size of the attachment, in bytes.
