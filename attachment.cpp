@@ -52,7 +52,7 @@ class KCalCore::Attachment::Private
       : mSize( other.mSize ),
         mMimeType( other.mMimeType ),
         mUri( other.mUri ),
-        mData( other.mData ),
+        mEncodedData( other.mEncodedData ),
         mLabel( other.mLabel ),
         mBinary( other.mBinary ),
         mLocal( other.mLocal ),
@@ -63,11 +63,11 @@ class KCalCore::Attachment::Private
     {
     }
 
-    QByteArray mDataCache;
+    QByteArray mDecodedDataCache;
     uint mSize;
     QString mMimeType;
     QString mUri;
-    QByteArray mData;
+    QByteArray mEncodedData;
     QString mLabel;
     bool mBinary;
     bool mLocal;
@@ -89,7 +89,7 @@ Attachment::Attachment( const QString &uri, const QString &mime )
 Attachment::Attachment( const QByteArray &base64, const QString &mime )
   : d( new Attachment::Private( mime, true ) )
 {
-  d->mData = base64;
+  d->mEncodedData = base64;
 }
 
 Attachment::~Attachment()
@@ -125,7 +125,7 @@ bool Attachment::isBinary() const
 QByteArray Attachment::data() const
 {
   if ( d->mBinary ) {
-    return d->mData;
+    return d->mEncodedData;
   } else {
     return QByteArray();
   }
@@ -133,25 +133,25 @@ QByteArray Attachment::data() const
 
 QByteArray Attachment::decodedData() const
 {
-  if ( d->mDataCache.isNull() ) {
-    d->mDataCache = QByteArray::fromBase64( d->mData );
+  if ( d->mDecodedDataCache.isNull() ) {
+    d->mDecodedDataCache = QByteArray::fromBase64( d->mEncodedData );
   }
 
-  return d->mDataCache;
+  return d->mDecodedDataCache;
 }
 
 void Attachment::setDecodedData( const QByteArray &data )
 {
   setData( data.toBase64() );
-  d->mDataCache = data;
-  d->mSize = d->mDataCache.size();
+  d->mDecodedDataCache = data;
+  d->mSize = d->mDecodedDataCache.size();
 }
 
 void Attachment::setData( const QByteArray &base64 )
 {
-  d->mData = base64;
+  d->mEncodedData = base64;
   d->mBinary = true;
-  d->mDataCache = QByteArray();
+  d->mDecodedDataCache = QByteArray();
   d->mSize = 0;
 }
 
