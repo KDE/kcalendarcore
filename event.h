@@ -30,7 +30,7 @@
 
 #include "kcalcore_export.h"
 #include "incidence.h"
-#include <kpimutils/supertrait.h>
+#include "supertrait.h"
 
 namespace KCalCore {
 

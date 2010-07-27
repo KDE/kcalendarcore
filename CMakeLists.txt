@@ -124,6 +124,7 @@ install(FILES
   schedulemessage.h
   sortablelist.h
   sorting.h
+  supertrait.h
   todo.h
   vcalformat.h
   visitor.h
