@@ -780,7 +780,7 @@ icalproperty *ICalFormatImpl::writeAttendee( const Attendee::Ptr &attendee )
   return p;
 }
 
-icalproperty *ICalFormatImpl::writeAttachment( Attachment::Ptr att )
+icalproperty *ICalFormatImpl::writeAttachment( const Attachment::Ptr &att )
 {
   icalattach *attach;
   if ( att->isUri() ) {

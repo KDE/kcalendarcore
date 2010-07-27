@@ -114,7 +114,7 @@ class ICalFormatImpl
     icalproperty *writeLocation( const QString &location, bool isRich = false );
     icalproperty *writeAttendee( const Attendee::Ptr &attendee );
     icalproperty *writeOrganizer( const Person::Ptr &organizer );
-    icalproperty *writeAttachment( Attachment::Ptr attach );
+    icalproperty *writeAttachment( const Attachment::Ptr &attach );
     icalproperty *writeRecurrenceRule( Recurrence * );
     icalrecurrencetype writeRecurrenceRule( RecurrenceRule *recur );
     icalcomponent *writeAlarm( const Alarm::Ptr &alarm );
