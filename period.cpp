@@ -35,6 +35,8 @@
 #include <KDateTime>
 #include <KSystemTimeZones>
 
+#include <QtCore/QHash>
+
 using namespace KCalCore;
 
 //@cond PRIVATE
@@ -163,4 +165,16 @@ QDataStream &KCalCore::operator>>( QDataStream& stream, KCalCore::Period &period
            >> period.d->mHasDuration;
     return stream;
 }
+
+uint qHash( const KCalCore::Period& key )
+{
+    QString strToHash = key.start().toString();
+    if( key.hasDuration() )
+      strToHash += key.duration();
+    else
+      strToHash += key.end().toString();
+
+    return qHash( strToHash );
+}
+
 

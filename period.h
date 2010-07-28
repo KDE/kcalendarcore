@@ -210,6 +210,12 @@ KCALCORE_EXPORT QDataStream &operator<<( QDataStream &stream, const KCalCore::Pe
 KCALCORE_EXPORT QDataStream &operator>>( QDataStream &stream, KCalCore::Period &period );
 }
 
+/**
+  Return a hash value for a Period argument.
+  @param key is a Period.
+*/
+KCALCORE_EXPORT uint qHash( const KCalCore::Period &key );
+
 //@cond PRIVATE
 Q_DECLARE_METATYPE( KCalCore::Period );
 //@endcond
