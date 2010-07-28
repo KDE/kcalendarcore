@@ -786,7 +786,7 @@ icalproperty *ICalFormatImpl::writeAttachment( const Attachment::Ptr &att )
   if ( att->isUri() ) {
     attach = icalattach_new_from_url( att->uri().toUtf8().data() );
   } else {
-    attach = icalattach_new_from_data ( (unsigned char*) att->data().data(), 0, 0 );
+    attach = icalattach_new_from_data ( (unsigned char *)att->data().data(), 0, 0 );
   }
   icalproperty *p = icalproperty_new_attach( attach );
 

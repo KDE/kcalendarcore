@@ -275,17 +275,23 @@ class KCALCORE_EXPORT Attendee : private Person
 };
 
 /**
-  Serializes the @p attendee object into the @p stream.
+  Serializes an Attendee object into a data stream.
+  @param stream is a QDataStream.
+  @param attendee is a pointer to a Attendee object to be serialized.
 */
 KCALCORE_EXPORT QDataStream &operator<<( QDataStream &stream,
                                          const KCalCore::Attendee::Ptr &attendee );
 
 /**
-  Initializes the @p attendee object from the @p stream.
+  Initializes an Attendee object from a data stream.
+  @param stream is a QDataStream.
+  @param attendee is a pointer to a Attendee object to be initialized.
 */
 KCALCORE_EXPORT QDataStream &operator>>( QDataStream &stream, KCalCore::Attendee::Ptr &attendee );
 }
 
+//@cond PRIVATE
 Q_DECLARE_METATYPE( KCalCore::Attendee::Ptr );
+//@endcond
 
 #endif

@@ -73,11 +73,13 @@ class KCALCORE_EXPORT ICalTimeZones
 
     /**
      * Copy constructor.
+     * @param rhs is the ICalTimeZones instance to copy.
      */
     ICalTimeZones( const ICalTimeZones &rhs );
 
     /**
      * Assignment operator.
+     * @param rhs is the ICalTimeZones instance to assign to this one.
      */
     ICalTimeZones &operator=( const ICalTimeZones &rhs );
 
@@ -158,7 +160,9 @@ class KCALCORE_EXPORT ICalTimeZones
     int count();
 
   private:
+    //@cond PRIVATE
     ICalTimeZonesPrivate *const d;
+    //@endcond
 };
 
 /**
@@ -355,8 +359,10 @@ class KCALCORE_EXPORT ICalTimeZoneBackend : public KTimeZoneBackend
     virtual void virtual_hook( int id, void *data );
 
   private:
+    //@cond PRIVATE
     ICalTimeZonePrivate *d; //krazy:exclude=dpointer
                             //(non-const d-pointer for KTimeZoneBackend-derived classes)
+    //@endcond
 };
 
 /**
@@ -517,7 +523,9 @@ class KCALCORE_EXPORT ICalTimeZoneSource : public KTimeZoneSource
     virtual void virtual_hook( int id, void *data );
 
   private:
+    //@cond PRIVATE
     ICalTimeZoneSourcePrivate *const d;
+    //@endcond
 };
 
 /**
@@ -634,7 +642,9 @@ class KCALCORE_EXPORT ICalTimeZoneData : public KTimeZoneData
     virtual void virtual_hook( int id, void *data );
 
   private:
+    //@cond PRIVATE
     ICalTimeZoneDataPrivate *const d;
+    //@endcond
 };
 
 }

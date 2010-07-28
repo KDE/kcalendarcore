@@ -58,10 +58,25 @@ namespace KCalCore {
 class Event;
 class Todo;
 
+/**
+  @brief
+  vCalendar format implementation.
+
+  This class implements the vCalendar format. It provides methods for
+  loading/saving/converting vCalendar format data into the internal
+  representation as Calendar and Incidences.
+*/
 class KCALCORE_EXPORT VCalFormat : public CalFormat
 {
   public:
+    /**
+      Constructor a new vCalendar Format object.
+    */
     VCalFormat();
+
+    /**
+      Destructor.
+    */
     virtual ~VCalFormat();
 
     /**
@@ -100,41 +115,52 @@ class KCALCORE_EXPORT VCalFormat : public CalFormat
   protected:
     /**
       Translates a VObject of the TODO type into an Event.
+      @param vtodo is a pointer to a valid VObject object.
     */
     Todo::Ptr VTodoToEvent( VObject *vtodo );
 
     /**
       Translates a VObject into a Event and returns a pointer to it.
+      @param vevent is a pointer to a valid VObject object.
     */
     Event::Ptr VEventToEvent( VObject *vevent );
 
     /**
-      Translates an Event into a VTodo-type VObject and return pointer.
+      Translates an Event into a VEvent-type VObject and returns a pointer to it.
+      @param event is a pointer to a valid Event object.
     */
-    VObject *eventToVTodo( const Todo::Ptr &anEvent );
+    VObject *eventToVEvent( const Event::Ptr &event );
 
     /**
-      Translates an Event into a VObject and returns a pointer to it.
+      Translates a Todo into a VTodo-type VObject and return pointer.
+      @param todo is a pointer to a valid Todo object.
     */
-    VObject *eventToVEvent( const Event::Ptr &anEvent );
+    VObject *eventToVTodo( const Todo::Ptr &todo );
 
     /**
       Takes a QDate and returns a string in the format YYYYMMDDTHHMMSS.
+      @param date is the date to format.
     */
     QString qDateToISO( const QDate &date );
 
     /**
-      Takes a QDateTime and returns a string in format YYYYMMDDTHHMMSS.
+      Takes a KDateTime and returns a string in format YYYYMMDDTHHMMSS.
+      @param date is the date to format.
+      @param zulu if true, then shift the date to UTC.
     */
     QString kDateTimeToISO( const KDateTime &date, bool zulu = true );
 
     /**
-      Takes a string in YYYYMMDDTHHMMSS format and returns a valid QDateTime.
+      Takes a string in YYYYMMDDTHHMMSS format and returns a valid KDateTime.
+      @param dtStr is a QString containing the date to convert. If this value
+      is invalid, then KDateTime() is returned.
     */
     KDateTime ISOToKDateTime( const QString &dtStr );
 
     /**
       Takes a string in the YYYYMMDD format and returns a valid QDate.
+      @param dtStr is a QString containing the date to convert. If this value
+      is invalid, then KDateTime() is returned.
     */
     QDate ISOToQDate( const QString &dtStr );
 
@@ -149,13 +175,33 @@ class KCALCORE_EXPORT VCalFormat : public CalFormat
       i.e. MO, TU, WE, etc.
 
       @param day number of the day to get a two letter name for. Range @c 0 - @c 6
+      @see numFromDay().
     */
     const char *dayFromNum( int day );
 
-    /** the reverse of the above function. */
+    /**
+      Converts a two letter representation of the day (i.e. MO, TU, WE, etc) and
+      returns a number 0-6 corresponding to that ordinal day of the week.
+      @param day is the QString containing the two letter day representation.
+      @see dayFromNum().
+    */
     int numFromDay( const QString &day );
 
+    /**
+      Converts a status string into an Attendee::PartStat.
+      @param s is a null-terminated character string containing the status to convert.
+
+      @return a valid Attendee::PartStat.  If the string provided is empty, null,
+      or the contents are unrecognized, then Attendee::NeedsAction is returned.
+    */
     Attendee::PartStat readStatus( const char *s ) const;
+
+    /**
+      Converts an Attendee::PartStat into a QByteArray string.
+      @param status is the Attendee::PartStat to convert.
+
+      @return a QByteArray containing the status string.
+    */
     QByteArray writeStatus( Attendee::PartStat status ) const;
 
   protected:

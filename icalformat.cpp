@@ -223,7 +223,8 @@ Incidence::Ptr ICalFormat::fromString( const QString &string )
   return ical ? Incidence::Ptr( ical->clone() ) : Incidence::Ptr();
 }
 
-QString ICalFormat::toString( const MemoryCalendar::Ptr &cal, const QString &notebook, bool deleted )
+QString ICalFormat::toString( const MemoryCalendar::Ptr &cal,
+                              const QString &notebook, bool deleted )
 {
   icalcomponent *calendar = d->mImpl->createCalendarComponent( cal );
   icalcomponent *component;

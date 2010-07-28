@@ -67,8 +67,10 @@ class KCALCORE_EXPORT ScheduleMessage
     };
 
     /**
-      Creates a scheduling message with method as defined in iTIPMethod
-      and a status.
+      Creates a scheduling message with method as defined in iTIPMethod and a status.
+      @param incidence a pointer to a valid Incidence to be associated with this message.
+      @param method an iTIPMethod.
+      @param status a Status.
     */
     ScheduleMessage( IncidenceBase::Ptr incidence, iTIPMethod method, Status status );
 
@@ -88,7 +90,8 @@ class KCALCORE_EXPORT ScheduleMessage
     iTIPMethod method() const;
 
     /**
-      Returns a machine-readable name for a iTIP method.
+      Returns a machine-readable (not translatable) name for a iTIP method.
+      @param method an iTIPMethod.
     */
     static QString methodName( iTIPMethod method );
 
@@ -103,9 +106,11 @@ class KCALCORE_EXPORT ScheduleMessage
     QString error() const;
 
   private:
+    //@cond PRIVATE
     Q_DISABLE_COPY( ScheduleMessage )
     class Private;
     Private *const d;
+    //@endcond
 };
 
 }

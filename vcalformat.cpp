@@ -175,7 +175,8 @@ bool VCalFormat::fromRawString( const MemoryCalendar::Ptr &calendar, const QByte
   return true;
 }
 
-QString VCalFormat::toString( const MemoryCalendar::Ptr &calendar, const QString &notebook, bool deleted )
+QString VCalFormat::toString( const MemoryCalendar::Ptr &calendar,
+                              const QString &notebook, bool deleted )
 {
   // TODO: Factor out VCalFormat::asString()
   d->mCalendar = calendar;

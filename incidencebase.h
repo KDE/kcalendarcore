@@ -159,18 +159,16 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
         /**
           The IncidenceObserver interface.
 	  This function is called before any changes are made.
-
-          @param incidenceBase is a pointer to an IncidenceBase object.
+          @param uid is the string containing the incidence @ref uid.
         */
         virtual void incidenceUpdate( const QString &uid ) = 0;
 
         /**
           The IncidenceObserver interface.
 	  This function is called after changes are completed.
-
-          @param incidenceBase is a pointer to an IncidenceBase object.
+          @param uid is the string containing the incidence @ref uid.
         */
-        virtual void incidenceUpdated( const QString &uide ) = 0;
+        virtual void incidenceUpdated( const QString &uid ) = 0;
     };
 
     /**
@@ -223,6 +221,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       </pre>
 
       @param v is a reference to a Visitor object.
+      @param incidence is a valid IncidenceBase object for visting.
     */
     virtual bool accept( Visitor &v, IncidenceBase::Ptr incidence );
 
@@ -238,9 +237,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
 
     /**
       Sets the unique id for the incidence to @p uid.
-
       @param uid is the string containing the incidence @ref uid.
-
       @see uid()
     */
     void setUid( const QString &uid );
@@ -565,15 +562,14 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
 
     /**
       Sets the date/time corresponding to the specified DateTimeRole.
+      @param dateTime is KDateTime value to set.
       @param role is a DateTimeRole.
     */
-    virtual void setDateTime( const KDateTime &dateTime,
-                              DateTimeRole role ) = 0;
+    virtual void setDateTime( const KDateTime &dateTime, DateTimeRole role ) = 0;
 
     /**
-       Returns the Akonadi specific sub MIME type of a KCalCore::IncidenceBase
-       item, e.g. getting "application/x-vnd.akonadi.calendar.event" for a
-       KCalCore::Event.
+      Returns the Akonadi specific sub MIME type of a KCalCore::IncidenceBase item,
+      e.g. getting "application/x-vnd.akonadi.calendar.event" for a KCalCore::Event.
      */
     virtual QLatin1String mimeType() const = 0;
 

@@ -800,9 +800,10 @@ class KCALCORE_EXPORT Incidence
 
   private:
     /**
-       Disabled, not polymorphic.
-       Use IncidenceBase::operator= which is safe because it calls
-       virtual function assign.
+      Disabled, not polymorphic.
+      Use IncidenceBase::operator= which is safe because it calls
+      virtual function assign.
+      @param other is another Incidence object to assign to this one.
      */
     Incidence &operator=( const Incidence &other );
 

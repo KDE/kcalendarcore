@@ -94,6 +94,7 @@ class KCALCORE_EXPORT MemoryCalendar : public Calendar
     bool addIncidence( const Incidence::Ptr &incidence );
 
     // Event Specific Methods //
+
     /**
       @copydoc
       Calendar::addEvent()
@@ -120,7 +121,7 @@ class KCALCORE_EXPORT MemoryCalendar : public Calendar
 
     /**
       @copydoc
-      Calendar::rawEvents(EventSortField, SortDirection)
+      Calendar::rawEvents(EventSortField, SortDirection)const
     */
     Event::List rawEvents(
       EventSortField sortField = EventSortUnsorted,
@@ -128,7 +129,7 @@ class KCALCORE_EXPORT MemoryCalendar : public Calendar
 
     /**
       @copydoc
-      Calendar::rawEvents(const QDate &, const QDate &, const KDateTime::Spec &, bool)
+      Calendar::rawEvents(const QDate &, const QDate &, const KDateTime::Spec &, bool)const
     */
     Event::List rawEvents( const QDate &start, const QDate &end,
                            const KDateTime::Spec &timeSpec = KDateTime::Spec(),
@@ -152,7 +153,7 @@ class KCALCORE_EXPORT MemoryCalendar : public Calendar
 
     /**
       @copydoc
-      Calendar::rawEventsForDate(const KDateTime &)
+      Calendar::rawEventsForDate(const KDateTime &)const
     */
     Event::List rawEventsForDate( const KDateTime &dt ) const;
 
@@ -173,7 +174,7 @@ class KCALCORE_EXPORT MemoryCalendar : public Calendar
 
     /**
       @copydoc
-      Calendar::deletedEvents(EventSortField, SortDirection)
+      Calendar::deletedEvents(EventSortField, SortDirection)const
     */
     Event::List deletedEvents(
       EventSortField sortField = EventSortUnsorted,
@@ -181,7 +182,7 @@ class KCALCORE_EXPORT MemoryCalendar : public Calendar
 
     /**
       @copydoc
-      Calendar::eventInstances(Incidence::Ptr , EventSortField, SortDirection)
+      Calendar::eventInstances(const Incidence::Ptr &, EventSortField, SortDirection)const
     */
     Event::List eventInstances(
       const Incidence::Ptr &event,
@@ -216,7 +217,7 @@ class KCALCORE_EXPORT MemoryCalendar : public Calendar
 
     /**
       @copydoc
-      Calendar::rawTodos(TodoSortField, SortDirection)
+      Calendar::rawTodos(TodoSortField, SortDirection)const
     */
     Todo::List rawTodos(
       TodoSortField sortField = TodoSortUnsorted,
@@ -224,7 +225,7 @@ class KCALCORE_EXPORT MemoryCalendar : public Calendar
 
     /**
        @copydoc
-       Calendar::rawTodos()
+       Calendar::rawTodos(const QDate &, const QDate &, const KDateTime::Spec &, bool)const
     */
     Todo::List rawTodos(
       const QDate &start, const QDate &end,
@@ -252,7 +253,7 @@ class KCALCORE_EXPORT MemoryCalendar : public Calendar
 
     /**
       @copydoc
-      Calendar::deletedTodos(TodoSortField, SortDirection)
+      Calendar::deletedTodos(TodoSortField, SortDirection)const
     */
     Todo::List deletedTodos(
       TodoSortField sortField = TodoSortUnsorted,
@@ -260,11 +261,11 @@ class KCALCORE_EXPORT MemoryCalendar : public Calendar
 
     /**
       @copydoc
-      Calendar::todoInstances(Incidence::Ptr , TodoSortField, SortDirection)
+      Calendar::todoInstances(const Incidence::Ptr &, TodoSortField, SortDirection)const
     */
     Todo::List todoInstances( const Incidence::Ptr &todo,
-                           TodoSortField sortField = TodoSortUnsorted,
-                           SortDirection sortDirection = SortDirectionAscending ) const;
+                              TodoSortField sortField = TodoSortUnsorted,
+                              SortDirection sortDirection = SortDirectionAscending ) const;
 
   // Journal Specific Methods //
 
@@ -322,7 +323,7 @@ class KCALCORE_EXPORT MemoryCalendar : public Calendar
 
     /**
       @copydoc
-      Calendar::deletedJournals(JournalSortField, SortDirection)
+      Calendar::deletedJournals(JournalSortField, SortDirection)const
     */
     Journal::List deletedJournals(
       JournalSortField sortField = JournalSortUnsorted,
@@ -330,7 +331,7 @@ class KCALCORE_EXPORT MemoryCalendar : public Calendar
 
     /**
       @copydoc
-      Calendar::journalInstances(Incidence::Ptr , JournalSortField, SortDirection)
+      Calendar::journalInstances(const Incidence::Ptr &, JournalSortField, SortDirection)const
     */
     Journal::List journalInstances( const Incidence::Ptr &journal,
                                  JournalSortField sortField = JournalSortUnsorted,
@@ -353,16 +354,14 @@ class KCALCORE_EXPORT MemoryCalendar : public Calendar
     Alarm::List alarmsTo( const KDateTime &to ) const;
 
     /**
-      Notify the IncidenceBase::Observer that the incidence will be updated.
-
-      @param incidenceBase is a pointer to the IncidenceBase to be updated.
+      @copydoc
+      Calendar::incidenceUpdate(const QString &)
     */
     void incidenceUpdate( const QString &uid );
 
     /**
-      Notify the IncidenceBase::Observer that the incidence has been updated.
-
-      @param incidenceBase is a pointer to the updated IncidenceBase.
+      @copydoc
+      Calendar::incidenceUpdated(const QString &)
     */
     void incidenceUpdated( const QString &uid );
 

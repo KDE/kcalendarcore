@@ -34,6 +34,10 @@
 
 namespace KCalCore {
 
+/**
+  A class for reading and writing Free/Busy URLs to a cache file.
+  Each URL is keyed by an email address.
+*/
 class KCALCORE_EXPORT FreeBusyUrlStore
 {
   public:

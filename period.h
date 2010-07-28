@@ -210,5 +210,8 @@ KCALCORE_EXPORT QDataStream &operator<<( QDataStream &stream, const KCalCore::Pe
 KCALCORE_EXPORT QDataStream &operator>>( QDataStream &stream, KCalCore::Period &period );
 }
 
+//@cond PRIVATE
 Q_DECLARE_METATYPE( KCalCore::Period );
+//@endcond
+
 #endif

@@ -119,8 +119,8 @@ class KCALCORE_EXPORT CalFormat
       an empty string otherwise.
       @see fromString(), fromRawString().
     */
-    virtual QString toString( const MemoryCalendar::Ptr &calendar, const QString &notebook = QString(),
-                              bool deleted = false ) = 0;
+    virtual QString toString( const MemoryCalendar::Ptr &calendar,
+                              const QString &notebook = QString(), bool deleted = false ) = 0;
 
     /**
       Clears the exception status.
@@ -149,12 +149,13 @@ class KCALCORE_EXPORT CalFormat
     static const QString &application(); //krazy:exclude=constref
 
     /**
-      Returns the PRODID string to write into calendar files.
+      Returns the our library's PRODID string to write into calendar files.
     */
     static const QString &productId(); //krazy:exclude=constref
 
     /**
       Returns the PRODID string loaded from calendar file.
+      @see setLoadedProductId()
     */
     QString loadedProductId();
 
@@ -172,7 +173,11 @@ class KCALCORE_EXPORT CalFormat
     void setException( Exception *error );
 
   protected:
-    /** PRODID string loaded from calendar file. */
+    /**
+      Sets the the PRODID string loaded from calendar file.
+      @param id is a pruduct Id string to set for the calendar file.
+      @see loadedProductId()
+    */
     void setLoadedProductId( const QString &id );
 
     /**

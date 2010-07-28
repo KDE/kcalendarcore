@@ -119,7 +119,10 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
 
   public:
 
-  typedef QSharedPointer<Calendar> Ptr;
+    /**
+      A shared pointer to a Calendar
+    */
+    typedef QSharedPointer<Calendar> Ptr;
 
     /**
       Constructs a calendar with a specified time zone @p timeZoneid.
@@ -757,8 +760,9 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
 
       @return the list of all unfiltered Events sorted as specified.
     */
-    virtual Event::List rawEvents( EventSortField sortField = EventSortUnsorted,
-                                   SortDirection sortDirection = SortDirectionAscending ) const = 0;
+    virtual Event::List rawEvents(
+      EventSortField sortField = EventSortUnsorted,
+      SortDirection sortDirection = SortDirectionAscending ) const = 0;
 
     /**
       Returns an unfiltered list of all Events which occur on the given
@@ -952,8 +956,9 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
 
       @return the list of all unfiltered Todos sorted as specified.
     */
-    virtual Todo::List rawTodos( TodoSortField sortField = TodoSortUnsorted,
-                                 SortDirection sortDirection = SortDirectionAscending ) const = 0;
+    virtual Todo::List rawTodos(
+      TodoSortField sortField = TodoSortUnsorted,
+      SortDirection sortDirection = SortDirectionAscending ) const = 0;
 
     /**
       Returns an unfiltered list of all Todos which due on the specified date.
@@ -1089,8 +1094,9 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
 
       @return the list of all filtered Journals sorted as specified.
     */
-    virtual Journal::List journals( JournalSortField sortField = JournalSortUnsorted,
-                                    SortDirection sortDirection = SortDirectionAscending ) const;
+    virtual Journal::List journals(
+      JournalSortField sortField = JournalSortUnsorted,
+      SortDirection sortDirection = SortDirectionAscending ) const;
 
     /**
       Returns a filtered list of all Journals for on the specified date.
@@ -1329,7 +1335,7 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
   protected:
     /**
       The Observer interface. So far not implemented.
-      @param incidenceBase is a pointer to an IncidenceBase object.
+      @param uid is the UID for the Incidence that has been updated.
     */
     void incidenceUpdated( const QString &uid );
 

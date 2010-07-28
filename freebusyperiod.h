@@ -100,10 +100,32 @@ class KCALCORE_EXPORT FreeBusyPeriod : public Period
     */
     FreeBusyPeriod &operator=( const FreeBusyPeriod &other );
 
-    QString summary() const;
+    /**
+      Sets the period summary.
+      @param summary is the period summary string.
+      @see summary().
+    */
     void setSummary( const QString &summary );
-    QString location() const;
+
+    /**
+      Returns the period summary.
+      @see setSummary()
+    */
+    QString summary() const;
+
+
+    /**
+      Sets the period location.
+      @param location is the period location string.
+      @see location().
+    */
     void setLocation( const QString &location );
+
+    /**
+      Returns the period location.
+      @see setLocation()
+    */
+    QString location() const;
 
   private:
     //@cond PRIVATE
@@ -125,6 +147,8 @@ KCALCORE_EXPORT QDataStream &operator<<( QDataStream &stream,
 KCALCORE_EXPORT QDataStream &operator>>( QDataStream &stream, KCalCore::FreeBusyPeriod &period );
 }
 
+//@cond PRIVATE
 Q_DECLARE_METATYPE( KCalCore::FreeBusyPeriod );
+//@endcond
 
 #endif

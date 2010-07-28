@@ -171,7 +171,8 @@ class KCALCORE_EXPORT ICalFormat : public CalFormat
       @return a pointer to a ScheduleMessage object if successful; 0 otherwise.
       The calling routine may later free the return memory.
     */
-    ScheduleMessage *parseScheduleMessage( const MemoryCalendar::Ptr &calendar, const QString &string );
+    ScheduleMessage *parseScheduleMessage( const MemoryCalendar::Ptr &calendar,
+                                           const QString &string );
 
     /**
       Converts a QString into a FreeBusy object.

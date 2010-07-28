@@ -34,3 +34,5 @@
 
 // DOXYGEN_PROJECTNAME=KCalCore Library
 // DOXYGEN_EXCLUDE = libical
+// DOXYGEN_SET_EXCLUDE_PATTERNS += @topdir@/kcalcore/versit/*.h
+

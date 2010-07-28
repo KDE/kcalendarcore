@@ -334,9 +334,10 @@ class KCALCORE_EXPORT Todo : public Incidence
     bool accept( Visitor &v, IncidenceBase::Ptr incidence );
 
     /**
-       Disabled, otherwise could be dangerous if you subclass Todo.
-       Use IncidenceBase::operator= which is safe because it calls
-       virtual function assign().
+      Disabled, otherwise could be dangerous if you subclass Todo.
+      Use IncidenceBase::operator= which is safe because it calls
+      virtual function assign().
+      @param other is another Todo object to assign to this one.
      */
     Todo &operator=( const Todo &other );
 

@@ -112,41 +112,39 @@ class KCALCORE_EXPORT Recurrence : public RecurrenceRule::RuleObserver
     };
 
     /**
-     * Constructs an empty recurrence.
-     */
+      Constructs an empty recurrence.
+    */
     Recurrence();
+
     /**
-     * Copy constructor.
-     *
-     * @param r instance to copy from
-     */
+      Copy constructor.
+      @param r instance to copy from
+    */
     Recurrence( const Recurrence &r );
+
     /**
-     * Destructor.
-     */
+      Destructor.
+    */
     ~Recurrence();
 
     /**
-     * Comparison operator for equality.
-     *
-     * @param r instance to compare with
-     * @return true if recurrences are the same, false otherwise
-     */
+      Comparison operator for equality.
+      @param r instance to compare with
+      @return true if recurrences are the same, false otherwise
+    */
     bool operator==( const Recurrence &r ) const;
 
     /**
-     * Comparison operator for inequality.
-     *
-     * @param r instance to compare with
-     * @return true if recurrences are the different, false if the same
-     */
+      Comparison operator for inequality.
+      @param r instance to compare with
+      @return true if recurrences are the different, false if the same
+    */
     bool operator!=( const Recurrence &r ) const  { return !operator==(r); }
 
     /**
-     * Assignment operator.
-     *
-     * @param r the recurrence which will be assigned to this.
-     */
+      Assignment operator.
+      @param r the recurrence which will be assigned to this.
+    */
     Recurrence &operator=( const Recurrence &r );
 
     /** Return the start date/time of the recurrence (Time for all-day recurrences will be 0:00).

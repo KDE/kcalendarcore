@@ -88,13 +88,13 @@ class KCALCORE_EXPORT Journal : public Incidence
 
     /**
       @copydoc
-      IncidenceBase::dateTime()
+      IncidenceBase::dateTime(DateTimeRole)const
     */
     KDateTime dateTime( DateTimeRole role ) const;
 
     /**
       @copydoc
-      IncidenceBase::setDateTime()
+      IncidenceBase::setDateTime(const KDateTime &, DateTimeRole )
     */
     void setDateTime( const KDateTime &dateTime, DateTimeRole role );
 
@@ -132,14 +132,15 @@ class KCALCORE_EXPORT Journal : public Incidence
   private:
     /**
       @copydoc
-      IncidenceBase::accept()
+      IncidenceBase::accept(Visitor &, IncidenceBase::Ptr)
     */
     bool accept( Visitor &v, IncidenceBase::Ptr incidence );
 
     /**
-       Disabled, otherwise could be dangerous if you subclass Journal.
-       Use IncidenceBase::operator= which is safe because it calls
-       virtual function assign().
+      Disabled, otherwise could be dangerous if you subclass Journal.
+      Use IncidenceBase::operator= which is safe because it calls
+      virtual function assign().
+      @param other is another Journal object to assign to this one.
      */
     Journal &operator=( const Journal &other );
 

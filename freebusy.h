@@ -268,9 +268,10 @@ class KCALCORE_EXPORT FreeBusy : public IncidenceBase
     bool accept( Visitor &v, IncidenceBase::Ptr incidence );
 
     /**
-       Disabled, otherwise could be dangerous if you subclass FreeBusy.
-       Use IncidenceBase::operator= which is safe because it calls
-       virtual function assign().
+      Disabled, otherwise could be dangerous if you subclass FreeBusy.
+      Use IncidenceBase::operator= which is safe because it calls
+      virtual function assign().
+      @param other is another FreeBusy object to assign to this one.
      */
     FreeBusy &operator=( const FreeBusy &other );
 
@@ -292,6 +293,8 @@ KCALCORE_EXPORT QDataStream &operator>>( QDataStream &stream,
                                          KCalCore::FreeBusy::Ptr &freebusy );
 }
 
+//@cond PRIVATE
 Q_DECLARE_METATYPE( KCalCore::FreeBusy::Ptr );
+//@endcond
 
 #endif

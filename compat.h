@@ -153,6 +153,10 @@ class CompatPre35 : public Compat
     //@endcond
 };
 
+/**
+  @brief
+  Compatibility class for KOrganizer pre-3.4 calendar files.
+*/
 class CompatPre34 : public CompatPre35
 {
   public:
@@ -232,6 +236,10 @@ class CompatPre31 : public CompatPre32
     //@endcond
 };
 
+/**
+  @brief
+  Compatibility class for KOrganizer prerelease 3.2 calendar files.
+*/
 class Compat32PrereleaseVersions : public Compat
 {
   public:

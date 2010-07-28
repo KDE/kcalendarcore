@@ -218,9 +218,10 @@ class KCALCORE_EXPORT Event : public Incidence
     bool accept( Visitor &v, IncidenceBase::Ptr incidence );
 
     /**
-       Disabled, otherwise could be dangerous if you subclass Event.
-       Use IncidenceBase::operator= which is safe because it calls
-       virtual function assign().
+      Disabled, otherwise could be dangerous if you subclass Event.
+      Use IncidenceBase::operator= which is safe because it calls
+      virtual function assign().
+      @param other is another Event object to assign to this one.
      */
     Event &operator=( const Event &other );
 

@@ -63,6 +63,10 @@ class Recurrence;
 class RecurrenceRule;
 class Todo;
 
+/**
+  Tell the Libical library that we are using ICal Version 2.0.
+  @internal
+*/
 #define _ICAL_VERSION "2.0"
 
 /**
@@ -78,9 +82,15 @@ class Todo;
 class ICalFormatImpl
 {
   public:
-    /** Create new iCal format for calendar object */
+    /**
+      Construct a new iCal format for calendar object.
+      @param parent is a pointer to a valid ICalFormat object.
+    */
     explicit ICalFormatImpl( ICalFormat *parent );
 
+    /**
+      Destructor.
+    */
     virtual ~ICalFormatImpl();
 
     /**
@@ -100,11 +110,11 @@ class ICalFormatImpl
     icalcomponent *writeEvent( const Event::Ptr &event, ICalTimeZones *tzlist = 0,
                                ICalTimeZones *tzUsedList = 0 );
 
-    icalcomponent *writeFreeBusy( const FreeBusy::Ptr &freebusy,
-                                  iTIPMethod method = iTIPPublish );
-
     icalcomponent *writeJournal( const Journal::Ptr &journal, ICalTimeZones *tzlist = 0,
                                  ICalTimeZones *tzUsedList = 0 );
+
+    icalcomponent *writeFreeBusy( const FreeBusy::Ptr &freebusy,
+                                  iTIPMethod method = iTIPPublish );
 
     void writeIncidence( icalcomponent *parent, const Incidence::Ptr &incidence,
                          ICalTimeZones *tzlist = 0, ICalTimeZones *tzUsedList = 0 );
@@ -210,8 +220,9 @@ class ICalFormatImpl
     static KDateTime readICalDateTimeProperty( icalproperty *p,
                                                ICalTimeZones *tzlist, bool utc = false );
 
-  /**
-    Reads a UTC date/time value from a property.
+    /**
+      Reads a UTC date/time value from a property.
+      @param p is a pointer to a valid icalproperty structure.
     */
     static KDateTime readICalUtcDateTimeProperty( icalproperty *p )
     { return readICalDateTimeProperty( p, 0, true ); }

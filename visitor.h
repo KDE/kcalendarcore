@@ -31,20 +31,15 @@
 #include "todo.h"
 #include "freebusy.h"
 
-/**
-   This class provides the interface for a visitor of calendar components.
-   It serves as base class for concrete visitors, which implement certain
-   actions on calendar components. It allows to add functions, which operate
-   on the concrete types of calendar components, without changing the
-   calendar component classes.
-*/
 namespace KCalCore {
 
-class Event;
-class Todo;
-class Journal;
-class FreeBusy;
-
+/**
+  This class provides the interface for a visitor of calendar components.
+  It serves as base class for concrete visitors, which implement certain
+  actions on calendar components. It allows to add functions, which operate
+  on the concrete types of calendar components, without changing the
+  calendar component classes.
+*/
 class KCALCORE_EXPORT Visitor //krazy:exclude=dpointer
 {
   public:
@@ -56,28 +51,28 @@ class KCALCORE_EXPORT Visitor //krazy:exclude=dpointer
       IncidenceBase::Visitor to perform actions on an Event object.
       @param event is a pointer to a valid Event object.
     */
-    virtual bool visit( QSharedPointer<Event> event );
+    virtual bool visit( Event::Ptr event );
 
     /**
       Reimplement this function in your concrete subclass of
       IncidenceBase::Visitor to perform actions on a Todo object.
       @param todo is a pointer to a valid Todo object.
     */
-    virtual bool visit( QSharedPointer<Todo> todo );
+    virtual bool visit( Todo::Ptr todo );
 
     /**
       Reimplement this function in your concrete subclass of
       IncidenceBase::Visitor to perform actions on an Journal object.
       @param journal is a pointer to a valid Journal object.
     */
-    virtual bool visit( QSharedPointer<Journal> journal );
+    virtual bool visit( Journal::Ptr journal );
 
     /**
       Reimplement this function in your concrete subclass of
       IncidenceBase::Visitor to perform actions on a FreeBusy object.
       @param freebusy is a pointer to a valid FreeBusy object.
     */
-    virtual bool visit( QSharedPointer<FreeBusy> freebusy );
+    virtual bool visit( FreeBusy::Ptr freebusy );
 
   protected:
     /**
