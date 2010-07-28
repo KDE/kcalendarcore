@@ -20,6 +20,11 @@
 #ifndef KPIMUTILS_SUPERTRAIT_H
 #define KPIMUTILS_SUPERTRAIT_H
 
+
+// NOTE: This header is a copy of kdepimlibs/kpimutils/supertrait.h because we can't
+//       depend on KPIMUtils.
+// DO NOT change include guards or namespace.
+
 namespace KPIMUtils
 {
   /**
