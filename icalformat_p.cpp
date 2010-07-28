@@ -1744,11 +1744,12 @@ void ICalFormatImpl::Private::readIncidenceBase( icalcomponent *parent,
                                                  IncidenceBase::Ptr incidenceBase )
 {
   icalproperty *p = icalcomponent_get_first_property( parent, ICAL_ANY_PROPERTY );
-
+  bool uidProcessed = false;
   while ( p ) {
     icalproperty_kind kind = icalproperty_isa( p );
     switch ( kind ) {
     case ICAL_UID_PROPERTY:  // unique id
+      uidProcessed = true;
       incidenceBase->setUid( QString::fromUtf8( icalproperty_get_uid( p ) ) );
       break;
 
@@ -1775,6 +1776,10 @@ void ICalFormatImpl::Private::readIncidenceBase( icalcomponent *parent,
     }
 
     p = icalcomponent_get_next_property( parent, ICAL_ANY_PROPERTY );
+  }
+
+  if ( !uidProcessed ) {
+    kWarning() << "The incidence didn't have any UID!" << endl;
   }
 
   // custom properties
