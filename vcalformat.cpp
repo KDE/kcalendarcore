@@ -37,6 +37,7 @@
 
 #include "vcalformat.h"
 #include "event.h"
+#include "exceptions.h"
 #include "memorycalendar.h"
 #include "todo.h"
 #include "versit/vcc.h"

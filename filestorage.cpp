@@ -30,7 +30,7 @@
 */
 
 #include "filestorage.h"
-
+#include "exceptions.h"
 #include "icalformat.h"
 #include "memorycalendar.h"
 #include "vcalformat.h"

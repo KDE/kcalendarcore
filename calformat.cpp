@@ -31,6 +31,7 @@
 
 #include <config-kcalcore.h>
 #include "calformat.h"
+#include "exceptions.h"
 
 #if defined(HAVE_UUID_UUID_H)
 #include <uuid/uuid.h>

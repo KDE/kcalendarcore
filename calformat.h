@@ -30,12 +30,13 @@
 #define KCALCORE_CALFORMAT_H
 
 #include "kcalcore_export.h"
-#include "exceptions.h"
 #include "memorycalendar.h"
 
 #include <QtCore/QString>
 
 namespace KCalCore {
+
+class Exception;
 
 /**
   @brief

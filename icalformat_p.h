@@ -33,6 +33,7 @@
 #ifndef KCALCORE_ICALFORMAT_P_H
 #define KCALCORE_ICALFORMAT_P_H
 
+#include "exceptions.h"
 #include "freebusy.h"
 #include "todo.h"
 #include "journal.h"
