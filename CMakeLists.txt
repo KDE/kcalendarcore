@@ -79,7 +79,7 @@ set(kcalcore_LIB_SRCS ${libversit_SRCS}
 
 kde4_add_library(kcalcore ${LIBRARY_TYPE} ${kcalcore_LIB_SRCS})
 
-target_link_libraries(kcalcore kpimutils ${KDE4_KDECORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${LIBICAL_LIBRARIES})
+target_link_libraries(kcalcore ${KDE4_KDECORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${LIBICAL_LIBRARIES})
 if(HAVE_UUID_UUID_H)
   target_link_libraries(kcalcore uuid)
 endif(HAVE_UUID_UUID_H)
