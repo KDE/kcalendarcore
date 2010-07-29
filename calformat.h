@@ -31,8 +31,7 @@
 
 #include "kcalcore_export.h"
 #include "exceptions.h"
-
-#include <kcalcore/memorycalendar.h>
+#include "memorycalendar.h"
 
 #include <QtCore/QString>
 

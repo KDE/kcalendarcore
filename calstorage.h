@@ -30,8 +30,7 @@
 #define KCALCORE_CALSTORAGE_H
 
 #include "kcalcore_export.h"
-
-#include <kcalcore/memorycalendar.h>
+#include "memorycalendar.h"
 
 #include <QtCore/QObject>
 
