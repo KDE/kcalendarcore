@@ -32,7 +32,6 @@
 */
 
 #include "attendee.h"
-#include <kcal/alarm.h>
 using namespace KCalCore;
 
 /**
