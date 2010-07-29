@@ -207,6 +207,22 @@ void Attachment::setLocal( bool local )
   d->mLocal = local;
 }
 
+Attachment &Attachment::operator=( const Attachment &other )
+{
+  if ( this != &other ) {
+    d->mSize = other.d->mSize;
+    d->mMimeType = other.d->mMimeType;
+    d->mUri = other.d->mUri;
+    d->mEncodedData = other.d->mEncodedData;
+    d->mLabel = other.d->mLabel;
+    d->mBinary = other.d->mBinary;
+    d->mLocal  = other.d->mLocal;
+    d->mShowInline = other.d->mShowInline;
+  }
+
+  return *this;
+}
+
 bool Attachment::operator==( const Attachment &a2 ) const
 {
   return uri()          == a2.uri() &&

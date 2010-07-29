@@ -240,6 +240,11 @@ class KCALCORE_EXPORT Attachment
     bool isLocal() const;
 
     /**
+       Assignment operator.
+    */
+    Attachment &operator=( const Attachment &attachment );
+
+    /**
       Compare this with @p attachment for equality.
       @param attachment is the attachment to compare.
       @return true if the attachments are equal; false otherwise.
