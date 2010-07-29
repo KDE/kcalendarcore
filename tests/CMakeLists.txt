@@ -59,7 +59,6 @@ KCALCORE_EXECUTABLE_TESTS(
   testrecurrence
   testrecurrencetype
   testrecurson
-  testrecurprevious
   testtostring
   testvcalexport
 )
