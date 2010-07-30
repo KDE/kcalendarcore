@@ -1779,7 +1779,16 @@ void ICalFormatImpl::Private::readIncidenceBase( icalcomponent *parent,
   }
 
   if ( !uidProcessed ) {
-    kWarning() << "The incidence didn't have any UID!" << endl;
+    kWarning() << "The incidence didn't have any UID! Report a bug "
+               << "to the application that generated this file."
+               << endl;
+
+    // Our in-memory incidence has a random uid generated in Event's ctor.
+    // Make it empty so it matches what's in the file:
+    incidenceBase->setUid( QString() );
+
+    // Otherwise, next time we read the file, this function will return
+    // an event with another random uid and we will have two events in the calendar.
   }
 
   // custom properties
