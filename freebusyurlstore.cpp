@@ -27,9 +27,11 @@
 */
 
 #include "freebusyurlstore.h"
+
 #include <kconfig.h>
-#include <kstandarddirs.h>
 #include <kconfiggroup.h>
+#include <kstandarddirs.h>
+
 #include <QtCore/QCoreApplication>
 
 using namespace KCalCore;
