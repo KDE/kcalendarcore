@@ -24,7 +24,9 @@
 #include "testperson.h"
 #include "testperson.moc"
 #include "../person.h"
-#include <KDebug>
+
+#include <kdebug.h>
+
 #include <qtest_kde.h>
 QTEST_KDEMAIN( PersonTest, NoGUI )
 

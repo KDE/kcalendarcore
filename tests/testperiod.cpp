@@ -25,7 +25,7 @@
 #include "testperiod.moc"
 #include "../period.h"
 
-#include <KSystemTimeZones>
+#include <ksystemtimezone.h>
 
 #include <qtest_kde.h>
 QTEST_KDEMAIN( PeriodTest, NoGUI )
@@ -76,7 +76,7 @@ void PeriodTest::testCompare()
   QVERIFY( p1assign == p1 );
   QVERIFY( p3copy == p3 );
   QVERIFY( p3assign == p3 );
-  
+
 }
 
 void PeriodTest::testDataStreamOut()

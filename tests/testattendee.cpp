@@ -24,7 +24,7 @@
 #include "testattendee.moc"
 #include "../attendee.h"
 
-#include <KDebug>
+#include <kdebug.h>
 
 #include <qtest_kde.h>
 QTEST_KDEMAIN( AttendeeTest, NoGUI )
@@ -144,7 +144,7 @@ void AttendeeTest::testDataStreamIn()
   QVERIFY( attendee2->role() == attendee1->role() );
   QVERIFY( attendee2->status() == attendee1->status() );
   QVERIFY( attendee2->delegate() == attendee1->delegate() );
-  QVERIFY( attendee2->delegator() == attendee1->delegator() );  
+  QVERIFY( attendee2->delegator() == attendee1->delegator() );
   QVERIFY( attendee2->customProperties() == attendee1->customProperties() );
   QVERIFY( *attendee1 == *attendee2 );
 }
