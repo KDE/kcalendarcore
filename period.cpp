@@ -32,8 +32,8 @@
 
 #include "period.h"
 
-#include <KDateTime>
-#include <KSystemTimeZones>
+#include <kdatetime.h>
+#include <ksystemtimezone.h>
 
 #include <QtCore/QHash>
 
