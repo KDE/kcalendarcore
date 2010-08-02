@@ -36,9 +36,9 @@
 */
 
 #include "vcalformat.h"
+#include "calendar.h"
 #include "event.h"
 #include "exceptions.h"
-#include "memorycalendar.h"
 #include "todo.h"
 #include "versit/vcc.h"
 #include "versit/vobject.h"
@@ -59,7 +59,7 @@ using namespace KCalCore;
 class KCalCore::VCalFormat::Private
 {
   public:
-    MemoryCalendar::Ptr mCalendar;
+    Calendar::Ptr mCalendar;
     Event::List mEventsRelate;  // Events with relations
     Todo::List mTodosRelate;    // To-dos with relations
 };
@@ -74,7 +74,7 @@ VCalFormat::~VCalFormat()
   delete d;
 }
 
-bool VCalFormat::load( const MemoryCalendar::Ptr &calendar, const QString &fileName )
+bool VCalFormat::load( const Calendar::Ptr &calendar, const QString &fileName )
 {
   d->mCalendar = calendar;
 
@@ -103,7 +103,7 @@ bool VCalFormat::load( const MemoryCalendar::Ptr &calendar, const QString &fileN
   return true;
 }
 
-bool VCalFormat::save( const MemoryCalendar::Ptr &calendar, const QString &fileName )
+bool VCalFormat::save( const Calendar::Ptr &calendar, const QString &fileName )
 {
   d->mCalendar = calendar;
 
@@ -143,13 +143,13 @@ bool VCalFormat::save( const MemoryCalendar::Ptr &calendar, const QString &fileN
   return false;
 }
 
-bool VCalFormat::fromString( const MemoryCalendar::Ptr &calendar, const QString &string,
+bool VCalFormat::fromString( const Calendar::Ptr &calendar, const QString &string,
                              bool deleted, const QString &notebook )
 {
   return fromRawString( calendar, string.toUtf8(), deleted, notebook );
 }
 
-bool VCalFormat::fromRawString( const MemoryCalendar::Ptr &calendar, const QByteArray &string,
+bool VCalFormat::fromRawString( const Calendar::Ptr &calendar, const QByteArray &string,
                                 bool deleted, const QString &notebook )
 {
   d->mCalendar = calendar;
@@ -176,7 +176,7 @@ bool VCalFormat::fromRawString( const MemoryCalendar::Ptr &calendar, const QByte
   return true;
 }
 
-QString VCalFormat::toString( const MemoryCalendar::Ptr &calendar,
+QString VCalFormat::toString( const Calendar::Ptr &calendar,
                               const QString &notebook, bool deleted )
 {
   // TODO: Factor out VCalFormat::asString()

@@ -41,14 +41,14 @@ using namespace KCalCore;
 class KCalCore::CalStorage::Private
 {
   public:
-    Private( const MemoryCalendar::Ptr &cal )
+    Private( const Calendar::Ptr &cal )
       : mCalendar( cal )
     {}
-    MemoryCalendar::Ptr mCalendar;
+    Calendar::Ptr mCalendar;
 };
 //@endcond
 
-CalStorage::CalStorage( const MemoryCalendar::Ptr &calendar )
+CalStorage::CalStorage( const Calendar::Ptr &calendar )
   : d( new KCalCore::CalStorage::Private ( calendar ) )
 {
 }
@@ -58,7 +58,7 @@ CalStorage::~CalStorage()
   delete d;
 }
 
-MemoryCalendar::Ptr CalStorage::calendar() const
+Calendar::Ptr CalStorage::calendar() const
 {
   return d->mCalendar;
 }

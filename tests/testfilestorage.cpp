@@ -35,7 +35,7 @@ void FileStorageTest::testValidity()
   MemoryCalendar::Ptr cal( new MemoryCalendar( KDateTime::UTC ) );
   FileStorage fs( cal, QLatin1String( "fred.ics" ) );
   QCOMPARE( fs.fileName(), QLatin1String( "fred.ics" ) );
-  QCOMPARE( fs.calendar(), cal );
+  QCOMPARE( fs.calendar().data(), cal.data() );
   cal->close();
 }
 

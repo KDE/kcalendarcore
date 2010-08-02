@@ -57,7 +57,7 @@ class KCalCore::FileStorage::Private
 };
 //@endcond
 
-FileStorage::FileStorage( const MemoryCalendar::Ptr &cal, const QString &fileName,
+FileStorage::FileStorage( const Calendar::Ptr &cal, const QString &fileName,
                           CalFormat *format )
   : CalStorage( cal ),
     d( new Private( fileName, format ) )

@@ -83,33 +83,33 @@ class KCALCORE_EXPORT VCalFormat : public CalFormat
       @copydoc
       CalFormat::load()
     */
-    bool load( const MemoryCalendar::Ptr &calendar, const QString &fileName );
+    bool load( const Calendar::Ptr &calendar, const QString &fileName );
 
     /**
       @copydoc
       CalFormat::save()
     */
-    bool save( const MemoryCalendar::Ptr &calendar, const QString &fileName );
+    bool save( const Calendar::Ptr &calendar, const QString &fileName );
 
     /**
       @copydoc
       CalFormat::fromString()
     */
-    bool fromString( const MemoryCalendar::Ptr &calendar, const QString &string,
+    bool fromString( const Calendar::Ptr &calendar, const QString &string,
                      bool deleted = false, const QString &notebook = QString() );
 
     /**
       @copydoc
       CalFormat::toString()
     */
-    QString toString( const MemoryCalendar::Ptr &calendar, const QString &notebook = QString(),
+    QString toString( const Calendar::Ptr &calendar, const QString &notebook = QString(),
                       bool deleted = false );
 
     /**
       @copydoc
       CalFormat::fromRawString()
     */
-    bool fromRawString( const MemoryCalendar::Ptr &calendar, const QByteArray &string,
+    bool fromRawString( const Calendar::Ptr &calendar, const QByteArray &string,
                         bool deleted = false, const QString &notebook = QString() );
 
   protected:

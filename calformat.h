@@ -30,7 +30,7 @@
 #define KCALCORE_CALFORMAT_H
 
 #include "kcalcore_export.h"
-#include "memorycalendar.h"
+#include "calendar.h"
 
 #include <QtCore/QString>
 
@@ -61,27 +61,27 @@ class KCALCORE_EXPORT CalFormat
     /**
       Loads a calendar on disk into the calendar associated with this format.
 
-      @param calendar is the MemoryCalendar to be loaded.
+      @param calendar is the Calendar to be loaded.
       @param fileName is the name of the disk file containing the Calendar data.
 
       @return true if successful; false otherwise.
     */
-    virtual bool load( const MemoryCalendar::Ptr &calendar, const QString &fileName ) = 0;
+    virtual bool load( const Calendar::Ptr &calendar, const QString &fileName ) = 0;
 
     /**
       Writes the calendar to disk.
 
-      @param calendar is the MemoryCalendar containing the data to be saved.
+      @param calendar is the Calendar containing the data to be saved.
       @param fileName is the name of the file to write the calendar data.
 
       @return true if successful; false otherwise.
     */
-    virtual bool save( const MemoryCalendar::Ptr &calendar, const QString &fileName ) = 0;
+    virtual bool save( const Calendar::Ptr &calendar, const QString &fileName ) = 0;
 
     /**
       Loads a calendar from a string
 
-      @param calendar is the MemoryCalendar to be loaded.
+      @param calendar is the Calendar to be loaded.
       @param string is the QString containing the Calendar data.
       @param deleted use deleted incidences
       @param notebook notebook uid
@@ -89,7 +89,7 @@ class KCALCORE_EXPORT CalFormat
       @return true if successful; false otherwise.
       @see fromRawString(), toString().
     */
-    virtual bool fromString( const MemoryCalendar::Ptr &calendar, const QString &string,
+    virtual bool fromString( const Calendar::Ptr &calendar, const QString &string,
                              bool deleted = false, const QString &notebook = QString() ) = 0;
 
     /**
@@ -98,7 +98,7 @@ class KCALCORE_EXPORT CalFormat
       reading to avoid utf8 conversions, which are expensive when reading
       from disk.
 
-      @param calendar is the MemoryCalendar to be loaded.
+      @param calendar is the Calendar to be loaded.
       @param string is the QByteArray containing the Calendar data.
       @param deleted use deleted incidences
       @param notebook notebook uid
@@ -106,12 +106,12 @@ class KCALCORE_EXPORT CalFormat
       @return true if successful; false otherwise.
       @see fromString(), toString().
     */
-    virtual bool fromRawString( const MemoryCalendar::Ptr &calendar, const QByteArray &string,
+    virtual bool fromRawString( const Calendar::Ptr &calendar, const QByteArray &string,
                                 bool deleted = false, const QString &notebook = QString() ) = 0;
 
     /**
       Returns the calendar as a string.
-      @param calendar is the MemoryCalendar containing the data to be saved.
+      @param calendar is the Calendar containing the data to be saved.
       @param notebook uid use only incidences with given notebook
       @param deleted use deleted incidences
 
@@ -119,7 +119,7 @@ class KCALCORE_EXPORT CalFormat
       an empty string otherwise.
       @see fromString(), fromRawString().
     */
-    virtual QString toString( const MemoryCalendar::Ptr &calendar,
+    virtual QString toString( const Calendar::Ptr &calendar,
                               const QString &notebook = QString(), bool deleted = false ) = 0;
 
     /**

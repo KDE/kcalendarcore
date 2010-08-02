@@ -74,7 +74,7 @@ ICalFormat::~ICalFormat()
   delete d;
 }
 
-bool ICalFormat::load( const MemoryCalendar::Ptr &calendar, const QString &fileName )
+bool ICalFormat::load( const Calendar::Ptr &calendar, const QString &fileName )
 {
   kDebug() << fileName;
 
@@ -99,7 +99,7 @@ bool ICalFormat::load( const MemoryCalendar::Ptr &calendar, const QString &fileN
   }
 }
 
-bool ICalFormat::save( const MemoryCalendar::Ptr &calendar, const QString &fileName )
+bool ICalFormat::save( const Calendar::Ptr &calendar, const QString &fileName )
 {
   kDebug() << fileName;
 
@@ -137,13 +137,13 @@ bool ICalFormat::save( const MemoryCalendar::Ptr &calendar, const QString &fileN
   return true;
 }
 
-bool ICalFormat::fromString( const MemoryCalendar::Ptr &cal, const QString &string,
+bool ICalFormat::fromString( const Calendar::Ptr &cal, const QString &string,
                              bool deleted, const QString &notebook )
 {
   return fromRawString( cal, string.toUtf8(), deleted, notebook );
 }
 
-bool ICalFormat::fromRawString( const MemoryCalendar::Ptr &cal, const QByteArray &string,
+bool ICalFormat::fromRawString( const Calendar::Ptr &cal, const QByteArray &string,
                                 bool deleted, const QString &notebook )
 {
   Q_UNUSED( notebook );
@@ -223,7 +223,7 @@ Incidence::Ptr ICalFormat::fromString( const QString &string )
   return ical ? Incidence::Ptr( ical->clone() ) : Incidence::Ptr();
 }
 
-QString ICalFormat::toString( const MemoryCalendar::Ptr &cal,
+QString ICalFormat::toString( const Calendar::Ptr &cal,
                               const QString &notebook, bool deleted )
 {
   icalcomponent *calendar = d->mImpl->createCalendarComponent( cal );
@@ -308,7 +308,7 @@ QString ICalFormat::toICalString( const Incidence::Ptr &incidence )
 {
   MemoryCalendar::Ptr cal( new MemoryCalendar( d->mTimeSpec ) );
   cal->addIncidence( Incidence::Ptr( incidence->clone() ) );
-  return toString( cal );
+  return toString( cal, QString(), false );
 }
 
 QString ICalFormat::toString( const Incidence::Ptr &incidence )
@@ -417,7 +417,7 @@ FreeBusy::Ptr ICalFormat::parseFreeBusy( const QString &str )
   return freeBusy;
 }
 
-ScheduleMessage *ICalFormat::parseScheduleMessage( const MemoryCalendar::Ptr &cal,
+ScheduleMessage *ICalFormat::parseScheduleMessage( const Calendar::Ptr &cal,
                                                    const QString &messageText )
 {
   setTimeSpec( cal->timeSpec() );

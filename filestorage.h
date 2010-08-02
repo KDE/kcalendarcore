@@ -35,7 +35,7 @@
 namespace KCalCore {
 
 class CalFormat;
-class MemoryCalendar;
+class Calendar;
 
 /**
   @brief
@@ -45,17 +45,17 @@ class KCALCORE_EXPORT FileStorage : public CalStorage
 {
   public:
     /**
-      Constructs a new FileStorage object for MemoryCalendar @p calendar with format
+      Constructs a new FileStorage object for Calendar @p calendar with format
       @p format, and storage to file @p fileName.
 
-      @param calendar is a pointer to a valid MemoryCalendar object.
+      @param calendar is a pointer to a valid Calendar object.
       @param fileName is the name of the disk file containing the calendar data.
       @param format is a pointer to a valid CalFormat object that specifies
       the calendar format to be used. FileStorage takes ownership; i.e., the
       memory for @p format is deleted by this destructor. If no format is
       specified, then iCalendar format is assumed.
     */
-    explicit FileStorage( const MemoryCalendar::Ptr &calendar,
+    explicit FileStorage( const Calendar::Ptr &calendar,
                           const QString &fileName = QString(),
                           KCalCore::CalFormat *format = 0 );
 

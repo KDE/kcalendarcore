@@ -1068,7 +1068,7 @@ void Calendar::removeRelations( const Incidence::Ptr &incidence )
   }
 
   // Make sure the deleted incidence doesn't relate to a non-deleted incidence,
-  // since that would cause trouble in CalendarLocal::close(), as the deleted
+  // since that would cause trouble in MemoryCalendar::close(), as the deleted
   // incidences are destroyed after the non-deleted incidences. The destructor
   // of the deleted incidences would then try to access the already destroyed
   // non-deleted incidence, which would segfault.
@@ -1076,7 +1076,7 @@ void Calendar::removeRelations( const Incidence::Ptr &incidence )
   // So in short: Make sure dead incidences don't point to alive incidences
   // via the relation.
   //
-  // This crash is tested in CalendarLocalTest::testRelationsCrash().
+  // This crash is tested in MemoryCalendarTest::testRelationsCrash().
 //  incidence->setRelatedTo( Incidence::Ptr() );
 }
 

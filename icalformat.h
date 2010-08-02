@@ -73,13 +73,13 @@ class KCALCORE_EXPORT ICalFormat : public CalFormat
       @copydoc
       CalFormat::load()
     */
-    bool load( const MemoryCalendar::Ptr &calendar, const QString &fileName );
+    bool load( const Calendar::Ptr &calendar, const QString &fileName );
 
     /**
       @copydoc
       CalFormat::save()
     */
-    bool save( const MemoryCalendar::Ptr &calendar, const QString &fileName );
+    bool save( const Calendar::Ptr &calendar, const QString &fileName );
 
     /**
       @copydoc
@@ -87,7 +87,7 @@ class KCALCORE_EXPORT ICalFormat : public CalFormat
 
       @note The notebook is ignored and the default one is used
     */
-    bool fromString( const MemoryCalendar::Ptr &calendar, const QString &string,
+    bool fromString( const Calendar::Ptr &calendar, const QString &string,
                      bool deleted = false, const QString &notebook = QString() );
 
     /**
@@ -96,7 +96,7 @@ class KCALCORE_EXPORT ICalFormat : public CalFormat
       @param string is a QString containing the data to be parsed.
 
       @return non-zero pointer if the parsing was successful; 0 otherwise.
-      @see fromString(const MemoryCalendar::Ptr &, const QString &), fromRawString()
+      @see fromString(const Calendar::Ptr &, const QString &), fromRawString()
     */
     Incidence::Ptr fromString( const QString &string );
 
@@ -113,14 +113,14 @@ class KCALCORE_EXPORT ICalFormat : public CalFormat
       @copydoc
       CalFormat::fromRawString()
     */
-    bool fromRawString( const MemoryCalendar::Ptr &calendar, const QByteArray &string,
+    bool fromRawString( const Calendar::Ptr &calendar, const QByteArray &string,
                         bool deleted = false, const QString &notebook = QString() );
 
     /**
       @copydoc
       CalFormat::toString()
     */
-    QString toString( const MemoryCalendar::Ptr &calendar,
+    QString toString( const Calendar::Ptr &calendar,
                       const QString &notebook = QString(), bool deleted = false );
 
     /**
@@ -164,14 +164,14 @@ class KCALCORE_EXPORT ICalFormat : public CalFormat
     /**
       Parses a Calendar scheduling message string into ScheduleMessage object.
 
-      @param calendar is a pointer to a MemoryCalendar object associated with the
+      @param calendar is a pointer to a Calendar object associated with the
       scheduling message.
       @param string is a QString containing the data to be parsed.
 
       @return a pointer to a ScheduleMessage object if successful; 0 otherwise.
       The calling routine may later free the return memory.
     */
-    ScheduleMessage *parseScheduleMessage( const MemoryCalendar::Ptr &calendar,
+    ScheduleMessage *parseScheduleMessage( const Calendar::Ptr &calendar,
                                            const QString &string );
 
     /**
