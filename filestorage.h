@@ -44,6 +44,12 @@ class Calendar;
 class KCALCORE_EXPORT FileStorage : public CalStorage
 {
   public:
+
+    /**
+      A shared pointer to a SqliteStorage
+    */
+    typedef QSharedPointer<FileStorage> Ptr;
+
     /**
       Constructs a new FileStorage object for Calendar @p calendar with format
       @p format, and storage to file @p fileName.

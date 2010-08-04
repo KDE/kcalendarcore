@@ -308,7 +308,7 @@ QString ICalFormat::toICalString( const Incidence::Ptr &incidence )
 {
   MemoryCalendar::Ptr cal( new MemoryCalendar( d->mTimeSpec ) );
   cal->addIncidence( Incidence::Ptr( incidence->clone() ) );
-  return toString( cal, QString(), false );
+  return toString( cal.staticCast<Calendar>() );
 }
 
 QString ICalFormat::toString( const Incidence::Ptr &incidence )
