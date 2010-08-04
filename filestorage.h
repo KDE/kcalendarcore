@@ -46,7 +46,7 @@ class KCALCORE_EXPORT FileStorage : public CalStorage
   public:
 
     /**
-      A shared pointer to a SqliteStorage
+      A shared pointer to a FileStorage.
     */
     typedef QSharedPointer<FileStorage> Ptr;
 
