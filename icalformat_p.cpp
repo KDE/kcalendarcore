@@ -758,8 +758,7 @@ icalproperty *ICalFormatImpl::writeAttendee( const Attendee::Ptr &attendee )
   icalproperty_add_parameter( p, icalparameter_new_role( role ) );
 
   if ( !attendee->uid().isEmpty() ) {
-    icalparameter *icalparameter_uid =
-      icalparameter_new_x( attendee->uid().toUtf8() );
+    icalparameter *icalparameter_uid = icalparameter_new_x( attendee->uid().toUtf8() );
 
     icalparameter_set_xname( icalparameter_uid, "X-UID" );
     icalproperty_add_parameter( p, icalparameter_uid );
@@ -786,7 +785,7 @@ icalproperty *ICalFormatImpl::writeAttachment( const Attachment::Ptr &att )
   if ( att->isUri() ) {
     attach = icalattach_new_from_url( att->uri().toUtf8().data() );
   } else {
-    attach = icalattach_new_from_data ( (unsigned char *)att->data().data(), 0, 0 );
+    attach = icalattach_new_from_data( ( unsigned char * )att->data().data(), 0, 0 );
   }
   icalproperty *p = icalproperty_new_attach( attach );
 
@@ -798,10 +797,8 @@ icalproperty *ICalFormatImpl::writeAttachment( const Attachment::Ptr &att )
   }
 
   if ( att->isBinary() ) {
-    icalproperty_add_parameter(
-      p, icalparameter_new_value( ICAL_VALUE_BINARY ) );
-    icalproperty_add_parameter(
-      p, icalparameter_new_encoding( ICAL_ENCODING_BASE64 ) );
+    icalproperty_add_parameter( p, icalparameter_new_value( ICAL_VALUE_BINARY ) );
+    icalproperty_add_parameter( p, icalparameter_new_encoding( ICAL_ENCODING_BASE64 ) );
   }
 
   if ( att->showInline() ) {
@@ -811,8 +808,7 @@ icalproperty *ICalFormatImpl::writeAttachment( const Attachment::Ptr &att )
   }
 
   if ( !att->label().isEmpty() ) {
-    icalparameter *icalparameter_label =
-      icalparameter_new_x( att->label().toUtf8() );
+    icalparameter *icalparameter_label = icalparameter_new_x( att->label().toUtf8() );
     icalparameter_set_xname( icalparameter_label, "X-LABEL" );
     icalproperty_add_parameter( p, icalparameter_label );
   }

@@ -113,7 +113,6 @@ class KCALCORE_EXPORT FreeBusyPeriod : public Period
     */
     QString summary() const;
 
-
     /**
       Sets the period location.
       @param location is the period location string.

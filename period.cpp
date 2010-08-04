@@ -149,32 +149,31 @@ void Period::shiftTimes( const KDateTime::Spec &oldSpec,
   }
 }
 
-QDataStream &KCalCore::operator<<( QDataStream& stream, const KCalCore::Period &period )
+QDataStream &KCalCore::operator<<( QDataStream &stream, const KCalCore::Period &period )
 {
-    return stream << period.d->mStart
-                  << period.d->mEnd
-                  << period.d->mDailyDuration
-                  << period.d->mHasDuration;
+  return stream << period.d->mStart
+                << period.d->mEnd
+                << period.d->mDailyDuration
+                << period.d->mHasDuration;
 }
 
-QDataStream &KCalCore::operator>>( QDataStream& stream, KCalCore::Period &period )
+QDataStream &KCalCore::operator>>( QDataStream &stream, KCalCore::Period &period )
 {
-    stream >> period.d->mStart
-           >> period.d->mEnd
-           >> period.d->mDailyDuration
-           >> period.d->mHasDuration;
-    return stream;
+  stream >> period.d->mStart
+         >> period.d->mEnd
+         >> period.d->mDailyDuration
+         >> period.d->mHasDuration;
+  return stream;
 }
 
-uint qHash( const KCalCore::Period& key )
+uint qHash( const KCalCore::Period &key )
 {
-    QString strToHash = key.start().toString();
-    if( key.hasDuration() )
-      strToHash += key.duration();
-    else
-      strToHash += key.end().toString();
-
-    return qHash( strToHash );
+  QString strToHash = key.start().toString();
+  if( key.hasDuration() ) {
+    strToHash += key.duration();
+  } else {
+    strToHash += key.end().toString();
+  }
+  return qHash( strToHash );
 }
-
 
