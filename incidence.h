@@ -37,6 +37,8 @@
 #include "incidencebase.h"
 #include "recurrence.h"
 
+#include <QtCore/QMetaType>
+
 //@cond PRIVATE
 // Value used to signal invalid/unset latitude or longitude.
 #define INVALID_LATLON 255.0
@@ -821,5 +823,7 @@ inline uint qHash( const QSharedPointer<KCalCore::Incidence> &key )
   return qHash<KCalCore::Incidence>( key.data() );
 }
 //@endcond
+
+Q_DECLARE_METATYPE( KCalCore::Incidence* )
 
 #endif
