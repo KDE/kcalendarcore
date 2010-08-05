@@ -1316,22 +1316,6 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
 
     using QObject::event;   // prevent warning about hidden virtual method
 
-  Q_SIGNALS:
-    /**
-      Signals that the calendar has been modified.
-     */
-    void calendarChanged();
-
-    /**
-      Signals that the calendar has been saved.
-     */
-    void calendarSaved();
-
-    /**
-      Signals that the calendar has been loaded into memory.
-     */
-    void calendarLoaded();
-
   protected:
     /**
       The Observer interface. So far not implemented.
