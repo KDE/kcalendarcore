@@ -455,7 +455,7 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
 
       @return notebook uid
      */
-    virtual QString notebook( const Incidence::ConstPtr &incidence ) const;
+    virtual QString notebook( const Incidence::Ptr &incidence ) const;
 
     /**
       Get incidence's notebook.
@@ -1199,8 +1199,8 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
       @param ancestor is the incidence we are testing to be an ancestor.
       @param incidence is the incidence we are testing to be descended from @p ancestor.
     */
-    bool isAncestorOf( const Incidence::ConstPtr &ancestor,
-                       const Incidence::ConstPtr &incidence ) const;
+    bool isAncestorOf( const Incidence::Ptr &ancestor,
+                       const Incidence::Ptr &incidence ) const;
 
     /**
        Returns a list of incidences that have a relation of RELTYPE parent

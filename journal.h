@@ -49,11 +49,6 @@ class KCALCORE_EXPORT Journal : public Incidence
     typedef QSharedPointer<Journal> Ptr;
 
     /**
-      A shared pointer to a non-mutable Journal object.
-    */
-    typedef QSharedPointer<const Journal> ConstPtr;
-
-    /**
       List of journals.
     */
     typedef QList<Ptr> List;

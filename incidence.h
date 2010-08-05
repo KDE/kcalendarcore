@@ -112,11 +112,6 @@ class KCALCORE_EXPORT Incidence
     typedef QSharedPointer<Incidence> Ptr;
 
     /**
-      A shared pointer to a non-mutable Incidence.
-    */
-    typedef QSharedPointer<const Incidence> ConstPtr;
-
-    /**
       List of incidences.
     */
     typedef QList<Ptr> List;

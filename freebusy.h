@@ -64,11 +64,6 @@ class KCALCORE_EXPORT FreeBusy : public IncidenceBase
     typedef QSharedPointer<FreeBusy> Ptr;
 
     /**
-      A shared pointer to a non-mutable FreeBusy.
-    */
-    typedef QSharedPointer<const FreeBusy> ConstPtr;
-
-    /**
       List of FreeBusy objects.
     */
     typedef QList<Ptr> List;

@@ -50,11 +50,6 @@ class KCALCORE_EXPORT Todo : public Incidence
     typedef QSharedPointer<Todo> Ptr;
 
     /**
-      A shared pointer to a non-mutable Todo object.
-    */
-    typedef QSharedPointer<const Todo> ConstPtr;
-
-    /**
       List of to-dos.
     */
     typedef QList<Ptr> List;

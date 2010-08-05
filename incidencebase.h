@@ -111,11 +111,6 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
     typedef QSharedPointer<IncidenceBase> Ptr;
 
     /**
-      A shared pointer to a non-mutable IncidenceBase..
-    */
-    typedef QSharedPointer<const IncidenceBase> ConstPtr;
-
-    /**
       The different types of incidences, per RFC2445.
       @see type(), typeStr()
     */

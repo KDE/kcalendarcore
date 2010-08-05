@@ -536,7 +536,7 @@ bool Calendar::setNotebook( const Incidence::Ptr &inc, const QString &notebook )
   return true;
 }
 
-QString Calendar::notebook( const Incidence::ConstPtr &incidence ) const
+QString Calendar::notebook( const Incidence::Ptr &incidence ) const
 {
   if ( incidence ) {
     return d->mUidToNotebook.value( incidence->uid() );
@@ -1080,8 +1080,8 @@ void Calendar::removeRelations( const Incidence::Ptr &incidence )
 //  incidence->setRelatedTo( Incidence::Ptr() );
 }
 
-bool Calendar::isAncestorOf( const Incidence::ConstPtr &ancestor,
-                             const Incidence::ConstPtr &incidence ) const
+bool Calendar::isAncestorOf( const Incidence::Ptr &ancestor,
+                             const Incidence::Ptr &incidence ) const
 {
   if ( !incidence || incidence->relatedTo().isEmpty() ) {
     return false;

@@ -64,11 +64,6 @@ class KCALCORE_EXPORT Attachment
     typedef QSharedPointer<Attachment> Ptr;
 
     /**
-       A shared pointer to a non-mutable Attachment object.
-    */
-    typedef QSharedPointer<const Attachment> ConstPtr;
-
-    /**
       List of attachments.
     */
     typedef QList<Ptr> List;

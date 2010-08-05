@@ -55,11 +55,6 @@ class KCALCORE_EXPORT Event : public Incidence
     typedef QSharedPointer<Event> Ptr;
 
     /**
-      A shared pointer to a non-mutable Event.
-    */
-    typedef QSharedPointer<const Event> ConstPtr;
-
-    /**
       List of events.
     */
     typedef QList<Ptr> List;

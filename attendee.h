@@ -94,11 +94,6 @@ class KCALCORE_EXPORT Attendee : private Person
     typedef QSharedPointer<Attendee> Ptr;
 
     /**
-      A shared pointer to a non-muttable Attendee object.
-    */
-    typedef QSharedPointer<const Attendee> ConstPtr;
-
-    /**
       List of attendees.
     */
     typedef QList<Ptr> List;
