@@ -69,6 +69,10 @@ class KCalCore::IncidenceBase::Private
       init( other );
     }
 
+    ~Private()
+    {
+    }
+
     void init( const Private &other );
 
     KDateTime mLastModified;     // incidence last modified date
