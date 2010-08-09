@@ -118,7 +118,8 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       TypeEvent = 0,           /**< Type is an event */
       TypeTodo,                /**< Type is a to-do */
       TypeJournal,             /**< Type is a journal */
-      TypeFreeBusy             /**< Type is a free/busy */
+      TypeFreeBusy,            /**< Type is a free/busy */
+      TypeUnknown              /**< Type unknown */
     };
 
     /**
