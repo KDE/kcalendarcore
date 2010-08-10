@@ -91,7 +91,7 @@ class KCALCORE_EXPORT Person
     /**
       Destroys a person.
     */
-    ~Person();
+    virtual ~Person();
 
     /**
       Returns true if the person name and email address are empty.
