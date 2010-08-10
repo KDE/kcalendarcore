@@ -240,7 +240,7 @@ class ICalFormatImpl
                                             iTIPMethod method );
 
   protected:
-    void dumpIcalRecurrence( const icalrecurrencetype &r );
+    // void dumpIcalRecurrence( const icalrecurrencetype &r );
 
   private:
     //@cond PRIVATE

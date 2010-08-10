@@ -2641,6 +2641,7 @@ QString ICalFormatImpl::extractErrorProperty( icalcomponent *c )
   return errorMessage;
 }
 
+/*
 void ICalFormatImpl::dumpIcalRecurrence( const icalrecurrencetype &r )
 {
   int i;
@@ -2690,6 +2691,7 @@ void ICalFormatImpl::dumpIcalRecurrence( const icalrecurrencetype &r )
     kDebug() << out;
   }
 }
+*/
 
 icalcomponent *ICalFormatImpl::createScheduleComponent( const IncidenceBase::Ptr &incidence,
                                                         iTIPMethod method )
