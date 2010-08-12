@@ -143,7 +143,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
     /**
       The IncidenceObserver class.
     */
-    class IncidenceObserver
+    class KCALCORE_EXPORT IncidenceObserver
     {
       public:
 
