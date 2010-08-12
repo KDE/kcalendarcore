@@ -85,8 +85,8 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
 
       @param parent is the Incidence this alarm will belong to.
     */
-    // KDAB_TODO Can't find a way to use a shared pointer here.
-    // Incidence incidence.cpp, it does alarm->setParent( this )
+    // Can't find a way to use a shared pointer here.
+    // Inside incidence.cpp, it does alarm->setParent( this )
     explicit Alarm( Incidence *parent );
 
     /**
@@ -125,7 +125,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
 
       @see parentUid()
     */
-    // KDAB_TODO: is there a way to use QSharedPointer here?
+    // Is there a way to use QSharedPointer here?
     // although it's safe, Incidence's dtor calls setParent( 0 )
     // se we don't dereference a deleted pointer here.
     // Also, I renamed "Incidence *parent()" to "QString parentUid()"
