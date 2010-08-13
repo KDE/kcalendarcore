@@ -738,7 +738,7 @@ class KCALCORE_EXPORT Incidence
     /**
       Returns true if any of the incidence alarms are enabled; false otherwise.
     */
-    bool isAlarmEnabled() const;
+    bool hasEnabledAlarms() const;
 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // %%%%%  Other methods

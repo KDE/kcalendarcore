@@ -857,7 +857,7 @@ void Incidence::clearAlarms()
   updated();
 }
 
-bool Incidence::isAlarmEnabled() const
+bool Incidence::hasEnabledAlarms() const
 {
   foreach ( Alarm::Ptr alarm, d->mAlarms ) {
     if ( alarm->enabled() ) {
