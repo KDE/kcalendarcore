@@ -34,7 +34,7 @@
 
 #include "memorycalendar.h"
 
-#include <kdebug.h>
+#include <KDebug>
 
 using namespace KCalCore;
 
@@ -504,9 +504,9 @@ Alarm::List MemoryCalendar::alarms( const KDateTime &from, const KDateTime &to )
   return alarmList;
 }
 
-void MemoryCalendar::incidenceUpdate( const QString &uid )
+void MemoryCalendar::incidenceUpdate( const QString &uid, const KDateTime &recurrenceId )
 {
-  Incidence::Ptr inc = incidence( uid );
+  Incidence::Ptr inc = incidence( uid, recurrenceId );
 
   if ( inc ) {
     const Incidence::IncidenceType type = inc->type();
@@ -518,9 +518,9 @@ void MemoryCalendar::incidenceUpdate( const QString &uid )
   }
 }
 
-void MemoryCalendar::incidenceUpdated( const QString &uid )
+void MemoryCalendar::incidenceUpdated( const QString &uid, const KDateTime &recurrenceId )
 {
-  Incidence::Ptr inc = incidence( uid );
+  Incidence::Ptr inc = incidence( uid, recurrenceId );
 
   if ( inc ) {
     KDateTime nowUTC = KDateTime::currentUtcDateTime();

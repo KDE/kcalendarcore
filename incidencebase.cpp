@@ -38,7 +38,7 @@
 #include "calformat.h"
 #include "visitor.h"
 
-#include <kurl.h>
+#include <KUrl>
 
 #include <QtCore/QStringList>
 
@@ -530,8 +530,9 @@ void IncidenceBase::update()
 {
   if ( !d->mUpdateGroupLevel ) {
     d->mUpdatedPending = true;
+    KDateTime rid = recurrenceId();
     foreach ( IncidenceObserver *o, d->mObservers ) {
-      o->incidenceUpdate( uid() );
+      o->incidenceUpdate( uid(), rid );
     }
   }
 }
@@ -541,8 +542,9 @@ void IncidenceBase::updated()
   if ( d->mUpdateGroupLevel ) {
     d->mUpdatedPending = true;
   } else {
+    KDateTime rid = recurrenceId();
     foreach ( IncidenceObserver *o, d->mObservers ) {
-      o->incidenceUpdated( uid() );
+      o->incidenceUpdated( uid(), rid );
     }
   }
 }
@@ -571,6 +573,11 @@ void IncidenceBase::customPropertyUpdate()
 void IncidenceBase::customPropertyUpdated()
 {
   updated();
+}
+
+KDateTime IncidenceBase::recurrenceId() const
+{
+  return KDateTime();
 }
 
 KUrl IncidenceBase::uri() const

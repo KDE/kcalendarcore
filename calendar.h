@@ -1320,8 +1320,9 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
     /**
       The Observer interface. So far not implemented.
       @param uid is the UID for the Incidence that has been updated.
+      @param recurrenceId is possible recurrenceid of incidence.
     */
-    void incidenceUpdated( const QString &uid );
+    void incidenceUpdated( const QString &uid, const KDateTime &recurrenceId );
 
     /**
       Let Calendar subclasses set the time specification.

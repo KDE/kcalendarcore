@@ -355,15 +355,15 @@ class KCALCORE_EXPORT MemoryCalendar : public Calendar
 
     /**
       @copydoc
-      Calendar::incidenceUpdate(const QString &)
+      Calendar::incidenceUpdate(const QString &,const KDateTime &)
     */
-    void incidenceUpdate( const QString &uid );
+    void incidenceUpdate( const QString &uid, const KDateTime &recurrenceId );
 
     /**
       @copydoc
-      Calendar::incidenceUpdated(const QString &)
+      Calendar::incidenceUpdated(const QString &,const KDateTime &)
     */
-    void incidenceUpdated( const QString &uid );
+    void incidenceUpdated( const QString &uid, const KDateTime &recurrenceId );
 
     using QObject::event;   // prevent warning about hidden virtual method
 

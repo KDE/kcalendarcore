@@ -61,7 +61,7 @@
 #include "duration.h"
 #include "sortablelist.h"
 
-#include <kdatetime.h>
+#include <KDE/KDateTime>
 
 class KUrl;
 class QDate;
@@ -156,15 +156,17 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
           The IncidenceObserver interface.
 	  This function is called before any changes are made.
           @param uid is the string containing the incidence @ref uid.
+          @param recurrenceId is possible recurrenceid of incidence.
         */
-        virtual void incidenceUpdate( const QString &uid ) = 0;
+        virtual void incidenceUpdate( const QString &uid, const KDateTime &recurrenceId ) = 0;
 
         /**
           The IncidenceObserver interface.
 	  This function is called after changes are completed.
           @param uid is the string containing the incidence @ref uid.
+          @param recurrenceId is possible recurrenceid of incidence.
         */
-        virtual void incidenceUpdated( const QString &uid ) = 0;
+        virtual void incidenceUpdated( const QString &uid, const KDateTime &recurrenceId ) = 0;
     };
 
     /**
@@ -566,8 +568,15 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
     /**
       Returns the Akonadi specific sub MIME type of a KCalCore::IncidenceBase item,
       e.g. getting "application/x-vnd.akonadi.calendar.event" for a KCalCore::Event.
-     */
+    */
     virtual QLatin1String mimeType() const = 0;
+
+    /**
+      Returns the incidence recurrenceId.
+      @return incidences recurrenceId value
+      @see setRecurrenceId().
+    */
+    virtual KDateTime recurrenceId() const;
 
   protected:
     /**

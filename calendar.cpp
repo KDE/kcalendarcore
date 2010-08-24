@@ -41,7 +41,7 @@
 #include "sorting.h"
 #include "visitor.h"
 
-#include <kdebug.h>
+#include <KDebug>
 
 extern "C" {
   #include <icaltimezone.h>
@@ -123,7 +123,7 @@ QVector<V> values( const QMultiHash<K,V> &c )
 {
   QVector<V> v;
   v.reserve( c.size() );
-  for ( typename QMultiHash<K,V>::const_iterator it=c.begin(), end=c.end() ; it!=end ; ++it ) {
+  for ( typename QMultiHash<K,V>::const_iterator it = c.begin(), end = c.end(); it != end; ++it ) {
     v.push_back( it.value() );
   }
   return v;
@@ -1207,10 +1207,10 @@ bool Calendar::reload()
   return true;
 }
 
-void Calendar::incidenceUpdated( const QString &uid )
+void Calendar::incidenceUpdated( const QString &uid, const KDateTime &recurrenceId )
 {
 
-  Incidence::Ptr inc = incidence( uid );
+  Incidence::Ptr inc = incidence( uid, recurrenceId );
 
   if ( !inc ) {
     return;
