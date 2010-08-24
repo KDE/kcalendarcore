@@ -382,6 +382,8 @@ void IncidenceBase::addAttendee( const Attendee::Ptr &a, bool doupdate )
     return;
   }
 
+  Q_ASSERT( !d->mAttendees.contains( a ) );
+
   if ( doupdate ) {
     update();
   }
@@ -413,14 +415,17 @@ void IncidenceBase::deleteAttendee( const Attendee::Ptr &a, bool doupdate )
     return;
   }
 
-  if ( doupdate ) {
-    update();
-  }
+  int index = d->mAttendees.indexOf( a );
+  if ( index >= 0 ) {
+    if ( doupdate ) {
+      update();
+    }
 
-  d->mAttendees.removeOne( a );
+    d->mAttendees.remove( index );
 
-  if ( doupdate ) {
-    updated();
+    if ( doupdate ) {
+      updated();
+    }
   }
 }
 
@@ -455,7 +460,7 @@ Attendee::Ptr IncidenceBase::attendeeByMail( const QString &email ) const
 }
 
 Attendee::Ptr IncidenceBase::attendeeByMails( const QStringList &emails,
-                                          const QString &email ) const
+                                              const QString &email ) const
 {
   QStringList mails = emails;
   if ( !email.isEmpty() ) {

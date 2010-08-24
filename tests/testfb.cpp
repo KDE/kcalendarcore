@@ -53,8 +53,8 @@ int main( int, char ** )
   ICalFormat format;
   FreeBusy::Ptr fb = format.parseFreeBusy( fbString );
   kDebug() << fb->fullBusyPeriods().count() << " " << fb->dtStart();
-  const QList<FreeBusyPeriod> l = fb->fullBusyPeriods();
-  for ( QList<FreeBusyPeriod>::ConstIterator it = l.begin(); it != l.end(); ++it ) {
+  const FreeBusyPeriod::List l = fb->fullBusyPeriods();
+  for ( FreeBusyPeriod::List::ConstIterator it = l.begin(); it != l.end(); ++it ) {
     kDebug() << (*it).start() << " " << (*it).end() << "+ "
              << (*it).summary() << ":" << (*it).location();
   }

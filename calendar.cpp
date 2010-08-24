@@ -47,6 +47,8 @@ extern "C" {
   #include <icaltimezone.h>
 }
 
+#include <algorithm>  // for std::remove()
+
 using namespace KCalCore;
 
 /**
@@ -109,16 +111,40 @@ class KCalCore::Calendar::Private
     QHash<QString, bool>mNotebooks; // name to visibility
     QHash<Incidence::Ptr, bool>mIncidenceVisibility; // incidence -> visibility
     QString mDefaultNotebook; // uid of default notebook
-    QMap<QString, QList<Incidence::Ptr> > mIncidenceRelations;
+    QMap<QString, Incidence::List > mIncidenceRelations;
 
 };
-//@endcond
+
+/**
+  Make a QHash::value that returns a QVector.
+*/
+template <typename K, typename V>
+QVector<V> values( const QMultiHash<K,V> &c )
+{
+  QVector<V> v;
+  v.reserve( c.size() );
+  for ( typename QMultiHash<K,V>::const_iterator it=c.begin(), end=c.end() ; it!=end ; ++it ) {
+    v.push_back( it.value() );
+  }
+  return v;
+}
+
+template <typename K, typename V>
+QVector<V> values( const QMultiHash<K,V> &c, const K &x )
+{
+  QVector<V> v;
+  typename QMultiHash<K,V>::const_iterator it = c.find( x );
+  while ( it != c.end() && it.key() == x ) {
+    v.push_back( it.value() );
+    ++it;
+  }
+  return v;
+}
 
 /**
   Template for a class that implements a visitor for adding an Incidence
   to a resource supporting addEvent(), addTodo() and addJournal() calls.
 */
-//@cond PRIVATE
 template<class T>
 class AddVisitor : public Visitor
 {
@@ -145,14 +171,12 @@ class AddVisitor : public Visitor
   private:
     T *mResource;
 };
-//@endcond
 
 /**
   Template for a class that implements a visitor for deleting an Incidence
   from a resource supporting deleteEvent(), deleteTodo() and deleteJournal()
   calls.
 */
-//@cond PRIVATE
 template<class T>
 class DeleteVisitor : public Visitor
 {
@@ -406,10 +430,9 @@ Incidence::List Calendar::duplicates( const Incidence::Ptr &incidence )
 {
   if ( incidence ) {
     Incidence::List list;
-    Incidence::List values = d->mNotebookIncidences.values();
+    Incidence::List vals = values( d->mNotebookIncidences );
     Incidence::List::const_iterator it;
-
-    for ( it = values.constBegin(); it != values.constEnd(); ++it ) {
+    for ( it = vals.constBegin(); it != vals.constEnd(); ++it ) {
       if ( ( ( incidence->dtStart() == (*it)->dtStart() ) ||
              ( !incidence->dtStart().isValid() && !(*it)->dtStart().isValid() ) ) &&
            ( incidence->summary() == (*it)->summary() ) ) {
@@ -558,9 +581,9 @@ QStringList Calendar::notebooks() const
 Incidence::List Calendar::incidences( const QString &notebook ) const
 {
   if ( notebook.isEmpty() ) {
-    return d->mNotebookIncidences.values();
+    return values( d->mNotebookIncidences );
   } else {
-    return d->mNotebookIncidences.values( notebook );
+    return values( d->mNotebookIncidences, notebook );
   }
 }
 
@@ -966,7 +989,7 @@ void Calendar::setupRelations( const Incidence::Ptr &forincidence )
   const QString uid = forincidence->uid();
 
   // First, go over the list of orphans and see if this is their parent
-  QList<Incidence::Ptr> l = d->mOrphans.values( uid );
+  Incidence::List l = values( d->mOrphans, uid );
   d->mOrphans.remove( uid );
   for ( int i = 0, end = l.count();  i < end;  ++i ) {
     d->mIncidenceRelations[uid].append( l[i] );
@@ -1021,7 +1044,10 @@ void Calendar::removeRelations( const Incidence::Ptr &incidence )
 
   // If this incidence is related to something else, tell that about it
   if ( !parentUid.isEmpty() ) {
-    d->mIncidenceRelations[parentUid].removeAll( incidence );
+    d->mIncidenceRelations[parentUid].erase(
+      std::remove( d->mIncidenceRelations[parentUid].begin(),
+                   d->mIncidenceRelations[parentUid].end(), incidence ),
+      d->mIncidenceRelations[parentUid].end() );
   }
 
   // Remove this one from the orphans list

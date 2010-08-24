@@ -58,7 +58,7 @@ class KCALCORE_EXPORT Person
      /**
        List of persons.
      */
-    typedef QList<Ptr> List;
+    typedef QVector<Ptr> List;
 
     /**
       Constructs a blank person.

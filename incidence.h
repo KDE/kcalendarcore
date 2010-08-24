@@ -114,7 +114,7 @@ class KCALCORE_EXPORT Incidence
     /**
       List of incidences.
     */
-    typedef QList<Ptr> List;
+    typedef QVector<Ptr> List;
 
     /**
       Constructs an empty incidence.*

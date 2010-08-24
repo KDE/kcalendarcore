@@ -64,6 +64,13 @@ static void _dumpIcaltime( const icaltimetype& t)
 */
 
 //@cond PRIVATE
+template <typename K>
+void removeAll( QVector< QSharedPointer<K> > c, const QSharedPointer<K> &x )
+{
+  Q_ASSERT( c.count( x ) == 1 );
+  c.remove( c.indexOf( x ) );
+}
+
 static QString quoteForParam( const QString &text )
 {
   QString tmp = text;
@@ -316,7 +323,7 @@ icalcomponent *ICalFormatImpl::writeFreeBusy( const FreeBusy::Ptr &freebusy,
   }
 
   //Loops through all the periods in the freebusy object
-  QList<Period> list = freebusy->busyPeriods();
+  Period::List list = freebusy->busyPeriods();
   icalperiodtype period = icalperiodtype_null_period();
   for ( int i = 0, count = list.count(); i < count; ++i ) {
     period.start = writeICalUtcDateTime( list[i].start() );
@@ -2542,11 +2549,11 @@ bool ICalFormatImpl::populate( const Calendar::Ptr &cal, icalcomponent *calendar
         if ( deleted ) {
           // kDebug()<<"Todo " << todo->uid() << " already deleted2";
           cal->deleteTodo( old ); // move old to deleted
-          d->mTodosRelate.removeAll( old );
+          removeAll( d->mTodosRelate, old );
         } else if ( todo->revision() > old->revision() ) {
           // kDebug() << "Replacing old todo " << old.data() << " with this one " << todo.data();
           cal->deleteTodo( old ); // move old to deleted
-          d->mTodosRelate.removeAll( old );
+          removeAll( d->mTodosRelate, old );
           cal->addTodo( todo ); // and replace it with this one
         }
       } else if ( deleted ) {
@@ -2576,10 +2583,10 @@ bool ICalFormatImpl::populate( const Calendar::Ptr &cal, icalcomponent *calendar
           qDebug() << "OLD EVENT" << old->uid();
         if ( deleted ) {
           cal->deleteEvent( old ); // move old to deleted
-          d->mEventsRelate.removeAll( old );
+          removeAll( d->mEventsRelate, old );
         } else if ( event->revision() > old->revision() ) {
           cal->deleteEvent( old ); // move old to deleted
-          d->mEventsRelate.removeAll( old );
+          removeAll( d->mEventsRelate, old );
           cal->addEvent( event ); // and replace it with this one
         }
       } else if ( deleted ) {

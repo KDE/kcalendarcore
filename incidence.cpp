@@ -662,6 +662,8 @@ void Incidence::addAttachment( const Attachment::Ptr &attachment )
     return;
   }
 
+  Q_ASSERT( !d->mAttachments.contains( attachment ) );
+
   update();
   d->mAttachments.append( attachment );
   updated();
@@ -669,19 +671,23 @@ void Incidence::addAttachment( const Attachment::Ptr &attachment )
 
 void Incidence::deleteAttachment( const Attachment::Ptr &attachment )
 {
-  d->mAttachments.removeAll( attachment );
+  int index = d->mAttachments.indexOf( attachment );
+  if ( index > -1 ) {
+    d->mAttachments.remove( index );
+  }
 }
 
 void Incidence::deleteAttachments( const QString &mime )
 {
+  Attachment::List result;
   Attachment::List::Iterator it = d->mAttachments.begin();
   while ( it != d->mAttachments.end() ) {
-    if ( (*it)->mimeType() == mime ) {
-      d->mAttachments.removeAll( *it );
-    } else {
-      ++it;
+    if ( (*it)->mimeType() != mime ) {
+      result += *it;
     }
+    ++it;
   }
+  d->mAttachments = result;
 }
 
 Attachment::List Incidence::attachments() const
@@ -692,7 +698,6 @@ Attachment::List Incidence::attachments() const
 Attachment::List Incidence::attachments( const QString &mime ) const
 {
   Attachment::List attachments;
-  Attachment::List::ConstIterator it;
   foreach ( Attachment::Ptr attachment, d->mAttachments ) {
     if ( attachment->mimeType() == mime ) {
       attachments.append( attachment );
@@ -845,9 +850,12 @@ void Incidence::addAlarm( const Alarm::Ptr &alarm )
 
 void Incidence::removeAlarm( const Alarm::Ptr &alarm )
 {
-  update();
-  d->mAlarms.removeAll( alarm );
-  updated();
+  int index = d->mAlarms.indexOf( alarm );
+  if ( index > -1 ) {
+    update();
+    d->mAlarms.remove( index );
+    updated();
+  }
 }
 
 void Incidence::clearAlarms()

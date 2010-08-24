@@ -51,7 +51,7 @@ class KCALCORE_EXPORT Journal : public Incidence
     /**
       List of journals.
     */
-    typedef QList<Ptr> List;
+    typedef QVector<Ptr> List;
 
     /**
       Constructs an empty journal.

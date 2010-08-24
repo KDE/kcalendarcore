@@ -57,7 +57,7 @@ class KCALCORE_EXPORT Event : public Incidence
     /**
       List of events.
     */
-    typedef QList<Ptr> List;
+    typedef QVector<Ptr> List;
 
     /**
       Constructs an event.

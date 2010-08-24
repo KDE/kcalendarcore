@@ -66,7 +66,7 @@ class KCALCORE_EXPORT Attachment
     /**
       List of attachments.
     */
-    typedef QList<Ptr> List;
+    typedef QVector<Ptr> List;
 
     /**
       Constructs an attachment consisting of a @p uri and a @p mime type.

@@ -49,7 +49,7 @@ class KCALCORE_EXPORT FreeBusyPeriod : public Period
    /**
       List of periods.
     */
-    typedef QList<FreeBusyPeriod> List;
+    typedef QVector<FreeBusyPeriod> List;
 
     /**
       Constructs a period without a duration.

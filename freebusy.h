@@ -66,7 +66,7 @@ class KCALCORE_EXPORT FreeBusy : public IncidenceBase
     /**
       List of FreeBusy objects.
     */
-    typedef QList<Ptr> List;
+    typedef QVector<Ptr> List;
 
     /**
       Constructs an free/busy without any periods.
@@ -81,13 +81,13 @@ class KCALCORE_EXPORT FreeBusy : public IncidenceBase
 
     /**
       Constructs a free/busy from a list of periods.
-      @param busyPeriods is a QList of periods.
+      @param busyPeriods is a list of periods.
     */
     explicit FreeBusy( const Period::List &busyPeriods );
 
     /**
       Constructs a free/busy from a list of periods.
-      @param busyPeriods is a QList of periods.
+      @param busyPeriods is a list of periods.
     */
     explicit FreeBusy( const FreeBusyPeriod::List &busyPeriods );
 
@@ -188,7 +188,7 @@ class KCALCORE_EXPORT FreeBusy : public IncidenceBase
       Use this if you are adding many items, instead of the addPeriod method,
       to avoid sorting repeatedly.
 
-      @param list is a QList of Period objects.
+      @param list is a list of Period objects.
     */
     void addPeriods( const Period::List &list );
 
@@ -197,7 +197,7 @@ class KCALCORE_EXPORT FreeBusy : public IncidenceBase
       Use this if you are adding many items, instead of the addPeriod method,
       to avoid sorting repeatedly.
 
-      @param list is a QList of FreeBusyPeriod objects.
+      @param list is a list of FreeBusyPeriod objects.
     */
     void addPeriods( const FreeBusyPeriod::List &list );
 

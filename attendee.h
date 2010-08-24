@@ -96,7 +96,7 @@ class KCALCORE_EXPORT Attendee : private Person
     /**
       List of attendees.
     */
-    typedef QList<Ptr> List;
+    typedef QVector<Ptr> List;
 
     /**
       Constructs an attendee consisting of a Person name (@p name) and

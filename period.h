@@ -38,8 +38,8 @@
 #include <kdatetime.h>
 
 #include <QtCore/QDataStream>
-#include <QtCore/QList>
 #include <QtCore/QMetaType>
+#include <QtCore/QVector>
 
 namespace KCalCore {
 
@@ -53,7 +53,7 @@ class KCALCORE_EXPORT Period
    /**
       List of periods.
     */
-    typedef QList<Period> List;
+    typedef QVector<Period> List;
 
     /**
       Constructs a period without a duration.

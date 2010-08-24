@@ -50,7 +50,6 @@ int main( int argc, char **argv )
   store.load();
 
   Todo::List todoList;
-  Todo::List::ConstIterator todo;
 
   // Build dictionary to look up Task object from Todo uid.  Each task is a
   // QListViewItem, and is initially added with the view as the parent.

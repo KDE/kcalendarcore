@@ -38,9 +38,9 @@
 
 #include <kdatetime.h>
 
-#include <QtCore/QList>
 #include <QtCore/QString>
 #include <QtCore/QStringList>
+#include <QtCore/QVector>
 
 namespace KCalCore {
 
@@ -78,7 +78,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
     /**
       List of alarms.
     */
-    typedef QList<Ptr> List;
+    typedef QVector<Ptr> List;
 
     /**
       Constructs an alarm belonging to the @p parent Incidence.

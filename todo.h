@@ -52,7 +52,7 @@ class KCALCORE_EXPORT Todo : public Incidence
     /**
       List of to-dos.
     */
-    typedef QList<Ptr> List;
+    typedef QVector<Ptr> List;
 
     /**
       Constructs an empty to-do.

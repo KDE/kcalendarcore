@@ -348,7 +348,7 @@ void Alarm::setMailAddresses( const Person::List &mailAddresses )
     if ( d->mParent ) {
       d->mParent->update();
     }
-    d->mMailAddresses.append( mailAddresses );
+    d->mMailAddresses += mailAddresses;
     if ( d->mParent ) {
       d->mParent->updated();
     }
