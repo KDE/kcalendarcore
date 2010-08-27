@@ -217,7 +217,7 @@ KCALCORE_EXPORT QDataStream &operator>>( QDataStream &stream, KCalCore::Period &
 KCALCORE_EXPORT uint qHash( const KCalCore::Period &key );
 
 //@cond PRIVATE
-Q_DECLARE_METATYPE( KCalCore::Period );
+Q_DECLARE_METATYPE( KCalCore::Period )
 //@endcond
 
 #endif

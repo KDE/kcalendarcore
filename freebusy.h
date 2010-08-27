@@ -289,7 +289,7 @@ KCALCORE_EXPORT QDataStream &operator>>( QDataStream &stream,
 }
 
 //@cond PRIVATE
-Q_DECLARE_METATYPE( KCalCore::FreeBusy::Ptr );
+Q_DECLARE_METATYPE( KCalCore::FreeBusy::Ptr )
 //@endcond
 
 #endif

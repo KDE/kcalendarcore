@@ -219,7 +219,7 @@ KCALCORE_EXPORT QDataStream &operator>>( QDataStream &stream, KCalCore::Person::
 KCALCORE_EXPORT uint qHash( const KCalCore::Person &key );
 
 //@cond PRIVATE
-Q_DECLARE_METATYPE( KCalCore::Person::Ptr );
+Q_DECLARE_METATYPE( KCalCore::Person::Ptr )
 //@endcond
 
 #endif

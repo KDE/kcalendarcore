@@ -147,7 +147,7 @@ KCALCORE_EXPORT QDataStream &operator>>( QDataStream &stream, KCalCore::FreeBusy
 }
 
 //@cond PRIVATE
-Q_DECLARE_METATYPE( KCalCore::FreeBusyPeriod );
+Q_DECLARE_METATYPE( KCalCore::FreeBusyPeriod )
 //@endcond
 
 #endif

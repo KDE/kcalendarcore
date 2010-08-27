@@ -286,7 +286,7 @@ KCALCORE_EXPORT QDataStream &operator>>( QDataStream &stream, KCalCore::Attendee
 }
 
 //@cond PRIVATE
-Q_DECLARE_METATYPE( KCalCore::Attendee::Ptr );
+Q_DECLARE_METATYPE( KCalCore::Attendee::Ptr )
 //@endcond
 
 #endif
