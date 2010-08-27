@@ -103,7 +103,7 @@ class KCALCORE_EXPORT Incidence
     enum RelType {
       RelTypeParent,  /**< The related incidence is a parent. */
       RelTypeChild,   /**< The related incidence is a child. */
-      RelTypeSibling, /**< The related incidence is a peer. */
+      RelTypeSibling  /**< The related incidence is a peer. */
     };
 
     /**
