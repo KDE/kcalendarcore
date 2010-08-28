@@ -243,6 +243,23 @@ bool Incidence::equals( const IncidenceBase &incidence ) const
     }
   }
 
+  if ( attachments().count() != i2->attachments().count() ) {
+    return false;
+  }
+
+  Attachment::List::ConstIterator att1 = attachments().constBegin();
+  const Attachment::List::ConstIterator att1end = attachments().constEnd();
+  Attachment::List::ConstIterator att2 = i2->attachments().constBegin();
+  const Attachment::List::ConstIterator att2end = i2->attachments().constEnd();
+  for ( ; att1 != att1end && att2 != att2end; ++att1, ++att2 ) {
+    if ( **att1 == **att2 ) {
+      continue;
+    } else {
+      return false;
+    }
+  }
+
+
   bool recurrenceEqual = ( d->mRecurrence == 0 && i2->d->mRecurrence == 0 );
   if ( !recurrenceEqual ) {
     recurrence(); // create if doesn't exist
@@ -259,7 +276,6 @@ bool Incidence::equals( const IncidenceBase &incidence ) const
     stringCompare( summary(), i2->summary() ) &&
     categories() == i2->categories() &&
     stringCompare( relatedTo(), i2->relatedTo() ) &&
-    attachments() == i2->attachments() &&
     resources() == i2->resources() &&
     d->mStatus == i2->d->mStatus &&
     ( d->mStatus == StatusNone ||
