@@ -191,7 +191,7 @@ bool IncidenceBase::equals( const IncidenceBase &i2 ) const
   return
     ( ( dtStart() == i2.dtStart() ) ||
       ( !dtStart().isValid() && !i2.dtStart().isValid() ) ) &&
-    organizer() == i2.organizer() &&
+    *(organizer().data()) == *(i2.organizer().data()) &&
     uid() == i2.uid() &&
     // Don't compare lastModified, otherwise the operator is not
     // of much use. We are not comparing for identity, after all.
