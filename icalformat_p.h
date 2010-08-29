@@ -29,7 +29,6 @@
   @author Reinhold Kainhofer \<reinhold@kainhofer.com\>
   @author David Jarvie \<software@astrojar.org.uk\>
 */
-
 #ifndef KCALCORE_ICALFORMAT_P_H
 #define KCALCORE_ICALFORMAT_P_H
 
@@ -42,7 +41,7 @@
 #include "calendar.h"
 #include "schedulemessage.h"
 
-#include <kdatetime.h>
+#include <KDateTime>
 
 #include <ical.h>
 

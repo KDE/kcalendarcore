@@ -36,7 +36,7 @@
 #if defined(HAVE_UUID_UUID_H)
 #include <uuid/uuid.h>
 #else
-#include <krandom.h>
+#include <KRandom>
 #include <QtCore/QDateTime>
 #endif
 

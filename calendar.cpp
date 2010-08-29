@@ -34,7 +34,6 @@
   @author Reinhold Kainhofer \<reinhold@kainhofer.com\>
   @author David Jarvie \<software@astrojar.org.uk\>
 */
-
 #include "calendar.h"
 #include "calfilter.h"
 #include "icaltimezones.h"

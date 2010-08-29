@@ -18,13 +18,12 @@
   the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
   Boston, MA 02110-1301, USA.
 */
-
 #ifndef KCALCORE_ICALTIMEZONES_H
 #define KCALCORE_ICALTIMEZONES_H
 
 #include "kcalcore_export.h"
 
-#include <ktimezone.h>
+#include <KDE/KTimeZone>
 
 #include <QtCore/QMap>
 

@@ -32,7 +32,6 @@
   @author Reinhold Kainhofer \<reinhold@kainhofer.com\>
   @author David Jarvie \<software@astrojar.org.uk\>
 */
-
 #include "icalformat_p.h"
 #include "compat.h"
 #include "event.h"
@@ -45,8 +44,8 @@
 #include "todo.h"
 #include "visitor.h"
 
-#include <kcodecs.h>
-#include <kdebug.h>
+#include <KCodecs>
+#include <KDebug>
 
 #include <QtCore/QFile>
 

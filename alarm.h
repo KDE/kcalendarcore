@@ -36,7 +36,7 @@
 #include "duration.h"
 #include "person.h"
 
-#include <kdatetime.h>
+#include <KDE/KDateTime>
 
 #include <QtCore/QString>
 #include <QtCore/QStringList>

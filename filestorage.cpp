@@ -28,14 +28,13 @@
 
   @author Cornelius Schumacher \<schumacher@kde.org\>
 */
-
 #include "filestorage.h"
 #include "exceptions.h"
 #include "icalformat.h"
 #include "memorycalendar.h"
 #include "vcalformat.h"
 
-#include <kdebug.h>
+#include <KDebug>
 
 using namespace KCalCore;
 

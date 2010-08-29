@@ -25,12 +25,11 @@
 
   @author Cornelius Schumacher \<schumacher@kde.org\>
 */
-
 #include "freebusyurlstore.h"
 
-#include <kconfig.h>
-#include <kconfiggroup.h>
-#include <kstandarddirs.h>
+#include <KConfig>
+#include <KConfigGroup>
+#include <KStandardDirs>
 
 #include <QtCore/QCoreApplication>
 

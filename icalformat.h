@@ -25,7 +25,6 @@
 
   @author Cornelius Schumacher \<schumacher@kde.org\>
 */
-
 #ifndef KCALCORE_ICALFORMAT_H
 #define KCALCORE_ICALFORMAT_H
 
@@ -35,7 +34,7 @@
 #include "calformat.h"
 #include "schedulemessage.h"
 
-#include <kdatetime.h>
+#include <KDE/KDateTime>
 
 namespace KCalCore {
 

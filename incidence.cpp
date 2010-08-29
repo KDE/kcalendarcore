@@ -35,8 +35,8 @@
 #include "incidence.h"
 #include "calformat.h"
 
-#include <kmimetype.h>
-#include <ktemporaryfile.h>
+#include <KMimeType>
+#include <KTemporaryFile>
 
 #include <QtGui/QTextDocument> // for Qt::escape() and Qt::mightBeRichText()
 
@@ -258,7 +258,6 @@ bool Incidence::equals( const IncidenceBase &incidence ) const
       return false;
     }
   }
-
 
   bool recurrenceEqual = ( d->mRecurrence == 0 && i2->d->mRecurrence == 0 );
   if ( !recurrenceEqual ) {

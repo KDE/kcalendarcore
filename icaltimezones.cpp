@@ -18,7 +18,6 @@
   the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
   Boston, MA 02110-1301, USA.
 */
-
 #include <config-kcalcore.h>
 
 #include "icaltimezones.h"
@@ -27,9 +26,9 @@
 #include "recurrence.h"
 #include "recurrencerule.h"
 
-#include <kdebug.h>
-#include <kdatetime.h>
-#include <ksystemtimezone.h>
+#include <KDebug>
+#include <KDateTime>
+#include <KSystemTimeZone>
 
 #include <QtCore/QDateTime>
 #include <QtCore/QFile>

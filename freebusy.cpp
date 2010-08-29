@@ -30,13 +30,12 @@
   @author Cornelius Schumacher \<schumacher@kde.org\>
   @author Reinhold Kainhofer \<reinhold@kainhofer.com\>
 */
-
 #include "freebusy.h"
 #include "visitor.h"
 
 #include "icalformat.h"
 
-#include <kdebug.h>
+#include <KDebug>
 
 using namespace KCalCore;
 

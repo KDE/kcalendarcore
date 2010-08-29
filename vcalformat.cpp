@@ -34,7 +34,6 @@
   @author Preston Brown \<pbrown@kde.org\>
   @author Cornelius Schumacher \<schumacher@kde.org\>
 */
-
 #include "vcalformat.h"
 #include "calendar.h"
 #include "event.h"
@@ -43,7 +42,7 @@
 #include "versit/vcc.h"
 #include "versit/vobject.h"
 
-#include <kdebug.h>
+#include <KDebug>
 
 #include <QtCore/QBitArray>
 #include <QtCore/QFile>

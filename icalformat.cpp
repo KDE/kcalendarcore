@@ -28,15 +28,14 @@
 
   @author Cornelius Schumacher \<schumacher@kde.org\>
 */
-
 #include "icalformat.h"
 #include "icalformat_p.h"
 #include "icaltimezones.h"
 #include "freebusy.h"
 #include "memorycalendar.h"
 
-#include <kdebug.h>
-#include <ksavefile.h>
+#include <KDebug>
+#include <KSaveFile>
 
 #include <QtCore/QFile>
 
