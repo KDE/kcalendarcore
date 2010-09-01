@@ -819,6 +819,7 @@ inline uint qHash( const QSharedPointer<KCalCore::Incidence> &key )
 }
 //@endcond
 
+Q_DECLARE_TYPEINFO( KCalCore::Incidence::Ptr, Q_MOVABLE_TYPE );
 Q_DECLARE_METATYPE( KCalCore::Incidence * )
 
 #endif

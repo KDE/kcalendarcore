@@ -147,6 +147,8 @@ class KCALCORE_EXPORT Journal : public Incidence
 
 } // namespace KCalCore
 
+Q_DECLARE_TYPEINFO( KCalCore::Journal::Ptr, Q_MOVABLE_TYPE );
+
 //@cond PRIVATE
 namespace KPIMUtils {
   // super class trait specialization

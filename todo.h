@@ -344,6 +344,8 @@ class KCALCORE_EXPORT Todo : public Incidence
 
 } // namespace KCalCore
 
+Q_DECLARE_TYPEINFO( KCalCore::Todo::Ptr, Q_MOVABLE_TYPE );
+
 //@cond PRIVATE
 namespace KPIMUtils {
   // super class trait specialization

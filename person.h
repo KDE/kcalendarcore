@@ -212,6 +212,8 @@ KCALCORE_EXPORT QDataStream &operator>>( QDataStream &stream, KCalCore::Person::
 
 }
 
+Q_DECLARE_TYPEINFO( KCalCore::Person::Ptr, Q_MOVABLE_TYPE );
+
 /**
   Return a hash value for a Person argument.
   @param key is a Person.

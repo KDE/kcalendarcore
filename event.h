@@ -228,6 +228,8 @@ class KCALCORE_EXPORT Event : public Incidence
 
 } // namespace KCalCore
 
+Q_DECLARE_TYPEINFO( KCalCore::Event::Ptr, Q_MOVABLE_TYPE );
+
 //@cond PRIVATE
 namespace KPIMUtils
 {
