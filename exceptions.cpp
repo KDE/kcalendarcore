@@ -38,7 +38,7 @@
 
 using namespace KCalCore;
 
-Exception::Exception( ErrorCode code, const QStringList &arguments )
+Exception::Exception( const ErrorCode code, const QStringList &arguments )
   : mCode( code ), mArguments( arguments ), d( 0 )
 {
 }
