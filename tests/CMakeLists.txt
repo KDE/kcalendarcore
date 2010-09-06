@@ -4,7 +4,7 @@ include_directories(
  ${LIBICAL_INCLUDE_DIRS}
 )
 
-add_definitions( -DICALTESTDATADIR="\\"${CMAKE_SOURCE_DIR}/tests/data/\\"" )
+add_definitions( -DICALTESTDATADIR="\\"${CMAKE_SOURCE_DIR}/kcalcore/tests/data/\\"" )
 
 MACRO(KCALCORE_UNIT_TESTS)
   FOREACH(_testname ${ARGN})
