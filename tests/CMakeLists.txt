@@ -76,7 +76,12 @@ endif (WIN32)
 
 macro(kcalcore_run_single_test _prefix _file _test _testarg)
   get_filename_component( _fn ${_file} NAME)
+
+  # Write the output file in the build directory.
   string(REGEX REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_BINARY_DIR}" _outFile ${_file})
+  get_filename_component( _outputPath ${_outFile} PATH)
+  file(MAKE_DIRECTORY ${_outputPath})
+
   set(_runner ${CMAKE_CURRENT_SOURCE_DIR}/runsingletestcase.pl)
   if (UNIX)
     set(_test_path ${EXECUTABLE_OUTPUT_PATH}/${_test}.shell)
