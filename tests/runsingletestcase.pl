@@ -31,22 +31,20 @@
 # runtestcase.pl). That outputfile is then compared to the reference file
 # testfile.ics.ref.
 
-if ( @ARGV != 3 ) {
+if ( @ARGV != 4 ) {
   print STDERR "Missing arg! Arguments: testapp identifier filename \n";
   exit 1;
 }
 
 $app = quotemeta $ARGV[0];
 $id = quotemeta $ARGV[1];
-$file = $ARGV[2];            # no quotemeta here, as the regexp does what's
-$file =~ /^(.*)\.[^\.]*$/;   # necessary to the filenames
+$file = $ARGV[2];               # no quotemeta here, as the regexp does what's
+$file =~ /^(.*)\.[^\.]*$/;      # necessary to the filenames
+$outfile = quotemeta $ARGV[3];  # necessary to avoid creating files in the $file directory
 
 $MAXERRLINES=25;
 
-
-my $outfile = $file;
-$outfile =~ /\/([^\/]*)$/;
-$outfile = "$file.$id.out";
+$outfile = "$outfile.$id.out";
 
 if ( $^O eq "MSWin32" || $^O eq "msys" ) {
   $testcmd = "$app $file $outfile 2> nul";
