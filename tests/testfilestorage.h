@@ -30,6 +30,11 @@ class FileStorageTest : public QObject
     void testValidity();
     void testSave();
     void testSaveLoadSave();
+
+    /** Saves an incidence with éèü chars, then reads the file into a second incidence
+        and compares both incidences. The comparison should yeld true.
+    */
+    void testSpecialChars();
 };
 
 #endif

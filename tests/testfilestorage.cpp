@@ -23,6 +23,8 @@
 #include "../filestorage.h"
 #include "../memorycalendar.h"
 
+#include <KDebug>
+
 #include <unistd.h>
 
 #include <qtest_kde.h>
@@ -110,4 +112,45 @@ void FileStorageTest::testSaveLoadSave()
   QVERIFY( fs.save() );
   QVERIFY( fs.close() );
   unlink( "fred.ics" );
+}
+
+void FileStorageTest::testSpecialChars()
+{
+  const QDate currentDate = QDate::currentDate();
+  const QString uid( "12345" );
+
+  Event::Ptr event = Event::Ptr( new Event() );
+  event->setUid( uid );
+  event->setDtStart( KDateTime( currentDate ) );
+  event->setDtEnd( KDateTime( currentDate.addDays( 1 ) ) );
+  event->setSummary( QLatin1String( "é" ) );
+
+  // Save to file:
+  MemoryCalendar::Ptr cal( new MemoryCalendar( QLatin1String( "UTC" ) ) );
+  FileStorage fs( cal, QLatin1String( "bart.ics" ) );
+  cal->addEvent( event );
+
+  QVERIFY( fs.open() );
+  QVERIFY( fs.save() );
+  QVERIFY( fs.close() );
+
+  // Load again:
+  MemoryCalendar::Ptr otherCalendar( new MemoryCalendar( QLatin1String( "UTC" ) ) );
+  FileStorage otherFs( otherCalendar, QLatin1String( "bart.ics" ) );
+  QVERIFY( otherFs.open() );
+  QVERIFY( otherFs.load() );
+
+  Event::Ptr otherEvent = otherCalendar->incidence( uid ).staticCast<Event>();
+  QVERIFY( otherFs.close() );
+
+  QVERIFY( otherEvent );
+
+  kDebug() << "Original summary is " << event->summary()
+           << "; new summary is " << otherEvent->summary()
+           << "; They should be the same!";
+
+  QVERIFY( otherEvent->summary() == event->summary() );
+
+  unlink( "bart.ics" );
+
 }
