@@ -123,7 +123,9 @@ void FileStorageTest::testSpecialChars()
   event->setUid( uid );
   event->setDtStart( KDateTime( currentDate ) );
   event->setDtEnd( KDateTime( currentDate.addDays( 1 ) ) );
-  event->setSummary( QLatin1String( "é" ) );
+
+  const char latin1_umlaut[] = { 0xFC, '\0' };
+  event->setSummary( QLatin1String( latin1_umlaut ) );
 
   // Save to file:
   MemoryCalendar::Ptr cal( new MemoryCalendar( QLatin1String( "UTC" ) ) );
@@ -145,11 +147,9 @@ void FileStorageTest::testSpecialChars()
 
   QVERIFY( otherEvent );
 
-  kDebug() << "Original summary is " << event->summary()
-           << "; new summary is " << otherEvent->summary()
-           << "; They should be the same!";
-
   QVERIFY( otherEvent->summary() == event->summary() );
+  QVERIFY( otherEvent->summary().toLatin1().count() == 1 &&
+           strcmp( otherEvent->summary().toLatin1().constData(), latin1_umlaut ) == 0 );
 
   unlink( "bart.ics" );
 
