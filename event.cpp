@@ -32,6 +32,8 @@
 #include "event.h"
 #include "visitor.h"
 
+#include <kdebug.h>
+
 using namespace KCalCore;
 
 /**
@@ -96,6 +98,7 @@ IncidenceBase &Event::assign( const IncidenceBase &other )
 
 bool Event::equals( const IncidenceBase &event ) const
 {
+  kDebug();
   if ( !Incidence::equals( event ) ) {
     return false;
   } else {

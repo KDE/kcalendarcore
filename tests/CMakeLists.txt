@@ -32,6 +32,7 @@ KCALCORE_UNIT_TESTS(
   testfilestorage
   testfreebusy
   testincidencerelation
+  testicalformat
   testjournal
   testmemorycalendar
   testperiod
