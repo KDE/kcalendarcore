@@ -32,6 +32,7 @@
   @author Reinhold Kainhofer \<reinhold@kainhofer.com\>
   @author David Jarvie \<software@astrojar.org.uk\>
 */
+
 #include "icalformat_p.h"
 #include "compat.h"
 #include "event.h"
@@ -43,6 +44,8 @@
 #include "memorycalendar.h"
 #include "todo.h"
 #include "visitor.h"
+
+#include "config-kcalcore.h"
 
 #include <KCodecs>
 #include <KDebug>
@@ -791,7 +794,11 @@ icalproperty *ICalFormatImpl::writeAttachment( const Attachment::Ptr &att )
   if ( att->isUri() ) {
     attach = icalattach_new_from_url( att->uri().toUtf8().data() );
   } else {
+#ifdef USE_ICAL_0_46
+    attach = icalattach_new_from_data( ( const char * )att->data().data(), 0, 0 );
+#else
     attach = icalattach_new_from_data( ( unsigned char * )att->data().data(), 0, 0 );
+#endif
   }
   icalproperty *p = icalproperty_new_attach( attach );
 
