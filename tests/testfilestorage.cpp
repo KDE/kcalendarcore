@@ -125,6 +125,7 @@ void FileStorageTest::testSpecialChars()
   event->setDtEnd( KDateTime( currentDate.addDays( 1 ) ) );
 
   const char latin1_umlaut[] = { 0xFC, '\0' };
+
   event->setSummary( QLatin1String( latin1_umlaut ) );
 
   // Save to file:
@@ -147,10 +148,22 @@ void FileStorageTest::testSpecialChars()
 
   QVERIFY( otherEvent );
 
+  // Make sure the retrieved incidence is equal to the original one
   QVERIFY( otherEvent->summary() == event->summary() );
   QVERIFY( otherEvent->summary().toLatin1().count() == 1 &&
            strcmp( otherEvent->summary().toLatin1().constData(), latin1_umlaut ) == 0 );
 
-  unlink( "bart.ics" );
+  // Make sure bart.ics is in UTF-8
+  QFile file( QLatin1String( "bart.ics" ) );
+  Q_ASSERT( file.open( QIODevice::ReadOnly | QIODevice::Text ) );
 
+  const QByteArray bytesFromFile = file.readAll();
+  const char utf_umlaut[] = { 0xC3, 0XBC, '\0' };
+
+  QVERIFY( bytesFromFile.contains( utf_umlaut ) );
+  QVERIFY( !bytesFromFile.contains( latin1_umlaut ) );
+
+  file.close();
+
+  unlink( "bart.ics" );
 }
