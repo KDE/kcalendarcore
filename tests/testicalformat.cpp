@@ -30,6 +30,9 @@
 #include <kdatetime.h>
 
 #include <qtest_kde.h>
+
+#include <unistd.h>
+
 QTEST_KDEMAIN( ICalFormatTest, NoGUI )
 
 using namespace KCalCore;
@@ -87,4 +90,5 @@ void ICalFormatTest::testCharsets()
 
   QVERIFY( *calendar2->incidences().first() == *event );
 
+  unlink( "hommer.ics" );
 }
