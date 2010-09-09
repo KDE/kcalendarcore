@@ -88,7 +88,10 @@ void ICalFormatTest::testCharsets()
   // kDebug() << format.toString( event.staticCast<Incidence>() );
   // kDebug() << format.toString( calendar2->incidences().first() );
 
-  QVERIFY( *calendar2->incidences().first() == *event );
+  Event::Ptr loadedEvent = calendar2->incidences().first().staticCast<Event>();
+  QVERIFY( loadedEvent->summary().toUtf8() == QByteArray( utf_umlaut ) );
+  QVERIFY( *loadedEvent == *event );
+
 
   // Test fromRawString()
   MemoryCalendar::Ptr calendar3( new MemoryCalendar( "UTC" ) );
