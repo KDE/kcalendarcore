@@ -90,5 +90,11 @@ void ICalFormatTest::testCharsets()
 
   QVERIFY( *calendar2->incidences().first() == *event );
 
+  // Test fromRawString()
+  MemoryCalendar::Ptr calendar3( new MemoryCalendar( "UTC" ) );
+  format.fromRawString( calendar3, bytesFromFile );
+  QVERIFY( calendar3->incidences().count() == 1 );
+  QVERIFY( *calendar3->incidences().first() == *event );
+
   unlink( "hommer.ics" );
 }
