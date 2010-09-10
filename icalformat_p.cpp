@@ -2582,7 +2582,7 @@ bool ICalFormatImpl::populate( const Calendar::Ptr &cal, icalcomponent *calendar
   while ( c ) {
     Event::Ptr event = readEvent( c, tzlist );
 
-    qDebug() << "Inserting" << cal->event( event->uid() );
+    //qDebug() << "Inserting" << cal->event( event->uid() );
     if ( event ) {
       Event::Ptr old = cal->event( event->uid(), event->recurrenceId() );
       if ( old ) {
