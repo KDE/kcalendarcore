@@ -86,8 +86,8 @@ bool ICalFormat::load( const Calendar::Ptr &calendar, const QString &fileName )
     return false;
   }
   QTextStream ts( &file );
-  ts.setCodec( "ISO 8859-1" );
-  QByteArray text = ts.readAll().trimmed().toLatin1();
+  ts.setCodec( "UTF-8" );
+  QByteArray text = ts.readAll().trimmed().toUtf8();
   file.close();
 
   if ( text.isEmpty() ) {
