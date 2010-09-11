@@ -80,11 +80,9 @@ set(kcalcore_LIB_SRCS ${libversit_SRCS}
 kde4_add_library(kcalcore ${LIBRARY_TYPE} ${kcalcore_LIB_SRCS})
 
 target_link_libraries(kcalcore ${KDE4_KDECORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${LIBICAL_LIBRARIES})
-if(HAVE_UUID_UUID_H)
-  if (NOT Q_WS_MAC)
-    target_link_libraries(kcalcore uuid)
-  endif(NOT Q_WS_MAC)
-endif(HAVE_UUID_UUID_H)
+if(HAVE_UUID_LIBRARY)
+  target_link_libraries(kcalcore uuid)
+endif(HAVE_UUID_LIBRARY)
 set_target_properties(kcalcore PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION})
 install(TARGETS kcalcore EXPORT kdepimlibsLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
 
