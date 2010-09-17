@@ -63,7 +63,8 @@ class KCalCore::Calendar::Private
         mModified( false ),
         mNewObserver( false ),
         mObserversEnabled( true ),
-        mDefaultFilter( new CalFilter )
+        mDefaultFilter( new CalFilter ),
+        batchAddingInProgress( false )
     {
       // Setup default filter, which does nothing
       mFilter = mDefaultFilter;
@@ -111,6 +112,7 @@ class KCalCore::Calendar::Private
     QHash<Incidence::Ptr, bool>mIncidenceVisibility; // incidence -> visibility
     QString mDefaultNotebook; // uid of default notebook
     QMap<QString, Incidence::List > mIncidenceRelations;
+    bool batchAddingInProgress;
 
 };
 
@@ -1474,6 +1476,21 @@ void Calendar::appendRecurringAlarms( Alarm::List &alarms,
       alarms.append( a );
     }
   }
+}
+
+void Calendar::startBatchAdding()
+{
+  d->batchAddingInProgress = true;
+}
+
+void Calendar::endBatchAdding()
+{
+  d->batchAddingInProgress = false;
+}
+
+bool Calendar::batchAdding() const
+{
+  return d->batchAddingInProgress;
 }
 
 void Calendar::virtual_hook( int id, void *data )
