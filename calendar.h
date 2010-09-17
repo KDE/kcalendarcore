@@ -377,6 +377,26 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
   // Incidence Specific Methods //
 
     /**
+       Call this to tell the calendar that you're adding a batch of incidences.
+       So it doesn't, for example, ask the destination for each incidence.
+
+        @see endBatchAdding()
+    */
+    virtual void startBatchAdding();
+
+    /**
+       Tells the Calendar that you stoped adding a batch of incidences.
+
+        @see startBatchAdding()
+     */
+    virtual void endBatchAdding();
+
+    /**
+       @return true if batch adding is in progress
+    */
+    bool batchAdding() const;
+
+    /**
       Inserts an Incidence into the calendar.
 
       @param incidence is a pointer to the Incidence to insert.
@@ -1244,26 +1264,6 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
       @return the list of Alarms for the for the specified time range.
     */
     virtual Alarm::List alarms( const KDateTime &from, const KDateTime &to ) const = 0;
-
-    /**
-       Call this to tell the calendar that you're adding a batch of incidences.
-       So it doesn't, for example, ask the destination for each incidence.
-
-        @see endBatchAdding()
-    */
-    virtual void startBatchAdding();
-
-    /**
-       Tells the Calendar that you stoped adding a batch of incidences.
-
-        @see startBatchAdding()
-     */
-    virtual void endBatchAdding();
-
-    /**
-       @return true if batch adding is in progress
-    */
-    bool batchAdding() const;
 
   // Observer Specific Methods //
 
