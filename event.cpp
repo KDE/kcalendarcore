@@ -32,7 +32,7 @@
 #include "event.h"
 #include "visitor.h"
 
-#include <kdebug.h>
+#include <KDebug>
 
 using namespace KCalCore;
 
