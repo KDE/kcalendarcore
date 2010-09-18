@@ -271,6 +271,14 @@ KDateTime Event::dateTime( DateTimeRole role ) const
   case RoleEnd:
   case RoleDisplayEnd:
     return dtEnd();
+  case RoleAlarm:
+    if ( alarms().isEmpty() ) {
+      return KDateTime();
+    } else {
+      Alarm::Ptr alarm = alarms().first();
+      return alarm->hasStartOffset() ? dtStart() : dtEnd();
+    }
+
   default:
     return KDateTime();
   }

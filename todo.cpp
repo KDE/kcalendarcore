@@ -494,6 +494,20 @@ KDateTime Todo::dateTime( DateTimeRole role ) const
     return dtDue();
   case RoleDisplayEnd:
     return dtDue();
+  case RoleAlarm:
+    if ( alarms().isEmpty() ) {
+      return KDateTime();
+    } else {
+      Alarm::Ptr alarm = alarms().first();
+      if ( alarm->hasStartOffset() && hasStartDate() ) {
+        return dtStart();
+      } else if ( alarm->hasEndOffset() && hasDueDate() ) {
+        return dtDue();
+      } else {
+        // The application shouldn't add alarms on to-dos without dates.
+        return KDateTime();
+      }
+    }
   case RoleEnd:
     // todos don't have dtEnd
   default:
