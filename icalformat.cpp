@@ -416,8 +416,8 @@ FreeBusy::Ptr ICalFormat::parseFreeBusy( const QString &str )
   return freeBusy;
 }
 
-ScheduleMessage *ICalFormat::parseScheduleMessage( const Calendar::Ptr &cal,
-                                                   const QString &messageText )
+ScheduleMessage::Ptr ICalFormat::parseScheduleMessage( const Calendar::Ptr &cal,
+                                                       const QString &messageText )
 {
   setTimeSpec( cal->timeSpec() );
   clearException();
@@ -425,7 +425,7 @@ ScheduleMessage *ICalFormat::parseScheduleMessage( const Calendar::Ptr &cal,
   if ( messageText.isEmpty() ) {
     setException(
       new Exception( Exception::ParseErrorEmptyMessage ) );
-    return 0;
+    return ScheduleMessage::Ptr();
   }
 
   icalcomponent *message;
@@ -435,7 +435,7 @@ ScheduleMessage *ICalFormat::parseScheduleMessage( const Calendar::Ptr &cal,
     setException(
       new Exception( Exception::ParseErrorUnableToParse ) );
 
-    return 0;
+    return ScheduleMessage::Ptr();
   }
 
   icalproperty *m =
@@ -444,7 +444,7 @@ ScheduleMessage *ICalFormat::parseScheduleMessage( const Calendar::Ptr &cal,
     setException(
       new Exception( Exception::ParseErrorMethodProperty ) );
 
-    return 0;
+    return ScheduleMessage::Ptr();
   }
 
   // Populate the message's time zone collection with all VTIMEZONE components
@@ -485,7 +485,7 @@ ScheduleMessage *ICalFormat::parseScheduleMessage( const Calendar::Ptr &cal,
     kDebug() << "object is not a freebusy, event, todo or journal";
     setException( new Exception( Exception::ParseErrorNotIncidence ) );
 
-    return 0;
+    return ScheduleMessage::Ptr();
   }
 
   icalproperty_method icalmethod = icalproperty_get_method( m );
@@ -549,7 +549,8 @@ ScheduleMessage *ICalFormat::parseScheduleMessage( const Calendar::Ptr &cal,
     }
   } else {
     icalcomponent_free( message );
-    return new ScheduleMessage( incidence, method, ScheduleMessage::Unknown );
+    return ScheduleMessage::Ptr( new ScheduleMessage( incidence, method,
+                                                      ScheduleMessage::Unknown ) );
   }
 
   icalproperty_xlicclass result =
@@ -582,7 +583,7 @@ ScheduleMessage *ICalFormat::parseScheduleMessage( const Calendar::Ptr &cal,
   icalcomponent_free( message );
   icalcomponent_free( calendarComponent );
 
-  return new ScheduleMessage( incidence, method, status );
+  return ScheduleMessage::Ptr( new ScheduleMessage( incidence, method, status ) );
 }
 
 void ICalFormat::setTimeSpec( const KDateTime::Spec &timeSpec )

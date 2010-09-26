@@ -67,6 +67,11 @@ class KCALCORE_EXPORT ScheduleMessage
     };
 
     /**
+      A shared pointer to a ScheduleMessage.
+    */
+    typedef QSharedPointer<ScheduleMessage> Ptr;
+
+    /**
       Creates a scheduling message with method as defined in iTIPMethod and a status.
       @param incidence a pointer to a valid Incidence to be associated with this message.
       @param method an iTIPMethod.
