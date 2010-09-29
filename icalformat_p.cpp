@@ -54,6 +54,9 @@
 
 using namespace KCalCore;
 
+static const char * APP_NAME_FOR_XPROPERTIES = "KCALCORE";
+static const char * ENABLED_ALARM_XPROPERTY = "ENABLED";
+
 /* Static helpers */
 /*
 static void _dumpIcaltime( const icaltimetype& t)
@@ -575,9 +578,7 @@ void ICalFormatImpl::writeIncidence( icalcomponent *parent,
   Alarm::List::ConstIterator alarmIt;
   for ( alarmIt = incidence->alarms().constBegin();
         alarmIt != incidence->alarms().constEnd(); ++alarmIt ) {
-    if ( (*alarmIt)->enabled() ) {
-      icalcomponent_add_component( parent, writeAlarm( *alarmIt ) );
-    }
+    icalcomponent_add_component( parent, writeAlarm( *alarmIt ) );
   }
 
   // duration
@@ -965,6 +966,12 @@ icalrecurrencetype ICalFormatImpl::writeRecurrenceRule( RecurrenceRule *recur )
 
 icalcomponent *ICalFormatImpl::writeAlarm( const Alarm::Ptr &alarm )
 {
+  if ( alarm->enabled() ) {
+    alarm->setCustomProperty( APP_NAME_FOR_XPROPERTIES, ENABLED_ALARM_XPROPERTY, "TRUE" );
+  } else {
+    alarm->setCustomProperty( APP_NAME_FOR_XPROPERTIES, ENABLED_ALARM_XPROPERTY, "FALSE" );
+  }
+
   icalcomponent *a = icalcomponent_new( ICAL_VALARM_COMPONENT );
 
   icalproperty_action action;
@@ -2124,6 +2131,9 @@ void ICalFormatImpl::readAlarm( icalcomponent *alarm,
     ialarm->setHasLocationRadius( true );
   }
 
+  if ( ialarm->customProperty( APP_NAME_FOR_XPROPERTIES, ENABLED_ALARM_XPROPERTY ) == QLatin1String( "FALSE" ) ) {
+    ialarm->setEnabled( false );
+  }
   // TODO: check for consistency of alarm properties
 }
 
