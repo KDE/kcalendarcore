@@ -812,13 +812,6 @@ class KCALCORE_EXPORT Incidence
 
 }
 
-//@cond PRIVATE
-inline uint qHash( const QSharedPointer<KCalCore::Incidence> &key )
-{
-  return qHash<KCalCore::Incidence>( key.data() );
-}
-//@endcond
-
 Q_DECLARE_TYPEINFO( KCalCore::Incidence::Ptr, Q_MOVABLE_TYPE );
 Q_DECLARE_METATYPE( KCalCore::Incidence * )
 

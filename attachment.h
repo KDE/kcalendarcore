@@ -264,11 +264,5 @@ class KCALCORE_EXPORT Attachment
 
 Q_DECLARE_TYPEINFO( KCalCore::Attachment::Ptr, Q_MOVABLE_TYPE );
 
-//@cond PRIVATE
-inline uint qHash( const QSharedPointer<KCalCore::Attachment> &key )
-{
-  return qHash<KCalCore::Attachment>( key.data() );
-}
-//@endcond
 
 #endif
