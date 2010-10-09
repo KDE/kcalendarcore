@@ -926,9 +926,12 @@ bool Incidence::locationIsRich() const
   return d->mLocationIsRich;
 }
 
-void Incidence::setSchedulingID( const QString &sid )
+void Incidence::setSchedulingID( const QString &sid, const QString &uid )
 {
   d->mSchedulingID = sid;
+  if ( !uid.isEmpty() ) {
+    setUid( uid );
+  }
 }
 
 QString Incidence::schedulingID() const

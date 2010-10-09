@@ -753,10 +753,23 @@ class KCALCORE_EXPORT Incidence
       end up with more than one resource having events with the same UID,
       if you have access to other peoples resources.
 
+      While constructing an incidence, when setting the scheduling ID,
+      you will always want to set the incidence UID too. Instead of calling
+      setUID() separately, you can pass the UID through @p uid so both
+      members are changed in one atomic operation ( don't forget that
+      setUID() emits incidenceUpdated() and whoever catches that signal
+      will have an half-initialized incidence, therefore, always set
+      the schedulingID and UID at the same time, and never with two separate
+      calls).
+
       @param sid is a QString containing the scheduling ID.
+      @param uid is a QString containing the incidence UID to set, if not
+             specified, the current UID isn't changed, and this parameter
+             is ignored.
       @see schedulingID().
     */
-    void setSchedulingID( const QString &sid );
+    void setSchedulingID( const QString &sid,
+                          const QString &uid = QString() );
 
     /**
       Returns the incidence scheduling ID. Do _not_ use with journals.
