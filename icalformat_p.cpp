@@ -1730,8 +1730,7 @@ void ICalFormatImpl::readIncidence( icalcomponent *parent,
     // The UID stored in incidencebase is actually the scheduling ID
     // It has to be stored in the iCal UID component for compatibility
     // with other iCal applications
-    incidence->setSchedulingID( incidence->uid() );
-    incidence->setUid( uid );
+    incidence->setSchedulingID( incidence->uid(), uid );
   }
 
   // Now that recurrence and exception stuff is completely set up,

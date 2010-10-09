@@ -290,8 +290,7 @@ void Incidence::recreate()
   KDateTime nowUTC = KDateTime::currentUtcDateTime();
   setCreated( nowUTC );
 
-  setUid( CalFormat::createUniqueId() );
-  setSchedulingID( QString() );
+  setSchedulingID( QString(), CalFormat::createUniqueId() );
 
   setRevision( 0 );
 

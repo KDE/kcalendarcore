@@ -364,8 +364,7 @@ QString ICalFormat::createScheduleMessage( const IncidenceBase::Ptr &incidence,
     if ( i->schedulingID() != i->uid() ) {
       // We have a separation of scheduling ID and UID
       i = Incidence::Ptr( i->clone() );
-      i->setUid( i->schedulingID() );
-      i->setSchedulingID( QString() );
+      i->setSchedulingID( QString(), i->schedulingID() );
 
       // Build the message with the cloned incidence
       message = d->mImpl->createScheduleComponent( i, method );
