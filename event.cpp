@@ -306,3 +306,8 @@ QLatin1String Event::eventMimeType()
 {
   return QLatin1String( "application/x-vnd.akonadi.calendar.event" );
 }
+
+QLatin1String Event::iconName( const KDateTime & ) const
+{
+  return QLatin1String( "view-calendar-day" );
+}

@@ -787,6 +787,16 @@ class KCALCORE_EXPORT Incidence
     */
     virtual void recurrenceUpdated( Recurrence *recurrence );
 
+
+    /**
+      Returns the name of the icon that best represents this incidence.
+
+      @param recurrenceId Some recurring incidences might use a different icon,
+      for example, completed to-do occurrences. Use this parameter to identify
+      the specific occurrence in a recurring serie.
+    */
+    virtual QLatin1String iconName( const KDateTime &recurrenceId = KDateTime() ) const = 0;
+
   protected:
 
     /**

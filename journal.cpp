@@ -104,7 +104,13 @@ QLatin1String Journal::mimeType() const
   return Journal::journalMimeType();
 }
 
-QLatin1String KCalCore::Journal::journalMimeType()
+/* static */
+QLatin1String Journal::journalMimeType()
 {
   return QLatin1String( "application/x-vnd.akonadi.calendar.journal" );
+}
+
+QLatin1String Journal::iconName( const KDateTime & ) const
+{
+  return QLatin1String( "view-pim-journal" );
 }

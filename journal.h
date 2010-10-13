@@ -100,6 +100,12 @@ class KCALCORE_EXPORT Journal : public Incidence
     QLatin1String mimeType() const;
 
     /**
+       @copydoc
+       IncidenceBase::iconName()
+    */
+    QLatin1String iconName( const KDateTime &recurrenceId = KDateTime() ) const;
+
+    /**
        Returns the Akonadi specific sub MIME type of a KCalCore::Journal.
     */
     static QLatin1String journalMimeType();
