@@ -547,7 +547,8 @@ QLatin1String Todo::iconName( const KDateTime &recurrenceId ) const
   }
 
   const bool usesCompletedTaskPixmap = isCompleted() ||
-                                       ( recurs() && occurrenceDT < dtDue( false ) );
+                                       ( recurs() && occurrenceDT.isValid() &&
+                                         occurrenceDT < dtDue( false ) );
 
   if ( usesCompletedTaskPixmap ) {
     return QLatin1String( "task-complete" );
