@@ -258,6 +258,7 @@ bool Event::accept( Visitor &v, IncidenceBase::Ptr incidence )
 KDateTime Event::dateTime( DateTimeRole role ) const
 {
   switch ( role ) {
+  case RoleRecurrenceStart:
   case RoleAlarmStartOffset:
   case RoleStartTimeZone:
   case RoleSort:

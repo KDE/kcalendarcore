@@ -138,8 +138,12 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
                                   an invalid KDateTime if the incidence does not support dtEnd */
       RoleDisplayEnd,           /**< Role used for display purposes, represents the end boundary
                                   if an incidence supports dtEnd */
-      RoleAlarm                 /** Role for determining the date/time of the first alarm.
+      RoleAlarm,                /** Role for determining the date/time of the first alarm.
                                     Returns an invalid time if the incidence doesn't have any alarm. */
+      RoleRecurrenceStart,     /**< Role for determining the start of the recurrence. Currently that's
+                                    DTSTART for an event and DTDUE for a to-do. ( NOTE: If the incidence is a to-do,
+                                    recurrence should be calculated having DTSTART for a reference, not DT-DUE.
+                                    This is one place KCalCore isn't compliant with RFC2445 ) */
     };
 
     /**

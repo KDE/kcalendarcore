@@ -508,6 +508,9 @@ KDateTime Todo::dateTime( DateTimeRole role ) const
         return KDateTime();
       }
     }
+  case RoleRecurrenceStart:
+    return dtDue();
+    break;
   case RoleEnd:
     // todos don't have dtEnd
   default:
