@@ -175,6 +175,7 @@ Incidence::Incidence()
   : IncidenceBase(), d( new KCalCore::Incidence::Private )
 {
   recreate();
+  resetDirtyFields();
 }
 
 Incidence::Incidence( const Incidence &i )
@@ -183,6 +184,7 @@ Incidence::Incidence( const Incidence &i )
     d( new KCalCore::Incidence::Private( *i.d ) )
 {
   d->init( this, i );
+  resetDirtyFields();
 }
 
 Incidence::~Incidence()
@@ -318,12 +320,11 @@ void Incidence::setLocalOnly( bool localOnly )
       return;
     }
     d->mLocalOnly = localOnly;
-
 }
 
-bool Incidence::localOnly() const {
-
-    return d->mLocalOnly;
+bool Incidence::localOnly() const
+{
+  return d->mLocalOnly;
 }
 
 void Incidence::setAllDay( bool allDay )
@@ -344,6 +345,7 @@ void Incidence::setCreated( const KDateTime &created )
   }
 
   d->mCreated = created.toUtc();
+  setFieldDirty( FieldCreated );
 
 // FIXME: Shouldn't we call updated for the creation date, too?
 //  updated();
@@ -363,7 +365,7 @@ void Incidence::setRevision( int rev )
   update();
 
   d->mRevision = rev;
-
+  setFieldDirty( FieldRevision );
   updated();
 }
 
@@ -401,6 +403,7 @@ void Incidence::setDescription( const QString &description, bool isRich )
   update();
   d->mDescription = description;
   d->mDescriptionIsRich = isRich;
+  setFieldDirty( FieldDescription );
   updated();
 }
 
@@ -436,6 +439,7 @@ void Incidence::setSummary( const QString &summary, bool isRich )
   update();
   d->mSummary = summary;
   d->mSummaryIsRich = isRich;
+  setFieldDirty( FieldSummary );
   updated();
 }
 
@@ -480,6 +484,7 @@ void Incidence::setCategories( const QString &catStr )
     return;
   }
   update();
+  setFieldDirty( FieldCategories );
 
   d->mCategories.clear();
 
@@ -516,6 +521,7 @@ void Incidence::setRelatedTo( const QString &relatedToUid, RelType relType )
   if ( d->mRelatedToUid[relType] != relatedToUid ) {
     update();
     d->mRelatedToUid[relType] = relatedToUid;
+    setFieldDirty( FieldRelatedTo );
     updated();
   }
 }
@@ -680,6 +686,7 @@ void Incidence::addAttachment( const Attachment::Ptr &attachment )
 
   update();
   d->mAttachments.append( attachment );
+  setFieldDirty( FieldAttachment );
   updated();
 }
 
@@ -687,6 +694,7 @@ void Incidence::deleteAttachment( const Attachment::Ptr &attachment )
 {
   int index = d->mAttachments.indexOf( attachment );
   if ( index > -1 ) {
+    setFieldDirty( FieldAttachment );
     d->mAttachments.remove( index );
   }
 }
@@ -702,6 +710,7 @@ void Incidence::deleteAttachments( const QString &mime )
     ++it;
   }
   d->mAttachments = result;
+  setFieldDirty( FieldAttachment );
 }
 
 Attachment::List Incidence::attachments() const
@@ -722,6 +731,7 @@ Attachment::List Incidence::attachments( const QString &mime ) const
 
 void Incidence::clearAttachments()
 {
+  setFieldDirty( FieldAttachment );
   d->mAttachments.clear();
 }
 
@@ -765,6 +775,7 @@ void Incidence::setResources( const QStringList &resources )
 
   update();
   d->mResources = resources;
+  setFieldDirty( FieldResources );
   updated();
 }
 
@@ -781,6 +792,7 @@ void Incidence::setPriority( int priority )
 
   update();
   d->mPriority = priority;
+  setFieldDirty( FieldPriority );
   updated();
 }
 
@@ -798,6 +810,7 @@ void Incidence::setStatus( Incidence::Status status )
   update();
   d->mStatus = status;
   d->mStatusString.clear();
+  setFieldDirty( FieldStatus );
   updated();
 }
 
@@ -810,6 +823,7 @@ void Incidence::setCustomStatus( const QString &status )
   update();
   d->mStatus = status.isEmpty() ? StatusNone : StatusX;
   d->mStatusString = status;
+  setFieldDirty( FieldStatus );
   updated();
 }
 
@@ -835,6 +849,7 @@ void Incidence::setSecrecy( Incidence::Secrecy secrecy )
 
   update();
   d->mSecrecy = secrecy;
+  setFieldDirty( FieldSecrecy );
   updated();
 }
 
@@ -859,15 +874,17 @@ void Incidence::addAlarm( const Alarm::Ptr &alarm )
 {
   update();
   d->mAlarms.append( alarm );
+  setFieldDirty( FieldAlarms );
   updated();
 }
 
 void Incidence::removeAlarm( const Alarm::Ptr &alarm )
 {
-  int index = d->mAlarms.indexOf( alarm );
+  const int index = d->mAlarms.indexOf( alarm );
   if ( index > -1 ) {
     update();
     d->mAlarms.remove( index );
+    setFieldDirty( FieldAlarms );
     updated();
   }
 }
@@ -876,6 +893,7 @@ void Incidence::clearAlarms()
 {
   update();
   d->mAlarms.clear();
+  setFieldDirty( FieldAlarms );
   updated();
 }
 
@@ -898,6 +916,7 @@ void Incidence::setLocation( const QString &location, bool isRich )
   update();
   d->mLocation = location;
   d->mLocationIsRich = isRich;
+  setFieldDirty( FieldLocation );
   updated();
 }
 
@@ -931,6 +950,7 @@ void Incidence::setSchedulingID( const QString &sid, const QString &uid )
   if ( !uid.isEmpty() ) {
     setUid( uid );
   }
+  setFieldDirty( FieldSchedulingId );
 }
 
 QString Incidence::schedulingID() const
@@ -959,6 +979,8 @@ void Incidence::setHasGeo( bool hasGeo )
 
   update();
   d->mHasGeo = hasGeo;
+  setFieldDirty( FieldGeoLatitude );
+  setFieldDirty( FieldGeoLongitude );
   updated();
 }
 
@@ -975,6 +997,7 @@ void Incidence::setGeoLatitude( float geolatitude )
 
   update();
   d->mGeoLatitude = geolatitude;
+  setFieldDirty( FieldGeoLatitude );
   updated();
 }
 
@@ -988,6 +1011,7 @@ void Incidence::setGeoLongitude( float geolongitude )
   if ( !mReadOnly ) {
     update();
     d->mGeoLongitude = geolongitude;
+    setFieldDirty( FieldGeoLongitude );
     updated();
   }
 }
@@ -1007,6 +1031,7 @@ void Incidence::setRecurrenceId( const KDateTime &recurrenceId )
   if ( !mReadOnly ) {
     update();
     d->mRecurrenceId = recurrenceId;
+    setFieldDirty( FieldRecurrenceId );
     updated();
   }
 }

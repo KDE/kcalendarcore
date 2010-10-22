@@ -176,7 +176,7 @@ void Todo::setDtDue( const KDateTime &dtDue, bool first )
   /*const Alarm::List& alarms = alarms();
   for (Alarm *alarm = alarms.first(); alarm; alarm = alarms.next())
     alarm->setAlarmStart(d->mDtDue);*/
-
+  setFieldDirty( FieldDtDue );
   endUpdates();
 }
 
@@ -204,6 +204,7 @@ void Todo::setHasDueDate( bool f )
   }
   update();
   d->mHasDueDate = f;
+  setFieldDirty( FieldDtDue );
   updated();
 }
 
@@ -228,6 +229,7 @@ void Todo::setHasStartDate( bool f )
     removeComment( s );
   }
   d->mHasStartDate = f;
+  setFieldDirty( FieldDtStart );
   updated();
 }
 
@@ -278,6 +280,7 @@ void Todo::setCompleted( bool completed )
     d->mHasCompletedDate = false;
     d->mCompleted = KDateTime();
   }
+  setFieldDirty( FieldCompleted );
   updated();
 }
 
@@ -297,6 +300,7 @@ void Todo::setCompleted( const KDateTime &completed )
     d->mHasCompletedDate = true;
     d->mPercentComplete = 100;
     d->mCompleted = completed.toUtc();
+    setFieldDirty( FieldCompleted );
   }
   updated();
 }
@@ -324,6 +328,7 @@ void Todo::setPercentComplete( int percent )
   if ( percent != 100 ) {
     d->mHasCompletedDate = false;
   }
+  setFieldDirty( FieldPercentComplete );
   updated();
 }
 
@@ -404,6 +409,7 @@ void Todo::shiftTimes( const KDateTime::Spec &oldSpec,
 void Todo::setDtRecurrence( const KDateTime &dt )
 {
   d->mDtRecurrence = dt;
+  setFieldDirty( FieldRecurrence );
 }
 
 KDateTime Todo::dtRecurrence() const
@@ -430,6 +436,16 @@ bool Todo::isOverdue() const
                 dtDue().date() < QDate::currentDate() :
                 dtDue() < KDateTime::currentUtcDateTime();
   return inPast && !isCompleted();
+}
+
+void Todo::setAllDay( bool allday )
+{
+  if ( allday != allDay() && !mReadOnly ) {
+    if ( hasDueDate() && dtDue().isValid() ) {
+      setFieldDirty( FieldDtDue );
+    }
+    Incidence::setAllDay( allday );
+  }
 }
 
 //@cond PRIVATE

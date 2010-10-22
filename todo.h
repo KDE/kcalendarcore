@@ -249,6 +249,12 @@ class KCALCORE_EXPORT Todo : public Incidence
                              const KDateTime::Spec &newSpec );
 
     /**
+      @copydoc
+      IncidenceBase::setAllDay().
+    */
+    void setAllDay( bool allDay );
+
+    /**
       Sets the due date/time of the current occurrence if recurrent.
 
       @param dt is the

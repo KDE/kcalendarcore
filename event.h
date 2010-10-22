@@ -165,6 +165,12 @@ class KCALCORE_EXPORT Event : public Incidence
 
     /**
       @copydoc
+      IncidenceBase::setAllDay().
+    */
+    void setAllDay( bool allDay );
+
+    /**
+      @copydoc
       IncidenceBase::dateTime()
     */
     KDateTime dateTime( DateTimeRole role ) const;

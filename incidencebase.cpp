@@ -38,6 +38,8 @@
 #include "calformat.h"
 #include "visitor.h"
 
+#include <QDebug>
+
 #include <KUrl>
 
 #include <QtCore/QStringList>
@@ -88,6 +90,7 @@ class KCalCore::IncidenceBase::Private
     QStringList mComments;       // list of incidence comments
     QStringList mContacts;       // list of incidence contacts
     QList<IncidenceObserver*> mObservers; // list of incidence observers
+    QSet<Field> mDirtyFields;  // Fields that changed since last time the incidence was created or resetDirtyFlags() was called
 };
 
 void IncidenceBase::Private::init( const Private &other )
@@ -102,6 +105,7 @@ void IncidenceBase::Private::init( const Private &other )
 
   mComments = other.mComments;
   mContacts = other.mContacts;
+  mDirtyFields = other.mDirtyFields;
 
   mAttendees.clear();
   Attendee::List::ConstIterator it;
@@ -115,7 +119,6 @@ IncidenceBase::IncidenceBase()
  : d( new KCalCore::IncidenceBase::Private )
 {
   mReadOnly = false;
-
   setUid( CalFormat::createUniqueId() );
 }
 
@@ -212,6 +215,7 @@ void IncidenceBase::setUid( const QString &uid )
 {
   update();
   d->mUid = uid;
+  d->mDirtyFields.insert( FieldUid );
   updated();
 }
 
@@ -224,6 +228,8 @@ void IncidenceBase::setLastModified( const KDateTime &lm )
 {
   // DON'T! updated() because we call this from
   // Calendar::updateEvent().
+
+  d->mDirtyFields.insert( FieldLastModified );
 
   // Convert to UTC and remove milliseconds part.
   KDateTime current = lm.toUtc();
@@ -246,6 +252,8 @@ void IncidenceBase::setOrganizer( const Person::Ptr &o )
   // possible that by setting the organizer we are changing
   // the event's readonly status...
   d->mOrganizer = o;
+
+  d->mDirtyFields.insert( FieldOrganizer );
 
   updated();
 }
@@ -283,6 +291,7 @@ void IncidenceBase::setDtStart( const KDateTime &dtStart )
   update();
   d->mDtStart = dtStart;
   d->mAllDay = dtStart.isDateOnly();
+  d->mDirtyFields.insert( FieldDtStart );
   updated();
 }
 
@@ -303,6 +312,9 @@ void IncidenceBase::setAllDay( bool f )
   }
   update();
   d->mAllDay = f;
+  if ( d->mDtStart.isValid() ) {
+    d->mDirtyFields.insert( FieldDtStart );
+  }
   updated();
 }
 
@@ -312,6 +324,8 @@ void IncidenceBase::shiftTimes( const KDateTime::Spec &oldSpec,
   update();
   d->mDtStart = d->mDtStart.toTimeSpec( oldSpec );
   d->mDtStart.setTimeSpec( newSpec );
+  d->mDirtyFields.insert( FieldDtStart );
+  d->mDirtyFields.insert( FieldDtEnd );
   updated();
 }
 
@@ -332,11 +346,16 @@ bool IncidenceBase::removeComment( const QString &comment )
     }
   }
 
+  if ( found ) {
+    d->mDirtyFields.insert( FieldComment );
+  }
+
   return found;
 }
 
 void IncidenceBase::clearComments()
 {
+  d->mDirtyFields.insert( FieldComment );
   d->mComments.clear();
 }
 
@@ -349,6 +368,7 @@ void IncidenceBase::addContact( const QString &contact )
 {
   if ( !contact.isEmpty() ) {
     d->mContacts += contact;
+    d->mDirtyFields.insert( FieldContact );
   }
 }
 
@@ -363,11 +383,17 @@ bool IncidenceBase::removeContact( const QString &contact )
       d->mContacts.erase( i );
     }
   }
+
+  if ( found ) {
+    d->mDirtyFields.insert( FieldContact );
+  }
+
   return found;
 }
 
 void IncidenceBase::clearContacts()
 {
+  d->mDirtyFields.insert( FieldContact );
   d->mContacts.clear();
 }
 
@@ -405,6 +431,7 @@ void IncidenceBase::addAttendee( const Attendee::Ptr &a, bool doupdate )
 
   d->mAttendees.append( a );
   if ( doupdate ) {
+    d->mDirtyFields.insert( FieldAttendees );
     updated();
   }
 }
@@ -424,6 +451,7 @@ void IncidenceBase::deleteAttendee( const Attendee::Ptr &a, bool doupdate )
     d->mAttendees.remove( index );
 
     if ( doupdate ) {
+      d->mDirtyFields.insert( FieldAttendees );
       updated();
     }
   }
@@ -444,6 +472,7 @@ void IncidenceBase::clearAttendees()
   if ( mReadOnly ) {
     return;
   }
+  d->mDirtyFields.insert( FieldAttendees );
   d->mAttendees.clear();
 }
 
@@ -496,6 +525,7 @@ void IncidenceBase::setDuration( const Duration &duration )
   update();
   d->mDuration = duration;
   setHasDuration( true );
+  d->mDirtyFields.insert( FieldDuration );
   updated();
 }
 
@@ -578,6 +608,21 @@ void IncidenceBase::customPropertyUpdated()
 KDateTime IncidenceBase::recurrenceId() const
 {
   return KDateTime();
+}
+
+void IncidenceBase::resetDirtyFields()
+{
+  d->mDirtyFields.clear();
+}
+
+QSet<IncidenceBase::Field> IncidenceBase::dirtyFields()
+{
+  return d->mDirtyFields;
+}
+
+void IncidenceBase::setFieldDirty( IncidenceBase::Field field )
+{
+  d->mDirtyFields.insert( field );
 }
 
 KUrl IncidenceBase::uri() const

@@ -139,7 +139,7 @@ void Event::setDtEnd( const KDateTime &dtEnd )
   d->mMultiDayValid = false;
   setHasEndDate( true );
   setHasDuration( false );
-
+  setFieldDirty( FieldDtEnd );
   updated();
 }
 
@@ -177,6 +177,7 @@ QDate Event::dateEnd() const
 void Event::setHasEndDate( bool b )
 {
   d->mHasEndDate = b;
+  setFieldDirty( FieldDtEnd );
 }
 
 bool Event::hasEndDate() const
@@ -236,6 +237,7 @@ void Event::setTransparency( Event::Transparency transparency )
   }
   update();
   d->mTransparency = transparency;
+  setFieldDirty( FieldTransparency );
   updated();
 }
 
@@ -248,6 +250,14 @@ void Event::setDuration( const Duration &duration )
 {
   setHasEndDate( false );
   Incidence::setDuration( duration );
+}
+
+void Event::setAllDay( bool allday )
+{
+  if ( allday != allDay() && !mReadOnly ) {
+    setFieldDirty( FieldDtEnd );
+    Incidence::setAllDay( allday );
+  }
 }
 
 bool Event::accept( Visitor &v, IncidenceBase::Ptr incidence )
