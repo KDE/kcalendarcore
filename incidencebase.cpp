@@ -90,7 +90,8 @@ class KCalCore::IncidenceBase::Private
     QStringList mComments;       // list of incidence comments
     QStringList mContacts;       // list of incidence contacts
     QList<IncidenceObserver*> mObservers; // list of incidence observers
-    QSet<Field> mDirtyFields;  // Fields that changed since last time the incidence was created or resetDirtyFlags() was called
+    QSet<Field> mDirtyFields;    // Fields that changed since last time the incidence was created
+                                 // or since resetDirtyFlags() was called
 };
 
 void IncidenceBase::Private::init( const Private &other )

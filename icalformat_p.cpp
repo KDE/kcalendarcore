@@ -33,6 +33,7 @@
   @author David Jarvie \<software@astrojar.org.uk\>
 */
 
+#include <config-kcalcore.h>
 #include "icalformat_p.h"
 #include "compat.h"
 #include "event.h"
@@ -44,8 +45,6 @@
 #include "memorycalendar.h"
 #include "todo.h"
 #include "visitor.h"
-
-#include "config-kcalcore.h"
 
 #include <KCodecs>
 #include <KDebug>
@@ -2130,7 +2129,8 @@ void ICalFormatImpl::readAlarm( icalcomponent *alarm,
     ialarm->setHasLocationRadius( true );
   }
 
-  if ( ialarm->customProperty( APP_NAME_FOR_XPROPERTIES, ENABLED_ALARM_XPROPERTY ) == QLatin1String( "FALSE" ) ) {
+  if ( ialarm->customProperty( APP_NAME_FOR_XPROPERTIES,
+                               ENABLED_ALARM_XPROPERTY ) == QLatin1String( "FALSE" ) ) {
     ialarm->setEnabled( false );
   }
   // TODO: check for consistency of alarm properties

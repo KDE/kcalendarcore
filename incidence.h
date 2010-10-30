@@ -787,7 +787,6 @@ class KCALCORE_EXPORT Incidence
     */
     virtual void recurrenceUpdated( Recurrence *recurrence );
 
-
     /**
       Returns the name of the icon that best represents this incidence.
 
