@@ -611,7 +611,7 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
       @return a pointer to the Incidence.
       A null pointer is returned if no such Incidence exists.
     */
-    Incidence::Ptr incidenceFromSchedulingID( const QString &sid ) const;
+    virtual Incidence::Ptr incidenceFromSchedulingID( const QString &sid ) const;
 
     /**
       Searches all events and todos for an incidence with this
@@ -619,7 +619,7 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
 
       @param sid is a unique scheduling identifier string.
      */
-    Incidence::List incidencesFromSchedulingID( const QString &sid ) const;
+    virtual Incidence::List incidencesFromSchedulingID( const QString &sid ) const;
 
     /**
       Create a merged list of Events, Todos, and Journals.
