@@ -627,7 +627,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
 
        @see resetDirtyFields()
     */
-    QSet<IncidenceBase::Field> dirtyFields();
+    QSet<IncidenceBase::Field> dirtyFields() const;
 
     /**
        Resets dirty fields.

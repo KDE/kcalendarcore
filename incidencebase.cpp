@@ -616,7 +616,7 @@ void IncidenceBase::resetDirtyFields()
   d->mDirtyFields.clear();
 }
 
-QSet<IncidenceBase::Field> IncidenceBase::dirtyFields()
+QSet<IncidenceBase::Field> IncidenceBase::dirtyFields() const
 {
   return d->mDirtyFields;
 }
