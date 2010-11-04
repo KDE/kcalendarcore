@@ -615,7 +615,7 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
 
     /**
       Searches all events and todos for an incidence with this
-      scheduling identifiere. Returns a list of matching results.
+      scheduling identifier. Returns a list of matching results.
 
       @param sid is a unique scheduling identifier string.
      */
