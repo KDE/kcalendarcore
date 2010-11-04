@@ -129,6 +129,8 @@ class KCALCORE_EXPORT Incidence
     /**
       Returns an exact copy of this incidence. The returned object is owned
       by the caller.
+
+      Dirty fields are cleared.
     */
     virtual Incidence *clone() const = 0;
 

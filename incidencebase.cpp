@@ -106,7 +106,6 @@ void IncidenceBase::Private::init( const Private &other )
 
   mComments = other.mComments;
   mContacts = other.mContacts;
-  mDirtyFields = other.mDirtyFields;
 
   mAttendees.clear();
   Attendee::List::ConstIterator it;
@@ -152,6 +151,8 @@ IncidenceBase &IncidenceBase::assign( const IncidenceBase &other )
   CustomProperties::operator=( other );
   d->init( *other.d );
   mReadOnly = other.mReadOnly;
+  d->mDirtyFields.clear();
+  d->mDirtyFields.insert( FieldUnknown );
   return *this;
 }
 

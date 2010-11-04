@@ -180,7 +180,8 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       FieldDuration,        ///> Field representing the DURATION component.
       FieldContact,         ///> Field representing the CONTACT component.
       FieldComment,         ///> Field representing the COMMENT component.
-      FieldUid              ///> Field representing the UID component.
+      FieldUid,             ///> Field representing the UID component.
+      FieldUnknown          ///> Something changed. This is set when you use the assignment operator.
     };
 
     /**
@@ -234,6 +235,8 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
         kDebug() << "Invalid assignment!";
       }
       @endcode
+
+      Dirty field FieldUnknown will be set.
 
       @param other is the IncidenceBase to assign.
      */
