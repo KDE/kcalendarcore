@@ -97,6 +97,7 @@ class KCalCore::Incidence::Private
       mAlarms.clear();
       mAttachments.clear();
       delete mRecurrence;
+      mRecurrence = 0;
     }
 
     void init( Incidence *dest, const Incidence &src )
