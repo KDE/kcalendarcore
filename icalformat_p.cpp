@@ -53,8 +53,8 @@
 
 using namespace KCalCore;
 
-static const char * APP_NAME_FOR_XPROPERTIES = "KCALCORE";
-static const char * ENABLED_ALARM_XPROPERTY = "ENABLED";
+static const char APP_NAME_FOR_XPROPERTIES[] = "KCALCORE";
+static const char ENABLED_ALARM_XPROPERTY[] = "ENABLED";
 
 /* Static helpers */
 /*
@@ -1073,6 +1073,8 @@ icalcomponent *ICalFormatImpl::writeAlarm( const Alarm::Ptr &alarm )
     icalproperty_set_x_name( p, c.key() );
     icalcomponent_add_property( a, p );
   }
+
+  icalattach_unref( attach );
 
   return a;
 }
@@ -2171,11 +2173,13 @@ icaltimetype ICalFormatImpl::writeICalDateTime( const KDateTime &datetime )
   t.month = datetime.date().month();
   t.day = datetime.date().day();
 
-  t.hour = datetime.time().hour();
-  t.minute = datetime.time().minute();
-  t.second = datetime.time().second();
+  t.is_date = datetime.isDateOnly() ? 1 : 0;
 
-  t.is_date = 0;
+  if ( !t.is_date ) {
+    t.hour = datetime.time().hour();
+    t.minute = datetime.time().minute();
+    t.second = datetime.time().second();
+  }
   t.zone = 0;   // zone is NOT set
   t.is_utc = datetime.isUtc() ? 1 : 0;
 
@@ -2308,8 +2312,13 @@ KDateTime ICalFormatImpl::readICalDateTime( icalproperty *p,
       timeSpec = tz.isValid() ? KDateTime::Spec( tz ) : KDateTime::LocalZone;
     }
   }
-  KDateTime result( QDate( t.year, t.month, t.day ),
-                    QTime( t.hour, t.minute, t.second ), timeSpec );
+  KDateTime result;
+  if ( t.is_date ) {
+    result = KDateTime( QDate( t.year, t.month, t.day ), timeSpec );
+  } else {
+    result = KDateTime( QDate( t.year, t.month, t.day ),
+                        QTime( t.hour, t.minute, t.second ), timeSpec );
+  }
   return utc ? result.toUtc() : result;
 }
 
