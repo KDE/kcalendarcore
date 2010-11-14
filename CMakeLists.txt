@@ -9,10 +9,16 @@ project(kcalcore)
 # KCALCORE_FOR_MEEGO - builds KCalCore with some special features for the MeeGo platform.
 option(KCALCORE_FOR_MEEGO "Build KCalCore especially for the MeeGo." FALSE)
 
+# KCALCORE_FOR_SYMBIAN - builds KCalCore with some special features for the Symbian platform.
+option(KCALCORE_FOR_SYMBIAN "Build KCalCore especially for the Symbian." FALSE)
+
 # add C++ macro definitions for options passed to CMake
 if(KCALCORE_FOR_MEEGO)
   add_definitions(-DKCALCORE_FOR_MEEGO)
 endif(KCALCORE_FOR_MEEGO)
+if(KCALCORE_FOR_SYMBIAN)
+  add_definitions(-DKCALCORE_FOR_SYMBIAN)
+endif(KCALCORE_FOR_SYMBIAN)
 
 ###########################################################
 

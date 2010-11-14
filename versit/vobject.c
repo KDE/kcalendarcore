@@ -1153,9 +1153,14 @@ static void writeQPString(OFile *fp, const char *s, int qp)
     const char *p = s;
     while (*p) {
       if (*p == '\n') {
-	if (p[1]) appendsOFile(fp,"=0A=");
+        /* According to VCAL-1.0 doc, CRLF is the correct separator */
+        appendsOFile(fp,"=0D=0A=");
+        /* Continued to also add the \n below */
       }
-      if (*p == '=' && qp)
+      if (*p == '\r') {
+        /* NOP, handled above [our own may or may not have \rs] */
+      }
+      else if (*p == '=' && qp)
 	appendsOFile(fp,"=3D");
       else
 	appendcOFile(fp,*p);
