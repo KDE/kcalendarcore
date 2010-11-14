@@ -757,9 +757,9 @@ static const char * const PAlarmFields[] = {
 static const struct PreDefProp propNames[] = {
     { VC7bitProp, 0, 0, 0 },
     { VC8bitProp, 0, 0, 0 },
-    { VCAAlarmProp, 0,AAlarmFields, 0 },
+    { VCAAlarmProp, 0, (const char **)AAlarmFields, 0 },
     { VCAdditionalNamesProp, 0, 0, 0 },
-    { VCAdrProp, 0, adrFields, 0 },
+    { VCAdrProp, 0, (const char **)adrFields, 0 },
     { VCAgentProp, 0, 0, 0 },
     { VCAIFFProp, 0, 0, 0 },
     { VCAOLProp, 0, 0, 0 },
@@ -791,7 +791,7 @@ static const struct PreDefProp propNames[] = {
     { VCCompletedProp, 0, 0, 0 },
     { VCContentIDProp, 0, 0, 0 },
     { VCCountryNameProp, 0, 0, 0 },
-    { VCDAlarmProp, 0, DAlarmFields, 0 },
+    { VCDAlarmProp, 0, (const char **)DAlarmFields, 0 },
     { VCDataSizeProp, 0, 0, PD_INTERNAL },
     { VCDayLightProp, 0, 0, 0 },
     { VCDCreatedProp, 0, 0, 0 },
@@ -833,7 +833,7 @@ static const struct PreDefProp propNames[] = {
     { VCLocationProp, 0, 0, 0 },
     { VCLogoProp, 0, 0, 0 },
     { VCMailerProp, 0, 0, 0 },
-    { VCMAlarmProp, 0, MAlarmFields, 0 },
+    { VCMAlarmProp, 0, (const char **)MAlarmFields, 0 },
     { VCMCIMailProp, 0, 0, 0 },
     { VCMessageProp, 0, 0, 0 },
     { VCMETProp, 0, 0, 0 },
@@ -842,17 +842,17 @@ static const struct PreDefProp propNames[] = {
     { VCMPEGProp, 0, 0, 0 },
     { VCMSNProp, 0, 0, 0 },
     { VCNamePrefixesProp, 0, 0, 0 },
-    { VCNameProp, 0, nameFields, 0 },
+    { VCNameProp, 0, (const char **)nameFields, 0 },
     { VCNameSuffixesProp, 0, 0, 0 },
     { VCNoteProp, 0, 0, 0 },
     { VCOrgNameProp, 0, 0, 0 },
-    { VCOrgProp, 0, orgFields, 0 },
+    { VCOrgProp, 0, (const char **)orgFields, 0 },
     { VCOrgUnit2Prop, 0, 0, 0 },
     { VCOrgUnit3Prop, 0, 0, 0 },
     { VCOrgUnit4Prop, 0, 0, 0 },
     { VCOrgUnitProp, 0, 0, 0 },
     { VCPagerProp, 0, 0, 0 },
-    { VCPAlarmProp, 0, PAlarmFields, 0 },
+    { VCPAlarmProp, 0, (const char **)PAlarmFields, 0 },
     { VCParcelProp, 0, 0, 0 },
     { VCPartProp, 0, 0, 0 },
     { VCPCMProp, 0, 0, 0 },
@@ -924,7 +924,7 @@ static struct PreDefProp* lookupPropInfo(const char* str)
 	
     for (i = 0; propNames[i].name; i++)
 	if (strcasecmp(str, propNames[i].name) == 0) {
-	    return &propNames[i];
+          return (struct PreDefProp *)&propNames[i];
 	    }
     
     return 0;
