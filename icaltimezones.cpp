@@ -993,13 +993,13 @@ ICalTimeZone ICalTimeZoneSource::parse( MSTimeZone *tz )
 
   QList<QByteArray> standardAbbrevs;
   standardAbbrevs += tz->StandardName.toAscii();
-  KTimeZone::Phase standardPhase( ( tz->Bias + tz->StandardBias ) * 60, standardAbbrevs, false,
+  KTimeZone::Phase standardPhase( ( tz->Bias + tz->StandardBias ) * -60, standardAbbrevs, false,
                                   "Microsoft TIME_ZONE_INFORMATION" );
   phases += standardPhase;
 
   QList<QByteArray> daylightAbbrevs;
   daylightAbbrevs += tz->DaylightName.toAscii();
-  KTimeZone::Phase daylightPhase( ( tz->Bias + tz->DaylightBias ) * 60, daylightAbbrevs, true,
+  KTimeZone::Phase daylightPhase( ( tz->Bias + tz->DaylightBias ) * -60, daylightAbbrevs, true,
                                   "Microsoft TIME_ZONE_INFORMATION" );
   phases += daylightPhase;
 
@@ -1018,6 +1018,66 @@ ICalTimeZone ICalTimeZoneSource::parse( MSTimeZone *tz )
 
   ICalTimeZoneData *idata = new ICalTimeZoneData( kdata, KTimeZone( name ), QDate() );
 
+  return ICalTimeZone( this, name, idata );
+}
+
+ICalTimeZone ICalTimeZoneSource::parse( const QString &name, const QStringList &tzList,
+                                        ICalTimeZones &zones )
+{
+  ICalTimeZone zone = parse( name, tzList );
+  if ( !zone.isValid() ) {
+    return ICalTimeZone(); // error
+  }
+
+  ICalTimeZone oldzone = zones.zone( zone );
+  // First off see if the zone is same as oldzone - _exactly_ same
+  if ( oldzone.isValid() ) {
+    return oldzone;
+  }
+
+  oldzone = zones.zone( name );
+  if ( oldzone.isValid() ) {
+    // The zone already exists, so update
+    oldzone.update( zone );
+    return zone;
+  } else if ( zones.add( zone ) ) {
+    // No similar zone, add and return new one.
+    return zone;
+  }
+  return ICalTimeZone(); // error
+}
+
+ICalTimeZone ICalTimeZoneSource::parse( const QString &name, const QStringList &tzList )
+{
+  ICalTimeZoneData kdata;
+  QList<KTimeZone::Phase> phases;
+  QList<KTimeZone::Transition> transitions;
+  bool daylight;
+
+  for ( QStringList::ConstIterator it = tzList.begin(); it != tzList.end(); ++it ) {
+    QString value = *it;
+    daylight = false;
+    QString tzName = value.mid( 0, value.indexOf( ";" ) );
+    value = value.mid( ( value.indexOf( ";" ) + 1 ) );
+    QString tzOffset = value.mid( 0, value.indexOf( ";" ) );
+    value = value.mid( ( value.indexOf( ";" ) + 1 ) );
+    QString tzDaylight = value.mid( 0, value.indexOf( ";" ) );
+    KDateTime tzDate = KDateTime::fromString( value.mid( ( value.lastIndexOf( ";" ) + 1 ) ) );
+    if ( tzDaylight == "true" ) {
+      daylight = true;
+    }
+
+    KTimeZone::Phase tzPhase( tzOffset.toInt(),
+                              QByteArray( tzName.toAscii() ), daylight, "VCAL_TZ_INFORMATION" );
+    phases += tzPhase;
+    transitions += KTimeZone::Transition( tzDate.dateTime(), tzPhase );
+  }
+
+  kdata.setPhases( phases, 0 );
+  qSort( transitions );
+  kdata.setTransitions( transitions );
+
+  ICalTimeZoneData *idata = new ICalTimeZoneData( kdata, KTimeZone( name ), QDate() );
   return ICalTimeZone( this, name, idata );
 }
 

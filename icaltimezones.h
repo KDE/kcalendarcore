@@ -461,6 +461,30 @@ class KCALCORE_EXPORT ICalTimeZoneSource : public KTimeZoneSource
     ICalTimeZone parse( MSTimeZone *tz, ICalTimeZones &zones );
 
     /**
+     * Creates an ICalTimeZone instance and adds it to a ICalTimeZones
+     * collection or returns an existing instance for the vcal component.
+     *
+     * @param name     the name of timezone
+     * @param tzList   the QStringList to parse
+     * @param zones    the time zones collection to which the ICalTimeZone
+     *                 instances are to be added
+     * @return an ICalTimeZone instance containing the time zone data, or invalid on error
+     * @since 4.6
+     */
+    ICalTimeZone parse( const QString &name, const QStringList &tzList, ICalTimeZones &zones );
+
+    /**
+     * Creates an ICalTimeZone instance containing the detailed information
+     * contained in an QStringList produced by vcalformat.
+     *
+     * @param name   the name of timezone
+     * @param tzList the QStringList from which data is to be extracted
+     * @return an ICalTimeZone instance containing the time zone data, or invalid on error
+     * @since 4.6
+     */
+    ICalTimeZone parse( const QString &name, const QStringList &tzList );
+
+    /**
      * Reads an iCalendar file and creates an ICalTimeZone instance for each
      * VTIMEZONE component within it. The ICalTimeZone instances are added to a
      * ICalTimeZones collection.
