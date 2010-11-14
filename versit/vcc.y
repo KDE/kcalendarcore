@@ -1089,14 +1089,6 @@ static int yylex() {
 	    int c = lexGetc();
 	    switch(c) {
 		case ':': {
-		    /* consume all line separator(s) adjacent to each other */
-		    /* ignoring linesep immediately after colon. */
-		    c = lexLookahead();
-		    while (strchr("\n",c)) {
-			lexSkipLookahead();
-			c = lexLookahead();
-			++mime_lineNum;
-			}
 		    DBG_(("db: COLON\n"));
 		    return COLON;
 		    }
@@ -1205,7 +1197,7 @@ VObject* Parse_MIME_FromFileName(const char *fname)
 /****************************************************************************/
 void YYDebug(const char *s)
 {
-	Parse_Debug(s);
+/*	Parse_Debug(s);*/
 }
 
 
