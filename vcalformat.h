@@ -132,6 +132,16 @@ class KCALCORE_EXPORT VCalFormat : public CalFormat
     VObject *eventToVEvent( const Event::Ptr &event );
 
     /**
+      Parse TZ tag from vtimezone.
+    */
+    QString parseTZ( const QByteArray &timezone ) const;
+
+    /**
+      Parse DAYLIGHT tag from vtimezone.
+    */
+    QString parseDst( const QByteArray &timezone ) const;
+
+    /**
       Translates a Todo into a VTodo-type VObject and return pointer.
       @param todo is a pointer to a valid Todo object.
     */
@@ -163,6 +173,18 @@ class KCALCORE_EXPORT VCalFormat : public CalFormat
       is invalid, then KDateTime() is returned.
     */
     QDate ISOToQDate( const QString &dtStr );
+
+    /**
+      Parse one of the myriad of ISO8601 timezone offset formats, e.g.
+      +- hh : mm
+      +- hh mm
+      +- hh
+
+      @param s string to be parsed.
+      @param result timezone offset in seconds, if parse succeeded.
+      @return Whether the parse succeeded or not.
+    */
+    bool parseTZOffsetISO8601( const QString &s, int &result );
 
     /**
       Takes a vCalendar tree of VObjects, and puts all of them that have the
@@ -203,6 +225,9 @@ class KCALCORE_EXPORT VCalFormat : public CalFormat
       @return a QByteArray containing the status string.
     */
     QByteArray writeStatus( Attendee::PartStat status ) const;
+
+    void readCustomProperties( VObject *o, const Incidence::Ptr &i );
+    void writeCustomProperties( VObject *o, const Incidence::Ptr &i );
 
   protected:
     /**
