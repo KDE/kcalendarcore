@@ -469,7 +469,6 @@ class KCALCORE_EXPORT ICalTimeZoneSource : public KTimeZoneSource
      * @param zones    the time zones collection to which the ICalTimeZone
      *                 instances are to be added
      * @return an ICalTimeZone instance containing the time zone data, or invalid on error
-     * @since 4.6
      */
     ICalTimeZone parse( const QString &name, const QStringList &tzList, ICalTimeZones &zones );
 
@@ -480,7 +479,6 @@ class KCALCORE_EXPORT ICalTimeZoneSource : public KTimeZoneSource
      * @param name   the name of timezone
      * @param tzList the QStringList from which data is to be extracted
      * @return an ICalTimeZone instance containing the time zone data, or invalid on error
-     * @since 4.6
      */
     ICalTimeZone parse( const QString &name, const QStringList &tzList );
 
