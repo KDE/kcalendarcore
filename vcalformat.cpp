@@ -2213,7 +2213,8 @@ void VCalFormat::readCustomProperties( VObject *o, const Incidence::Ptr &i )
     cur = nextVObject( &iter );
     curname = vObjectName( cur );
     Q_ASSERT( curname );
-    if ( curname[0] == 'X' && curname[1] == '-' ) {
+    if ( ( curname[0] == 'X' && curname[1] == '-' ) &&
+         strcmp( curname, ICOrganizerProp ) != 0 ) {
       // TODO - for the time being, we ignore the parameters part
       // and just do the value handling here
       i->setNonKDECustomProperty(
