@@ -812,9 +812,8 @@ VObject *VCalFormat::eventToVEvent( const Event::Ptr &anEvent )
       tmpStr = kDateTimeToISO( anEvent->recurrenceId(), true );
       addPropValue( vevent, VCRecurrenceIdProp, tmpStr.toLocal8Bit() );
   }
-#endif
-
   writeCustomProperties( vevent, anEvent );
+#endif
 
   return vevent;
 }
