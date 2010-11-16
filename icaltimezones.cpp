@@ -1020,6 +1020,7 @@ ICalTimeZone ICalTimeZoneSource::parse( MSTimeZone *tz )
 
   return ICalTimeZone( this, name, idata );
 }
+#endif // HAVE_UUID_UUID_H
 
 ICalTimeZone ICalTimeZoneSource::parse( const QString &name, const QStringList &tzList,
                                         ICalTimeZones &zones )
@@ -1081,6 +1082,7 @@ ICalTimeZone ICalTimeZoneSource::parse( const QString &name, const QStringList &
   return ICalTimeZone( this, name, idata );
 }
 
+#if defined(HAVE_UUID_UUID_H)
 //@cond PRIVATE
 void ICalTimeZoneSourcePrivate::parseTransitions( const MSSystemTime &date,
                                                   const KTimeZone::Phase &phase, int prevOffset,
