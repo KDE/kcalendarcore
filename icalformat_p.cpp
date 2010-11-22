@@ -69,7 +69,7 @@ static void _dumpIcaltime( const icaltimetype& t)
 
 //@cond PRIVATE
 template <typename K>
-void removeAll( QVector< QSharedPointer<K> > c, const QSharedPointer<K> &x )
+void removeAll( QVector< QSharedPointer<K> > &c, const QSharedPointer<K> &x )
 {
   Q_ASSERT( c.count( x ) == 1 );
   c.remove( c.indexOf( x ) );
