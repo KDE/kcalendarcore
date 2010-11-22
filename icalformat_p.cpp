@@ -69,7 +69,7 @@ static void _dumpIcaltime( const icaltimetype& t)
 
 //@cond PRIVATE
 template <typename K>
-void removeAll( QVector< QSharedPointer<K> > &c, const QSharedPointer<K> &x )
+void removeAllICal( QVector< QSharedPointer<K> > &c, const QSharedPointer<K> &x )
 {
   Q_ASSERT( c.count( x ) == 1 );
   c.remove( c.indexOf( x ) );
@@ -2573,11 +2573,11 @@ bool ICalFormatImpl::populate( const Calendar::Ptr &cal, icalcomponent *calendar
         if ( deleted ) {
           // kDebug()<<"Todo " << todo->uid() << " already deleted2";
           cal->deleteTodo( old ); // move old to deleted
-          removeAll( d->mTodosRelate, old );
+          removeAllICal( d->mTodosRelate, old );
         } else if ( todo->revision() > old->revision() ) {
           // kDebug() << "Replacing old todo " << old.data() << " with this one " << todo.data();
           cal->deleteTodo( old ); // move old to deleted
-          removeAll( d->mTodosRelate, old );
+          removeAllICal( d->mTodosRelate, old );
           cal->addTodo( todo ); // and replace it with this one
         }
       } else if ( deleted ) {
@@ -2607,10 +2607,10 @@ bool ICalFormatImpl::populate( const Calendar::Ptr &cal, icalcomponent *calendar
           qDebug() << "OLD EVENT" << old->uid();
         if ( deleted ) {
           cal->deleteEvent( old ); // move old to deleted
-          removeAll( d->mEventsRelate, old );
+          removeAllICal( d->mEventsRelate, old );
         } else if ( event->revision() > old->revision() ) {
           cal->deleteEvent( old ); // move old to deleted
-          removeAll( d->mEventsRelate, old );
+          removeAllICal( d->mEventsRelate, old );
           cal->addEvent( event ); // and replace it with this one
         }
       } else if ( deleted ) {
