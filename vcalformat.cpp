@@ -57,7 +57,7 @@ using namespace KCalCore;
 */
 //@cond PRIVATE
 template <typename K>
-void removeAll( QVector< QSharedPointer<K> > c, const QSharedPointer<K> &x )
+void removeAllVCal( QVector< QSharedPointer<K> > c, const QSharedPointer<K> &x )
 {
   Q_ASSERT( c.count( x ) == 1 );
   c.remove( c.indexOf( x ) );
@@ -2021,10 +2021,10 @@ void VCalFormat::populate( VObject *vcal, bool deleted, const QString &notebook 
         if ( old ) {
           if ( deleted ) {
             d->mCalendar->deleteEvent( old ); // move old to deleted
-            removeAll( d->mEventsRelate, old );
+            removeAllVCal( d->mEventsRelate, old );
           } else if ( anEvent->revision() > old->revision() ) {
             d->mCalendar->deleteEvent( old ); // move old to deleted
-            removeAll( d->mEventsRelate, old );
+            removeAllVCal( d->mEventsRelate, old );
             d->mCalendar->addEvent( anEvent ); // and replace it with this one
           }
         } else if ( deleted ) {
@@ -2058,10 +2058,10 @@ void VCalFormat::populate( VObject *vcal, bool deleted, const QString &notebook 
         if ( old ) {
           if ( deleted ) {
             d->mCalendar->deleteTodo( old ); // move old to deleted
-            removeAll( d->mTodosRelate, old );
+            removeAllVCal( d->mTodosRelate, old );
           } else if ( aTodo->revision() > old->revision() ) {
             d->mCalendar->deleteTodo( old ); // move old to deleted
-            removeAll( d->mTodosRelate, old );
+            removeAllVCal( d->mTodosRelate, old );
             d->mCalendar->addTodo( aTodo ); // and replace it with this one
           }
         } else if ( deleted ) {
