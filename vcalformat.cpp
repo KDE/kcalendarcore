@@ -2004,13 +2004,13 @@ void VCalFormat::populate( VObject *vcal, bool deleted, const QString &notebook 
         if ( hasTimeZone && !anEvent->allDay() && anEvent->dtStart().isUtc() ) {
           //This sounds stupid but is how others are doing it, so here
           //we go. If there is a TZ in the VCALENDAR even if the dtStart
-          //and dtend are in UTC, clients interpret it usint alse the TZ defined
+          //and dtend are in UTC, clients interpret it using also the TZ defined
           //in the Calendar. I know it sounds braindead but oh well
           int utcOffSet = anEvent->dtStart().utcOffset();
           KDateTime dtStart( anEvent->dtStart().dateTime().addSecs( utcOffSet ),
-                             KDateTime::LocalZone );
+                             d->mCalendar->timeSpec() );
           KDateTime dtEnd( anEvent->dtEnd().dateTime().addSecs( utcOffSet ),
-                           KDateTime::LocalZone );
+                             d->mCalendar->timeSpec() );
           anEvent->setDtStart( dtStart );
           anEvent->setDtEnd( dtEnd );
         }
@@ -2049,8 +2049,13 @@ void VCalFormat::populate( VObject *vcal, bool deleted, const QString &notebook 
           //in the Calendar. I know it sounds braindead but oh well
           int utcOffSet = aTodo->dtStart().utcOffset();
           KDateTime dtStart( aTodo->dtStart().dateTime().addSecs( utcOffSet ),
-                             KDateTime::LocalZone );
+                            d->mCalendar->timeSpec() );
           aTodo->setDtStart( dtStart );
+	  if ( aTodo->hasDueDate() ) {
+            KDateTime dtDue( aTodo->dtDue().dateTime().addSecs( utcOffSet ),
+                            d->mCalendar->timeSpec() );
+	    aTodo->setDtDue( dtDue );
+	  }
         }
         Todo::Ptr old = !aTodo->hasRecurrenceId() ?
       d->mCalendar->todo( aTodo->uid() ) :
