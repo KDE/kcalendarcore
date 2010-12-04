@@ -123,6 +123,8 @@ bool VCalFormat::save( const Calendar::Ptr &calendar, const QString &fileName )
 {
   d->mCalendar = calendar;
 
+  ICalTimeZones *tzlist = d->mCalendar->timeZones();
+
   QString tmpStr;
   VObject *vcal, *vo;
 
@@ -136,6 +138,18 @@ bool VCalFormat::save( const Calendar::Ptr &calendar, const QString &fileName )
   Todo::List todoList = d->mCalendar->rawTodos();
   Todo::List::ConstIterator it;
   for ( it = todoList.constBegin(); it != todoList.constEnd(); ++it ) {
+    if ( (*it)->dtStart().timeZone().name().mid( 0, 4 ) == "VCAL" ) {
+      ICalTimeZone zone = tzlist->zone( (*it)->dtStart().timeZone().name() );
+      if ( zone.isValid() ) {
+        QByteArray timezone = zone.vtimezone();
+        addPropValue( vcal, VCTimeZoneProp, parseTZ( timezone ).toLocal8Bit() );
+        QString dst = parseDst( timezone );
+        while ( !dst.isEmpty() ) {
+          addPropValue( vcal, VCDayLightProp, dst.toLocal8Bit() );
+          dst = parseDst( timezone );
+        }
+      }
+    }
     vo = eventToVTodo( *it );
     addVObjectProp( vcal, vo );
   }
@@ -143,6 +157,18 @@ bool VCalFormat::save( const Calendar::Ptr &calendar, const QString &fileName )
   Event::List events = d->mCalendar->rawEvents();
   Event::List::ConstIterator it2;
   for ( it2 = events.constBegin(); it2 != events.constEnd(); ++it2 ) {
+    if ( (*it2)->dtStart().timeZone().name().mid( 0, 4 ) == "VCAL" ) {
+      ICalTimeZone zone = tzlist->zone( (*it2)->dtStart().timeZone().name() );
+      if ( zone.isValid() ) {
+        QByteArray timezone = zone.vtimezone();
+        addPropValue( vcal, VCTimeZoneProp, parseTZ( timezone ).toLocal8Bit() );
+        QString dst = parseDst( timezone );
+        while ( !dst.isEmpty() ) {
+          addPropValue( vcal, VCDayLightProp, dst.toLocal8Bit() );
+          dst = parseDst( timezone );
+        }
+      }
+    }
     vo = eventToVEvent( *it2 );
     addVObjectProp( vcal, vo );
   }
@@ -359,7 +385,7 @@ VObject *VCalFormat::eventToVTodo( const Todo::Ptr &anEvent )
 
   // completed status
   // backward compatibility, KOrganizer used to interpret only these two values
-  addPropValue( vtodo, VCStatusProp, anEvent->isCompleted() ? "COMPLETED" : "NEEDS_ACTION" );
+  addPropValue( vtodo, VCStatusProp, anEvent->isCompleted() ? "COMPLETED" : "NEEDS ACTION" );
 
   // completion date
   if ( anEvent->hasCompletedDate() ) {
@@ -1672,25 +1698,25 @@ Event::Ptr VCalFormat::VEventToEvent( VObject *vevent )
 QString VCalFormat::parseTZ( const QByteArray &timezone ) const
 {
   QString pZone = timezone.mid( timezone.indexOf( "TZID:VCAL" ) + 9 );
-  return pZone.mid( 0, 6 );
+  return pZone.mid( 0, pZone.indexOf(QChar( QLatin1Char( '\n' ) ) ) );
 }
 
-QString VCalFormat::parseDst( const QByteArray &timezone ) const
+QString VCalFormat::parseDst( QByteArray &timezone ) const
 {
   if ( !timezone.contains( "BEGIN:DAYLIGHT" ) ) {
     return QString();
   }
 
-  QString pZone = timezone.mid( timezone.indexOf( "BEGIN:DAYLIGHT" ) );
-  pZone = pZone.mid( pZone.indexOf( "TZNAME:" ) + 7 );
-  QString sStart = pZone.mid( 0, ( pZone.indexOf( "COMMENT:" ) ) );
+  timezone = timezone.mid( timezone.indexOf( "BEGIN:DAYLIGHT" ) );
+  timezone = timezone.mid( timezone.indexOf( "TZNAME:" ) + 7 );
+  QString sStart = timezone.mid( 0, ( timezone.indexOf( "COMMENT:" ) ) );
   sStart.chop( 2 );
-  pZone = pZone.mid( pZone.indexOf( "TZOFFSETTO:" ) + 11 );
-  QString sOffset = pZone.mid( 0, ( pZone.indexOf( "DTSTART:" ) ) );
+  timezone = timezone.mid( timezone.indexOf( "TZOFFSETTO:" ) + 11 );
+  QString sOffset = timezone.mid( 0, ( timezone.indexOf( "DTSTART:" ) ) );
   sOffset.chop( 2 );
   sOffset.insert( 3, QString( ":" ) );
-  pZone = pZone.mid( pZone.indexOf( "TZNAME:" ) + 7 );
-  QString sEnd = pZone.mid( 0, ( pZone.indexOf( "COMMENT:" ) ) );
+  timezone = timezone.mid( timezone.indexOf( "TZNAME:" ) + 7 );
+  QString sEnd = timezone.mid( 0, ( timezone.indexOf( "COMMENT:" ) ) );
   sEnd.chop( 2 );
 
   return "TRUE;" + sOffset + ';' + sStart + ';' + sEnd + ";;";

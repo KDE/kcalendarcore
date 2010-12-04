@@ -139,7 +139,7 @@ class KCALCORE_EXPORT VCalFormat : public CalFormat
     /**
       Parse DAYLIGHT tag from vtimezone.
     */
-    QString parseDst( const QByteArray &timezone ) const;
+    QString parseDst( QByteArray &timezone ) const;
 
     /**
       Translates a Todo into a VTodo-type VObject and return pointer.
