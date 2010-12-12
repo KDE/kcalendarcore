@@ -231,6 +231,13 @@ icalcomponent *ICalFormatImpl::writeTodo( const Todo::Ptr &todo, ICalTimeZones *
   icalcomponent_add_property(
     vtodo, icalproperty_new_percentcomplete( todo->percentComplete() ) );
 
+  if ( todo->recurs() && todo->dtDue().isValid() ) {
+    // dtDue( first = true ) returns the dtRecurrence()
+    prop = writeICalDateTimeProperty( ICAL_X_PROPERTY, todo->dtDue(), tzlist, tzUsedList );
+    icalproperty_set_x_name( prop, "X-KDE-LIBKCAL-DTRECURRENCE" );
+    icalcomponent_add_property( vtodo, prop );
+  }
+
   return vtodo;
 }
 
@@ -1119,7 +1126,16 @@ Todo::Ptr ICalFormatImpl::readTodo( icalcomponent *vtodo, ICalTimeZones *tzlist 
         todo->setHasStartDate( true );
       }
       break;
-
+    case ICAL_X_PROPERTY:
+    {
+      const KDateTime dateTime = readICalDateTimeProperty( p, tzlist );
+      if ( dateTime.isValid() ) {
+        todo->setDtRecurrence( dateTime );
+      } else {
+        kDebug() << "Invalid dateTime";
+      }
+    }
+      break;
     default:
       // TODO: do something about unknown properties?
       break;
@@ -1822,7 +1838,14 @@ void ICalFormatImpl::Private::readCustomProperties( icalcomponent *parent,
   while ( p ) {
     QString nvalue = QString::fromUtf8( icalproperty_get_x( p ) );
     if ( nvalue.isEmpty() ) {
-      nvalue = QString::fromUtf8( icalvalue_get_text( icalproperty_get_value( p ) ) );
+      icalvalue *value = icalproperty_get_value( p );
+      if ( icalvalue_isa( value ) == ICAL_TEXT_VALUE ) {
+        // Calling icalvalue_get_text( value ) on a datetime value crashes.
+        nvalue = QString::fromUtf8( icalvalue_get_text( value ) );
+      } else {
+        p = icalcomponent_get_next_property( parent, ICAL_X_PROPERTY );
+        continue;
+      }
     }
     const char *name = icalproperty_get_x_name( p );
     QByteArray nproperty(name);
@@ -2232,6 +2255,14 @@ icalproperty *ICalFormatImpl::writeICalDateTimeProperty( const icalproperty_kind
   case ICAL_EXDATE_PROPERTY:
     p = icalproperty_new_exdate( t );
     break;
+  case ICAL_X_PROPERTY:
+  {
+    p = icalproperty_new_x( "" );
+    icaltimetype timeType = writeICalDateTime( dt );
+    icalvalue *text = icalvalue_new_datetime( timeType );
+    icalproperty_set_value( p, text );
+  }
+    break;
   default:
   {
     icaldatetimeperiodtype tp;
@@ -2361,6 +2392,17 @@ KDateTime ICalFormatImpl::readICalDateTimeProperty( icalproperty *p,
   case ICAL_EXDATE_PROPERTY:
     tp.time = icalproperty_get_exdate( p );
     break;
+  case ICAL_X_PROPERTY:
+  {
+    const char *name = icalproperty_get_x_name( p );
+    if ( QLatin1String( name ) == QLatin1String( "X-KDE-LIBKCAL-DTRECURRENCE" ) ) {
+      const char *value =  icalvalue_as_ical_string( icalproperty_get_value( p ) );
+      icalvalue* v =  icalvalue_new_from_string( ICAL_DATETIME_VALUE, value  );
+      tp.time = icalvalue_get_datetime( v );
+      icalvalue_free( v );
+      break;
+    }
+  }
   default:
     switch ( kind ) {
     case ICAL_RDATE_PROPERTY:
