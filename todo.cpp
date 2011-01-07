@@ -154,11 +154,7 @@ void Todo::setDtDue( const KDateTime &dtDue, bool first )
       alarm->setTime(alarm->time().addSecs(diffsecs));
     }
   }*/
-  if ( dtDue.isValid() ) {
-      d->mHasDueDate = true;
-  } else {
-      d->mHasDueDate = false;
-  }
+  d->mHasDueDate = dtDue.isValid();
 
   if ( recurs() && !first ) {
     d->mDtRecurrence = dtDue;
