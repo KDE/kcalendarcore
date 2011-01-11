@@ -2646,6 +2646,11 @@ bool ICalFormatImpl::populate( const Calendar::Ptr &cal, icalcomponent *calendar
     if ( event ) {
       Event::Ptr old = cal->event( event->uid(), event->recurrenceId() );
       if ( old ) {
+        if ( old->uid().isEmpty() ) {
+          qWarning() << "Skipping invalid VEVENT";
+          c = icalcomponent_get_next_component( calendar, ICAL_VEVENT_COMPONENT );
+          continue;
+        }
           qDebug() << "OLD EVENT" << old->uid();
         if ( deleted ) {
           cal->deleteEvent( old ); // move old to deleted
