@@ -102,6 +102,9 @@ class KCALCORE_EXPORT Event : public Incidence
 
     /**
       Sets the event end date and time.
+      Important note for all day events: the end date is inclusive,
+      the event will still occur during dtEnd(). When serializing to iCalendar
+      DTEND will be dtEnd()+1, because the RFC states that DTEND is exclusive.
       @param dtEnd is a KDateTime specifying when the event ends.
       @see dtEnd(), dateEnd().
     */
@@ -109,6 +112,9 @@ class KCALCORE_EXPORT Event : public Incidence
 
     /**
       Returns the event end date and time.
+      Important note for all day events: the returned end date is inclusive,
+      the event will still occur during dtEnd(). When serializing to iCalendar
+      DTEND will be dtEnd()+1, because the RFC states that DTEND is exclusive.
       @see setDtEnd().
     */
     virtual KDateTime dtEnd() const;
