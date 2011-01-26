@@ -285,11 +285,11 @@ QString ICalFormat::toString( const Calendar::Ptr &cal,
     if ( !tz ) {
       kError() << "bad time zone";
     } else {
-      component = icalcomponent_new_clone( icaltimezone_get_component( tz ) );
 #ifndef Q_OS_WINCE
       // Since WinCE does not provide a timezone database we
       // just omit this field and rely on the usage of standard
       // Olson names. 
+	  component = icalcomponent_new_clone( icaltimezone_get_component( tz ) );
       icalcomponent_add_component( calendar, component );
 #endif
       icaltimezone_free( tz, 1 );
