@@ -449,23 +449,23 @@ bool Todo::Private::recurTodo( Todo *todo )
 {
   if ( todo && todo->recurs() ) {
     Recurrence *r = todo->recurrence();
-    const KDateTime endDateTime = r->endDateTime();
-    KDateTime nextDate = r->getNextDateTime( todo->dtDue() );
+    const KDateTime recurrenceEndDateTime = r->endDateTime();
+    KDateTime nextOccurrenceDateTime = r->getNextDateTime( todo->dtDue() );
 
     if ( ( r->duration() == -1 ||
-           ( nextDate.isValid() && endDateTime.isValid() &&
-             nextDate <= endDateTime ) ) ) {
+           ( nextOccurrenceDateTime.isValid() && recurrenceEndDateTime.isValid() &&
+             nextOccurrenceDateTime <= recurrenceEndDateTime ) ) ) {
 
-      while ( !todo->recursAt( nextDate ) ||
-              nextDate <= KDateTime::currentUtcDateTime() ) {
-        if ( !nextDate.isValid() ||
-             ( nextDate > endDateTime && r->duration() != -1 ) ) {
+      while ( !todo->recursAt( nextOccurrenceDateTime ) ||
+              nextOccurrenceDateTime <= KDateTime::currentUtcDateTime() ) {
+        if ( !nextOccurrenceDateTime.isValid() ||
+             ( nextOccurrenceDateTime > recurrenceEndDateTime && r->duration() != -1 ) ) {
           return false;
         }
-        nextDate = r->getNextDateTime( nextDate );
+        nextOccurrenceDateTime = r->getNextDateTime( nextOccurrenceDateTime );
       }
 
-      todo->setDtDue( nextDate );
+      todo->setDtDue( nextOccurrenceDateTime );
       todo->setCompleted( false );
       todo->setRevision( todo->revision() + 1 );
 
