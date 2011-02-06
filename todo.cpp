@@ -449,7 +449,7 @@ bool Todo::Private::recurTodo( Todo *todo )
 {
   if ( todo && todo->recurs() ) {
     Recurrence *r = todo->recurrence();
-    KDateTime endDateTime = r->endDateTime();
+    const KDateTime endDateTime = r->endDateTime();
     KDateTime nextDate = r->getNextDateTime( todo->dtDue() );
 
     if ( ( r->duration() == -1 ||
@@ -458,13 +458,10 @@ bool Todo::Private::recurTodo( Todo *todo )
 
       while ( !todo->recursAt( nextDate ) ||
               nextDate <= KDateTime::currentUtcDateTime() ) {
-
         if ( !nextDate.isValid() ||
              ( nextDate > endDateTime && r->duration() != -1 ) ) {
-
           return false;
         }
-
         nextDate = r->getNextDateTime( nextDate );
       }
 
