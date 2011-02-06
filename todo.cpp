@@ -455,9 +455,9 @@ bool Todo::Private::recurTodo( Todo *todo )
     if ( ( r->duration() == -1 ||
            ( nextOccurrenceDateTime.isValid() && recurrenceEndDateTime.isValid() &&
              nextOccurrenceDateTime <= recurrenceEndDateTime ) ) ) {
-
+      const KDateTime rightNow = KDateTime::currentUtcDateTime();
       while ( !todo->recursAt( nextOccurrenceDateTime ) ||
-              nextOccurrenceDateTime <= KDateTime::currentUtcDateTime() ) {
+              nextOccurrenceDateTime <=  ) {
         if ( !nextOccurrenceDateTime.isValid() ||
              ( nextOccurrenceDateTime > recurrenceEndDateTime && r->duration() != -1 ) ) {
           return false;
