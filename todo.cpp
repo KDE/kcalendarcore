@@ -455,9 +455,20 @@ bool Todo::Private::recurTodo( Todo *todo )
     if ( ( r->duration() == -1 ||
            ( nextOccurrenceDateTime.isValid() && recurrenceEndDateTime.isValid() &&
              nextOccurrenceDateTime <= recurrenceEndDateTime ) ) ) {
-      const KDateTime rightNow = KDateTime::currentUtcDateTime();
-      while ( !todo->recursAt( nextOccurrenceDateTime ) ||
-              nextOccurrenceDateTime <=  ) {
+      // We convert to the same timeSpec so we get the correct .date()
+      const KDateTime rightNow = KDateTime::currentUtcDateTime().toTimeSpec( nextOccurrenceDateTime.timeSpec() );
+      const bool isDateOnly = todo->allDay();
+
+      /* Now we search for the occurrence that's _after_ the currentUtcDateTime, or
+       * if it's dateOnly, the occurrrence that's _during or after today_.
+       * The reason we use "<" for date only, but "<=" for ocurrences with time is that
+       * if it's date only, the user can still complete that ocurrence today, so that's
+       * the current ocurrence that needs completing.
+       */
+      while ( !todo->recursAt( nextOccurrenceDateTime )                ||
+              ( !isDateOnly && nextOccurrenceDateTime <= rightNow )    ||
+              ( isDateOnly && nextOccurrenceDateTime.date() < rightNow.date() ) ) {
+
         if ( !nextOccurrenceDateTime.isValid() ||
              ( nextOccurrenceDateTime > recurrenceEndDateTime && r->duration() != -1 ) ) {
           return false;
