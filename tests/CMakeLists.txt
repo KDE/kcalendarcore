@@ -38,6 +38,7 @@ KCALCORE_UNIT_TESTS(
   testperiod
   testfreebusyperiod
   testperson
+  testrecurtodo
   testsortablelist
   testtodo
   testtimesininterval
