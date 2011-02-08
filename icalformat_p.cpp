@@ -2797,8 +2797,13 @@ icalcomponent *ICalFormatImpl::createScheduleComponent( const IncidenceBase::Ptr
       if ( !icaltz ) {
         kError() << "bad time zone";
       } else {
+#ifndef Q_OS_WINCE
+        // Since WinCE does not provide a timezone database we
+        // just omit this field and rely on the usage of standard
+        // Olson names.
         icalcomponent *tz = icalcomponent_new_clone( icaltimezone_get_component( icaltz ) );
         icalcomponent_add_component( message, tz );
+#endif
         icaltimezone_free( icaltz, 1 );
       }
     }
