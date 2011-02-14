@@ -73,7 +73,7 @@ void ICalFormatTest::testCharsets()
 
   // Make sure hommer.ics is in UTF-8
   QFile file( "hommer.ics" );
-  Q_ASSERT( file.open( QIODevice::ReadOnly | QIODevice::Text ) );
+  QVERIFY( file.open( QIODevice::ReadOnly | QIODevice::Text ) );
 
   const QByteArray bytesFromFile = file.readAll();
   QVERIFY( bytesFromFile.contains( utf_umlaut ) );

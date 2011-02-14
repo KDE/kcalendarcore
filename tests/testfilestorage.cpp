@@ -155,7 +155,7 @@ void FileStorageTest::testSpecialChars()
 
   // Make sure bart.ics is in UTF-8
   QFile file( QLatin1String( "bart.ics" ) );
-  Q_ASSERT( file.open( QIODevice::ReadOnly | QIODevice::Text ) );
+  QVERIFY( file.open( QIODevice::ReadOnly | QIODevice::Text ) );
 
   const QByteArray bytesFromFile = file.readAll();
   const char utf_umlaut[] = { 0xC3, 0XBC, '\0' };
