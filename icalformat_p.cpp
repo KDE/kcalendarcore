@@ -2782,11 +2782,11 @@ icalcomponent *ICalFormatImpl::createScheduleComponent( const IncidenceBase::Ptr
     const KDateTime kd1 = incidence->dateTime( IncidenceBase::RoleStartTimeZone );
     const KDateTime kd2 = incidence->dateTime( IncidenceBase::RoleEndTimeZone );
 
-    if ( kd1.isValid() ) {
+    if ( kd1.isValid() && kd1.timeZone() != KTimeZone::utc() ) {
       zones.add( ICalTimeZone( kd1.timeZone() ) );
     }
 
-    if ( kd2.isValid() ) {
+    if ( kd2.isValid() && kd2.timeZone() != KTimeZone::utc() ) {
       zones.add( ICalTimeZone( kd2.timeZone() ) );
     }
 
@@ -2797,13 +2797,8 @@ icalcomponent *ICalFormatImpl::createScheduleComponent( const IncidenceBase::Ptr
       if ( !icaltz ) {
         kError() << "bad time zone";
       } else {
-#ifndef Q_OS_WINCE
-        // Since WinCE does not provide a timezone database we
-        // just omit this field and rely on the usage of standard
-        // Olson names.
         icalcomponent *tz = icalcomponent_new_clone( icaltimezone_get_component( icaltz ) );
         icalcomponent_add_component( message, tz );
-#endif
         icaltimezone_free( icaltz, 1 );
       }
     }
