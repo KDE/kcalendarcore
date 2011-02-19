@@ -137,6 +137,7 @@ class KCALCORE_EXPORT ICalFormat : public CalFormat
       into a QByteArray.
 
       @return the QString will be Null if the conversion was unsuccessful.
+      @since 4.7
     */
     QByteArray toRawString( const Incidence::Ptr &incidence );
 
