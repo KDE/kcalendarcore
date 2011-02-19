@@ -367,14 +367,39 @@ QString ICalFormat::createScheduleMessage( const IncidenceBase::Ptr &incidence,
 {
   icalcomponent *message = 0;
 
-  // Handle scheduling ID being present
   if ( incidence->type() == Incidence::TypeEvent ||
        incidence->type() == Incidence::TypeTodo ) {
+
     Incidence::Ptr i = incidence.staticCast<Incidence>();
-    if ( i->schedulingID() != i->uid() ) {
-      // We have a separation of scheduling ID and UID
+
+#ifdef Q_OS_WINCE
+    // Since WinCE can not create proper VTIMEZONE entries, we always
+    // convert the times to UTC
+    const bool useUtcTimes = true;
+#else
+    // Recurring events need timezone information to allow proper calculations
+    // across timezones with different DST.
+    const bool useUtcTimes = !i->recurs();
+#endif
+    const bool hasSchedulingId = (i->schedulingID() != i->uid());
+
+    const bool incidenceNeedChanges = (useUtcTimes || hasSchedulingId);
+
+    if ( incidenceNeedChanges ) {
+      // The incidence need changes, so clone it before we continue
       i = Incidence::Ptr( i->clone() );
-      i->setSchedulingID( QString(), i->schedulingID() );
+
+      // Handle conversion to UTC times
+      if ( useUtcTimes ) {
+        i->shiftTimes( KDateTime::Spec::UTC(), KDateTime::Spec::UTC() );
+      }
+
+      // Handle scheduling ID being present
+      if ( hasSchedulingId ) {
+        // We have a separation of scheduling ID and UID
+        i->setSchedulingID( QString(), i->schedulingID() );
+
+      }
 
       // Build the message with the cloned incidence
       message = d->mImpl->createScheduleComponent( i, method );

@@ -2782,11 +2782,11 @@ icalcomponent *ICalFormatImpl::createScheduleComponent( const IncidenceBase::Ptr
     const KDateTime kd1 = incidence->dateTime( IncidenceBase::RoleStartTimeZone );
     const KDateTime kd2 = incidence->dateTime( IncidenceBase::RoleEndTimeZone );
 
-    if ( kd1.isValid() ) {
+    if ( kd1.isValid() && kd1.timeZone() != KTimeZone::utc() ) {
       zones.add( ICalTimeZone( kd1.timeZone() ) );
     }
 
-    if ( kd2.isValid() ) {
+    if ( kd2.isValid() && kd2.timeZone() != KTimeZone::utc() ) {
       zones.add( ICalTimeZone( kd2.timeZone() ) );
     }
 
