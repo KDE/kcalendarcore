@@ -317,11 +317,16 @@ QString ICalFormat::toICalString( const Incidence::Ptr &incidence )
 
 QString ICalFormat::toString( const Incidence::Ptr &incidence )
 {
+  return QString::fromUtf8( toRawString( incidence ) );
+}
+
+QByteArray ICalFormat::toRawString( const Incidence::Ptr &incidence )
+{
   icalcomponent *component;
 
   component = d->mImpl->writeIncidence( incidence );
 
-  QString text = QString::fromUtf8( icalcomponent_as_ical_string( component ) );
+  QByteArray text = icalcomponent_as_ical_string( component );
 
   icalcomponent_free( component );
 

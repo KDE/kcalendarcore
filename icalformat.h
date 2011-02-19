@@ -132,6 +132,15 @@ class KCALCORE_EXPORT ICalFormat : public CalFormat
     QString toString( const Incidence::Ptr &incidence );
 
     /**
+      Converts an Incidence to a QByteArray.
+      @param incidence is a pointer to an Incidence object to be converted
+      into a QByteArray.
+
+      @return the QString will be Null if the conversion was unsuccessful.
+    */
+    QByteArray toRawString( const Incidence::Ptr &incidence );
+
+    /**
       Converts a RecurrenceRule to a QString.
       @param rule is a pointer to a RecurrenceRule object to be converted
       into a QString.
