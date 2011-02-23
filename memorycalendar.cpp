@@ -132,14 +132,13 @@ void MemoryCalendar::close()
 
 bool MemoryCalendar::deleteIncidence( const Incidence::Ptr &incidence )
 {
-
   // Handle orphaned children
   // relations is an Incidence's property, not a Todo's, so
   // we remove relations in deleteIncidence, not in deleteTodo.
   removeRelations( incidence );
   const Incidence::IncidenceType type = incidence->type();
   const QString uid = incidence->uid();
-  if ( d->mIncidences[Incidence::TypeEvent].remove( uid, incidence ) ) {
+  if ( d->mIncidences[type].remove( uid, incidence ) ) {
     setModified( true );
     notifyIncidenceDeleted( incidence );
     d->mDeletedIncidences[type].insert( uid, incidence );
