@@ -71,7 +71,11 @@ static void _dumpIcaltime( const icaltimetype& t)
 template <typename K>
 void removeAllICal( QVector< QSharedPointer<K> > &c, const QSharedPointer<K> &x )
 {
-  Q_ASSERT( c.count( x ) == 1 );
+  if ( c.count( x ) != 1 ) {
+    qDebug() << "The size of the vector is " << c.count();
+    Q_ASSERT_X( false, "removeAllICal", "Count is not 1." );
+  }
+
   c.remove( c.indexOf( x ) );
 }
 
