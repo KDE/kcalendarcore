@@ -43,6 +43,9 @@ extern "C" {
 #include <uuid/uuid.h>
 #endif
 
+#if defined(Q_OS_WINCE)
+#include <Winbase.h>
+#endif
 using namespace KCalCore;
 
 // Minimum repetition counts for VTIMEZONE RRULEs
@@ -397,6 +400,19 @@ ICalTimeZoneData::ICalTimeZoneData( const ICalTimeZoneData &rhs )
   d->setComponent( icalcomponent_new_clone( rhs.d->component() ) );
 }
 
+#ifdef Q_OS_WINCE
+// Helper function to convert Windows reccurencies to a QDate
+static QDate find_nth_weekday_in_month_of_year( int nth, int dayOfWeek, int month, int year ) {
+    const QDate first( year, month, 1 );
+    const int actualDayOfWeek = first.dayOfWeek();
+    QDate candidate = first.addDays( ( nth - 1 ) * 7 + dayOfWeek - actualDayOfWeek );
+    if ( nth == 5 )
+        if ( candidate.month() != month )
+            candidate = candidate.addDays( -7 );
+    return candidate;
+}
+#endif // Q_OS_WINCE
+
 ICalTimeZoneData::ICalTimeZoneData( const KTimeZoneData &rhs,
                                     const KTimeZone &tz, const QDate &earliest )
   : KTimeZoneData( rhs ),
@@ -464,6 +480,50 @@ ICalTimeZoneData::ICalTimeZoneData( const KTimeZoneData &rhs,
     // Compile an ordered list of transitions so that we can know the phases
     // which occur before and after each transition.
     QList<KTimeZone::Transition> transits = transitions();
+    if ( transits.isEmpty() ) {
+      // If there is no way to compile a complete list of transitions
+      // transitions() can return an empty list
+      // In that case try get one transition to write a valid VTIMEZONE entry.
+#ifdef Q_OS_WINCE
+      TIME_ZONE_INFORMATION currentTimeZone;
+      GetTimeZoneInformation(&currentTimeZone);
+      if ( QString::fromWCharArray( currentTimeZone.StandardName ) != tz.name() ) {
+        kDebug() << "VTIMEZONE entry will be invalid for: " << tz.name();
+      } else {
+        SYSTEMTIME std = currentTimeZone.StandardDate;
+        SYSTEMTIME dlt = currentTimeZone.DaylightDate;
+
+        // Create the according Phases
+        KTimeZone::Phase standardPhase = KTimeZone::Phase( ( currentTimeZone.Bias +
+                                                             currentTimeZone.StandardBias ) * -60,
+                                                           QByteArray(), false );
+        KTimeZone::Phase daylightPhase = KTimeZone::Phase( ( currentTimeZone.Bias +
+                                                             currentTimeZone.DaylightBias ) * -60,
+                                                           QByteArray(), true );
+        // Generate the transitions from the minimal to the maximal year that the calendar
+        // offers on WinCE
+        for ( int i = 2000; i <= 2050; i++ ) {
+          QDateTime standardTime = QDateTime(  find_nth_weekday_in_month_of_year( std.wDay,
+                                                 std.wDayOfWeek ? std.wDayOfWeek : 7,
+                                                 std.wMonth, i ) ,
+                                               QTime( std.wHour, std.wMinute,
+                                                 std.wSecond, std.wMilliseconds ) );
+
+          QDateTime daylightTime = QDateTime(  find_nth_weekday_in_month_of_year( dlt.wDay,
+                                                 dlt.wDayOfWeek ? dlt.wDayOfWeek : 7,
+                                                 dlt.wMonth, i ) ,
+                                               QTime( dlt.wHour, dlt.wMinute,
+                                                 dlt.wSecond, dlt.wMilliseconds ) );
+
+          transits << KTimeZone::Transition( standardTime, standardPhase )
+                   << KTimeZone::Transition( daylightTime, daylightPhase );
+        }
+      }
+#endif // Q_OS_WINCE
+      if ( transits.isEmpty() ) {
+        kDebug() << "No transition information available VTIMEZONE will be invalid.";
+      }
+    }
     if ( earliest.isValid() ) {
       // Remove all transitions earlier than those we are interested in
       for ( int i = 0, end = transits.count();  i < end;  ++i ) {
