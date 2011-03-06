@@ -512,7 +512,6 @@ KDateTime Todo::dateTime( DateTimeRole role ) const
     return dtDue();
   case RoleEndRecurrenceBase:
     return dtDue();
-  case RoleDisplayStart:
   case RoleDisplayEnd:
     return dtDue();
   case RoleAlarm:

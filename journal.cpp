@@ -79,7 +79,6 @@ KDateTime Journal::dateTime( DateTimeRole role ) const
     case RoleEnd:
     case RoleEndTimeZone:
       return KDateTime();
-    case RoleDisplayStart:
     case RoleDisplayEnd:
       return dtStart();
     default:
