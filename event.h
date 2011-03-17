@@ -140,6 +140,10 @@ class KCALCORE_EXPORT Event : public Incidence
     /**
       Returns true if the event spans multiple days, otherwise return false.
 
+      For recurring events, it returns true if the first occurrence spans multiple days,
+      otherwise returns false. Other occurrences might have a different span due to day light
+      savings changes.
+
       @param spec If set, looks if the event is multiday for the given spec.
       If not set, looks if event this multiday for its spec.
     */
