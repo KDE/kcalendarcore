@@ -210,7 +210,7 @@ bool Event::isMultiDay( const KDateTime::Spec &spec ) const
     end = end.addSecs( -1 );
   }
 
-  bool multi = ( start.date() != end.date() && start <= end );
+  const bool multi = ( start.date() != end.date() && start <= end );
 
   // Update the cache
   if ( spec.isValid() ) {
