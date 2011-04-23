@@ -285,13 +285,8 @@ QString ICalFormat::toString( const Calendar::Ptr &cal,
     if ( !tz ) {
       kError() << "bad time zone";
     } else {
-#ifndef Q_OS_WINCE
-      // Since WinCE does not provide a timezone database we
-      // just omit this field and rely on the usage of standard
-      // Olson names. 
 	  component = icalcomponent_new_clone( icaltimezone_get_component( tz ) );
       icalcomponent_add_component( calendar, component );
-#endif
       icaltimezone_free( tz, 1 );
     }
   }
@@ -372,15 +367,10 @@ QString ICalFormat::createScheduleMessage( const IncidenceBase::Ptr &incidence,
 
     Incidence::Ptr i = incidence.staticCast<Incidence>();
 
-#ifdef Q_OS_WINCE
-    // Since WinCE can not create proper VTIMEZONE entries, we always
-    // convert the times to UTC
-    const bool useUtcTimes = true;
-#else
     // Recurring events need timezone information to allow proper calculations
     // across timezones with different DST.
     const bool useUtcTimes = !i->recurs();
-#endif
+
     const bool hasSchedulingId = (i->schedulingID() != i->uid());
 
     const bool incidenceNeedChanges = (useUtcTimes || hasSchedulingId);
