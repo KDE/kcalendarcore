@@ -632,6 +632,11 @@ KUrl IncidenceBase::uri() const
   return KUrl( QString( "urn:x-ical:" ) + uid() );
 }
 
+void IncidenceBase::setDirtyFields( const QSet<IncidenceBase::Field> &dirtyFields )
+{
+  d->mDirtyFields = dirtyFields;
+}
+
 IncidenceBase::IncidenceObserver::~IncidenceObserver()
 {
 }
