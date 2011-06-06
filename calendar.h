@@ -32,6 +32,19 @@
   @author David Jarvie \<software@astrojar.org.uk\>
  */
 
+/**
+
+TODO: KDE5:
+
+This API needs serious cleaning up:
+- Most (all) methods aren't async ( deleteIncidence(), addIncidence(), load(), save(), ... )
+  so it's not very easy to make a derived class that loads from akonadi.
+
+- It has too many methods. Why do we need fooEvent()/fooJournal()/fooTodo() when fooIncidence()
+  should be enough.
+
+*/
+
 #ifndef KCALCORE_CALENDAR_H
 #define KCALCORE_CALENDAR_H
 
