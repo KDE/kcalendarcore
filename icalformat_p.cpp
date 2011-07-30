@@ -235,6 +235,14 @@ icalcomponent *ICalFormatImpl::writeTodo( const Todo::Ptr &todo, ICalTimeZones *
   icalcomponent_add_property(
     vtodo, icalproperty_new_percentcomplete( todo->percentComplete() ) );
 
+  if ( todo->isCompleted() ) {
+    if ( icalcomponent_count_properties( vtodo, ICAL_STATUS_PROPERTY ) ) {
+      icalproperty *p = icalcomponent_get_first_property( vtodo, ICAL_STATUS_PROPERTY );
+      icalcomponent_remove_property( vtodo, p );
+    }
+    icalcomponent_add_property( vtodo, icalproperty_new_status( ICAL_STATUS_COMPLETED ) );
+  }
+
   if ( todo->recurs() && todo->dtDue().isValid() ) {
     // dtDue( first = true ) returns the dtRecurrence()
     prop = writeICalDateTimeProperty( ICAL_X_PROPERTY, todo->dtDue(), tzlist, tzUsedList );
