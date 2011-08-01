@@ -72,8 +72,9 @@ template <typename K>
 void removeAllICal( QVector< QSharedPointer<K> > &c, const QSharedPointer<K> &x )
 {
   if ( c.count( x ) != 1 ) {
-    qDebug() << "The size of the vector is " << c.count();
+    qCritical() << "The size of the vector is " << c.count();
     Q_ASSERT_X( false, "removeAllICal", "Count is not 1." );
+    return;
   }
 
   c.remove( c.indexOf( x ) );
