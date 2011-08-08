@@ -125,7 +125,7 @@ bool FileStorage::load()
           kDebug() << "Fallback to VCalFormat";
           VCalFormat vCal;
           success = vCal.load( calendar(), d->mFileName );
-	  productId = vCal.loadedProductId();
+          productId = vCal.loadedProductId();
         } else {
           return false;
         }
