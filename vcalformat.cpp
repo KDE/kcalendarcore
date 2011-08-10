@@ -1698,7 +1698,7 @@ Event::Ptr VCalFormat::VEventToEvent( VObject *vevent )
 QString VCalFormat::parseTZ( const QByteArray &timezone ) const
 {
   QString pZone = timezone.mid( timezone.indexOf( "TZID:VCAL" ) + 9 );
-  return pZone.mid( 0, pZone.indexOf(QChar( QLatin1Char( '\n' ) ) ) );
+  return pZone.mid( 0, pZone.indexOf( QChar( QLatin1Char( '\n' ) ) ) );
 }
 
 QString VCalFormat::parseDst( QByteArray &timezone ) const
@@ -2077,11 +2077,11 @@ void VCalFormat::populate( VObject *vcal, bool deleted, const QString &notebook 
           KDateTime dtStart( aTodo->dtStart().dateTime().addSecs( utcOffSet ),
                             d->mCalendar->timeSpec() );
           aTodo->setDtStart( dtStart );
-	  if ( aTodo->hasDueDate() ) {
+          if ( aTodo->hasDueDate() ) {
             KDateTime dtDue( aTodo->dtDue().dateTime().addSecs( utcOffSet ),
                             d->mCalendar->timeSpec() );
-	    aTodo->setDtDue( dtDue );
-	  }
+            aTodo->setDtDue( dtDue );
+          }
         }
         Todo::Ptr old = !aTodo->hasRecurrenceId() ?
       d->mCalendar->todo( aTodo->uid() ) :

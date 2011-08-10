@@ -1148,7 +1148,7 @@ Todo::Ptr ICalFormatImpl::readTodo( icalcomponent *vtodo, ICalTimeZones *tzlist 
         kDebug() << "Invalid dateTime";
       }
     }
-      break;
+    break;
     default:
       // TODO: do something about unknown properties?
       break;
@@ -2275,7 +2275,7 @@ icalproperty *ICalFormatImpl::writeICalDateTimeProperty( const icalproperty_kind
     icalvalue *text = icalvalue_new_datetime( timeType );
     icalproperty_set_value( p, text );
   }
-    break;
+  break;
   default:
   {
     icaldatetimeperiodtype tp;
@@ -2410,7 +2410,7 @@ KDateTime ICalFormatImpl::readICalDateTimeProperty( icalproperty *p,
     const char *name = icalproperty_get_x_name( p );
     if ( QLatin1String( name ) == QLatin1String( "X-KDE-LIBKCAL-DTRECURRENCE" ) ) {
       const char *value =  icalvalue_as_ical_string( icalproperty_get_value( p ) );
-      icalvalue* v =  icalvalue_new_from_string( ICAL_DATETIME_VALUE, value  );
+      icalvalue *v = icalvalue_new_from_string( ICAL_DATETIME_VALUE, value );
       tp.time = icalvalue_get_datetime( v );
       icalvalue_free( v );
       break;
@@ -2664,7 +2664,7 @@ bool ICalFormatImpl::populate( const Calendar::Ptr &cal, icalcomponent *calendar
           c = icalcomponent_get_next_component( calendar, ICAL_VEVENT_COMPONENT );
           continue;
         }
-          qDebug() << "OLD EVENT" << old->uid();
+        qDebug() << "OLD EVENT" << old->uid();
         if ( deleted ) {
           cal->deleteEvent( old ); // move old to deleted
           removeAllICal( d->mEventsRelate, old );

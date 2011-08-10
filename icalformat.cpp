@@ -285,7 +285,7 @@ QString ICalFormat::toString( const Calendar::Ptr &cal,
     if ( !tz ) {
       kError() << "bad time zone";
     } else {
-	  component = icalcomponent_new_clone( icaltimezone_get_component( tz ) );
+      component = icalcomponent_new_clone( icaltimezone_get_component( tz ) );
       icalcomponent_add_component( calendar, component );
       icaltimezone_free( tz, 1 );
     }
@@ -371,9 +371,9 @@ QString ICalFormat::createScheduleMessage( const IncidenceBase::Ptr &incidence,
     // across timezones with different DST.
     const bool useUtcTimes = !i->recurs();
 
-    const bool hasSchedulingId = (i->schedulingID() != i->uid());
+    const bool hasSchedulingId = ( i->schedulingID() != i->uid() );
 
-    const bool incidenceNeedChanges = (useUtcTimes || hasSchedulingId);
+    const bool incidenceNeedChanges = ( useUtcTimes || hasSchedulingId );
 
     if ( incidenceNeedChanges ) {
       // The incidence need changes, so clone it before we continue

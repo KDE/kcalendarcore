@@ -401,15 +401,17 @@ ICalTimeZoneData::ICalTimeZoneData( const ICalTimeZoneData &rhs )
 }
 
 #ifdef Q_OS_WINCE
-// Helper function to convert Windows reccurencies to a QDate
+// Helper function to convert Windows recurrences to a QDate
 static QDate find_nth_weekday_in_month_of_year( int nth, int dayOfWeek, int month, int year ) {
-    const QDate first( year, month, 1 );
-    const int actualDayOfWeek = first.dayOfWeek();
-    QDate candidate = first.addDays( ( nth - 1 ) * 7 + dayOfWeek - actualDayOfWeek );
-    if ( nth == 5 )
-        if ( candidate.month() != month )
-            candidate = candidate.addDays( -7 );
-    return candidate;
+  const QDate first( year, month, 1 );
+  const int actualDayOfWeek = first.dayOfWeek();
+  QDate candidate = first.addDays( ( nth - 1 ) * 7 + dayOfWeek - actualDayOfWeek );
+  if ( nth == 5 ) {
+    if ( candidate.month() != month ) {
+      candidate = candidate.addDays( -7 );
+    }
+  }
+  return candidate;
 }
 #endif // Q_OS_WINCE
 
@@ -486,7 +488,7 @@ ICalTimeZoneData::ICalTimeZoneData( const KTimeZoneData &rhs,
       // In that case try get one transition to write a valid VTIMEZONE entry.
 #ifdef Q_OS_WINCE
       TIME_ZONE_INFORMATION currentTimeZone;
-      GetTimeZoneInformation(&currentTimeZone);
+      GetTimeZoneInformation( &currentTimeZone );
       if ( QString::fromWCharArray( currentTimeZone.StandardName ) != tz.name() ) {
         kDebug() << "VTIMEZONE entry will be invalid for: " << tz.name();
       } else {
@@ -503,17 +505,19 @@ ICalTimeZoneData::ICalTimeZoneData( const KTimeZoneData &rhs,
         // Generate the transitions from the minimal to the maximal year that the calendar
         // offers on WinCE
         for ( int i = 2000; i <= 2050; i++ ) {
-          QDateTime standardTime = QDateTime(  find_nth_weekday_in_month_of_year( std.wDay,
-                                                 std.wDayOfWeek ? std.wDayOfWeek : 7,
-                                                 std.wMonth, i ) ,
-                                               QTime( std.wHour, std.wMinute,
-                                                 std.wSecond, std.wMilliseconds ) );
+          QDateTime standardTime = QDateTime( find_nth_weekday_in_month_of_year(
+                                                std.wDay,
+                                                std.wDayOfWeek ? std.wDayOfWeek : 7,
+                                                std.wMonth, i ),
+                                              QTime( std.wHour, std.wMinute,
+                                                     std.wSecond, std.wMilliseconds ) );
 
-          QDateTime daylightTime = QDateTime(  find_nth_weekday_in_month_of_year( dlt.wDay,
-                                                 dlt.wDayOfWeek ? dlt.wDayOfWeek : 7,
-                                                 dlt.wMonth, i ) ,
-                                               QTime( dlt.wHour, dlt.wMinute,
-                                                 dlt.wSecond, dlt.wMilliseconds ) );
+          QDateTime daylightTime = QDateTime( find_nth_weekday_in_month_of_year(
+                                                dlt.wDay,
+                                                dlt.wDayOfWeek ? dlt.wDayOfWeek : 7,
+                                                dlt.wMonth, i ),
+                                              QTime( dlt.wHour, dlt.wMinute,
+                                                     dlt.wSecond, dlt.wMilliseconds ) );
 
           transits << KTimeZone::Transition( standardTime, standardPhase )
                    << KTimeZone::Transition( daylightTime, daylightPhase );

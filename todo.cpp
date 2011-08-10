@@ -456,7 +456,8 @@ bool Todo::Private::recurTodo( Todo *todo )
            ( nextOccurrenceDateTime.isValid() && recurrenceEndDateTime.isValid() &&
              nextOccurrenceDateTime <= recurrenceEndDateTime ) ) ) {
       // We convert to the same timeSpec so we get the correct .date()
-      const KDateTime rightNow = KDateTime::currentUtcDateTime().toTimeSpec( nextOccurrenceDateTime.timeSpec() );
+      const KDateTime rightNow =
+        KDateTime::currentUtcDateTime().toTimeSpec( nextOccurrenceDateTime.timeSpec() );
       const bool isDateOnly = todo->allDay();
 
       /* Now we search for the occurrence that's _after_ the currentUtcDateTime, or
