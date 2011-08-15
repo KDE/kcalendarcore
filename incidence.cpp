@@ -290,13 +290,11 @@ bool Incidence::equals( const IncidenceBase &incidence ) const
 
 void Incidence::recreate()
 {
-  KDateTime nowUTC = KDateTime::currentUtcDateTime();
+  const KDateTime nowUTC = KDateTime::currentUtcDateTime();
   setCreated( nowUTC );
 
   setSchedulingID( QString(), CalFormat::createUniqueId() );
-
   setRevision( 0 );
-
   setLastModified( nowUTC );
 }
 
