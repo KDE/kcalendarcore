@@ -64,7 +64,11 @@ int main( int argc, char **argv )
     kDebug() << "EVENT1 START:" << eventString1 << "EVENT1 END";
   }
 
+  event1->setSchedulingID( "foo" );
   Incidence::Ptr event2 = Incidence::Ptr( event1->clone() );
+
+  Q_ASSERT( event1->uid() == event2->uid() );
+  Q_ASSERT( event1->schedulingID() == event2->schedulingID() );
 
   QString eventString2 = f.toString( event2.staticCast<Incidence>() );
   if( verbose ) {
