@@ -21,7 +21,7 @@
 #include "testrecurtodo.h"
 #include "testrecurtodo.moc"
 #include "../todo.h"
-//#include <kdebug.h>
+#include <kdebug.h>
 #include <qtest_kde.h>
 QTEST_KDEMAIN( RecurTodoTest, NoGUI )
 
@@ -62,19 +62,29 @@ void RecurTodoTest::testNonAllDay()
 
   Todo *todo = new Todo();
   todo->setDtStart( KDateTime( twoDaysAgo ) );
-  todo->setDtDue( KDateTime( treeDaysAgo, currentTime ) );
+  const KDateTime originalDtDue(treeDaysAgo, currentTime );
+  todo->setDtDue( originalDtDue );
   todo->setSummary( QLatin1String( "Not an all day event" ) );
   todo->setAllDay( false );
 
   Recurrence *recurrence = todo->recurrence();
   recurrence->unsetRecurs();
   recurrence->setDaily( 1 );
-  QVERIFY( todo->dtDue() == KDateTime( treeDaysAgo, currentTime ) );
+  QVERIFY( todo->dtDue() == originalDtDue );
   todo->setCompleted( KDateTime::currentUtcDateTime() );
   QVERIFY( todo->recurs() );
   QVERIFY( todo->percentComplete() == 0 );
-  //kDebug() << todo->dtDue() << KDateTime( currentDate, currentTime, todo->dtDue().timeSpec() ).addDays( 1 );
-  QVERIFY( todo->dtDue() == KDateTime( currentDate, currentTime, todo->dtDue().timeSpec() ).addDays( 1 ) );
+
+  const bool equal = todo->dtDue() == KDateTime( currentDate,
+                                                 currentTime,
+                                                 todo->dtDue().timeSpec() ).addDays( 1 );
+  if ( !equal ) {
+    kDebug() << "Test Failed. dtDue = " << todo->dtDue() << "OriginalDtDue:" << originalDtDue
+             <<  "KDateTime:"
+             << KDateTime( currentDate, currentTime, todo->dtDue().timeSpec() ).addDays( 1 );
+  }
+
+  QVERIFY( equal );
 
   todo->setCompleted( KDateTime::currentUtcDateTime() );
   QVERIFY( todo->dtDue() == KDateTime( currentDate, currentTime, todo->dtDue().timeSpec() ).addDays( 2 ) );
