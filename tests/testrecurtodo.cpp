@@ -56,12 +56,12 @@ void RecurTodoTest::testNonAllDay()
   const QDate currentDate = currentDateTime.date();
   const QTime currentTimeWithMS = currentDateTime.time();
 
-  const QDate twoDaysAgo( currentDate.addDays( -2 ) );
+  const QDate fourDaysAgo( currentDate.addDays( -4 ) );
   const QDate treeDaysAgo( currentDate.addDays( -3 ) );
   const QTime currentTime( currentTimeWithMS.hour(), currentTimeWithMS.minute(), currentTimeWithMS.second() );
 
   Todo *todo = new Todo();
-  todo->setDtStart( KDateTime( twoDaysAgo ) );
+  todo->setDtStart( KDateTime( fourDaysAgo ) );
   const KDateTime originalDtDue(treeDaysAgo, currentTime );
   todo->setDtDue( originalDtDue );
   todo->setSummary( QLatin1String( "Not an all day event" ) );
