@@ -52,11 +52,13 @@ void RecurTodoTest::testAllDay()
 
 void RecurTodoTest::testNonAllDay()
 {
-  const QDate twoDaysAgo( QDate::currentDate().addDays( -2 ) );
-  const QDate treeDaysAgo( QDate::currentDate().addDays( -3 ) );
-  const QTime currentTimeWithMS = QTime::currentTime();
+  const QDateTime currentDateTime = QDateTime::currentDateTime();
+  const QDate currentDate = currentDateTime.date();
+  const QTime currentTimeWithMS = currentDateTime.time();
+
+  const QDate twoDaysAgo( currentDate.addDays( -2 ) );
+  const QDate treeDaysAgo( currentDate.addDays( -3 ) );
   const QTime currentTime( currentTimeWithMS.hour(), currentTimeWithMS.minute(), currentTimeWithMS.second() );
-  const QDate currentDate = QDate::currentDate();
 
   Todo *todo = new Todo();
   todo->setDtStart( KDateTime( twoDaysAgo ) );
