@@ -493,8 +493,8 @@ VObject *VCalFormat::eventToVTodo( const Todo::Ptr &anEvent )
   if ( !anEvent->description().isEmpty() ) {
     QByteArray in = anEvent->description().toUtf8();
     QByteArray out;
-    KCodecs::quotedPrintableEncode (in, out, true);
-    if (out != in) {
+    KCodecs::quotedPrintableEncode( in, out, true );
+    if ( out != in ) {
       VObject *d = addPropValue( vtodo, VCDescriptionProp, out );
       addPropValue( d, VCEncodingProp, VCQuotedPrintableProp );
       addPropValue( d, VCCharSetProp, VCUtf8Prop );
@@ -507,8 +507,8 @@ VObject *VCalFormat::eventToVTodo( const Todo::Ptr &anEvent )
   if ( !anEvent->summary().isEmpty() ) {
     QByteArray in = anEvent->summary().toUtf8();
     QByteArray out;
-    KCodecs::quotedPrintableEncode (in, out, true);
-    if (out != in) {
+    KCodecs::quotedPrintableEncode( in, out, true );
+    if ( out != in ) {
       VObject *d = addPropValue( vtodo, VCSummaryProp, out );
       addPropValue( d, VCEncodingProp, VCQuotedPrintableProp );
       addPropValue( d, VCCharSetProp, VCUtf8Prop );
@@ -521,8 +521,8 @@ VObject *VCalFormat::eventToVTodo( const Todo::Ptr &anEvent )
   if ( !anEvent->location().isEmpty() ) {
     QByteArray in = anEvent->location().toUtf8();
     QByteArray out;
-    KCodecs::quotedPrintableEncode (in, out, true);
-    if (out != in) {
+    KCodecs::quotedPrintableEncode( in, out, true );
+    if ( out != in ) {
       VObject *d = addPropValue( vtodo, VCLocationProp, out );
       addPropValue( d, VCEncodingProp, VCQuotedPrintableProp );
       addPropValue( d, VCCharSetProp, VCUtf8Prop );
@@ -844,8 +844,8 @@ VObject *VCalFormat::eventToVEvent( const Event::Ptr &anEvent )
   if ( !anEvent->description().isEmpty() ) {
     QByteArray in = anEvent->description().toUtf8();
     QByteArray out;
-    KCodecs::quotedPrintableEncode (in, out, true);
-    if (out != in) {
+    KCodecs::quotedPrintableEncode( in, out, true );
+    if ( out != in ) {
       VObject *d = addPropValue( vevent, VCDescriptionProp, out );
       addPropValue( d, VCEncodingProp, VCQuotedPrintableProp );
       addPropValue( d, VCCharSetProp, VCUtf8Prop );
@@ -858,8 +858,8 @@ VObject *VCalFormat::eventToVEvent( const Event::Ptr &anEvent )
   if ( !anEvent->summary().isEmpty() ) {
     QByteArray in = anEvent->summary().toUtf8();
     QByteArray out;
-    KCodecs::quotedPrintableEncode (in, out, true);
-    if (out != in) {
+    KCodecs::quotedPrintableEncode( in, out, true );
+    if ( out != in ) {
       VObject *d = addPropValue( vevent, VCSummaryProp, out );
       addPropValue( d, VCEncodingProp, VCQuotedPrintableProp );
       addPropValue( d, VCCharSetProp, VCUtf8Prop );
@@ -872,8 +872,8 @@ VObject *VCalFormat::eventToVEvent( const Event::Ptr &anEvent )
   if ( !anEvent->location().isEmpty() ) {
     QByteArray in = anEvent->location().toUtf8();
     QByteArray out;
-    KCodecs::quotedPrintableEncode (in, out, true);
-    if (out != in) {
+    KCodecs::quotedPrintableEncode( in, out, true );
+    if ( out != in ) {
       VObject *d = addPropValue( vevent, VCLocationProp, out );
       addPropValue( d, VCEncodingProp, VCQuotedPrintableProp );
       addPropValue( d, VCCharSetProp, VCUtf8Prop );
@@ -1160,7 +1160,7 @@ Todo::Ptr VCalFormat::VTodoToEvent( VObject *vtodo )
          anEvent->dtDue().time().second() == 0 ) {
 #if defined(KCALCORE_FOR_MEEGO)
       QDate dueDate = anEvent->dtDue().date();
-      anEvent->setDtDue(KDateTime(dueDate, KDateTime::ClockTime));
+      anEvent->setDtDue( KDateTime( dueDate, KDateTime::ClockTime ) );
 #endif
       anEvent->setAllDay( true );
     }
@@ -1178,7 +1178,7 @@ Todo::Ptr VCalFormat::VTodoToEvent( VObject *vtodo )
          anEvent->dtStart().time().second() == 0 ) {
 #if defined(KCALCORE_FOR_MEEGO)
       QDate startDate = anEvent->dtStart().date();
-      anEvent->setDtStart(KDateTime(startDate, KDateTime::ClockTime));
+      anEvent->setDtStart( KDateTime( startDate, KDateTime::ClockTime ) );
 #endif
       anEvent->setAllDay( true );
     }
@@ -1385,7 +1385,6 @@ Todo::Ptr VCalFormat::VTodoToEvent( VObject *vtodo )
     }
     deleteStr( s );
   }
-
 
   // alarm stuff
   if ( ( vo = isAPropertyOf( vtodo, VCDAlarmProp ) ) ) {
@@ -1631,7 +1630,7 @@ Event::Ptr VCalFormat::VEventToEvent( VObject *vevent )
          anEvent->dtStart().time().second() == 0 ) {
 #if defined(KCALCORE_FOR_MEEGO)
       QDate startDate = anEvent->dtStart().date();
-      anEvent->setDtStart(KDateTime(startDate, KDateTime::ClockTime));
+      anEvent->setDtStart( KDateTime( startDate, KDateTime::ClockTime ) );
 #endif
       anEvent->setAllDay( true );
     }
@@ -1647,7 +1646,7 @@ Event::Ptr VCalFormat::VEventToEvent( VObject *vevent )
          anEvent->dtEnd().time().second() == 0 ) {
 #if defined(KCALCORE_FOR_MEEGO)
       QDate endDate = anEvent->dtEnd().date();
-      anEvent->setDtEnd(KDateTime(endDate, KDateTime::ClockTime));
+      anEvent->setDtEnd( KDateTime( endDate, KDateTime::ClockTime ) );
 #endif
       anEvent->setAllDay( true );
     }
@@ -2349,27 +2348,27 @@ void VCalFormat::populate( VObject *vcal, bool deleted, const QString &notebook 
             QString strStartDate = argl[2];
             KDateTime startDate = ISOToKDateTime( strStartDate );
 
-	    QString strRealEndDate = strEndDate;
-	    QString strRealStartDate = strStartDate;
-	    KDateTime realEndDate = endDate;
-	    KDateTime realStartDate = startDate;
-	    // if we get dates for some reason in wrong order, earlier is used for dst
-	    if (endDate < startDate) {
-	      strRealEndDate = strStartDate;
-	      strRealStartDate = strEndDate;
-	      realEndDate = startDate;
-	      realStartDate = endDate;
-	    }
-	    tz = QString( "%1;%2;false;%3" ).
-	      arg( strRealEndDate ).
-	      arg( QString::number( utcOffset ) ).
-	      arg( realEndDate.toString() );
-	    tzList.append( tz );
+            QString strRealEndDate = strEndDate;
+            QString strRealStartDate = strStartDate;
+            KDateTime realEndDate = endDate;
+            KDateTime realStartDate = startDate;
+            // if we get dates for some reason in wrong order, earlier is used for dst
+            if ( endDate < startDate ) {
+              strRealEndDate = strStartDate;
+              strRealStartDate = strEndDate;
+              realEndDate = startDate;
+              realStartDate = endDate;
+            }
+            tz = QString( "%1;%2;false;%3" ).
+                 arg( strRealEndDate ).
+                 arg( QString::number( utcOffset ) ).
+                 arg( realEndDate.toString() );
+            tzList.append( tz );
 
             tz = QString( "%1;%2;true;%3" ).
-	      arg( strRealStartDate ).
+                 arg( strRealStartDate ).
                  arg( QString::number( utcOffsetDst ) ).
-		arg( realStartDate.toString() );
+                 arg( realStartDate.toString() );
             tzList.append( tz );
           } else {
             kDebug() << "unable to parse dst" << argl[1];

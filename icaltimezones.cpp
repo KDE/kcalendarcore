@@ -362,13 +362,21 @@ void ICalTimeZone::virtual_hook( int id, void *data )
 class ICalTimeZoneDataPrivate
 {
   public:
-    ICalTimeZoneDataPrivate() : location(QString()), url(QByteArray()), lastModified(QDateTime()), icalComponent(0) {}
+    ICalTimeZoneDataPrivate()
+      : location( QString() ),
+        url( QByteArray() ),
+        lastModified( QDateTime() ),
+        icalComponent( 0 )
+    {
+    }
+
     ~ICalTimeZoneDataPrivate()
     {
       if ( icalComponent ) {
         icalcomponent_free( icalComponent );
       }
     }
+
     icalcomponent *component() const { return icalComponent; }
     void setComponent( icalcomponent *c )
     {
@@ -377,9 +385,11 @@ class ICalTimeZoneDataPrivate
       }
       icalComponent = c;
     }
+
     QString       location;       // name of city for this time zone
     QByteArray    url;            // URL of published VTIMEZONE definition (optional)
     QDateTime     lastModified;   // time of last modification of the VTIMEZONE component (optional)
+
   private:
     icalcomponent *icalComponent; // ical component representing this time zone
 };
