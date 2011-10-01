@@ -362,7 +362,7 @@ void ICalTimeZone::virtual_hook( int id, void *data )
 class ICalTimeZoneDataPrivate
 {
   public:
-    ICalTimeZoneDataPrivate() : icalComponent(0) {}
+    ICalTimeZoneDataPrivate() : location(QString()), url(QByteArray()), lastModified(QDateTime()), icalComponent(0) {}
     ~ICalTimeZoneDataPrivate()
     {
       if ( icalComponent ) {
@@ -437,9 +437,11 @@ ICalTimeZoneData::ICalTimeZoneData( const KTimeZoneData &rhs,
       if ( ktz.data(true) ) {
         ICalTimeZone icaltz( ktz, earliest );
         icaltimezone *itz = icaltz.icalTimezone();
+        if (itz) {
         c = icalcomponent_new_clone( icaltimezone_get_component( itz ) );
         icaltimezone_free( itz, 1 );
       }
+    }
     }
     if ( !c ) {
       // Try to fetch a built-in libical time zone.
@@ -1067,7 +1069,7 @@ ICalTimeZone ICalTimeZoneSource::parse( MSTimeZone *tz )
                                   "Microsoft TIME_ZONE_INFORMATION" );
   phases += daylightPhase;
 
-  int prevOffset = 0;
+  int prevOffset = tz->Bias * -60;
   kdata.setPhases( phases, prevOffset );
 
   // Create transitions

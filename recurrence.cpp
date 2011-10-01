@@ -541,6 +541,7 @@ void Recurrence::unsetRecurs()
   if ( d->mRecurReadOnly ) {
     return;
   }
+  qDeleteAll( d->mRRules );
   d->mRRules.clear();
   updated();
 }
@@ -550,7 +551,9 @@ void Recurrence::clear()
   if ( d->mRecurReadOnly ) {
     return;
   }
+  qDeleteAll( d->mRRules );
   d->mRRules.clear();
+  qDeleteAll( d->mExRules );
   d->mExRules.clear();
   d->mRDates.clear();
   d->mRDateTimes.clear();
@@ -689,6 +692,7 @@ RecurrenceRule *Recurrence::setNewRecurrenceType( RecurrenceRule::PeriodType typ
     return 0;
   }
 
+  qDeleteAll( d->mRRules );
   d->mRRules.clear();
   updated();
   RecurrenceRule *rrule = defaultRRule( true );

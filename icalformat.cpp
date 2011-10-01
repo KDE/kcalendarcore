@@ -70,6 +70,7 @@ ICalFormat::ICalFormat()
 
 ICalFormat::~ICalFormat()
 {
+  icalmemory_free_ring();
   delete d;
 }
 
@@ -291,7 +292,9 @@ QString ICalFormat::toString( const Calendar::Ptr &cal,
     }
   }
 
-  QString text = QString::fromUtf8( icalcomponent_as_ical_string( calendar ) );
+  char *const componentString = icalcomponent_as_ical_string_r( calendar );
+  const QString &text = QString::fromUtf8( componentString );
+  free(componentString);
 
   icalcomponent_free( calendar );
   icalmemory_free_ring();
