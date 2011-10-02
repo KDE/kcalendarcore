@@ -29,6 +29,7 @@ using namespace KCalCore;
 
 void RecurTodoTest::testAllDay()
 {
+  qputenv( "TZ", "GMT" );
   const QDate dueDate( QDate::currentDate().addDays( -3 ) );
   Todo *todo = new Todo();
   todo->setDtStart( KDateTime( dueDate.addDays( -1 ) ) );
@@ -52,6 +53,7 @@ void RecurTodoTest::testAllDay()
 
 void RecurTodoTest::testNonAllDay()
 {
+  qputenv( "TZ", "GMT" );
   const QDateTime currentDateTime = QDateTime::currentDateTime();
   const QDate currentDate = currentDateTime.date();
   const QTime currentTimeWithMS = currentDateTime.time();
