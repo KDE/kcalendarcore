@@ -47,7 +47,7 @@ class KCalCore::MemoryCalendar::Private
 {
   public:
     Private( MemoryCalendar *qq )
-      : q( qq ), mFileName( QString() ), mFormat( 0 )
+      : q( qq ), mFormat( 0 )
     {
     }
     ~Private()

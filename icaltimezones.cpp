@@ -362,13 +362,7 @@ void ICalTimeZone::virtual_hook( int id, void *data )
 class ICalTimeZoneDataPrivate
 {
   public:
-    ICalTimeZoneDataPrivate()
-      : location( QString() ),
-        url( QByteArray() ),
-        lastModified( QDateTime() ),
-        icalComponent( 0 )
-    {
-    }
+    ICalTimeZoneDataPrivate() : icalComponent( 0 ) {}
 
     ~ICalTimeZoneDataPrivate()
     {
