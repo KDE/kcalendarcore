@@ -321,10 +321,27 @@ QString ICalFormat::toString( const Incidence::Ptr &incidence )
 QByteArray ICalFormat::toRawString( const Incidence::Ptr &incidence )
 {
   icalcomponent *component;
+  ICalTimeZones tzlist;
+  ICalTimeZones tzUsedList;
 
-  component = d->mImpl->writeIncidence( incidence );
+  component = d->mImpl->writeIncidence( incidence, iTIPRequest, &tzlist, &tzUsedList );
 
   QByteArray text = icalcomponent_as_ical_string( component );
+
+  // time zones
+  ICalTimeZones::ZoneMap zones = tzUsedList.zones();
+  for ( ICalTimeZones::ZoneMap::ConstIterator it=zones.constBegin();
+        it != zones.constEnd(); ++it ) {
+    icaltimezone *tz = (*it).icalTimezone();
+    if ( !tz ) {
+      kError() << "bad time zone";
+    } else {
+      icalcomponent *tzcomponent = icaltimezone_get_component( tz );
+      icalcomponent_add_component( component, component );
+      text.append( icalcomponent_as_ical_string( tzcomponent ) );
+      icaltimezone_free( tz, 1 );
+    }
+  }
 
   icalcomponent_free( component );
 

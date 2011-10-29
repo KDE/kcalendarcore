@@ -102,7 +102,9 @@ class ICalFormatImpl
                    bool deleted = false, const QString &notebook = QString() );
 
     icalcomponent *writeIncidence( const IncidenceBase::Ptr &incidence,
-                                   iTIPMethod method = iTIPRequest );
+                                   iTIPMethod method = iTIPRequest,
+                                   ICalTimeZones *tzList = 0,
+                                   ICalTimeZones *tzUsedList = 0 );
 
     icalcomponent *writeTodo( const Todo::Ptr &todo, ICalTimeZones *tzlist = 0,
                               ICalTimeZones *tzUsedList = 0 );

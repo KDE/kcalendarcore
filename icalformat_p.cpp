@@ -98,22 +98,22 @@ const int gSecondsPerWeek   = gSecondsPerDay    * 7;
 class ToComponentVisitor : public Visitor
 {
   public:
-    ToComponentVisitor( ICalFormatImpl *impl, iTIPMethod m )
-      : mImpl( impl ), mComponent( 0 ), mMethod( m ) {}
+    ToComponentVisitor( ICalFormatImpl *impl, iTIPMethod m, ICalTimeZones *tzList = 0, ICalTimeZones *tzUsedList = 0 )
+      : mImpl( impl ), mComponent( 0 ), mMethod( m ), mTzList( tzList ), mTzUsedList( tzUsedList ) {}
 
     bool visit( Event::Ptr e )
     {
-      mComponent = mImpl->writeEvent( e );
+      mComponent = mImpl->writeEvent( e, mTzList, mTzUsedList );
       return true;
     }
     bool visit( Todo::Ptr t )
     {
-      mComponent = mImpl->writeTodo( t );
+      mComponent = mImpl->writeTodo( t, mTzList, mTzUsedList );
       return true;
     }
     bool visit( Journal::Ptr j )
     {
-      mComponent = mImpl->writeJournal( j );
+      mComponent = mImpl->writeJournal( j, mTzList, mTzUsedList );
       return true;
     }
     bool visit( FreeBusy::Ptr fb )
@@ -131,6 +131,8 @@ class ToComponentVisitor : public Visitor
     ICalFormatImpl *mImpl;
     icalcomponent *mComponent;
     iTIPMethod mMethod;
+    ICalTimeZones *mTzList;
+    ICalTimeZones *mTzUsedList;
 };
 
 class ICalFormatImpl::Private
@@ -174,9 +176,11 @@ QString ICalFormatImpl::loadedProductId() const
 }
 
 icalcomponent *ICalFormatImpl::writeIncidence( const IncidenceBase::Ptr &incidence,
-                                               iTIPMethod method )
+                                               iTIPMethod method,
+                                               ICalTimeZones *tzList,
+                                               ICalTimeZones *tzUsedList )
 {
-  ToComponentVisitor v( this, method );
+  ToComponentVisitor v( this, method, tzList, tzUsedList );
   if ( incidence->accept( v, incidence ) ) {
     return v.component();
   } else {
