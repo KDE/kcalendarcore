@@ -98,8 +98,11 @@ const int gSecondsPerWeek   = gSecondsPerDay    * 7;
 class ToComponentVisitor : public Visitor
 {
   public:
-    ToComponentVisitor( ICalFormatImpl *impl, iTIPMethod m, ICalTimeZones *tzList = 0, ICalTimeZones *tzUsedList = 0 )
-      : mImpl( impl ), mComponent( 0 ), mMethod( m ), mTzList( tzList ), mTzUsedList( tzUsedList ) {}
+    ToComponentVisitor( ICalFormatImpl *impl, iTIPMethod m, ICalTimeZones *tzList = 0,
+                        ICalTimeZones *tzUsedList = 0 )
+      : mImpl( impl ), mComponent( 0 ), mMethod( m ), mTzList( tzList ), mTzUsedList( tzUsedList )
+    {
+    }
 
     bool visit( Event::Ptr e )
     {
