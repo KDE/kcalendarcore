@@ -299,8 +299,17 @@ KDateTime Event::dateTime( DateTimeRole role ) const
 
 void Event::setDateTime( const KDateTime &dateTime, DateTimeRole role )
 {
-  Q_UNUSED( dateTime );
-  Q_UNUSED( role );
+  switch ( role ) {
+    case RoleDnD:
+    {
+      const int duration = dtStart().secsTo( dtEnd() );
+      setDtStart( dateTime );
+      setDtEnd( dateTime.addSecs( duration ) );
+      break;
+    }
+    default:
+      kDebug() << "Unhandled role" << role;
+  }
 }
 
 void Event::virtual_hook( int id, void *data )

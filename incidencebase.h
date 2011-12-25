@@ -147,8 +147,9 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
                                     (NOTE: If the incidence is a to-do, recurrence should be
                                     calculated having DTSTART for a reference, not DT-DUE.
                                     This is one place KCalCore isn't compliant with RFC2445) */
-      RoleDisplayStart         /**< Role for display purposes, represents the start boundary of an
+      RoleDisplayStart,        /**< Role for display purposes, represents the start boundary of an
                                     incidence. To-dos return dtDue here, for historical reasons */
+      RoleDnD                  /**< Role for determining new start and end dates after a DnD */
     };
 
     enum Field {

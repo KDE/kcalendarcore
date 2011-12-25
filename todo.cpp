@@ -34,6 +34,8 @@
 #include "todo.h"
 #include "visitor.h"
 
+#include <KDebug>
+
 using namespace KCalCore;
 
 /**
@@ -542,8 +544,13 @@ KDateTime Todo::dateTime( DateTimeRole role ) const
 
 void Todo::setDateTime( const KDateTime &dateTime, DateTimeRole role )
 {
-  Q_UNUSED( dateTime );
-  Q_UNUSED( role );
+  switch ( role ) {
+    case RoleDnD:
+      setDtDue( dateTime );
+      break;
+    default:
+      kDebug() << "Unhandled role" << role;
+  }
 }
 
 void Todo::virtual_hook( int id, void *data )

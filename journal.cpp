@@ -32,6 +32,8 @@
 #include "journal.h"
 #include "visitor.h"
 
+#include <KDebug>
+
 using namespace KCalCore;
 
 Journal::Journal() : d( 0 )
@@ -89,8 +91,15 @@ KDateTime Journal::dateTime( DateTimeRole role ) const
 
 void Journal::setDateTime( const KDateTime &dateTime, DateTimeRole role )
 {
-  Q_UNUSED( dateTime );
-  Q_UNUSED( role );
+  switch ( role ) {
+    case RoleDnD:
+    {
+      setDtStart( dateTime );
+      break;
+    }
+    default:
+      kDebug() << "Unhandled role" << role;
+  }
 }
 
 void Journal::virtual_hook( int id, void *data )
