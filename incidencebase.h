@@ -713,4 +713,6 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
 
 }
 
+Q_DECLARE_METATYPE( KCalCore::IncidenceBase * )
+
 #endif
