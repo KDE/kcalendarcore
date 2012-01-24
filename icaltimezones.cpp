@@ -537,7 +537,7 @@ ICalTimeZoneData::ICalTimeZoneData( const KTimeZoneData &rhs,
     if ( earliest.isValid() ) {
       // Remove all transitions earlier than those we are interested in
       for ( int i = 0, end = transits.count();  i < end;  ++i ) {
-        if ( transits[i].time().date() >= earliest ) {
+        if ( transits.at(i).time().date() >= earliest ) {
           if ( i > 0 ) {
             transits.erase( transits.begin(), transits.begin() + i );
           }
@@ -562,14 +562,14 @@ ICalTimeZoneData::ICalTimeZoneData( const KTimeZoneData &rhs,
         break;
       }
       // Found a phase combination which hasn't yet been processed
-      int preOffset = ( i > 0 ) ? transits[i - 1].phase().utcOffset() : rhs.previousUtcOffset();
-      KTimeZone::Phase phase = transits[i].phase();
+      int preOffset = ( i > 0 ) ? transits.at(i - 1).phase().utcOffset() : rhs.previousUtcOffset();
+      KTimeZone::Phase phase = transits.at(i).phase();
       if ( phase.utcOffset() == preOffset ) {
         transitionsDone[i] = true;
         while ( ++i < trcount ) {
           if ( transitionsDone[i] ||
-               transits[i].phase() != phase ||
-               transits[i - 1].phase().utcOffset() != preOffset ) {
+               transits.at(i).phase() != phase ||
+               transits.at(i - 1).phase().utcOffset() != preOffset ) {
             continue;
           }
           transitionsDone[i] = true;
@@ -596,7 +596,7 @@ ICalTimeZoneData::ICalTimeZoneData( const KTimeZoneData &rhs,
       icalcomponent *phaseComp1 = icalcomponent_new_clone( phaseComp );
       icalcomponent_add_property( phaseComp1,
                                   icalproperty_new_dtstart(
-                                    writeLocalICalDateTime( transits[i].time(), preOffset ) ) );
+                                    writeLocalICalDateTime( transits.at(i).time(), preOffset ) ) );
       bool useNewRRULE = false;
 
       // Compile the list of UTC transition dates/times, and check
@@ -611,7 +611,7 @@ ICalTimeZoneData::ICalTimeZoneData( const KTimeZoneData &rhs,
       int rule = 0;
       QList<QDateTime> rdates;// dates which (probably) need to be written as RDATEs
       QList<QDateTime> times;
-      QDateTime qdt = transits[i].time();   // set 'qdt' for start of loop
+      QDateTime qdt = transits.at(i).time();   // set 'qdt' for start of loop
       times += qdt;
       transitionsDone[i] = true;
       do {
@@ -633,12 +633,12 @@ ICalTimeZoneData::ICalTimeZoneData( const KTimeZoneData &rhs,
           times += QDateTime();   // append a dummy value since last value in list is ignored
         } else {
           if ( transitionsDone[i] ||
-               transits[i].phase() != phase ||
-               transits[i - 1].phase().utcOffset() != preOffset ) {
+               transits.at(i).phase() != phase ||
+               transits.at(i - 1).phase().utcOffset() != preOffset ) {
             continue;
           }
           transitionsDone[i] = true;
-          qdt = transits[i].time();
+          qdt = transits.at(i).time();
           if ( !qdt.isValid() ) {
             continue;
           }
