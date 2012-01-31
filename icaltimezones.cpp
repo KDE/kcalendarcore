@@ -562,14 +562,16 @@ ICalTimeZoneData::ICalTimeZoneData( const KTimeZoneData &rhs,
         break;
       }
       // Found a phase combination which hasn't yet been processed
-      int preOffset = ( i > 0 ) ? transits.at(i - 1).phase().utcOffset() : rhs.previousUtcOffset();
+      int preOffset = ( i > 0 ) ?
+                        transits.at( i - 1 ).phase().utcOffset() :
+                        rhs.previousUtcOffset();
       KTimeZone::Phase phase = transits.at(i).phase();
       if ( phase.utcOffset() == preOffset ) {
         transitionsDone[i] = true;
         while ( ++i < trcount ) {
           if ( transitionsDone[i] ||
-               transits.at(i).phase() != phase ||
-               transits.at(i - 1).phase().utcOffset() != preOffset ) {
+               transits.at( i ).phase() != phase ||
+               transits.at( i - 1 ).phase().utcOffset() != preOffset ) {
             continue;
           }
           transitionsDone[i] = true;
@@ -633,8 +635,8 @@ ICalTimeZoneData::ICalTimeZoneData( const KTimeZoneData &rhs,
           times += QDateTime();   // append a dummy value since last value in list is ignored
         } else {
           if ( transitionsDone[i] ||
-               transits.at(i).phase() != phase ||
-               transits.at(i - 1).phase().utcOffset() != preOffset ) {
+               transits.at( i ).phase() != phase ||
+               transits.at( i - 1 ).phase().utcOffset() != preOffset ) {
             continue;
           }
           transitionsDone[i] = true;
