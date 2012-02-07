@@ -15,10 +15,10 @@ option(KCALCORE_FOR_SYMBIAN "Build KCalCore especially for the Symbian." FALSE)
 # add C++ macro definitions for options passed to CMake
 if(KCALCORE_FOR_MEEGO)
   add_definitions(-DKCALCORE_FOR_MEEGO)
-endif(KCALCORE_FOR_MEEGO)
+endif()
 if(KCALCORE_FOR_SYMBIAN)
   add_definitions(-DKCALCORE_FOR_SYMBIAN)
-endif(KCALCORE_FOR_SYMBIAN)
+endif()
 
 ###########################################################
 
@@ -29,7 +29,7 @@ configure_file(config-kcalcore.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kcalco
 
 if(KDE4_BUILD_TESTS)
   add_definitions(-DCOMPILING_TESTS)
-endif(KDE4_BUILD_TESTS)
+endif()
 
 include_directories(
   ${LIBICAL_INCLUDE_DIRS}
@@ -88,7 +88,7 @@ kde4_add_library(kcalcore ${LIBRARY_TYPE} ${kcalcore_LIB_SRCS})
 target_link_libraries(kcalcore ${KDE4_KDECORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${LIBICAL_LIBRARIES})
 if(HAVE_UUID_LIBRARY)
   target_link_libraries(kcalcore uuid)
-endif(HAVE_UUID_LIBRARY)
+endif()
 set_target_properties(kcalcore PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION})
 install(TARGETS kcalcore EXPORT kdepimlibsLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
 
