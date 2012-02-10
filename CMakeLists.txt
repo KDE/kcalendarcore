@@ -1,5 +1,9 @@
 project(kcalcore)
 
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+include(GenerateExportHeader)
+
 ############### Build Options ###############
 
 # The following macros can be defined to alter how KCalCore is built.
@@ -34,7 +38,6 @@ include_directories(
   ${LIBICAL_INCLUDE_DIRS}
   ${LIBICAL_INCLUDE_DIRS}/libical
   ${CMAKE_CURRENT_SOURCE_DIR}/versit
-  ${CMAKE_CURRENT_SOURCE_DIR}
   ${KDE4_INCLUDE_DIR}
 )
 
@@ -81,27 +84,31 @@ set(kcalcore_LIB_SRCS ${libversit_SRCS}
   visitor.cpp
 )
 
-kde4_add_library(kcalcore ${LIBRARY_TYPE} ${kcalcore_LIB_SRCS})
+add_library(kcalcore ${LIBRARY_TYPE} ${kcalcore_LIB_SRCS})
+generate_export_header(kcalcore)
 
 target_link_libraries(kcalcore ${KDE4_KDECORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${LIBICAL_LIBRARIES})
+
 if(HAVE_UUID_LIBRARY)
   target_link_libraries(kcalcore uuid)
 endif()
 
 set_target_properties(kcalcore PROPERTIES
-  VERSION ${GENERIC_LIB_VERSION}
-  SOVERSION ${GENERIC_LIB_SOVERSION}
+  VERSION ${ECM_VERSION_STRING}
+  SOVERSION ${ECM_SOVERSION}
 )
 
 install(TARGETS kcalcore EXPORT kdepimlibsLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
 
+
 ########### next target ###############
 
-add_subdirectory(tests)
+#add_subdirectory(tests)
 
 ########### install files ###############
 
 install(FILES
+  ${CMAKE_CURRENT_BINARY_DIR}/kcalcore_export.h
   alarm.h
   attachment.h
   attendee.h
@@ -124,7 +131,6 @@ install(FILES
   incidence.h
   incidencebase.h
   journal.h
-  kcalcore_export.h
   memorycalendar.h
   period.h
   person.h
