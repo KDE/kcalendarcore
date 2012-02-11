@@ -49,7 +49,7 @@ KCALCORE_UNIT_TESTS(
 # KDAB_TODO: check if this can build with msvc now (and if it works on Windows)
 if(NOT MSVC)
   KCALCORE_UNIT_TESTS(testicaltimezones)
-endif(NOT MSVC)
+endif()
 
 KCALCORE_EXECUTABLE_TESTS(
   incidencestest
@@ -74,7 +74,7 @@ FILE( GLOB_RECURSE vCalFiles       data/vCalendar/*.vcs )
 
 if (WIN32)
   find_program(PERL_EXECUTABLE perl)
-endif (WIN32)
+endif()
 
 macro(kcalcore_run_single_test _prefix _file _test _testarg)
   get_filename_component( _fn ${_file} NAME)
@@ -87,11 +87,11 @@ macro(kcalcore_run_single_test _prefix _file _test _testarg)
   set(_runner ${CMAKE_CURRENT_SOURCE_DIR}/runsingletestcase.pl)
   if (UNIX)
     set(_test_path ${EXECUTABLE_OUTPUT_PATH}/${_test}.shell)
-  endif (UNIX)
+  endif()
   if (WIN32)
     set(_test_path ${EXECUTABLE_OUTPUT_PATH}/${_test}.exe.bat)
     set(_runner ${PERL_EXECUTABLE} ${_runner})
-  endif (WIN32)
+  endif()
 
   add_test( ${_prefix}-${_fn} ${_runner} ${_test_path} ${_testarg} ${_file} ${_outFile})
 endmacro(kcalcore_run_single_test)
