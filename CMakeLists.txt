@@ -1,6 +1,5 @@
 project(kcalcore)
 
-
 ############### Build Options ###############
 
 # The following macros can be defined to alter how KCalCore is built.
@@ -81,7 +80,6 @@ set(kcalcore_LIB_SRCS ${libversit_SRCS}
   vcalformat.cpp
   visitor.cpp
 )
-
 
 kde4_add_library(kcalcore ${LIBRARY_TYPE} ${kcalcore_LIB_SRCS})
 
