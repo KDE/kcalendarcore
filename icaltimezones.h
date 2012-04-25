@@ -60,7 +60,7 @@ class ICalTimeZoneDataPrivate;
  * rather than generic KTimeZone instances.
  *
  * @short Represents a collection of iCalendar time zones
- * @author David Jarvie <software@astrojar.org.uk>.
+ * @author David Jarvie <djarvie@kde.org>
  */
 class KCALCORE_EXPORT ICalTimeZones
 {
@@ -171,7 +171,7 @@ class KCALCORE_EXPORT ICalTimeZones
  *
  * @short An iCalendar time zone
  * @see ICalTimeZoneSource, ICalTimeZoneData
- * @author David Jarvie <software@astrojar.org.uk>.
+ * @author David Jarvie <djarvie@kde.org>
  */
 class KCALCORE_EXPORT ICalTimeZone : public KTimeZone //krazy:exclude=dpointer
                                                       //(no d-pointer for KTimeZone derived classes)
@@ -294,7 +294,7 @@ class KCALCORE_EXPORT ICalTimeZone : public KTimeZone //krazy:exclude=dpointer
  * @short Backend class for KICalTimeZone class
  * @see KTimeZoneBackend, KICalTimeZone, KTimeZone
  * @ingroup timezones
- * @author David Jarvie <software@astrojar.org.uk>.
+ * @author David Jarvie <djarvie@kde.org>
  */
 class KCALCORE_EXPORT ICalTimeZoneBackend : public KTimeZoneBackend
 {
@@ -400,7 +400,7 @@ typedef struct _MSTimeZone {
  *
  * @short Reader and parser for iCalendar time zone data
  * @see ICalTimeZone, ICalTimeZoneData
- * @author David Jarvie <software@astrojar.org.uk>.
+ * @author David Jarvie <djarvie@kde.org>
  */
 class KCALCORE_EXPORT ICalTimeZoneSource : public KTimeZoneSource
 {
@@ -417,7 +417,7 @@ class KCALCORE_EXPORT ICalTimeZoneSource : public KTimeZoneSource
 
     /**
      * Creates an ICalTimeZone instance containing the detailed information
-     * parsed from a VTIMEZONE component.
+     * parsed from an iCalendar VTIMEZONE component.
      *
      * @param vtimezone the VTIMEZONE component from which data is to be extracted
      * @return an ICalTimeZone instance containing the parsed data, or invalid on error
@@ -425,8 +425,8 @@ class KCALCORE_EXPORT ICalTimeZoneSource : public KTimeZoneSource
     ICalTimeZone parse( icalcomponent *vtimezone );
 
     /**
-     * Creates an ICalTimeZone instance for each VTIMEZONE component within a
-     * CALENDAR component. The ICalTimeZone instances are added to a
+     * Creates an ICalTimeZone instance for each iCalendar VTIMEZONE component
+     * within a CALENDAR component. The ICalTimeZone instances are added to a
      * ICalTimeZones collection.
      *
      * If an error occurs while processing any time zone, any remaining time
@@ -461,8 +461,10 @@ class KCALCORE_EXPORT ICalTimeZoneSource : public KTimeZoneSource
     ICalTimeZone parse( MSTimeZone *tz, ICalTimeZones &zones );
 
     /**
-     * Creates an ICalTimeZone instance and adds it to a ICalTimeZones
-     * collection or returns an existing instance for the vcal component.
+     * Creates an ICalTimeZone instance containing the detailed information
+     * contained in a QStringList produced by vcalformat, and adds it to a
+     * ICalTimeZones collection or returns an existing instance for the vcal
+     * component.
      *
      * @param name     the name of timezone
      * @param tzList   the QStringList to parse
@@ -474,7 +476,7 @@ class KCALCORE_EXPORT ICalTimeZoneSource : public KTimeZoneSource
 
     /**
      * Creates an ICalTimeZone instance containing the detailed information
-     * contained in an QStringList produced by vcalformat.
+     * contained in a QStringList produced by vcalformat.
      *
      * @param name   the name of timezone
      * @param tzList the QStringList from which data is to be extracted
@@ -557,7 +559,7 @@ class KCALCORE_EXPORT ICalTimeZoneSource : public KTimeZoneSource
  *
  * @short Parsed iCalendar time zone data
  * @see ICalTimeZone, ICalTimeZoneSource
- * @author David Jarvie <software@astrojar.org.uk>.
+ * @author David Jarvie <djarvie@kde.org>
  */
 class KCALCORE_EXPORT ICalTimeZoneData : public KTimeZoneData
 {

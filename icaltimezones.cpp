@@ -1015,6 +1015,8 @@ ICalTimeZone ICalTimeZoneSource::parse( icalcomponent *vtimezone )
       }
     }
   }
+  // Set phases used by the time zone, but note that VTIMEZONE doesn't contain
+  // time zone abbreviation before first transition.
   data->setPhases( phases, prevOffset );
   // Remove any "duplicate" transitions, i.e. those where two consecutive
   // transitions have the same phase.
@@ -1083,6 +1085,8 @@ ICalTimeZone ICalTimeZoneSource::parse( MSTimeZone *tz )
     "Microsoft TIME_ZONE_INFORMATION" );
   phases += daylightPhase;
 
+  // Set phases used by the time zone, but note that previous time zone
+  // abbreviation is not known.
   const int prevOffset = tz->Bias * -60;
   kdata.setPhases( phases, prevOffset );
 
