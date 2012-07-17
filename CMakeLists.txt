@@ -1,6 +1,5 @@
 project(kcalcore)
 
-
 ############### Build Options ###############
 
 # The following macros can be defined to alter how KCalCore is built.
@@ -82,14 +81,18 @@ set(kcalcore_LIB_SRCS ${libversit_SRCS}
   visitor.cpp
 )
 
-
 kde4_add_library(kcalcore ${LIBRARY_TYPE} ${kcalcore_LIB_SRCS})
 
 target_link_libraries(kcalcore ${KDE4_KDECORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${LIBICAL_LIBRARIES})
 if(HAVE_UUID_LIBRARY)
   target_link_libraries(kcalcore uuid)
 endif()
-set_target_properties(kcalcore PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION})
+
+set_target_properties(kcalcore PROPERTIES
+  VERSION ${GENERIC_LIB_VERSION}
+  SOVERSION ${GENERIC_LIB_SOVERSION}
+)
+
 install(TARGETS kcalcore EXPORT kdepimlibsLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 ########### next target ###############
