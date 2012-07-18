@@ -1392,6 +1392,12 @@ bool RecurrenceRule::dateMatchesRules( const KDateTime &kdt ) const
 bool RecurrenceRule::recursOn( const QDate &qd, const KDateTime::Spec &timeSpec ) const
 {
   int i, iend;
+
+  if ( !qd.isValid() ) {
+    // There can't be recurrences on invalid dates
+    return false;
+  }
+
   if ( allDay() ) {
     // It's a date-only rule, so it has no time specification.
     // Therefore ignore 'timeSpec'.
