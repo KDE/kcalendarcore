@@ -548,6 +548,12 @@ Event::List MemoryCalendar::rawEventsForDate( const QDate &date,
                                               SortDirection sortDirection ) const
 {
   Event::List eventList;
+
+  if ( !date.isValid() ) {
+    // There can't be events on invalid dates
+    return eventList;
+  }
+
   Event::Ptr ev;
 
   // Find the hash for the specified date
