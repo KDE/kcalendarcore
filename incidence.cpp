@@ -1078,3 +1078,8 @@ QString Incidence::altDescription() const
     return nonKDECustomProperty( ALT_DESC_FIELD );
   }
 }
+
+bool Incidence::supportsGroupwareCommunication() const
+{
+  return type() == TypeEvent || type() == TypeTodo;
+}
