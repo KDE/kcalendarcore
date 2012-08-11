@@ -798,6 +798,12 @@ class KCALCORE_EXPORT Incidence
     */
     virtual QLatin1String iconName( const KDateTime &recurrenceId = KDateTime() ) const = 0;
 
+    /**
+     * Returns true if the incidence type supports groupware communication.
+     * @since 4.10
+     */ //TODO_KDE5: make pure virtual
+    /*virtual*/ bool supportsGroupwareCommunication() const/* = 0*/;
+
   protected:
 
     /**
