@@ -110,7 +110,7 @@ void IncidenceBase::Private::init( const Private &other )
   mAttendees.clear();
   Attendee::List::ConstIterator it;
   for ( it = other.mAttendees.constBegin(); it != other.mAttendees.constEnd(); ++it ) {
-    mAttendees.append( Attendee::Ptr( new Attendee( *(*it) ) ) );
+    mAttendees.append( Attendee::Ptr( new Attendee( *( *it ) ) ) );
   }
 }
 //@endcond
@@ -342,7 +342,7 @@ bool IncidenceBase::removeComment( const QString &comment )
   QStringList::Iterator i;
 
   for ( i = d->mComments.begin(); !found && i != d->mComments.end(); ++i ) {
-    if ( (*i) == comment ) {
+    if ( ( *i ) == comment ) {
       found = true;
       d->mComments.erase( i );
     }
@@ -380,7 +380,7 @@ bool IncidenceBase::removeContact( const QString &contact )
   QStringList::Iterator i;
 
   for ( i = d->mContacts.begin(); !found && i != d->mContacts.end(); ++i ) {
-    if ( (*i) == contact ) {
+    if ( ( *i ) == contact ) {
       found = true;
       d->mContacts.erase( i );
     }
@@ -415,7 +415,7 @@ void IncidenceBase::addAttendee( const Attendee::Ptr &a, bool doupdate )
   if ( doupdate ) {
     update();
   }
-  if ( a->name().left(7).toUpper() == "MAILTO:" ) {
+  if ( a->name().left( 7 ).toUpper() == "MAILTO:" ) {
     a->setName( a->name().remove( 0, 7 ) );
   }
 
@@ -482,7 +482,7 @@ Attendee::Ptr IncidenceBase::attendeeByMail( const QString &email ) const
 {
   Attendee::List::ConstIterator it;
   for ( it = d->mAttendees.constBegin(); it != d->mAttendees.constEnd(); ++it ) {
-    if ( (*it)->email() == email ) {
+    if ( ( *it )->email() == email ) {
       return *it;
     }
   }
@@ -501,7 +501,7 @@ Attendee::Ptr IncidenceBase::attendeeByMails( const QStringList &emails,
   Attendee::List::ConstIterator itA;
   for ( itA = d->mAttendees.constBegin(); itA != d->mAttendees.constEnd(); ++itA ) {
     for ( QStringList::const_iterator it = mails.constBegin(); it != mails.constEnd(); ++it ) {
-      if ( (*itA)->email() == (*it) ) {
+      if ( ( *itA )->email() == ( *it ) ) {
         return *itA;
       }
     }
@@ -514,7 +514,7 @@ Attendee::Ptr IncidenceBase::attendeeByUid( const QString &uid ) const
 {
   Attendee::List::ConstIterator it;
   for ( it = d->mAttendees.constBegin(); it != d->mAttendees.constEnd(); ++it ) {
-    if ( (*it)->uid() == uid ) {
+    if ( ( *it )->uid() == uid ) {
       return *it;
     }
   }

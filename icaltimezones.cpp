@@ -438,10 +438,10 @@ ICalTimeZoneData::ICalTimeZoneData( const KTimeZoneData &rhs,
     icalcomponent *c = 0;
     const KTimeZone ktz = KSystemTimeZones::readZone( tz.name() );
     if ( ktz.isValid() ) {
-      if ( ktz.data(true) ) {
+      if ( ktz.data( true ) ) {
         const ICalTimeZone icaltz( ktz, earliest );
         icaltimezone *itz = icaltz.icalTimezone();
-        if (itz) {
+        if ( itz ) {
           c = icalcomponent_new_clone( icaltimezone_get_component( itz ) );
           icaltimezone_free( itz, 1 );
         }
@@ -481,7 +481,7 @@ ICalTimeZoneData::ICalTimeZoneData( const KTimeZoneData &rhs,
     d->setComponent( c );
   } else {
     // Write the time zone data into an iCal component
-    icalcomponent *tzcomp = icalcomponent_new(ICAL_VTIMEZONE_COMPONENT);
+    icalcomponent *tzcomp = icalcomponent_new( ICAL_VTIMEZONE_COMPONENT );
     icalcomponent_add_property( tzcomp, icalproperty_new_tzid( tz.name().toUtf8() ) );
 //    icalcomponent_add_property(tzcomp, icalproperty_new_location( tz.name().toUtf8() ));
 
@@ -541,7 +541,7 @@ ICalTimeZoneData::ICalTimeZoneData( const KTimeZoneData &rhs,
     if ( earliest.isValid() ) {
       // Remove all transitions earlier than those we are interested in
       for ( int i = 0, end = transits.count();  i < end;  ++i ) {
-        if ( transits.at(i).time().date() >= earliest ) {
+        if ( transits.at( i ).time().date() >= earliest ) {
           if ( i > 0 ) {
             transits.erase( transits.begin(), transits.begin() + i );
           }
@@ -551,7 +551,7 @@ ICalTimeZoneData::ICalTimeZoneData( const KTimeZoneData &rhs,
     }
     int trcount = transits.count();
     QVector<bool> transitionsDone(trcount);
-    transitionsDone.fill(false);
+    transitionsDone.fill( false );
 
     // Go through the list of transitions and create an iCal component for each
     // distinct combination of phase after and UTC offset before the transition.
@@ -569,7 +569,7 @@ ICalTimeZoneData::ICalTimeZoneData( const KTimeZoneData &rhs,
       const int preOffset = ( i > 0 ) ?
                               transits.at( i - 1 ).phase().utcOffset() :
                               rhs.previousUtcOffset();
-      const KTimeZone::Phase phase = transits.at(i).phase();
+      const KTimeZone::Phase phase = transits.at( i ).phase();
       if ( phase.utcOffset() == preOffset ) {
         transitionsDone[i] = true;
         while ( ++i < trcount ) {
@@ -602,7 +602,7 @@ ICalTimeZoneData::ICalTimeZoneData( const KTimeZoneData &rhs,
       icalcomponent *phaseComp1 = icalcomponent_new_clone( phaseComp );
       icalcomponent_add_property( phaseComp1,
                                   icalproperty_new_dtstart(
-                                    writeLocalICalDateTime( transits.at(i).time(), preOffset ) ) );
+                                    writeLocalICalDateTime( transits.at( i ).time(), preOffset ) ) );
       bool useNewRRULE = false;
 
       // Compile the list of UTC transition dates/times, and check
@@ -617,7 +617,7 @@ ICalTimeZoneData::ICalTimeZoneData( const KTimeZoneData &rhs,
       int rule = 0;
       QList<QDateTime> rdates;// dates which (probably) need to be written as RDATEs
       QList<QDateTime> times;
-      QDateTime qdt = transits.at(i).time();   // set 'qdt' for start of loop
+      QDateTime qdt = transits.at( i ).time();   // set 'qdt' for start of loop
       times += qdt;
       transitionsDone[i] = true;
       do {
@@ -644,7 +644,7 @@ ICalTimeZoneData::ICalTimeZoneData( const KTimeZoneData &rhs,
             continue;
           }
           transitionsDone[i] = true;
-          qdt = transits.at(i).time();
+          qdt = transits.at( i ).time();
           if ( !qdt.isValid() ) {
             continue;
           }
@@ -981,8 +981,7 @@ ICalTimeZone ICalTimeZoneSource::parse( icalcomponent *vtimezone )
   QDateTime earliest;
   QList<KTimeZone::Phase> phases;
   for ( icalcomponent *c = icalcomponent_get_first_component( vtimezone, ICAL_ANY_COMPONENT );
-        c;  c = icalcomponent_get_next_component( vtimezone, ICAL_ANY_COMPONENT ) )
-  {
+        c;  c = icalcomponent_get_next_component( vtimezone, ICAL_ANY_COMPONENT ) ) {
     int prevoff = 0;
     KTimeZone::Phase phase;
     QList<QDateTime> times;
@@ -1335,7 +1334,7 @@ QList<QDateTime> ICalTimeZoneSourcePrivate::parsePhase( icalcomponent *c,
 
       case ICAL_RDATE_PROPERTY:
       {
-        icaltimetype t = icalproperty_get_rdate(p).time;
+        icaltimetype t = icalproperty_get_rdate( p ).time;
         if ( icaltime_is_date( t ) ) {
           // RDATE with a DATE value inherits the (local) time from DTSTART
           t.hour = dtstart.hour;

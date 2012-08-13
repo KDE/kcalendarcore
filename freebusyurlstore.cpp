@@ -44,7 +44,7 @@ class FreeBusyUrlStore::Private
     {}
     ~Private()
     {
-      qRemovePostRoutine(cleanupFreeBusyUrlStore);
+      qRemovePostRoutine( cleanupFreeBusyUrlStore );
     }
     KConfig *mConfig;
 

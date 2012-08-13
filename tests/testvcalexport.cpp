@@ -39,7 +39,7 @@ int main( int argc, char **argv )
 {
   KAboutData aboutData( "testvcalexport", 0,
                         ki18n( "Part of LibKCal's test suite. Checks if export "
-                               "to vCalendar still works correctly."), "0.1" );
+                               "to vCalendar still works correctly." ), "0.1" );
   KCmdLineArgs::init( argc, argv, &aboutData );
 
   KCmdLineOptions options;

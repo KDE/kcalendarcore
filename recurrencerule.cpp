@@ -1433,7 +1433,7 @@ bool RecurrenceRule::recursOn( const QDate &qd, const KDateTime::Spec &timeSpec 
     // We really need to obtain the list of dates in this interval, since
     // otherwise BYSETPOS will not work (i.e. the date will match the interval,
     // but BYSETPOS selects only one of these matching dates!
-    KDateTime end = start.addDays(1);
+    KDateTime end = start.addDays( 1 );
     do {
       DateTimeList dts = d->datesForInterval( interval, recurrenceType() );
       for ( i = 0, iend = dts.count();  i < iend;  ++i ) {

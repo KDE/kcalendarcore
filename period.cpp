@@ -169,7 +169,7 @@ QDataStream &KCalCore::operator>>( QDataStream &stream, KCalCore::Period &period
 uint qHash( const KCalCore::Period &key )
 {
   QString strToHash = key.start().toString();
-  if( key.hasDuration() ) {
+  if ( key.hasDuration() ) {
     strToHash += key.duration();
   } else {
     strToHash += key.end().toString();

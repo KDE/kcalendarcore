@@ -203,7 +203,7 @@ RecurrenceRule *Recurrence::defaultRRule( bool create ) const
     }
     RecurrenceRule *rrule = new RecurrenceRule();
     rrule->setStartDt( startDateTime() );
-    const_cast<KCalCore::Recurrence*>(this)->addRRule( rrule );
+    const_cast<KCalCore::Recurrence*>( this )->addRRule( rrule );
     return rrule;
   } else {
     return d->mRRules[0];
@@ -634,7 +634,7 @@ QBitArray Recurrence::days() const
   if ( rrule ) {
     QList<RecurrenceRule::WDayPos> bydays = rrule->byDays();
     for ( int i = 0; i < bydays.size(); ++i ) {
-      if ( bydays.at(i).pos() == 0 ) {
+      if ( bydays.at( i ).pos() == 0 ) {
         days.setBit( bydays.at( i ).day() - 1 );
       }
     }
@@ -871,7 +871,7 @@ void Recurrence::addYearlyMonth( short month )
   }
 
   QList<int> months = rrule->byMonths();
-  if ( !months.contains(month) ) {
+  if ( !months.contains( month ) ) {
     months << month;
     rrule->setByMonths( months );
     updated();
@@ -910,7 +910,9 @@ TimeList Recurrence::recurTimesOn( const QDate &date, const KDateTime::Spec &tim
     if ( dt.date() == date ) {
       times << dt.time();
       foundDate = true;
-    } else if (foundDate) break; // <= Assume that the rdatetime list is sorted
+    } else if ( foundDate ) {
+      break; // <= Assume that the rdatetime list is sorted
+    }
   }
   for ( i = 0, end = d->mRRules.count();  i < end;  ++i ) {
     times += d->mRRules[i]->recurTimesOn( date, timeSpec );
@@ -924,7 +926,9 @@ TimeList Recurrence::recurTimesOn( const QDate &date, const KDateTime::Spec &tim
     if ( dt.date() == date ) {
       extimes << dt.time();
       foundDate = true;
-    } else if (foundDate) break;
+    } else if ( foundDate ) {
+      break;
+    }
   }
   if ( !allDay() ) {     // we have already checked all-day times above
     for ( i = 0, end = d->mExRules.count();  i < end;  ++i ) {
@@ -985,9 +989,11 @@ DateTimeList Recurrence::timesInInterval( const KDateTime &start, const KDateTim
   int idt = 0;
   int enddt = times.count();
   for ( i = 0, count = d->mExDates.count();  i < count && idt < enddt;  ++i ) {
-    while ( idt < enddt && times[idt].date() < d->mExDates[i] ) ++idt;
+    while ( idt < enddt && times[idt].date() < d->mExDates[i] ) {
+      ++idt;
+    }
     while ( idt < enddt && times[idt].date() == d->mExDates[i] ) {
-      times.removeAt(idt);
+      times.removeAt( idt );
       --enddt;
     }
   }

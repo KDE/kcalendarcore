@@ -140,12 +140,12 @@ void MemoryCalendarTest::testRelationsCrash()
   FileStorage store1( cal, ICALTESTDATADIR "test_relations.ics" );
   store1.load();
   const Todo::List oldTodos = cal->todos();
-  kDebug()<<"Loaded " << oldTodos.count() << " todos into oldTodos.";
+  kDebug() << "Loaded " << oldTodos.count() << " todos into oldTodos.";
 
   FileStorage store2( cal, ICALTESTDATADIR "test_relations.ics" );
   store2.load();
   const Todo::List newTodos = cal->todos();
-  kDebug()<<"Loaded " << newTodos.count() << " into newTodos.";
+  kDebug() << "Loaded " << newTodos.count() << " into newTodos.";
 
   // We can saftely access the old deleted todos here, since they are not really deleted
   // and are still kept in a map of deleted items somewhere.

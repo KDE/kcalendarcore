@@ -111,7 +111,7 @@ bool VCalFormat::load( const Calendar::Ptr &calendar, const QString &fileName )
   // put all vobjects into their proper places
   QString savedTimeZoneId = d->mCalendar->timeZoneId();
   populate( vcal, false, fileName );
-  d->mCalendar->setTimeZoneId(savedTimeZoneId);
+  d->mCalendar->setTimeZoneId( savedTimeZoneId );
 
   // clean up from vcal API stuff
   cleanVObjects( vcal );
@@ -139,8 +139,8 @@ bool VCalFormat::save( const Calendar::Ptr &calendar, const QString &fileName )
   Todo::List todoList = d->mCalendar->rawTodos();
   Todo::List::ConstIterator it;
   for ( it = todoList.constBegin(); it != todoList.constEnd(); ++it ) {
-    if ( (*it)->dtStart().timeZone().name().mid( 0, 4 ) == "VCAL" ) {
-      ICalTimeZone zone = tzlist->zone( (*it)->dtStart().timeZone().name() );
+    if ( ( *it )->dtStart().timeZone().name().mid( 0, 4 ) == "VCAL" ) {
+      ICalTimeZone zone = tzlist->zone( ( *it )->dtStart().timeZone().name() );
       if ( zone.isValid() ) {
         QByteArray timezone = zone.vtimezone();
         addPropValue( vcal, VCTimeZoneProp, parseTZ( timezone ).toLocal8Bit() );
@@ -158,8 +158,8 @@ bool VCalFormat::save( const Calendar::Ptr &calendar, const QString &fileName )
   Event::List events = d->mCalendar->rawEvents();
   Event::List::ConstIterator it2;
   for ( it2 = events.constBegin(); it2 != events.constEnd(); ++it2 ) {
-    if ( (*it2)->dtStart().timeZone().name().mid( 0, 4 ) == "VCAL" ) {
-      ICalTimeZone zone = tzlist->zone( (*it2)->dtStart().timeZone().name() );
+    if ( ( *it2 )->dtStart().timeZone().name().mid( 0, 4 ) == "VCAL" ) {
+      ICalTimeZone zone = tzlist->zone( ( *it2 )->dtStart().timeZone().name() );
       if ( zone.isValid() ) {
         QByteArray timezone = zone.vtimezone();
         addPropValue( vcal, VCTimeZoneProp, parseTZ( timezone ).toLocal8Bit() );
@@ -212,7 +212,7 @@ bool VCalFormat::fromRawString( const Calendar::Ptr &calendar, const QByteArray 
   // put all vobjects into their proper places
   QString savedTimeZoneId = d->mCalendar->timeZoneId();
   populate( vcal, deleted, notebook );
-  d->mCalendar->setTimeZoneId(savedTimeZoneId);
+  d->mCalendar->setTimeZoneId( savedTimeZoneId );
 
   // clean up from vcal API stuff
   cleanVObjects( vcal );
@@ -239,13 +239,13 @@ QString VCalFormat::toString( const Calendar::Ptr &calendar,
   Todo::List todoList = deleted ? d->mCalendar->deletedTodos() : d->mCalendar->rawTodos();
   Todo::List::ConstIterator it;
   for ( it = todoList.constBegin(); it != todoList.constEnd(); ++it ) {
-    if ( !deleted || !d->mCalendar->todo( (*it)->uid(), (*it)->recurrenceId() ) ) {
+    if ( !deleted || !d->mCalendar->todo( ( *it )->uid(), ( *it )->recurrenceId() ) ) {
       // use existing ones, or really deleted ones
       if ( notebook.isEmpty() ||
-           ( !calendar->notebook(*it).isEmpty() &&
+           ( !calendar->notebook( *it ).isEmpty() &&
              notebook.endsWith( calendar->notebook( *it ) ) ) ) {
-        if ( (*it)->dtStart().timeZone().name().mid( 0, 4 ) == "VCAL" ) {
-          ICalTimeZone zone = tzlist->zone( (*it)->dtStart().timeZone().name() );
+        if ( ( *it )->dtStart().timeZone().name().mid( 0, 4 ) == "VCAL" ) {
+          ICalTimeZone zone = tzlist->zone( ( *it )->dtStart().timeZone().name() );
           if ( zone.isValid() ) {
             QByteArray timezone = zone.vtimezone();
             addPropValue( vcal, VCTimeZoneProp, parseTZ( timezone ).toUtf8() );
@@ -266,13 +266,13 @@ QString VCalFormat::toString( const Calendar::Ptr &calendar,
   Event::List events = deleted ? d->mCalendar->deletedEvents() : d->mCalendar->rawEvents();
   Event::List::ConstIterator it2;
   for ( it2 = events.constBegin(); it2 != events.constEnd(); ++it2 ) {
-    if ( !deleted || !d->mCalendar->event( (*it2)->uid(), (*it2)->recurrenceId() ) ) {
+    if ( !deleted || !d->mCalendar->event( ( *it2 )->uid(), ( *it2 )->recurrenceId() ) ) {
       // use existing ones, or really deleted ones
       if ( notebook.isEmpty() ||
            ( !calendar->notebook( *it2 ).isEmpty() &&
              notebook.endsWith( calendar->notebook( *it2 ) ) ) ) {
-        if ( (*it2)->dtStart().timeZone().name().mid( 0, 4 ) == "VCAL" ) {
-          ICalTimeZone zone = tzlist->zone( (*it2)->dtStart().timeZone().name() );
+        if ( ( *it2 )->dtStart().timeZone().name().mid( 0, 4 ) == "VCAL" ) {
+          ICalTimeZone zone = tzlist->zone( ( *it2 )->dtStart().timeZone().name() );
           if ( zone.isValid() ) {
             QByteArray timezone = zone.vtimezone();
             addPropValue( vcal, VCTimeZoneProp, parseTZ( timezone ).toUtf8() );
@@ -291,7 +291,7 @@ QString VCalFormat::toString( const Calendar::Ptr &calendar,
 
   char *buf = writeMemVObject( 0, 0, vcal );
 
-  QString result( QString::fromUtf8(buf) );
+  QString result( QString::fromUtf8( buf ) );
 
   deleteStr( buf );
 
@@ -378,7 +378,7 @@ VObject *VCalFormat::eventToVTodo( const Todo::Ptr &anEvent )
       tmpStr.sprintf( "W%i ", recur->frequency() );
       for ( int i = 0; i < 7; ++i ) {
         QBitArray days ( recur->days() );
-        if ( days.testBit(i) ) {
+        if ( days.testBit( i ) ) {
           tmpStr += dayFromNum( i );
         }
       }
@@ -398,7 +398,7 @@ VObject *VCalFormat::eventToVTodo( const Todo::Ptr &anEvent )
           tmpStr2 += "+ ";
         }
         tmpStr += tmpStr2;
-        tmpStr += dayFromNum( (*posit).day() - 1 );
+        tmpStr += dayFromNum( ( *posit ).day() - 1 );
       }
       break;
     }
@@ -468,7 +468,7 @@ VObject *VCalFormat::eventToVTodo( const Todo::Ptr &anEvent )
   QString tmpStr2;
 
   for ( id = dateList.constBegin(); id != dateList.constEnd(); ++id ) {
-    tmpStr = qDateToISO(*id) + ';';
+    tmpStr = qDateToISO( *id ) + ';';
     tmpStr2 += tmpStr;
   }
   if ( !tmpStr2.isEmpty() ) {
@@ -724,7 +724,7 @@ VObject *VCalFormat::eventToVEvent( const Event::Ptr &anEvent )
       tmpStr.sprintf( "W%i ", recur->frequency() );
       for ( int i = 0; i < 7; ++i ) {
         QBitArray days ( recur->days() );
-        if ( days.testBit(i) ) {
+        if ( days.testBit( i ) ) {
           tmpStr += dayFromNum( i );
         }
       }
@@ -744,7 +744,7 @@ VObject *VCalFormat::eventToVEvent( const Event::Ptr &anEvent )
           tmpStr2 += "+ ";
         }
         tmpStr += tmpStr2;
-        tmpStr += dayFromNum( (*posit).day() - 1 );
+        tmpStr += dayFromNum( ( *posit ).day() - 1 );
       }
       break;
     }
@@ -819,7 +819,7 @@ VObject *VCalFormat::eventToVEvent( const Event::Ptr &anEvent )
   QString tmpStr2;
 
   for ( it = dateList.constBegin(); it != dateList.constEnd(); ++it ) {
-    tmpStr = qDateToISO(*it) + ';';
+    tmpStr = qDateToISO( *it ) + ';';
     tmpStr2 += tmpStr;
   }
   if ( !tmpStr2.isEmpty() ) {
@@ -930,7 +930,7 @@ VObject *VCalFormat::eventToVEvent( const Event::Ptr &anEvent )
   Attachment::List attachments = anEvent->attachments();
   Attachment::List::ConstIterator atIt;
   for ( atIt = attachments.constBegin(); atIt != attachments.constEnd(); ++atIt ) {
-    addPropValue( vevent, VCAttachProp, (*atIt)->uri().toUtf8() );
+    addPropValue( vevent, VCAttachProp, ( *atIt )->uri().toUtf8() );
   }
 
   // resources
@@ -1195,19 +1195,19 @@ Todo::Ptr VCalFormat::VTodoToEvent( VObject *vtodo )
     // first, read the type of the recurrence
     int typelen = 1;
     uint type = Recurrence::rNone;
-    if ( tmpStr.left(1) == "D" ) {
+    if ( tmpStr.left( 1 ) == "D" ) {
       type = Recurrence::rDaily;
-    } else if ( tmpStr.left(1) == "W" ) {
+    } else if ( tmpStr.left( 1 ) == "W" ) {
       type = Recurrence::rWeekly;
     } else {
       typelen = 2;
-      if ( tmpStr.left(2) == "MP" ) {
+      if ( tmpStr.left( 2 ) == "MP" ) {
         type = Recurrence::rMonthlyPos;
-      } else if ( tmpStr.left(2) == "MD" ) {
+      } else if ( tmpStr.left( 2 ) == "MD" ) {
         type = Recurrence::rMonthlyDay;
-      } else if ( tmpStr.left(2) == "YM" ) {
+      } else if ( tmpStr.left( 2 ) == "YM" ) {
         type = Recurrence::rYearlyMonth;
-      } else if ( tmpStr.left(2) == "YD" ) {
+      } else if ( tmpStr.left( 2 ) == "YD" ) {
         type = Recurrence::rYearlyDay;
       }
     }
@@ -1223,12 +1223,12 @@ Todo::Ptr VCalFormat::VTodoToEvent( VObject *vtodo )
       // Read the type-specific settings
       switch ( type ) {
       case Recurrence::rDaily:
-        anEvent->recurrence()->setDaily(rFreq);
+        anEvent->recurrence()->setDaily( rFreq );
         break;
 
       case Recurrence::rWeekly:
       {
-        QBitArray qba(7);
+        QBitArray qba( 7 );
         QString dayStr;
         if ( index == last ) {
           // e.g. W1 #0
@@ -1252,7 +1252,7 @@ Todo::Ptr VCalFormat::VTodoToEvent( VObject *vtodo )
       {
         anEvent->recurrence()->setMonthly( rFreq );
 
-        QBitArray qba(7);
+        QBitArray qba( 7 );
         short tmpPos;
         if ( index == last ) {
           // e.g. MP1 #0
@@ -1287,7 +1287,7 @@ Todo::Ptr VCalFormat::VTodoToEvent( VObject *vtodo )
 
       case Recurrence::rMonthlyDay:
         anEvent->recurrence()->setMonthly( rFreq );
-        if( index == last ) {
+        if ( index == last ) {
           // e.g. MD1 #0
           short tmpDay = anEvent->dtStart().date().day();
           anEvent->recurrence()->addMonthlyDate( tmpDay );
@@ -1374,7 +1374,7 @@ Todo::Ptr VCalFormat::VTodoToEvent( VObject *vtodo )
     QStringList exDates = QString::fromUtf8( s ).split( ',' );
     QStringList::ConstIterator it;
     for ( it = exDates.constBegin(); it != exDates.constEnd(); ++it ) {
-      KDateTime exDate = ISOToKDateTime(*it);
+      KDateTime exDate = ISOToKDateTime( *it );
       if ( exDate.time().hour() == 0 &&
            exDate.time().minute() == 0 &&
            exDate.time().second() == 0 ) {
@@ -1679,19 +1679,19 @@ Event::Ptr VCalFormat::VEventToEvent( VObject *vevent )
     // first, read the type of the recurrence
     int typelen = 1;
     uint type = Recurrence::rNone;
-    if ( tmpStr.left(1) == "D" ) {
+    if ( tmpStr.left( 1 ) == "D" ) {
       type = Recurrence::rDaily;
-    } else if ( tmpStr.left(1) == "W" ) {
+    } else if ( tmpStr.left( 1 ) == "W" ) {
       type = Recurrence::rWeekly;
     } else {
       typelen = 2;
-      if ( tmpStr.left(2) == "MP" ) {
+      if ( tmpStr.left( 2 ) == "MP" ) {
         type = Recurrence::rMonthlyPos;
-      } else if ( tmpStr.left(2) == "MD" ) {
+      } else if ( tmpStr.left( 2 ) == "MD" ) {
         type = Recurrence::rMonthlyDay;
-      } else if ( tmpStr.left(2) == "YM" ) {
+      } else if ( tmpStr.left( 2 ) == "YM" ) {
         type = Recurrence::rYearlyMonth;
-      } else if ( tmpStr.left(2) == "YD" ) {
+      } else if ( tmpStr.left( 2 ) == "YD" ) {
         type = Recurrence::rYearlyDay;
       }
     }
@@ -1707,12 +1707,12 @@ Event::Ptr VCalFormat::VEventToEvent( VObject *vevent )
       // Read the type-specific settings
       switch ( type ) {
       case Recurrence::rDaily:
-        anEvent->recurrence()->setDaily(rFreq);
+        anEvent->recurrence()->setDaily( rFreq );
         break;
 
       case Recurrence::rWeekly:
       {
-        QBitArray qba(7);
+        QBitArray qba( 7 );
         QString dayStr;
         if ( index == last ) {
           // e.g. W1 #0
@@ -1736,7 +1736,7 @@ Event::Ptr VCalFormat::VEventToEvent( VObject *vevent )
       {
         anEvent->recurrence()->setMonthly( rFreq );
 
-        QBitArray qba(7);
+        QBitArray qba( 7 );
         short tmpPos;
         if ( index == last ) {
           // e.g. MP1 #0
@@ -1771,7 +1771,7 @@ Event::Ptr VCalFormat::VEventToEvent( VObject *vevent )
 
       case Recurrence::rMonthlyDay:
         anEvent->recurrence()->setMonthly( rFreq );
-        if( index == last ) {
+        if ( index == last ) {
           // e.g. MD1 #0
           short tmpDay = anEvent->dtStart().date().day();
           anEvent->recurrence()->addMonthlyDate( tmpDay );
@@ -1860,7 +1860,7 @@ Event::Ptr VCalFormat::VEventToEvent( VObject *vevent )
     QStringList exDates = QString::fromUtf8( s ).split( ',' );
     QStringList::ConstIterator it;
     for ( it = exDates.constBegin(); it != exDates.constEnd(); ++it ) {
-      KDateTime exDate = ISOToKDateTime(*it);
+      KDateTime exDate = ISOToKDateTime( *it );
       if ( exDate.time().hour() == 0 &&
            exDate.time().minute() == 0 &&
            exDate.time().second() == 0 ) {

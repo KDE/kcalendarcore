@@ -55,8 +55,8 @@ int main( int, char ** )
   kDebug() << fb->fullBusyPeriods().count() << " " << fb->dtStart();
   const FreeBusyPeriod::List l = fb->fullBusyPeriods();
   for ( FreeBusyPeriod::List::ConstIterator it = l.begin(); it != l.end(); ++it ) {
-    kDebug() << (*it).start() << " " << (*it).end() << "+ "
-             << (*it).summary() << ":" << (*it).location();
+    kDebug() << ( *it ).start() << " " << ( *it ).end() << "+ "
+             << ( *it ).summary() << ":" << ( *it ).location();
   }
   typedef QMap<QByteArray, QString> FooMap;
   const FooMap props = fb->customProperties();

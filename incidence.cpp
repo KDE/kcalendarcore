@@ -496,7 +496,7 @@ void Incidence::setCategories( const QString &catStr )
 
   QStringList::Iterator it;
   for ( it = d->mCategories.begin();it != d->mCategories.end(); ++it ) {
-    *it = (*it).trimmed();
+    *it = ( *it ).trimmed();
   }
 
   updated();
@@ -703,7 +703,7 @@ void Incidence::deleteAttachments( const QString &mime )
   Attachment::List result;
   Attachment::List::Iterator it = d->mAttachments.begin();
   while ( it != d->mAttachments.end() ) {
-    if ( (*it)->mimeType() != mime ) {
+    if ( ( *it )->mimeType() != mime ) {
       result += *it;
     }
     ++it;

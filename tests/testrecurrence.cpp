@@ -107,7 +107,7 @@ int main( int argc, char **argv )
         ++i;
         dt = incidence->recurrence()->getNextDateTime( dt );
         if ( dt.isValid() ) {
-          (*outstream) << dumpTime( dt, viewSpec ) << endl;
+          ( *outstream ) << dumpTime( dt, viewSpec ) << endl;
         }
       }
     } else {

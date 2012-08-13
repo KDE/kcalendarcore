@@ -162,7 +162,7 @@ bool CalFilter::filterIncidence( Incidence::Ptr incidence ) const
       if ( !todo->attendees().isEmpty() ) {
         Attendee::List::ConstIterator it;
         for ( it = attendees.begin(); it != attendees.end(); ++it ) {
-          if ( d->mEmailList.contains( (*it)->email() ) ) {
+          if ( d->mEmailList.contains( ( *it )->email() ) ) {
             iAmOneOfTheAttendees = true;
             break;
           }
@@ -189,7 +189,7 @@ bool CalFilter::filterIncidence( Incidence::Ptr incidence ) const
       QStringList incidenceCategories = incidence->categories();
       for ( QStringList::ConstIterator it2 = incidenceCategories.constBegin();
             it2 != incidenceCategories.constEnd(); ++it2 ) {
-        if ( (*it) == (*it2) ) {
+        if ( ( *it ) == ( *it2 ) ) {
           return true;
         }
       }
@@ -201,7 +201,7 @@ bool CalFilter::filterIncidence( Incidence::Ptr incidence ) const
       QStringList incidenceCategories = incidence->categories();
       for ( QStringList::ConstIterator it2 = incidenceCategories.constBegin();
             it2 != incidenceCategories.constEnd(); ++it2 ) {
-        if ( (*it) == (*it2) ) {
+        if ( ( *it ) == ( *it2 ) ) {
           return false;
         }
       }
