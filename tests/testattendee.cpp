@@ -71,8 +71,8 @@ void AttendeeTest::testDataStreamOut()
   attendee1->setUid( "Shooby Doo Bop" );
   attendee1->setDelegate( "I AM THE Delegate" );
   attendee1->setDelegator( "AND I AM THE Delegator" );
-  attendee1->setCustomProperty("name", "value");
-  attendee1->setCustomProperty("foo", "bar");
+  attendee1->setCustomProperty( "name", "value" );
+  attendee1->setCustomProperty( "foo", "bar" );
 
   QByteArray byteArray;
   QDataStream out_stream( &byteArray, QIODevice::WriteOnly );
@@ -125,8 +125,8 @@ void AttendeeTest::testDataStreamIn()
   attendee1->setUid( "Shooby Doo Bop" );
   attendee1->setDelegate( "I AM THE Delegate" );
   attendee1->setDelegator( "AND I AM THE Delegator" );
-  attendee1->setCustomProperty("name", "value");
-  attendee1->setCustomProperty("foo", "bar");
+  attendee1->setCustomProperty( "name", "value" );
+  attendee1->setCustomProperty( "foo", "bar" );
 
   QByteArray byteArray;
   QDataStream out_stream( &byteArray, QIODevice::WriteOnly );

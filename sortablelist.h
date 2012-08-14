@@ -47,7 +47,7 @@ void qSortUnique( QList<T> &list )
     if ( *it == *prev ) {
       // Found two equal values. Search for any further equal values and remove
       // them all together for efficiency.
-      while ( ++it != list.end()  &&  *it == *prev ) ;
+      while ( ++it != list.end() && *it == *prev ) ;
       prev = it = list.erase( prev + 1, it );
       if ( it == list.end() ) {
         break;
@@ -199,13 +199,13 @@ int SortableList<T>::findSorted( const T &value, int start ) const
   int end = QList<T>::count();
   while ( end - st > 1 ) {
     int i = ( st + end ) / 2;
-    if ( value < QList<T>::at(i) ) {
+    if ( value < QList<T>::at( i ) ) {
       end = i;
     } else {
       st = i;
     }
   }
-  return ( end > start && value == QList<T>::at(st) ) ? st : -1;
+  return ( end > start && value == QList<T>::at( st ) ) ? st : -1;
 }
 
 template <class T>
@@ -216,7 +216,7 @@ int SortableList<T>::findLE( const T &value, int start ) const
   int end = QList<T>::count();
   while ( end - st > 1 ) {
     int i = ( st + end ) / 2;
-    if ( value < QList<T>::at(i) ) {
+    if ( value < QList<T>::at( i ) ) {
       end = i;
     } else {
       st = i;
@@ -233,7 +233,7 @@ int SortableList<T>::findLT( const T &value, int start ) const
   int end = QList<T>::count();
   while ( end - st > 1 ) {
     int i = ( st + end ) / 2;
-    if ( value <= QList<T>::at(i) ) {
+    if ( value <= QList<T>::at( i ) ) {
       end = i;
     } else {
       st = i;
@@ -250,7 +250,7 @@ int SortableList<T>::findGE( const T &value, int start ) const
   int end = QList<T>::count();
   while ( end - st > 1 ) {
     int i = ( st + end ) / 2;
-    if ( value <= QList<T>::at(i) ) {
+    if ( value <= QList<T>::at( i ) ) {
       end = i;
     } else {
       st = i;
@@ -268,7 +268,7 @@ int SortableList<T>::findGT( const T &value, int start ) const
   int end = QList<T>::count();
   while ( end - st > 1 ) {
     int i = ( st + end ) / 2;
-    if ( value < QList<T>::at(i) ) {
+    if ( value < QList<T>::at( i ) ) {
       end = i;
     } else {
       st = i;
@@ -282,7 +282,7 @@ template <class T>
 int SortableList<T>::insertSorted( const T &value )
 {
   int i = findLE( value );
-  if ( i < 0  ||  QList<T>::at(i) != value ) {
+  if ( i < 0  ||  QList<T>::at( i ) != value ) {
     QList<T>::insert( ++i, value );
   }
   return i;

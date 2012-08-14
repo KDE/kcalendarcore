@@ -207,10 +207,10 @@ icalcomponent *ICalFormatImpl::writeTodo( const Todo::Ptr &todo, ICalTimeZones *
     icaltimetype due;
     if ( todo->allDay() ) {
       due = writeICalDate( todo->dtDue( true ).date() );
-      prop = icalproperty_new_due(due);
+      prop = icalproperty_new_due( due );
     } else {
       prop = writeICalDateTimeProperty(
-        ICAL_DUE_PROPERTY, todo->dtDue(true), tzlist, tzUsedList );
+        ICAL_DUE_PROPERTY, todo->dtDue( true ), tzlist, tzUsedList );
     }
     icalcomponent_add_property( vtodo, prop );
   }
@@ -297,7 +297,7 @@ icalcomponent *ICalFormatImpl::writeEvent( const Event::Ptr &event,
 #else
       end = writeICalDate( dt.date() );
 #endif
-      icalcomponent_add_property( vevent, icalproperty_new_dtend(end) );
+      icalcomponent_add_property( vevent, icalproperty_new_dtend( end ) );
     } else {
       if ( dt != event->dtStart() ) {
         icalcomponent_add_property(
@@ -319,7 +319,7 @@ icalcomponent *ICalFormatImpl::writeEvent( const Event::Ptr &event,
 #endif
 
   // Transparency
-  switch( event->transparency() ) {
+  switch ( event->transparency() ) {
   case Event::Transparent:
     icalcomponent_add_property(
       vevent,
@@ -556,21 +556,21 @@ void ICalFormatImpl::writeIncidence( icalcomponent *parent,
   RecurrenceRule::List::ConstIterator rit;
   for ( rit = rrules.constBegin(); rit != rrules.constEnd(); ++rit ) {
     icalcomponent_add_property(
-      parent, icalproperty_new_rrule( writeRecurrenceRule( (*rit) ) ) );
+      parent, icalproperty_new_rrule( writeRecurrenceRule( ( *rit ) ) ) );
   }
 
   RecurrenceRule::List exrules( incidence->recurrence()->exRules() );
   RecurrenceRule::List::ConstIterator exit;
   for ( exit = exrules.constBegin(); exit != exrules.constEnd(); ++exit ) {
     icalcomponent_add_property(
-      parent, icalproperty_new_exrule( writeRecurrenceRule( (*exit) ) ) );
+      parent, icalproperty_new_exrule( writeRecurrenceRule( ( *exit ) ) ) );
   }
 
   DateList dateList = incidence->recurrence()->exDates();
   DateList::ConstIterator exIt;
   for ( exIt = dateList.constBegin(); exIt != dateList.constEnd(); ++exIt ) {
     icalcomponent_add_property(
-      parent, icalproperty_new_exdate( writeICalDate(*exIt) ) );
+      parent, icalproperty_new_exdate( writeICalDate( *exIt ) ) );
   }
 
   DateTimeList dateTimeList = incidence->recurrence()->exDateTimes();
@@ -584,7 +584,7 @@ void ICalFormatImpl::writeIncidence( icalcomponent *parent,
   DateList::ConstIterator rdIt;
   for ( rdIt = dateList.constBegin(); rdIt != dateList.constEnd(); ++rdIt ) {
     icalcomponent_add_property(
-      parent, icalproperty_new_rdate( writeICalDatePeriod(*rdIt) ) );
+      parent, icalproperty_new_rdate( writeICalDatePeriod( *rdIt ) ) );
   }
   dateTimeList = incidence->recurrence()->rDateTimes();
   DateTimeList::ConstIterator rdtIt;
@@ -647,13 +647,13 @@ void ICalFormatImpl::Private::writeIncidenceBase( icalcomponent *parent,
   //contacts
   QStringList contacts = incidenceBase->contacts();
   for ( QStringList::const_iterator it = contacts.constBegin(); it != contacts.constEnd(); ++it ) {
-    icalcomponent_add_property( parent, icalproperty_new_contact( (*it).toUtf8() ) );
+    icalcomponent_add_property( parent, icalproperty_new_contact( ( *it ).toUtf8() ) );
   }
 
   // comments
   QStringList comments = incidenceBase->comments();
   for ( QStringList::const_iterator it = comments.constBegin(); it != comments.constEnd(); ++it ) {
-    icalcomponent_add_property( parent, icalproperty_new_comment( (*it).toUtf8() ) );
+    icalcomponent_add_property( parent, icalproperty_new_comment( ( *it ).toUtf8() ) );
   }
 
   // custom properties
@@ -867,7 +867,7 @@ icalrecurrencetype ICalFormatImpl::writeRecurrenceRule( RecurrenceRule *recur )
   icalrecurrencetype r;
   icalrecurrencetype_clear( &r );
 
-  switch( recur->recurrenceType() ) {
+  switch ( recur->recurrenceType() ) {
   case RecurrenceRule::rSecondly:
     r.freq = ICAL_SECONDLY_RECURRENCE;
     break;
@@ -957,12 +957,12 @@ icalrecurrencetype ICalFormatImpl::writeRecurrenceRule( RecurrenceRule *recur )
   index = 0;
   for ( QList<RecurrenceRule::WDayPos>::ConstIterator dit = byd.constBegin();
         dit != byd.constEnd(); ++dit ) {
-    day = (*dit).day() % 7 + 1;     // convert from Monday=1 to Sunday=1
-    if ( (*dit).pos() < 0 ) {
-      day += ( -(*dit).pos() ) * 8;
+    day = ( *dit ).day() % 7 + 1;     // convert from Monday=1 to Sunday=1
+    if ( ( *dit ).pos() < 0 ) {
+      day += ( -( *dit ).pos() ) * 8;
       day = -day;
     } else {
-      day += (*dit).pos() * 8;
+      day += ( *dit ).pos() * 8;
     }
     r.by_day[index++] = static_cast<short>( day );
   }
@@ -1028,11 +1028,11 @@ icalcomponent *ICalFormatImpl::writeAlarm( const Alarm::Ptr &alarm )
     const Person::List addresses = alarm->mailAddresses();
     for ( Person::List::ConstIterator ad = addresses.constBegin();
           ad != addresses.constEnd();  ++ad ) {
-      if ( !(*ad)->email().isEmpty() ) {
-        icalproperty *p = icalproperty_new_attendee( "MAILTO:" + (*ad)->email().toUtf8() );
-        if ( !(*ad)->name().isEmpty() ) {
+      if ( !( *ad )->email().isEmpty() ) {
+        icalproperty *p = icalproperty_new_attendee( "MAILTO:" + ( *ad )->email().toUtf8() );
+        if ( !( *ad )->name().isEmpty() ) {
           icalproperty_add_parameter(
-            p, icalparameter_new_cn( quoteForParam( (*ad)->name() ).toUtf8() ) );
+            p, icalparameter_new_cn( quoteForParam( ( *ad )->name() ).toUtf8() ) );
         }
         icalcomponent_add_property( a, p );
       }
@@ -1115,7 +1115,7 @@ Todo::Ptr ICalFormatImpl::readTodo( icalcomponent *vtodo, ICalTimeZones *tzlist 
   icalproperty *p = icalcomponent_get_first_property( vtodo, ICAL_ANY_PROPERTY );
 
   while ( p ) {
-    icalproperty_kind kind = icalproperty_isa(p);
+    icalproperty_kind kind = icalproperty_isa( p );
     switch ( kind ) {
     case ICAL_DUE_PROPERTY:
     { // due date/time
@@ -1361,7 +1361,7 @@ Attendee::Ptr ICalFormatImpl::readAttendee( icalproperty *attendee )
   p = icalproperty_get_first_parameter( attendee, ICAL_PARTSTAT_PARAMETER );
   if ( p ) {
     icalparameter_partstat partStatParameter = icalparameter_get_partstat( p );
-    switch( partStatParameter ) {
+    switch ( partStatParameter ) {
     default:
     case ICAL_PARTSTAT_NEEDSACTION:
       status = Attendee::NeedsAction;
@@ -1391,7 +1391,7 @@ Attendee::Ptr ICalFormatImpl::readAttendee( icalproperty *attendee )
   p = icalproperty_get_first_parameter( attendee, ICAL_ROLE_PARAMETER );
   if ( p ) {
     icalparameter_role roleParameter = icalparameter_get_role( p );
-    switch( roleParameter ) {
+    switch ( roleParameter ) {
     case ICAL_ROLE_CHAIR:
       role = Attendee::Chair;
       break;
@@ -1462,7 +1462,7 @@ Attachment::Ptr ICalFormatImpl::readAttachment( icalproperty *attach )
   QByteArray p;
   icalvalue *value = icalproperty_get_value( attach );
 
-  switch( icalvalue_isa( value ) ) {
+  switch ( icalvalue_isa( value ) ) {
   case ICAL_ATTACH_VALUE:
   {
     icalattach *a = icalproperty_get_attach( attach );
@@ -1868,7 +1868,7 @@ void ICalFormatImpl::Private::readCustomProperties( icalcomponent *parent,
       }
     }
     const char *name = icalproperty_get_x_name( p );
-    QByteArray nproperty(name);
+    QByteArray nproperty( name );
     if ( property != nproperty ) {
       // New property
       if ( !property.isEmpty() ) {
@@ -2521,7 +2521,7 @@ icalcomponent *ICalFormatImpl::createCalendarComponent( const Calendar::Ptr &cal
   icalcomponent_add_property( calendar, p );
 
   // iCalendar version (2.0)
-  p = icalproperty_new_version( const_cast<char *>(_ICAL_VERSION) );
+  p = icalproperty_new_version( const_cast<char *>( _ICAL_VERSION ) );
   icalcomponent_add_property( calendar, p );
 
   // Add time zone
@@ -2544,7 +2544,7 @@ icalcomponent *ICalFormatImpl::createCalendarComponent( const Calendar::Ptr &cal
   }
   */
   // Custom properties
-  if( cal != 0 ) {
+  if ( cal != 0 ) {
     d->writeCustomProperties( calendar, cal.data() );
   }
 
@@ -2557,7 +2557,7 @@ icalcomponent *ICalFormatImpl::createCalendarComponent( const Calendar::Ptr &cal
 bool ICalFormatImpl::populate( const Calendar::Ptr &cal, icalcomponent *calendar,
                                bool deleted, const QString &notebook )
 {
-  Q_UNUSED(notebook);
+  Q_UNUSED( notebook );
 
   // kDebug()<<"Populate called";
 
@@ -2813,7 +2813,7 @@ icalcomponent *ICalFormatImpl::createScheduleComponent( const IncidenceBase::Ptr
     const ICalTimeZones::ZoneMap zmaps = zones.zones();
     for ( ICalTimeZones::ZoneMap::ConstIterator it=zmaps.constBegin();
           it != zmaps.constEnd(); ++it ) {
-      icaltimezone *icaltz = (*it).icalTimezone();
+      icaltimezone *icaltz = ( *it ).icalTimezone();
       if ( !icaltz ) {
         kError() << "bad time zone";
       } else {
@@ -2829,7 +2829,7 @@ icalcomponent *ICalFormatImpl::createScheduleComponent( const IncidenceBase::Ptr
 
   icalproperty_method icalmethod = ICAL_METHOD_NONE;
 
-  switch (method) {
+  switch ( method ) {
   case iTIPPublish:
     icalmethod = ICAL_METHOD_PUBLISH;
     break;

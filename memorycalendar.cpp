@@ -443,7 +443,7 @@ Todo::List MemoryCalendar::rawTodos( const QDate &start,
         continue;
       }
     } else { // recurring events
-      switch( todo->recurrence()->duration() ) {
+      switch ( todo->recurrence()->duration() ) {
       case -1: // infinite
         break;
       case 0: // end date given
@@ -642,7 +642,7 @@ Event::List MemoryCalendar::rawEvents( const QDate &start,
         continue;
       }
     } else { // recurring events
-      switch( event->recurrence()->duration() ) {
+      switch ( event->recurrence()->duration() ) {
       case -1: // infinite
         if ( inclusive ) {
           continue;

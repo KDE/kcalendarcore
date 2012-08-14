@@ -149,7 +149,7 @@ void FreeBusy::Private::init( const Event::List &eventList,
     // each of the days of the freebusy request
 
     for ( i = 0; i <= duration; ++i ) {
-      day = start.addDays(i).date();
+      day = start.addDays( i ).date();
       tmpStart.setDate( day );
       tmpEnd.setDate( day );
 
@@ -159,8 +159,8 @@ void FreeBusy::Private::init( const Event::List &eventList,
   //        a different time than the original event.
           extraDays = event->dtStart().daysTo( event->dtEnd() );
           for ( x = 0; x <= extraDays; ++x ) {
-            if ( event->recursOn( day.addDays(-x), start.timeSpec() ) ) {
-              tmpStart.setDate( day.addDays(-x) );
+            if ( event->recursOn( day.addDays( -x ), start.timeSpec() ) ) {
+              tmpStart.setDate( day.addDays( -x ) );
               tmpStart.setTime( event->dtStart().time() );
               tmpEnd = event->duration().end( tmpStart );
 
@@ -190,7 +190,7 @@ void FreeBusy::Private::init( const Event::List &eventList,
 FreeBusy::FreeBusy( const Period::List &busyPeriods )
   : d( new KCalCore::FreeBusy::Private( this ) )
 {
-  addPeriods(busyPeriods);
+  addPeriods( busyPeriods );
 }
 
 FreeBusy::FreeBusy( const FreeBusyPeriod::List &busyPeriods )
@@ -290,7 +290,7 @@ void FreeBusy::merge( FreeBusy::Ptr freeBusy )
   Period::List periods = freeBusy->busyPeriods();
   Period::List::ConstIterator it;
   for ( it = periods.constBegin(); it != periods.constEnd(); ++it ) {
-    d->mBusyPeriods.append( FreeBusyPeriod( (*it).start(), (*it).end() ) );
+    d->mBusyPeriods.append( FreeBusyPeriod( ( *it ).start(), ( *it ).end() ) );
   }
   sortList();
 }

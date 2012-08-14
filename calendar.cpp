@@ -381,7 +381,7 @@ QStringList Calendar::categories() const
   // the list of categories should be built when reading the file.
   for ( Incidence::List::ConstIterator i = rawInc.constBegin();
         i != rawInc.constEnd(); ++i ) {
-    thisCats = (*i)->categories();
+    thisCats = ( *i )->categories();
     for ( QStringList::ConstIterator si = thisCats.constBegin();
           si != thisCats.constEnd(); ++si ) {
       if ( !cats.contains( *si ) ) {
@@ -434,9 +434,9 @@ Incidence::List Calendar::duplicates( const Incidence::Ptr &incidence )
     Incidence::List vals = values( d->mNotebookIncidences );
     Incidence::List::const_iterator it;
     for ( it = vals.constBegin(); it != vals.constEnd(); ++it ) {
-      if ( ( ( incidence->dtStart() == (*it)->dtStart() ) ||
-             ( !incidence->dtStart().isValid() && !(*it)->dtStart().isValid() ) ) &&
-           ( incidence->summary() == (*it)->summary() ) ) {
+      if ( ( ( incidence->dtStart() == ( *it )->dtStart() ) ||
+             ( !incidence->dtStart().isValid() && !( *it )->dtStart().isValid() ) ) &&
+           ( incidence->summary() == ( *it )->summary() ) ) {
         list.append( *it );
       }
     }
@@ -603,7 +603,7 @@ Event::List Calendar::sortEvents( const Event::List &eventList,
   // Notice we alphabetically presort Summaries first.
   // We do this so comparison "ties" stay in a nice order.
   eventListSorted = eventList;
-  switch( sortField ) {
+  switch ( sortField ) {
   case EventSortUnsorted:
     break;
 
@@ -850,7 +850,7 @@ Todo::List Calendar::sortTodos( const Todo::List &todoList,
   // Note that To-dos may not have Start DateTimes nor due DateTimes.
 
   todoListSorted = todoList;
-  switch( sortField ) {
+  switch ( sortField ) {
   case TodoSortUnsorted:
     break;
 
@@ -940,7 +940,7 @@ Journal::List Calendar::sortJournals( const Journal::List &journalList,
 
   Journal::List journalListSorted = journalList;
 
-  switch( sortField ) {
+  switch ( sortField ) {
   case JournalSortUnsorted:
     break;
 
@@ -1350,7 +1350,7 @@ void Calendar::setObserversEnabled( bool enabled )
 void Calendar::appendAlarms( Alarm::List &alarms, const Incidence::Ptr &incidence,
                              const KDateTime &from, const KDateTime &to ) const
 {
-  KDateTime preTime = from.addSecs(-1);
+  KDateTime preTime = from.addSecs( -1 );
 
   Alarm::List alarmlist = incidence->alarms();
   for ( int i = 0, iend = alarmlist.count();  i < iend;  ++i ) {
@@ -1380,7 +1380,7 @@ void Calendar::appendRecurringAlarms( Alarm::List &alarms,
     if ( a->enabled() ) {
       if ( a->hasTime() ) {
         // The alarm time is defined as an absolute date/time
-        dt = a->nextRepetition( from.addSecs(-1) );
+        dt = a->nextRepetition( from.addSecs( -1 ) );
         if ( !dt.isValid() || dt > to ) {
           continue;
         }
@@ -1411,12 +1411,12 @@ void Calendar::appendRecurringAlarms( Alarm::List &alarms,
         KDateTime baseStart = incidence->dtStart();
         if ( from > alarmStart ) {
           alarmStart = from;   // don't look earlier than the earliest alarm
-          baseStart = (-offset).end( (-endOffset).end( alarmStart ) );
+          baseStart = ( -offset ).end( ( -endOffset ).end( alarmStart ) );
         }
 
         // Adjust the 'alarmStart' date/time and find the next recurrence at or after it.
         // Treate the two offsets separately in case one is daily and the other not.
-        dt = incidence->recurrence()->getNextDateTime( baseStart.addSecs(-1) );
+        dt = incidence->recurrence()->getNextDateTime( baseStart.addSecs( -1 ) );
         if ( !dt.isValid() ||
              ( dt = endOffset.end( offset.end( dt ) ) ) > to ) // adjust 'dt' to get the alarm time
         {

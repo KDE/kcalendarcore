@@ -170,7 +170,7 @@ QDate Event::dateEnd() const
   if ( allDay() ) {
     return end.date();
   } else {
-    return end.addSecs(-1).date();
+    return end.addSecs( -1 ).date();
   }
 }
 

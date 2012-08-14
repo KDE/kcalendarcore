@@ -36,7 +36,7 @@ using namespace KCalCore;
 
 int main( int argc, char **argv )
 {
-  KAboutData aboutData( "readandwrite", 0, ki18n("Read and Write Calendar"), "0.1" );
+  KAboutData aboutData( "readandwrite", 0, ki18n( "Read and Write Calendar" ), "0.1" );
   KCmdLineArgs::init( argc, argv, &aboutData );
 
   KCmdLineOptions options;

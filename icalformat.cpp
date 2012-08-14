@@ -236,7 +236,7 @@ QString ICalFormat::toString( const Calendar::Ptr &cal,
   Todo::List todoList = deleted ? cal->deletedTodos() : cal->rawTodos();
   Todo::List::ConstIterator it;
   for ( it = todoList.constBegin(); it != todoList.constEnd(); ++it ) {
-    if ( !deleted || !cal->todo( (*it)->uid(), (*it)->recurrenceId() ) ) {
+    if ( !deleted || !cal->todo( ( *it )->uid(), ( *it )->recurrenceId() ) ) {
       // use existing ones, or really deleted ones
       if ( notebook.isEmpty() ||
            ( !cal->notebook( *it ).isEmpty() && notebook.endsWith( cal->notebook( *it ) ) ) ) {
@@ -249,7 +249,7 @@ QString ICalFormat::toString( const Calendar::Ptr &cal,
   Event::List events = deleted ? cal->deletedEvents() : cal->rawEvents();
   Event::List::ConstIterator it2;
   for ( it2 = events.constBegin(); it2 != events.constEnd(); ++it2 ) {
-    if ( !deleted || !cal->event( (*it2)->uid(), (*it2)->recurrenceId() ) ) {
+    if ( !deleted || !cal->event( ( *it2 )->uid(), ( *it2 )->recurrenceId() ) ) {
       // use existing ones, or really deleted ones
       if ( notebook.isEmpty() ||
            ( !cal->notebook( *it2 ).isEmpty() && notebook.endsWith( cal->notebook( *it2 ) ) ) ) {
@@ -263,7 +263,7 @@ QString ICalFormat::toString( const Calendar::Ptr &cal,
   Journal::List journals = deleted ? cal->deletedJournals() : cal->rawJournals();
   Journal::List::ConstIterator it3;
   for ( it3 = journals.constBegin(); it3 != journals.constEnd(); ++it3 ) {
-    if ( !deleted || !cal->journal( (*it3)->uid(), (*it3)->recurrenceId() ) ) {
+    if ( !deleted || !cal->journal( ( *it3 )->uid(), ( *it3 )->recurrenceId() ) ) {
       // use existing ones, or really deleted ones
       if ( notebook.isEmpty() ||
            ( !cal->notebook( *it3 ).isEmpty() && notebook.endsWith( cal->notebook( *it3 ) ) ) ) {
@@ -280,9 +280,9 @@ QString ICalFormat::toString( const Calendar::Ptr &cal,
     // this will export a calendar having only timezone definitions
     zones = tzlist->zones();
   }
-  for ( ICalTimeZones::ZoneMap::ConstIterator it=zones.constBegin();
+  for ( ICalTimeZones::ZoneMap::ConstIterator it = zones.constBegin();
         it != zones.constEnd(); ++it ) {
-    icaltimezone *tz = (*it).icalTimezone();
+    icaltimezone *tz = ( *it ).icalTimezone();
     if ( !tz ) {
       kError() << "bad time zone";
     } else {
@@ -294,7 +294,7 @@ QString ICalFormat::toString( const Calendar::Ptr &cal,
 
   char *const componentString = icalcomponent_as_ical_string_r( calendar );
   const QString &text = QString::fromUtf8( componentString );
-  free(componentString);
+  free( componentString );
 
   icalcomponent_free( calendar );
   icalmemory_free_ring();
@@ -330,9 +330,9 @@ QByteArray ICalFormat::toRawString( const Incidence::Ptr &incidence )
 
   // time zones
   ICalTimeZones::ZoneMap zones = tzUsedList.zones();
-  for ( ICalTimeZones::ZoneMap::ConstIterator it=zones.constBegin();
+  for ( ICalTimeZones::ZoneMap::ConstIterator it = zones.constBegin();
         it != zones.constEnd(); ++it ) {
-    icaltimezone *tz = (*it).icalTimezone();
+    icaltimezone *tz = ( *it ).icalTimezone();
     if ( !tz ) {
       kError() << "bad time zone";
     } else {

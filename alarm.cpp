@@ -547,7 +547,7 @@ KDateTime Alarm::nextTime( const KDateTime &preTime, bool ignoreRepetitions ) co
         // kDebug() << "prevRecurrence" << prevRecurrence;
         // kDebug() << "prevLastRepeat" << prevLastRepeat;
         if ( prevLastRepeat > preTime ) {
-	  // Yes they did, return alarm offset to previous recurrence.
+          // Yes they did, return alarm offset to previous recurrence.
           KDateTime prevAlarm = alarmOffset.end( prevRecurrence );
           // kDebug() << "prevAlarm     " << prevAlarm;
           return prevAlarm;
@@ -563,7 +563,7 @@ KDateTime Alarm::nextTime( const KDateTime &preTime, bool ignoreRepetitions ) co
       kDebug() << "nextAlarm     " << nextAlarm;
       */
       if ( nextAlarm > preTime ) {
-	// It's first alarm takes place after given time.
+        // It's first alarm takes place after given time.
         return nextAlarm;
       }
     }
