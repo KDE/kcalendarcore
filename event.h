@@ -253,8 +253,7 @@ class KCALCORE_EXPORT Event : public Incidence
 Q_DECLARE_TYPEINFO( KCalCore::Event::Ptr, Q_MOVABLE_TYPE );
 
 //@cond PRIVATE
-namespace KPIMUtils
-{
+namespace KPIMUtils {
   // super class trait specialization
   template <> struct SuperClass<KCalCore::Event> : public SuperClassTrait<KCalCore::Incidence>{};
 }
