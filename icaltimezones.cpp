@@ -602,7 +602,8 @@ ICalTimeZoneData::ICalTimeZoneData( const KTimeZoneData &rhs,
       icalcomponent *phaseComp1 = icalcomponent_new_clone( phaseComp );
       icalcomponent_add_property( phaseComp1,
                                   icalproperty_new_dtstart(
-                                    writeLocalICalDateTime( transits.at( i ).time(), preOffset ) ) );
+                                    writeLocalICalDateTime( transits.at( i ).time(),
+                                    preOffset ) ) );
       bool useNewRRULE = false;
 
       // Compile the list of UTC transition dates/times, and check
