@@ -38,7 +38,7 @@
 #include <KMimeType>
 #include <KTemporaryFile>
 
-#include <QtGui/QTextDocument> // for Qt::escape() and Qt::mightBeRichText()
+#include <QTextDocument> // for Qt::escape() and Qt::mightBeRichText()
 
 using namespace KCalCore;
 
