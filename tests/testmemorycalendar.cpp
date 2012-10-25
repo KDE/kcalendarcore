@@ -20,7 +20,6 @@
 */
 
 #include "testmemorycalendar.h"
-#include "testmemorycalendar.moc"
 #include "../filestorage.h"
 #include "../memorycalendar.h"
 

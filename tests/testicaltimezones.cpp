@@ -20,7 +20,6 @@
 */
 
 #include "testicaltimezones.h"
-#include "testicaltimezones.moc"
 
 #include <ktemporaryfile.h>
 

@@ -19,7 +19,6 @@
   Boston, MA 02110-1301, USA.
 */
 #include "testfreebusy.h"
-#include "testfreebusy.moc"
 #include "../freebusy.h"
 
 #include <qtest_kde.h>

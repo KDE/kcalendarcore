@@ -20,7 +20,6 @@
 */
 
 #include "testexception.h"
-#include "testexception.moc"
 #include "../exceptions.h"
 
 #include <qtest_kde.h>

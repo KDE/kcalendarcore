@@ -21,7 +21,6 @@
 */
 
 #include "testicalformat.h"
-#include "testicalformat.moc"
 #include "../event.h"
 #include "../icalformat.h"
 #include "../memorycalendar.h"

@@ -20,7 +20,6 @@
 */
 
 #include "testcalfilter.h"
-#include "testcalfilter.moc"
 #include "../calfilter.h"
 
 #include <QStringList>

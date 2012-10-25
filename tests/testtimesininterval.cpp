@@ -20,7 +20,6 @@
   Boston, MA 02110-1301, USA.
 */
 #include "testtimesininterval.h"
-#include "testtimesininterval.moc"
 #include "../event.h"
 
 #include <qtest_kde.h>

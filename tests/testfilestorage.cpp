@@ -19,7 +19,6 @@
 */
 
 #include "testfilestorage.h"
-#include "testfilestorage.moc"
 #include "../filestorage.h"
 #include "../memorycalendar.h"
 

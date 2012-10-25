@@ -19,7 +19,6 @@
   Boston, MA 02110-1301, USA.
 */
 #include "testevent.h"
-#include "testevent.moc"
 #include "../event.h"
 
 #include <qtest_kde.h>

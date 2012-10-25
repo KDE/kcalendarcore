@@ -21,7 +21,6 @@
 */
 
 #include "testattendee.h"
-#include "testattendee.moc"
 #include "../attendee.h"
 
 #include <kdebug.h>
