@@ -96,9 +96,8 @@ bool FileStorage::open()
 
 bool FileStorage::load()
 {
-  // do we want to silently accept this, or make some noise?  Dunno...
-  // it is a semantical thing vs. a practical thing.
   if ( d->mFileName.isEmpty() ) {
+    kWarning() << "Empty filename while trying to load";
     return false;
   }
 
@@ -130,7 +129,7 @@ bool FileStorage::load()
           return false;
         }
       } else {
-        kDebug() << "Warning! There should be an exception set.";
+        kWarning() << "There should be an exception set.";
         return false;
       }
     }

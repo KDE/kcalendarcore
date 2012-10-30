@@ -82,7 +82,7 @@ bool ICalFormat::load( const Calendar::Ptr &calendar, const QString &fileName )
 
   QFile file( fileName );
   if ( !file.open( QIODevice::ReadOnly ) ) {
-    kDebug() << "load error";
+    kError() << "load error";
     setException( new Exception( Exception::LoadError ) );
     return false;
   }
