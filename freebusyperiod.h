@@ -86,7 +86,7 @@ class KCALCORE_EXPORT FreeBusyPeriod : public Period
       @param period the period to copy
      */
 
-    FreeBusyPeriod( const Period &period );
+    FreeBusyPeriod( const Period &period ); //krazy:exclude=explicit
 
     /**
       Destroys a period.
