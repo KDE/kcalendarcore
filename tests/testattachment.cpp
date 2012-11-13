@@ -19,7 +19,6 @@
 */
 
 #include "testattachment.h"
-#include "testattachment.moc"
 #include "../event.h"
 #include "../attachment.h"
 

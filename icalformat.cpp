@@ -82,7 +82,7 @@ bool ICalFormat::load( const Calendar::Ptr &calendar, const QString &fileName )
 
   QFile file( fileName );
   if ( !file.open( QIODevice::ReadOnly ) ) {
-    kDebug() << "load error";
+    kError() << "load error";
     setException( new Exception( Exception::LoadError ) );
     return false;
   }
@@ -154,7 +154,7 @@ bool ICalFormat::fromRawString( const Calendar::Ptr &cal, const QByteArray &stri
   // Let's defend const correctness until the very gates of hell^Wlibical
   calendar = icalcomponent_new_from_string( const_cast<char*>( ( const char * )string ) );
   if ( !calendar ) {
-    kDebug() << "parse error";
+    kError() << "parse error ; string is empty?" << string.isEmpty();
     setException( new Exception( Exception::ParseErrorIcal ) );
     return false;
   }
@@ -167,7 +167,7 @@ bool ICalFormat::fromRawString( const Calendar::Ptr &cal, const QByteArray &stri
           comp; comp = icalcomponent_get_next_component( calendar, ICAL_VCALENDAR_COMPONENT ) ) {
       // put all objects into their proper places
       if ( !d->mImpl->populate( cal, comp, deleted ) ) {
-        kDebug() << "Could not populate calendar";
+        kError() << "Could not populate calendar";
         if ( !exception() ) {
           setException( new Exception( Exception::ParseErrorKcal ) );
         }

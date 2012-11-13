@@ -19,7 +19,6 @@
 */
 
 #include "testalarm.h"
-#include "testalarm.moc"
 
 #include "../event.h"
 #include "../alarm.h"

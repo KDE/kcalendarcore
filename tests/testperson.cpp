@@ -22,7 +22,6 @@
 */
 
 #include "testperson.h"
-#include "testperson.moc"
 #include "../person.h"
 
 #include <kdebug.h>

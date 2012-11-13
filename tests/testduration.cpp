@@ -20,7 +20,6 @@
 */
 
 #include "testduration.h"
-#include "testduration.moc"
 #include "../duration.h"
 
 #include <kdatetime.h>

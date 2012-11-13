@@ -2565,7 +2565,7 @@ bool ICalFormatImpl::populate( const Calendar::Ptr &cal, icalcomponent *calendar
   // lists. It turns vevents into Events and then inserts them.
 
   if ( !calendar ) {
-    kDebug() << "Populate called with empty calendar";
+    kWarning() << "Populate called with empty calendar";
     return false;
   }
 
@@ -2667,7 +2667,7 @@ bool ICalFormatImpl::populate( const Calendar::Ptr &cal, icalcomponent *calendar
       Event::Ptr old = cal->event( event->uid(), event->recurrenceId() );
       if ( old ) {
         if ( old->uid().isEmpty() ) {
-          qWarning() << "Skipping invalid VEVENT";
+          kWarning() << "Skipping invalid VEVENT";
           c = icalcomponent_get_next_component( calendar, ICAL_VEVENT_COMPONENT );
           continue;
         }

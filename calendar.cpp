@@ -1500,4 +1500,3 @@ void Calendar::virtual_hook( int id, void *data )
   Q_ASSERT( false );
 }
 
-#include "calendar.moc"

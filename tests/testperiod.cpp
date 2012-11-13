@@ -22,7 +22,6 @@
 */
 
 #include "testperiod.h"
-#include "testperiod.moc"
 #include "../period.h"
 
 #include <ksystemtimezone.h>

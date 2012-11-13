@@ -21,7 +21,6 @@
 */
 
 #include "testfreebusyperiod.h"
-#include "testfreebusyperiod.moc"
 
 #include "../freebusyperiod.h"
 
