@@ -1032,7 +1032,7 @@ ICalTimeZone ICalTimeZoneSource::parse( icalcomponent *vtimezone )
   data->setTransitions( transitions );
 
   data->d->setComponent( icalcomponent_new_clone( vtimezone ) );
-  kDebug() << "VTIMEZONE" << name;
+  //kDebug() << "VTIMEZONE" << name;
   return ICalTimeZone( this, name, data );
 }
 
