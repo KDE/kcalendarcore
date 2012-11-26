@@ -70,6 +70,12 @@ class Todo;
 #define _ICAL_VERSION "2.0"
 
 /**
+  Version of this library implementation
+  @internal
+*/
+#define _ICAL_IMPLEMENTATION_VERSION "1.0"
+
+/**
   @brief
   This class provides the libical dependent functions for ICalFormat.
 

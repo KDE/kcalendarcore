@@ -58,7 +58,7 @@ class CompatFactory
       a supported calendar format.
       @return A pointer to a Compat object which is owned by the caller.
     */
-    static Compat *createCompat( const QString &productId );
+    static Compat *createCompat( const QString &productId, const QString &implementationVersion );
 };
 
 /**
@@ -119,9 +119,67 @@ class Compat
     */
     virtual bool useTimeZoneShift();
 
+    /**
+      Exchanges created and dtstamp.
+    */
+    virtual void setCreatedToDtStamp( const Incidence::Ptr &incidence, const KDateTime &dtstamp );
+
   private:
     //@cond PRIVATE
     Q_DISABLE_COPY( Compat )
+    class Private;
+    Private *d;
+    //@endcond
+};
+
+/**
+  @brief
+  Decorator so multiple compatibility classes can be stacked.
+*/
+class CompatDecorator : public Compat
+{
+  public:
+    CompatDecorator(Compat *decoratedCompat);
+    virtual ~CompatDecorator();
+    /**
+      @copydoc
+      Compat::fixRecurrence()
+    */
+    virtual void fixRecurrence( const Incidence::Ptr &incidence );
+    /**
+      @copydoc
+      Compat::fixEmptySummary()
+    */
+    virtual void fixEmptySummary( const Incidence::Ptr &incidence );
+    /**
+      @copydoc
+      Compat::fixAlarms()
+    */
+    virtual void fixAlarms( const Incidence::Ptr &incidence );
+    /**
+      @copydoc
+      Compat::fixFloatingEnd()
+    */
+    virtual void fixFloatingEnd( QDate &date );
+    /**
+      @copydoc
+      Compat::fixPriority()
+    */
+    virtual int fixPriority( int priority );
+    /**
+      @copydoc
+      Compat::useTimeZoneShift()
+    */
+    virtual bool useTimeZoneShift();
+    /**
+      @copydoc
+      Compat::setCreatedToDtStamp()
+    */
+    virtual void setCreatedToDtStamp( const Incidence::Ptr &incidence, const KDateTime &dtstamp );
+
+  private:
+    //@cond PRIVATE
+    Q_DISABLE_COPY( CompatDecorator )
     class Private;
     Private *d;
     //@endcond
@@ -272,6 +330,27 @@ class CompatOutlook9 : public Compat
       Compat::fixAlarms()
     */
     virtual void fixAlarms( const Incidence::Ptr &incidence );
+
+  private:
+    //@cond PRIVATE
+    class Private;
+    Private *d;
+    //@endcond
+};
+
+/**
+  @brief
+  Compatibility class for Kontact < 4.10 calendar files.
+*/
+class CompatPre410 : public CompatDecorator
+{
+  public:
+    CompatPre410( Compat* decoratedCompat );
+    /**
+      @copydoc
+      Compat::exchangeCreatedDTStamp()
+    */
+    virtual void setCreatedToDtStamp( const Incidence::Ptr &incidence, const KDateTime &dtstamp );
 
   private:
     //@cond PRIVATE
