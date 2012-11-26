@@ -42,6 +42,7 @@ KCALCORE_UNIT_TESTS(
   testsortablelist
   testtodo
   testtimesininterval
+  testcreateddatecompat
 )
 # this test cannot work with msvc because libical should not be altered
 # and therefore we can't add KCALCORE_EXPORT there

@@ -55,6 +55,7 @@ using namespace KCalCore;
 
 static const char APP_NAME_FOR_XPROPERTIES[] = "KCALCORE";
 static const char ENABLED_ALARM_XPROPERTY[] = "ENABLED";
+static const char IMPLEMENTATION_VERSION_XPROPERTY[] = "X-KDE-ICAL-IMPLEMENTATION-VERSION";
 
 /* Static helpers */
 /*
@@ -417,10 +418,10 @@ void ICalFormatImpl::writeIncidence( icalcomponent *parent,
 
   d->writeIncidenceBase( parent, incidence.staticCast<IncidenceBase>() );
 
-  // creation time of ical object
+  // creation date in storage
   icalcomponent_add_property(
     parent, writeICalDateTimeProperty(
-      ICAL_DTSTAMP_PROPERTY, incidence->created() ) );
+      ICAL_CREATED_PROPERTY, incidence->created() ) );
 
   // unique id
   // If the scheduling ID is different from the real UID, the real
@@ -625,11 +626,6 @@ void ICalFormatImpl::writeIncidence( icalcomponent *parent,
 void ICalFormatImpl::Private::writeIncidenceBase( icalcomponent *parent,
                                                   IncidenceBase::Ptr incidenceBase )
 {
-  // creation date in storage
-  icalcomponent_add_property(
-    parent, writeICalDateTimeProperty(
-      ICAL_CREATED_PROPERTY, KDateTime::currentUtcDateTime() ) );
-
   // organizer stuff
   if ( !incidenceBase->organizer()->isEmpty() ) {
     icalproperty *p = mImpl->writeOrganizer( incidenceBase->organizer() );
@@ -637,6 +633,9 @@ void ICalFormatImpl::Private::writeIncidenceBase( icalcomponent *parent,
       icalcomponent_add_property( parent, p );
     }
   }
+
+  icalcomponent_add_property(
+    parent, icalproperty_new_dtstamp( writeICalUtcDateTime( incidenceBase->lastModified() ) ) );
 
   // attendees
   if ( incidenceBase->attendeeCount() > 0 ) {
@@ -1549,14 +1548,19 @@ void ICalFormatImpl::readIncidence( icalcomponent *parent,
   int intvalue, inttext;
   icaldurationtype icalduration;
   KDateTime kdt;
+  KDateTime dtstamp;
 
   QStringList categories;
 
   while ( p ) {
     icalproperty_kind kind = icalproperty_isa( p );
     switch ( kind ) {
-    case ICAL_DTSTAMP_PROPERTY:
+    case ICAL_CREATED_PROPERTY:
       incidence->setCreated( readICalDateTimeProperty( p, tzlist ) );
+      break;
+
+    case ICAL_DTSTAMP_PROPERTY:
+      dtstamp = readICalDateTimeProperty( p, tzlist );
       break;
 
     case ICAL_SEQUENCE_PROPERTY:  // sequence
@@ -1791,9 +1795,11 @@ void ICalFormatImpl::readIncidence( icalcomponent *parent,
        alarm = icalcomponent_get_next_component( parent, ICAL_VALARM_COMPONENT ) ) {
     readAlarm( alarm, incidence, tzlist );
   }
-  // Fix incorrect alarm settings by other applications (like outloook 9)
+
   if ( d->mCompat ) {
+    // Fix incorrect alarm settings by other applications (like outloook 9)
     d->mCompat->fixAlarms( incidence );
+    d->mCompat->setCreatedToDtStamp( incidence, dtstamp );
   }
 }
 
@@ -2391,6 +2397,10 @@ KDateTime ICalFormatImpl::readICalDateTimeProperty( icalproperty *p,
   icaldatetimeperiodtype tp;
   icalproperty_kind kind = icalproperty_isa( p );
   switch ( kind ) {
+  case ICAL_CREATED_PROPERTY:   // UTC date/time
+    tp.time = icalproperty_get_created( p );
+    utc = true;
+    break;
   case ICAL_DTSTAMP_PROPERTY:   // UTC date/time
     tp.time = icalproperty_get_dtstamp( p );
     utc = true;
@@ -2530,6 +2540,11 @@ icalcomponent *ICalFormatImpl::createCalendarComponent( const Calendar::Ptr &cal
   p = icalproperty_new_version( const_cast<char *>( _ICAL_VERSION ) );
   icalcomponent_add_property( calendar, p );
 
+  // Implementation Version
+  p = icalproperty_new_x( _ICAL_IMPLEMENTATION_VERSION );
+  icalproperty_set_x_name( p, IMPLEMENTATION_VERSION_XPROPERTY );
+  icalcomponent_add_property( calendar, p );
+
   // Add time zone
   // NOTE: Commented out since relevant timezones are added by the caller.
   // Previously we got some timezones listed twice in the ical file.
@@ -2579,6 +2594,27 @@ bool ICalFormatImpl::populate( const Calendar::Ptr &cal, icalcomponent *calendar
 
   icalproperty *p;
 
+  p = icalcomponent_get_first_property( calendar, ICAL_X_PROPERTY );
+  QString implementationVersion;
+
+  while ( p ) {
+    const char *name = icalproperty_get_x_name( p );
+    QByteArray nproperty( name );
+    kDebug() << nproperty;
+    if ( nproperty == QByteArray( IMPLEMENTATION_VERSION_XPROPERTY ) ) {
+      QString nvalue = QString::fromUtf8( icalproperty_get_x( p ) );
+      if ( nvalue.isEmpty() ) {
+        icalvalue *value = icalproperty_get_value( p );
+        if ( icalvalue_isa( value ) == ICAL_TEXT_VALUE ) {
+          nvalue = QString::fromUtf8( icalvalue_get_text( value ) );
+        }
+      }
+      implementationVersion = nvalue;
+      icalcomponent_remove_property( calendar, p );
+    }
+    p = icalcomponent_get_next_property( calendar, ICAL_X_PROPERTY );
+  }
+
   p = icalcomponent_get_first_property( calendar, ICAL_PRODID_PROPERTY );
   if ( !p ) {
     kDebug() << "No PRODID property found";
@@ -2587,7 +2623,7 @@ bool ICalFormatImpl::populate( const Calendar::Ptr &cal, icalcomponent *calendar
     d->mLoadedProductId = QString::fromUtf8( icalproperty_get_prodid( p ) );
 
     delete d->mCompat;
-    d->mCompat = CompatFactory::createCompat( d->mLoadedProductId );
+    d->mCompat = CompatFactory::createCompat( d->mLoadedProductId, implementationVersion );
   }
 
   p = icalcomponent_get_first_property( calendar, ICAL_VERSION_PROPERTY );
@@ -2876,6 +2912,13 @@ icalcomponent *ICalFormatImpl::createScheduleComponent( const IncidenceBase::Ptr
   icalcomponent_add_property( message, icalproperty_new_method( icalmethod ) );
 
   icalcomponent *inc = writeIncidence( incidence, method );
+
+  if ( method != KCalCore::iTIPNoMethod ) {
+    //Not very nice, but since dtstamp changes semantics if used in scheduling, we have to adapt
+    icalcomponent_set_dtstamp(
+      inc, writeICalUtcDateTime( KDateTime::currentUtcDateTime() ) );
+  }
+
   /*
    * RFC 2446 states in section 3.4.3 ( REPLY to a VTODO ), that
    * a REQUEST-STATUS property has to be present. For the other two, event and
