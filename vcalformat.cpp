@@ -60,7 +60,18 @@ using namespace KCalCore;
 template <typename K>
 void removeAllVCal( QVector< QSharedPointer<K> > &c, const QSharedPointer<K> &x )
 {
-  Q_ASSERT( c.count( x ) == 1 );
+  if ( c.count() < 1 ) {
+    return;
+  }
+
+  int cnt = c.count( x );
+  if ( cnt != 1 ) {
+    qCritical() << "There number of relatedTos for this incidence is "
+                << cnt << " (there must be 1 relatedTo only)";
+    Q_ASSERT_X( false, "removeAllVCal", "Count is not 1." );
+    return;
+  }
+
   c.remove( c.indexOf( x ) );
 }
 
@@ -2084,7 +2095,7 @@ Event::Ptr VCalFormat::VEventToEvent( VObject *vevent )
 
 QString VCalFormat::parseTZ( const QByteArray &timezone ) const
 {
-  qDebug() << timezone;
+  // kDebug() << timezone;
   QString pZone = timezone.mid( timezone.indexOf( "TZID:VCAL" ) + 9 );
   return pZone.mid( 0, pZone.indexOf( QChar( QLatin1Char( '\n' ) ) ) );
 }
@@ -2268,8 +2279,7 @@ void VCalFormat::populate( VObject *vcal, bool deleted, const QString &notebook 
   if ( ( curVO = isAPropertyOf( vcal, ICMethodProp ) ) != 0 ) {
     char *methodType = 0;
     methodType = fakeCString( vObjectUStringZValue( curVO ) );
-    kDebug() << "This calendar is an iTIP transaction of type '"
-             << methodType << "'";
+    // kDebug() << "This calendar is an iTIP transaction of type '" << methodType << "'";
     deleteStr( methodType );
   }
 
@@ -2311,7 +2321,7 @@ void VCalFormat::populate( VObject *vcal, bool deleted, const QString &notebook 
     int utcOffset;
     int utcOffsetDst;
     if ( parseTZOffsetISO8601( ts, utcOffset ) ) {
-      kDebug() << "got standard offset" << ts << utcOffset;
+      // kDebug() << "got standard offset" << ts << utcOffset;
       // standard from tz
       // starting date for now 01011900
       KDateTime dt = KDateTime( QDateTime( QDate( 1900, 1, 1 ), QTime( 0, 0, 0 ) ) );
@@ -2340,7 +2350,7 @@ void VCalFormat::populate( VObject *vcal, bool deleted, const QString &notebook 
 
           if ( parseTZOffsetISO8601( argl[1], utcOffsetDst ) ) {
 
-            kDebug() << "got DST offset" << argl[1] << utcOffsetDst;
+            // kDebug() << "got DST offset" << argl[1] << utcOffsetDst;
             // standard
             QString strEndDate = argl[3];
             KDateTime endDate = ISOToKDateTime( strEndDate );

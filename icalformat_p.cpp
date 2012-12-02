@@ -71,8 +71,14 @@ static void _dumpIcaltime( const icaltimetype& t)
 template <typename K>
 void removeAllICal( QVector< QSharedPointer<K> > &c, const QSharedPointer<K> &x )
 {
-  if ( c.count( x ) != 1 ) {
-    qCritical() << "The size of the vector is " << c.count();
+  if ( c.count() < 1 ) {
+    return;
+  }
+
+  int cnt = c.count( x );
+  if ( cnt != 1 ) {
+    qCritical() << "There number of relatedTos for this incidence is "
+                << cnt << " (there must be 1 relatedTo only)";
     Q_ASSERT_X( false, "removeAllICal", "Count is not 1." );
     return;
   }
@@ -2628,12 +2634,17 @@ bool ICalFormatImpl::populate( const Calendar::Ptr &cal, icalcomponent *calendar
   while ( c ) {
     Todo::Ptr todo = readTodo( c, tzlist );
     if ( todo ) {
-      // kDebug() << "todo is no zero and deleted is " << deleted;
+      // kDebug() << "todo is not zero and deleted is " << deleted;
       Todo::Ptr old = cal->todo( todo->uid(), todo->recurrenceId() );
       if ( old ) {
-        // kDebug() << "Found an old todo with uid " << old->uid();;
+        if ( old->uid().isEmpty() ) {
+          kWarning() << "Skipping invalid VTODO";
+          c = icalcomponent_get_next_component( calendar, ICAL_VTODO_COMPONENT );
+          continue;
+        }
+        // kDebug() << "Found an old todo with uid " << old->uid();
         if ( deleted ) {
-          // kDebug()<<"Todo " << todo->uid() << " already deleted2";
+          // kDebug() << "Todo " << todo->uid() << " already deleted";
           cal->deleteTodo( old ); // move old to deleted
           removeAllICal( d->mTodosRelate, old );
         } else if ( todo->revision() > old->revision() ) {
@@ -2643,7 +2654,7 @@ bool ICalFormatImpl::populate( const Calendar::Ptr &cal, icalcomponent *calendar
           cal->addTodo( todo ); // and replace it with this one
         }
       } else if ( deleted ) {
-        // kDebug()<<"Todo " << todo->uid() << " already deleted";
+        // kDebug() << "Todo " << todo->uid() << " already deleted";
         old = cal->deletedTodo( todo->uid(), todo->recurrenceId() );
         if ( !old ) {
           cal->addTodo( todo ); // add this one
@@ -2661,9 +2672,8 @@ bool ICalFormatImpl::populate( const Calendar::Ptr &cal, icalcomponent *calendar
   c = icalcomponent_get_first_component( calendar, ICAL_VEVENT_COMPONENT );
   while ( c ) {
     Event::Ptr event = readEvent( c, tzlist );
-
-    //qDebug() << "Inserting" << cal->event( event->uid() );
     if ( event ) {
+      // kDebug() << "event is not zero and deleted is " << deleted;
       Event::Ptr old = cal->event( event->uid(), event->recurrenceId() );
       if ( old ) {
         if ( old->uid().isEmpty() ) {
@@ -2671,22 +2681,26 @@ bool ICalFormatImpl::populate( const Calendar::Ptr &cal, icalcomponent *calendar
           c = icalcomponent_get_next_component( calendar, ICAL_VEVENT_COMPONENT );
           continue;
         }
-        qDebug() << "OLD EVENT" << old->uid();
+        // kDebug() << "Found an old event with uid " << old->uid();
         if ( deleted ) {
+          // kDebug() << "Event " << event->uid() << " already deleted";
           cal->deleteEvent( old ); // move old to deleted
           removeAllICal( d->mEventsRelate, old );
         } else if ( event->revision() > old->revision() ) {
+          // kDebug() << "Replacing old event " << old.data() << " with this one " << event.data();
           cal->deleteEvent( old ); // move old to deleted
           removeAllICal( d->mEventsRelate, old );
           cal->addEvent( event ); // and replace it with this one
         }
       } else if ( deleted ) {
+        // kDebug() << "Event " << event->uid() << " already deleted";
         old = cal->deletedEvent( event->uid(), event->recurrenceId() );
         if ( !old ) {
           cal->addEvent( event ); // add this one
           cal->deleteEvent( event ); // and move it to deleted
         }
       } else {
+        // kDebug() << "Adding event " << event.data() << event->uid();
         cal->addEvent( event ); // just add this one
       }
     }
