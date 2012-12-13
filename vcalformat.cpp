@@ -615,7 +615,7 @@ VObject *VCalFormat::eventToVTodo( const Todo::Ptr &anEvent )
         if ( alarm->text().isNull() ) {
           addPropValue( a, VCDisplayStringProp, "beep!" );
         } else {
-          addPropValue( a, VCDisplayStringProp, alarm->text().toAscii().data() );
+          addPropValue( a, VCDisplayStringProp, alarm->text().toLatin1().data() );
         }
       } else if ( alarm->type() == Alarm::Audio ) {
         a = addProp( vtodo, VCAAlarmProp );
@@ -965,7 +965,7 @@ VObject *VCalFormat::eventToVEvent( const Event::Ptr &anEvent )
         if ( alarm->text().isNull() ) {
           addPropValue( a, VCDisplayStringProp, "beep!" );
         } else {
-          addPropValue( a, VCDisplayStringProp, alarm->text().toAscii().data() );
+          addPropValue( a, VCDisplayStringProp, alarm->text().toLatin1().data() );
         }
       } else if ( alarm->type() == Alarm::Audio ) {
         a = addProp( vevent, VCAAlarmProp );

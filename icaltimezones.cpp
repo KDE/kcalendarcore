@@ -1070,7 +1070,7 @@ ICalTimeZone ICalTimeZoneSource::parse( MSTimeZone *tz )
   QList<KTimeZone::Phase> phases;
 
   QList<QByteArray> standardAbbrevs;
-  standardAbbrevs += tz->StandardName.toAscii();
+  standardAbbrevs += tz->StandardName.toLatin1();
   const KTimeZone::Phase standardPhase(
     ( tz->Bias + tz->StandardBias ) * -60,
     standardAbbrevs, false,
@@ -1078,7 +1078,7 @@ ICalTimeZone ICalTimeZoneSource::parse( MSTimeZone *tz )
   phases += standardPhase;
 
   QList<QByteArray> daylightAbbrevs;
-  daylightAbbrevs += tz->DaylightName.toAscii();
+  daylightAbbrevs += tz->DaylightName.toLatin1();
   const KTimeZone::Phase daylightPhase(
     ( tz->Bias + tz->DaylightBias ) * -60,
     daylightAbbrevs, true,
@@ -1154,7 +1154,7 @@ ICalTimeZone ICalTimeZoneSource::parse( const QString &name, const QStringList &
 
     const KTimeZone::Phase tzPhase(
       tzOffset.toInt(),
-      QByteArray( tzName.toAscii() ), daylight, "VCAL_TZ_INFORMATION" );
+      QByteArray( tzName.toLatin1() ), daylight, "VCAL_TZ_INFORMATION" );
     phases += tzPhase;
     transitions += KTimeZone::Transition( tzDate.dateTime(), tzPhase );
   }
