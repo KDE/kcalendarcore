@@ -46,24 +46,27 @@ void ICalFormatTest::testCharsets()
   event->setDtEnd( KDateTime( currentDate.addDays( 1 ) ) );
 
   // ü
-  const char latin1_umlaut[] = { 0xFC, '\0' };
-  event->setSummary( latin1_umlaut );
+  const QChar latin1_umlaut[] = { 0xFC, '\0' };
+  event->setSummary( QString( latin1_umlaut ) );
 
   // Test if toString( Incidence ) didn't mess charsets
   const QString serialized = format.toString( event.staticCast<Incidence>() );
-  const char utf_umlaut[] = { 0xC3, 0XBC, '\0' };
-  QVERIFY( serialized.toUtf8().contains( utf_umlaut ) );
-  QVERIFY( !serialized.toUtf8().contains( latin1_umlaut ) );
-  QVERIFY( serialized.toLatin1().contains( latin1_umlaut ) );
-  QVERIFY( !serialized.toLatin1().contains( utf_umlaut ) );
+  const QChar utf_umlaut[] = { 0xC3, 0XBC, '\0' };
+  QVERIFY( serialized.toUtf8().contains( QString( utf_umlaut ).toLatin1().constData() ) );
+  QVERIFY( !serialized.toUtf8().contains( QString( latin1_umlaut ).toLatin1().constData() ) );
+  QVERIFY( serialized.toLatin1().contains( QString( latin1_umlaut ).toLatin1().constData() ) );
+  QVERIFY( !serialized.toLatin1().contains( QString( utf_umlaut ).toLatin1().constData() ) );
 
   // test fromString( QString )
-  const QString serializedCalendar = "BEGIN:VCALENDAR\nPRODID:-//K Desktop Environment//NONSGML libkcal 3.2//EN\nVERSION:2.0\n"
-                                     + serialized + "\nEND:VCALENDAR";
+  const QString serializedCalendar =
+    "BEGIN:VCALENDAR\nPRODID:-//K Desktop Environment//NONSGML libkcal 3.2//EN\nVERSION:2.0\n" +
+    serialized +
+    "\nEND:VCALENDAR";
 
   Incidence::Ptr event2 = format.fromString( serializedCalendar );
   QVERIFY( event->summary() == event2->summary() );
-  QVERIFY( event2->summary().toUtf8() == QByteArray( utf_umlaut ) );
+  QVERIFY( event2->summary().toUtf8() ==
+           QByteArray( QString( utf_umlaut ).toLatin1().constData() ) );
 
   // test save()
   MemoryCalendar::Ptr calendar( new MemoryCalendar( "UTC" ) );
@@ -75,8 +78,8 @@ void ICalFormatTest::testCharsets()
   QVERIFY( file.open( QIODevice::ReadOnly | QIODevice::Text ) );
 
   const QByteArray bytesFromFile = file.readAll();
-  QVERIFY( bytesFromFile.contains( utf_umlaut ) );
-  QVERIFY( !bytesFromFile.contains( latin1_umlaut ) );
+  QVERIFY( bytesFromFile.contains( QString( utf_umlaut ).toLatin1().constData() ) );
+  QVERIFY( !bytesFromFile.contains( QString( latin1_umlaut ).toLatin1().constData() ) );
   file.close();
 
   // Test load:
@@ -88,9 +91,9 @@ void ICalFormatTest::testCharsets()
   // kDebug() << format.toString( calendar2->incidences().first() );
 
   Event::Ptr loadedEvent = calendar2->incidences().first().staticCast<Event>();
-  QVERIFY( loadedEvent->summary().toUtf8() == QByteArray( utf_umlaut ) );
+  QVERIFY( loadedEvent->summary().toUtf8() ==
+           QByteArray( QString( utf_umlaut ).toLatin1().constData() ) );
   QVERIFY( *loadedEvent == *event );
-
 
   // Test fromRawString()
   MemoryCalendar::Ptr calendar3( new MemoryCalendar( "UTC" ) );
