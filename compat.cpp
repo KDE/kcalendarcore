@@ -41,14 +41,13 @@
 
 using namespace KCalCore;
 
-Compat *CompatFactory::createCompat( const QString &productId )
+Compat *CompatFactory::createCompat( const QString &productId, const QString &implementationVersion )
 {
   Compat *compat = 0;
 
   int korg = productId.indexOf( "KOrganizer" );
   int outl9 = productId.indexOf( "Outlook 9.0" );
 
-  // TODO: Use the version of LibKCal to determine the compat class...
   if ( korg >= 0 ) {
     int versionStart = productId.indexOf( " ", korg );
     if ( versionStart >= 0 ) {
@@ -83,10 +82,14 @@ Compat *CompatFactory::createCompat( const QString &productId )
     kDebug() << "Generating compat for Outlook < 2000 (Outlook 9.0)";
     compat = new CompatOutlook9;
   }
-
   if ( !compat ) {
     compat = new Compat;
   }
+  //Older implementations lacked the implementation version, so apply this fix if it is a file from kontact and the version is missing.
+  if ( implementationVersion.isEmpty() && ( productId.contains("libkcal") || productId.contains("KOrganizer") || productId.contains("KAlarm") ) ) {
+    compat = new CompatPre410( compat );
+  }
+
 
   return compat;
 }
@@ -141,6 +144,64 @@ int Compat::fixPriority( int priority )
 bool Compat::useTimeZoneShift()
 {
   return true;
+}
+
+void Compat::setCreatedToDtStamp(const Incidence::Ptr& incidence, const KDateTime& dtstamp)
+{
+  Q_UNUSED( incidence );
+  Q_UNUSED( dtstamp );
+}
+
+
+struct CompatDecorator::Private {
+  Compat *compat;
+};
+
+CompatDecorator::CompatDecorator(Compat *compat)
+: d(new CompatDecorator::Private)
+{
+  d->compat = compat;
+}
+
+CompatDecorator::~CompatDecorator()
+{
+  delete d->compat;
+  delete d;
+}
+
+void CompatDecorator::fixEmptySummary( const Incidence::Ptr &incidence )
+{
+  d->compat->fixEmptySummary( incidence );
+}
+
+void CompatDecorator::fixAlarms( const Incidence::Ptr &incidence )
+{
+  d->compat->fixAlarms( incidence );
+}
+
+void CompatDecorator::fixFloatingEnd( QDate &date )
+{
+  d->compat->fixFloatingEnd( date );
+}
+
+void CompatDecorator::fixRecurrence( const Incidence::Ptr &incidence )
+{
+  d->compat->fixRecurrence( incidence );
+}
+
+int CompatDecorator::fixPriority( int priority )
+{
+  return d->compat->fixPriority( priority );
+}
+
+bool CompatDecorator::useTimeZoneShift()
+{
+  return d->compat->useTimeZoneShift();
+}
+
+void CompatDecorator::setCreatedToDtStamp(const Incidence::Ptr& incidence, const KDateTime& dtstamp)
+{
+  d->compat->setCreatedToDtStamp( incidence, dtstamp );
 }
 
 void CompatPre35::fixRecurrence( const Incidence::Ptr &incidence )
@@ -277,4 +338,17 @@ void CompatOutlook9::fixAlarms( const Incidence::Ptr &incidence )
 bool Compat32PrereleaseVersions::useTimeZoneShift()
 {
   return false;
+}
+
+CompatPre410::CompatPre410( Compat* decoratedCompat )
+: CompatDecorator( decoratedCompat )
+{
+
+}
+
+void CompatPre410::setCreatedToDtStamp( const Incidence::Ptr& incidence, const KDateTime &dtstamp )
+{
+  if ( dtstamp.isValid() ) {
+    incidence->setCreated( dtstamp );
+  }
 }
