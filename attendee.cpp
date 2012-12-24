@@ -78,7 +78,7 @@ Attendee::~Attendee()
 bool KCalCore::Attendee::operator==( const Attendee &attendee ) const
 {
   return
-    ( Person & )*this == ( const Person & )attendee &&
+    ( const Person & )*this == ( const Person & )attendee &&
     d->mRSVP == attendee.d->mRSVP &&
     d->mRole == attendee.d->mRole &&
     d->mStatus == attendee.d->mStatus &&
