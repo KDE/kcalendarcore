@@ -1432,6 +1432,12 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
     */
     virtual void virtual_hook( int id, void *data );
 
+  Q_SIGNALS:
+    /**
+      Emitted when setFilter() is called.
+      @since 4.11
+     */
+    void filterChanged();
   private:
     //@cond PRIVATE
     class Private;

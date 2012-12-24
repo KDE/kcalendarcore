@@ -366,6 +366,7 @@ void Calendar::setFilter( CalFilter *filter )
   } else {
     d->mFilter = d->mDefaultFilter;
   }
+  emit filterChanged();
 }
 
 CalFilter *Calendar::filter() const
