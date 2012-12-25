@@ -68,7 +68,7 @@ sub checkfile()
   my $file = shift;
   my $outfile = shift;
 
-  $cmd = 'diff -u -w -B -I "^DTSTAMP:[0-9ZT]*" -I "^LAST-MODIFIED:[0-9ZT]*" -I "^CREATED:[0-9ZT]*" -I "^DCREATED:[0-9ZT]*" -I "^X-KDE-KCALCORE-ENABLED:" -I "^PRODID:.*" -I "X-UID=[0-9]*" '."$file.$id.ref $outfile";
+  $cmd = 'diff -u -w -B -I "^DTSTAMP:[0-9ZT]*" -I "^LAST-MODIFIED:[0-9ZT]*" -I "^CREATED:[0-9ZT]*" -I "^DCREATED:[0-9ZT]*" -I "^X-KDE-KCALCORE-ENABLED:" -I "^X-KDE-ICAL-IMPLEMENTATION-VERSION:" -I "^PRODID:.*" -I "X-UID=[0-9]*" '."$file.$id.ref $outfile";
   if ( !open( DIFF, "$cmd|" ) ) {
     print STDERR "Unable to run diff command on the files $file.$id.ref and $outfile\n";
     exit 1;
@@ -78,7 +78,7 @@ sub checkfile()
   $errorstr = "";
   while ( <DIFF> ) {
     $line = $_;
-    next if ($line =~ m/^[+-]\s*(DTSTAMP|LAST-MODIFIED|CREATED|DCREATED|X-KDE-KCALCORE-ENABLED|PRODID|X-UID)/);
+    next if ($line =~ m/^[+-]\s*(DTSTAMP|LAST-MODIFIED|CREATED|DCREATED|X-KDE-KCALCORE-ENABLED|X-KDE-ICAL-IMPLEMENTATION-VERSION|PRODID|X-UID)/);
     next if ($line =~ m/^[+-]\s*$/);
     next if ($line =~ m/No newline at end of file/);
     # cannot compare outfile to "/Compat/" because of the quotemeta stuff.
