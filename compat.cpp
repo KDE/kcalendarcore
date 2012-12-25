@@ -3,6 +3,7 @@
 
   Copyright (c) 2002 Cornelius Schumacher <schumacher@kde.org>
   Copyright (C) 2003-2004 Reinhold Kainhofer <reinhold@kainhofer.com>
+  Copyright (C) 2012  Christian Mollekopf <mollekopf@kolabsys.com>
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Library General Public
@@ -41,7 +42,8 @@
 
 using namespace KCalCore;
 
-Compat *CompatFactory::createCompat( const QString &productId, const QString &implementationVersion )
+Compat *CompatFactory::createCompat( const QString &productId,
+                                     const QString &implementationVersion )
 {
   Compat *compat = 0;
 
@@ -85,11 +87,14 @@ Compat *CompatFactory::createCompat( const QString &productId, const QString &im
   if ( !compat ) {
     compat = new Compat;
   }
-  //Older implementations lacked the implementation version, so apply this fix if it is a file from kontact and the version is missing.
-  if ( implementationVersion.isEmpty() && ( productId.contains("libkcal") || productId.contains("KOrganizer") || productId.contains("KAlarm") ) ) {
+  // Older implementations lacked the implementation version,
+  // so apply this fix if it is a file from kontact and the version is missing.
+  if ( implementationVersion.isEmpty() &&
+       ( productId.contains( "libkcal" ) ||
+         productId.contains( "KOrganizer" ) ||
+         productId.contains( "KAlarm" ) ) ) {
     compat = new CompatPre410( compat );
   }
-
 
   return compat;
 }
@@ -146,19 +151,18 @@ bool Compat::useTimeZoneShift()
   return true;
 }
 
-void Compat::setCreatedToDtStamp(const Incidence::Ptr& incidence, const KDateTime& dtstamp)
+void Compat::setCreatedToDtStamp( const Incidence::Ptr &incidence, const KDateTime &dtstamp )
 {
   Q_UNUSED( incidence );
   Q_UNUSED( dtstamp );
 }
 
-
 struct CompatDecorator::Private {
   Compat *compat;
 };
 
-CompatDecorator::CompatDecorator(Compat *compat)
-: d(new CompatDecorator::Private)
+CompatDecorator::CompatDecorator( Compat *compat )
+: d( new CompatDecorator::Private )
 {
   d->compat = compat;
 }
@@ -199,7 +203,8 @@ bool CompatDecorator::useTimeZoneShift()
   return d->compat->useTimeZoneShift();
 }
 
-void CompatDecorator::setCreatedToDtStamp(const Incidence::Ptr& incidence, const KDateTime& dtstamp)
+void CompatDecorator::setCreatedToDtStamp( const Incidence::Ptr &incidence,
+                                           const KDateTime &dtstamp )
 {
   d->compat->setCreatedToDtStamp( incidence, dtstamp );
 }
@@ -340,13 +345,12 @@ bool Compat32PrereleaseVersions::useTimeZoneShift()
   return false;
 }
 
-CompatPre410::CompatPre410( Compat* decoratedCompat )
+CompatPre410::CompatPre410( Compat *decoratedCompat )
 : CompatDecorator( decoratedCompat )
 {
-
 }
 
-void CompatPre410::setCreatedToDtStamp( const Incidence::Ptr& incidence, const KDateTime &dtstamp )
+void CompatPre410::setCreatedToDtStamp( const Incidence::Ptr &incidence, const KDateTime &dtstamp )
 {
   if ( dtstamp.isValid() ) {
     incidence->setCreated( dtstamp );

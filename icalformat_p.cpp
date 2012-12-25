@@ -4,6 +4,7 @@
   Copyright (c) 2001 Cornelius Schumacher <schumacher@kde.org>
   Copyright (C) 2003-2004 Reinhold Kainhofer <reinhold@kainhofer.com>
   Copyright (c) 2006 David Jarvie <software@astrojar.org.uk>
+  Copyright (C) 2012  Christian Mollekopf <mollekopf@kolabsys.com>
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Library General Public

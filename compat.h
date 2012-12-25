@@ -3,6 +3,7 @@
 
   Copyright (c) 2002 Cornelius Schumacher <schumacher@kde.org>
   Copyright (C) 2003-2004 Reinhold Kainhofer <reinhold@kainhofer.com>
+  Copyright (C) 2012  Christian Mollekopf <mollekopf@kolabsys.com>
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Library General Public
@@ -139,38 +140,45 @@ class Compat
 class CompatDecorator : public Compat
 {
   public:
-    CompatDecorator(Compat *decoratedCompat);
+    explicit CompatDecorator( Compat *decoratedCompat );
     virtual ~CompatDecorator();
+
     /**
       @copydoc
       Compat::fixRecurrence()
     */
     virtual void fixRecurrence( const Incidence::Ptr &incidence );
+
     /**
       @copydoc
       Compat::fixEmptySummary()
     */
     virtual void fixEmptySummary( const Incidence::Ptr &incidence );
+
     /**
       @copydoc
       Compat::fixAlarms()
     */
     virtual void fixAlarms( const Incidence::Ptr &incidence );
+
     /**
       @copydoc
       Compat::fixFloatingEnd()
     */
     virtual void fixFloatingEnd( QDate &date );
+
     /**
       @copydoc
       Compat::fixPriority()
     */
     virtual int fixPriority( int priority );
+
     /**
       @copydoc
       Compat::useTimeZoneShift()
     */
     virtual bool useTimeZoneShift();
+
     /**
       @copydoc
       Compat::setCreatedToDtStamp()
@@ -345,7 +353,7 @@ class CompatOutlook9 : public Compat
 class CompatPre410 : public CompatDecorator
 {
   public:
-    CompatPre410( Compat* decoratedCompat );
+    explicit CompatPre410( Compat *decoratedCompat );
     /**
       @copydoc
       Compat::exchangeCreatedDTStamp()
