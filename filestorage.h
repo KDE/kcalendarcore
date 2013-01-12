@@ -79,7 +79,8 @@ class KCALCORE_EXPORT FileStorage : public CalStorage
     void setFileName( const QString &fileName );
 
     /**
-      Returns a string containing the name of the calendar file.
+      Returns the calendar file name.
+      @return A QString with the name of the calendar file for this storge.
       @see setFileName().
     */
     QString fileName() const;
@@ -94,32 +95,29 @@ class KCALCORE_EXPORT FileStorage : public CalStorage
     void setSaveFormat( KCalCore::CalFormat *format );
 
     /**
-      Returns a pointer to the CalFormat object used by this storage.
+      Returns the CalFormat object used by this storage.
+      @return A pointer to the CalFormat object used by this storage.
       @see setSaveFormat().
     */
     CalFormat *saveFormat() const;
 
     /**
-      @copydoc
-      CalStorage::open()
+      @copydoc CalStorage::open()
     */
     bool open();
 
     /**
-      @copydoc
-      CalStorage::load()
+      @copydoc CalStorage::load()
     */
     bool load();
 
     /**
-      @copydoc
-      CalStorage::save()
+      @copydoc CalStorage::save()
     */
     bool save();
 
     /**
-      @copydoc
-      CalStorage::close()
+      @copydoc CalStorage::close()
     */
     bool close();
 

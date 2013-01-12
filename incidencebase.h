@@ -152,6 +152,9 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       RoleDnD                  /**< Role for determining new start and end dates after a DnD */
     };
 
+    /**
+      The different types of incidence fields.
+    */
     enum Field {
       FieldDtStart,         ///> Field representing the DTSTART component.
       FieldDtEnd,           ///> Field representing the DTEND component.
@@ -652,6 +655,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
 
     /**
        Marks Field @p field as dirty.
+       @param field is the Field type to mark as dirty.
        @see dirtyFields()
     */
     void setFieldDirty( IncidenceBase::Field field );
@@ -670,7 +674,6 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
 
     /**
       Constructs an IncidenceBase as a copy of another IncidenceBase object.
-
       @param ib is the IncidenceBase to copy.
     */
     IncidenceBase( const IncidenceBase &ib );

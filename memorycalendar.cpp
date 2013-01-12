@@ -96,6 +96,7 @@ class KCalCore::MemoryCalendar::Private
     void deleteAllIncidences( const IncidenceBase::IncidenceType type );
 
 };
+//@endcond
 
 MemoryCalendar::MemoryCalendar( const KDateTime::Spec &timeSpec )
   : Calendar( timeSpec ),
@@ -179,6 +180,7 @@ bool MemoryCalendar::deleteIncidenceInstances( const Incidence::Ptr &incidence )
   return true;
 }
 
+//@cond PRIVATE
 void MemoryCalendar::Private::deleteAllIncidences( const Incidence::IncidenceType incidenceType )
 {
   QHashIterator<QString, Incidence::Ptr>i( mIncidences[incidenceType] );
@@ -236,7 +238,6 @@ MemoryCalendar::Private::deletedIncidence( const QString &uid,
   return Incidence::Ptr();
 }
 
-//@cond PRIVATE
 void MemoryCalendar::Private::insertIncidence( Incidence::Ptr incidence )
 {
   const QString uid = incidence->uid();

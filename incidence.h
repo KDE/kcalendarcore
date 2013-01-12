@@ -143,8 +143,7 @@ class KCALCORE_EXPORT Incidence
     void setReadOnly( bool readonly );
 
     /**
-      @copydoc
-      IncidenceBase::setLastModified().
+      @copydoc IncidenceBase::setLastModified().
     */
     void setLastModified( const KDateTime &lm );
 
@@ -160,15 +159,14 @@ class KCALCORE_EXPORT Incidence
 
     /**
       Get the localOnly status.
+      @return true if Local only, false otherwise.
 
       @see setLocalOnly()
-      @return True if Local only, false otherwise
     */
     bool localOnly() const;
 
     /**
-      @copydoc
-      IncidenceBase::setAllDay().
+      @copydoc IncidenceBase::setAllDay().
     */
     void setAllDay( bool allDay );
 
@@ -216,8 +214,7 @@ class KCALCORE_EXPORT Incidence
     virtual void setDtStart( const KDateTime &dt );
 
     /**
-      @copydoc
-      IncidenceBase::shiftTimes()
+      @copydoc IncidenceBase::shiftTimes()
     */
     virtual void shiftTimes( const KDateTime::Spec &oldSpec,
                              const KDateTime::Spec &newSpec );
@@ -430,26 +427,22 @@ class KCALCORE_EXPORT Incidence
     void clearRecurrence();
 
     /**
-      @copydoc
-      Recurrence::recurs()
+      @copydoc Recurrence::recurs()
     */
     bool recurs() const;
 
     /**
-      @copydoc
-      Recurrence::recurrenceType()
+      @copydoc Recurrence::recurrenceType()
     */
     ushort recurrenceType() const;
 
     /**
-      @copydoc
-      Recurrence::recursOn()
+      @copydoc Recurrence::recursOn()
     */
     virtual bool recursOn( const QDate &date, const KDateTime::Spec &timeSpec ) const;
 
     /**
-      @copydoc
-      Recurrence::recursAt()
+      @copydoc Recurrence::recursAt()
     */
     bool recursAt( const KDateTime &dt ) const;
 
@@ -802,7 +795,7 @@ class KCALCORE_EXPORT Incidence
      * Returns true if the incidence type supports groupware communication.
      * @since 4.10
      */ //TODO_KDE5: make pure virtual
-    /*virtual*/ bool supportsGroupwareCommunication() const/* = 0*/;
+    bool supportsGroupwareCommunication() const;
 
   protected:
 
@@ -820,8 +813,7 @@ class KCALCORE_EXPORT Incidence
     virtual bool equals( const IncidenceBase &incidence ) const;
 
     /**
-      @copydoc
-      IncidenceBase::assign()
+      @copydoc IncidenceBase::assign()
     */
     virtual IncidenceBase &assign( const IncidenceBase &other );
 
@@ -849,7 +841,9 @@ inline uint qHash( const QSharedPointer<KCalCore::Incidence> &key )
 }
 //@endcond
 
+//@cond PRIVATE
 Q_DECLARE_TYPEINFO( KCalCore::Incidence::Ptr, Q_MOVABLE_TYPE );
 Q_DECLARE_METATYPE( KCalCore::Incidence * )
+//@endcond
 
 #endif

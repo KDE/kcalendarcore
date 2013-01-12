@@ -94,8 +94,8 @@ class KCALCORE_EXPORT FreeBusy : public IncidenceBase
     /**
       Constructs a free/busy from a single period.
 
-      @param start is the start datetime of the period.
-      @param end is the end datetime of the period.
+      @param start is the start date/time of the period.
+      @param end is the end date/time of the period.
     */
     FreeBusy( const KDateTime &start, const KDateTime &end );
 
@@ -103,8 +103,8 @@ class KCALCORE_EXPORT FreeBusy : public IncidenceBase
       Constructs a freebusy for a specified list of events given a single period.
 
       @param events list of events.
-      @param start is the start datetime of the period.
-      @param end is the end datetime of the period.
+      @param start is the start date/time of the period.
+      @param end is the end date/time of the period.
     */
     FreeBusy( const Event::List &events, const KDateTime &start, const KDateTime &end );
 
@@ -126,7 +126,7 @@ class KCALCORE_EXPORT FreeBusy : public IncidenceBase
     QByteArray typeStr() const;
 
     /**
-      Sets the start datetime for the free/busy. Note that this datetime
+      Sets the start date/time for the free/busy. Note that this date/time
       may be later or earlier than all periods within the free/busy.
 
       @param start is a KDateTime specifying an start datetime.
@@ -277,12 +277,12 @@ class KCALCORE_EXPORT FreeBusy : public IncidenceBase
 };
 
 /**
-  Serializes the @p fb object into the @p stream.
+  Serializes the @p freebusy object into the @p stream.
 */
 KCALCORE_EXPORT QDataStream &operator<<( QDataStream &stream,
                                          const KCalCore::FreeBusy::Ptr &freebusy );
 /**
-  Initializes the @p fb object from the @p stream.
+  Initializes the @p freebusy object from the @p stream.
 */
 KCALCORE_EXPORT QDataStream &operator>>( QDataStream &stream,
                                          KCalCore::FreeBusy::Ptr &freebusy );

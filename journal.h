@@ -101,7 +101,7 @@ class KCALCORE_EXPORT Journal : public Incidence
 
     /**
        @copydoc
-       IncidenceBase::iconName()
+       Incidence::iconName()
     */
     QLatin1String iconName( const KDateTime &recurrenceId = KDateTime() ) const;
 
@@ -153,7 +153,9 @@ class KCALCORE_EXPORT Journal : public Incidence
 
 } // namespace KCalCore
 
+//@cond PRIVATE
 Q_DECLARE_TYPEINFO( KCalCore::Journal::Ptr, Q_MOVABLE_TYPE );
+//@endcond
 
 //@cond PRIVATE
 namespace KPIMUtils {

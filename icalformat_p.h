@@ -214,7 +214,10 @@ class ICalFormatImpl
     */
     static KDateTime readICalUtcDateTime( icalproperty *p, icaltimetype &t,
                                           ICalTimeZones *tzlist = 0 )
-    { return readICalDateTime( p, t, tzlist, true ); }
+    //TODO: KDE5, move this implementation to icalformat_p.cpp
+    {
+      return readICalDateTime( p, t, tzlist, true );
+    }
 
     /**
       Reads a date or date/time value from a property.

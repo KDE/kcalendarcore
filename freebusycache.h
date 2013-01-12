@@ -57,6 +57,7 @@ class KCALCORE_EXPORT FreeBusyCache
 
       @param freebusy is a pointer to a valid FreeBusy instance.
       @param person is a valid Person instance.
+      @return true if the save was successful; false otherwise.
     */
     virtual bool saveFreeBusy( const FreeBusy::Ptr &freebusy, const Person::Ptr &person ) = 0;
 
@@ -64,14 +65,15 @@ class KCALCORE_EXPORT FreeBusyCache
       Load freebusy information belonging to an email.
 
       @param email is a QString containing a email string in the
-      "FirstName LastName <emailaddress>" format.
+        "FirstName LastName <emailaddress>" format.
+      @return A pointer to the FreeBusy object loaded for the specified email; returns 0 if
+        there was some problem attempting to load the FreeBusy information.
     */
     virtual FreeBusy::Ptr loadFreeBusy( const QString &email ) = 0;
 
   protected:
     /**
-      @copydoc
-      IncidenceBase::virtual_hook()
+      @copydoc IncidenceBase::virtual_hook()
     */
     virtual void virtual_hook( int id, void *data );
 };

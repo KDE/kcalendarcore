@@ -151,7 +151,6 @@ void Person::setEmail( const QString &email )
   }
 }
 
-/** static */
 bool Person::isValidEmail( const QString &email )
 {
   int pos = email.lastIndexOf( "@" );
@@ -388,7 +387,6 @@ static bool extractEmailAddressAndName( const QString &aStr, QString &mail, QStr
   return ! ( name.isEmpty() || mail.isEmpty() );
 }
 
-/** static */
 Person::Ptr Person::fromFullName( const QString &fullName )
 {
   QString email, name;

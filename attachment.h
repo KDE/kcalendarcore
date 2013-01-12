@@ -235,7 +235,8 @@ class KCALCORE_EXPORT Attachment
     bool isLocal() const;
 
     /**
-       Assignment operator.
+      Assignment operator.
+      @param attachment is the attachment to assign.
     */
     Attachment &operator=( const Attachment &attachment );
 
@@ -262,7 +263,9 @@ class KCALCORE_EXPORT Attachment
 
 }
 
+//@cond PRIVATE
 Q_DECLARE_TYPEINFO( KCalCore::Attachment::Ptr, Q_MOVABLE_TYPE );
+//@endcond
 
 //@cond PRIVATE
 inline uint qHash( const QSharedPointer<KCalCore::Attachment> &key )

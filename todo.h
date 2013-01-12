@@ -71,20 +71,18 @@ class KCALCORE_EXPORT Todo : public Incidence
     ~Todo();
 
     /**
-      @copydoc
-      IncidenceBase::type()
+      @copydoc IncidenceBase::type()
     */
     IncidenceType type() const;
 
     /**
-      @copydoc
-      IncidenceBase::typeStr()
+      @copydoc IncidenceBase::typeStr()
     */
     QByteArray typeStr() const;
 
     /**
-      Returns an exact copy of this todo. The returned object is owned by the
-      caller.
+      Returns an exact copy of this todo. The returned object is owned by the caller.
+      @return A pointer to a Todo containing an exact copy of this object.
     */
     Todo *clone() const;
 
@@ -100,64 +98,67 @@ class KCALCORE_EXPORT Todo : public Incidence
     void setDtDue( const KDateTime &dtDue, bool first = false );
 
     /**
-      Returns due date and time.
+      Returns the todo due datetime.
 
-      @param first If true and the todo recurs, the due date of the first
-      occurrence will be returned. If false and recurrent, the date of the
+      @param first If true and the todo recurs, the due datetime of the first
+      occurrence will be returned. If false and recurrent, the datetime of the
       current occurrence will be returned. If non-recurrent, the normal due
-      date will be returned.
+      datetime will be returned.
+      @return A KDateTime containing the todo due datetime.
     */
     KDateTime dtDue( bool first = false ) const;
 
     /**
-      Returns true if the todo has a due date, otherwise return false.
+      Returns if the todo has a due datetime.
+      @return true if the todo has a due datetime; false otherwise.
     */
     bool hasDueDate() const;
 
     /**
-      Sets if the todo has a due date.
-
-      @param hasDueDate true if todo has a due date, otherwise false
+      Sets if the todo has a due datetime.
+      @param hasDueDate true if todo has a due datetime, otherwise false
     */
     void setHasDueDate( bool hasDueDate );
 
     /**
-      Returns true if the todo has a start date, otherwise return false.
+      Returns if the todo has a start datetime.
+      @return true if the todo has a start datetime; false otherwise.
     */
     bool hasStartDate() const;
 
     /**
-      Sets if the todo has a start date.
-
-      @param hasStartDate true if todo has a start date, otherwise false
+      Sets if the todo has a start datetime.
+      @param hasStartDate true if todo has a start datetime, otherwise false.
     */
     void setHasStartDate( bool hasStartDate );
 
     /**
-      @copydoc
-      IncidenceBase::dtStart()
+      @copydoc IncidenceBase::dtStart()
     */
     virtual KDateTime dtStart() const;
 
     /**
-      Returns the start date of the todo.
-      @param first If true, the start date of the todo will be returned;
-      also, if the todo recurs, the start date of the first occurrence
+      Returns the start datetime of the todo.
+
+      @param first If true, the start datetime of the todo will be returned;
+      also, if the todo recurs, the start datetime of the first occurrence
       will be returned.
-      If false and the todo recurs, the relative start date will be returned,
-      based on the date returned by dtRecurrence().
+      If false and the todo recurs, the relative start datetime will be returned,
+      based on the datetime returned by dtRecurrence().
+      @return A KDateTime for the start datetime of the todo.
     */
     KDateTime dtStart( bool first ) const;
 
     /**
-      Sets the start date of the todo.
-
-      @param dtStart is the to-do start date.
+      Sets the start datetime of the todo.
+      @param dtStart is the to-do start datetime.
     */
     void setDtStart( const KDateTime &dtStart );
 
     /**
-      Returns true if the todo is 100% completed, otherwise return false.
+      Returns if the todo is 100% completed.
+      @return true if the todo is 100% completed; false otherwise.
+
       @see isOverdue, isInProgress(), isOpenEnded(), isNotStarted(bool),
       setCompleted(), percentComplete()
     */
@@ -174,8 +175,9 @@ class KCALCORE_EXPORT Todo : public Incidence
     void setCompleted( bool completed );
 
     /**
-      Returns what percentage of the to-do is completed. Returns a value
-      between 0 and 100.
+      Returns what percentage of the to-do is completed.
+      @return The percentage complete of the to-do as an integer between 0 and 100, inclusive.
+      @see setPercentComplete(), isCompleted()
     */
     int percentComplete() const;
 
@@ -191,7 +193,10 @@ class KCALCORE_EXPORT Todo : public Incidence
     void setPercentComplete( int percent );
 
     /**
-      Returns date and time when todo was completed.
+      Returns the to-do was completion datetime.
+
+      @return A KDateTime for the completeion datetime of the to-do.
+      @see hasCompletedDate()
     */
     KDateTime completed() const;
 
@@ -199,12 +204,15 @@ class KCALCORE_EXPORT Todo : public Incidence
       Sets date and time of completion.
 
       @param completeDate is the to-do completion date.
+      @see completed(), hasCompletedDate()
     */
     void setCompleted( const KDateTime &completeDate );
 
     /**
-      Returns true, if the to-do has a date associated with completion,
-      otherwise return false.
+      Returns if the to-do has a completion datetime.
+
+      @return true if the to-do has a date associated with completion; false otherwise.
+      @see setCompleted(), completed()
     */
     bool hasCompletedDate() const;
 
@@ -242,15 +250,13 @@ class KCALCORE_EXPORT Todo : public Incidence
     bool isNotStarted( bool first ) const;
 
     /**
-      @copydoc
-      IncidenceBase::shiftTimes()
+      @copydoc IncidenceBase::shiftTimes()
     */
     virtual void shiftTimes( const KDateTime::Spec &oldSpec,
                              const KDateTime::Spec &newSpec );
 
     /**
-      @copydoc
-      IncidenceBase::setAllDay().
+      @copydoc IncidenceBase::setAllDay().
     */
     void setAllDay( bool allDay );
 
@@ -286,26 +292,22 @@ class KCALCORE_EXPORT Todo : public Incidence
     bool isOverdue() const;
 
     /**
-      @copydoc
-      IncidenceBase::dateTime()
+      @copydoc IncidenceBase::dateTime()
     */
     KDateTime dateTime( DateTimeRole role ) const;
 
     /**
-      @copydoc
-      IncidenceBase::setDateTime()
+      @copydoc IncidenceBase::setDateTime()
     */
     void setDateTime( const KDateTime &dateTime, DateTimeRole role );
 
     /**
-       @copydoc
-       IncidenceBase::mimeType()
+       @copydoc IncidenceBase::mimeType()
     */
     QLatin1String mimeType() const;
 
     /**
-       @copydoc
-       IncidenceBase::iconName()
+       @copydoc Incidence::iconName()
     */
     QLatin1String iconName( const KDateTime &recurrenceId = KDateTime() ) const;
 
@@ -313,6 +315,7 @@ class KCALCORE_EXPORT Todo : public Incidence
        Returns the Akonadi specific sub MIME type of a KCalCore::Todo.
     */
     static QLatin1String todoMimeType();
+
   protected:
     /**
       Compare this with @p todo for equality.
@@ -321,21 +324,18 @@ class KCALCORE_EXPORT Todo : public Incidence
     virtual bool equals( const IncidenceBase &todo ) const;
 
     /**
-      @copydoc
-      IncidenceBase::assign()
+      @copydoc IncidenceBase::assign()
     */
     virtual IncidenceBase &assign( const IncidenceBase &other );
 
     /**
-      @copydoc
-      IncidenceBase::virtual_hook()
+      @copydoc IncidenceBase::virtual_hook()
     */
     virtual void virtual_hook( int id, void *data );
 
   private:
     /**
-      @copydoc
-      IncidenceBase::accept()
+      @copydoc IncidenceBase::accept()
     */
     bool accept( Visitor &v, IncidenceBase::Ptr incidence );
 
@@ -355,9 +355,9 @@ class KCALCORE_EXPORT Todo : public Incidence
 
 } // namespace KCalCore
 
+//@cond PRIVATE
 Q_DECLARE_TYPEINFO( KCalCore::Todo::Ptr, Q_MOVABLE_TYPE );
 
-//@cond PRIVATE
 namespace KPIMUtils {
   // super class trait specialization
   template <> struct SuperClass<KCalCore::Todo> : public SuperClassTrait<KCalCore::Incidence>{};

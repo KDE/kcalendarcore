@@ -282,7 +282,8 @@ KCALCORE_EXPORT QDataStream &operator<<( QDataStream &stream,
   @param stream is a QDataStream.
   @param attendee is a pointer to a Attendee object to be initialized.
 */
-KCALCORE_EXPORT QDataStream &operator>>( QDataStream &stream, KCalCore::Attendee::Ptr &attendee );
+KCALCORE_EXPORT QDataStream &operator>>( QDataStream &stream,
+                                         KCalCore::Attendee::Ptr &attendee );
 }
 
 //@cond PRIVATE

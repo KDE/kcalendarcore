@@ -121,7 +121,7 @@ class Compat
     virtual bool useTimeZoneShift();
 
     /**
-      Exchanges created and dtstamp.
+      Sets the created and dtstamp.
     */
     virtual void setCreatedToDtStamp( const Incidence::Ptr &incidence, const KDateTime &dtstamp );
 
@@ -354,9 +354,10 @@ class CompatPre410 : public CompatDecorator
 {
   public:
     explicit CompatPre410( Compat *decoratedCompat );
+
     /**
       @copydoc
-      Compat::exchangeCreatedDTStamp()
+      Compat::setCreatedToDtStamp()
     */
     virtual void setCreatedToDtStamp( const Incidence::Ptr &incidence, const KDateTime &dtstamp );
 

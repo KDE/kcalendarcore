@@ -68,8 +68,9 @@ class KCALCORE_EXPORT Person
     /**
       Constructs a person with name and email address taken from @p fullName.
 
-      @param fullName is the name and email of the person in
-      the form "FirstName LastName \<mail@domain\>".
+      @param fullName is the name and email of the person in the form
+        "FirstName LastName \<mail@domain\>".
+      @return A Person object pointer.
     */
     static Person::Ptr fromFullName( const QString &fullName );
 
@@ -83,7 +84,6 @@ class KCALCORE_EXPORT Person
 
     /**
        Constructs a person as a copy of another person object.
-
        @param person is the person to copy.
      */
     Person( const Person &person );
@@ -100,6 +100,8 @@ class KCALCORE_EXPORT Person
 
     /**
       Returns the full name of this person.
+      @return A QString containing the person's full name in the form
+        "FirstName LastName \<mail@domain\>".
     */
     QString fullName( ) const;
 
@@ -130,7 +132,7 @@ class KCALCORE_EXPORT Person
 
     /**
       Returns the email address for this person.
-
+      @return A QString containing the person's email address.
       @see setEmail()
     */
     QString email() const;
@@ -212,8 +214,6 @@ KCALCORE_EXPORT QDataStream &operator>>( QDataStream &stream, KCalCore::Person::
 
 }
 
-Q_DECLARE_TYPEINFO( KCalCore::Person::Ptr, Q_MOVABLE_TYPE );
-
 /**
   Return a hash value for a Person argument.
   @param key is a Person.
@@ -221,6 +221,7 @@ Q_DECLARE_TYPEINFO( KCalCore::Person::Ptr, Q_MOVABLE_TYPE );
 KCALCORE_EXPORT uint qHash( const KCalCore::Person &key );
 
 //@cond PRIVATE
+Q_DECLARE_TYPEINFO( KCalCore::Person::Ptr, Q_MOVABLE_TYPE );
 Q_DECLARE_METATYPE( KCalCore::Person::Ptr )
 //@endcond
 

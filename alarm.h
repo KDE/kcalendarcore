@@ -672,6 +672,8 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
 
 }
 
+//@cond PRIVATE
 Q_DECLARE_TYPEINFO( KCalCore::Alarm::Ptr, Q_MOVABLE_TYPE );
+//@endcond
 
 #endif

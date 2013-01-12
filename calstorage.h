@@ -49,7 +49,7 @@ class KCALCORE_EXPORT CalStorage : public QObject
 
   public:
     /**
-      Construcst a new storage object for a calendar.
+      Constructs a new storage object for a calendar.
       @param calendar is a pointer to a valid Calendar object.
     */
     explicit CalStorage( const Calendar::Ptr &calendar );
@@ -60,7 +60,8 @@ class KCALCORE_EXPORT CalStorage : public QObject
     virtual ~CalStorage();
 
     /**
-      Returns a pointer to the calendar whose storage is being managed.
+      Returns the calendar for this storage object.
+      @return A pointer to the calendar whose storage is being managed.
     */
     Calendar::Ptr calendar() const;
 

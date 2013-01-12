@@ -95,17 +95,21 @@ class Exception
     virtual ~Exception();
 
     /**
-      Returns the error code
+      Returns the error code.
+      @return The ErrorCode for this exception.
     */
     virtual ErrorCode code() const;
 
     /**
-       Returns the arguments.
+      Returns the arguments.
+      @return A QStringList with the argument list for this exception.
     */
     virtual QStringList arguments() const;
 
   protected:
-    /** The current exception code. */
+    /**
+      The current exception code.
+    */
     ErrorCode mCode;
 
     /** Arguments to pass to i18n(). */
