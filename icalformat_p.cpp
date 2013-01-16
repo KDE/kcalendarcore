@@ -2605,7 +2605,6 @@ bool ICalFormatImpl::populate( const Calendar::Ptr &cal, icalcomponent *calendar
   while ( p ) {
     const char *name = icalproperty_get_x_name( p );
     QByteArray nproperty( name );
-    kDebug() << nproperty;
     if ( nproperty == QByteArray( IMPLEMENTATION_VERSION_XPROPERTY ) ) {
       QString nvalue = QString::fromUtf8( icalproperty_get_x( p ) );
       if ( nvalue.isEmpty() ) {
