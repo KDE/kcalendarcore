@@ -2546,11 +2546,6 @@ icalcomponent *ICalFormatImpl::createCalendarComponent( const Calendar::Ptr &cal
   icalproperty_set_x_name( p, IMPLEMENTATION_VERSION_XPROPERTY );
   icalcomponent_add_property( calendar, p );
 
-  // Implementation Version
-  p = icalproperty_new_x( _ICAL_IMPLEMENTATION_VERSION );
-  icalproperty_set_x_name( p, IMPLEMENTATION_VERSION_XPROPERTY );
-  icalcomponent_add_property( calendar, p );
-
   // Add time zone
   // NOTE: Commented out since relevant timezones are added by the caller.
   // Previously we got some timezones listed twice in the ical file.
