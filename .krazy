@@ -1,2 +1,2 @@
-SKIP /libical.*/\|/versit/\|/tests/
+SKIP /libical.*/|/versit/|/tests/
 EXTRA style,kdebug,tipsandthis,defines,qenums,null,camelcase
