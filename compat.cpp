@@ -39,6 +39,7 @@
 
 #include <QtCore/QRegExp>
 #include <QtCore/QString>
+#include <QtCore/QDate>
 
 using namespace KCalCore;
 

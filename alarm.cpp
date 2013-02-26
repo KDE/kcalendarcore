@@ -34,6 +34,8 @@
 #include "duration.h"
 #include "incidence.h"
 
+#include <QTime>
+
 using namespace KCalCore;
 
 /**

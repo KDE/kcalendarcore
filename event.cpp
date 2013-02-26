@@ -34,6 +34,8 @@
 
 #include <KDebug>
 
+#include <QDate>
+
 using namespace KCalCore;
 
 /**

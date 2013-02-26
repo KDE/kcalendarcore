@@ -24,6 +24,7 @@
 #include <KDebug>
 
 #include <QtCore/QStringList>
+#include <QtCore/QTime>
 
 using namespace KCalCore;
 

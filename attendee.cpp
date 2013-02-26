@@ -32,6 +32,9 @@
 */
 
 #include "attendee.h"
+
+#include <QDataStream>
+
 using namespace KCalCore;
 
 /**

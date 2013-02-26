@@ -33,6 +33,8 @@
 #include "duration.h"
 #include <KDateTime>
 
+#include <QTime>
+
 using namespace KCalCore;
 
 /**

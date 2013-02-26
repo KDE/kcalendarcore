@@ -39,6 +39,7 @@
 #include "visitor.h"
 
 #include <QDebug>
+#include <QTime>
 
 #include <KUrl>
 

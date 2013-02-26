@@ -39,6 +39,7 @@
 #include <KTemporaryFile>
 
 #include <QTextDocument> // for Qt::escape() and Qt::mightBeRichText()
+#include <QTime>
 
 using namespace KCalCore;
 

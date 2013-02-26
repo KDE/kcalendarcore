@@ -35,6 +35,7 @@
 #include "memorycalendar.h"
 
 #include <KDebug>
+#include <QDate>
 
 using namespace KCalCore;
 
