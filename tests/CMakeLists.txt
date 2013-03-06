@@ -2,7 +2,6 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
 
 include_directories(${LIBICAL_INCLUDE_DIRS})
 
-add_definitions(-DICALTESTDATADIR="\\"${CMAKE_SOURCE_DIR}/kcalcore/tests/data/\\"")
 
 macro(macro_unit_tests)
   foreach(_testname ${ARGN})
@@ -53,6 +52,9 @@ macro_unit_tests(
   testtimesininterval
   testcreateddatecompat
 )
+
+set_target_properties(testmemorycalendar PROPERTIES COMPILE_FLAGS -DICALTESTDATADIR="\\"${CMAKE_SOURCE_DIR}/kcalcore/tests/data/\\"" )
+
 # this test cannot work with msvc because libical should not be altered
 # and therefore we can't add KCALCORE_EXPORT there
 # it should work fine with mingw because of the auto-import feature

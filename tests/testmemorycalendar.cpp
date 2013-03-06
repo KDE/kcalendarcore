@@ -137,12 +137,12 @@ void MemoryCalendarTest::testRelationsCrash()
   // This test tests that scenario, and will crash if it fails.
   MemoryCalendar::Ptr cal( new MemoryCalendar( KDateTime::UTC ) );
   FileStorage store1( cal, ICALTESTDATADIR "test_relations.ics" );
-  store1.load();
+  QVERIFY(store1.load());
   const Todo::List oldTodos = cal->todos();
   kDebug() << "Loaded " << oldTodos.count() << " todos into oldTodos.";
 
   FileStorage store2( cal, ICALTESTDATADIR "test_relations.ics" );
-  store2.load();
+  QVERIFY(store2.load());
   const Todo::List newTodos = cal->todos();
   kDebug() << "Loaded " << newTodos.count() << " into newTodos.";
 
