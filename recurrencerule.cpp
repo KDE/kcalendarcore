@@ -1394,7 +1394,7 @@ bool RecurrenceRule::recursOn( const QDate &qd, const KDateTime::Spec &timeSpec 
 {
   int i, iend;
 
-  if ( !qd.isValid() ) {
+  if ( !qd.isValid() || !d->mDateStart.isValid() ) {
     // There can't be recurrences on invalid dates
     return false;
   }
