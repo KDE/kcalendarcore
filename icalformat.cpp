@@ -204,23 +204,8 @@ Incidence::Ptr ICalFormat::fromString( const QString &string )
   MemoryCalendar::Ptr cal( new MemoryCalendar( d->mTimeSpec ) );
   fromString( cal, string );
 
-  Incidence::Ptr ical;
-  Event::List elist = cal->events();
-  if ( elist.count() > 0 ) {
-    ical = elist.first();
-  } else {
-    Todo::List tlist = cal->todos();
-    if ( tlist.count() > 0 ) {
-      ical = tlist.first();
-    } else {
-      Journal::List jlist = cal->journals();
-      if ( jlist.count() > 0 ) {
-        ical = jlist.first();
-      }
-    }
-  }
-
-  return ical ? Incidence::Ptr( ical->clone() ) : Incidence::Ptr();
+  const Incidence::List list = cal->incidences();
+  return !list.isEmpty() ? Incidence::Ptr( list.first()->clone() ) : Incidence::Ptr();
 }
 
 QString ICalFormat::toString( const Calendar::Ptr &cal,
