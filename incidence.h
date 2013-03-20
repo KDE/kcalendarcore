@@ -682,6 +682,7 @@ class KCALCORE_EXPORT Incidence
 
     /**
       Set the incidences recurrenceId.
+      Note that this will also set dtStart which MUST be the same as the recurrenceId.
       @param recurrenceId is the incidence recurrenceId to set
       @see recurrenceId().
     */
