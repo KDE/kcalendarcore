@@ -455,11 +455,11 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
     virtual Incidence::List rawIncidences() const;
 
     /**
-      Returns an unfiltered list of all possible instances for this recurring Incidence.
+      Returns an unfiltered list of all exceptions of this recurring incidence.
 
       @param incidence incidence to check
 
-      @return the list of all unfiltered Incidences.
+      @return the list of all unfiltered exceptions.
     */
     virtual Incidence::List instances( const Incidence::Ptr &incidence ) const;
 
