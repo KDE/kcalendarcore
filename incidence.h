@@ -135,6 +135,13 @@ class KCALCORE_EXPORT Incidence
     virtual Incidence *clone() const = 0;
 
     /**
+      Returns a unique identifier for a specific instance of an incidence.
+
+      Due to the recurrence-id, the uid is not unique for a KCalCore::Incidence.
+    */
+    QString instanceIdentifier() const;
+
+    /**
       Set readonly state of incidence.
 
       @param readonly If true, the incidence is set to readonly, if false the
@@ -682,7 +689,6 @@ class KCALCORE_EXPORT Incidence
 
     /**
       Set the incidences recurrenceId.
-      Note that this will also set dtStart which MUST be the same as the recurrenceId.
       @param recurrenceId is the incidence recurrenceId to set
       @see recurrenceId().
     */

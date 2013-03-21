@@ -289,6 +289,14 @@ bool Incidence::equals( const IncidenceBase &incidence ) const
     stringCompare( schedulingID(), i2->schedulingID() );
 }
 
+QString Incidence::instanceIdentifier() const
+{
+  if (hasRecurrenceId()) {
+    return uid()+recurrenceId().toString();
+  }
+  return uid();
+}
+
 void Incidence::recreate()
 {
   const KDateTime nowUTC = KDateTime::currentUtcDateTime();
@@ -1029,8 +1037,6 @@ KDateTime Incidence::recurrenceId() const
 void Incidence::setRecurrenceId( const KDateTime &recurrenceId )
 {
   if ( !mReadOnly ) {
-    //dtStart MUST be the same as the recurrenceId
-    setDtStart( recurrenceId );
     update();
     d->mRecurrenceId = recurrenceId;
     setFieldDirty( FieldRecurrenceId );
