@@ -51,6 +51,7 @@ macro_unit_tests(
   testtodo
   testtimesininterval
   testcreateddatecompat
+  testrecurrenceexception
 )
 
 set_target_properties(testmemorycalendar PROPERTIES COMPILE_FLAGS -DICALTESTDATADIR="\\"${CMAKE_SOURCE_DIR}/kcalcore/tests/data/\\"" )

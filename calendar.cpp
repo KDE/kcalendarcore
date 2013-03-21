@@ -697,6 +697,57 @@ bool Calendar::deleteIncidence( const Incidence::Ptr &incidence )
   }
 }
 
+Incidence::Ptr Calendar::createException( const Incidence::Ptr &incidence,
+                                               const KDateTime &recurrenceId,
+                                               bool thisAndFuture )
+{
+  Q_UNUSED(thisAndFuture);
+  if ( !incidence || !incidence->recurs() ) {
+    return Incidence::Ptr();
+  }
+
+  Incidence::Ptr newInc( incidence->clone() );
+  newInc->setCreated( KDateTime::currentUtcDateTime() );
+  newInc->setRevision(0);
+  //Recurring exceptions are not support for now
+  newInc->clearRecurrence();
+
+  //FIXME thisAndFuture
+  newInc->setRecurrenceId( recurrenceId );
+  newInc->setDtStart(recurrenceId);
+
+  // Calculate and set the new end of the incidence
+  KDateTime end;
+  if ( incidence->type() == Incidence::TypeEvent ) {
+    const Event::Ptr ev = newInc.staticCast<Event>();
+    if ( ev->hasEndDate() ) {
+      end = ev->dtEnd();
+    }
+  } else if ( incidence->type() == Incidence::TypeTodo ) {
+    const Todo::Ptr td = newInc.staticCast<Todo>();
+    if ( td->hasDueDate() ) {
+      end = td->dtDue();
+    }
+  }
+  if ( incidence->dtStart().isDateOnly() ) {
+    int offset = incidence->dtStart().daysTo( recurrenceId );
+    end = end.addDays( offset );
+  } else {
+    qint64 offset = incidence->dtStart().secsTo_long( recurrenceId );
+    end = end.addSecs( offset );
+  }
+
+  if ( end.isValid() ) {
+    if ( incidence->type() == Incidence::TypeEvent ) {
+      newInc.staticCast<Event>()->setDtEnd( end );
+    } else if ( incidence->type() == Incidence::TypeTodo ) {
+      newInc.staticCast<Todo>()->setDtDue( end, true );
+    }
+    newInc->setDateTime( end, IncidenceBase::RoleEnd );
+  }
+  return newInc;
+}
+
 // Dissociate a single occurrence or all future occurrences from a recurring
 // sequence. The new incidence is returned, but not automatically inserted
 // into the calendar, which is left to the calling application.
