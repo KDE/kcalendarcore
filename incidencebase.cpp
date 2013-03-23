@@ -575,7 +575,7 @@ void IncidenceBase::updated()
   if ( d->mUpdateGroupLevel ) {
     d->mUpdatedPending = true;
   } else {
-    KDateTime rid = recurrenceId();
+    const KDateTime rid = recurrenceId();
     foreach ( IncidenceObserver *o, d->mObservers ) {
       o->incidenceUpdated( uid(), rid );
     }
