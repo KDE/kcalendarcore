@@ -262,9 +262,9 @@ void MemoryCalendar::Private::insertIncidence( Incidence::Ptr incidence )
 
 bool MemoryCalendar::addIncidence( const Incidence::Ptr &incidence )
 {
-  notifyIncidenceAdded( incidence );
-
   d->insertIncidence( incidence );
+
+  notifyIncidenceAdded( incidence );
 
   incidence->registerObserver( this );
 
