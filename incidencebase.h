@@ -204,7 +204,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
 
         /**
           The IncidenceObserver interface.
-	  This function is called before any changes are made.
+          This function is called before any changes are made.
           @param uid is the string containing the incidence @ref uid.
           @param recurrenceId is possible recurrenceid of incidence.
         */
@@ -212,7 +212,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
 
         /**
           The IncidenceObserver interface.
-	  This function is called after changes are completed.
+          This function is called after changes are completed.
           @param uid is the string containing the incidence @ref uid.
           @param recurrenceId is possible recurrenceid of incidence.
         */
