@@ -538,7 +538,7 @@ KDateTime Todo::dateTime( DateTimeRole role ) const
     return dtDue();
     break;
   case RoleEnd:
-    // todos don't have dtEnd
+    return dtDue();
   default:
     return KDateTime();
   }
