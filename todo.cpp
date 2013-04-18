@@ -154,12 +154,9 @@ void Todo::setDtDue( const KDateTime &dtDue, bool first )
     d->mDtRecurrence = dtDue;
   } else {
     d->mDtDue = dtDue;
-    // TODO: This doesn't seem right...
-    recurrence()->setStartDateTime( dtDue );
-    recurrence()->setAllDay( allDay() );
   }
 
-  if ( recurs() && dtDue < recurrence()->startDateTime() ) {
+  if ( recurs() && ( !dtStart().isValid() || dtDue < recurrence()->startDateTime() ) ) {
     setDtStart( dtDue );
   }
 
@@ -238,7 +235,7 @@ KDateTime Todo::dtStart( bool first ) const
   if ( !hasStartDate() ) {
     return KDateTime();
   }
-  if ( recurs() && !first ) {
+  if ( recurs() && !first && d->mDtRecurrence.isValid() ) {
     KDateTime dt = d->mDtRecurrence.addDays( dtDue( true ).daysTo( IncidenceBase::dtStart() ) );
     dt.setTime( IncidenceBase::dtStart().time() );
     return dt;
@@ -249,14 +246,6 @@ KDateTime Todo::dtStart( bool first ) const
 
 void Todo::setDtStart( const KDateTime &dtStart )
 {
-  // TODO: This doesn't seem right (rfc 2445/6 says, recurrence is calculated from the dtstart...)
-
-  d->mHasStartDate = dtStart.isValid();
-
-  if ( recurs() ) {
-    recurrence()->setStartDateTime( d->mDtDue );
-    recurrence()->setAllDay( allDay() );
-  }
   IncidenceBase::setDtStart( dtStart );
 }
 
@@ -474,7 +463,7 @@ bool Todo::Private::recurTodo( Todo *todo )
         nextOccurrenceDateTime = r->getNextDateTime( nextOccurrenceDateTime );
       }
 
-      todo->setDtDue( nextOccurrenceDateTime );
+      todo->setDtRecurrence( nextOccurrenceDateTime );
       todo->setCompleted( false );
       todo->setRevision( todo->revision() + 1 );
 
@@ -528,8 +517,10 @@ KDateTime Todo::dateTime( DateTimeRole role ) const
       }
     }
   case RoleRecurrenceStart:
-    return dtDue();
-    break;
+    if (dtStart().isValid()) {
+      return dtStart();
+    }
+    return dtDue(); //For the sake of backwards compatiblity where we calculated recurrences based on dtDue
   case RoleEnd:
     return dtDue();
   default:
