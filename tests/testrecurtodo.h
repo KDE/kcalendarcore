@@ -32,6 +32,8 @@ class RecurTodoTest : public QObject
     void testNonAllDay();
     void testIsAllDay();
     void testDtStart();
+    void testRecurrenceBasedOnDtStart();
+    void testRecurrenceBasedOnDue();
 };
 
 #endif
