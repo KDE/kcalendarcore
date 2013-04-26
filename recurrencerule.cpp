@@ -1754,7 +1754,7 @@ DateTimeList RecurrenceRule::timesInInterval( const KDateTime &dtStart,
       if ( start > endRecur ) {
         return result;    // beyond end of recurrence
       }
-      if ( end > endRecur ) {
+      if ( end >= endRecur ) {
         enddt = endRecur;    // limit end time to end of recurrence rule
       }
     }
