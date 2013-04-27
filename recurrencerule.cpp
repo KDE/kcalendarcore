@@ -1758,13 +1758,20 @@ DateTimeList RecurrenceRule::timesInInterval( const KDateTime &dtStart,
 
   if ( d->mTimedRepetition ) {
     // It's a simple sub-daily recurrence with no constraints
-    int n = static_cast<int>( ( d->mDateStart.secsTo_long( start ) - 1 ) % d->mTimedRepetition );
-    KDateTime dt = start.addSecs( d->mTimedRepetition - n );
-    if ( dt < enddt ) {
-      n = static_cast<int>( ( dt.secsTo_long( enddt ) - 1 ) / d->mTimedRepetition ) + 1;
+
+    //Seconds to add to interval start, to get first occurrence which is within interval
+    qint64 offsetFromNextOccurrence;
+    if (d->mDateStart < start) {
+        offsetFromNextOccurrence = d->mTimedRepetition - (d->mDateStart.secsTo_long( start ) % d->mTimedRepetition);
+    } else {
+        offsetFromNextOccurrence = -(d->mDateStart.secsTo_long( start ) % d->mTimedRepetition);
+    }
+    KDateTime dt = start.addSecs( offsetFromNextOccurrence );
+    if ( dt <= enddt ) {
+      int numberOfOccurrencesWithinInterval = static_cast<int>( dt.secsTo_long( enddt ) / d->mTimedRepetition ) + 1;
       // limit n by a sane value else we can "explode".
-      n = qMin( n, LOOP_LIMIT );
-      for ( int i = 0;  i < n;  dt = dt.addSecs( d->mTimedRepetition ), ++i ) {
+      numberOfOccurrencesWithinInterval = qMin( numberOfOccurrencesWithinInterval, LOOP_LIMIT );
+      for ( int i = 0;  i < numberOfOccurrencesWithinInterval; dt = dt.addSecs( d->mTimedRepetition ), ++i ) {
         result += dt;
       }
     }
