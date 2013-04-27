@@ -1345,16 +1345,12 @@ bool RecurrenceRule::Private::buildCache() const
     dts.erase( dts.begin(), dts.begin() + i + 1 );
   }
 
-  int loopnr = 0;
-  int dtnr = dts.count();
   // some validity checks to avoid infinite loops (i.e. if we have
   // done this loop already 10000 times, bail out )
-  while ( loopnr < LOOP_LIMIT && dtnr < mDuration ) {
+  for ( int loopnr = 0; loopnr < LOOP_LIMIT && dts.count() < mDuration; ++loopnr ) {
     interval.increase( mPeriod, mFrequency );
     // The returned date list is already sorted!
     dts += datesForInterval( interval, mPeriod );
-    dtnr = dts.count();
-    ++loopnr;
   }
   if ( dts.count() > mDuration ) {
     // we have picked up more occurrences than necessary, remove them
