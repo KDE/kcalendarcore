@@ -1737,15 +1737,15 @@ KDateTime RecurrenceRule::getNextDate( const KDateTime &preDate ) const
 DateTimeList RecurrenceRule::timesInInterval( const KDateTime &dtStart,
                                               const KDateTime &dtEnd ) const
 {
-  KDateTime start = dtStart.toTimeSpec( d->mDateStart.timeSpec() );
-  KDateTime end = dtEnd.toTimeSpec( d->mDateStart.timeSpec() );
+  const KDateTime start = dtStart.toTimeSpec( d->mDateStart.timeSpec() );
+  const KDateTime end = dtEnd.toTimeSpec( d->mDateStart.timeSpec() );
   DateTimeList result;
   if ( end < d->mDateStart ) {
     return result;    // before start of recurrence
   }
   KDateTime enddt = end;
   if ( d->mDuration >= 0 ) {
-    KDateTime endRecur = endDt();
+    const KDateTime endRecur = endDt();
     if ( endRecur.isValid() ) {
       if ( start > endRecur ) {
         return result;    // beyond end of recurrence
