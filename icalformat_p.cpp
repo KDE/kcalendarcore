@@ -356,10 +356,15 @@ icalcomponent *ICalFormatImpl::writeFreeBusy( const FreeBusy::Ptr &freebusy,
   icalcomponent_add_property(
     vfreebusy, icalproperty_new_dtend( writeICalUtcDateTime( freebusy->dtEnd() ) ) );
 
+#ifdef USE_ICAL_1_0
+  icalcomponent_add_property(
+    vfreebusy, icalproperty_new_uid( freebusy->uid().toUtf8() ) );
+#else
   if ( method == iTIPRequest ) {
     icalcomponent_add_property(
       vfreebusy, icalproperty_new_uid( freebusy->uid().toUtf8() ) );
   }
+#endif
 
   //Loops through all the periods in the freebusy object
   Period::List list = freebusy->busyPeriods();
