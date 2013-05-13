@@ -24,7 +24,8 @@ class TestReadRecurrenceId: public QObject
   Q_OBJECT
   private Q_SLOTS:
     void testReadSingleException();
-//     void testReadSingleExceptionWithThisAndFuture();
+    void testReadSingleExceptionWithThisAndFuture();
+    void testReadWriteSingleExceptionWithThisAndFuture();
     void testReadExceptionWithMainEvent();
 };
 

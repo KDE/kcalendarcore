@@ -27,6 +27,8 @@ class TestOccurrenceIterator: public QObject
     void testEventsAndTodos();
     void testFilterCompletedTodos();
     void testAllDayEvents();
+    void testWithExceptionThisAndFuture();
+    void testSubDailyRecurrences();
 };
 
 #endif // TESTOCCURRENCEITERATOR_H

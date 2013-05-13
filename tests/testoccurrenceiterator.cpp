@@ -170,3 +170,86 @@ void TestOccurrenceIterator::testAllDayEvents()
   }
   QCOMPARE(expectedEventOccurrences.size(), 0);
 }
+
+void TestOccurrenceIterator::testWithExceptionThisAndFuture()
+{
+  KCalCore::MemoryCalendar calendar(KDateTime::UTC);
+
+  KDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), KDateTime::UTC);
+  KDateTime end(QDate(2013, 03, 10), QTime(11, 0, 0), KDateTime::UTC);
+
+  KDateTime recurrenceId(QDate(2013, 03, 11), QTime(10, 0, 0), KDateTime::UTC);
+  KDateTime exceptionStart(QDate(2013, 03, 11), QTime(12, 0, 0), KDateTime::UTC);
+  KDateTime exceptionEnd(QDate(2013, 03, 11), QTime(13, 0, 0), KDateTime::UTC);
+
+  KDateTime actualEnd(QDate(2013, 03, 12), QTime(11, 0, 0), KDateTime::UTC);
+
+  KCalCore::Event::Ptr event1(new KCalCore::Event());
+  event1->setUid("event1");
+  event1->setSummary("event1");
+  event1->setDtStart(start);
+  event1->setDtEnd(end);
+  event1->recurrence()->setDaily(1);
+  calendar.addEvent(event1);
+
+  KCalCore::Event::Ptr exception(new KCalCore::Event());
+  exception->setUid(event1->uid());
+  exception->setSummary("exception");
+  exception->setRecurrenceId(recurrenceId);
+  exception->setThisAndFuture( true );
+  exception->setDtStart(exceptionStart);
+  exception->setDtEnd(exceptionEnd);
+  calendar.addEvent(exception);
+
+  int occurrence = 0;
+  KCalCore::OccurrenceIterator rIt( calendar, start, actualEnd );
+  while ( rIt.hasNext() ) {
+    rIt.next();
+    occurrence++;
+//     qDebug() << occurrence;
+//     qDebug() << "occurrence: " << rIt.occurrenceStartDate().toString();
+//     qDebug() << "uid: " << rIt.incidence()->uid();
+//     qDebug() << "summary: " << rIt.incidence()->summary();
+//     qDebug() << "start: " << rIt.incidence()->dtStart().toString();
+//     qDebug();
+    if (occurrence == 1) {
+      QCOMPARE(rIt.occurrenceStartDate(), start);
+      QCOMPARE(rIt.incidence()->summary(), event1->summary());
+    }
+    if (occurrence == 2) {
+      QCOMPARE(rIt.occurrenceStartDate(), exceptionStart);
+      QCOMPARE(rIt.incidence()->summary(), exception->summary());
+    }
+    if (occurrence == 3) {
+      QCOMPARE(rIt.occurrenceStartDate(), exceptionStart.addDays(1));
+      QCOMPARE(rIt.incidence()->summary(), exception->summary());
+    }
+  }
+  QCOMPARE(occurrence, 3);
+}
+
+void TestOccurrenceIterator::testSubDailyRecurrences()
+{
+  KCalCore::MemoryCalendar calendar(KDateTime::UTC);
+
+  KDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), KDateTime::UTC);
+  KDateTime actualEnd(QDate(2013, 03, 10), QTime(13, 0, 0), KDateTime::UTC);
+
+  KCalCore::Event::Ptr event(new KCalCore::Event());
+  event->setUid("event");
+  event->setDtStart(start);
+  event->recurrence()->setHourly(1);
+  event->recurrence()->setDuration(2);
+  calendar.addEvent(event);
+
+  KCalCore::OccurrenceIterator rIt( calendar, start, actualEnd );
+  QList<KDateTime> expectedEventOccurrences;
+  expectedEventOccurrences << start << start.addSecs(60*60);
+  while ( rIt.hasNext() ) {
+    rIt.next();
+    kDebug() << rIt.occurrenceStartDate();
+    QCOMPARE(expectedEventOccurrences.removeAll(rIt.occurrenceStartDate()), 1);
+  }
+  QCOMPARE(expectedEventOccurrences.size(), 0);
+
+}

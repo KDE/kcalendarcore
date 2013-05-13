@@ -701,8 +701,8 @@ Incidence::Ptr Calendar::createException( const Incidence::Ptr &incidence,
                                           const KDateTime &recurrenceId,
                                           bool thisAndFuture )
 {
-  Q_UNUSED(thisAndFuture);
-  if ( !incidence || !incidence->recurs() ) {
+  Q_ASSERT( recurrenceId.isValid() );
+  if ( !incidence || !incidence->recurs() || !recurrenceId.isValid() ) {
     return Incidence::Ptr();
   }
 
@@ -712,8 +712,8 @@ Incidence::Ptr Calendar::createException( const Incidence::Ptr &incidence,
   //Recurring exceptions are not support for now
   newInc->clearRecurrence();
 
-  //FIXME thisAndFuture
   newInc->setRecurrenceId( recurrenceId );
+  newInc->setThisAndFuture( thisAndFuture );
   newInc->setDtStart(recurrenceId);
 
   // Calculate and set the new end of the incidence

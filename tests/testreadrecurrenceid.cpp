@@ -44,16 +44,34 @@ void TestReadRecurrenceId::testReadSingleException()
   QVERIFY(i->hasRecurrenceId());
 }
 
-/*
 void TestReadRecurrenceId::testReadSingleExceptionWithThisAndFuture()
 {
   KCalCore::ICalFormat format;
-  QFile file("/home/chrigi/devel/kde/kdepimlibs/kcalcore/tests/data/test_recurrenceid_thisandfuture.ics");
+  QFile file(ICALTESTDATADIR "test_recurrenceid_thisandfuture.ics");
   QVERIFY(file.open(QIODevice::ReadOnly));
   KCalCore::Incidence::Ptr i = format.fromString( QString::fromUtf8( file.readAll() ) );
   QVERIFY(i);
   QVERIFY(i->hasRecurrenceId());
-} */
+  QVERIFY(i->thisAndFuture());
+}
+
+void TestReadRecurrenceId::testReadWriteSingleExceptionWithThisAndFuture()
+{
+  KCalCore::MemoryCalendar::Ptr cal( new KCalCore::MemoryCalendar("UTC") );
+  KCalCore::ICalFormat format;
+  KCalCore::Incidence::Ptr inc( new KCalCore::Event );
+  inc->setDtStart(KDateTime::currentUtcDateTime());
+  inc->setRecurrenceId(KDateTime::currentUtcDateTime());
+  inc->setThisAndFuture( true );
+  cal->addIncidence( inc );
+  const QString result = format.toString( cal, QString() );
+  kDebug() << result;
+
+  KCalCore::Incidence::Ptr i = format.fromString( result );
+  QVERIFY(i);
+  QVERIFY(i->hasRecurrenceId());
+  QVERIFY(i->thisAndFuture());
+}
 
 void TestReadRecurrenceId::testReadExceptionWithMainEvent()
 {

@@ -64,6 +64,7 @@ class KCalCore::Incidence::Private
         mGeoLatitude( INVALID_LATLON ),
         mGeoLongitude( INVALID_LATLON ),
         mHasGeo( false ),
+        mThisAndFuture( false ),
         mLocalOnly( false )
     {
     }
@@ -90,6 +91,7 @@ class KCalCore::Incidence::Private
         mGeoLongitude( p.mGeoLongitude ),
         mHasGeo( p.mHasGeo ),
         mRecurrenceId( p.mRecurrenceId ),
+        mThisAndFuture( p.mThisAndFuture ),
         mLocalOnly( false )
     {
     }
@@ -120,6 +122,7 @@ class KCalCore::Incidence::Private
       mGeoLongitude = src.d->mGeoLongitude;
       mHasGeo = src.d->mHasGeo;
       mRecurrenceId = src.d->mRecurrenceId;
+      mThisAndFuture = src.d->mThisAndFuture;
       mLocalOnly = src.d->mLocalOnly;
 
       // Alarms and Attachments are stored in ListBase<...>, which is a QValueList<...*>.
@@ -170,6 +173,7 @@ class KCalCore::Incidence::Private
     bool mHasGeo;                       // if incidence has geo data
     QHash<Attachment::Ptr,QString> mTempFiles; // Temporary files for writing attachments to.
     KDateTime mRecurrenceId;            // recurrenceId
+    bool mThisAndFuture;
     bool mLocalOnly;                    // allow changes that won't go to the server
 };
 //@endcond
@@ -287,7 +291,9 @@ bool Incidence::equals( const IncidenceBase &incidence ) const
     secrecy() == i2->secrecy() &&
     priority() == i2->priority() &&
     stringCompare( location(), i2->location() ) &&
-    stringCompare( schedulingID(), i2->schedulingID() );
+    stringCompare( schedulingID(), i2->schedulingID() ) &&
+    recurrenceId() == i2->recurrenceId() &&
+    thisAndFuture() == i2->thisAndFuture();
 }
 
 QString Incidence::instanceIdentifier() const
@@ -1035,6 +1041,16 @@ bool Incidence::hasRecurrenceId() const
 KDateTime Incidence::recurrenceId() const
 {
   return d->mRecurrenceId;
+}
+
+void Incidence::setThisAndFuture( bool thisAndFuture )
+{
+  d->mThisAndFuture = thisAndFuture;
+}
+
+bool Incidence::thisAndFuture() const
+{
+  return d->mThisAndFuture;
 }
 
 void Incidence::setRecurrenceId( const KDateTime &recurrenceId )

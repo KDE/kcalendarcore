@@ -41,6 +41,7 @@ class Calendar;
  * The iterator takes recurrences and exceptions to recurrences into account
  *
  * The iterator does not iterate the occurrences of all incidences chronologically.
+ * @since 4.11
  */
 class KCALCORE_EXPORT OccurrenceIterator
 {
@@ -66,7 +67,7 @@ class KCALCORE_EXPORT OccurrenceIterator
      */
     Incidence::Ptr incidence() const;
 
-    /*
+    /**
      * Returns the start date of the occurrence
      *
      * This is either the occurrence date, or the start date of an exception which overrides that occurrence.

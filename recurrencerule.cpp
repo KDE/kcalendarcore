@@ -1331,6 +1331,7 @@ void RecurrenceRule::Private::buildConstraints()
 // Only call buildCache() if mDuration > 0.
 bool RecurrenceRule::Private::buildCache() const
 {
+  Q_ASSERT(mDuration > 0);
   // Build the list of all occurrences of this event (we need that to determine
   // the end date!)
   Constraint interval( getNextValidDateInterval( mDateStart, mPeriod ) );

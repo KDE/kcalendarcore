@@ -152,7 +152,7 @@ class KCALCORE_EXPORT Todo : public Incidence
     /**
       Sets the start datetime of the todo.
       @param dtStart is the to-do start datetime.
-    */
+    */ //TODO_KDE5: Remove (see IncidenceBase)
     void setDtStart( const KDateTime &dtStart );
 
     /**

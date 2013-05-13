@@ -70,6 +70,7 @@ set(kcalcore_LIB_SRCS ${libversit_SRCS}
   incidencebase.cpp
   journal.cpp
   memorycalendar.cpp
+  occurrenceiterator.cpp
   period.cpp
   person.cpp
   recurrence.cpp
@@ -79,7 +80,6 @@ set(kcalcore_LIB_SRCS ${libversit_SRCS}
   todo.cpp
   vcalformat.cpp
   visitor.cpp
-  occurrenceiterator.cpp
 )
 
 kde4_add_library(kcalcore ${LIBRARY_TYPE} ${kcalcore_LIB_SRCS})
@@ -127,6 +127,7 @@ install(FILES
   journal.h
   kcalcore_export.h
   memorycalendar.h
+  occurrenceiterator.h
   period.h
   person.h
   recurrence.h
@@ -138,5 +139,4 @@ install(FILES
   todo.h
   vcalformat.h
   visitor.h
-  occurrenceiterator.h
   DESTINATION ${INCLUDE_INSTALL_DIR}/kcalcore COMPONENT Devel)
