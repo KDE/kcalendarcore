@@ -690,7 +690,7 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
       @param thisAndFuture specifies if the exception applies only this specific occcurrence or also to all future occurrences
 
       @return a pointer to a new exception incidence with @param recurrenceId set.
-    */
+    */ //TODO: In .h files, we need the namespace, KCalCore::Incidence
     static Incidence::Ptr createException( const Incidence::Ptr &incidence,
                                                const KDateTime &recurrenceId,
                                                bool thisAndFuture = false );

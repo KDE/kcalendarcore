@@ -550,6 +550,9 @@ void Todo::setDateTime( const KDateTime &dateTime, DateTimeRole role )
     case RoleDnD:
       setDtDue( dateTime );
       break;
+    case RoleEnd:
+      setDtDue( dateTime, true );
+      break;
     default:
       kDebug() << "Unhandled role" << role;
   }

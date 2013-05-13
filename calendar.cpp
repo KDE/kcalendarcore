@@ -698,8 +698,8 @@ bool Calendar::deleteIncidence( const Incidence::Ptr &incidence )
 }
 
 Incidence::Ptr Calendar::createException( const Incidence::Ptr &incidence,
-                                               const KDateTime &recurrenceId,
-                                               bool thisAndFuture )
+                                          const KDateTime &recurrenceId,
+                                          bool thisAndFuture )
 {
   Q_UNUSED(thisAndFuture);
   if ( !incidence || !incidence->recurs() ) {
@@ -717,31 +717,15 @@ Incidence::Ptr Calendar::createException( const Incidence::Ptr &incidence,
   newInc->setDtStart(recurrenceId);
 
   // Calculate and set the new end of the incidence
-  KDateTime end;
-  if ( incidence->type() == Incidence::TypeEvent ) {
-    const Event::Ptr ev = newInc.staticCast<Event>();
-    if ( ev->hasEndDate() ) {
-      end = ev->dtEnd();
-    }
-  } else if ( incidence->type() == Incidence::TypeTodo ) {
-    const Todo::Ptr td = newInc.staticCast<Todo>();
-    if ( td->hasDueDate() ) {
-      end = td->dtDue();
-    }
-  }
-  if ( incidence->dtStart().isDateOnly() ) {
-    int offset = incidence->dtStart().daysTo( recurrenceId );
-    end = end.addDays( offset );
-  } else {
-    qint64 offset = incidence->dtStart().secsTo_long( recurrenceId );
-    end = end.addSecs( offset );
-  }
+  KDateTime end = incidence->dateTime( IncidenceBase::RoleEnd );
 
   if ( end.isValid() ) {
-    if ( incidence->type() == Incidence::TypeEvent ) {
-      newInc.staticCast<Event>()->setDtEnd( end );
-    } else if ( incidence->type() == Incidence::TypeTodo ) {
-      newInc.staticCast<Todo>()->setDtDue( end, true );
+    if ( incidence->dtStart().isDateOnly() ) {
+      int offset = incidence->dtStart().daysTo( recurrenceId );
+      end = end.addDays( offset );
+    } else {
+      qint64 offset = incidence->dtStart().secsTo_long( recurrenceId );
+      end = end.addSecs( offset );
     }
     newInc->setDateTime( end, IncidenceBase::RoleEnd );
   }

@@ -309,6 +309,9 @@ void Event::setDateTime( const KDateTime &dateTime, DateTimeRole role )
       setDtEnd( dateTime.addSecs( duration ) );
       break;
     }
+    case RoleEnd:
+      setDtEnd( dateTime );
+      break;
     default:
       kDebug() << "Unhandled role" << role;
   }

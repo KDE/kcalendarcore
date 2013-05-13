@@ -79,6 +79,7 @@ set(kcalcore_LIB_SRCS ${libversit_SRCS}
   todo.cpp
   vcalformat.cpp
   visitor.cpp
+  occurrenceiterator.cpp
 )
 
 kde4_add_library(kcalcore ${LIBRARY_TYPE} ${kcalcore_LIB_SRCS})
@@ -137,4 +138,5 @@ install(FILES
   todo.h
   vcalformat.h
   visitor.h
+  occurrenceiterator.h
   DESTINATION ${INCLUDE_INSTALL_DIR}/kcalcore COMPONENT Devel)
