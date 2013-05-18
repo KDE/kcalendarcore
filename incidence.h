@@ -689,7 +689,8 @@ class KCALCORE_EXPORT Incidence
     bool hasRecurrenceId() const;
 
     /**
-      Set the incidences recurrenceId. This field indicates that this is an exception to a recurring incidence.
+      Set the incidences recurrenceId.
+      This field indicates that this is an exception to a recurring incidence.
       The uid of this incidence MUST be the same as the one of the recurring main incidence.
       @param recurrenceId is the incidence recurrenceId to set
       @see recurrenceId().

@@ -190,7 +190,7 @@ void Todo::setHasDueDate( bool f )
     return;
   }
   update();
-  if (!f) {
+  if ( !f ) {
     d->mDtDue = KDateTime();
     d->mDtRecurrence = KDateTime();
   }
@@ -218,8 +218,8 @@ void Todo::setHasStartDate( bool f )
     QString s( "NoStartDate" );
     removeComment( s );
   }
-  if (!f) {
-    setDtStart(KDateTime());
+  if ( !f ) {
+    setDtStart( KDateTime() );
   }
   setFieldDirty( FieldDtStart );
   updated();
@@ -517,10 +517,11 @@ KDateTime Todo::dateTime( DateTimeRole role ) const
       }
     }
   case RoleRecurrenceStart:
-    if (dtStart().isValid()) {
+    if ( dtStart().isValid() ) {
       return dtStart();
     }
-    return dtDue(); //For the sake of backwards compatiblity where we calculated recurrences based on dtDue
+    return dtDue(); //For the sake of backwards compatibility
+                    //where we calculated recurrences based on dtDue
   case RoleEnd:
     return dtDue();
   default:

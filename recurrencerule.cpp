@@ -1331,7 +1331,7 @@ void RecurrenceRule::Private::buildConstraints()
 // Only call buildCache() if mDuration > 0.
 bool RecurrenceRule::Private::buildCache() const
 {
-  Q_ASSERT(mDuration > 0);
+  Q_ASSERT( mDuration > 0 );
   // Build the list of all occurrences of this event (we need that to determine
   // the end date!)
   Constraint interval( getNextValidDateInterval( mDateStart, mPeriod ) );
@@ -1761,17 +1761,21 @@ DateTimeList RecurrenceRule::timesInInterval( const KDateTime &dtStart,
 
     //Seconds to add to interval start, to get first occurrence which is within interval
     qint64 offsetFromNextOccurrence;
-    if (d->mDateStart < start) {
-        offsetFromNextOccurrence = d->mTimedRepetition - (d->mDateStart.secsTo_long( start ) % d->mTimedRepetition);
+    if ( d->mDateStart < start ) {
+      offsetFromNextOccurrence =
+        d->mTimedRepetition - ( d->mDateStart.secsTo_long( start ) % d->mTimedRepetition );
     } else {
-        offsetFromNextOccurrence = -(d->mDateStart.secsTo_long( start ) % d->mTimedRepetition);
+      offsetFromNextOccurrence = -( d->mDateStart.secsTo_long( start ) % d->mTimedRepetition );
     }
     KDateTime dt = start.addSecs( offsetFromNextOccurrence );
     if ( dt <= enddt ) {
-      int numberOfOccurrencesWithinInterval = static_cast<int>( dt.secsTo_long( enddt ) / d->mTimedRepetition ) + 1;
+      int numberOfOccurrencesWithinInterval =
+        static_cast<int>( dt.secsTo_long( enddt ) / d->mTimedRepetition ) + 1;
       // limit n by a sane value else we can "explode".
       numberOfOccurrencesWithinInterval = qMin( numberOfOccurrencesWithinInterval, LOOP_LIMIT );
-      for ( int i = 0;  i < numberOfOccurrencesWithinInterval; dt = dt.addSecs( d->mTimedRepetition ), ++i ) {
+      for ( int i = 0;
+            i < numberOfOccurrencesWithinInterval;
+            dt = dt.addSecs( d->mTimedRepetition ), ++i ) {
         result += dt;
       }
     }

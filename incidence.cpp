@@ -298,8 +298,8 @@ bool Incidence::equals( const IncidenceBase &incidence ) const
 
 QString Incidence::instanceIdentifier() const
 {
-  if (hasRecurrenceId()) {
-    return uid()+recurrenceId().toString();
+  if ( hasRecurrenceId() ) {
+    return uid() + recurrenceId().toString();
   }
   return uid();
 }
@@ -550,7 +550,7 @@ QString Incidence::relatedTo( RelType relType ) const
 Recurrence *Incidence::recurrence() const
 {
   if ( !d->mRecurrence ) {
-    if (!dtStart().isValid()) {
+    if ( !dtStart().isValid() ) {
       kWarning() << "A recurrence requires a valid dtStart";
     }
     d->mRecurrence = new Recurrence();
