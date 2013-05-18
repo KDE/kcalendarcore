@@ -115,7 +115,7 @@ bool ICalFormat::save( const Calendar::Ptr &calendar, const QString &fileName )
 
   KSaveFile file( fileName );
   if ( !file.open() ) {
-    kDebug() << "file open error:" << file.errorString();
+    kError() << "file open error: " << file.errorString() << ";filename=" << fileName;
     setException( new Exception( Exception::SaveErrorOpenFile,
                                  QStringList( fileName ) ) );
 
