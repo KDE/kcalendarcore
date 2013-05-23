@@ -550,12 +550,6 @@ QString Incidence::relatedTo( RelType relType ) const
 Recurrence *Incidence::recurrence() const
 {
   if ( !d->mRecurrence ) {
-    if ( !dtStart().isValid() ) {
-      kWarning() << "A recurrence requires a valid dtStart. uid=" << uid()
-                 << "; rec-id=" << recurrenceId()
-                 << "; type=" << type()
-                 << "; summary=" << summary();
-    }
     d->mRecurrence = new Recurrence();
     d->mRecurrence->setStartDateTime( dateTime( RoleRecurrenceStart ) );
     d->mRecurrence->setAllDay( allDay() );

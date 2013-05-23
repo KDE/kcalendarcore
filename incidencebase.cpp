@@ -38,9 +38,8 @@
 #include "calformat.h"
 #include "visitor.h"
 
-#include <QDebug>
 #include <QTime>
-
+#include <KDebug>
 #include <KUrl>
 
 #include <QtCore/QStringList>
@@ -291,6 +290,11 @@ bool IncidenceBase::isReadOnly() const
 void IncidenceBase::setDtStart( const KDateTime &dtStart )
 {
 //  if ( mReadOnly ) return;
+
+  if ( !dtStart.isValid() && type() != IncidenceBase::TypeTodo ) {
+    kWarning() << "Invalid dtStart";
+  }
+
   update();
   d->mDtStart = dtStart;
   d->mAllDay = dtStart.isDateOnly();
