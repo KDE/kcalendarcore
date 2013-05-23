@@ -34,6 +34,7 @@ class RecurTodoTest : public QObject
     void testDtStart();
     void testRecurrenceBasedOnDtStart();
     void testRecurrenceBasedOnDue();
+    void testRecurrenceStart();
 };
 
 #endif

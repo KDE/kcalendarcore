@@ -246,7 +246,7 @@ KDateTime Todo::dtStart( bool first ) const
 
 void Todo::setDtStart( const KDateTime &dtStart )
 {
-  IncidenceBase::setDtStart( dtStart );
+  Incidence::setDtStart( dtStart );
 }
 
 bool Todo::isCompleted() const
