@@ -156,7 +156,8 @@ void Todo::setDtDue( const KDateTime &dtDue, bool first )
     d->mDtDue = dtDue;
   }
 
-  if ( recurs() && ( !dtStart().isValid() || dtDue < recurrence()->startDateTime() ) ) {
+  if ( recurs() && dtDue.isValid() && ( !dtStart().isValid() || dtDue < recurrence()->startDateTime() ) ) {
+    kDebug() << "To-do recurrences are now calculated against DTSTART. Fixing legacy to-do.";
     setDtStart( dtDue );
   }
 
