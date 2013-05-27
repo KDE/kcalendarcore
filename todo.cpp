@@ -424,7 +424,7 @@ bool Todo::isOverdue() const
 void Todo::setAllDay( bool allday )
 {
   if ( allday != allDay() && !mReadOnly ) {
-    if ( hasDueDate() && dtDue().isValid() ) {
+    if ( hasDueDate() ) {
       setFieldDirty( FieldDtDue );
     }
     Incidence::setAllDay( allday );
