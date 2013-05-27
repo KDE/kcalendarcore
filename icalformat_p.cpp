@@ -356,15 +356,10 @@ icalcomponent *ICalFormatImpl::writeFreeBusy( const FreeBusy::Ptr &freebusy,
   icalcomponent_add_property(
     vfreebusy, icalproperty_new_dtend( writeICalUtcDateTime( freebusy->dtEnd() ) ) );
 
-#ifdef USE_ICAL_1_0
-  icalcomponent_add_property(
-    vfreebusy, icalproperty_new_uid( freebusy->uid().toUtf8() ) );
-#else
   if ( method == iTIPRequest ) {
     icalcomponent_add_property(
       vfreebusy, icalproperty_new_uid( freebusy->uid().toUtf8() ) );
   }
-#endif
 
   //Loops through all the periods in the freebusy object
   Period::List list = freebusy->busyPeriods();
@@ -1136,7 +1131,6 @@ Todo::Ptr ICalFormatImpl::readTodo( icalcomponent *vtodo, ICalTimeZones *tzlist 
     { // due date/time
       KDateTime kdt = readICalDateTimeProperty( p, tzlist );
       todo->setDtDue( kdt, true );
-      todo->setHasDueDate( true );
       todo->setAllDay( kdt.isDateOnly() );
       break;
     }
@@ -1156,7 +1150,7 @@ Todo::Ptr ICalFormatImpl::readTodo( icalcomponent *vtodo, ICalTimeZones *tzlist 
     case ICAL_DTSTART_PROPERTY:
       // Flag that todo has start date. Value is read in by readIncidence().
       if ( todo->comments().filter( "NoStartDate" ).count() ) {
-        todo->setHasStartDate( false );
+        todo->setDtStart( KDateTime() );
       } else {
         todo->setHasStartDate( true );
       }
