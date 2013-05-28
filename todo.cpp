@@ -182,7 +182,7 @@ KDateTime Todo::dtDue( bool first ) const
 
 bool Todo::hasDueDate() const
 {
-  return d->mDtDue.isValid() || d-> mDtRecurrence.isValid();
+  return d->mDtDue.isValid();
 }
 
 void Todo::setHasDueDate( bool f )
@@ -201,7 +201,7 @@ void Todo::setHasDueDate( bool f )
 
 bool Todo::hasStartDate() const
 {
-  return IncidenceBase::dtStart().isValid();
+  return IncidenceBase::dtStart().isValid() || d->mDtRecurrence.isValid();
 }
 
 void Todo::setHasStartDate( bool f )

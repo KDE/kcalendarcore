@@ -137,6 +137,16 @@ void RecurTodoTest::testIsAllDay()
   QCOMPARE(allDay->recurrence()->allDay(), true);
 }
 
+void RecurTodoTest::testHasDueDate()
+{
+  KCalCore::Todo::Ptr todo(new KCalCore::Todo());
+  todo->setUid("todo");
+  todo->setDtStart(KDateTime(QDate(2013, 03, 10), QTime(10, 0, 0), KDateTime::UTC));
+  todo->recurrence()->setDaily(1);
+  todo->recurrence()->setDuration(2);
+  QVERIFY(!todo->hasDueDate());
+}
+
 void RecurTodoTest::testDtStart()
 {
   KDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), KDateTime::UTC);
