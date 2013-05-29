@@ -84,7 +84,7 @@ class KCalCore::MemoryCalendar::Private
      */
     QMap<IncidenceBase::IncidenceType, QMultiHash<QString, IncidenceBase::Ptr> > mIncidencesForDate;
 
-    void insertIncidence( Incidence::Ptr incidence );
+    void insertIncidence( const Incidence::Ptr &incidence );
 
     Incidence::Ptr incidence( const QString &uid,
                               const IncidenceBase::IncidenceType type,
@@ -239,7 +239,7 @@ MemoryCalendar::Private::deletedIncidence( const QString &uid,
   return Incidence::Ptr();
 }
 
-void MemoryCalendar::Private::insertIncidence( Incidence::Ptr incidence )
+void MemoryCalendar::Private::insertIncidence( const Incidence::Ptr &incidence )
 {
   const QString uid = incidence->uid();
   const Incidence::IncidenceType type = incidence->type();
