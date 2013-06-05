@@ -66,6 +66,11 @@ class KCalCore::MemoryCalendar::Private
     QMap<IncidenceBase::IncidenceType, QMultiHash<QString, Incidence::Ptr> > mIncidences;
 
     /**
+     * Has all incidences, indexed by identifier.
+     */
+    QHash<QString,KCalCore::Incidence::Ptr> mIncidencesByIdentifier;
+
+    /**
      * List of all deleted incidences.
      * First indexed by incidence->type(), then by incidence->uid();
      */
@@ -125,6 +130,7 @@ void MemoryCalendar::close()
   deleteAllEvents();
   deleteAllTodos();
   deleteAllJournals();
+  d->mIncidencesByIdentifier.clear();
 
   d->mDeletedIncidences.clear();
 
@@ -142,6 +148,7 @@ bool MemoryCalendar::deleteIncidence( const Incidence::Ptr &incidence )
   const Incidence::IncidenceType type = incidence->type();
   const QString uid = incidence->uid();
   if ( d->mIncidences[type].remove( uid, incidence ) ) {
+    d->mIncidencesByIdentifier.remove( incidence->instanceIdentifier() );
     setModified( true );
     notifyIncidenceDeleted( incidence );
     d->mDeletedIncidences[type].insert( uid, incidence );
@@ -245,6 +252,7 @@ void MemoryCalendar::Private::insertIncidence( const Incidence::Ptr &incidence )
   const Incidence::IncidenceType type = incidence->type();
   if ( !mIncidences[type].contains( uid, incidence ) ) {
     mIncidences[type].insert( uid, incidence );
+    mIncidencesByIdentifier.insert( incidence->instanceIdentifier(), incidence );
     const KDateTime dt = incidence->dateTime( Incidence::RoleCalendarHashing );
     if ( dt.isValid() ) {
       mIncidencesForDate[type].insert( dt.date().toString(), incidence );
@@ -806,6 +814,11 @@ Journal::List MemoryCalendar::rawJournalsForDate( const QDate &date ) const
     ++it;
   }
   return journalList;
+}
+
+Incidence::Ptr MemoryCalendar::instance(const QString &identifier) const
+{
+    return d->mIncidencesByIdentifier.value(identifier);
 }
 
 void MemoryCalendar::virtual_hook( int id, void *data )

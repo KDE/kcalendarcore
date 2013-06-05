@@ -145,6 +145,13 @@ class KCALCORE_EXPORT MemoryCalendar : public Calendar
     Event::List rawEventsForDate( const KDateTime &dt ) const;
 
     /**
+     * Returns an incidence by identifier.
+     * @see Incidence::instanceIdentifier()
+     * @since 4.11
+     */
+     Incidence::Ptr instance( const QString &identifier ) const;
+
+    /**
       @copydoc Calendar::event()
     */
     Event::Ptr event(
