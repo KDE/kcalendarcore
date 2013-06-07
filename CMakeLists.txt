@@ -86,7 +86,7 @@ kde4_add_library(kcalcore ${LIBRARY_TYPE} ${kcalcore_LIB_SRCS})
 
 target_link_libraries(kcalcore ${KDE4_KDECORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${LIBICAL_LIBRARIES})
 if(HAVE_UUID_LIBRARY)
-  target_link_libraries(kcalcore uuid)
+  target_link_libraries(kcalcore "${UUID_LIBRARY}")
 endif()
 
 set_target_properties(kcalcore PROPERTIES
