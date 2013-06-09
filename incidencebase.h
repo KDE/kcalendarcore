@@ -150,10 +150,12 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       RoleDisplayStart,        /**< Role for display purposes, represents the start boundary of an
                                     incidence. To-dos return dtDue here, for historical reasons */
       RoleDnD,                 /**< Role for determining new start and end dates after a DnD */
-      RoleInstanceStart,       /**< Role for determining the start date of an incidence but taking into account
-                                    that it might have recurring-id set. @since 4.11 **/
-      RoleInstanceEnd          /**< Role for determining the end date of an incidence but taking into account
-                                    that it might have recurring-id set. @since 4.11 **/
+      RoleInstanceStart,       /**< Role for determining the start date of an incidence but taking
+                                    into account that it might have recurring-id set.
+                                    @since 4.11 **/
+      RoleInstanceEnd          /**< Role for determining the end date of an incidence but taking
+                                    into account that it might have recurring-id set.
+                                    @since 4.11 **/
     };
 
     /**

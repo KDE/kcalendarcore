@@ -296,7 +296,8 @@ KDateTime Event::dateTime( DateTimeRole role ) const
   break;
   case RoleInstanceStart:
     return hasRecurrenceId() ? recurrenceId() : dtStart();
-  case RoleInstanceEnd: {
+  case RoleInstanceEnd:
+  {
     if ( hasRecurrenceId() ) {
       const int duration = dtStart().secsTo( dtEnd() );
       return recurrenceId().addSecs( duration );
