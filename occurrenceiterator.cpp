@@ -125,6 +125,9 @@ class KCalCore::OccurrenceIterator::Private
             if ( recurrenceIds.contains( occurrenceDate ) ) {
               // TODO: exclude exceptions where the start/end is not within
               // (so the occurrence of the recurrence is omitted, but no exception is added)
+              if ( recurrenceIds.value( occurrenceDate )->status() == Incidence::StatusCanceled )
+                  continue;
+
               incidence = recurrenceIds.value( occurrenceDate );
               occurrenceDate = incidence->dtStart();
               resetIncidence = !incidence->thisAndFuture();
