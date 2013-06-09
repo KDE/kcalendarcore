@@ -294,17 +294,6 @@ KDateTime Event::dateTime( DateTimeRole role ) const
       return alarm->hasStartOffset() ? dtStart() : dtEnd();
     }
   break;
-  case RoleInstanceStart:
-    return hasRecurrenceId() ? recurrenceId() : dtStart();
-  case RoleInstanceEnd:
-  {
-    if ( hasRecurrenceId() ) {
-      const int duration = dtStart().secsTo( dtEnd() );
-      return recurrenceId().addSecs( duration );
-    } else {
-      return dtEnd();
-    }
-  }
   default:
     return KDateTime();
   }
