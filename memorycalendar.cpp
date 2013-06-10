@@ -519,10 +519,10 @@ void MemoryCalendar::incidenceUpdate( const QString &uid, const KDateTime &recur
   Incidence::Ptr inc = incidence( uid, recurrenceId );
 
   if ( inc ) {
-    const Incidence::IncidenceType type = inc->type();
     const KDateTime dt = inc->dateTime( Incidence::RoleCalendarHashing );
 
     if ( dt.isValid() ) {
+      const Incidence::IncidenceType type = inc->type();
       d->mIncidencesForDate[type].remove( dt.date().toString(), inc );
     }
   }
@@ -539,10 +539,10 @@ void MemoryCalendar::incidenceUpdated( const QString &uid, const KDateTime &recu
     // or internally in the Event itself when certain things change.
     // need to verify with ical documentation.
 
-    const Incidence::IncidenceType type = inc->type();
     const KDateTime dt = inc->dateTime( Incidence::RoleCalendarHashing );
 
     if ( dt.isValid() ) {
+      const Incidence::IncidenceType type = inc->type();
       d->mIncidencesForDate[type].insert( dt.date().toString(), inc );
     }
 
