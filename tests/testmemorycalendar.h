@@ -33,6 +33,7 @@ class MemoryCalendarTest : public QObject
     void testIncidences();
     void testRelationsCrash();
     void testRecurrenceExceptions();
+    void testChangeRecurId();
 };
 
 #endif

@@ -58,6 +58,7 @@ class KCalCore::MemoryCalendar::Private
     MemoryCalendar *q;
     QString mFileName;                     // filename where calendar is stored
     CalFormat *mFormat;                    // calendar format
+    QString mIncidenceBeingUpdated;        //  Instance identifier of Incidence currently beeing updated
 
     /**
      * List of all incidences.
@@ -519,8 +520,14 @@ void MemoryCalendar::incidenceUpdate( const QString &uid, const KDateTime &recur
   Incidence::Ptr inc = incidence( uid, recurrenceId );
 
   if ( inc ) {
-    const KDateTime dt = inc->dateTime( Incidence::RoleCalendarHashing );
+    if ( !d->mIncidenceBeingUpdated.isEmpty() ) {
+      kWarning() << "Incidence::update() called twice without an updated() call in between.";
+    }
 
+    // Save it so we can detect changes to uid or recurringId.
+    d->mIncidenceBeingUpdated = inc->instanceIdentifier();
+
+    const KDateTime dt = inc->dateTime( Incidence::RoleCalendarHashing );
     if ( dt.isValid() ) {
       const Incidence::IncidenceType type = inc->type();
       d->mIncidencesForDate[type].remove( dt.date().toString(), inc );
@@ -533,14 +540,23 @@ void MemoryCalendar::incidenceUpdated( const QString &uid, const KDateTime &recu
   Incidence::Ptr inc = incidence( uid, recurrenceId );
 
   if ( inc ) {
-    KDateTime nowUTC = KDateTime::currentUtcDateTime();
-    inc->setLastModified( nowUTC );
+
+    if ( d->mIncidenceBeingUpdated.isEmpty() ) {
+      kWarning() << "Incidence::updated() called twice without an update() call in between.";
+    } else if ( inc->instanceIdentifier() != d->mIncidenceBeingUpdated ) {
+      // Instance identifier changed, update our hash table
+      d->mIncidencesByIdentifier.remove( d->mIncidenceBeingUpdated );
+      d->mIncidencesByIdentifier.insert( inc->instanceIdentifier(), inc );
+    }
+
+    d->mIncidenceBeingUpdated = QString();
+
+    inc->setLastModified( KDateTime::currentUtcDateTime() );
     // we should probably update the revision number here,
     // or internally in the Event itself when certain things change.
     // need to verify with ical documentation.
 
     const KDateTime dt = inc->dateTime( Incidence::RoleCalendarHashing );
-
     if ( dt.isValid() ) {
       const Incidence::IncidenceType type = inc->type();
       d->mIncidencesForDate[type].insert( dt.date().toString(), inc );

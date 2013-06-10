@@ -211,3 +211,62 @@ void MemoryCalendarTest::testRecurrenceExceptions()
   QCOMPARE( exceptions.first()->uid(), event1->uid() );
   QCOMPARE( exceptions.first()->summary(), exception1->summary() );
 }
+
+void MemoryCalendarTest::testChangeRecurId()
+{
+  // When we change the recurring id, internal hashtables should be updated.
+
+  MemoryCalendar::Ptr cal( new MemoryCalendar( KDateTime::UTC ) );
+  KDateTime start( QDate::currentDate() );
+
+  // Add main event
+  Event::Ptr event1 = Event::Ptr( new Event() );
+  const QString uid = "1";
+  event1->setUid( uid );
+  event1->setDtStart( start );
+  event1->setDtEnd( start.addDays( 1 ) );
+  event1->setSummary( "Event1 Summary" );
+  event1->recurrence()->setDaily( 1 );
+  event1->recurrence()->setDuration( 3 );
+  QVERIFY( cal->addEvent( event1 ) );
+
+
+  // Add exception event:
+  const KDateTime recurrenceId = event1->dtStart().addDays( 1 );
+  Event::Ptr exception1 = cal->createException( event1, recurrenceId ).staticCast<Event>();
+  QCOMPARE( exception1->recurrenceId(), recurrenceId );
+  QCOMPARE( exception1->uid(), event1->uid() );
+  exception1->setSummary( "exception" );
+  QVERIFY( exception1 );
+  QVERIFY( cal->addEvent( exception1 ) );
+
+  const QString oldIdentifier = exception1->instanceIdentifier();
+  Incidence::Ptr foo = cal->instance(oldIdentifier);
+  QVERIFY(foo && foo->hasRecurrenceId());
+  // Now change the recurring id!
+  exception1->setRecurrenceId( start.addDays( 2 ) );
+  const QString newIdentifier = exception1->instanceIdentifier();
+  QVERIFY( oldIdentifier != newIdentifier );
+
+  foo = cal->instance( oldIdentifier );
+  QVERIFY( !foo );
+
+  foo = cal->instance( newIdentifier );
+  QVERIFY( foo );
+
+  // Test hashing
+  Incidence::List incidences = cal->incidences();
+  QVERIFY( incidences.count() == 2 );
+
+  KDateTime newRecId = start.addDays( 2 );
+  Incidence::Ptr main      = cal->incidence( uid );
+  Incidence::Ptr exception = cal->incidence( uid, newRecId );
+  Incidence::Ptr noException = cal->incidence( uid, recurrenceId );
+  QVERIFY( !noException );
+  QVERIFY( main );
+  QVERIFY( exception );
+  QVERIFY( exception->recurrenceId() == newRecId );
+  QVERIFY( exception->summary() == "exception" );
+  QVERIFY( main->summary() == event1->summary() );
+}
+
