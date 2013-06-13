@@ -196,9 +196,6 @@ void MemoryCalendar::Private::deleteAllIncidences( const Incidence::IncidenceTyp
   while ( i.hasNext() ) {
     i.next();
     q->notifyIncidenceDeleted( i.value() );
-    // suppress update notifications for the relation removal triggered
-    // by the following deletions
-    i.value()->startUpdates();
   }
   mIncidences[incidenceType].clear();
   mIncidencesForDate[incidenceType].clear();
