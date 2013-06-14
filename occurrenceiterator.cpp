@@ -109,8 +109,10 @@ class KCalCore::OccurrenceIterator::Private
         }
         if ( inc->recurs() ) {
           QHash<KDateTime, Incidence::Ptr> recurrenceIds;
+          KDateTime incidenceRecStart = inc->dateTime( Incidence::RoleRecurrenceStart );
           foreach ( const Incidence::Ptr &exception, calendar.instances(inc) ) {
-            recurrenceIds.insert( exception->recurrenceId(), exception );
+            if ( incidenceRecStart.isValid() )
+              recurrenceIds.insert( exception->recurrenceId().toTimeSpec( incidenceRecStart.timeSpec() ), exception );
           }
           const bool isAllDay = inc->allDay();
           const DateTimeList occurrences = inc->recurrence()->timesInInterval( start, end );
