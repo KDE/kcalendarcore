@@ -1183,6 +1183,7 @@ Todo::Ptr ICalFormatImpl::readTodo( icalcomponent *vtodo, ICalTimeZones *tzlist 
     d->mCompat->fixEmptySummary( todo );
   }
 
+  todo->resetDirtyFields();
   return todo;
 }
 
@@ -1260,6 +1261,7 @@ Event::Ptr ICalFormatImpl::readEvent( icalcomponent *vevent, ICalTimeZones *tzli
     d->mCompat->fixEmptySummary( event );
   }
 
+  event->resetDirtyFields();
   return event;
 }
 
@@ -1322,6 +1324,7 @@ FreeBusy::Ptr ICalFormatImpl::readFreeBusy( icalcomponent *vfreebusy )
   }
   freebusy->addPeriods( periods );
 
+  freebusy->resetDirtyFields();
   return freebusy;
 }
 
@@ -1331,6 +1334,7 @@ Journal::Ptr ICalFormatImpl::readJournal( icalcomponent *vjournal,
   Journal::Ptr journal( new Journal );
   readIncidence( vjournal, journal, tzlist );
 
+  journal->resetDirtyFields();
   return journal;
 }
 
