@@ -473,6 +473,7 @@ ICalTimeZoneData::ICalTimeZoneData( const KTimeZoneData &rhs,
             const char *xname = icalproperty_get_x_name( prop );
             if ( xname && !strcmp( xname, "X-LIC-LOCATION" ) ) {
               icalcomponent_remove_property( c, prop );
+              icalproperty_free( prop );
             }
           }
         }

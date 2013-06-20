@@ -255,6 +255,7 @@ icalcomponent *ICalFormatImpl::writeTodo( const Todo::Ptr &todo, ICalTimeZones *
     if ( icalcomponent_count_properties( vtodo, ICAL_STATUS_PROPERTY ) ) {
       icalproperty *p = icalcomponent_get_first_property( vtodo, ICAL_STATUS_PROPERTY );
       icalcomponent_remove_property( vtodo, p );
+      icalproperty_free( p );
     }
     icalcomponent_add_property( vtodo, icalproperty_new_status( ICAL_STATUS_COMPLETED ) );
   }
@@ -2624,6 +2625,7 @@ bool ICalFormatImpl::populate( const Calendar::Ptr &cal, icalcomponent *calendar
       }
       implementationVersion = nvalue;
       icalcomponent_remove_property( calendar, p );
+      icalproperty_free( p );
     }
     p = icalcomponent_get_next_property( calendar, ICAL_X_PROPERTY );
   }
