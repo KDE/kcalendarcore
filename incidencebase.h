@@ -322,7 +322,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
     /**
       Sets the organizer for the incidence.
 
-      @param organizer is a Person to use as the incidence @ref organizer.
+      @param organizer is a non-null Person to use as the incidence @ref organizer.
       @see organizer(), setOrganizer(const QString &)
     */
     void setOrganizer( const Person::Ptr &organizer );
@@ -337,6 +337,8 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
 
     /**
       Returns the Person associated with this incidence.
+      If no Person was set through setOrganizer(), a default Person()
+      is returned.
       @see setOrganizer(const QString &), setOrganizer(const Person &)
     */
     Person::Ptr organizer() const;
