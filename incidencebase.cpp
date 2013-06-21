@@ -55,7 +55,7 @@ class KCalCore::IncidenceBase::Private
 {
   public:
     Private()
-      : mOrganizer( new Person() ),
+      : mOrganizer( 0 ),
         mUpdateGroupLevel( 0 ),
         mUpdatedPending( false ),
         mAllDay( true ),
@@ -247,17 +247,19 @@ KDateTime IncidenceBase::lastModified() const
   return d->mLastModified;
 }
 
-void IncidenceBase::setOrganizer( const Person::Ptr &o )
+void IncidenceBase::setOrganizer( const Person::Ptr &organizer )
 {
-  update();
-  // we don't check for readonly here, because it is
-  // possible that by setting the organizer we are changing
-  // the event's readonly status...
-  d->mOrganizer = o;
+  if ( organizer ) {
+    update();
+    // we don't check for readonly here, because it is
+    // possible that by setting the organizer we are changing
+    // the event's readonly status...
+    d->mOrganizer = organizer;
 
-  d->mDirtyFields.insert( FieldOrganizer );
+    d->mDirtyFields.insert( FieldOrganizer );
 
-  updated();
+    updated();
+  }
 }
 
 void IncidenceBase::setOrganizer( const QString &o )
@@ -274,6 +276,9 @@ void IncidenceBase::setOrganizer( const QString &o )
 
 Person::Ptr IncidenceBase::organizer() const
 {
+  if (!d->mOrganizer)
+    d->mOrganizer = Person::Ptr( new Person() ); // init at first use only to save memory
+
   return d->mOrganizer;
 }
 
