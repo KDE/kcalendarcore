@@ -205,7 +205,7 @@ Incidence::Ptr ICalFormat::fromString( const QString &string )
   fromString( cal, string );
 
   const Incidence::List list = cal->incidences();
-  return !list.isEmpty() ? Incidence::Ptr( list.first()->clone() ) : Incidence::Ptr();
+  return !list.isEmpty() ? list.first() : Incidence::Ptr();
 }
 
 QString ICalFormat::toString( const Calendar::Ptr &cal,
