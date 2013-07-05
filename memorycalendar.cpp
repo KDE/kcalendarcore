@@ -150,7 +150,8 @@ bool MemoryCalendar::deleteIncidence( const Incidence::Ptr &incidence )
     d->mIncidencesByIdentifier.remove( incidence->instanceIdentifier() );
     setModified( true );
     notifyIncidenceDeleted( incidence );
-    d->mDeletedIncidences[type].insert( uid, incidence );
+    if ( deletionTracking() )
+      d->mDeletedIncidences[type].insert( uid, incidence );
 
     const KDateTime dt = incidence->dateTime( Incidence::RoleCalendarHashing );
     if ( dt.isValid() ) {
@@ -225,6 +226,10 @@ MemoryCalendar::Private::deletedIncidence( const QString &uid,
                                            const KDateTime &recurrenceId,
                                            const IncidenceBase::IncidenceType type ) const
 {
+  if ( !q->deletionTracking() ) {
+    return Incidence::Ptr();
+  }
+
   QList<Incidence::Ptr> values = mDeletedIncidences[type].values( uid );
   QList<Incidence::Ptr>::const_iterator it;
   for ( it = values.constBegin(); it != values.constEnd(); ++it ) {
@@ -357,6 +362,10 @@ Todo::List MemoryCalendar::rawTodos( TodoSortField sortField,
 Todo::List MemoryCalendar::deletedTodos( TodoSortField sortField,
                                          SortDirection sortDirection ) const
 {
+  if ( !deletionTracking() ) {
+    return Todo::List();
+  }
+
   Todo::List todoList;
   QHashIterator<QString, Incidence::Ptr >i( d->mDeletedIncidences[Incidence::TypeTodo] );
   while ( i.hasNext() ) {
@@ -711,6 +720,10 @@ Event::List MemoryCalendar::rawEvents( EventSortField sortField,
 Event::List MemoryCalendar::deletedEvents( EventSortField sortField,
                                            SortDirection sortDirection ) const
 {
+  if ( !deletionTracking() ) {
+    return Event::List();
+  }
+
   Event::List eventList;
   QHashIterator<QString, Incidence::Ptr>i( d->mDeletedIncidences[Incidence::TypeEvent] );
   while ( i.hasNext() ) {
@@ -784,6 +797,10 @@ Journal::List MemoryCalendar::rawJournals( JournalSortField sortField,
 Journal::List MemoryCalendar::deletedJournals( JournalSortField sortField,
                                                SortDirection sortDirection ) const
 {
+  if ( !deletionTracking() ) {
+    return Journal::List();
+  }
+
   Journal::List journalList;
   QHashIterator<QString, Incidence::Ptr>i( d->mDeletedIncidences[Incidence::TypeJournal] );
   while ( i.hasNext() ) {

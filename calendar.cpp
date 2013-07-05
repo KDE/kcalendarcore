@@ -64,7 +64,8 @@ class KCalCore::Calendar::Private
         mNewObserver( false ),
         mObserversEnabled( true ),
         mDefaultFilter( new CalFilter ),
-        batchAddingInProgress( false )
+        batchAddingInProgress( false ),
+        mDeletionTracking( true )
     {
       // Setup default filter, which does nothing
       mFilter = mDefaultFilter;
@@ -113,7 +114,7 @@ class KCalCore::Calendar::Private
     QString mDefaultNotebook; // uid of default notebook
     QMap<QString, Incidence::List > mIncidenceRelations;
     bool batchAddingInProgress;
-
+    bool mDeletionTracking;
 };
 
 /**
@@ -1527,6 +1528,16 @@ void Calendar::endBatchAdding()
 bool Calendar::batchAdding() const
 {
   return d->batchAddingInProgress;
+}
+
+void Calendar::setDeletionTracking( bool enable )
+{
+  d->mDeletionTracking = enable;
+}
+
+bool Calendar::deletionTracking() const
+{
+  return d->mDeletionTracking;
 }
 
 void Calendar::virtual_hook( int id, void *data )

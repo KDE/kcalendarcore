@@ -881,7 +881,10 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
       @param recurrenceId is possible recurrenceId of event, default is null
 
       @return a pointer to the deleted Event.
-      A null pointer is returned if no such deleted Event exists.
+      A null pointer is returned if no such deleted Event exists, or if deletion tracking
+      is disabled.
+
+      @see deletionTracking()
     */
     virtual Event::Ptr deletedEvent( const QString &uid,
                                      const KDateTime &recurrenceId = KDateTime() ) const = 0;
@@ -892,7 +895,10 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
       @param sortField specifies the EventSortField.
       @param sortDirection specifies the SortDirection.
 
-      @return the list of all unfiltered deleted Events sorted as specified.
+      @return the list of all unfiltered deleted Events sorted as specified. An empty list
+      is returned if deletion tracking is disabled.
+
+      @see deletionTracking()
     */
     virtual Event::List deletedEvents(
       EventSortField sortField = EventSortUnsorted,
@@ -1056,7 +1062,10 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
       @param recurrenceId is possible recurrenceId of todo, default is null
 
       @return a pointer to the deleted Todo.
-      A null pointer is returned if no such deletef Todo exists.
+      A null pointer is returned if no such deleted Todo exists or if deletion tracking
+      is disabled.
+
+      @see deletionTracking()
     */
     virtual Todo::Ptr deletedTodo( const QString &uid,
                                    const KDateTime &recurrenceId = KDateTime() ) const = 0;
@@ -1067,7 +1076,10 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
       @param sortField specifies the TodoSortField.
       @param sortDirection specifies the SortDirection.
 
-      @return the list of all unfiltered deleted Todos sorted as specified.
+      @return the list of all unfiltered deleted Todos sorted as specified. An empty list
+      is returned if deletion tracking is disabled.
+
+      @see deletionTracking()
     */
     virtual Todo::List deletedTodos(
       TodoSortField sortField = TodoSortUnsorted,
@@ -1198,7 +1210,10 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
       @param recurrenceId is possible recurrenceId of journal, default is null
 
       @return a pointer to the deleted Journal.
-      A null pointer is returned if no such deleted Journal exists.
+      A null pointer is returned if no such deleted Journal exists or if deletion tracking
+      is disabled.
+
+      @see deletionTracking()
     */
     virtual Journal::Ptr deletedJournal( const QString &uid,
                                          const KDateTime &recurrenceId = KDateTime() ) const = 0;
@@ -1209,7 +1224,10 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
       @param sortField specifies the JournalSortField.
       @param sortDirection specifies the SortDirection.
 
-      @return the list of all unfiltered deleted Journals sorted as specified.
+      @return the list of all unfiltered deleted Journals sorted as specified. An empty list
+      is returned if deletion tracking is disabled.
+
+      @see deletionTracking()
     */
     virtual Journal::List deletedJournals(
       JournalSortField sortField = JournalSortUnsorted,
@@ -1443,6 +1461,23 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
     */
     void appendRecurringAlarms( Alarm::List &alarms, const Incidence::Ptr &incidence,
                                 const KDateTime &from, const KDateTime &to ) const;
+
+    /**
+      Enables or disabled deletion tracking.
+      Default is true.
+      @see deletedEvent()
+      @see deletedTodo()
+      @see deletedJournal()
+      @since 4.11
+     */
+    void setDeletionTracking( bool enable );
+
+    /**
+      Returns if deletion tracking is enabled.
+      Default is true.
+      @since 4.11
+    */
+    bool deletionTracking() const;
 
     /**
       @copydoc
