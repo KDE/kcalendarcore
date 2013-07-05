@@ -56,7 +56,6 @@ class KCalCore::MemoryCalendar::Private
     }
 
     MemoryCalendar *q;
-    QString mFileName;                     // filename where calendar is stored
     CalFormat *mFormat;                    // calendar format
     QString mIncidenceBeingUpdated;        //  Instance identifier of Incidence currently beeing updated
 
@@ -126,7 +125,6 @@ MemoryCalendar::~MemoryCalendar()
 void MemoryCalendar::close()
 {
   setObserversEnabled( false );
-  d->mFileName.clear();
 
   deleteAllEvents();
   deleteAllTodos();
