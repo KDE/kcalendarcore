@@ -126,11 +126,13 @@ void MemoryCalendar::close()
 {
   setObserversEnabled( false );
 
-  deleteAllEvents();
-  deleteAllTodos();
-  deleteAllJournals();
-  d->mIncidencesByIdentifier.clear();
+  // Don't call the virtual function deleteEvents() etc, the base class might have
+  // other ways of deleting the data.
+  d->deleteAllIncidences(Incidence::TypeEvent);
+  d->deleteAllIncidences(Incidence::TypeTodo);
+  d->deleteAllIncidences(Incidence::TypeJournal);
 
+  d->mIncidencesByIdentifier.clear();
   d->mDeletedIncidences.clear();
 
   setModified( false );

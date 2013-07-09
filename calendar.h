@@ -733,6 +733,7 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
     /**
       Removes all Events from the calendar.
       @see deleteEvent()
+      TODO_KDE5: Remove these methods. They are dangerous and don't add value.
     */
     virtual void deleteAllEvents() = 0;
 
