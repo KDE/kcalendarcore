@@ -571,7 +571,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
 
       @param url of the incience.
       @see url()
-      @since 4.11
+      @since 4.12
     */
     void setUrl( const QUrl &url );
 
@@ -579,7 +579,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       Returns the url.
       @return incidences url value
       @see setUrl()
-      @since 4.11
+      @since 4.12
     */
     QUrl url() const;
 
