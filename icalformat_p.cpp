@@ -672,6 +672,12 @@ void ICalFormatImpl::Private::writeIncidenceBase( icalcomponent *parent,
     icalcomponent_add_property( parent, icalproperty_new_comment( ( *it ).toUtf8() ) );
   }
 
+  // url
+  const QUrl url = incidenceBase->url();
+  if ( url.isValid() ) {
+    icalcomponent_add_property( parent, icalproperty_new_url( url.toString().toUtf8() ) );
+  }
+
   // custom properties
   writeCustomProperties( parent, incidenceBase.data() );
 }
@@ -1852,6 +1858,11 @@ void ICalFormatImpl::Private::readIncidenceBase( icalcomponent *parent,
     case ICAL_CONTACT_PROPERTY:
       incidenceBase->addContact(
         QString::fromUtf8( icalproperty_get_contact( p ) ) );
+      break;
+
+    case ICAL_URL_PROPERTY:
+      incidenceBase->setUrl(
+        QUrl( QString::fromUtf8( icalproperty_get_url( p ) ) ) );
       break;
 
     default:

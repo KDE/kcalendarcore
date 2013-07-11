@@ -92,6 +92,7 @@ class KCalCore::IncidenceBase::Private
     QList<IncidenceObserver*> mObservers; // list of incidence observers
     QSet<Field> mDirtyFields;    // Fields that changed since last time the incidence was created
                                  // or since resetDirtyFlags() was called
+    QUrl mUrl;                   // incidence url property
 };
 
 void IncidenceBase::Private::init( const Private &other )
@@ -112,6 +113,7 @@ void IncidenceBase::Private::init( const Private &other )
   for ( it = other.mAttendees.constBegin(); it != other.mAttendees.constEnd(); ++it ) {
     mAttendees.append( Attendee::Ptr( new Attendee( *( *it ) ) ) );
   }
+  mUrl = other.mUrl;
 }
 //@endcond
 
@@ -202,7 +204,8 @@ bool IncidenceBase::equals( const IncidenceBase &i2 ) const
     // of much use. We are not comparing for identity, after all.
     allDay() == i2.allDay() &&
     duration() == i2.duration() &&
-    hasDuration() == i2.hasDuration();
+    hasDuration() == i2.hasDuration() &&
+    url() == i2.url();
     // no need to compare mObserver
 }
 
@@ -554,6 +557,17 @@ void IncidenceBase::setHasDuration( bool hasDuration )
 bool IncidenceBase::hasDuration() const
 {
   return d->mHasDuration;
+}
+
+void IncidenceBase::setUrl( const QUrl& url )
+{
+  d->mDirtyFields.insert( FieldUrl );
+  d->mUrl = url;
+}
+
+QUrl IncidenceBase::url() const
+{
+  return d->mUrl;
 }
 
 void IncidenceBase::registerObserver( IncidenceBase::IncidenceObserver *observer )

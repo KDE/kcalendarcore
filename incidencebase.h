@@ -64,6 +64,7 @@
 #include <KDE/KDateTime>
 
 #include <QtCore/QSet>
+#include <QtCore/QUrl>
 
 class KUrl;
 class QDate;
@@ -187,7 +188,8 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       FieldContact,         ///> Field representing the CONTACT component.
       FieldComment,         ///> Field representing the COMMENT component.
       FieldUid,             ///> Field representing the UID component.
-      FieldUnknown          ///> Something changed. Always set when you use the assignment operator.
+      FieldUnknown,         ///> Something changed. Always set when you use the assignment operator.
+      FieldUrl              ///> Field representing the URL component.
     };
 
     /**
@@ -560,6 +562,26 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       @see attendeeByMail(), attendeeByMails().
     */
     Attendee::Ptr attendeeByUid( const QString &uid ) const;
+
+    /**
+      Sets the incidences url.
+
+      This property can be used to point to a more dynamic rendition of the incidence.
+      I.e. a website related to the incidence.
+
+      @param url of the incience.
+      @see url()
+      @since 4.11
+    */
+    void setUrl( const QUrl &url );
+
+    /**
+      Returns the url.
+      @return incidences url value
+      @see setUrl()
+      @since 4.11
+    */
+    QUrl url() const;
 
     /**
       Register observer. The observer is notified when the observed object
