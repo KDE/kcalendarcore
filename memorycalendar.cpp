@@ -56,14 +56,19 @@ class KCalCore::MemoryCalendar::Private
     }
 
     MemoryCalendar *q;
-    QString mFileName;                     // filename where calendar is stored
     CalFormat *mFormat;                    // calendar format
+    QString mIncidenceBeingUpdated;        //  Instance identifier of Incidence currently beeing updated
 
     /**
      * List of all incidences.
      * First indexed by incidence->type(), then by incidence->uid();
      */
     QMap<IncidenceBase::IncidenceType, QMultiHash<QString, Incidence::Ptr> > mIncidences;
+
+    /**
+     * Has all incidences, indexed by identifier.
+     */
+    QHash<QString,KCalCore::Incidence::Ptr> mIncidencesByIdentifier;
 
     /**
      * List of all deleted incidences.
@@ -84,7 +89,7 @@ class KCalCore::MemoryCalendar::Private
      */
     QMap<IncidenceBase::IncidenceType, QMultiHash<QString, IncidenceBase::Ptr> > mIncidencesForDate;
 
-    void insertIncidence( Incidence::Ptr incidence );
+    void insertIncidence( const Incidence::Ptr &incidence );
 
     Incidence::Ptr incidence( const QString &uid,
                               const IncidenceBase::IncidenceType type,
@@ -120,12 +125,14 @@ MemoryCalendar::~MemoryCalendar()
 void MemoryCalendar::close()
 {
   setObserversEnabled( false );
-  d->mFileName.clear();
 
-  deleteAllEvents();
-  deleteAllTodos();
-  deleteAllJournals();
+  // Don't call the virtual function deleteEvents() etc, the base class might have
+  // other ways of deleting the data.
+  d->deleteAllIncidences(Incidence::TypeEvent);
+  d->deleteAllIncidences(Incidence::TypeTodo);
+  d->deleteAllIncidences(Incidence::TypeJournal);
 
+  d->mIncidencesByIdentifier.clear();
   d->mDeletedIncidences.clear();
 
   setModified( false );
@@ -142,9 +149,11 @@ bool MemoryCalendar::deleteIncidence( const Incidence::Ptr &incidence )
   const Incidence::IncidenceType type = incidence->type();
   const QString uid = incidence->uid();
   if ( d->mIncidences[type].remove( uid, incidence ) ) {
+    d->mIncidencesByIdentifier.remove( incidence->instanceIdentifier() );
     setModified( true );
     notifyIncidenceDeleted( incidence );
-    d->mDeletedIncidences[type].insert( uid, incidence );
+    if ( deletionTracking() )
+      d->mDeletedIncidences[type].insert( uid, incidence );
 
     const KDateTime dt = incidence->dateTime( Incidence::RoleCalendarHashing );
     if ( dt.isValid() ) {
@@ -188,9 +197,7 @@ void MemoryCalendar::Private::deleteAllIncidences( const Incidence::IncidenceTyp
   while ( i.hasNext() ) {
     i.next();
     q->notifyIncidenceDeleted( i.value() );
-    // suppress update notifications for the relation removal triggered
-    // by the following deletions
-    i.value()->startUpdates();
+    i.value()->unRegisterObserver( q );
   }
   mIncidences[incidenceType].clear();
   mIncidencesForDate[incidenceType].clear();
@@ -222,6 +229,10 @@ MemoryCalendar::Private::deletedIncidence( const QString &uid,
                                            const KDateTime &recurrenceId,
                                            const IncidenceBase::IncidenceType type ) const
 {
+  if ( !q->deletionTracking() ) {
+    return Incidence::Ptr();
+  }
+
   QList<Incidence::Ptr> values = mDeletedIncidences[type].values( uid );
   QList<Incidence::Ptr>::const_iterator it;
   for ( it = values.constBegin(); it != values.constEnd(); ++it ) {
@@ -239,12 +250,13 @@ MemoryCalendar::Private::deletedIncidence( const QString &uid,
   return Incidence::Ptr();
 }
 
-void MemoryCalendar::Private::insertIncidence( Incidence::Ptr incidence )
+void MemoryCalendar::Private::insertIncidence( const Incidence::Ptr &incidence )
 {
   const QString uid = incidence->uid();
   const Incidence::IncidenceType type = incidence->type();
   if ( !mIncidences[type].contains( uid, incidence ) ) {
     mIncidences[type].insert( uid, incidence );
+    mIncidencesByIdentifier.insert( incidence->instanceIdentifier(), incidence );
     const KDateTime dt = incidence->dateTime( Incidence::RoleCalendarHashing );
     if ( dt.isValid() ) {
       mIncidencesForDate[type].insert( dt.date().toString(), incidence );
@@ -262,9 +274,9 @@ void MemoryCalendar::Private::insertIncidence( Incidence::Ptr incidence )
 
 bool MemoryCalendar::addIncidence( const Incidence::Ptr &incidence )
 {
-  notifyIncidenceAdded( incidence );
-
   d->insertIncidence( incidence );
+
+  notifyIncidenceAdded( incidence );
 
   incidence->registerObserver( this );
 
@@ -353,6 +365,10 @@ Todo::List MemoryCalendar::rawTodos( TodoSortField sortField,
 Todo::List MemoryCalendar::deletedTodos( TodoSortField sortField,
                                          SortDirection sortDirection ) const
 {
+  if ( !deletionTracking() ) {
+    return Todo::List();
+  }
+
   Todo::List todoList;
   QHashIterator<QString, Incidence::Ptr >i( d->mDeletedIncidences[Incidence::TypeTodo] );
   while ( i.hasNext() ) {
@@ -511,10 +527,16 @@ void MemoryCalendar::incidenceUpdate( const QString &uid, const KDateTime &recur
   Incidence::Ptr inc = incidence( uid, recurrenceId );
 
   if ( inc ) {
-    const Incidence::IncidenceType type = inc->type();
-    const KDateTime dt = inc->dateTime( Incidence::RoleCalendarHashing );
+    if ( !d->mIncidenceBeingUpdated.isEmpty() ) {
+      kWarning() << "Incidence::update() called twice without an updated() call in between.";
+    }
 
+    // Save it so we can detect changes to uid or recurringId.
+    d->mIncidenceBeingUpdated = inc->instanceIdentifier();
+
+    const KDateTime dt = inc->dateTime( Incidence::RoleCalendarHashing );
     if ( dt.isValid() ) {
+      const Incidence::IncidenceType type = inc->type();
       d->mIncidencesForDate[type].remove( dt.date().toString(), inc );
     }
   }
@@ -525,16 +547,25 @@ void MemoryCalendar::incidenceUpdated( const QString &uid, const KDateTime &recu
   Incidence::Ptr inc = incidence( uid, recurrenceId );
 
   if ( inc ) {
-    KDateTime nowUTC = KDateTime::currentUtcDateTime();
-    inc->setLastModified( nowUTC );
+
+    if ( d->mIncidenceBeingUpdated.isEmpty() ) {
+      kWarning() << "Incidence::updated() called twice without an update() call in between.";
+    } else if ( inc->instanceIdentifier() != d->mIncidenceBeingUpdated ) {
+      // Instance identifier changed, update our hash table
+      d->mIncidencesByIdentifier.remove( d->mIncidenceBeingUpdated );
+      d->mIncidencesByIdentifier.insert( inc->instanceIdentifier(), inc );
+    }
+
+    d->mIncidenceBeingUpdated = QString();
+
+    inc->setLastModified( KDateTime::currentUtcDateTime() );
     // we should probably update the revision number here,
     // or internally in the Event itself when certain things change.
     // need to verify with ical documentation.
 
-    const Incidence::IncidenceType type = inc->type();
     const KDateTime dt = inc->dateTime( Incidence::RoleCalendarHashing );
-
     if ( dt.isValid() ) {
+      const Incidence::IncidenceType type = inc->type();
       d->mIncidencesForDate[type].insert( dt.date().toString(), inc );
     }
 
@@ -692,6 +723,10 @@ Event::List MemoryCalendar::rawEvents( EventSortField sortField,
 Event::List MemoryCalendar::deletedEvents( EventSortField sortField,
                                            SortDirection sortDirection ) const
 {
+  if ( !deletionTracking() ) {
+    return Event::List();
+  }
+
   Event::List eventList;
   QHashIterator<QString, Incidence::Ptr>i( d->mDeletedIncidences[Incidence::TypeEvent] );
   while ( i.hasNext() ) {
@@ -765,6 +800,10 @@ Journal::List MemoryCalendar::rawJournals( JournalSortField sortField,
 Journal::List MemoryCalendar::deletedJournals( JournalSortField sortField,
                                                SortDirection sortDirection ) const
 {
+  if ( !deletionTracking() ) {
+    return Journal::List();
+  }
+
   Journal::List journalList;
   QHashIterator<QString, Incidence::Ptr>i( d->mDeletedIncidences[Incidence::TypeJournal] );
   while ( i.hasNext() ) {
@@ -806,6 +845,11 @@ Journal::List MemoryCalendar::rawJournalsForDate( const QDate &date ) const
     ++it;
   }
   return journalList;
+}
+
+Incidence::Ptr MemoryCalendar::instance(const QString &identifier) const
+{
+    return d->mIncidencesByIdentifier.value(identifier);
 }
 
 void MemoryCalendar::virtual_hook( int id, void *data )

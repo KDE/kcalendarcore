@@ -178,7 +178,7 @@ bool CalFilter::filterIncidence( Incidence::Ptr incidence ) const
   }
 
   if ( d->mCriteria & HideRecurring ) {
-    if ( incidence->recurs() ) {
+    if ( incidence->recurs() || incidence->hasRecurrenceId() ) {
       return false;
     }
   }

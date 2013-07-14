@@ -73,6 +73,7 @@ set(kcalcore_LIB_SRCS ${libversit_SRCS}
   incidencebase.cpp
   journal.cpp
   memorycalendar.cpp
+  occurrenceiterator.cpp
   period.cpp
   person.cpp
   recurrence.cpp
@@ -90,7 +91,7 @@ generate_export_header(kcalcore)
 target_link_libraries(kcalcore ${KDE4_KDECORE_LIBS} ${KDE4_KDE4SUPPORT_LIBS} ${QT_QTGUI_LIBRARY} ${LIBICAL_LIBRARIES})
 
 if(HAVE_UUID_LIBRARY)
-  target_link_libraries(kcalcore uuid)
+  target_link_libraries(kcalcore "${UUID_LIBRARY}")
 endif()
 
 set_target_properties(kcalcore PROPERTIES
@@ -132,6 +133,7 @@ install(FILES
   incidencebase.h
   journal.h
   memorycalendar.h
+  occurrenceiterator.h
   period.h
   person.h
   recurrence.h

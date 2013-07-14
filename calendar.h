@@ -455,11 +455,11 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
     virtual Incidence::List rawIncidences() const;
 
     /**
-      Returns an unfiltered list of all possible instances for this recurring Incidence.
+      Returns an unfiltered list of all exceptions of this recurring incidence.
 
       @param incidence incidence to check
 
-      @return the list of all unfiltered Incidences.
+      @return the list of all unfiltered exceptions.
     */
     virtual Incidence::List instances( const Incidence::Ptr &incidence ) const;
 
@@ -675,10 +675,28 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
       from the recurring Incidences after @a date.
 
       @return a pointer to a new recurring Incidence if @a single is false.
+      @deprecated Use createException()
     */
-    Incidence::Ptr dissociateOccurrence( const Incidence::Ptr &incidence, const QDate &date,
-                                         const KDateTime::Spec &spec,
-                                         bool single = true );
+    KDE_DEPRECATED Incidence::Ptr dissociateOccurrence(
+        const Incidence::Ptr &incidence, const QDate &date,
+        const KDateTime::Spec &spec, bool single = true );
+    /**
+      Creates an exception for an occurrence from a recurring Incidence.
+
+      The returned exception is not automatically inserted into the calendar.
+
+      @param incidence is a pointer to a recurring Incidence.
+      @param recurrenceId specifies the specific occurrence for which the
+      exception applies.
+      @param thisAndFuture specifies if the exception applies only this specific
+      occcurrence or also to all future occurrences.
+
+      @return a pointer to a new exception incidence with @param recurrenceId set.
+      @since 4.11
+    */
+    static Incidence::Ptr createException( const Incidence::Ptr &incidence,
+                                               const KDateTime &recurrenceId,
+                                               bool thisAndFuture = false );
 
   // Event Specific Methods //
 
@@ -715,6 +733,7 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
     /**
       Removes all Events from the calendar.
       @see deleteEvent()
+      TODO_KDE5: Remove these methods. They are dangerous and don't add value.
     */
     virtual void deleteAllEvents() = 0;
 
@@ -863,7 +882,10 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
       @param recurrenceId is possible recurrenceId of event, default is null
 
       @return a pointer to the deleted Event.
-      A null pointer is returned if no such deleted Event exists.
+      A null pointer is returned if no such deleted Event exists, or if deletion tracking
+      is disabled.
+
+      @see deletionTracking()
     */
     virtual Event::Ptr deletedEvent( const QString &uid,
                                      const KDateTime &recurrenceId = KDateTime() ) const = 0;
@@ -874,7 +896,10 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
       @param sortField specifies the EventSortField.
       @param sortDirection specifies the SortDirection.
 
-      @return the list of all unfiltered deleted Events sorted as specified.
+      @return the list of all unfiltered deleted Events sorted as specified. An empty list
+      is returned if deletion tracking is disabled.
+
+      @see deletionTracking()
     */
     virtual Event::List deletedEvents(
       EventSortField sortField = EventSortUnsorted,
@@ -1038,7 +1063,10 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
       @param recurrenceId is possible recurrenceId of todo, default is null
 
       @return a pointer to the deleted Todo.
-      A null pointer is returned if no such deletef Todo exists.
+      A null pointer is returned if no such deleted Todo exists or if deletion tracking
+      is disabled.
+
+      @see deletionTracking()
     */
     virtual Todo::Ptr deletedTodo( const QString &uid,
                                    const KDateTime &recurrenceId = KDateTime() ) const = 0;
@@ -1049,7 +1077,10 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
       @param sortField specifies the TodoSortField.
       @param sortDirection specifies the SortDirection.
 
-      @return the list of all unfiltered deleted Todos sorted as specified.
+      @return the list of all unfiltered deleted Todos sorted as specified. An empty list
+      is returned if deletion tracking is disabled.
+
+      @see deletionTracking()
     */
     virtual Todo::List deletedTodos(
       TodoSortField sortField = TodoSortUnsorted,
@@ -1180,7 +1211,10 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
       @param recurrenceId is possible recurrenceId of journal, default is null
 
       @return a pointer to the deleted Journal.
-      A null pointer is returned if no such deleted Journal exists.
+      A null pointer is returned if no such deleted Journal exists or if deletion tracking
+      is disabled.
+
+      @see deletionTracking()
     */
     virtual Journal::Ptr deletedJournal( const QString &uid,
                                          const KDateTime &recurrenceId = KDateTime() ) const = 0;
@@ -1191,7 +1225,10 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
       @param sortField specifies the JournalSortField.
       @param sortDirection specifies the SortDirection.
 
-      @return the list of all unfiltered deleted Journals sorted as specified.
+      @return the list of all unfiltered deleted Journals sorted as specified. An empty list
+      is returned if deletion tracking is disabled.
+
+      @see deletionTracking()
     */
     virtual Journal::List deletedJournals(
       JournalSortField sortField = JournalSortUnsorted,
@@ -1427,6 +1464,23 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
                                 const KDateTime &from, const KDateTime &to ) const;
 
     /**
+      Enables or disabled deletion tracking.
+      Default is true.
+      @see deletedEvent()
+      @see deletedTodo()
+      @see deletedJournal()
+      @since 4.11
+     */
+    void setDeletionTracking( bool enable );
+
+    /**
+      Returns if deletion tracking is enabled.
+      Default is true.
+      @since 4.11
+    */
+    bool deletionTracking() const;
+
+    /**
       @copydoc
       IncidenceBase::virtual_hook()
     */
@@ -1438,6 +1492,7 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
       @since 4.11
      */
     void filterChanged();
+
   private:
     //@cond PRIVATE
     class Private;

@@ -174,7 +174,7 @@ class KCALCORE_EXPORT CalFormat
 
   protected:
     /**
-      Sets the the PRODID string loaded from calendar file.
+      Sets the PRODID string loaded from calendar file.
       @param id is a pruduct Id string to set for the calendar file.
       @see loadedProductId()
     */

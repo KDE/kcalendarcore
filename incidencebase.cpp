@@ -38,9 +38,8 @@
 #include "calformat.h"
 #include "visitor.h"
 
-#include <QDebug>
 #include <QTime>
-
+#include <KDebug>
 #include <KUrl>
 
 #include <QtCore/QStringList>
@@ -56,7 +55,7 @@ class KCalCore::IncidenceBase::Private
 {
   public:
     Private()
-      : mOrganizer( new Person() ),
+      : mOrganizer( 0 ),
         mUpdateGroupLevel( 0 ),
         mUpdatedPending( false ),
         mAllDay( true ),
@@ -93,6 +92,7 @@ class KCalCore::IncidenceBase::Private
     QList<IncidenceObserver*> mObservers; // list of incidence observers
     QSet<Field> mDirtyFields;    // Fields that changed since last time the incidence was created
                                  // or since resetDirtyFlags() was called
+    QUrl mUrl;                   // incidence url property
 };
 
 void IncidenceBase::Private::init( const Private &other )
@@ -113,6 +113,7 @@ void IncidenceBase::Private::init( const Private &other )
   for ( it = other.mAttendees.constBegin(); it != other.mAttendees.constEnd(); ++it ) {
     mAttendees.append( Attendee::Ptr( new Attendee( *( *it ) ) ) );
   }
+  mUrl = other.mUrl;
 }
 //@endcond
 
@@ -203,7 +204,8 @@ bool IncidenceBase::equals( const IncidenceBase &i2 ) const
     // of much use. We are not comparing for identity, after all.
     allDay() == i2.allDay() &&
     duration() == i2.duration() &&
-    hasDuration() == i2.hasDuration();
+    hasDuration() == i2.hasDuration() &&
+    url() == i2.url();
     // no need to compare mObserver
 }
 
@@ -248,17 +250,19 @@ KDateTime IncidenceBase::lastModified() const
   return d->mLastModified;
 }
 
-void IncidenceBase::setOrganizer( const Person::Ptr &o )
+void IncidenceBase::setOrganizer( const Person::Ptr &organizer )
 {
-  update();
-  // we don't check for readonly here, because it is
-  // possible that by setting the organizer we are changing
-  // the event's readonly status...
-  d->mOrganizer = o;
+  if ( organizer ) {
+    update();
+    // we don't check for readonly here, because it is
+    // possible that by setting the organizer we are changing
+    // the event's readonly status...
+    d->mOrganizer = organizer;
 
-  d->mDirtyFields.insert( FieldOrganizer );
+    d->mDirtyFields.insert( FieldOrganizer );
 
-  updated();
+    updated();
+  }
 }
 
 void IncidenceBase::setOrganizer( const QString &o )
@@ -275,6 +279,9 @@ void IncidenceBase::setOrganizer( const QString &o )
 
 Person::Ptr IncidenceBase::organizer() const
 {
+  if (!d->mOrganizer)
+    d->mOrganizer = Person::Ptr( new Person() ); // init at first use only to save memory
+
   return d->mOrganizer;
 }
 
@@ -291,6 +298,11 @@ bool IncidenceBase::isReadOnly() const
 void IncidenceBase::setDtStart( const KDateTime &dtStart )
 {
 //  if ( mReadOnly ) return;
+
+  if ( !dtStart.isValid() && type() != IncidenceBase::TypeTodo ) {
+    kWarning() << "Invalid dtStart";
+  }
+
   update();
   d->mDtStart = dtStart;
   d->mAllDay = dtStart.isDateOnly();
@@ -547,6 +559,17 @@ bool IncidenceBase::hasDuration() const
   return d->mHasDuration;
 }
 
+void IncidenceBase::setUrl( const QUrl& url )
+{
+  d->mDirtyFields.insert( FieldUrl );
+  d->mUrl = url;
+}
+
+QUrl IncidenceBase::url() const
+{
+  return d->mUrl;
+}
+
 void IncidenceBase::registerObserver( IncidenceBase::IncidenceObserver *observer )
 {
   if ( observer && !d->mObservers.contains( observer ) ) {
@@ -575,7 +598,7 @@ void IncidenceBase::updated()
   if ( d->mUpdateGroupLevel ) {
     d->mUpdatedPending = true;
   } else {
-    KDateTime rid = recurrenceId();
+    const KDateTime rid = recurrenceId();
     foreach ( IncidenceObserver *o, d->mObservers ) {
       o->incidenceUpdated( uid(), rid );
     }

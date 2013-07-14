@@ -131,7 +131,8 @@ class KCALCORE_EXPORT RecurrenceRule
       Sets the recurrence start date/time.
       Note that setting the start date/time does not make the recurrence occur
       on that date/time, it simply sets a lower limit to when the recurrences
-      take place.
+      take place (this applies only for the by- rules, not for i.e. an hourly
+      rule where the startDt is the first occurrence).
 
       Note that setting @p start to a date-only value does not make an all-day
       recurrence: to do this, call setAllDay(true).

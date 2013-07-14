@@ -135,6 +135,14 @@ class KCALCORE_EXPORT Incidence
     virtual Incidence *clone() const = 0;
 
     /**
+      Returns a unique identifier for a specific instance of an incidence.
+
+      Due to the recurrence-id, the uid is not unique for a KCalCore::Incidence.
+      @since 4.11
+    */
+    QString instanceIdentifier() const;
+
+    /**
       Set readonly state of incidence.
 
       @param readonly If true, the incidence is set to readonly, if false the
@@ -676,12 +684,14 @@ class KCALCORE_EXPORT Incidence
 
     /**
       Returns true if the incidence has recurrenceId, otherwise return false.
-      @see setHasRecurrenceID(), setRecurrenceId(KDateTime)
+      @see setRecurrenceId(KDateTime)
     */
     bool hasRecurrenceId() const;
 
     /**
       Set the incidences recurrenceId.
+      This field indicates that this is an exception to a recurring incidence.
+      The uid of this incidence MUST be the same as the one of the recurring main incidence.
       @param recurrenceId is the incidence recurrenceId to set
       @see recurrenceId().
     */
@@ -693,6 +703,23 @@ class KCALCORE_EXPORT Incidence
       @see setRecurrenceId().
     */
     KDateTime recurrenceId() const;
+
+    /**
+      Set to true if the exception also applies to all future occurrences.
+      This option is only relevant if the incidence has a recurrenceId set.
+      @param thisAndFuture value
+      @see thisAndFuture(), setRecurrenceId()
+      @since 4.11
+    */
+    void setThisAndFuture( bool thisAndFuture );
+
+    /**
+      Returns true if the exception also applies to all future occurrences.
+      @return incidences thisAndFuture value
+      @see setThisAndFuture()
+      @since 4.11
+    */
+    bool thisAndFuture() const;
 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // %%%%%  Alarm-related methods

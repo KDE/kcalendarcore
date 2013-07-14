@@ -110,6 +110,7 @@ void TodoTest::testSetCompleted() {
   // due yesterday
   KDateTime originalDueDate = today.addDays( -1 );
 
+  todo1.setDtStart( originalDueDate );
   todo1.setDtDue( originalDueDate );
   todo1.recurrence()->setDaily( 1 );
   todo1.setCompleted( today );

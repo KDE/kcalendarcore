@@ -1331,6 +1331,7 @@ void RecurrenceRule::Private::buildConstraints()
 // Only call buildCache() if mDuration > 0.
 bool RecurrenceRule::Private::buildCache() const
 {
+  Q_ASSERT( mDuration > 0 );
   // Build the list of all occurrences of this event (we need that to determine
   // the end date!)
   Constraint interval( getNextValidDateInterval( mDateStart, mPeriod ) );
@@ -1344,16 +1345,12 @@ bool RecurrenceRule::Private::buildCache() const
     dts.erase( dts.begin(), dts.begin() + i + 1 );
   }
 
-  int loopnr = 0;
-  int dtnr = dts.count();
   // some validity checks to avoid infinite loops (i.e. if we have
   // done this loop already 10000 times, bail out )
-  while ( loopnr < LOOP_LIMIT && dtnr < mDuration ) {
+  for ( int loopnr = 0; loopnr < LOOP_LIMIT && dts.count() < mDuration; ++loopnr ) {
     interval.increase( mPeriod, mFrequency );
     // The returned date list is already sorted!
     dts += datesForInterval( interval, mPeriod );
-    dtnr = dts.count();
-    ++loopnr;
   }
   if ( dts.count() > mDuration ) {
     // we have picked up more occurrences than necessary, remove them
@@ -1394,7 +1391,7 @@ bool RecurrenceRule::recursOn( const QDate &qd, const KDateTime::Spec &timeSpec 
 {
   int i, iend;
 
-  if ( !qd.isValid() ) {
+  if ( !qd.isValid() || !d->mDateStart.isValid() ) {
     // There can't be recurrences on invalid dates
     return false;
   }
@@ -1740,20 +1737,20 @@ KDateTime RecurrenceRule::getNextDate( const KDateTime &preDate ) const
 DateTimeList RecurrenceRule::timesInInterval( const KDateTime &dtStart,
                                               const KDateTime &dtEnd ) const
 {
-  KDateTime start = dtStart.toTimeSpec( d->mDateStart.timeSpec() );
-  KDateTime end = dtEnd.toTimeSpec( d->mDateStart.timeSpec() );
+  const KDateTime start = dtStart.toTimeSpec( d->mDateStart.timeSpec() );
+  const KDateTime end = dtEnd.toTimeSpec( d->mDateStart.timeSpec() );
   DateTimeList result;
   if ( end < d->mDateStart ) {
     return result;    // before start of recurrence
   }
   KDateTime enddt = end;
   if ( d->mDuration >= 0 ) {
-    KDateTime endRecur = endDt();
+    const KDateTime endRecur = endDt();
     if ( endRecur.isValid() ) {
       if ( start > endRecur ) {
         return result;    // beyond end of recurrence
       }
-      if ( end > endRecur ) {
+      if ( end >= endRecur ) {
         enddt = endRecur;    // limit end time to end of recurrence rule
       }
     }
@@ -1761,13 +1758,24 @@ DateTimeList RecurrenceRule::timesInInterval( const KDateTime &dtStart,
 
   if ( d->mTimedRepetition ) {
     // It's a simple sub-daily recurrence with no constraints
-    int n = static_cast<int>( ( d->mDateStart.secsTo_long( start ) - 1 ) % d->mTimedRepetition );
-    KDateTime dt = start.addSecs( d->mTimedRepetition - n );
-    if ( dt < enddt ) {
-      n = static_cast<int>( ( dt.secsTo_long( enddt ) - 1 ) / d->mTimedRepetition ) + 1;
+
+    //Seconds to add to interval start, to get first occurrence which is within interval
+    qint64 offsetFromNextOccurrence;
+    if ( d->mDateStart < start ) {
+      offsetFromNextOccurrence =
+        d->mTimedRepetition - ( d->mDateStart.secsTo_long( start ) % d->mTimedRepetition );
+    } else {
+      offsetFromNextOccurrence = -( d->mDateStart.secsTo_long( start ) % d->mTimedRepetition );
+    }
+    KDateTime dt = start.addSecs( offsetFromNextOccurrence );
+    if ( dt <= enddt ) {
+      int numberOfOccurrencesWithinInterval =
+        static_cast<int>( dt.secsTo_long( enddt ) / d->mTimedRepetition ) + 1;
       // limit n by a sane value else we can "explode".
-      n = qMin( n, LOOP_LIMIT );
-      for ( int i = 0;  i < n;  dt = dt.addSecs( d->mTimedRepetition ), ++i ) {
+      numberOfOccurrencesWithinInterval = qMin( numberOfOccurrencesWithinInterval, LOOP_LIMIT );
+      for ( int i = 0;
+            i < numberOfOccurrencesWithinInterval;
+            dt = dt.addSecs( d->mTimedRepetition ), ++i ) {
         result += dt;
       }
     }

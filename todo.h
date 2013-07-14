@@ -117,8 +117,9 @@ class KCALCORE_EXPORT Todo : public Incidence
     /**
       Sets if the todo has a due datetime.
       @param hasDueDate true if todo has a due datetime, otherwise false
+      @deprecated Use setDtDue( KDateTime() )
     */
-    void setHasDueDate( bool hasDueDate );
+    KDE_DEPRECATED void setHasDueDate( bool hasDueDate );
 
     /**
       Returns if the todo has a start datetime.
@@ -129,8 +130,9 @@ class KCALCORE_EXPORT Todo : public Incidence
     /**
       Sets if the todo has a start datetime.
       @param hasStartDate true if todo has a start datetime, otherwise false.
+      @deprecated Use setDtStart( KDateTime() )
     */
-    void setHasStartDate( bool hasStartDate );
+    KDE_DEPRECATED void setHasStartDate( bool hasStartDate );
 
     /**
       @copydoc IncidenceBase::dtStart()
@@ -152,7 +154,7 @@ class KCALCORE_EXPORT Todo : public Incidence
     /**
       Sets the start datetime of the todo.
       @param dtStart is the to-do start datetime.
-    */
+    */ //TODO_KDE5: Remove (see IncidenceBase)
     void setDtStart( const KDateTime &dtStart );
 
     /**

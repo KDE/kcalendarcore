@@ -64,7 +64,8 @@ class KCalCore::Calendar::Private
         mNewObserver( false ),
         mObserversEnabled( true ),
         mDefaultFilter( new CalFilter ),
-        batchAddingInProgress( false )
+        batchAddingInProgress( false ),
+        mDeletionTracking( true )
     {
       // Setup default filter, which does nothing
       mFilter = mDefaultFilter;
@@ -113,7 +114,7 @@ class KCalCore::Calendar::Private
     QString mDefaultNotebook; // uid of default notebook
     QMap<QString, Incidence::List > mIncidenceRelations;
     bool batchAddingInProgress;
-
+    bool mDeletionTracking;
 };
 
 /**
@@ -695,6 +696,41 @@ bool Calendar::deleteIncidence( const Incidence::Ptr &incidence )
   } else {
     return false;
   }
+}
+
+Incidence::Ptr Calendar::createException( const Incidence::Ptr &incidence,
+                                          const KDateTime &recurrenceId,
+                                          bool thisAndFuture )
+{
+  Q_ASSERT( recurrenceId.isValid() );
+  if ( !incidence || !incidence->recurs() || !recurrenceId.isValid() ) {
+    return Incidence::Ptr();
+  }
+
+  Incidence::Ptr newInc( incidence->clone() );
+  newInc->setCreated( KDateTime::currentUtcDateTime() );
+  newInc->setRevision(0);
+  //Recurring exceptions are not support for now
+  newInc->clearRecurrence();
+
+  newInc->setRecurrenceId( recurrenceId );
+  newInc->setThisAndFuture( thisAndFuture );
+  newInc->setDtStart(recurrenceId);
+
+  // Calculate and set the new end of the incidence
+  KDateTime end = incidence->dateTime( IncidenceBase::RoleEnd );
+
+  if ( end.isValid() ) {
+    if ( incidence->dtStart().isDateOnly() ) {
+      int offset = incidence->dtStart().daysTo( recurrenceId );
+      end = end.addDays( offset );
+    } else {
+      qint64 offset = incidence->dtStart().secsTo_long( recurrenceId );
+      end = end.addSecs( offset );
+    }
+    newInc->setDateTime( end, IncidenceBase::RoleEnd );
+  }
+  return newInc;
 }
 
 // Dissociate a single occurrence or all future occurrences from a recurring
@@ -1492,6 +1528,16 @@ void Calendar::endBatchAdding()
 bool Calendar::batchAdding() const
 {
   return d->batchAddingInProgress;
+}
+
+void Calendar::setDeletionTracking( bool enable )
+{
+  d->mDeletionTracking = enable;
+}
+
+bool Calendar::deletionTracking() const
+{
+  return d->mDeletionTracking;
 }
 
 void Calendar::virtual_hook( int id, void *data )

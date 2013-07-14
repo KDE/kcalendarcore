@@ -30,6 +30,12 @@ class RecurTodoTest : public QObject
   private Q_SLOTS:
     void testAllDay();
     void testNonAllDay();
+    void testIsAllDay();
+    void testDtStart();
+    void testRecurrenceBasedOnDtStart();
+    void testRecurrenceBasedOnDue();
+    void testRecurrenceStart();
+    void testHasDueDate();
 };
 
 #endif

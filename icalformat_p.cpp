@@ -255,6 +255,7 @@ icalcomponent *ICalFormatImpl::writeTodo( const Todo::Ptr &todo, ICalTimeZones *
     if ( icalcomponent_count_properties( vtodo, ICAL_STATUS_PROPERTY ) ) {
       icalproperty *p = icalcomponent_get_first_property( vtodo, ICAL_STATUS_PROPERTY );
       icalcomponent_remove_property( vtodo, p );
+      icalproperty_free( p );
     }
     icalcomponent_add_property( vtodo, icalproperty_new_status( ICAL_STATUS_COMPLETED ) );
   }
@@ -356,10 +357,15 @@ icalcomponent *ICalFormatImpl::writeFreeBusy( const FreeBusy::Ptr &freebusy,
   icalcomponent_add_property(
     vfreebusy, icalproperty_new_dtend( writeICalUtcDateTime( freebusy->dtEnd() ) ) );
 
+#ifdef USE_ICAL_1_0
+  icalcomponent_add_property(
+    vfreebusy, icalproperty_new_uid( freebusy->uid().toUtf8() ) );
+#else
   if ( method == iTIPRequest ) {
     icalcomponent_add_property(
       vfreebusy, icalproperty_new_uid( freebusy->uid().toUtf8() ) );
   }
+#endif
 
   //Loops through all the periods in the freebusy object
   Period::List list = freebusy->busyPeriods();
@@ -555,9 +561,13 @@ void ICalFormatImpl::writeIncidence( icalcomponent *parent,
 
   // recurrenceid
   if ( incidence->hasRecurrenceId() ) {
-    icalcomponent_add_property(
-      parent, writeICalDateTimeProperty(
-        ICAL_RECURRENCEID_PROPERTY, incidence->recurrenceId(), tzlist, tzUsedList ) );
+    icalproperty *p = writeICalDateTimeProperty(
+        ICAL_RECURRENCEID_PROPERTY, incidence->recurrenceId(), tzlist, tzUsedList );
+    if ( incidence->thisAndFuture() ) {
+      icalproperty_add_parameter(
+        p, icalparameter_new_range( ICAL_RANGE_THISANDFUTURE ) );
+    }
+    icalcomponent_add_property( parent, p );
   }
 
   RecurrenceRule::List rrules( incidence->recurrence()->rRules() );
@@ -660,6 +670,12 @@ void ICalFormatImpl::Private::writeIncidenceBase( icalcomponent *parent,
   QStringList comments = incidenceBase->comments();
   for ( QStringList::const_iterator it = comments.constBegin(); it != comments.constEnd(); ++it ) {
     icalcomponent_add_property( parent, icalproperty_new_comment( ( *it ).toUtf8() ) );
+  }
+
+  // url
+  const QUrl url = incidenceBase->url();
+  if ( url.isValid() ) {
+    icalcomponent_add_property( parent, icalproperty_new_url( url.toString().toUtf8() ) );
   }
 
   // custom properties
@@ -1127,7 +1143,6 @@ Todo::Ptr ICalFormatImpl::readTodo( icalcomponent *vtodo, ICalTimeZones *tzlist 
     { // due date/time
       KDateTime kdt = readICalDateTimeProperty( p, tzlist );
       todo->setDtDue( kdt, true );
-      todo->setHasDueDate( true );
       todo->setAllDay( kdt.isDateOnly() );
       break;
     }
@@ -1147,7 +1162,7 @@ Todo::Ptr ICalFormatImpl::readTodo( icalcomponent *vtodo, ICalTimeZones *tzlist 
     case ICAL_DTSTART_PROPERTY:
       // Flag that todo has start date. Value is read in by readIncidence().
       if ( todo->comments().filter( "NoStartDate" ).count() ) {
-        todo->setHasStartDate( false );
+        todo->setDtStart( KDateTime() );
       } else {
         todo->setHasStartDate( true );
       }
@@ -1174,6 +1189,7 @@ Todo::Ptr ICalFormatImpl::readTodo( icalcomponent *vtodo, ICalTimeZones *tzlist 
     d->mCompat->fixEmptySummary( todo );
   }
 
+  todo->resetDirtyFields();
   return todo;
 }
 
@@ -1251,6 +1267,7 @@ Event::Ptr ICalFormatImpl::readEvent( icalcomponent *vevent, ICalTimeZones *tzli
     d->mCompat->fixEmptySummary( event );
   }
 
+  event->resetDirtyFields();
   return event;
 }
 
@@ -1313,6 +1330,7 @@ FreeBusy::Ptr ICalFormatImpl::readFreeBusy( icalcomponent *vfreebusy )
   }
   freebusy->addPeriods( periods );
 
+  freebusy->resetDirtyFields();
   return freebusy;
 }
 
@@ -1322,6 +1340,7 @@ Journal::Ptr ICalFormatImpl::readJournal( icalcomponent *vjournal,
   Journal::Ptr journal( new Journal );
   readIncidence( vjournal, journal, tzlist );
 
+  journal->resetDirtyFields();
   return journal;
 }
 
@@ -1716,6 +1735,11 @@ void ICalFormatImpl::readIncidence( icalcomponent *parent,
       kdt = readICalDateTimeProperty( p, tzlist );
       if ( kdt.isValid() ) {
         incidence->setRecurrenceId( kdt );
+        const icalparameter *param =
+          icalproperty_get_first_parameter( p, ICAL_RANGE_PARAMETER );
+        if ( param && icalparameter_get_range( param ) == ICAL_RANGE_THISANDFUTURE ) {
+          incidence->setThisAndFuture( true );
+        }
       }
       break;
 
@@ -1834,6 +1858,11 @@ void ICalFormatImpl::Private::readIncidenceBase( icalcomponent *parent,
     case ICAL_CONTACT_PROPERTY:
       incidenceBase->addContact(
         QString::fromUtf8( icalproperty_get_contact( p ) ) );
+      break;
+
+    case ICAL_URL_PROPERTY:
+      incidenceBase->setUrl(
+        QUrl( QString::fromUtf8( icalproperty_get_url( p ) ) ) );
       break;
 
     default:
@@ -2611,6 +2640,7 @@ bool ICalFormatImpl::populate( const Calendar::Ptr &cal, icalcomponent *calendar
       }
       implementationVersion = nvalue;
       icalcomponent_remove_property( calendar, p );
+      icalproperty_free( p );
     }
     p = icalcomponent_get_next_property( calendar, ICAL_X_PROPERTY );
   }

@@ -129,8 +129,9 @@ class KCALCORE_EXPORT Event : public Incidence
     /**
       Sets whether the event has an end date/time.
       @param b If set, indicates the event has an end date.
+      @deprecated Use setDtEnd( KDateTime() )
     */
-    void setHasEndDate( bool b );
+    KDE_DEPRECATED void setHasEndDate( bool b );
 
     /**
       Returns whether the event has an end date/time.

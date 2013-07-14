@@ -1165,7 +1165,6 @@ Todo::Ptr VCalFormat::VTodoToEvent( VObject *vtodo )
   if ( ( vo = isAPropertyOf( vtodo, VCDueProp ) ) != 0 ) {
     anEvent->setDtDue( ISOToKDateTime( s = fakeCString( vObjectUStringZValue( vo ) ) ) );
     deleteStr( s );
-    anEvent->setHasDueDate( true );
     if ( anEvent->dtDue().time().hour() == 0 &&
          anEvent->dtDue().time().minute() == 0 &&
          anEvent->dtDue().time().second() == 0 ) {
@@ -1176,14 +1175,13 @@ Todo::Ptr VCalFormat::VTodoToEvent( VObject *vtodo )
       anEvent->setAllDay( true );
     }
   } else {
-    anEvent->setHasDueDate( false );
+    anEvent->setDtDue( KDateTime() );
   }
 
   // start time
   if ( ( vo = isAPropertyOf( vtodo, VCDTstartProp ) ) != 0 ) {
     anEvent->setDtStart( ISOToKDateTime( s = fakeCString( vObjectUStringZValue( vo ) ) ) );
     deleteStr( s );
-    anEvent->setHasStartDate( true );
     if ( anEvent->dtStart().time().hour() == 0 &&
          anEvent->dtStart().time().minute() == 0 &&
          anEvent->dtStart().time().second() == 0 ) {
@@ -1194,7 +1192,7 @@ Todo::Ptr VCalFormat::VTodoToEvent( VObject *vtodo )
       anEvent->setAllDay( true );
     }
   } else {
-    anEvent->setHasStartDate( false );
+    anEvent->setDtStart( KDateTime() );
   }
 
   // repeat stuff
