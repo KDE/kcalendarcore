@@ -35,7 +35,7 @@
 #include <QtCore/QTextStream>
 
 extern "C" {
-  #include <ical.h>
+  #include <libical/ical.h>
   #include <icaltimezone.h>
 }
 
