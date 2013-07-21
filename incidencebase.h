@@ -439,7 +439,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
                              const KDateTime::Spec &newSpec );
 
     /**
-      Adds a comment to thieincidence. Does not add a linefeed character; simply
+      Adds a comment to the incidence. Does not add a linefeed character; simply
       appends the text as specified.
 
       @param comment is the QString containing the comment to add.
