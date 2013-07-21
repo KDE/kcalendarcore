@@ -250,7 +250,7 @@ Event::Transparency Event::transparency() const
 
 void Event::setDuration( const Duration &duration )
 {
-  setHasEndDate( false );
+  setDtEnd( KDateTime() );
   Incidence::setDuration( duration );
 }
 
