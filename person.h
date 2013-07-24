@@ -196,6 +196,7 @@ class KCALCORE_EXPORT Person
     Private *const d;
    //@endcond
 
+    // TODO_KDE5: FIXME: This operator does slicing,if the object is in fact one of the derived classes (Attendee)
     friend KCALCORE_EXPORT QDataStream &operator<<( QDataStream &s,
                                                     const KCalCore::Person::Ptr &person );
     friend KCALCORE_EXPORT QDataStream &operator>>( QDataStream &s,
