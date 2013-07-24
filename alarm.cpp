@@ -139,6 +139,20 @@ Alarm &Alarm::operator=( const Alarm &a )
   return *this;
 }
 
+static bool compareMailAddresses( const Person::List &list1, const Person::List &list2 )
+{
+    if ( list1.count() == list2.count() ) {
+      for ( int i=0; i<list1.count(); ++i ) {
+        if ( *list1.at(i) != *list2.at(i) ) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    return false;
+}
+
 bool Alarm::operator==( const Alarm &rhs ) const
 {
   if ( d->mType != rhs.d->mType ||
@@ -168,7 +182,7 @@ bool Alarm::operator==( const Alarm &rhs ) const
     case Email:
       return d->mDescription == rhs.d->mDescription &&
              d->mMailAttachFiles == rhs.d->mMailAttachFiles &&
-             d->mMailAddresses == rhs.d->mMailAddresses &&
+             compareMailAddresses( d->mMailAddresses, rhs.d->mMailAddresses) &&
              d->mMailSubject == rhs.d->mMailSubject;
 
     case Procedure:

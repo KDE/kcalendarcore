@@ -42,7 +42,15 @@ void AlarmTest::testCompare()
   Alarm alarm1( &inc1 ), alarm2( &inc2 );
   alarm1.setType( Alarm::Email );
   alarm2.setType( Alarm::Email );
+
+  alarm1.setMailAddress(Person::Ptr(new Person("name", "email@foo.com")));
+  alarm2.setMailAddress(Person::Ptr(new Person("name", "email@foo.com")));
+
   QVERIFY( alarm1 == alarm2 );
+
+  alarm2.setMailAddress(Person::Ptr(new Person("name", "email@foo.pt")));
+  QVERIFY( alarm1 != alarm2 );
+
   alarm2.setType( Alarm::Display );
   QVERIFY( alarm1 != alarm2 );
 }
