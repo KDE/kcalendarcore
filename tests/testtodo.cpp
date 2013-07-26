@@ -138,6 +138,6 @@ void TodoTest::testStatus() {
 
   Todo todo2 = todo1;
   todo2.setPercentComplete( 33 );
-  todo2.setHasDueDate( false );
+  todo2.setDtDue( KDateTime() );
   QVERIFY( todo2.isOpenEnded() );
 }
