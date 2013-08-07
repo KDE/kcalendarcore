@@ -23,6 +23,7 @@
 #include "../icalformat.h"
 #include "../memorycalendar.h"
 #include "../vcalformat.h"
+#include "../config-kcalcore.h"
 
 #include <kaboutdata.h>
 #include <kdebug.h>
