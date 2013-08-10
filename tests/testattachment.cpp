@@ -69,3 +69,32 @@ void AttachmentTest::testValidity()
   attachment6.setDecodedData( "12345" );
   QVERIFY( attachment5 != attachment6 );
 }
+
+
+void AttachmentTest::testSerializer_data()
+{
+  QTest::addColumn<KCalCore::Attachment::Ptr>( "attachment" );
+
+  Attachment::Ptr nonInline = Attachment::Ptr( new Attachment( QString( "http://www.kde.org" ) ) );
+  Attachment::Ptr inlineAttachment = Attachment::Ptr( new Attachment( QByteArray("foo"), QByteArray( "image/nonsense" ) ) );
+
+  QTest::newRow( "inline" ) << inlineAttachment;
+  QTest::newRow( "not inline" ) << nonInline;
+}
+
+
+void AttachmentTest::testSerializer()
+{
+  QFETCH( KCalCore::Attachment::Ptr , attachment );
+
+  QByteArray array;
+  QDataStream stream(&array, QIODevice::WriteOnly);
+  stream << attachment; // Serialize
+
+  Attachment::Ptr attachment2 = Attachment::Ptr( new Attachment( QString( "foo" ) ) );
+  QVERIFY(*attachment != *attachment2);
+  QDataStream stream2(&array, QIODevice::ReadOnly);
+  stream2 >> attachment2; // deserialize
+  QVERIFY(*attachment == *attachment2);
+}
+

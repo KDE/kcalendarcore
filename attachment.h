@@ -34,6 +34,7 @@
 #include <QtCore/QHash>
 #include <QtCore/QString>
 #include <QtCore/QSharedPointer>
+#include <QMetaType>
 
 namespace KCalCore {
 
@@ -259,12 +260,30 @@ class KCALCORE_EXPORT Attachment
     class Private;
     Private *const d;
     //@endcond
+
+    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &s, const KCalCore::Attachment::Ptr &);
+    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &s, const KCalCore::Attachment::Ptr &);
 };
+
+/**
+ * Attachment serializer.
+ *
+ * @since 4.12
+ */
+QDataStream KCALCORE_EXPORT &operator<<(QDataStream &out, const KCalCore::Attachment::Ptr &);
+
+/**
+ * Attachment deserializer.
+ *
+ * @since 4.12
+ */
+QDataStream KCALCORE_EXPORT &operator>>(QDataStream &in, const KCalCore::Attachment::Ptr &);
 
 }
 
 //@cond PRIVATE
 Q_DECLARE_TYPEINFO( KCalCore::Attachment::Ptr, Q_MOVABLE_TYPE );
+Q_DECLARE_METATYPE( KCalCore::Attachment::Ptr )
 //@endcond
 
 //@cond PRIVATE
