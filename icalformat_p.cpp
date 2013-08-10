@@ -358,6 +358,7 @@ icalcomponent *ICalFormatImpl::writeFreeBusy( const FreeBusy::Ptr &freebusy,
     vfreebusy, icalproperty_new_dtend( writeICalUtcDateTime( freebusy->dtEnd() ) ) );
 
 #ifdef USE_ICAL_1_0
+  Q_UNUSED(method);
   icalcomponent_add_property(
     vfreebusy, icalproperty_new_uid( freebusy->uid().toUtf8() ) );
 #else
