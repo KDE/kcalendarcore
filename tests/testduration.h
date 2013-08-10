@@ -30,6 +30,8 @@ class DurationTest : public QObject
   private Q_SLOTS:
     void testValidity();
     void testCompare();
+    void testSerializer_data();
+    void testSerializer();
 };
 
 #endif
