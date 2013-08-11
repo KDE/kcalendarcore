@@ -270,14 +270,14 @@ class KCALCORE_EXPORT Attachment
  *
  * @since 4.12
  */
-QDataStream KCALCORE_EXPORT &operator<<(QDataStream &out, const KCalCore::Attachment::Ptr &);
+KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalCore::Attachment::Ptr &);
 
 /**
  * Attachment deserializer.
  *
  * @since 4.12
  */
-QDataStream KCALCORE_EXPORT &operator>>(QDataStream &in, const KCalCore::Attachment::Ptr &);
+KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, const KCalCore::Attachment::Ptr &);
 
 }
 

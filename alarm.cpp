@@ -852,20 +852,24 @@ int Alarm::locationRadius() const
 
 QDataStream& KCalCore::operator<<(QDataStream &out, const KCalCore::Alarm::Ptr &a)
 {
-  out << ((quint32)a->d->mType) << a->d->mAlarmSnoozeTime << a->d->mAlarmRepeatCount << a->d->mEndOffset << a->d->mHasTime
-      << a->d->mAlarmEnabled << a->d->mHasLocationRadius << a->d->mLocationRadius << a->d->mOffset << a->d->mAlarmTime
-      << a->d->mFile << a->d->mMailSubject << a->d->mDescription << a->d->mMailAttachFiles << a->d->mMailAddresses;
+  if (a) {
+    out << ((quint32)a->d->mType) << a->d->mAlarmSnoozeTime << a->d->mAlarmRepeatCount << a->d->mEndOffset << a->d->mHasTime
+        << a->d->mAlarmEnabled << a->d->mHasLocationRadius << a->d->mLocationRadius << a->d->mOffset << a->d->mAlarmTime
+        << a->d->mFile << a->d->mMailSubject << a->d->mDescription << a->d->mMailAttachFiles << a->d->mMailAddresses;
+  }
   return out;
 }
 
 QDataStream& KCalCore::operator>>(QDataStream &in, const KCalCore::Alarm::Ptr &a)
 {
-  quint32 type;
-  in >> type;
-  a->d->mType = static_cast<Alarm::Type>( type );
-  in >> a->d->mAlarmSnoozeTime >> a->d->mAlarmRepeatCount >> a->d->mEndOffset >> a->d->mHasTime
-     >> a->d->mAlarmEnabled >> a->d->mHasLocationRadius >> a->d->mLocationRadius >> a->d->mOffset >> a->d->mAlarmTime
-     >> a->d->mFile >> a->d->mMailSubject >> a->d->mDescription >> a->d->mMailAttachFiles >> a->d->mMailAddresses;
+  if (a) {
+    quint32 type;
+    in >> type;
+    a->d->mType = static_cast<Alarm::Type>( type );
+    in >> a->d->mAlarmSnoozeTime >> a->d->mAlarmRepeatCount >> a->d->mEndOffset >> a->d->mHasTime
+       >> a->d->mAlarmEnabled >> a->d->mHasLocationRadius >> a->d->mLocationRadius >> a->d->mOffset >> a->d->mAlarmTime
+       >> a->d->mFile >> a->d->mMailSubject >> a->d->mDescription >> a->d->mMailAttachFiles >> a->d->mMailAddresses;
+  }
   return in;
 }
 

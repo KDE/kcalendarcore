@@ -546,9 +546,16 @@ void Todo::setDateTime( const KDateTime &dateTime, DateTimeRole role )
 
 void Todo::virtual_hook( int id, void *data )
 {
-  Q_UNUSED( id );
-  Q_UNUSED( data );
-  Q_ASSERT( false );
+  switch(static_cast<IncidenceBase::VirtualHook>(id)) {
+    case IncidenceBase::SerializerHook:
+      serialize(*reinterpret_cast<QDataStream*>(data));
+    break;
+    case IncidenceBase::DeserializerHook:
+      deserialize(*reinterpret_cast<QDataStream*>(data));
+    break;
+    default:
+      Q_ASSERT(false);
+  }
 }
 
 QLatin1String Todo::mimeType() const
@@ -578,4 +585,16 @@ QLatin1String Todo::iconName( const KDateTime &recurrenceId ) const
   } else {
     return QLatin1String( "view-calendar-tasks" );
   }
+}
+
+void Todo::serialize( QDataStream &out )
+{
+  Incidence::serialize( out );
+  out << d->mDtDue << d->mDtRecurrence << d->mCompleted << d->mPercentComplete;
+}
+
+void Todo::deserialize( QDataStream &in )
+{
+  Incidence::deserialize( in );
+  in >> d->mDtDue >> d->mDtRecurrence >> d->mCompleted >> d->mPercentComplete;
 }

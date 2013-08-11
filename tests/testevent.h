@@ -33,6 +33,8 @@ class EventTest : public QObject
     void testClone();
     void testCopy();
     void testAssign();
+    void testSerializer_data();
+    void testSerializer();
 };
 
 #endif

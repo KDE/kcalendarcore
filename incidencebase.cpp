@@ -44,6 +44,9 @@
 
 #include <QtCore/QStringList>
 
+#define KCALCORE_MAGIC_NUMBER 0xCA1C012E
+#define KCALCORE_SERIALIZATION_VERSION 1
+
 using namespace KCalCore;
 
 /**
@@ -659,6 +662,72 @@ KUrl IncidenceBase::uri() const
 void IncidenceBase::setDirtyFields( const QSet<IncidenceBase::Field> &dirtyFields )
 {
   d->mDirtyFields = dirtyFields;
+}
+
+QDataStream& KCalCore::operator<<(QDataStream &out, const KCalCore::IncidenceBase::Ptr &i)
+{
+  if (!i)
+    return out;
+
+  out << static_cast<quint32>(KCALCORE_MAGIC_NUMBER); // Magic number to identify KCalCore data
+  out << static_cast<quint32>(KCALCORE_SERIALIZATION_VERSION);
+  out << static_cast<qint32>(i->type());
+
+  out << *(static_cast<CustomProperties*>(i.data()));
+  out << i->d->mLastModified << i->d->mDtStart << i->organizer() << i->d->mUid << i->d->mDuration
+      << i->d->mAllDay << i->d->mHasDuration << i->d->mComments << i->d->mContacts
+      << i->d->mAttendees.count() << i->d->mUrl;
+
+  foreach ( const Attendee::Ptr &attendee, i->d->mAttendees ) {
+    out << attendee;
+  }
+
+  // Serialize the sub-class data. In KDE5 we can add new virtuals.
+  i->virtual_hook(KCalCore::IncidenceBase::SerializerHook, &out);
+
+  return out;
+}
+
+QDataStream& KCalCore::operator>>(QDataStream &in, const KCalCore::IncidenceBase::Ptr &i)
+{
+  if (!i)
+    return in;
+
+  qint32 attendeeCount, type;
+  quint32 magic, version;
+
+  in >> magic;
+
+  if (magic != KCALCORE_MAGIC_NUMBER) {
+    kWarning() << "Invalid magic on serialized data";
+    return in;
+  }
+
+  in >> version;
+
+  if (version > KCALCORE_MAGIC_NUMBER) {
+    kWarning() << "Invalid version on serialized data";
+    return in;
+  }
+
+  in >> type;
+
+  in >> *(static_cast<CustomProperties*>(i.data()));
+  in >> i->d->mLastModified >> i->d->mDtStart >> i->d->mOrganizer >> i->d->mUid >> i->d->mDuration
+      >> i->d->mAllDay >> i->d->mHasDuration >> i->d->mComments >> i->d->mContacts >> attendeeCount
+      >> i->d->mUrl;
+
+  i->d->mAttendees.clear();
+  for ( int it=0; it<attendeeCount; it++ ) {
+    Attendee::Ptr attendee = Attendee::Ptr( new Attendee( QString(), QString() ) );
+    in >> attendee;
+    i->d->mAttendees.append( attendee );
+  }
+
+  // Deserialize the sub-class data. In KDE5 we can add new virtuals.
+  i->virtual_hook(KCalCore::IncidenceBase::DeserializerHook, &in);
+
+  return in;
 }
 
 IncidenceBase::IncidenceObserver::~IncidenceObserver()

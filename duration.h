@@ -306,14 +306,14 @@ class KCALCORE_EXPORT Duration
  *
  * @since 4.12
  */
-QDataStream KCALCORE_EXPORT &operator<<(QDataStream &out, const KCalCore::Duration &);
+KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalCore::Duration &);
 
 /**
  * Duration deserializer.
  *
  * @since 4.12
  */
-QDataStream KCALCORE_EXPORT &operator>>(QDataStream &in, KCalCore::Duration &);
+KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalCore::Duration &);
 
 }
 

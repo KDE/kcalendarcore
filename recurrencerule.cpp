@@ -2298,6 +2298,9 @@ KCALCORE_EXPORT QDataStream& KCalCore::operator>>( QDataStream &in, KCalCore::Re
 
 KCALCORE_EXPORT QDataStream& KCalCore::operator<<( QDataStream &out, const KCalCore::RecurrenceRule *r )
 {
+  if (!r)
+    return out;
+
   RecurrenceRule::Private *d = r->d;
   out << d->mRRule << static_cast<quint32>(d->mPeriod) << d->mDateStart << d->mFrequency << d->mDuration << d->mDateEnd
       << d->mBySeconds << d->mByMinutes << d->mByHours << d->mByDays << d->mByMonthDays
@@ -2311,6 +2314,9 @@ KCALCORE_EXPORT QDataStream& KCalCore::operator<<( QDataStream &out, const KCalC
 
 KCALCORE_EXPORT QDataStream& KCalCore::operator>>( QDataStream &in, const KCalCore::RecurrenceRule *r )
 {
+  if (!r)
+    return in;
+
   RecurrenceRule::Private *d = r->d;
   quint32 period;
   in >> d->mRRule >> period >> d->mDateStart >> d->mFrequency >> d->mDuration >> d->mDateEnd

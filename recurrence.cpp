@@ -1396,6 +1396,9 @@ Recurrence::RecurrenceObserver::~RecurrenceObserver()
 
 KCALCORE_EXPORT QDataStream& KCalCore::operator<<( QDataStream &out, KCalCore::Recurrence *r )
 {
+  if (!r)
+    return out;
+
   out << r->d->mRDateTimes << r->d->mExDateTimes
       << r->d->mRDates << r->d->mStartDateTime << r->d->mCachedType
       << r->d->mAllDay << r->d->mRecurReadOnly << r->d->mExDates
@@ -1415,6 +1418,9 @@ KCALCORE_EXPORT QDataStream& KCalCore::operator<<( QDataStream &out, KCalCore::R
 
 KCALCORE_EXPORT QDataStream& KCalCore::operator>>( QDataStream &in, KCalCore::Recurrence *r )
 {
+  if (!r)
+    return in;
+
   int rruleCount, exruleCount;
 
   in >> r->d->mRDateTimes >> r->d->mExDateTimes

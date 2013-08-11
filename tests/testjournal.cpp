@@ -99,3 +99,30 @@ void JournalTest::testAssign()
   Journal journal2 = journal1;
   QVERIFY( journal1 == journal2 );
 }
+
+
+void JournalTest::testSerializer_data()
+{
+  QTest::addColumn<KCalCore::Journal::Ptr>( "journal" );
+
+  Journal::Ptr journal1 = Journal::Ptr(new Journal());
+
+  QTest::newRow( "journal" ) << journal1;
+}
+
+void JournalTest::testSerializer()
+{
+  QFETCH( KCalCore::Journal::Ptr, journal );
+  IncidenceBase::Ptr incidenceBase = journal.staticCast<KCalCore::IncidenceBase>();
+
+  QByteArray array;
+  QDataStream stream(&array, QIODevice::WriteOnly);
+  stream << incidenceBase;
+
+  Journal::Ptr journal2 = Journal::Ptr( new Journal() );
+  IncidenceBase::Ptr incidenceBase2 = journal2.staticCast<KCalCore::IncidenceBase>();
+  QVERIFY(*journal != *journal2);
+  QDataStream stream2(&array, QIODevice::ReadOnly);
+  stream2 >> incidenceBase2;
+  QVERIFY(*journal == *journal2);
+}

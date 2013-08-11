@@ -104,9 +104,16 @@ void Journal::setDateTime( const KDateTime &dateTime, DateTimeRole role )
 
 void Journal::virtual_hook( int id, void *data )
 {
-  Q_UNUSED( id );
-  Q_UNUSED( data );
-  Q_ASSERT( false );
+  switch(static_cast<IncidenceBase::VirtualHook>(id)) {
+    case IncidenceBase::SerializerHook:
+      serialize(*reinterpret_cast<QDataStream*>(data));
+    break;
+    case IncidenceBase::DeserializerHook:
+      deserialize(*reinterpret_cast<QDataStream*>(data));
+    break;
+    default:
+      Q_ASSERT(false);
+  }
 }
 
 QLatin1String Journal::mimeType() const
@@ -123,4 +130,14 @@ QLatin1String Journal::journalMimeType()
 QLatin1String Journal::iconName( const KDateTime & ) const
 {
   return QLatin1String( "view-pim-journal" );
+}
+
+void Journal::serialize( QDataStream &out )
+{
+  Incidence::serialize( out );
+}
+
+void Journal::deserialize( QDataStream &in )
+{
+  Incidence::deserialize( in );
 }

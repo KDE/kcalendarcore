@@ -319,9 +319,16 @@ void Event::setDateTime( const KDateTime &dateTime, DateTimeRole role )
 
 void Event::virtual_hook( int id, void *data )
 {
-  Q_UNUSED( id );
-  Q_UNUSED( data );
-  Q_ASSERT( false );
+  switch(static_cast<IncidenceBase::VirtualHook>(id)) {
+    case IncidenceBase::SerializerHook:
+      serialize(*reinterpret_cast<QDataStream*>(data));
+    break;
+    case IncidenceBase::DeserializerHook:
+      deserialize(*reinterpret_cast<QDataStream*>(data));
+    break;
+    default:
+      Q_ASSERT(false);
+  }
 }
 
 QLatin1String KCalCore::Event::mimeType() const
@@ -337,4 +344,20 @@ QLatin1String Event::eventMimeType()
 QLatin1String Event::iconName( const KDateTime & ) const
 {
   return QLatin1String( "view-calendar-day" );
+}
+
+void Event::serialize( QDataStream &out )
+{
+  Incidence::serialize( out );
+  out << d->mDtEnd << d->mHasEndDate << static_cast<quint32>(d->mTransparency) << d->mMultiDayValid << d->mMultiDay;
+}
+
+void Event::deserialize( QDataStream &in )
+{
+  Incidence::deserialize( in );
+  in >> d->mDtEnd >> d->mHasEndDate;
+  quint32 transp;
+  in >> transp;
+  d->mTransparency = static_cast<Transparency>(transp);
+  in >> d->mMultiDayValid >> d->mMultiDay;
 }

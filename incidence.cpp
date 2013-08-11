@@ -1108,3 +1108,69 @@ bool Incidence::supportsGroupwareCommunication() const
 {
   return type() == TypeEvent || type() == TypeTodo;
 }
+
+void Incidence::serialize( QDataStream &out )
+{
+  out << d->mCreated << d->mRevision << d->mDescription << d->mDescriptionIsRich << d->mSummary
+      << d->mSummaryIsRich << d->mLocation << d->mLocationIsRich << d->mCategories
+      << d->mResources << d->mStatusString << d->mPriority << d->mSchedulingID
+      << d->mGeoLatitude << d->mGeoLongitude << d->mHasGeo << d->mRecurrenceId << d->mThisAndFuture
+      << d->mLocalOnly << d->mStatus << d->mSecrecy << ( d->mRecurrence ? true : false )
+      << d->mAttachments.count() << d->mAlarms.count() << d->mRelatedToUid;
+
+  if ( d->mRecurrence )
+    out << d->mRecurrence;
+
+  foreach ( const Attachment::Ptr &attachment, d->mAttachments ) {
+    out << attachment;
+  }
+
+  foreach ( const Alarm::Ptr &alarm, d->mAlarms ) {
+    out << alarm;
+  }
+}
+
+void Incidence::deserialize( QDataStream &in )
+{
+  quint32 status, secrecy;
+  bool hasRecurrence;
+  int attachmentCount, alarmCount;
+  QMap<int,QString> relatedToUid;
+  in >> d->mCreated >> d->mRevision >> d->mDescription >> d->mDescriptionIsRich >> d->mSummary
+      >> d->mSummaryIsRich >> d->mLocation >> d->mLocationIsRich >> d->mCategories
+      >> d->mResources >> d->mStatusString >> d->mPriority >> d->mSchedulingID
+      >> d->mGeoLatitude >> d->mGeoLongitude >> d->mHasGeo >> d->mRecurrenceId >> d->mThisAndFuture
+      >> d->mLocalOnly >> status >> secrecy >> hasRecurrence >> attachmentCount >> alarmCount
+      >> relatedToUid;
+
+  if ( hasRecurrence ) {
+    d->mRecurrence = new Recurrence();
+    d->mRecurrence->addObserver( const_cast<KCalCore::Incidence*>( this ) );
+    in >> d->mRecurrence;
+  }
+
+  d->mAttachments.clear();
+  d->mAlarms.clear();
+
+  for ( int i=0; i<attachmentCount; ++i ) {
+    Attachment::Ptr attachment = Attachment::Ptr( new Attachment( QString() ) );
+    in >> attachment;
+    d->mAttachments.append( attachment );
+  }
+
+  for ( int i=0; i<alarmCount; ++i ) {
+    Alarm::Ptr alarm = Alarm::Ptr( new Alarm( this ) );
+    in >> alarm;
+    d->mAlarms.append( alarm );
+  }
+
+  d->mStatus = static_cast<Incidence::Status>( status );
+  d->mSecrecy = static_cast<Incidence::Secrecy>( secrecy );
+
+  d->mRelatedToUid.clear();
+  foreach ( int key, relatedToUid.keys() ) {
+    d->mRelatedToUid.insert( static_cast<Incidence::RelType>( key ), relatedToUid.value(key) );
+  }
+
+
+}

@@ -844,6 +844,9 @@ class KCALCORE_EXPORT Incidence
     */
     virtual IncidenceBase &assign( const IncidenceBase &other );
 
+    void serialize(QDataStream &out);
+    void deserialize(QDataStream &in);
+
   private:
     /**
       Disabled, not polymorphic.

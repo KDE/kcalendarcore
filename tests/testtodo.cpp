@@ -20,6 +20,7 @@
 */
 #include "testtodo.h"
 #include "../todo.h"
+#include "attachment.h"
 
 #include <qtest_kde.h>
 QTEST_KDEMAIN( TodoTest, NoGUI )
@@ -140,4 +141,94 @@ void TodoTest::testStatus() {
   todo2.setPercentComplete( 33 );
   todo2.setDtDue( KDateTime() );
   QVERIFY( todo2.isOpenEnded() );
+}
+
+void TodoTest::testSerializer_data()
+{
+  QTest::addColumn<KCalCore::Todo::Ptr>( "todo" );
+
+  KDateTime today = KDateTime::currentUtcDateTime();
+  KDateTime yesterday = today.addDays( -1 );
+
+  Todo::Ptr todo1 = Todo::Ptr(new Todo());
+  Todo::Ptr todo2 = Todo::Ptr(new Todo());
+  Todo::Ptr todo3 = Todo::Ptr(new Todo());
+  Todo::Ptr todo4 = Todo::Ptr(new Todo());
+  Todo::Ptr todo5 = Todo::Ptr(new Todo());
+  Todo::Ptr todo6 = Todo::Ptr(new Todo());
+
+  todo1->setSummary("Summary", false);
+  todo1->setDescription( "description", false );
+  todo1->setCreated( yesterday );
+  todo1->setRevision( 50 );
+  todo1->setDtDue( yesterday );
+  todo1->setDtStart( today );
+  todo1->setPercentComplete( 50 );
+  todo1->setLocation("<b>location</b>", false);
+
+  todo2->setDescription( "<b>description</b>", true );
+  todo2->setSummary("<b>Summary2</b>", true);
+  todo2->setLocation("<b>location</b>", true);
+  todo2->setDtDue( yesterday );
+  todo2->setPercentComplete( 100 );
+
+  todo3->setDtStart( today );
+  todo3->setPercentComplete( 100 );
+  todo3->setCategories(QStringList() << "a" << "b" << "c" << "d");
+  todo3->setResources(QStringList() << "a" << "b" << "c" << "d");
+  todo3->setPriority(5);
+
+  todo4->recurrence()->setDaily( 1 );
+  Attachment::Ptr attachment = Attachment::Ptr( new Attachment( QString( "http://www.kde.org" ) ) );
+  todo4->addAttachment( attachment );
+
+
+  todo5->recurrence()->setDaily( 1 );
+  todo5->setCompleted( today );
+  todo5->setStatus( Incidence::StatusDraft );
+  todo5->setSecrecy( Incidence::SecrecyPrivate );
+  todo5->setRelatedTo( "uid1", Incidence::RelTypeParent );
+  todo5->setHasGeo( true );
+  todo5->setGeoLatitude( 40 );
+  todo5->setGeoLongitude( 40 );
+  todo5->setOrganizer( "organizer@mail.com" );
+
+  todo6->recurrence()->setDaily( 1 );
+  todo6->setCompleted( today );
+  todo6->setRecurrenceId( yesterday );
+  todo6->setStatus( Incidence::StatusDraft );
+  todo6->setSecrecy( Incidence::SecrecyPrivate );
+  todo6->setRelatedTo( "uid1", Incidence::RelTypeParent );
+  todo6->setHasGeo( true );
+  todo6->setGeoLatitude( 40 );
+  todo6->setGeoLongitude( 40 );
+  todo6->setUid("uid22");
+  todo6->setLastModified( today );
+  todo6->addContact("addContact");
+
+  // Remaining properties tested in testevent.cpp
+
+  QTest::newRow( "todo1" ) << todo1;
+  QTest::newRow( "todo2" ) << todo2;
+  QTest::newRow( "todo3" ) << todo3;
+  QTest::newRow( "todo4" ) << todo4;
+  QTest::newRow( "todo5" ) << todo5;
+  QTest::newRow( "todo6" ) << todo6;
+}
+
+void TodoTest::testSerializer()
+{
+  QFETCH( KCalCore::Todo::Ptr, todo );
+  IncidenceBase::Ptr incidenceBase = todo.staticCast<KCalCore::IncidenceBase>();
+
+  QByteArray array;
+  QDataStream stream(&array, QIODevice::WriteOnly);
+  stream << incidenceBase;
+
+  Todo::Ptr todo2 = Todo::Ptr( new Todo() );
+  IncidenceBase::Ptr incidenceBase2 = todo2.staticCast<KCalCore::IncidenceBase>();
+  QVERIFY(*todo != *todo2);
+  QDataStream stream2(&array, QIODevice::ReadOnly);
+  stream2 >> incidenceBase2;
+  QVERIFY(*todo == *todo2);
 }

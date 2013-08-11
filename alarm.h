@@ -678,14 +678,14 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
  *
  * @since 4.12
  */
-QDataStream KCALCORE_EXPORT &operator<<(QDataStream &out, const KCalCore::Alarm::Ptr &);
+KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalCore::Alarm::Ptr &);
 
 /**
  * Alarm deserializer.
  *
  * @since 4.12
  */
-QDataStream KCALCORE_EXPORT &operator>>(QDataStream &in, const KCalCore::Alarm::Ptr &);
+KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, const KCalCore::Alarm::Ptr &);
 
 }
 

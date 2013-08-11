@@ -114,3 +114,51 @@ void EventTest::testAssign()
   Event event2 = event1;
   QVERIFY( event1 == event2 );
 }
+
+
+void EventTest::testSerializer_data()
+{
+  QTest::addColumn<KCalCore::Event::Ptr>( "event" );
+  KDateTime today = KDateTime::currentUtcDateTime();
+  KDateTime yesterday = today.addDays( -1 );
+
+  Event::Ptr event1 = Event::Ptr(new Event());
+  Attendee::Ptr attendee1( new Attendee( "fred", "fred@flintstone.com" ) );
+  event1->addAttendee( attendee1 );
+  event1->setDtStart( yesterday );
+  event1->setDtEnd( today );
+
+  Event::Ptr event2 = Event::Ptr(new Event());
+  Attendee::Ptr attendee2( new Attendee( "fred", "fred@flintstone.com" ) );
+  event2->addAttendee( attendee2 );
+  event2->setDtStart( yesterday );
+  event2->setDtEnd( today );
+  event2->setAllDay( true );
+
+  event2->addComment( "comment1" );
+  event2->setUrl(QUrl("http://someurl"));
+
+  event2->setCustomProperty( "app", "key", "value" );
+
+  // Remaining properties tested in testtodo.cpp
+
+  QTest::newRow( "event" ) << event1;
+  QTest::newRow( "event2" ) << event2;
+}
+
+void EventTest::testSerializer()
+{
+  QFETCH( KCalCore::Event::Ptr, event );
+  IncidenceBase::Ptr incidenceBase = event.staticCast<KCalCore::IncidenceBase>();
+
+  QByteArray array;
+  QDataStream stream(&array, QIODevice::WriteOnly);
+  stream << incidenceBase;
+
+  Event::Ptr event2 = Event::Ptr( new Event() );
+  IncidenceBase::Ptr incidenceBase2 = event2.staticCast<KCalCore::IncidenceBase>();
+  QVERIFY(*event != *event2);
+  QDataStream stream2(&array, QIODevice::ReadOnly);
+  stream2 >> incidenceBase2;
+  QVERIFY(*event == *event2);
+}
