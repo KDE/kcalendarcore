@@ -676,6 +676,13 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
     */
     void resetDirtyFields();
 
+    /**
+     * Constant that identifies KCalCore data in a binary stream.
+     *
+     * @since 4.12
+     */
+    static quint32 magicSerializationIdentifier();
+
   protected:
 
     /**

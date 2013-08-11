@@ -664,6 +664,12 @@ void IncidenceBase::setDirtyFields( const QSet<IncidenceBase::Field> &dirtyField
   d->mDirtyFields = dirtyFields;
 }
 
+/** static */
+quint32 IncidenceBase::magicSerializationIdentifier()
+{
+  return KCALCORE_MAGIC_NUMBER;
+}
+
 QDataStream& KCalCore::operator<<(QDataStream &out, const KCalCore::IncidenceBase::Ptr &i)
 {
   if (!i)
