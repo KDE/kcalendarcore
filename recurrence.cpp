@@ -73,8 +73,6 @@ class KCalCore::Recurrence::Private
 
 bool Recurrence::Private::operator==( const Recurrence::Private &p ) const
 {
-  kDebug() << mStartDateTime << p.mStartDateTime;
-
   if ( ( mStartDateTime != p.mStartDateTime &&
          ( mStartDateTime.isValid() || p.mStartDateTime.isValid() ) ) ||
        mAllDay != p.mAllDay ||
@@ -1394,4 +1392,52 @@ void Recurrence::dump() const
 
 Recurrence::RecurrenceObserver::~RecurrenceObserver()
 {
+}
+
+KCALCORE_EXPORT QDataStream& KCalCore::operator<<( QDataStream &out, KCalCore::Recurrence *r )
+{
+  out << r->d->mRDateTimes << r->d->mExDateTimes
+      << r->d->mRDates << r->d->mStartDateTime << r->d->mCachedType
+      << r->d->mAllDay << r->d->mRecurReadOnly << r->d->mExDates
+      << r->d->mExRules.count() << r->d->mRRules.count();
+
+  foreach ( RecurrenceRule *rule, r->d->mExRules ) {
+    out << rule;
+  }
+
+  foreach ( RecurrenceRule *rule, r->d->mRRules ) {
+    out << rule;
+  }
+
+  return out;
+}
+
+
+KCALCORE_EXPORT QDataStream& KCalCore::operator>>( QDataStream &in, KCalCore::Recurrence *r )
+{
+  int rruleCount, exruleCount;
+
+  in >> r->d->mRDateTimes >> r->d->mExDateTimes
+     >> r->d->mRDates >> r->d->mStartDateTime >> r->d->mCachedType
+     >> r->d->mAllDay >> r->d->mRecurReadOnly >> r->d->mExDates
+     >> exruleCount >> rruleCount;
+
+  r->d->mExRules.clear();
+  r->d->mRRules.clear();
+
+  for ( int i=0; i<exruleCount; ++i ) {
+    RecurrenceRule *rule = new RecurrenceRule();
+    rule->addObserver( r );
+    in >> rule;
+    r->d->mExRules.append( rule );
+  }
+
+  for ( int i=0; i<rruleCount; ++i ) {
+    RecurrenceRule *rule = new RecurrenceRule();
+    rule->addObserver( r );
+    in >> rule;
+    r->d->mRRules.append( rule );
+  }
+
+  return in;
 }

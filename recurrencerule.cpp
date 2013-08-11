@@ -187,6 +187,7 @@ class Constraint
   public:
     typedef QList<Constraint> List;
 
+    Constraint() {}
     explicit Constraint( KDateTime::Spec, int wkst = 1 );
     Constraint( const KDateTime &dt, RecurrenceRule::PeriodType type, int wkst );
     void clear();
@@ -2263,4 +2264,62 @@ void RecurrenceRule::WDayPos::setPos( int ps )
 int RecurrenceRule::WDayPos::pos() const
 {
   return mPos;
+}
+
+
+QDataStream& operator<<( QDataStream &out, const Constraint &c )
+{
+  out << c.year << c.month << c.day << c.hour << c.minute << c.second
+      << c.weekday << c.weekdaynr << c.weeknumber << c.yearday << c.weekstart
+      << c.timespec << c.secondOccurrence;
+
+  return out;
+}
+
+QDataStream& operator>>( QDataStream &in, Constraint &c  )
+{
+  in >> c.year >> c.month >> c.day >> c.hour >> c.minute >> c.second
+     >> c.weekday >> c.weekdaynr >> c.weeknumber >> c.yearday >> c.weekstart
+     >> c.timespec >> c.secondOccurrence;
+  return in;
+}
+
+KCALCORE_EXPORT QDataStream& KCalCore::operator<<( QDataStream &out, const KCalCore::RecurrenceRule::WDayPos &w )
+{
+  out << w.mDay << w.mPos;
+  return out;
+}
+
+KCALCORE_EXPORT QDataStream& KCalCore::operator>>( QDataStream &in, KCalCore::RecurrenceRule::WDayPos &w  )
+{
+  in >> w.mDay >> w.mPos;
+  return in;
+}
+
+KCALCORE_EXPORT QDataStream& KCalCore::operator<<( QDataStream &out, const KCalCore::RecurrenceRule *r )
+{
+  RecurrenceRule::Private *d = r->d;
+  out << d->mRRule << static_cast<quint32>(d->mPeriod) << d->mDateStart << d->mFrequency << d->mDuration << d->mDateEnd
+      << d->mBySeconds << d->mByMinutes << d->mByHours << d->mByDays << d->mByMonthDays
+      << d->mByYearDays << d->mByWeekNumbers << d->mByMonths << d->mBySetPos
+      << d->mWeekStart << d->mConstraints << d->mAllDay << d->mNoByRules << d->mTimedRepetition
+      << d->mIsReadOnly;
+
+  return out;
+}
+
+
+KCALCORE_EXPORT QDataStream& KCalCore::operator>>( QDataStream &in, const KCalCore::RecurrenceRule *r )
+{
+  RecurrenceRule::Private *d = r->d;
+  quint32 period;
+  in >> d->mRRule >> period >> d->mDateStart >> d->mFrequency >> d->mDuration >> d->mDateEnd
+      >> d->mBySeconds >> d->mByMinutes >> d->mByHours >> d->mByDays >> d->mByMonthDays
+      >> d->mByYearDays >> d->mByWeekNumbers >> d->mByMonths >> d->mBySetPos
+      >> d->mWeekStart >> d->mConstraints >> d->mAllDay >> d->mNoByRules >> d->mTimedRepetition
+      >> d->mIsReadOnly;
+
+  d->mPeriod = static_cast<RecurrenceRule::PeriodType>( period );
+
+  return in;
 }

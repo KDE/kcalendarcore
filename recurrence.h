@@ -644,7 +644,17 @@ class KCALCORE_EXPORT Recurrence : public RecurrenceRule::RuleObserver
     class Private;
     Private *const d;
     //@endcond
+
+    friend KCALCORE_EXPORT QDataStream& operator<<( QDataStream &out, KCalCore::Recurrence * );
+    friend KCALCORE_EXPORT QDataStream& operator>>( QDataStream &in, KCalCore::Recurrence * );
 };
+
+/**
+ * Recurrence serializer and deserializer.
+ * @since 4.12
+ */
+KCALCORE_EXPORT QDataStream& operator<<( QDataStream &out, KCalCore::Recurrence * );
+KCALCORE_EXPORT QDataStream& operator>>( QDataStream &in, KCalCore::Recurrence * );
 
 }
 
