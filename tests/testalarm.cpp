@@ -64,3 +64,64 @@ void AlarmTest::testAssignment()
   Alarm *alarm3 = new Alarm( alarm1 );
   QVERIFY( alarm2 == *alarm3 );
 }
+
+
+void AlarmTest::testSerializer_data()
+{
+  QTest::addColumn<KCalCore::Alarm::Ptr>( "alarm" );
+  Alarm::Ptr a1 = Alarm::Ptr( new Alarm( 0 ) );
+  Alarm::Ptr a2 = Alarm::Ptr( new Alarm( 0 ) );
+  Alarm::Ptr a3 = Alarm::Ptr( new Alarm( 0 ) );
+  Alarm::Ptr a4 = Alarm::Ptr( new Alarm( 0 ) );
+
+
+  a1->setType( Alarm::Email );
+  a2->setType( Alarm::Procedure );
+  a3->setType( Alarm::Display );
+  a4->setType( Alarm::Audio );
+
+  a3->setDisplayAlarm("foo");
+  a3->setText("foo bar");
+  a4->setAudioFile("file.mp3");
+  a2->setProgramFile("/usr/bin/foo");
+  a2->setProgramArguments("--play");
+
+  a1->setMailSubject("empty subject");
+
+  Person::List persons;
+  persons << Person::Ptr(new Person("a", "a@a.pt")) << Person::Ptr(new Person("b", "b@b.pt"));
+  a1->setMailAddresses(persons);
+  a1->setMailAttachment("foo attachment");
+  a1->setMailText("mail body");
+
+  a1->setTime(KDateTime( QDate( 2006, 8, 3 ), QTime( 8, 0, 0 ), KDateTime::UTC ));
+  a2->setStartOffset(Duration( 7, Duration::Days ));
+  a3->setEndOffset(Duration( 1, Duration::Days ));
+
+  a1->setSnoozeTime(Duration( 1, Duration::Seconds ));
+  a1->setRepeatCount(50);
+  a1->setEnabled(true);
+  a2->setEnabled(true);
+  a3->setHasLocationRadius(false);
+  a3->setLocationRadius(100);
+
+  QTest::newRow( "alarm1" ) << a1;
+  QTest::newRow( "alarm2" ) << a2;
+  QTest::newRow( "alarm3" ) << a3;
+  QTest::newRow( "alarm4" ) << a4;
+}
+
+void AlarmTest::testSerializer()
+{
+  QFETCH( KCalCore::Alarm::Ptr, alarm );
+
+  QByteArray array;
+  QDataStream stream(&array, QIODevice::WriteOnly);
+  stream << alarm; // Serialize
+
+  Alarm::Ptr alarm2 = Alarm::Ptr( new Alarm(0) );
+  //QVERIFY(*alarm != *alarm2);
+  QDataStream stream2(&array, QIODevice::ReadOnly);
+  stream2 >> alarm2; // deserialize
+  QVERIFY(*alarm == *alarm2);
+}
