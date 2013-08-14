@@ -824,6 +824,17 @@ class KCALCORE_EXPORT Incidence
      */ //TODO_KDE5: make pure virtual
     bool supportsGroupwareCommunication() const;
 
+    /**
+      Returns the list of possible mime types in an Incidence object:
+          "text/calendar"
+          "application/x-vnd.akonadi.calendar.event"
+          "application/x-vnd.akonadi.calendar.todo"
+          "application/x-vnd.akonadi.calendar.journal"
+
+      @since 4.12
+     */
+    static QStringList mimeTypes();
+
   protected:
 
     /**

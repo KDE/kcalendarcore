@@ -40,6 +40,7 @@
 #include <KDebug>
 
 #include <QTextDocument> // for Qt::escape() and Qt::mightBeRichText()
+#include <QStringList>
 #include <QTime>
 
 using namespace KCalCore;
@@ -1107,6 +1108,15 @@ QString Incidence::altDescription() const
 bool Incidence::supportsGroupwareCommunication() const
 {
   return type() == TypeEvent || type() == TypeTodo;
+}
+
+/** static */
+QStringList Incidence::mimeTypes()
+{
+  return QStringList() << QLatin1String( "text/calendar" )
+                       << KCalCore::Event::eventMimeType()
+                       << KCalCore::Todo::todoMimeType()
+                       << KCalCore::Journal::journalMimeType();
 }
 
 void Incidence::serialize( QDataStream &out )
