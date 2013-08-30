@@ -214,16 +214,16 @@ void Alarm::setType( Alarm::Type type )
   }
   switch ( type ) {
     case Display:
-      d->mDescription = "";
+      d->mDescription = QLatin1String("");
       break;
     case Procedure:
-      d->mFile = d->mDescription = "";
+      d->mFile = d->mDescription = QLatin1String("");
       break;
     case Audio:
-      d->mFile = "";
+      d->mFile = QLatin1String("");
       break;
     case Email:
-      d->mMailSubject = d->mDescription = "";
+      d->mMailSubject = d->mDescription = QLatin1String("");
       d->mMailAddresses.clear();
       d->mMailAttachFiles.clear();
       break;

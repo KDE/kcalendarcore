@@ -91,8 +91,8 @@ void removeAllICal( QVector< QSharedPointer<K> > &c, const QSharedPointer<K> &x 
 static QString quoteForParam( const QString &text )
 {
   QString tmp = text;
-  tmp.remove( '"' );
-  if ( tmp.contains( ';' ) || tmp.contains( ':' ) || tmp.contains( ',' ) ) {
+  tmp.remove( QLatin1Char('"') );
+  if ( tmp.contains( QLatin1Char(';') ) || tmp.contains( QLatin1Char(':') ) || tmp.contains( QLatin1Char(',') ) ) {
     return tmp; // libical quotes in this case already, see icalparameter_as_ical_string()
   }
   return QString::fromLatin1( "\"" ) + tmp + QString::fromLatin1( "\"" );
@@ -548,7 +548,7 @@ void ICalFormatImpl::writeIncidence( icalcomponent *parent,
   }
 
   // categories
-  QString categories = incidence->categories().join( "," );
+  QString categories = incidence->categories().join( QLatin1String(",") );
   if ( !categories.isEmpty() ) {
     icalcomponent_add_property(
       parent, icalproperty_new_categories( categories.toUtf8() ) );
@@ -695,7 +695,7 @@ void ICalFormatImpl::Private::writeCustomProperties( icalcomponent *parent,
     // Minimalist parameter handler: extract icalparameter's out of
     // the given input text (not really parsing as such)
     if ( !parameters.isEmpty() ) {
-      QStringList sl = parameters.split( ';' );
+      QStringList sl = parameters.split( QLatin1Char(';') );
       foreach ( const QString &parameter, sl ) {
         icalparameter *param = icalparameter_new_from_string( parameter.toUtf8() );
         if ( param ) {
@@ -1016,9 +1016,9 @@ icalrecurrencetype ICalFormatImpl::writeRecurrenceRule( RecurrenceRule *recur )
 icalcomponent *ICalFormatImpl::writeAlarm( const Alarm::Ptr &alarm )
 {
   if ( alarm->enabled() ) {
-    alarm->setCustomProperty( APP_NAME_FOR_XPROPERTIES, ENABLED_ALARM_XPROPERTY, "TRUE" );
+    alarm->setCustomProperty( APP_NAME_FOR_XPROPERTIES, ENABLED_ALARM_XPROPERTY, QLatin1String("TRUE") );
   } else {
-    alarm->setCustomProperty( APP_NAME_FOR_XPROPERTIES, ENABLED_ALARM_XPROPERTY, "FALSE" );
+    alarm->setCustomProperty( APP_NAME_FOR_XPROPERTIES, ENABLED_ALARM_XPROPERTY, QLatin1String("FALSE") );
   }
 
   icalcomponent *a = icalcomponent_new( ICAL_VALARM_COMPONENT );
@@ -1162,7 +1162,7 @@ Todo::Ptr ICalFormatImpl::readTodo( icalcomponent *vtodo, ICalTimeZones *tzlist 
 
     case ICAL_DTSTART_PROPERTY:
       // Flag that todo has start date. Value is read in by readIncidence().
-      if ( todo->comments().filter( "NoStartDate" ).count() ) {
+      if ( todo->comments().filter( QLatin1String("NoStartDate") ).count() ) {
         todo->setDtStart( KDateTime() );
       } else {
         todo->setHasStartDate( true );
@@ -1437,9 +1437,9 @@ Attendee::Ptr ICalFormatImpl::readAttendee( icalproperty *attendee )
   p = icalproperty_get_first_parameter( attendee, ICAL_X_PARAMETER );
   QMap<QByteArray, QString> custom;
   while ( p ) {
-    QString xname = QString( icalparameter_get_xname( p ) ).toUpper();
+    QString xname = QString::fromLatin1( icalparameter_get_xname( p ) ).toUpper();
     QString xvalue = QString::fromUtf8( icalparameter_get_xvalue( p ) );
-    if ( xname == "X-UID" ) {
+    if ( xname == QLatin1String("X-UID") ) {
       uid = xvalue;
     } else {
       custom[xname.toUtf8()] = xvalue;
@@ -1452,12 +1452,12 @@ Attendee::Ptr ICalFormatImpl::readAttendee( icalproperty *attendee )
 
   p = icalproperty_get_first_parameter( attendee, ICAL_DELEGATEDTO_PARAMETER );
   if ( p ) {
-    a->setDelegate( icalparameter_get_delegatedto( p ) );
+    a->setDelegate( QLatin1String(icalparameter_get_delegatedto( p )) );
   }
 
   p = icalproperty_get_first_parameter( attendee, ICAL_DELEGATEDFROM_PARAMETER );
   if ( p ) {
-    a->setDelegator( icalparameter_get_delegatedfrom( p ) );
+    a->setDelegator( QLatin1String(icalparameter_get_delegatedfrom( p )) );
   }
 
   return a;
@@ -1526,21 +1526,21 @@ Attachment::Ptr ICalFormatImpl::readAttachment( icalproperty *attach )
     icalparameter *p =
       icalproperty_get_first_parameter( attach, ICAL_FMTTYPE_PARAMETER );
     if ( p ) {
-      attachment->setMimeType( QString( icalparameter_get_fmttype( p ) ) );
+      attachment->setMimeType( QLatin1String( icalparameter_get_fmttype( p ) ) );
     }
 
     p = icalproperty_get_first_parameter( attach, ICAL_X_PARAMETER );
     while ( p ) {
-      QString xname = QString( icalparameter_get_xname( p ) ).toUpper();
+      QString xname = QString::fromLatin1( icalparameter_get_xname( p ) ).toUpper();
       QString xvalue = QString::fromUtf8( icalparameter_get_xvalue( p ) );
-      if ( xname == "X-CONTENT-DISPOSITION" ) {
-        attachment->setShowInline( xvalue.toLower() == "inline" );
+      if ( xname == QLatin1String("X-CONTENT-DISPOSITION") ) {
+        attachment->setShowInline( xvalue.toLower() == QLatin1String("inline") );
       }
-      if ( xname == "X-LABEL" ) {
+      if ( xname == QLatin1String("X-LABEL") ) {
         attachment->setLabel( xvalue );
       }
-      if ( xname == "X-KONTACT-TYPE" ) {
-        attachment->setLocal( xvalue.toLower() == "local" );
+      if ( xname == QLatin1String("X-KONTACT-TYPE") ) {
+        attachment->setLocal( xvalue.toLower() == QLatin1String("local") );
       }
       p = icalproperty_get_next_parameter( attach, ICAL_X_PARAMETER );
     }
@@ -1610,7 +1610,7 @@ void ICalFormatImpl::readIncidence( icalcomponent *parent,
       if ( !textStr.isEmpty() ) {
         QString valStr = QString::fromUtf8(
           icalproperty_get_parameter_as_string( p, "X-KDE-TEXTFORMAT" ) );
-        if ( !valStr.compare( "HTML", Qt::CaseInsensitive ) ) {
+        if ( !valStr.compare( QLatin1String("HTML"), Qt::CaseInsensitive ) ) {
           incidence->setDescription( textStr, true );
         } else {
           incidence->setDescription( textStr, false );
@@ -1625,7 +1625,7 @@ void ICalFormatImpl::readIncidence( icalcomponent *parent,
       if ( !textStr.isEmpty() ) {
         QString valStr = QString::fromUtf8(
           icalproperty_get_parameter_as_string( p, "X-KDE-TEXTFORMAT" ) );
-        if ( !valStr.compare( "HTML", Qt::CaseInsensitive ) ) {
+        if ( !valStr.compare( QLatin1String("HTML"), Qt::CaseInsensitive ) ) {
           incidence->setSummary( textStr, true );
         } else {
           incidence->setSummary( textStr, false );
@@ -1646,7 +1646,7 @@ void ICalFormatImpl::readIncidence( icalcomponent *parent,
       if ( !textStr.isEmpty() ) {
         QString valStr = QString::fromUtf8(
           icalproperty_get_parameter_as_string( p, "X-KDE-TEXTFORMAT" ) );
-        if ( !valStr.compare( "HTML", Qt::CaseInsensitive ) ) {
+        if ( !valStr.compare( QLatin1String("HTML"), Qt::CaseInsensitive ) ) {
           incidence->setLocation( textStr, true );
         } else {
           incidence->setLocation( textStr, false );
@@ -1723,7 +1723,7 @@ void ICalFormatImpl::readIncidence( icalcomponent *parent,
       // We can't change that -- in order to retain backwards compatibility.
       text = icalproperty_get_categories( p );
       const QString val = QString::fromUtf8( text );
-      foreach ( const QString &cat, val.split( ',', QString::SkipEmptyParts ) ) {
+      foreach ( const QString &cat, val.split( QLatin1Char(','), QString::SkipEmptyParts ) ) {
         // ensure no duplicates
         if ( !categories.contains( cat ) ) {
           categories.append( cat );
@@ -1925,11 +1925,11 @@ void ICalFormatImpl::Private::readCustomProperties( icalcomponent *parent,
             param = icalproperty_get_next_parameter( p, ICAL_ANY_PARAMETER ) ) {
         // 'c' is owned by ical library => all we need to do is just use it
         const char *c = icalparameter_as_ical_string( param );
-        parametervalues.push_back( c );
+        parametervalues.push_back( QLatin1String(c) );
       }
-      parameters = parametervalues.join( ";" );
+      parameters = parametervalues.join( QLatin1String(";") );
     } else {
-      value = value.append( "," ).append( nvalue );
+      value = value.append( QLatin1String(",") ).append( nvalue );
     }
     p = icalcomponent_get_next_property( parent, ICAL_X_PROPERTY );
   }
@@ -1969,7 +1969,7 @@ void ICalFormatImpl::readRecurrence( const struct icalrecurrencetype &r, Recurre
 {
   // Generate the RRULE string
   recur->setRRule(
-    QString( icalrecurrencetype_as_string( const_cast<struct icalrecurrencetype*>( &r ) ) ) );
+    QLatin1String( icalrecurrencetype_as_string( const_cast<struct icalrecurrencetype*>( &r ) ) ) );
   // Period
   switch ( r.freq ) {
   case ICAL_SECONDLY_RECURRENCE:
@@ -2649,7 +2649,7 @@ bool ICalFormatImpl::populate( const Calendar::Ptr &cal, icalcomponent *calendar
   p = icalcomponent_get_first_property( calendar, ICAL_PRODID_PROPERTY );
   if ( !p ) {
     kDebug() << "No PRODID property found";
-    d->mLoadedProductId = "";
+    d->mLoadedProductId = QLatin1String("");
   } else {
     d->mLoadedProductId = QString::fromUtf8( icalproperty_get_prodid( p ) );
 
@@ -2812,8 +2812,8 @@ QString ICalFormatImpl::extractErrorProperty( icalcomponent *c )
   icalproperty *error;
   error = icalcomponent_get_first_property( c, ICAL_XLICERROR_PROPERTY );
   while ( error ) {
-    errorMessage += icalproperty_get_xlicerror( error );
-    errorMessage += '\n';
+    errorMessage += QLatin1String(icalproperty_get_xlicerror( error ));
+    errorMessage += QLatin1Char('\n');
     error = icalcomponent_get_next_property( c, ICAL_XLICERROR_PROPERTY );
   }
 

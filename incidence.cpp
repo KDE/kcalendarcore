@@ -437,7 +437,7 @@ QString Incidence::richDescription() const
   if ( descriptionIsRich() ) {
     return d->mDescription;
   } else {
-    return Qt::escape( d->mDescription ).replace( '\n', "<br/>" );
+    return Qt::escape( d->mDescription ).replace( QLatin1Char('\n'), QLatin1String("<br/>") );
   }
 }
 
@@ -473,7 +473,7 @@ QString Incidence::richSummary() const
   if ( summaryIsRich() ) {
     return d->mSummary;
   } else {
-    return Qt::escape( d->mSummary ).replace( '\n', "<br/>" );
+    return Qt::escape( d->mSummary ).replace( QLatin1Char('\n'), QLatin1String("<br/>") );
   }
 }
 
@@ -508,7 +508,7 @@ void Incidence::setCategories( const QString &catStr )
     return;
   }
 
-  d->mCategories = catStr.split( ',' );
+  d->mCategories = catStr.split( QLatin1Char(',') );
 
   QStringList::Iterator it;
   for ( it = d->mCategories.begin();it != d->mCategories.end(); ++it ) {
@@ -525,7 +525,7 @@ QStringList Incidence::categories() const
 
 QString Incidence::categoriesStr() const
 {
-  return d->mCategories.join( "," );
+  return d->mCategories.join( QLatin1String(",") );
 }
 
 void Incidence::setRelatedTo( const QString &relatedToUid, RelType relType )
@@ -760,7 +760,7 @@ QString Incidence::writeAttachmentToTempFile( const Attachment::Ptr &attachment 
   QStringList patterns = KMimeType::mimeType( attachment->mimeType() )->patterns();
 
   if ( !patterns.empty() ) {
-    file->setSuffix( QString( patterns.first() ).remove( '*' ) );
+    file->setSuffix( QString( patterns.first() ).remove( QLatin1Char('*') ) );
   }
   file->setAutoRemove( true );
   file->open();
@@ -950,7 +950,7 @@ QString Incidence::richLocation() const
   if ( locationIsRich() ) {
     return d->mLocation;
   } else {
-    return Qt::escape( d->mLocation ).replace( '\n', "<br/>" );
+    return Qt::escape( d->mLocation ).replace( QLatin1Char('\n'), QLatin1String("<br/>") );
   }
 }
 
@@ -1074,7 +1074,7 @@ void Incidence::recurrenceUpdated( Recurrence *recurrence )
 
 //@cond PRIVATE
 #define ALT_DESC_FIELD "X-ALT-DESC"
-#define ALT_DESC_PARAMETERS "FMTTYPE=text/html"
+#define ALT_DESC_PARAMETERS QLatin1String("FMTTYPE=text/html")
 //@endcond
 
 bool Incidence::hasAltDescription() const

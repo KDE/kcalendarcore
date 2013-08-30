@@ -126,7 +126,7 @@ QString CalFormat::createUniqueId()
 
   uuid_generate_random( uuid );
   uuid_unparse( uuid, suuid );
-  return QString( suuid );
+  return QString::fromLatin1( suuid );
 #else
   int hashTime = QTime::currentTime().hour() +
                  QTime::currentTime().minute() + QTime::currentTime().second() +

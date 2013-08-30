@@ -431,7 +431,7 @@ void IncidenceBase::addAttendee( const Attendee::Ptr &a, bool doupdate )
   if ( doupdate ) {
     update();
   }
-  if ( a->name().left( 7 ).toUpper() == "MAILTO:" ) {
+  if ( a->name().left( 7 ).toUpper() == QLatin1String("MAILTO:") ) {
     a->setName( a->name().remove( 0, 7 ) );
   }
 
@@ -656,7 +656,7 @@ void IncidenceBase::setFieldDirty( IncidenceBase::Field field )
 
 KUrl IncidenceBase::uri() const
 {
-  return KUrl( QString( "urn:x-ical:" ) + uid() );
+  return KUrl( QLatin1String( "urn:x-ical:" ) + uid() );
 }
 
 void IncidenceBase::setDirtyFields( const QSet<IncidenceBase::Field> &dirtyFields )

@@ -174,7 +174,7 @@ void CustomProperties::setCustomProperties( const QMap<QByteArray, QString> &pro
         it != properties.end();  ++it ) {
     // Validate the property name and convert any null string to empty string
     if ( checkName( it.key() ) ) {
-      d->mProperties[it.key()] = it.value().isNull() ? QString( "" ) : it.value();
+      d->mProperties[it.key()] = it.value().isNull() ? QLatin1String( "" ) : it.value();
       if ( !changed ) {
         customPropertyUpdate();
       }

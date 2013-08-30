@@ -30,6 +30,10 @@ if(KDE4_BUILD_TESTS)
   add_definitions(-DCOMPILING_TESTS)
 endif()
 
+#add_definitions( -DQT_NO_CAST_FROM_ASCII )
+#add_definitions( -DQT_NO_CAST_TO_ASCII )
+
+
 include_directories(
   ${LIBICAL_INCLUDE_DIRS}
   ${LIBICAL_INCLUDE_DIRS}/libical

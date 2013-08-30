@@ -967,7 +967,7 @@ ICalTimeZone ICalTimeZoneSource::parse( icalcomponent *vtimezone )
   const QString prefix = QString::fromUtf8( icalTzidPrefix() );
   if ( name.startsWith( prefix ) ) {
     // Remove the prefix from libical built in time zone TZID
-    const int i = name.indexOf( '/', prefix.length() );
+    const int i = name.indexOf( QLatin1Char('/'), prefix.length() );
     if ( i > 0 ) {
       name = name.mid( i + 1 );
     }
@@ -1065,7 +1065,7 @@ ICalTimeZone ICalTimeZoneSource::parse( MSTimeZone *tz )
   char suuid[64];
   uuid_generate_random( uuid );
   uuid_unparse( uuid, suuid );
-  QString name = QString( suuid );
+  QString name = QString::fromLatin1( suuid );
 
   // Create phases.
   QList<KTimeZone::Phase> phases;
@@ -1075,7 +1075,7 @@ ICalTimeZone ICalTimeZoneSource::parse( MSTimeZone *tz )
   const KTimeZone::Phase standardPhase(
     ( tz->Bias + tz->StandardBias ) * -60,
     standardAbbrevs, false,
-    "Microsoft TIME_ZONE_INFORMATION" );
+    QLatin1String("Microsoft TIME_ZONE_INFORMATION") );
   phases += standardPhase;
 
   QList<QByteArray> daylightAbbrevs;
@@ -1083,7 +1083,7 @@ ICalTimeZone ICalTimeZoneSource::parse( MSTimeZone *tz )
   const KTimeZone::Phase daylightPhase(
     ( tz->Bias + tz->DaylightBias ) * -60,
     daylightAbbrevs, true,
-    "Microsoft TIME_ZONE_INFORMATION" );
+    QLatin1String("Microsoft TIME_ZONE_INFORMATION") );
   phases += daylightPhase;
 
   // Set phases used by the time zone, but note that previous time zone
@@ -1143,19 +1143,19 @@ ICalTimeZone ICalTimeZoneSource::parse( const QString &name, const QStringList &
   for ( QStringList::ConstIterator it = tzList.begin(); it != tzList.end(); ++it ) {
     QString value = *it;
     daylight = false;
-    const QString tzName = value.mid( 0, value.indexOf( ";" ) );
-    value = value.mid( ( value.indexOf( ";" ) + 1 ) );
-    const QString tzOffset = value.mid( 0, value.indexOf( ";" ) );
-    value = value.mid( ( value.indexOf( ";" ) + 1 ) );
-    const QString tzDaylight = value.mid( 0, value.indexOf( ";" ) );
-    const KDateTime tzDate = KDateTime::fromString( value.mid( ( value.lastIndexOf( ";" ) + 1 ) ) );
-    if ( tzDaylight == "true" ) {
+    const QString tzName = value.mid( 0, value.indexOf( QLatin1String(";") ) );
+    value = value.mid( ( value.indexOf( QLatin1String(";") ) + 1 ) );
+    const QString tzOffset = value.mid( 0, value.indexOf( QLatin1String(";") ) );
+    value = value.mid( ( value.indexOf( QLatin1String(";") ) + 1 ) );
+    const QString tzDaylight = value.mid( 0, value.indexOf( QLatin1String(";") ) );
+    const KDateTime tzDate = KDateTime::fromString( value.mid( ( value.lastIndexOf( QLatin1String(";") ) + 1 ) ) );
+    if ( tzDaylight == QLatin1String("true") ) {
       daylight = true;
     }
 
     const KTimeZone::Phase tzPhase(
       tzOffset.toInt(),
-      QByteArray( tzName.toLatin1() ), daylight, "VCAL_TZ_INFORMATION" );
+      QByteArray( tzName.toLatin1() ), daylight, QLatin1String("VCAL_TZ_INFORMATION") );
     phases += tzPhase;
     transitions += KTimeZone::Transition( tzDate.dateTime(), tzPhase );
   }
@@ -1401,7 +1401,7 @@ ICalTimeZone ICalTimeZoneSource::standardZone( const QString &zone, bool icalBui
     QString tzid = zone;
     const QString prefix = QString::fromUtf8( icalTzidPrefix() );
     if ( zone.startsWith( prefix ) ) {
-      const int i = zone.indexOf( '/', prefix.length() );
+      const int i = zone.indexOf( QLatin1Char('/'), prefix.length() );
       if ( i > 0 ) {
         tzid = zone.mid( i + 1 );   // strip off the libical prefix
       }

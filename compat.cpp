@@ -48,21 +48,21 @@ Compat *CompatFactory::createCompat( const QString &productId,
 {
   Compat *compat = 0;
 
-  int korg = productId.indexOf( "KOrganizer" );
-  int outl9 = productId.indexOf( "Outlook 9.0" );
+  int korg = productId.indexOf( QLatin1String("KOrganizer") );
+  int outl9 = productId.indexOf( QLatin1String("Outlook 9.0") );
 
   if ( korg >= 0 ) {
-    int versionStart = productId.indexOf( " ", korg );
+    int versionStart = productId.indexOf( QLatin1String(" "), korg );
     if ( versionStart >= 0 ) {
-      int versionStop = productId.indexOf( QRegExp( "[ /]" ), versionStart + 1 );
+      int versionStop = productId.indexOf( QRegExp( QLatin1String("[ /]") ), versionStart + 1 );
       if ( versionStop >= 0 ) {
         QString version = productId.mid( versionStart + 1,
                                          versionStop - versionStart - 1 );
 
-        int versionNum = version.section( '.', 0, 0 ).toInt() * 10000 +
-                         version.section( '.', 1, 1 ).toInt() * 100 +
-                         version.section( '.', 2, 2 ).toInt();
-        int releaseStop = productId.indexOf( "/", versionStop );
+        int versionNum = version.section( QLatin1Char('.'), 0, 0 ).toInt() * 10000 +
+                         version.section( QLatin1Char('.'), 1, 1 ).toInt() * 100 +
+                         version.section( QLatin1Char('.'), 2, 2 ).toInt();
+        int releaseStop = productId.indexOf( QLatin1String("/"), versionStop );
         QString release;
         if ( releaseStop > versionStop ) {
           release = productId.mid( versionStop+1, releaseStop-versionStop-1 );
@@ -71,7 +71,7 @@ Compat *CompatFactory::createCompat( const QString &productId,
           compat = new CompatPre31;
         } else if ( versionNum < 30200 ) {
           compat = new CompatPre32;
-        } else if ( versionNum == 30200 && release == "pre" ) {
+        } else if ( versionNum == 30200 && release == QLatin1String("pre") ) {
           kDebug() << "Generating compat for KOrganizer 3.2 pre";
           compat = new Compat32PrereleaseVersions;
         } else if ( versionNum < 30400 ) {
@@ -91,9 +91,9 @@ Compat *CompatFactory::createCompat( const QString &productId,
   // Older implementations lacked the implementation version,
   // so apply this fix if it is a file from kontact and the version is missing.
   if ( implementationVersion.isEmpty() &&
-       ( productId.contains( "libkcal" ) ||
-         productId.contains( "KOrganizer" ) ||
-         productId.contains( "KAlarm" ) ) ) {
+       ( productId.contains( QLatin1String("libkcal") ) ||
+         productId.contains( QLatin1String("KOrganizer") ) ||
+         productId.contains( QLatin1String("KAlarm") ) ) ) {
     compat = new CompatPre410( compat );
   }
 
@@ -117,10 +117,10 @@ void Compat::fixEmptySummary( const Incidence::Ptr &incidence )
   if ( incidence->summary().isEmpty() && !( incidence->description().isEmpty() ) ) {
     QString oldDescription = incidence->description().trimmed();
     QString newSummary( oldDescription );
-    newSummary.remove( QRegExp( "\n.*" ) );
+    newSummary.remove( QRegExp( QLatin1String("\n.*") ) );
     incidence->setSummary( newSummary );
     if ( oldDescription == newSummary ) {
-      incidence->setDescription( "" );
+      incidence->setDescription( QLatin1String("") );
     }
   }
 }
