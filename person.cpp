@@ -108,17 +108,17 @@ QString Person::fullName() const
     } else {
       // Taken from KABC::Addressee::fullEmail
       QString name = d->mName;
-      QRegExp needQuotes( "[^ 0-9A-Za-z\\x0080-\\xFFFF]" );
+      QRegExp needQuotes( QLatin1String("[^ 0-9A-Za-z\\x0080-\\xFFFF]") );
       bool weNeedToQuote = name.indexOf( needQuotes ) != -1;
       if ( weNeedToQuote ) {
-        if ( name[0] != '"' ) {
-          name.prepend( '"' );
+        if ( name[0] != QLatin1Char('"') ) {
+          name.prepend( QLatin1Char('"') );
         }
-        if ( name[ name.length()-1 ] != '"' ) {
-          name.append( '"' );
+        if ( name[ name.length()-1 ] != QLatin1Char('"') ) {
+          name.append( QLatin1Char('"') );
         }
       }
-      return name + " <" + d->mEmail + '>';
+      return name + QLatin1String(" <") + d->mEmail + QLatin1Char('>');
     }
   }
 }
@@ -154,8 +154,8 @@ void Person::setEmail( const QString &email )
 
 bool Person::isValidEmail( const QString &email )
 {
-  int pos = email.lastIndexOf( "@" );
-  return ( pos > 0 ) && ( email.lastIndexOf( "." ) > pos ) && ( ( email.length() - pos ) > 4 );
+  int pos = email.lastIndexOf( QLatin1String("@") );
+  return ( pos > 0 ) && ( email.lastIndexOf( QLatin1String(".") ) > pos ) && ( ( email.length() - pos ) > 4 );
 }
 
 void Person::setCount( int count )
@@ -214,19 +214,19 @@ static bool extractEmailAddressAndName( const QString &aStr, QString &mail, QStr
   // skipping all '@' inside "(...)" comments:
   while ( i < len ) {
     c = aStr[i];
-    if ( '(' == c ) {
+    if ( QLatin1Char('(') == c ) {
       commentstack++;
     }
-    if ( ')' == c ) {
+    if ( QLatin1Char(')') == c ) {
       commentstack--;
     }
     bInComment = commentstack != 0;
-    if ( '"' == c && !bInComment ) {
+    if ( QLatin1Char('"') == c && !bInComment ) {
       bInQuotesOutsideOfEmail = !bInQuotesOutsideOfEmail;
     }
 
     if( !bInComment && !bInQuotesOutsideOfEmail ) {
-      if ( '@' == c ) {
+      if ( QLatin1Char('@') == c ) {
         iAd = i;
         break; // found it
       }
@@ -240,14 +240,14 @@ static bool extractEmailAddressAndName( const QString &aStr, QString &mail, QStr
     // So we take everything that's left of the '<' as name and the rest as mail
     for ( i = 0; len > i; ++i ) {
       c = aStr[i];
-      if ( '<' != c ) {
+      if ( QLatin1Char('<') != c ) {
         name.append( c );
       } else {
         break;
       }
     }
     mail = aStr.mid( i + 1 );
-    if ( mail.endsWith( '>' ) ) {
+    if ( mail.endsWith( QLatin1Char('>') ) ) {
       mail.truncate( mail.length() - 1 );
     }
 
@@ -260,28 +260,28 @@ static bool extractEmailAddressAndName( const QString &aStr, QString &mail, QStr
     for ( i = iAd-1; 0 <= i; --i ) {
       c = aStr[i];
       if ( bInComment ) {
-        if ( '(' == c ) {
+        if ( QLatin1Char('(') == c ) {
           if ( !name.isEmpty() ) {
-            name.prepend( ' ' );
+            name.prepend( QLatin1Char(' ') );
           }
           bInComment = false;
         } else {
           name.prepend( c ); // all comment stuff is part of the name
         }
       } else if ( bInQuotesOutsideOfEmail ) {
-        if ( cQuotes == c ) {
+        if ( QLatin1Char(cQuotes) == c ) {
           bInQuotesOutsideOfEmail = false;
-        } else if ( c != '\\' ) {
+        } else if ( c != QLatin1Char('\\') ) {
           name.prepend( c );
         }
       } else {
         // found the start of this addressee ?
-        if ( ',' == c ) {
+        if ( QLatin1Char(',') == c ) {
           break;
         }
         // stuff is before the leading '<' ?
         if ( iMailStart ) {
-          if ( cQuotes == c ) {
+          if ( QLatin1Char(cQuotes) == c ) {
             bInQuotesOutsideOfEmail = true; // end of quoted text found
           } else {
             name.prepend( c );
@@ -293,12 +293,12 @@ static bool extractEmailAddressAndName( const QString &aStr, QString &mail, QStr
             break;
           case ')':
             if ( !name.isEmpty() ) {
-              name.prepend( ' ' );
+              name.prepend( QLatin1Char(' ') );
             }
             bInComment = true;
             break;
           default:
-            if ( ' ' != c ) {
+            if ( QLatin1Char(' ') != c ) {
               mail.prepend( c );
             }
           }
@@ -313,7 +313,7 @@ static bool extractEmailAddressAndName( const QString &aStr, QString &mail, QStr
       return false;
     }
 
-    mail.append( '@' );
+    mail.append( QLatin1Char('@') );
 
     // Loop forward until we find the end of the string
     // or a ',' that is outside of a comment
@@ -324,37 +324,37 @@ static bool extractEmailAddressAndName( const QString &aStr, QString &mail, QStr
     for ( i = iAd+1; len > i; ++i ) {
       c = aStr[i];
       if ( bInComment ) {
-        if ( ')' == c ) {
+        if ( QLatin1Char(')') == c ) {
           if ( --parenthesesNesting == 0 ) {
             bInComment = false;
             if ( !name.isEmpty() ) {
-              name.append( ' ' );
+              name.append( QLatin1Char(' ') );
             }
           } else {
             // nested ")", add it
-            name.append( ')' ); // name can't be empty here
+            name.append( QLatin1Char(')') ); // name can't be empty here
           }
         } else {
-          if ( '(' == c ) {
+          if ( QLatin1Char('(') == c ) {
             // nested "("
             ++parenthesesNesting;
           }
           name.append( c ); // all comment stuff is part of the name
         }
       } else if ( bInQuotesOutsideOfEmail ) {
-        if ( cQuotes == c ) {
+        if ( QLatin1Char(cQuotes) == c ) {
           bInQuotesOutsideOfEmail = false;
-        } else if ( c != '\\' ) {
+        } else if ( c != QLatin1Char('\\') ) {
           name.append( c );
         }
       } else {
         // found the end of this addressee ?
-        if ( ',' == c ) {
+        if ( QLatin1Char(',') == c ) {
           break;
         }
         // stuff is behind the trailing '>' ?
         if ( iMailEnd ){
-          if ( cQuotes == c ) {
+          if ( QLatin1Char(cQuotes) == c ) {
             bInQuotesOutsideOfEmail = true; // start of quoted text found
           } else {
             name.append( c );
@@ -366,14 +366,14 @@ static bool extractEmailAddressAndName( const QString &aStr, QString &mail, QStr
             break;
           case '(':
             if ( !name.isEmpty() ) {
-              name.append( ' ' );
+              name.append( QLatin1Char(' ') );
             }
             if ( ++parenthesesNesting > 0 ) {
               bInComment = true;
             }
             break;
           default:
-            if ( ' ' != c ) {
+            if ( QLatin1Char(' ') != c ) {
               mail.append( c );
             }
           }

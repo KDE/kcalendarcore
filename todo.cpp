@@ -212,11 +212,11 @@ void Todo::setHasStartDate( bool f )
 
   update();
   if ( recurs() && !f ) {
-    if ( !comments().filter( "NoStartDate" ).count() ) {
-      addComment( "NoStartDate" ); //TODO: --> custom flag?
+    if ( !comments().filter( QLatin1String("NoStartDate") ).count() ) {
+      addComment( QLatin1String("NoStartDate") ); //TODO: --> custom flag?
     }
   } else {
-    QString s( "NoStartDate" );
+    QString s( QLatin1String("NoStartDate") );
     removeComment( s );
   }
   if ( !f ) {
