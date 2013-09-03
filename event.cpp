@@ -190,7 +190,7 @@ bool Event::hasEndDate() const
 bool Event::isMultiDay( const KDateTime::Spec &spec ) const
 {
   // First off, if spec's not valid, we can check for cache
-  if ( ( !spec.isValid() ) && d->mMultiDayValid ) {
+  if ( !spec.isValid() && d->mMultiDayValid ) {
     return d->mMultiDay;
   }
 
