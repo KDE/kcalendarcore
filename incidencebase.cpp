@@ -149,10 +149,19 @@ IncidenceBase &IncidenceBase::operator=( const IncidenceBase &other )
 IncidenceBase &IncidenceBase::assign( const IncidenceBase &other )
 {
   CustomProperties::operator=( other );
+
+  const bool uidChanged = other.uid() != uid();
+
   d->init( *other.d );
   mReadOnly = other.mReadOnly;
   d->mDirtyFields.clear();
-  d->mDirtyFields.insert( FieldUnknown );
+  d->mDirtyFields.insert( FieldUnknown ); // Means stuff might have changed.
+
+  // Observers using the observer interface have no way of finding out if there
+  // was a uid change so, exceptionally, lets set this field dirty.
+  if ( uidChanged )
+    d->mDirtyFields.insert( FieldUid );
+
   return *this;
 }
 
