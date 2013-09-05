@@ -29,25 +29,35 @@ using namespace KCalCore;
 void RecurTodoTest::testAllDay()
 {
   qputenv( "TZ", "GMT" );
-  const QDate dueDate( QDate::currentDate().addDays( -3 ) );
+  const QDate currentDate = QDate::currentDate();
+  const KDateTime currentUtcDateTime = KDateTime::currentUtcDateTime();
+
+  const QDate dueDate( QDate::currentDate() );
   Todo *todo = new Todo();
   todo->setDtStart( KDateTime( dueDate.addDays( -1 ) ) );
   todo->setDtDue( KDateTime( dueDate ) );
   todo->setSummary( QLatin1String( "All day event" ) );
   todo->setAllDay( true );
 
+  QCOMPARE( todo->dtStart().daysTo( todo->dtDue() ), 1);
+
   Recurrence *recurrence = todo->recurrence();
   recurrence->unsetRecurs();
   recurrence->setDaily( 1 );
   QVERIFY( todo->dtDue() == KDateTime( dueDate ) );
-  todo->setCompleted( KDateTime::currentUtcDateTime() );
+  todo->setCompleted( currentUtcDateTime );
   QVERIFY( todo->recurs() );
   QVERIFY( todo->percentComplete() == 0 );
-  QVERIFY( todo->dtDue().date() == QDate::currentDate() );
+  const QDate newStartDate = todo->dtStart().date();
+  const QDate newDueDate = todo->dtDue().date();
+  QCOMPARE( newStartDate, currentDate );
+  QCOMPARE( newStartDate.daysTo( newDueDate ), 1);
 
-  todo->setCompleted( KDateTime::currentUtcDateTime() );
-  QVERIFY( todo->dtDue().date() == QDate::currentDate().addDays( 1 ) );
-  QVERIFY( todo->dtDue( true /*first ocurrence*/ ).date() == dueDate );
+  todo->setCompleted( currentUtcDateTime );
+
+
+  QCOMPARE( newDueDate, currentDate.addDays( 1 ) );
+  QCOMPARE( todo->dtDue( true /*first ocurrence*/ ).date(), dueDate );
 }
 
 void RecurTodoTest::testRecurrenceStart()

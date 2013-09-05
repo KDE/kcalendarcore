@@ -33,6 +33,7 @@
 
 #include "todo.h"
 #include "visitor.h"
+#include "recurrence.h"
 
 #include <KDebug>
 
@@ -173,8 +174,13 @@ KDateTime Todo::dtDue( bool first ) const
   if ( !hasDueDate() ) {
     return KDateTime();
   }
-  if ( recurs() && !first && d->mDtRecurrence.isValid() ) {
-    return d->mDtRecurrence;
+
+  // Recurring to-dos must have a valid dtStart()
+  const KDateTime start = IncidenceBase::dtStart();
+  if ( recurs() && !first && d->mDtRecurrence.isValid() && start.isValid() ) {
+      KDateTime dt = d->mDtRecurrence.addDays( start.daysTo( d->mDtDue ) );
+      dt.setTime( d->mDtDue.time() );
+      return dt;
   }
 
   return d->mDtDue;
@@ -237,9 +243,7 @@ KDateTime Todo::dtStart( bool first ) const
     return KDateTime();
   }
   if ( recurs() && !first && d->mDtRecurrence.isValid() ) {
-    KDateTime dt = d->mDtRecurrence.addDays( dtDue( true ).daysTo( IncidenceBase::dtStart() ) );
-    dt.setTime( IncidenceBase::dtStart().time() );
-    return dt;
+    return d->mDtRecurrence;
   } else {
     return IncidenceBase::dtStart();
   }
@@ -437,7 +441,7 @@ bool Todo::Private::recurTodo( Todo *todo )
   if ( todo && todo->recurs() ) {
     Recurrence *r = todo->recurrence();
     const KDateTime recurrenceEndDateTime = r->endDateTime();
-    KDateTime nextOccurrenceDateTime = r->getNextDateTime( todo->dtDue() );
+    KDateTime nextOccurrenceDateTime = r->getNextDateTime( todo->dtStart() );
 
     if ( ( r->duration() == -1 ||
            ( nextOccurrenceDateTime.isValid() && recurrenceEndDateTime.isValid() &&
