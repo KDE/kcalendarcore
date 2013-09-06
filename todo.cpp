@@ -502,7 +502,7 @@ KDateTime Todo::dateTime( DateTimeRole role ) const
     return dtDue();
   case RoleDisplayStart:
   case RoleDisplayEnd:
-    return dtDue();
+    return dtDue().isValid() ? dtDue() : dtStart();
   case RoleAlarm:
     if ( alarms().isEmpty() ) {
       return KDateTime();

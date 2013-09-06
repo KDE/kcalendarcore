@@ -232,3 +232,17 @@ void TodoTest::testSerializer()
   stream2 >> incidenceBase2;
   QVERIFY(*todo == *todo2);
 }
+
+void TodoTest::testRoles()
+{
+    const KDateTime today = KDateTime::currentUtcDateTime();
+    const KDateTime yesterday = today.addDays(-1);
+    Todo todo;
+    todo.setDtStart(today.addDays(-1));
+    todo.setDtDue(today);
+    QCOMPARE(todo.dateTime(Incidence::RoleDisplayStart), today);
+    QCOMPARE(todo.dateTime(Incidence::RoleDisplayEnd), today);
+    todo.setDtDue(KDateTime());
+    QCOMPARE(todo.dateTime(Incidence::RoleDisplayStart), yesterday);
+    QCOMPARE(todo.dateTime(Incidence::RoleDisplayEnd), yesterday);
+}
