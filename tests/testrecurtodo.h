@@ -36,6 +36,9 @@ class RecurTodoTest : public QObject
     void testRecurrenceBasedOnDue();
     void testRecurrenceStart();
     void testHasDueDate();
+
+    void testRecurTodo_data();
+    void testRecurTodo();
 };
 
 #endif
