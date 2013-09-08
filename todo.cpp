@@ -437,9 +437,9 @@ bool Todo::isOverdue() const
     return false; // if it's never due, it can't be overdue
   }
 
-  const bool inPast = allDay() ?
-                      dtDue().date() < QDate::currentDate() :
-                      dtDue() < KDateTime::currentUtcDateTime();
+  const bool inPast = allDay() ? dtDue().date() < QDate::currentDate()
+                               : dtDue() < KDateTime::currentUtcDateTime();
+
   return inPast && !isCompleted();
 }
 
