@@ -125,3 +125,4 @@ void AlarmTest::testSerializer()
   stream2 >> alarm2; // deserialize
   QVERIFY(*alarm == *alarm2);
 }
+
