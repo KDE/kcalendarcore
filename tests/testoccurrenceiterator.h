@@ -29,6 +29,7 @@ class TestOccurrenceIterator: public QObject
     void testAllDayEvents();
     void testWithExceptionThisAndFuture();
     void testSubDailyRecurrences();
+    void testJournals();
 };
 
 #endif // TESTOCCURRENCEITERATOR_H

@@ -253,3 +253,26 @@ void TestOccurrenceIterator::testSubDailyRecurrences()
   QCOMPARE(expectedEventOccurrences.size(), 0);
 
 }
+
+void TestOccurrenceIterator::testJournals()
+{
+  KCalCore::MemoryCalendar calendar( KDateTime::UTC );
+
+  const KDateTime today = KDateTime::currentDateTime( KDateTime::UTC );
+  const KDateTime yesterday = today.addDays( -1 );
+  const KDateTime tomorrow = today.addDays( 1 );
+
+  KCalCore::Journal::Ptr journal( new KCalCore::Journal() );
+  journal->setUid( "journal" );
+  journal->setDtStart( today );
+  calendar.addJournal( journal );
+
+  KCalCore::OccurrenceIterator rIt( calendar, yesterday, tomorrow );
+  QVERIFY( rIt.hasNext() );
+  rIt.next();
+  QCOMPARE( rIt.occurrenceStartDate(), today);
+  QVERIFY( !rIt.hasNext() );
+
+  KCalCore::OccurrenceIterator rIt2( calendar, tomorrow, tomorrow.addDays( 1 ) );
+  QVERIFY( !rIt2.hasNext() );
+}
