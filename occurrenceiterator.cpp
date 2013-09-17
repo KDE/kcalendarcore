@@ -188,8 +188,22 @@ OccurrenceIterator::OccurrenceIterator( const Calendar &calendar,
     calendar.filter()->apply( &todos );
   }
 
+  Journal::List journals;
+  const Journal::List allJournals = calendar.rawJournals();
+  foreach ( const KCalCore::Journal::Ptr &journal, allJournals ) {
+    const QDate journalStart = journal->dtStart().toTimeSpec( start.timeSpec() ).date();
+    if ( journal->dtStart().isValid() &&
+         journalStart >= start.date() &&
+         journalStart <= end.date() )
+      journals << journal;
+  }
+
+  if ( calendar.filter() ) {
+    calendar.filter()->apply( &journals );
+  }
+
   const Incidence::List incidences =
-      KCalCore::Calendar::mergeIncidenceList( events, todos, Journal::List() );
+      KCalCore::Calendar::mergeIncidenceList( events, todos, journals );
   d->setupIterator( calendar, incidences );
 }
 
