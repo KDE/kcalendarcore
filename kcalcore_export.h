@@ -44,21 +44,6 @@
 #  endif
 # endif
 
-#ifdef COMPILING_TESTS
-#ifndef KCALCORE_TEST_EXPORT
-# if defined(KDEPIM_STATIC_LIBS)
-   /* No export/import for static libraries */
-#  define KCALCORE_TEST_EXPORT
-# elif defined(MAKE_KCALCORE_TEST_LIB)
-   /* We are building this library */
-#  define KCALCORE_TEST_EXPORT KDE_EXPORT
-# else
-   /* We are using this library */
-#  define KCALCORE_TEST_EXPORT KDE_IMPORT
-# endif
-#endif
-#endif /* COMPILING_TESTS */
-
 /**
   @namespace KCalCore
 
