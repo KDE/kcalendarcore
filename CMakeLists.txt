@@ -82,7 +82,7 @@ set(kcalcore_LIB_SRCS ${libversit_SRCS}
   visitor.cpp
 )
 
-kde4_add_library(kcalcore ${LIBRARY_TYPE} ${kcalcore_LIB_SRCS})
+add_library(kcalcore ${LIBRARY_TYPE} ${kcalcore_LIB_SRCS})
 generate_export_header(kcalcore)
 
 target_link_libraries(kcalcore ${KDE4_KDECORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${LIBICAL_LIBRARIES})
