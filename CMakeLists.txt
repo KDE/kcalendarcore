@@ -35,6 +35,7 @@ include_directories(
   ${LIBICAL_INCLUDE_DIRS}/libical
   ${CMAKE_CURRENT_SOURCE_DIR}/versit
   ${CMAKE_CURRENT_SOURCE_DIR}
+  ${CMAKE_CURRENT_BINARY_DIR}
   ${KDE4_INCLUDE_DIR}
 )
 
