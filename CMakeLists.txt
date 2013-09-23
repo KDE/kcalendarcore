@@ -26,10 +26,6 @@ add_definitions(-DKDE_DEFAULT_DEBUG_AREA=5810)
 include(ConfigureChecks.cmake)
 configure_file(config-kcalcore.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kcalcore.h)
 
-if(KDE4_BUILD_TESTS)
-  add_definitions(-DCOMPILING_TESTS)
-endif()
-
 #add_definitions( -DQT_NO_CAST_FROM_ASCII )
 #add_definitions( -DQT_NO_CAST_TO_ASCII )
 
@@ -87,6 +83,7 @@ set(kcalcore_LIB_SRCS ${libversit_SRCS}
 )
 
 kde4_add_library(kcalcore ${LIBRARY_TYPE} ${kcalcore_LIB_SRCS})
+generate_export_header(kcalcore)
 
 target_link_libraries(kcalcore ${KDE4_KDECORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${LIBICAL_LIBRARIES})
 if(HAVE_UUID_LIBRARY)
@@ -129,7 +126,7 @@ install(FILES
   incidence.h
   incidencebase.h
   journal.h
-  kcalcore_export.h
+  ${CMAKE_CURRENT_BINARY_DIR}/kcalcore_export.h
   memorycalendar.h
   occurrenceiterator.h
   period.h
