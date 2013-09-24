@@ -1068,6 +1068,7 @@ void Incidence::recurrenceUpdated( Recurrence *recurrence )
 {
   if ( recurrence == d->mRecurrence ) {
     update();
+    setFieldDirty( FieldRecurrence );
     updated();
   }
 }
