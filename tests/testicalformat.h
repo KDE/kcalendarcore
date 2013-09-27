@@ -30,6 +30,7 @@ class ICalFormatTest : public QObject
   Q_OBJECT
   private Q_SLOTS:
     void testCharsets();
+    void testVolatileProperties();
 };
 
 #endif

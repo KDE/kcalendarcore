@@ -181,6 +181,40 @@ void CustomPropertiesTest::testDataStreamIn()
   QVERIFY( cpmap == cpmap2 );
 }
 
+void CustomPropertiesTest::testVolatile()
+{
+  QMap<QByteArray, QString> cpmap;
+  cpmap.insert( "X-key1", QString( "val1" ) );
+  cpmap.insert( "X-KDE-VOLATILE-FOO", QString( "val2" ) );
+
+  CustomProperties cp;
+  cp.setCustomProperties( cpmap );
+
+  QCOMPARE( cp.customProperties().count(), 2 );
+
+  QMap<QByteArray, QString> cpmap2;
+  cpmap2.insert( "X-key1", QString( "val1" ) );
+  CustomProperties cp2;
+  cp2.setCustomProperties( cpmap2 );
+  QCOMPARE( cp, cp2 );
+
+  cp.removeCustomProperty( "VOLATILE", "FOO" );
+  QCOMPARE( cp.customProperties().count(), 1 );
+
+  cp.setCustomProperty( "VOLATILE", "FOO", "BAR" );
+  QCOMPARE( cp.customProperties().count(), 2 );
+
+  QByteArray byteArray;
+  QDataStream out_stream( &byteArray, QIODevice::WriteOnly );
+
+  out_stream << cp;
+  QDataStream in_stream( &byteArray, QIODevice::ReadOnly );
+  in_stream >> cp;
+
+  QCOMPARE( cp.customProperties().count(), 1 );
+
+}
+
 void CustomPropertiesTest::testDataStreamOut()
 {
   QMap<QByteArray, QString> cpmap;

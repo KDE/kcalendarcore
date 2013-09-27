@@ -681,7 +681,10 @@ void ICalFormatImpl::Private::writeCustomProperties( icalcomponent *parent,
 {
   const QMap<QByteArray, QString> custom = properties->customProperties();
   for ( QMap<QByteArray, QString>::ConstIterator c = custom.begin();  c != custom.end();  ++c ) {
-
+    if ( c.key().startsWith( "X-KDE-VOLATILE" ) ) {
+      // We don't write these properties to disk to disk
+      continue;
+    }
     icalproperty *p = icalproperty_new_x( c.value().toUtf8() );
     QString parameters = properties->nonKDECustomPropertyParameters( c.key() );
 
