@@ -37,6 +37,7 @@ class CustomPropertiesTest : public QObject
     void testEmpty();
     void testDataStreamOut();
     void testDataStreamIn();
+    void testVolatile();
 };
 
 #endif

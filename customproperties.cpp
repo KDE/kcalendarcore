@@ -44,6 +44,16 @@ class CustomProperties::Private
     bool operator==( const Private &other ) const;
     QMap<QByteArray, QString> mProperties;   // custom calendar properties
     QMap<QByteArray, QString> mPropertyParameters;
+
+    // Volatile properties are not written back to the serialized format and are not compared in operator==
+    // They are only used for runtime purposes and are not part of the payload.
+    QMap<QByteArray, QString> mVolatileProperties;
+
+
+    bool isVolatileProperty( const QString &name ) const
+    {
+      return name.startsWith( "X-KDE-VOLATILE" );
+    }
 };
 
 bool CustomProperties::Private::operator==( const CustomProperties::Private &other ) const
@@ -113,7 +123,13 @@ void CustomProperties::setCustomProperty( const QByteArray &app, const QByteArra
     return;
   }
   customPropertyUpdate();
-  d->mProperties[property] = value;
+
+  if ( d->isVolatileProperty( property ) )  {
+    d->mVolatileProperties[property] = value;
+  } else {
+    d->mProperties[property] = value;
+  }
+
   customPropertyUpdated();
 }
 
@@ -154,12 +170,16 @@ void CustomProperties::removeNonKDECustomProperty( const QByteArray &name )
     d->mProperties.remove( name );
     d->mPropertyParameters.remove( name );
     customPropertyUpdated();
+  } else if ( d->mVolatileProperties.contains( name ) ) {
+    customPropertyUpdate();
+    d->mVolatileProperties.remove( name );
+    customPropertyUpdated();
   }
 }
 
 QString CustomProperties::nonKDECustomProperty( const QByteArray &name ) const
 {
-  return d->mProperties.value( name );
+  return d->isVolatileProperty( name ) ? d->mVolatileProperties.value( name ) : d->mProperties.value( name );
 }
 
 QString CustomProperties::nonKDECustomPropertyParameters( const QByteArray &name ) const
@@ -174,7 +194,11 @@ void CustomProperties::setCustomProperties( const QMap<QByteArray, QString> &pro
         it != properties.end();  ++it ) {
     // Validate the property name and convert any null string to empty string
     if ( checkName( it.key() ) ) {
-      d->mProperties[it.key()] = it.value().isNull() ? QLatin1String( "" ) : it.value();
+      if ( d->isVolatileProperty( it.key() ) ) {
+        d->mVolatileProperties[it.key()] = it.value().isNull() ? QLatin1String( "" ) : it.value();
+      } else {
+        d->mProperties[it.key()] = it.value().isNull() ? QLatin1String( "" ) : it.value();
+      }
       if ( !changed ) {
         customPropertyUpdate();
       }
@@ -188,7 +212,11 @@ void CustomProperties::setCustomProperties( const QMap<QByteArray, QString> &pro
 
 QMap<QByteArray, QString> CustomProperties::customProperties() const
 {
-  return d->mProperties;
+  QMap<QByteArray, QString> result;
+  result.unite( d->mProperties );
+  result.unite( d->mVolatileProperties );
+
+  return result;
 }
 
 void CustomProperties::customPropertyUpdate()
@@ -240,6 +268,7 @@ QDataStream &KCalCore::operator<<( QDataStream &stream,
 QDataStream &KCalCore::operator>>( QDataStream &stream,
                                    KCalCore::CustomProperties &properties )
 {
+  properties.d->mVolatileProperties.clear();
   return stream >> properties.d->mProperties
                 >> properties.d->mPropertyParameters;
 }
