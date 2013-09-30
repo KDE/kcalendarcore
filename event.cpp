@@ -305,8 +305,9 @@ void Event::setDateTime( const KDateTime &dateTime, DateTimeRole role )
     case RoleDnD:
     {
       const int duration = dtStart().secsTo( dtEnd() );
+
       setDtStart( dateTime );
-      setDtEnd( dateTime.addSecs( duration ) );
+      setDtEnd( dateTime.addSecs( duration <= 0 ? 3600 : duration ) );
       break;
     }
     case RoleEnd:
