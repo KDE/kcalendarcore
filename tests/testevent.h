@@ -37,6 +37,7 @@ class EventTest : public QObject
     void testAssign();
     void testSerializer_data();
     void testSerializer();
+    void testDurationDtEnd();
 };
 
 #endif
