@@ -35,6 +35,7 @@ class EventTest : public QObject
     void testClone();
     void testCopy();
     void testAssign();
+    void testDurationDtEnd();
 };
 
 #endif

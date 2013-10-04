@@ -154,3 +154,24 @@ void EventTest::testAssign()
   Event event2 = event1;
   QVERIFY( event1 == event2 );
 }
+
+void EventTest::testDurationDtEnd()
+{
+  const QDate dt = QDate::currentDate();
+
+  {
+    Event event;
+    event.setDtStart( KDateTime( dt ) );
+    event.setDtEnd( KDateTime( dt ).addDays( 1 ) );
+    QCOMPARE( event.hasEndDate(), true );
+    QCOMPARE( event.hasDuration(), false );
+  }
+  {
+    Event event;
+    event.setDtStart( KDateTime( dt ) );
+    event.setDuration( Duration( KDateTime( dt ), KDateTime( dt ).addDays( 1 ) ) );
+    QCOMPARE( event.hasDuration(), true );
+    QCOMPARE( event.hasEndDate(), false );
+  }
+
+}
