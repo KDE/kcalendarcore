@@ -155,7 +155,6 @@ void EventTest::testAssign()
   QVERIFY( event1 == event2 );
 }
 
-
 void EventTest::testSerializer_data()
 {
   QTest::addColumn<KCalCore::Event::Ptr>( "event" );
