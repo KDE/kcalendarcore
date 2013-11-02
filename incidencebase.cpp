@@ -179,6 +179,7 @@ bool IncidenceBase::operator!=( const IncidenceBase &i2 ) const
 bool IncidenceBase::equals( const IncidenceBase &i2 ) const
 {
   if ( attendees().count() != i2.attendees().count() ) {
+    // kDebug() << "Attendee count is different";
     return false;
   }
 
@@ -190,26 +191,30 @@ bool IncidenceBase::equals( const IncidenceBase &i2 ) const
   //Please delete this comment if you know it's ok, kthx
   for ( ; a1 != al1.constEnd() && a2 != al2.constEnd(); ++a1, ++a2 ) {
     if ( !( **a1 == **a2 ) ) {
+      // kDebug() << "Attendees are different";
       return false;
     }
   }
 
   if ( !CustomProperties::operator==( i2 ) ) {
+    // kDebug() << "Properties are different";
     return false;
   }
 
-  return
-    ( ( dtStart() == i2.dtStart() ) ||
-      ( !dtStart().isValid() && !i2.dtStart().isValid() ) ) &&
-    *( organizer().data() ) == *( i2.organizer().data() ) &&
-    uid() == i2.uid() &&
-    // Don't compare lastModified, otherwise the operator is not
-    // of much use. We are not comparing for identity, after all.
-    allDay() == i2.allDay() &&
-    duration() == i2.duration() &&
-    hasDuration() == i2.hasDuration() &&
-    url() == i2.url();
-    // no need to compare mObserver
+  // Don't compare lastModified, otherwise the operator is not
+  // of much use. We are not comparing for identity, after all.
+  // no need to compare mObserver
+
+  bool a = ( ( dtStart() == i2.dtStart() ) || ( !dtStart().isValid() && !i2.dtStart().isValid() ) );
+  bool b =  *( organizer().data() ) == *( i2.organizer().data() );
+  bool c =  uid() == i2.uid();
+  bool d = allDay() == i2.allDay();
+  bool e = duration() == i2.duration();
+  bool f = hasDuration() == i2.hasDuration();
+  bool g = url() == i2.url();
+
+  //kDebug() << a << b << c << d << e << f << g;
+  return a && b && c && d && e && f && g;
 }
 
 bool IncidenceBase::accept( Visitor &v, IncidenceBase::Ptr incidence )
