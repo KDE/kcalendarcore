@@ -86,7 +86,7 @@ set(kcalcore_LIB_SRCS ${libversit_SRCS}
 add_library(kcalcore ${LIBRARY_TYPE} ${kcalcore_LIB_SRCS})
 generate_export_header(kcalcore)
 
-target_link_libraries(kcalcore ${KDE4_KDECORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${LIBICAL_LIBRARIES})
+target_link_libraries(kcalcore ${KDE4_KDECORE_LIBS} ${QT_QTGUI_LIBRARY} ${LIBICAL_LIBRARIES})
 if(HAVE_UUID_LIBRARY)
   target_link_libraries(kcalcore "${UUID_LIBRARY}")
 endif()
