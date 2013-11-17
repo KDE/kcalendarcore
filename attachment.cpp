@@ -30,6 +30,7 @@
 */
 
 #include "attachment.h"
+#include <QDataStream>
 
 using namespace KCalCore;
 
