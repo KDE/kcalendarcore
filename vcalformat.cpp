@@ -1199,7 +1199,7 @@ Todo::Ptr VCalFormat::VTodoToEvent( VObject *vtodo )
   if ( ( vo = isAPropertyOf( vtodo, VCRRuleProp ) ) != 0 ) {
     QString tmpStr = ( s = fakeCString( vObjectUStringZValue( vo ) ) );
     deleteStr( s );
-    tmpStr.simplified();
+    tmpStr = tmpStr.simplified();
     tmpStr = tmpStr.toUpper();
     // first, read the type of the recurrence
     int typelen = 1;
@@ -1683,7 +1683,7 @@ Event::Ptr VCalFormat::VEventToEvent( VObject *vevent )
   if ( ( vo = isAPropertyOf( vevent, VCRRuleProp ) ) != 0 ) {
     QString tmpStr = ( s = fakeCString( vObjectUStringZValue( vo ) ) );
     deleteStr( s );
-    tmpStr.simplified();
+    tmpStr = tmpStr.simplified();
     tmpStr = tmpStr.toUpper();
     // first, read the type of the recurrence
     int typelen = 1;
