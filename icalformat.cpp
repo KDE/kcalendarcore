@@ -36,6 +36,7 @@
 
 #include <KDebug>
 #include <KSaveFile>
+#include <kbackup.h>
 
 #include <QtCore/QFile>
 
@@ -111,7 +112,7 @@ bool ICalFormat::save( const Calendar::Ptr &calendar, const QString &fileName )
   }
 
   // Write backup file
-  KSaveFile::backupFile( fileName );
+  KBackup::backupFile( fileName );
 
   KSaveFile file( fileName );
   if ( !file.open() ) {
