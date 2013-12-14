@@ -73,7 +73,7 @@ class KCalCore::Recurrence::Private
 
 bool Recurrence::Private::operator==( const Recurrence::Private &p ) const
 {
-  kDebug() << mStartDateTime << p.mStartDateTime;
+//   kDebug() << mStartDateTime << p.mStartDateTime;
 
   if ( ( mStartDateTime != p.mStartDateTime &&
          ( mStartDateTime.isValid() || p.mStartDateTime.isValid() ) ) ||

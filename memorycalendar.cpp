@@ -36,6 +36,7 @@
 
 #include <KDebug>
 #include <QDate>
+#include <KDateTime>
 
 using namespace KCalCore;
 
@@ -181,7 +182,7 @@ bool MemoryCalendar::deleteIncidenceInstances( const Incidence::Ptr &incidence )
       kDebug() << "deleting child"
                << ", type=" << int( type )
                << ", uid=" << i->uid()
-               << ", start=" << i->dtStart()
+//                << ", start=" << i->dtStart()
                << " from calendar";
       deleteIncidence( i );
     }
