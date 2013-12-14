@@ -677,7 +677,7 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
       @return a pointer to a new recurring Incidence if @a single is false.
       @deprecated Use createException()
     */
-    KDE_DEPRECATED Incidence::Ptr dissociateOccurrence(
+    KCALCORE_DEPRECATED Incidence::Ptr dissociateOccurrence(
         const Incidence::Ptr &incidence, const QDate &date,
         const KDateTime::Spec &spec, bool single = true );
     /**
