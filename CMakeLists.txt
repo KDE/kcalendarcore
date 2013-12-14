@@ -4,6 +4,12 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 include(GenerateExportHeader)
 
+find_package(ECM 0.0.9 REQUIRED NO_MODULE)
+ecm_setup_version(5.0.0 VARIABLE_PREFIX KCALCORE
+                        VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kcalcore_version.h"
+                        PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KF5KCalCoreConfigVersion.cmake")
+
+find_package(KF5 NO_MODULE REQUIRED COMPONENTS ItemViews KDE4Support)
 ############### Build Options ###############
 
 # The following macros can be defined to alter how KCalCore is built.
@@ -88,7 +94,7 @@ set(kcalcore_LIB_SRCS ${libversit_SRCS}
 add_library(kcalcore ${LIBRARY_TYPE} ${kcalcore_LIB_SRCS})
 generate_export_header(kcalcore)
 
-target_link_libraries(kcalcore ${KDE4_KDECORE_LIBS} ${KDE4_KDE4SUPPORT_LIBS} ${QT_QTGUI_LIBRARY} ${LIBICAL_LIBRARIES})
+target_link_libraries(kcalcore KF5::ItemViews KF5::KDE4Support ${LIBICAL_LIBRARIES})
 
 if(HAVE_UUID_LIBRARY)
   target_link_libraries(kcalcore "${UUID_LIBRARY}")
