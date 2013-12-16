@@ -34,6 +34,9 @@ class TodoTest : public QObject
     void testAssign();
     void testSetCompleted();
     void testStatus();
+    void testSerializer_data();
+    void testSerializer();
+    void testRoles();
 };
 
 #endif

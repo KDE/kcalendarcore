@@ -349,6 +349,10 @@ class KCALCORE_EXPORT Todo : public Incidence
      */
     Todo &operator=( const Todo &other );
 
+    // For polymorfic serialization
+    void serialize(QDataStream &out);
+    void deserialize(QDataStream &in);
+
     //@cond PRIVATE
     class Private;
     Private *const d;
@@ -359,6 +363,7 @@ class KCALCORE_EXPORT Todo : public Incidence
 
 //@cond PRIVATE
 Q_DECLARE_TYPEINFO( KCalCore::Todo::Ptr, Q_MOVABLE_TYPE );
+Q_DECLARE_METATYPE( KCalCore::Todo::Ptr )
 
 namespace KPIMUtils {
   // super class trait specialization

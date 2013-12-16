@@ -72,8 +72,8 @@ class KCalCore::Calendar::Private
       mFilter->setEnabled( false );
 
       mOwner = Person::Ptr( new Person() );
-      mOwner->setName( "Unknown Name" );
-      mOwner->setEmail( "unknown@nowhere" );
+      mOwner->setName( QLatin1String("Unknown Name") );
+      mOwner->setEmail( QLatin1String("unknown@nowhere") );
     }
 
     ~Private()

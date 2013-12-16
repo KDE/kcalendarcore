@@ -33,6 +33,8 @@ class JournalTest : public QObject
     void testClone();
     void testRich();
     void testAssign();
+    void testSerializer_data();
+    void testSerializer();
 };
 
 #endif

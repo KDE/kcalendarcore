@@ -65,6 +65,7 @@
 
 #include <QtCore/QSet>
 #include <QtCore/QUrl>
+#include <QDataStream>
 
 class KUrl;
 class QDate;
@@ -439,7 +440,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
                              const KDateTime::Spec &newSpec );
 
     /**
-      Adds a comment to thieincidence. Does not add a linefeed character; simply
+      Adds a comment to the incidence. Does not add a linefeed character; simply
       appends the text as specified.
 
       @param comment is the QString containing the comment to add.
@@ -675,6 +676,13 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
     */
     void resetDirtyFields();
 
+    /**
+     * Constant that identifies KCalCore data in a binary stream.
+     *
+     * @since 4.12
+     */
+    static quint32 magicSerializationIdentifier();
+
   protected:
 
     /**
@@ -723,8 +731,14 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       @param id is any integer unique to this class which we will use to identify the method
              to be called.
       @param data is a pointer to some glob of data, typically a struct.
+      // TODO_KDE5: change from int to VirtualHook type.
     */
     virtual void virtual_hook( int id, void *data ) = 0;
+
+    enum VirtualHook {
+        SerializerHook,
+        DeserializerHook
+    };
 
     /**
       Identifies a read-only incidence.
@@ -736,7 +750,33 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
     class Private;
     Private *const d;
     //@endcond
+
+    friend KCALCORE_EXPORT QDataStream &operator<<( QDataStream &stream,
+                                                    const KCalCore::IncidenceBase::Ptr & );
+
+    friend KCALCORE_EXPORT QDataStream &operator>>( QDataStream &stream,
+                                                    const KCalCore::IncidenceBase::Ptr & );
 };
+
+/**
+ * Incidence serializer.
+ * Uses the virtual_hook internally to avoid slicing.
+ *
+ * // TODO_KDE5: Provide a virtual serialize() method, as done with assign() and equals().
+ *
+ * @since 4.12
+ */
+KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalCore::IncidenceBase::Ptr &);
+
+/**
+ * Incidence deserializer.
+ * Uses the virtual_hook internally to avoid slicing.
+ *
+ * // TODO_KDE5: Provide a virtual serialize() method, as done with assign() and equals().
+ *
+ * @since 4.12
+ */
+KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, const KCalCore::IncidenceBase::Ptr &);
 
 }
 

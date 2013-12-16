@@ -41,6 +41,8 @@
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QVector>
+#include <QDataStream>
+#include <QMetaType>
 
 namespace KCalCore {
 
@@ -668,12 +670,28 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
     class Private;
     Private *const d;
     //@endcond
+    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &s, const KCalCore::Alarm::Ptr &);
+    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &s, const KCalCore::Alarm::Ptr &);
 };
+/**
+ * Alarm serializer.
+ *
+ * @since 4.12
+ */
+KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalCore::Alarm::Ptr &);
+
+/**
+ * Alarm deserializer.
+ *
+ * @since 4.12
+ */
+KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, const KCalCore::Alarm::Ptr &);
 
 }
 
 //@cond PRIVATE
 Q_DECLARE_TYPEINFO( KCalCore::Alarm::Ptr, Q_MOVABLE_TYPE );
+Q_DECLARE_METATYPE( KCalCore::Alarm::Ptr )
 //@endcond
 
 #endif

@@ -139,8 +139,10 @@ void Event::setDtEnd( const KDateTime &dtEnd )
 
   d->mDtEnd = dtEnd;
   d->mMultiDayValid = false;
-  setHasEndDate( true );
-  setHasDuration( false );
+  if ( dtEnd.isValid() ) {
+    setHasEndDate( true );
+    setHasDuration( false );
+  }
   setFieldDirty( FieldDtEnd );
   updated();
 }
@@ -190,7 +192,7 @@ bool Event::hasEndDate() const
 bool Event::isMultiDay( const KDateTime::Spec &spec ) const
 {
   // First off, if spec's not valid, we can check for cache
-  if ( ( !spec.isValid() ) && d->mMultiDayValid ) {
+  if ( !spec.isValid() && d->mMultiDayValid ) {
     return d->mMultiDay;
   }
 
@@ -250,7 +252,7 @@ Event::Transparency Event::transparency() const
 
 void Event::setDuration( const Duration &duration )
 {
-  setHasEndDate( false );
+  setDtEnd( KDateTime() );
   Incidence::setDuration( duration );
 }
 
@@ -305,8 +307,9 @@ void Event::setDateTime( const KDateTime &dateTime, DateTimeRole role )
     case RoleDnD:
     {
       const int duration = dtStart().secsTo( dtEnd() );
+
       setDtStart( dateTime );
-      setDtEnd( dateTime.addSecs( duration ) );
+      setDtEnd( dateTime.addSecs( duration <= 0 ? 3600 : duration ) );
       break;
     }
     case RoleEnd:
@@ -319,9 +322,16 @@ void Event::setDateTime( const KDateTime &dateTime, DateTimeRole role )
 
 void Event::virtual_hook( int id, void *data )
 {
-  Q_UNUSED( id );
-  Q_UNUSED( data );
-  Q_ASSERT( false );
+  switch(static_cast<IncidenceBase::VirtualHook>(id)) {
+    case IncidenceBase::SerializerHook:
+      serialize(*reinterpret_cast<QDataStream*>(data));
+    break;
+    case IncidenceBase::DeserializerHook:
+      deserialize(*reinterpret_cast<QDataStream*>(data));
+    break;
+    default:
+      Q_ASSERT(false);
+  }
 }
 
 QLatin1String KCalCore::Event::mimeType() const
@@ -337,4 +347,20 @@ QLatin1String Event::eventMimeType()
 QLatin1String Event::iconName( const KDateTime & ) const
 {
   return QLatin1String( "view-calendar-day" );
+}
+
+void Event::serialize( QDataStream &out )
+{
+  Incidence::serialize( out );
+  out << d->mDtEnd << d->mHasEndDate << static_cast<quint32>(d->mTransparency) << d->mMultiDayValid << d->mMultiDay;
+}
+
+void Event::deserialize( QDataStream &in )
+{
+  Incidence::deserialize( in );
+  in >> d->mDtEnd >> d->mHasEndDate;
+  quint32 transp;
+  in >> transp;
+  d->mTransparency = static_cast<Transparency>(transp);
+  in >> d->mMultiDayValid >> d->mMultiDay;
 }

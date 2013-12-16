@@ -35,7 +35,7 @@
 #include <QtCore/QTextStream>
 
 extern "C" {
-  #include <ical.h>
+  #include <libical/ical.h>
   #include <icaltimezone.h>
 }
 
@@ -43,9 +43,6 @@ extern "C" {
 #include <uuid/uuid.h>
 #endif
 
-#if defined(Q_OS_WINCE)
-#include <Winbase.h>
-#endif
 using namespace KCalCore;
 
 // Minimum repetition counts for VTIMEZONE RRULEs
@@ -404,21 +401,6 @@ ICalTimeZoneData::ICalTimeZoneData( const ICalTimeZoneData &rhs )
   d->setComponent( icalcomponent_new_clone( rhs.d->component() ) );
 }
 
-#ifdef Q_OS_WINCE
-// Helper function to convert Windows recurrences to a QDate
-static QDate find_nth_weekday_in_month_of_year( int nth, int dayOfWeek, int month, int year ) {
-  const QDate first( year, month, 1 );
-  const int actualDayOfWeek = first.dayOfWeek();
-  QDate candidate = first.addDays( ( nth - 1 ) * 7 + dayOfWeek - actualDayOfWeek );
-  if ( nth == 5 ) {
-    if ( candidate.month() != month ) {
-      candidate = candidate.addDays( -7 );
-    }
-  }
-  return candidate;
-}
-#endif // Q_OS_WINCE
-
 ICalTimeZoneData::ICalTimeZoneData( const KTimeZoneData &rhs,
                                     const KTimeZone &tz, const QDate &earliest )
   : KTimeZoneData( rhs ),
@@ -493,48 +475,6 @@ ICalTimeZoneData::ICalTimeZoneData( const KTimeZoneData &rhs,
       // If there is no way to compile a complete list of transitions
       // transitions() can return an empty list
       // In that case try get one transition to write a valid VTIMEZONE entry.
-#ifdef Q_OS_WINCE
-      TIME_ZONE_INFORMATION currentTimeZone;
-      GetTimeZoneInformation( &currentTimeZone );
-      if ( QString::fromWCharArray( currentTimeZone.StandardName ) != tz.name() ) {
-        kDebug() << "VTIMEZONE entry will be invalid for: " << tz.name();
-      } else {
-        const SYSTEMTIME std = currentTimeZone.StandardDate;
-        const SYSTEMTIME dlt = currentTimeZone.DaylightDate;
-
-        // Create the according Phases
-        const KTimeZone::Phase standardPhase =
-          KTimeZone::Phase( ( currentTimeZone.Bias +
-                              currentTimeZone.StandardBias ) * -60,
-                            QByteArray(), false );
-        const KTimeZone::Phase daylightPhase =
-          KTimeZone::Phase( ( currentTimeZone.Bias +
-                              currentTimeZone.DaylightBias ) * -60,
-                            QByteArray(), true );
-        // Generate the transitions from the minimal to the maximal year that
-        // the calendar offers on WinCE
-        for ( int i = 2000; i <= 2050; i++ ) {
-          const QDateTime standardTime =
-            QDateTime( find_nth_weekday_in_month_of_year(
-                         std.wDay,
-                         std.wDayOfWeek ? std.wDayOfWeek : 7,
-                         std.wMonth, i ),
-                       QTime( std.wHour, std.wMinute,
-                              std.wSecond, std.wMilliseconds ) );
-
-          const QDateTime daylightTime =
-            QDateTime( find_nth_weekday_in_month_of_year(
-                         dlt.wDay,
-                         dlt.wDayOfWeek ? dlt.wDayOfWeek : 7,
-                         dlt.wMonth, i ),
-                       QTime( dlt.wHour, dlt.wMinute,
-                              dlt.wSecond, dlt.wMilliseconds ) );
-
-          transits << KTimeZone::Transition( standardTime, standardPhase )
-                   << KTimeZone::Transition( daylightTime, daylightPhase );
-        }
-      }
-#endif // Q_OS_WINCE
       if ( transits.isEmpty() ) {
         kDebug() << "No transition information available VTIMEZONE will be invalid.";
       }
@@ -967,7 +907,7 @@ ICalTimeZone ICalTimeZoneSource::parse( icalcomponent *vtimezone )
   const QString prefix = QString::fromUtf8( icalTzidPrefix() );
   if ( name.startsWith( prefix ) ) {
     // Remove the prefix from libical built in time zone TZID
-    const int i = name.indexOf( '/', prefix.length() );
+    const int i = name.indexOf( QLatin1Char('/'), prefix.length() );
     if ( i > 0 ) {
       name = name.mid( i + 1 );
     }
@@ -1065,7 +1005,7 @@ ICalTimeZone ICalTimeZoneSource::parse( MSTimeZone *tz )
   char suuid[64];
   uuid_generate_random( uuid );
   uuid_unparse( uuid, suuid );
-  QString name = QString( suuid );
+  QString name = QString::fromLatin1( suuid );
 
   // Create phases.
   QList<KTimeZone::Phase> phases;
@@ -1075,7 +1015,7 @@ ICalTimeZone ICalTimeZoneSource::parse( MSTimeZone *tz )
   const KTimeZone::Phase standardPhase(
     ( tz->Bias + tz->StandardBias ) * -60,
     standardAbbrevs, false,
-    "Microsoft TIME_ZONE_INFORMATION" );
+    QLatin1String("Microsoft TIME_ZONE_INFORMATION") );
   phases += standardPhase;
 
   QList<QByteArray> daylightAbbrevs;
@@ -1083,7 +1023,7 @@ ICalTimeZone ICalTimeZoneSource::parse( MSTimeZone *tz )
   const KTimeZone::Phase daylightPhase(
     ( tz->Bias + tz->DaylightBias ) * -60,
     daylightAbbrevs, true,
-    "Microsoft TIME_ZONE_INFORMATION" );
+    QLatin1String("Microsoft TIME_ZONE_INFORMATION") );
   phases += daylightPhase;
 
   // Set phases used by the time zone, but note that previous time zone
@@ -1143,19 +1083,19 @@ ICalTimeZone ICalTimeZoneSource::parse( const QString &name, const QStringList &
   for ( QStringList::ConstIterator it = tzList.begin(); it != tzList.end(); ++it ) {
     QString value = *it;
     daylight = false;
-    const QString tzName = value.mid( 0, value.indexOf( ";" ) );
-    value = value.mid( ( value.indexOf( ";" ) + 1 ) );
-    const QString tzOffset = value.mid( 0, value.indexOf( ";" ) );
-    value = value.mid( ( value.indexOf( ";" ) + 1 ) );
-    const QString tzDaylight = value.mid( 0, value.indexOf( ";" ) );
-    const KDateTime tzDate = KDateTime::fromString( value.mid( ( value.lastIndexOf( ";" ) + 1 ) ) );
-    if ( tzDaylight == "true" ) {
+    const QString tzName = value.mid( 0, value.indexOf( QLatin1String(";") ) );
+    value = value.mid( ( value.indexOf( QLatin1String(";") ) + 1 ) );
+    const QString tzOffset = value.mid( 0, value.indexOf( QLatin1String(";") ) );
+    value = value.mid( ( value.indexOf( QLatin1String(";") ) + 1 ) );
+    const QString tzDaylight = value.mid( 0, value.indexOf( QLatin1String(";") ) );
+    const KDateTime tzDate = KDateTime::fromString( value.mid( ( value.lastIndexOf( QLatin1String(";") ) + 1 ) ) );
+    if ( tzDaylight == QLatin1String("true") ) {
       daylight = true;
     }
 
     const KTimeZone::Phase tzPhase(
       tzOffset.toInt(),
-      QByteArray( tzName.toLatin1() ), daylight, "VCAL_TZ_INFORMATION" );
+      QByteArray( tzName.toLatin1() ), daylight, QLatin1String("VCAL_TZ_INFORMATION") );
     phases += tzPhase;
     transitions += KTimeZone::Transition( tzDate.dateTime(), tzPhase );
   }
@@ -1401,7 +1341,7 @@ ICalTimeZone ICalTimeZoneSource::standardZone( const QString &zone, bool icalBui
     QString tzid = zone;
     const QString prefix = QString::fromUtf8( icalTzidPrefix() );
     if ( zone.startsWith( prefix ) ) {
-      const int i = zone.indexOf( '/', prefix.length() );
+      const int i = zone.indexOf( QLatin1Char('/'), prefix.length() );
       if ( i > 0 ) {
         tzid = zone.mid( i + 1 );   // strip off the libical prefix
       }

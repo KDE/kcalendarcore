@@ -24,7 +24,47 @@
 #include <qtest_kde.h>
 QTEST_KDEMAIN( EventTest, NoGUI )
 
+Q_DECLARE_METATYPE( KCalCore::Incidence::DateTimeRole )
+
 using namespace KCalCore;
+
+void EventTest::testSetRoles_data()
+{
+  QTest::addColumn<KDateTime>( "originalDtStart" );
+  QTest::addColumn<KDateTime>( "originalDtEnd" );
+
+  QTest::addColumn<KCalCore::Incidence::DateTimeRole>( "setRole" );
+  QTest::addColumn<KDateTime>( "dateTimeToSet" );
+  QTest::addColumn<KDateTime>( "expectedDtStart" );
+  QTest::addColumn<KDateTime>( "expectedDtEnd" );
+
+
+  const KDateTime todayDate( QDate::currentDate() ); // all day event
+  const KDateTime todayDateTime = KDateTime::currentUtcDateTime();
+
+  QTest::newRow( "dnd 0 duration" ) << todayDate << todayDate << KCalCore::Incidence::RoleDnD
+                                    << todayDateTime << todayDateTime << todayDateTime.addSecs(3600);
+}
+
+void EventTest::testSetRoles()
+{
+  QFETCH( KDateTime, originalDtStart );
+  QFETCH( KDateTime, originalDtEnd );
+  QFETCH( KCalCore::Incidence::DateTimeRole, setRole );
+
+  QFETCH( KDateTime, dateTimeToSet );
+  QFETCH( KDateTime, expectedDtStart );
+  QFETCH( KDateTime, expectedDtEnd );
+
+  Event::Ptr event = Event::Ptr( new Event() );
+  event->setDtStart( originalDtStart );
+  event->setDtEnd( originalDtEnd );
+  event->setAllDay( originalDtStart.isDateOnly() );
+
+  event->setDateTime( dateTimeToSet, setRole );
+  QCOMPARE( event->dtStart(), expectedDtStart );
+  QCOMPARE( event->dtEnd(), expectedDtEnd );
+}
 
 void EventTest::testValidity()
 {
@@ -113,4 +153,72 @@ void EventTest::testAssign()
 
   Event event2 = event1;
   QVERIFY( event1 == event2 );
+}
+
+void EventTest::testSerializer_data()
+{
+  QTest::addColumn<KCalCore::Event::Ptr>( "event" );
+  KDateTime today = KDateTime::currentUtcDateTime();
+  KDateTime yesterday = today.addDays( -1 );
+
+  Event::Ptr event1 = Event::Ptr(new Event());
+  Attendee::Ptr attendee1( new Attendee( "fred", "fred@flintstone.com" ) );
+  event1->addAttendee( attendee1 );
+  event1->setDtStart( yesterday );
+  event1->setDtEnd( today );
+
+  Event::Ptr event2 = Event::Ptr(new Event());
+  Attendee::Ptr attendee2( new Attendee( "fred", "fred@flintstone.com" ) );
+  event2->addAttendee( attendee2 );
+  event2->setDtStart( yesterday );
+  event2->setDtEnd( today );
+  event2->setAllDay( true );
+
+  event2->addComment( "comment1" );
+  event2->setUrl(QUrl("http://someurl"));
+
+  event2->setCustomProperty( "app", "key", "value" );
+
+  // Remaining properties tested in testtodo.cpp
+
+  QTest::newRow( "event" ) << event1;
+  QTest::newRow( "event2" ) << event2;
+}
+
+void EventTest::testSerializer()
+{
+  QFETCH( KCalCore::Event::Ptr, event );
+  IncidenceBase::Ptr incidenceBase = event.staticCast<KCalCore::IncidenceBase>();
+
+  QByteArray array;
+  QDataStream stream(&array, QIODevice::WriteOnly);
+  stream << incidenceBase;
+
+  Event::Ptr event2 = Event::Ptr( new Event() );
+  IncidenceBase::Ptr incidenceBase2 = event2.staticCast<KCalCore::IncidenceBase>();
+  QVERIFY(*event != *event2);
+  QDataStream stream2(&array, QIODevice::ReadOnly);
+  stream2 >> incidenceBase2;
+  QVERIFY(*event == *event2);
+}
+
+void EventTest::testDurationDtEnd()
+{
+  const QDate dt = QDate::currentDate();
+
+  {
+    Event event;
+    event.setDtStart( KDateTime( dt ) );
+    event.setDtEnd( KDateTime( dt ).addDays( 1 ) );
+    QCOMPARE( event.hasEndDate(), true );
+    QCOMPARE( event.hasDuration(), false );
+  }
+  {
+    Event event;
+    event.setDtStart( KDateTime( dt ) );
+    event.setDuration( Duration( KDateTime( dt ), KDateTime( dt ).addDays( 1 ) ) );
+    QCOMPARE( event.hasDuration(), true );
+    QCOMPARE( event.hasEndDate(), false );
+  }
+
 }

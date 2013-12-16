@@ -36,7 +36,9 @@
 
 #include <KDebug>
 #include <QDate>
+#include <QDataStream>
 #include <KDateTime>
+#include <KDebug>
 
 using namespace KCalCore;
 
@@ -166,7 +168,7 @@ bool MemoryCalendar::deleteIncidence( const Incidence::Ptr &incidence )
     }
     return true;
   } else {
-    kWarning() << incidence->typeStr() << " not found.";
+    kWarning() << incidence->typeStr() << " not found. uid=" << uid;
     return false;
   }
 }

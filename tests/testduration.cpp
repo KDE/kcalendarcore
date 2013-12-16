@@ -72,3 +72,36 @@ void DurationTest::testCompare()
   QVERIFY( d6 == d5 );
   QVERIFY( ( d6-=( 2 * 60 * 60 ) ) == d1 );
 }
+
+
+void DurationTest::testSerializer_data()
+{
+  QTest::addColumn<KCalCore::Duration>( "duration" );
+
+  Duration duration1;
+  Duration duration2( 7, Duration::Days );
+  Duration duration3( 7 * 24 * 60 * 60, Duration::Seconds );
+
+  const KDateTime firstDateTime( QDate( 2006, 8, 3 ), QTime( 7, 0, 0 ), KDateTime::UTC );
+  Duration duration4( firstDateTime, KDateTime( QDate( 2006, 8, 3 ), QTime( 8, 0, 0 ), KDateTime::UTC ) );
+
+
+  QTest::newRow( "duration1" ) << duration1;
+  QTest::newRow( "duration2" ) << duration2;
+  QTest::newRow( "duration3" ) << duration3;
+  QTest::newRow( "duration4" ) << duration4;
+}
+
+void DurationTest::testSerializer()
+{
+  QFETCH( KCalCore::Duration, duration );
+
+  QByteArray array;
+  QDataStream stream(&array, QIODevice::WriteOnly);
+  stream << duration; // Serialize
+
+  Duration duration2;
+  QDataStream stream2(&array, QIODevice::ReadOnly);
+  stream2 >> duration2; // deserialize
+  QVERIFY(duration == duration2);
+}

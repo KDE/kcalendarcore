@@ -44,6 +44,9 @@
 
 #include <QtCore/QStringList>
 
+#define KCALCORE_MAGIC_NUMBER 0xCA1C012E
+#define KCALCORE_SERIALIZATION_VERSION 1
+
 using namespace KCalCore;
 
 /**
@@ -176,6 +179,7 @@ bool IncidenceBase::operator!=( const IncidenceBase &i2 ) const
 bool IncidenceBase::equals( const IncidenceBase &i2 ) const
 {
   if ( attendees().count() != i2.attendees().count() ) {
+    // kDebug() << "Attendee count is different";
     return false;
   }
 
@@ -187,26 +191,30 @@ bool IncidenceBase::equals( const IncidenceBase &i2 ) const
   //Please delete this comment if you know it's ok, kthx
   for ( ; a1 != al1.constEnd() && a2 != al2.constEnd(); ++a1, ++a2 ) {
     if ( !( **a1 == **a2 ) ) {
+      // kDebug() << "Attendees are different";
       return false;
     }
   }
 
   if ( !CustomProperties::operator==( i2 ) ) {
+    // kDebug() << "Properties are different";
     return false;
   }
 
-  return
-    ( ( dtStart() == i2.dtStart() ) ||
-      ( !dtStart().isValid() && !i2.dtStart().isValid() ) ) &&
-    *( organizer().data() ) == *( i2.organizer().data() ) &&
-    uid() == i2.uid() &&
-    // Don't compare lastModified, otherwise the operator is not
-    // of much use. We are not comparing for identity, after all.
-    allDay() == i2.allDay() &&
-    duration() == i2.duration() &&
-    hasDuration() == i2.hasDuration() &&
-    url() == i2.url();
-    // no need to compare mObserver
+  // Don't compare lastModified, otherwise the operator is not
+  // of much use. We are not comparing for identity, after all.
+  // no need to compare mObserver
+
+  bool a = ( ( dtStart() == i2.dtStart() ) || ( !dtStart().isValid() && !i2.dtStart().isValid() ) );
+  bool b =  *( organizer().data() ) == *( i2.organizer().data() );
+  bool c =  uid() == i2.uid();
+  bool d = allDay() == i2.allDay();
+  bool e = duration() == i2.duration();
+  bool f = hasDuration() == i2.hasDuration();
+  bool g = url() == i2.url();
+
+  //kDebug() << a << b << c << d << e << f << g;
+  return a && b && c && d && e && f && g;
 }
 
 bool IncidenceBase::accept( Visitor &v, IncidenceBase::Ptr incidence )
@@ -428,7 +436,7 @@ void IncidenceBase::addAttendee( const Attendee::Ptr &a, bool doupdate )
   if ( doupdate ) {
     update();
   }
-  if ( a->name().left( 7 ).toUpper() == "MAILTO:" ) {
+  if ( a->name().left( 7 ).toUpper() == QLatin1String("MAILTO:") ) {
     a->setName( a->name().remove( 0, 7 ) );
   }
 
@@ -653,12 +661,84 @@ void IncidenceBase::setFieldDirty( IncidenceBase::Field field )
 
 KUrl IncidenceBase::uri() const
 {
-  return KUrl( QString( "urn:x-ical:" ) + uid() );
+  return KUrl( QLatin1String( "urn:x-ical:" ) + uid() );
 }
 
 void IncidenceBase::setDirtyFields( const QSet<IncidenceBase::Field> &dirtyFields )
 {
   d->mDirtyFields = dirtyFields;
+}
+
+/** static */
+quint32 IncidenceBase::magicSerializationIdentifier()
+{
+  return KCALCORE_MAGIC_NUMBER;
+}
+
+QDataStream& KCalCore::operator<<(QDataStream &out, const KCalCore::IncidenceBase::Ptr &i)
+{
+  if (!i)
+    return out;
+
+  out << static_cast<quint32>(KCALCORE_MAGIC_NUMBER); // Magic number to identify KCalCore data
+  out << static_cast<quint32>(KCALCORE_SERIALIZATION_VERSION);
+  out << static_cast<qint32>(i->type());
+
+  out << *(static_cast<CustomProperties*>(i.data()));
+  out << i->d->mLastModified << i->d->mDtStart << i->organizer() << i->d->mUid << i->d->mDuration
+      << i->d->mAllDay << i->d->mHasDuration << i->d->mComments << i->d->mContacts
+      << i->d->mAttendees.count() << i->d->mUrl;
+
+  foreach ( const Attendee::Ptr &attendee, i->d->mAttendees ) {
+    out << attendee;
+  }
+
+  // Serialize the sub-class data. In KDE5 we can add new virtuals.
+  i->virtual_hook(KCalCore::IncidenceBase::SerializerHook, &out);
+
+  return out;
+}
+
+QDataStream& KCalCore::operator>>(QDataStream &in, const KCalCore::IncidenceBase::Ptr &i)
+{
+  if (!i)
+    return in;
+
+  qint32 attendeeCount, type;
+  quint32 magic, version;
+
+  in >> magic;
+
+  if (magic != KCALCORE_MAGIC_NUMBER) {
+    kWarning() << "Invalid magic on serialized data";
+    return in;
+  }
+
+  in >> version;
+
+  if (version > KCALCORE_MAGIC_NUMBER) {
+    kWarning() << "Invalid version on serialized data";
+    return in;
+  }
+
+  in >> type;
+
+  in >> *(static_cast<CustomProperties*>(i.data()));
+  in >> i->d->mLastModified >> i->d->mDtStart >> i->d->mOrganizer >> i->d->mUid >> i->d->mDuration
+      >> i->d->mAllDay >> i->d->mHasDuration >> i->d->mComments >> i->d->mContacts >> attendeeCount
+      >> i->d->mUrl;
+
+  i->d->mAttendees.clear();
+  for ( int it=0; it<attendeeCount; it++ ) {
+    Attendee::Ptr attendee = Attendee::Ptr( new Attendee( QString(), QString() ) );
+    in >> attendee;
+    i->d->mAttendees.append( attendee );
+  }
+
+  // Deserialize the sub-class data. In KDE5 we can add new virtuals.
+  i->virtual_hook(KCalCore::IncidenceBase::DeserializerHook, &in);
+
+  return in;
 }
 
 IncidenceBase::IncidenceObserver::~IncidenceObserver()

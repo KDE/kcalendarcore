@@ -103,3 +103,20 @@ void ICalFormatTest::testCharsets()
 
   unlink( "hommer.ics" );
 }
+
+void ICalFormatTest::testVolatileProperties()
+{
+  // Volatile properties are not written to the serialized data
+  ICalFormat format;
+  const QDate currentDate = QDate::currentDate();
+  Event::Ptr event = Event::Ptr( new Event() );
+  event->setUid( "12345" );
+  event->setDtStart( KDateTime( currentDate ) );
+  event->setDtEnd( KDateTime( currentDate.addDays( 1 ) ) );
+  event->setCustomProperty( "VOLATILE", "FOO", "BAR" );
+  QString string = format.toICalString( event );
+  Incidence::Ptr incidence = format.fromString( string );
+
+  QCOMPARE( incidence->uid(), QLatin1String( "12345" ) );
+  QVERIFY( incidence->customProperties().isEmpty() );
+}

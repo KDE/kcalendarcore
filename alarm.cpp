@@ -139,6 +139,20 @@ Alarm &Alarm::operator=( const Alarm &a )
   return *this;
 }
 
+static bool compareMailAddresses( const Person::List &list1, const Person::List &list2 )
+{
+    if ( list1.count() == list2.count() ) {
+      for ( int i=0; i<list1.count(); ++i ) {
+        if ( *list1.at(i) != *list2.at(i) ) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    return false;
+}
+
 bool Alarm::operator==( const Alarm &rhs ) const
 {
   if ( d->mType != rhs.d->mType ||
@@ -168,7 +182,7 @@ bool Alarm::operator==( const Alarm &rhs ) const
     case Email:
       return d->mDescription == rhs.d->mDescription &&
              d->mMailAttachFiles == rhs.d->mMailAttachFiles &&
-             d->mMailAddresses == rhs.d->mMailAddresses &&
+             compareMailAddresses( d->mMailAddresses, rhs.d->mMailAddresses) &&
              d->mMailSubject == rhs.d->mMailSubject;
 
     case Procedure:
@@ -200,16 +214,16 @@ void Alarm::setType( Alarm::Type type )
   }
   switch ( type ) {
     case Display:
-      d->mDescription = "";
+      d->mDescription = QLatin1String("");
       break;
     case Procedure:
-      d->mFile = d->mDescription = "";
+      d->mFile = d->mDescription = QLatin1String("");
       break;
     case Audio:
-      d->mFile = "";
+      d->mFile = QLatin1String("");
       break;
     case Email:
-      d->mMailSubject = d->mDescription = "";
+      d->mMailSubject = d->mDescription = QLatin1String("");
       d->mMailAddresses.clear();
       d->mMailAttachFiles.clear();
       break;
@@ -834,6 +848,29 @@ void Alarm::setLocationRadius( int locationRadius )
 int Alarm::locationRadius() const
 {
   return d->mLocationRadius;
+}
+
+QDataStream& KCalCore::operator<<(QDataStream &out, const KCalCore::Alarm::Ptr &a)
+{
+  if (a) {
+    out << ((quint32)a->d->mType) << a->d->mAlarmSnoozeTime << a->d->mAlarmRepeatCount << a->d->mEndOffset << a->d->mHasTime
+        << a->d->mAlarmEnabled << a->d->mHasLocationRadius << a->d->mLocationRadius << a->d->mOffset << a->d->mAlarmTime
+        << a->d->mFile << a->d->mMailSubject << a->d->mDescription << a->d->mMailAttachFiles << a->d->mMailAddresses;
+  }
+  return out;
+}
+
+QDataStream& KCalCore::operator>>(QDataStream &in, const KCalCore::Alarm::Ptr &a)
+{
+  if (a) {
+    quint32 type;
+    in >> type;
+    a->d->mType = static_cast<Alarm::Type>( type );
+    in >> a->d->mAlarmSnoozeTime >> a->d->mAlarmRepeatCount >> a->d->mEndOffset >> a->d->mHasTime
+       >> a->d->mAlarmEnabled >> a->d->mHasLocationRadius >> a->d->mLocationRadius >> a->d->mOffset >> a->d->mAlarmTime
+       >> a->d->mFile >> a->d->mMailSubject >> a->d->mDescription >> a->d->mMailAttachFiles >> a->d->mMailAddresses;
+  }
+  return in;
 }
 
 void Alarm::virtual_hook( int id, void *data )

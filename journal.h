@@ -145,16 +145,22 @@ class KCALCORE_EXPORT Journal : public Incidence
      */
     Journal &operator=( const Journal &other );
 
+    // For polymorfic serialization
+    void serialize(QDataStream &out);
+    void deserialize(QDataStream &in);
+
     //@cond PRIVATE
     class Private;
     Private *const d;
     //@endcond
 };
 
+
 } // namespace KCalCore
 
 //@cond PRIVATE
 Q_DECLARE_TYPEINFO( KCalCore::Journal::Ptr, Q_MOVABLE_TYPE );
+Q_DECLARE_METATYPE( KCalCore::Journal::Ptr )
 //@endcond
 
 //@cond PRIVATE

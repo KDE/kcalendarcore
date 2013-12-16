@@ -33,6 +33,9 @@
 
 #include "kcalcore_export.h"
 
+#include <QDataStream>
+#include <QMetaType>
+
 class KDateTime;
 
 namespace KCalCore {
@@ -293,8 +296,27 @@ class KCALCORE_EXPORT Duration
     class Private;
     Private *const d;
     //@endcond
+
+    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &s, const KCalCore::Duration &);
+    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &s, KCalCore::Duration &);
 };
 
+/**
+ * Duration serializer.
+ *
+ * @since 4.12
+ */
+KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalCore::Duration &);
+
+/**
+ * Duration deserializer.
+ *
+ * @since 4.12
+ */
+KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalCore::Duration &);
+
 }
+
+Q_DECLARE_METATYPE( KCalCore::Duration )
 
 #endif

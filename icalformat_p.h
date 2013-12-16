@@ -44,7 +44,7 @@
 
 #include <KDateTime>
 
-#include <ical.h>
+#include <libical/ical.h>
 
 class QDate;
 

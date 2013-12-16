@@ -243,6 +243,10 @@ class KCALCORE_EXPORT Event : public Incidence
      */
     Event &operator=( const Event &other );
 
+    // For polymorfic serialization
+    void serialize(QDataStream &out);
+    void deserialize(QDataStream &in);
+
     //@cond PRIVATE
     class Private;
     Private *const d;
@@ -253,6 +257,7 @@ class KCALCORE_EXPORT Event : public Incidence
 
 //@cond PRIVATE
 Q_DECLARE_TYPEINFO( KCalCore::Event::Ptr, Q_MOVABLE_TYPE );
+Q_DECLARE_METATYPE( KCalCore::Event::Ptr )
 //@endcond
 
 //@cond PRIVATE

@@ -82,21 +82,21 @@ QString DateHelper::dayName( short day )
 {
   switch ( day ) {
   case 1:
-    return "MO";
+    return QLatin1String("MO");
   case 2:
-    return "TU";
+    return QLatin1String("TU");
   case 3:
-    return "WE";
+    return QLatin1String("WE");
   case 4:
-    return "TH";
+    return QLatin1String("TH");
   case 5:
-    return "FR";
+    return QLatin1String("FR");
   case 6:
-    return "SA";
+    return QLatin1String("SA");
   case 7:
-    return "SU";
+    return QLatin1String("SU");
   default:
-    return "??";
+    return QLatin1String("??");
   }
 }
 #endif
@@ -187,6 +187,7 @@ class Constraint
   public:
     typedef QList<Constraint> List;
 
+    Constraint() {}
     explicit Constraint( KDateTime::Spec, int wkst = 1 );
     Constraint( const KDateTime &dt, RecurrenceRule::PeriodType type, int wkst );
     void clear();
@@ -2065,24 +2066,24 @@ void RecurrenceRule::dump() const
     for ( int i = 0, iend = list.count();  i < iend;  ++i ) {\
       lst.append( QString::number( list[i] ) );\
     }\
-    kDebug() << "  " << label << lst.join( ", " );\
+    kDebug() << "  " << label << lst.join( QLatin1String(", ") );\
   }
-  dumpByIntList( d->mBySeconds, "BySeconds:  " );
-  dumpByIntList( d->mByMinutes, "ByMinutes:  " );
-  dumpByIntList( d->mByHours, "ByHours:    " );
+  dumpByIntList( d->mBySeconds, QLatin1String("BySeconds:  ") );
+  dumpByIntList( d->mByMinutes, QLatin1String("ByMinutes:  ") );
+  dumpByIntList( d->mByHours, QLatin1String("ByHours:    ") );
   if ( !d->mByDays.isEmpty() ) {
     QStringList lst;
     for ( int i = 0, iend = d->mByDays.count();  i < iend;  ++i ) {\
-      lst.append( ( d->mByDays[i].pos() ? QString::number( d->mByDays[i].pos() ) : "" ) +
+      lst.append( ( d->mByDays[i].pos() ? QString::number( d->mByDays[i].pos() ) : QLatin1String("") ) +
                    DateHelper::dayName( d->mByDays[i].day() ) );
     }
-    kDebug() << "   ByDays:    " << lst.join( ", " );
+    kDebug() << "   ByDays:    " << lst.join( QLatin1String(", ") );
   }
-  dumpByIntList( d->mByMonthDays, "ByMonthDays:" );
-  dumpByIntList( d->mByYearDays, "ByYearDays: " );
-  dumpByIntList( d->mByWeekNumbers, "ByWeekNr:   " );
-  dumpByIntList( d->mByMonths, "ByMonths:   " );
-  dumpByIntList( d->mBySetPos, "BySetPos:   " );
+  dumpByIntList( d->mByMonthDays, QLatin1String("ByMonthDays:") );
+  dumpByIntList( d->mByYearDays, QLatin1String("ByYearDays: ") );
+  dumpByIntList( d->mByWeekNumbers, QLatin1String("ByWeekNr:   ") );
+  dumpByIntList( d->mByMonths, QLatin1String("ByMonths:   ") );
+  dumpByIntList( d->mBySetPos, QLatin1String("BySetPos:   ") );
   #undef dumpByIntList
 
   kDebug() << "   Week start:" << DateHelper::dayName( d->mWeekStart ); //krazy:exclude=kdebug
@@ -2119,9 +2120,9 @@ QString dumpTime( const KDateTime &dt )
   }
   QString result;
   if ( dt.isDateOnly() ) {
-    result = dt.toString( "%a %Y-%m-%d %:Z" );
+    result = dt.toString( QLatin1String("%a %Y-%m-%d %:Z") );
   } else {
-    result = dt.toString( "%a %Y-%m-%d %H:%M:%S %:Z" );
+    result = dt.toString( QLatin1String("%a %Y-%m-%d %H:%M:%S %:Z") );
     if ( dt.isSecondOccurrence() ) {
       result += QLatin1String( " (2nd)" );
     }
@@ -2263,4 +2264,68 @@ void RecurrenceRule::WDayPos::setPos( int ps )
 int RecurrenceRule::WDayPos::pos() const
 {
   return mPos;
+}
+
+
+QDataStream& operator<<( QDataStream &out, const Constraint &c )
+{
+  out << c.year << c.month << c.day << c.hour << c.minute << c.second
+      << c.weekday << c.weekdaynr << c.weeknumber << c.yearday << c.weekstart
+      << c.timespec << c.secondOccurrence;
+
+  return out;
+}
+
+QDataStream& operator>>( QDataStream &in, Constraint &c  )
+{
+  in >> c.year >> c.month >> c.day >> c.hour >> c.minute >> c.second
+     >> c.weekday >> c.weekdaynr >> c.weeknumber >> c.yearday >> c.weekstart
+     >> c.timespec >> c.secondOccurrence;
+  return in;
+}
+
+KCALCORE_EXPORT QDataStream& KCalCore::operator<<( QDataStream &out, const KCalCore::RecurrenceRule::WDayPos &w )
+{
+  out << w.mDay << w.mPos;
+  return out;
+}
+
+KCALCORE_EXPORT QDataStream& KCalCore::operator>>( QDataStream &in, KCalCore::RecurrenceRule::WDayPos &w  )
+{
+  in >> w.mDay >> w.mPos;
+  return in;
+}
+
+KCALCORE_EXPORT QDataStream& KCalCore::operator<<( QDataStream &out, const KCalCore::RecurrenceRule *r )
+{
+  if (!r)
+    return out;
+
+  RecurrenceRule::Private *d = r->d;
+  out << d->mRRule << static_cast<quint32>(d->mPeriod) << d->mDateStart << d->mFrequency << d->mDuration << d->mDateEnd
+      << d->mBySeconds << d->mByMinutes << d->mByHours << d->mByDays << d->mByMonthDays
+      << d->mByYearDays << d->mByWeekNumbers << d->mByMonths << d->mBySetPos
+      << d->mWeekStart << d->mConstraints << d->mAllDay << d->mNoByRules << d->mTimedRepetition
+      << d->mIsReadOnly;
+
+  return out;
+}
+
+
+KCALCORE_EXPORT QDataStream& KCalCore::operator>>( QDataStream &in, const KCalCore::RecurrenceRule *r )
+{
+  if (!r)
+    return in;
+
+  RecurrenceRule::Private *d = r->d;
+  quint32 period;
+  in >> d->mRRule >> period >> d->mDateStart >> d->mFrequency >> d->mDuration >> d->mDateEnd
+      >> d->mBySeconds >> d->mByMinutes >> d->mByHours >> d->mByDays >> d->mByMonthDays
+      >> d->mByYearDays >> d->mByWeekNumbers >> d->mByMonths >> d->mBySetPos
+      >> d->mWeekStart >> d->mConstraints >> d->mAllDay >> d->mNoByRules >> d->mTimedRepetition
+      >> d->mIsReadOnly;
+
+  d->mPeriod = static_cast<RecurrenceRule::PeriodType>( period );
+
+  return in;
 }

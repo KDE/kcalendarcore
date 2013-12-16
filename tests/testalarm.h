@@ -31,6 +31,8 @@ class AlarmTest : public QObject
     void testValidity();
     void testCompare();
     void testAssignment();
+    void testSerializer_data();
+    void testSerializer();
 };
 
 #endif

@@ -150,7 +150,7 @@ bool VCalFormat::save( const Calendar::Ptr &calendar, const QString &fileName )
   Todo::List todoList = d->mCalendar->rawTodos();
   Todo::List::ConstIterator it;
   for ( it = todoList.constBegin(); it != todoList.constEnd(); ++it ) {
-    if ( ( *it )->dtStart().timeZone().name().mid( 0, 4 ) == "VCAL" ) {
+    if ( ( *it )->dtStart().timeZone().name().mid( 0, 4 ) == QLatin1String("VCAL") ) {
       ICalTimeZone zone = tzlist->zone( ( *it )->dtStart().timeZone().name() );
       if ( zone.isValid() ) {
         QByteArray timezone = zone.vtimezone();
@@ -169,7 +169,7 @@ bool VCalFormat::save( const Calendar::Ptr &calendar, const QString &fileName )
   Event::List events = d->mCalendar->rawEvents();
   Event::List::ConstIterator it2;
   for ( it2 = events.constBegin(); it2 != events.constEnd(); ++it2 ) {
-    if ( ( *it2 )->dtStart().timeZone().name().mid( 0, 4 ) == "VCAL" ) {
+    if ( ( *it2 )->dtStart().timeZone().name().mid( 0, 4 ) == QLatin1String("VCAL") ) {
       ICalTimeZone zone = tzlist->zone( ( *it2 )->dtStart().timeZone().name() );
       if ( zone.isValid() ) {
         QByteArray timezone = zone.vtimezone();
@@ -255,7 +255,7 @@ QString VCalFormat::toString( const Calendar::Ptr &calendar,
       if ( notebook.isEmpty() ||
            ( !calendar->notebook( *it ).isEmpty() &&
              notebook.endsWith( calendar->notebook( *it ) ) ) ) {
-        if ( ( *it )->dtStart().timeZone().name().mid( 0, 4 ) == "VCAL" ) {
+        if ( ( *it )->dtStart().timeZone().name().mid( 0, 4 ) == QLatin1String("VCAL") ) {
           ICalTimeZone zone = tzlist->zone( ( *it )->dtStart().timeZone().name() );
           if ( zone.isValid() ) {
             QByteArray timezone = zone.vtimezone();
@@ -282,7 +282,7 @@ QString VCalFormat::toString( const Calendar::Ptr &calendar,
       if ( notebook.isEmpty() ||
            ( !calendar->notebook( *it2 ).isEmpty() &&
              notebook.endsWith( calendar->notebook( *it2 ) ) ) ) {
-        if ( ( *it2 )->dtStart().timeZone().name().mid( 0, 4 ) == "VCAL" ) {
+        if ( ( *it2 )->dtStart().timeZone().name().mid( 0, 4 ) == QLatin1String("VCAL") ) {
           ICalTimeZone zone = tzlist->zone( ( *it2 )->dtStart().timeZone().name() );
           if ( zone.isValid() ) {
             QByteArray timezone = zone.vtimezone();
@@ -479,7 +479,7 @@ VObject *VCalFormat::eventToVTodo( const Todo::Ptr &anEvent )
   QString tmpStr2;
 
   for ( id = dateList.constBegin(); id != dateList.constEnd(); ++id ) {
-    tmpStr = qDateToISO( *id ) + ';';
+    tmpStr = qDateToISO( *id ) + QLatin1Char(';');
     tmpStr2 += tmpStr;
   }
   if ( !tmpStr2.isEmpty() ) {
@@ -492,7 +492,7 @@ VObject *VCalFormat::eventToVTodo( const Todo::Ptr &anEvent )
   tmpStr2.clear();
 
   for ( idt = dateTimeList.constBegin(); idt != dateTimeList.constEnd(); ++idt ) {
-    tmpStr = kDateTimeToISO( *idt ) + ';';
+    tmpStr = kDateTimeToISO( *idt ) + QLatin1Char(';');
     tmpStr2 += tmpStr;
   }
   if ( !tmpStr2.isEmpty() ) {
@@ -586,7 +586,7 @@ VObject *VCalFormat::eventToVTodo( const Todo::Ptr &anEvent )
   QStringList::const_iterator its;
   for ( its = tmpStrList.constBegin(); its != tmpStrList.constEnd(); ++its ) {
     catStr = *its;
-    if ( catStr[0] == ' ' ) {
+    if ( catStr[0] == QLatin1Char(' ') ) {
       tmpStr += catStr.mid( 1 );
     } else {
       tmpStr += catStr;
@@ -594,7 +594,7 @@ VObject *VCalFormat::eventToVTodo( const Todo::Ptr &anEvent )
     // this must be a ';' character as the vCalendar specification requires!
     // vcc.y has been hacked to translate the ';' to a ',' when the vcal is
     // read in.
-    tmpStr += ';';
+    tmpStr += QLatin1Char(';');
   }
   if ( !tmpStr.isEmpty() ) {
     tmpStr.truncate( tmpStr.length() - 1 );
@@ -696,7 +696,7 @@ VObject *VCalFormat::eventToVEvent( const Event::Ptr &anEvent )
   // attendee and organizer stuff
   // TODO: What to do with the common name?
   if ( !anEvent->organizer()->email().isEmpty() ) {
-    tmpStr = "MAILTO:" + anEvent->organizer()->email();
+    tmpStr = QLatin1String("MAILTO:") + anEvent->organizer()->email();
     addPropValue( vevent, ICOrganizerProp, tmpStr.toUtf8() );
   }
 
@@ -707,14 +707,14 @@ VObject *VCalFormat::eventToVEvent( const Event::Ptr &anEvent )
           ++it ) {
       Attendee::Ptr curAttendee = *it;
       if ( !curAttendee->email().isEmpty() && !curAttendee->name().isEmpty() ) {
-        tmpStr = "MAILTO:" + curAttendee->name() + " <" + curAttendee->email() + '>';
+        tmpStr = QLatin1String("MAILTO:") + curAttendee->name() + QLatin1String(" <") + curAttendee->email() + QLatin1Char('>');
       } else if ( curAttendee->name().isEmpty() && curAttendee->email().isEmpty() ) {
-        tmpStr = "MAILTO: ";
+        tmpStr = QLatin1String("MAILTO: ");
         kDebug() << "warning! this Event has an attendee w/o name or email!";
       } else if ( curAttendee->name().isEmpty() ) {
-        tmpStr = "MAILTO: " + curAttendee->email();
+        tmpStr = QLatin1String("MAILTO: ") + curAttendee->email();
       } else {
-        tmpStr = "MAILTO: " + curAttendee->name();
+        tmpStr = QLatin1String("MAILTO: ") + curAttendee->name();
       }
       VObject *aProp = addPropValue( vevent, VCAttendeeProp, tmpStr.toUtf8() );
       addPropValue( aProp, VCRSVPProp, curAttendee->RSVP() ? "TRUE" : "FALSE" );
@@ -830,7 +830,7 @@ VObject *VCalFormat::eventToVEvent( const Event::Ptr &anEvent )
   QString tmpStr2;
 
   for ( it = dateList.constBegin(); it != dateList.constEnd(); ++it ) {
-    tmpStr = qDateToISO( *it ) + ';';
+    tmpStr = qDateToISO( *it ) + QLatin1Char(';');
     tmpStr2 += tmpStr;
   }
   if ( !tmpStr2.isEmpty() ) {
@@ -843,7 +843,7 @@ VObject *VCalFormat::eventToVEvent( const Event::Ptr &anEvent )
   tmpStr2.clear();
 
   for ( idt = dateTimeList.constBegin(); idt != dateTimeList.constEnd(); ++idt ) {
-    tmpStr = kDateTimeToISO( *idt ) + ';';
+    tmpStr = kDateTimeToISO( *idt ) + QLatin1Char(';');
     tmpStr2 += tmpStr;
   }
   if ( !tmpStr2.isEmpty() ) {
@@ -1063,7 +1063,7 @@ Todo::Ptr VCalFormat::VTodoToEvent( VObject *vtodo )
     anEvent->setOrganizer( s = fakeCString( vObjectUStringZValue( vo ) ) );
     deleteStr( s );
   } else {
-    if ( d->mCalendar->owner()->name() != "Unknown Name" ) {
+    if ( d->mCalendar->owner()->name() != QLatin1String("Unknown Name") ) {
       anEvent->setOrganizer( d->mCalendar->owner() );
     }
   }
@@ -1080,13 +1080,13 @@ Todo::Ptr VCalFormat::VTodoToEvent( VObject *vtodo )
       deleteStr( s );
       tmpStr = tmpStr.simplified();
       int emailPos1, emailPos2;
-      if ( ( emailPos1 = tmpStr.indexOf( '<' ) ) > 0 ) {
+      if ( ( emailPos1 = tmpStr.indexOf( QLatin1Char('<') ) ) > 0 ) {
         // both email address and name
-        emailPos2 = tmpStr.lastIndexOf( '>' );
+        emailPos2 = tmpStr.lastIndexOf( QLatin1Char('>') );
         a = Attendee::Ptr( new Attendee( tmpStr.left( emailPos1 - 1 ),
                                          tmpStr.mid( emailPos1 + 1,
                                          emailPos2 - ( emailPos1 + 1 ) ) ) );
-      } else if ( tmpStr.indexOf( '@' ) > 0 ) {
+      } else if ( tmpStr.indexOf( QLatin1Char('@') ) > 0 ) {
         // just an email address
           a = Attendee::Ptr( new Attendee( 0, tmpStr ) );
       } else {
@@ -1199,7 +1199,7 @@ Todo::Ptr VCalFormat::VTodoToEvent( VObject *vtodo )
   if ( ( vo = isAPropertyOf( vtodo, VCRRuleProp ) ) != 0 ) {
     QString tmpStr = ( s = fakeCString( vObjectUStringZValue( vo ) ) );
     deleteStr( s );
-    tmpStr.simplified();
+    tmpStr = tmpStr.simplified();
     tmpStr = tmpStr.toUpper();
     // first, read the type of the recurrence
     int typelen = 1;
@@ -1683,7 +1683,7 @@ Event::Ptr VCalFormat::VEventToEvent( VObject *vevent )
   if ( ( vo = isAPropertyOf( vevent, VCRRuleProp ) ) != 0 ) {
     QString tmpStr = ( s = fakeCString( vObjectUStringZValue( vo ) ) );
     deleteStr( s );
-    tmpStr.simplified();
+    tmpStr = tmpStr.simplified();
     tmpStr = tmpStr.toUpper();
     // first, read the type of the recurrence
     int typelen = 1;
@@ -2306,7 +2306,7 @@ void VCalFormat::populate( VObject *vcal, bool deleted, const QString &notebook 
   if ( ( curVO = isAPropertyOf( vcal, VCTimeZoneProp ) ) != 0 ) {
     char *s = fakeCString( vObjectUStringZValue( curVO ) );
     QString ts( s );
-    QString name = "VCAL" + ts;
+    QString name = QLatin1String("VCAL") + ts;
     deleteStr( s );
 
     // TODO: While using the timezone-offset + vcal as timezone is is
@@ -2332,8 +2332,8 @@ void VCalFormat::populate( VObject *vcal, bool deleted, const QString &notebook 
         curVO = nextVObject( &i );
         if ( strcmp( vObjectName( curVO ), VCDayLightProp ) == 0 ) {
           char *s = fakeCString( vObjectUStringZValue( curVO ) );
-          QString dst = QString( s );
-          QStringList argl = dst.split( ',' );
+          QString dst = QLatin1String( s );
+          QStringList argl = dst.split( QLatin1Char(',') );
           deleteStr( s );
 
           // Too short -> not interesting
@@ -2342,7 +2342,7 @@ void VCalFormat::populate( VObject *vcal, bool deleted, const QString &notebook 
           }
 
           // We don't care about the non-DST periods
-          if ( argl[0] != "TRUE" ) {
+          if ( argl[0] != QLatin1String("TRUE") ) {
             continue;
           }
 
@@ -2367,13 +2367,13 @@ void VCalFormat::populate( VObject *vcal, bool deleted, const QString &notebook 
               realEndDate = startDate;
               realStartDate = endDate;
             }
-            tz = QString( "%1;%2;false;%3" ).
+            tz = QString::fromLatin1( "%1;%2;false;%3" ).
                  arg( strRealEndDate ).
                  arg( QString::number( utcOffset ) ).
                  arg( realEndDate.toString() );
             tzList.append( tz );
 
-            tz = QString( "%1;%2;true;%3" ).
+            tz = QString::fromLatin1( "%1;%2;true;%3" ).
                  arg( strRealStartDate ).
                  arg( QString::number( utcOffsetDst ) ).
                  arg( realStartDate.toString() );
@@ -2555,25 +2555,25 @@ const char *VCalFormat::dayFromNum( int day )
 
 int VCalFormat::numFromDay( const QString &day )
 {
-  if ( day == "MO " ) {
+  if ( day == QLatin1String("MO ") ) {
     return 0;
   }
-  if ( day == "TU " ) {
+  if ( day == QLatin1String("TU ") ) {
     return 1;
   }
-  if ( day == "WE " ) {
+  if ( day == QLatin1String("WE ") ) {
     return 2;
   }
-  if ( day == "TH " ) {
+  if ( day == QLatin1String("TH ") ) {
     return 3;
   }
-  if ( day == "FR " ) {
+  if ( day == QLatin1String("FR ") ) {
     return 4;
   }
-  if ( day == "SA " ) {
+  if ( day == QLatin1String("SA ") ) {
     return 5;
   }
-  if ( day == "SU " ) {
+  if ( day == QLatin1String("SU ") ) {
     return 6;
   }
 
@@ -2586,23 +2586,23 @@ Attendee::PartStat VCalFormat::readStatus( const char *s ) const
   statStr = statStr.toUpper();
   Attendee::PartStat status;
 
-  if ( statStr == "X-ACTION" ) {
+  if ( statStr == QLatin1String("X-ACTION") ) {
     status = Attendee::NeedsAction;
-  } else if ( statStr == "NEEDS ACTION" ) {
+  } else if ( statStr == QLatin1String("NEEDS ACTION") ) {
     status = Attendee::NeedsAction;
-  } else if ( statStr == "ACCEPTED" ) {
+  } else if ( statStr == QLatin1String("ACCEPTED") ) {
     status = Attendee::Accepted;
-  } else if ( statStr == "SENT" ) {
+  } else if ( statStr == QLatin1String("SENT") ) {
     status = Attendee::NeedsAction;
-  } else if ( statStr == "TENTATIVE" ) {
+  } else if ( statStr == QLatin1String("TENTATIVE") ) {
     status = Attendee::Tentative;
-  } else if ( statStr == "CONFIRMED" ) {
+  } else if ( statStr == QLatin1String("CONFIRMED") ) {
     status = Attendee::Accepted;
-  } else if ( statStr == "DECLINED" ) {
+  } else if ( statStr == QLatin1String("DECLINED") ) {
     status = Attendee::Declined;
-  } else if ( statStr == "COMPLETED" ) {
+  } else if ( statStr == QLatin1String("COMPLETED") ) {
     status = Attendee::Completed;
-  } else if ( statStr == "DELEGATED" ) {
+  } else if ( statStr == QLatin1String("DELEGATED" )) {
     status = Attendee::Delegated;
   } else {
     kDebug() << "error setting attendee mStatus, unknown mStatus!";
@@ -2668,7 +2668,8 @@ void VCalFormat::writeCustomProperties( VObject *o, const Incidence::Ptr &i )
   const QMap<QByteArray, QString> custom = i->customProperties();
   for ( QMap<QByteArray, QString>::ConstIterator c = custom.begin();
         c != custom.end();  ++c ) {
-    if ( d->mManuallyWrittenExtensionFields.contains( c.key() ) ) {
+    if ( d->mManuallyWrittenExtensionFields.contains( c.key() ) ||
+         c.key().startsWith( "X-KDE-VOLATILE" ) ) {
       continue;
     }
 

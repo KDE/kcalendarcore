@@ -81,6 +81,9 @@ class KCALCORE_EXPORT RecurrenceRule
         short mDay; // Weekday, 1=monday, 7=sunday
         int mPos;   // week of the day (-1 for last, 1 for first, 0 for all weeks)
                     // Bounded by -366 and +366, 0 means all weeks in that period
+
+        friend KCALCORE_EXPORT QDataStream& operator<<( QDataStream &out, const KCalCore::RecurrenceRule::WDayPos & );
+        friend KCALCORE_EXPORT QDataStream& operator>>( QDataStream &in, KCalCore::RecurrenceRule::WDayPos & );
     };
 
     RecurrenceRule();
@@ -317,7 +320,24 @@ class KCALCORE_EXPORT RecurrenceRule
     class Private;
     Private *const d;
     //@endcond
+
+    friend KCALCORE_EXPORT QDataStream& operator<<( QDataStream &out, const KCalCore::RecurrenceRule * );
+    friend KCALCORE_EXPORT QDataStream& operator>>( QDataStream &in, const KCalCore::RecurrenceRule * );
 };
+
+/**
+ * RecurrenceRule serializer and deserializer.
+ * @since 4.12
+ */
+KCALCORE_EXPORT QDataStream& operator<<( QDataStream &out, const KCalCore::RecurrenceRule * );
+KCALCORE_EXPORT QDataStream& operator>>( QDataStream &in, const KCalCore::RecurrenceRule * );
+
+/**
+ * RecurrenceRule::WDayPos serializer and deserializer.
+ * @since 4.12
+ */
+KCALCORE_EXPORT QDataStream& operator<<( QDataStream &out, const KCalCore::RecurrenceRule::WDayPos & );
+KCALCORE_EXPORT QDataStream& operator>>( QDataStream &in, KCalCore::RecurrenceRule::WDayPos &  );
 
 }
 

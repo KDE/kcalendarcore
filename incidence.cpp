@@ -40,6 +40,7 @@
 #include <KDebug>
 
 #include <QTextDocument> // for Qt::escape() and Qt::mightBeRichText()
+#include <QStringList>
 #include <QTime>
 
 using namespace KCalCore;
@@ -436,7 +437,7 @@ QString Incidence::richDescription() const
   if ( descriptionIsRich() ) {
     return d->mDescription;
   } else {
-    return Qt::escape( d->mDescription ).replace( '\n', "<br/>" );
+    return Qt::escape( d->mDescription ).replace( QLatin1Char('\n'), QLatin1String("<br/>") );
   }
 }
 
@@ -472,7 +473,7 @@ QString Incidence::richSummary() const
   if ( summaryIsRich() ) {
     return d->mSummary;
   } else {
-    return Qt::escape( d->mSummary ).replace( '\n', "<br/>" );
+    return Qt::escape( d->mSummary ).replace( QLatin1Char('\n'), QLatin1String("<br/>") );
   }
 }
 
@@ -507,7 +508,7 @@ void Incidence::setCategories( const QString &catStr )
     return;
   }
 
-  d->mCategories = catStr.split( ',' );
+  d->mCategories = catStr.split( QLatin1Char(',') );
 
   QStringList::Iterator it;
   for ( it = d->mCategories.begin();it != d->mCategories.end(); ++it ) {
@@ -524,7 +525,7 @@ QStringList Incidence::categories() const
 
 QString Incidence::categoriesStr() const
 {
-  return d->mCategories.join( "," );
+  return d->mCategories.join( QLatin1String(",") );
 }
 
 void Incidence::setRelatedTo( const QString &relatedToUid, RelType relType )
@@ -759,7 +760,7 @@ QString Incidence::writeAttachmentToTempFile( const Attachment::Ptr &attachment 
   QStringList patterns = KMimeType::mimeType( attachment->mimeType() )->patterns();
 
   if ( !patterns.empty() ) {
-    file->setSuffix( QString( patterns.first() ).remove( '*' ) );
+    file->setSuffix( QString( patterns.first() ).remove( QLatin1Char('*') ) );
   }
   file->setAutoRemove( true );
   file->open();
@@ -949,7 +950,7 @@ QString Incidence::richLocation() const
   if ( locationIsRich() ) {
     return d->mLocation;
   } else {
-    return Qt::escape( d->mLocation ).replace( '\n', "<br/>" );
+    return Qt::escape( d->mLocation ).replace( QLatin1Char('\n'), QLatin1String("<br/>") );
   }
 }
 
@@ -1067,13 +1068,14 @@ void Incidence::recurrenceUpdated( Recurrence *recurrence )
 {
   if ( recurrence == d->mRecurrence ) {
     update();
+    setFieldDirty( FieldRecurrence );
     updated();
   }
 }
 
 //@cond PRIVATE
 #define ALT_DESC_FIELD "X-ALT-DESC"
-#define ALT_DESC_PARAMETERS "FMTTYPE=text/html"
+#define ALT_DESC_PARAMETERS QLatin1String("FMTTYPE=text/html")
 //@endcond
 
 bool Incidence::hasAltDescription() const
@@ -1107,4 +1109,79 @@ QString Incidence::altDescription() const
 bool Incidence::supportsGroupwareCommunication() const
 {
   return type() == TypeEvent || type() == TypeTodo;
+}
+
+/** static */
+QStringList Incidence::mimeTypes()
+{
+  return QStringList() << QLatin1String( "text/calendar" )
+                       << KCalCore::Event::eventMimeType()
+                       << KCalCore::Todo::todoMimeType()
+                       << KCalCore::Journal::journalMimeType();
+}
+
+void Incidence::serialize( QDataStream &out )
+{
+  out << d->mCreated << d->mRevision << d->mDescription << d->mDescriptionIsRich << d->mSummary
+      << d->mSummaryIsRich << d->mLocation << d->mLocationIsRich << d->mCategories
+      << d->mResources << d->mStatusString << d->mPriority << d->mSchedulingID
+      << d->mGeoLatitude << d->mGeoLongitude << d->mHasGeo << d->mRecurrenceId << d->mThisAndFuture
+      << d->mLocalOnly << d->mStatus << d->mSecrecy << ( d->mRecurrence ? true : false )
+      << d->mAttachments.count() << d->mAlarms.count() << d->mRelatedToUid;
+
+  if ( d->mRecurrence )
+    out << d->mRecurrence;
+
+  foreach ( const Attachment::Ptr &attachment, d->mAttachments ) {
+    out << attachment;
+  }
+
+  foreach ( const Alarm::Ptr &alarm, d->mAlarms ) {
+    out << alarm;
+  }
+}
+
+void Incidence::deserialize( QDataStream &in )
+{
+  quint32 status, secrecy;
+  bool hasRecurrence;
+  int attachmentCount, alarmCount;
+  QMap<int,QString> relatedToUid;
+  in >> d->mCreated >> d->mRevision >> d->mDescription >> d->mDescriptionIsRich >> d->mSummary
+      >> d->mSummaryIsRich >> d->mLocation >> d->mLocationIsRich >> d->mCategories
+      >> d->mResources >> d->mStatusString >> d->mPriority >> d->mSchedulingID
+      >> d->mGeoLatitude >> d->mGeoLongitude >> d->mHasGeo >> d->mRecurrenceId >> d->mThisAndFuture
+      >> d->mLocalOnly >> status >> secrecy >> hasRecurrence >> attachmentCount >> alarmCount
+      >> relatedToUid;
+
+  if ( hasRecurrence ) {
+    d->mRecurrence = new Recurrence();
+    d->mRecurrence->addObserver( const_cast<KCalCore::Incidence*>( this ) );
+    in >> d->mRecurrence;
+  }
+
+  d->mAttachments.clear();
+  d->mAlarms.clear();
+
+  for ( int i=0; i<attachmentCount; ++i ) {
+    Attachment::Ptr attachment = Attachment::Ptr( new Attachment( QString() ) );
+    in >> attachment;
+    d->mAttachments.append( attachment );
+  }
+
+  for ( int i=0; i<alarmCount; ++i ) {
+    Alarm::Ptr alarm = Alarm::Ptr( new Alarm( this ) );
+    in >> alarm;
+    d->mAlarms.append( alarm );
+  }
+
+  d->mStatus = static_cast<Incidence::Status>( status );
+  d->mSecrecy = static_cast<Incidence::Secrecy>( secrecy );
+
+  d->mRelatedToUid.clear();
+  foreach ( int key, relatedToUid.keys() ) {
+    d->mRelatedToUid.insert( static_cast<Incidence::RelType>( key ), relatedToUid.value(key) );
+  }
+
+
 }

@@ -33,6 +33,7 @@
 
 #include "todo.h"
 #include "visitor.h"
+#include "recurrence.h"
 
 #include <KDebug>
 
@@ -173,8 +174,19 @@ KDateTime Todo::dtDue( bool first ) const
   if ( !hasDueDate() ) {
     return KDateTime();
   }
+
+  const KDateTime start = IncidenceBase::dtStart();
   if ( recurs() && !first && d->mDtRecurrence.isValid() ) {
-    return d->mDtRecurrence;
+    if ( start.isValid() ) {
+      // This is the normal case, recurring to-dos have a valid DTSTART.
+      const int duration = start.daysTo( d->mDtDue );
+      KDateTime dt = d->mDtRecurrence.addDays( duration );
+      dt.setTime( d->mDtDue.time() );
+      return dt;
+    } else {
+      // This is a legacy case, where recurrence was calculated against DTDUE
+      return d->mDtRecurrence;
+    }
   }
 
   return d->mDtDue;
@@ -185,50 +197,61 @@ bool Todo::hasDueDate() const
   return d->mDtDue.isValid();
 }
 
-void Todo::setHasDueDate( bool f )
+void Todo::setHasDueDate( bool has )
 {
   if ( mReadOnly ) {
     return;
   }
   update();
-  if ( !f ) {
+  if ( !has ) {
     d->mDtDue = KDateTime();
-    d->mDtRecurrence = KDateTime();
+
+    if ( !dtStart().isValid() ) {
+      // Recurrence is only calculated against dtdue if dtstart is invalid
+      d->mDtRecurrence = KDateTime();
+    }
   }
+
   setFieldDirty( FieldDtDue );
   updated();
 }
 
 bool Todo::hasStartDate() const
 {
-  return IncidenceBase::dtStart().isValid() || d->mDtRecurrence.isValid();
+  return IncidenceBase::dtStart().isValid();
 }
 
-void Todo::setHasStartDate( bool f )
+void Todo::setHasStartDate( bool has )
 {
   if ( mReadOnly ) {
     return;
   }
 
   update();
-  if ( recurs() && !f ) {
-    if ( !comments().filter( "NoStartDate" ).count() ) {
-      addComment( "NoStartDate" ); //TODO: --> custom flag?
+  if ( recurs() && !has ) {
+    if ( !comments().filter( QLatin1String("NoStartDate") ).count() ) {
+      addComment( QLatin1String("NoStartDate") ); //TODO: --> custom flag?
     }
   } else {
-    QString s( "NoStartDate" );
+    QString s( QLatin1String("NoStartDate") );
     removeComment( s );
   }
-  if ( !f ) {
+
+  if ( !has ) {
+    if ( dtStart().isValid() && d->mDtDue.isValid() ) {
+      // If dtstart is invalid then recurrence is calculated against dtdue, so don't clear it.
+      d->mDtRecurrence = KDateTime();
+    }
     setDtStart( KDateTime() );
   }
+
   setFieldDirty( FieldDtStart );
   updated();
 }
 
 KDateTime Todo::dtStart() const
 {
-  return dtStart( false );
+  return dtStart( /*first=*/false );
 }
 
 KDateTime Todo::dtStart( bool first ) const
@@ -236,10 +259,9 @@ KDateTime Todo::dtStart( bool first ) const
   if ( !hasStartDate() ) {
     return KDateTime();
   }
+
   if ( recurs() && !first && d->mDtRecurrence.isValid() ) {
-    KDateTime dt = d->mDtRecurrence.addDays( dtDue( true ).daysTo( IncidenceBase::dtStart() ) );
-    dt.setTime( IncidenceBase::dtStart().time() );
-    return dt;
+    return d->mDtRecurrence;
   } else {
     return IncidenceBase::dtStart();
   }
@@ -415,9 +437,9 @@ bool Todo::isOverdue() const
     return false; // if it's never due, it can't be overdue
   }
 
-  const bool inPast = allDay() ?
-                      dtDue().date() < QDate::currentDate() :
-                      dtDue() < KDateTime::currentUtcDateTime();
+  const bool inPast = allDay() ? dtDue().date() < QDate::currentDate()
+                               : dtDue() < KDateTime::currentUtcDateTime();
+
   return inPast && !isCompleted();
 }
 
@@ -437,7 +459,7 @@ bool Todo::Private::recurTodo( Todo *todo )
   if ( todo && todo->recurs() ) {
     Recurrence *r = todo->recurrence();
     const KDateTime recurrenceEndDateTime = r->endDateTime();
-    KDateTime nextOccurrenceDateTime = r->getNextDateTime( todo->dtDue() );
+    KDateTime nextOccurrenceDateTime = r->getNextDateTime( todo->dtStart() );
 
     if ( ( r->duration() == -1 ||
            ( nextOccurrenceDateTime.isValid() && recurrenceEndDateTime.isValid() &&
@@ -502,7 +524,7 @@ KDateTime Todo::dateTime( DateTimeRole role ) const
     return dtDue();
   case RoleDisplayStart:
   case RoleDisplayEnd:
-    return dtDue();
+    return dtDue().isValid() ? dtDue() : dtStart();
   case RoleAlarm:
     if ( alarms().isEmpty() ) {
       return KDateTime();
@@ -546,9 +568,16 @@ void Todo::setDateTime( const KDateTime &dateTime, DateTimeRole role )
 
 void Todo::virtual_hook( int id, void *data )
 {
-  Q_UNUSED( id );
-  Q_UNUSED( data );
-  Q_ASSERT( false );
+  switch(static_cast<IncidenceBase::VirtualHook>(id)) {
+    case IncidenceBase::SerializerHook:
+      serialize(*reinterpret_cast<QDataStream*>(data));
+    break;
+    case IncidenceBase::DeserializerHook:
+      deserialize(*reinterpret_cast<QDataStream*>(data));
+    break;
+    default:
+      Q_ASSERT(false);
+  }
 }
 
 QLatin1String Todo::mimeType() const
@@ -578,4 +607,16 @@ QLatin1String Todo::iconName( const KDateTime &recurrenceId ) const
   } else {
     return QLatin1String( "view-calendar-tasks" );
   }
+}
+
+void Todo::serialize( QDataStream &out )
+{
+  Incidence::serialize( out );
+  out << d->mDtDue << d->mDtRecurrence << d->mCompleted << d->mPercentComplete;
+}
+
+void Todo::deserialize( QDataStream &in )
+{
+  Incidence::deserialize( in );
+  in >> d->mDtDue >> d->mDtRecurrence >> d->mCompleted >> d->mPercentComplete;
 }

@@ -26,6 +26,8 @@
 
 #include <iostream>
 
+#include <QDate>
+
 using namespace KCalCore;
 using namespace std;
 
