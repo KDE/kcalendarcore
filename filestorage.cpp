@@ -126,6 +126,9 @@ bool FileStorage::load()
           success = vCal.load( calendar(), d->mFileName );
           productId = vCal.loadedProductId();
           if (!success) {
+            if (vCal.exception()) {
+              kWarning() << "Exception while importing:" << vCal.exception()->code();
+            }
             return false;
           }
         } else {
