@@ -125,6 +125,9 @@ bool FileStorage::load()
           VCalFormat vCal;
           success = vCal.load( calendar(), d->mFileName );
           productId = vCal.loadedProductId();
+          if (!success) {
+            return false;
+          }
         } else {
           return false;
         }
