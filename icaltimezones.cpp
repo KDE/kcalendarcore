@@ -859,6 +859,7 @@ ICalTimeZoneSource::ICalTimeZoneSource()
   : KTimeZoneSource( false ),
     d( 0 )
 {
+  Q_UNUSED(d);
 }
 
 ICalTimeZoneSource::~ICalTimeZoneSource()
