@@ -158,7 +158,8 @@ void Compat::setCreatedToDtStamp( const Incidence::Ptr &incidence, const KDateTi
   Q_UNUSED( dtstamp );
 }
 
-struct CompatDecorator::Private {
+class CompatDecorator::Private {
+public:
   Compat *compat;
 };
 
