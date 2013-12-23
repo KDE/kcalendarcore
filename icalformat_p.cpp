@@ -719,7 +719,7 @@ icalproperty *ICalFormatImpl::writeOrganizer( const Person::Ptr &organizer )
     return 0;
   }
 
-  icalproperty *p = icalproperty_new_organizer( "MAILTO:" + organizer->email().toUtf8() );
+  icalproperty *p = icalproperty_new_organizer( QByteArray(QByteArray("MAILTO:") + organizer->email().toUtf8()) );
 
   if ( !organizer->name().isEmpty() ) {
     icalproperty_add_parameter(
@@ -764,7 +764,7 @@ icalproperty *ICalFormatImpl::writeAttendee( const Attendee::Ptr &attendee )
   }
 
   icalproperty *p =
-    icalproperty_new_attendee( "mailto:" + attendee->email().toUtf8() );
+    icalproperty_new_attendee( QByteArray(QByteArray("mailto:") + attendee->email().toUtf8()) );
 
   if ( !attendee->name().isEmpty() ) {
     icalproperty_add_parameter(
@@ -1055,7 +1055,7 @@ icalcomponent *ICalFormatImpl::writeAlarm( const Alarm::Ptr &alarm )
     for ( Person::List::ConstIterator ad = addresses.constBegin();
           ad != addresses.constEnd();  ++ad ) {
       if ( !( *ad )->email().isEmpty() ) {
-        icalproperty *p = icalproperty_new_attendee( "MAILTO:" + ( *ad )->email().toUtf8() );
+        icalproperty *p = icalproperty_new_attendee( QByteArray(QByteArray("MAILTO:") + ( *ad )->email().toUtf8()) );
         if ( !( *ad )->name().isEmpty() ) {
           icalproperty_add_parameter(
             p, icalparameter_new_cn( quoteForParam( ( *ad )->name() ).toUtf8() ) );
