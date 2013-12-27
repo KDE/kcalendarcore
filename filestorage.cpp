@@ -44,138 +44,140 @@ using namespace KCalCore;
 //@cond PRIVATE
 class KCalCore::FileStorage::Private
 {
-  public:
-    Private( const QString &fileName, CalFormat *format )
-      : mFileName( fileName ),
-        mSaveFormat( format )
+public:
+    Private(const QString &fileName, CalFormat *format)
+        : mFileName(fileName),
+          mSaveFormat(format)
     {}
-    ~Private() { delete mSaveFormat; }
+    ~Private() {
+        delete mSaveFormat;
+    }
 
     QString mFileName;
     CalFormat *mSaveFormat;
 };
 //@endcond
 
-FileStorage::FileStorage( const Calendar::Ptr &cal, const QString &fileName,
-                          CalFormat *format )
-  : CalStorage( cal ),
-    d( new Private( fileName, format ) )
+FileStorage::FileStorage(const Calendar::Ptr &cal, const QString &fileName,
+                         CalFormat *format)
+    : CalStorage(cal),
+      d(new Private(fileName, format))
 {
 }
 
 FileStorage::~FileStorage()
 {
-  delete d;
+    delete d;
 }
 
-void FileStorage::setFileName( const QString &fileName )
+void FileStorage::setFileName(const QString &fileName)
 {
-  d->mFileName = fileName;
+    d->mFileName = fileName;
 }
 
 QString FileStorage::fileName() const
 {
-  return d->mFileName;
+    return d->mFileName;
 }
 
-void FileStorage::setSaveFormat( CalFormat *format )
+void FileStorage::setSaveFormat(CalFormat *format)
 {
-  delete d->mSaveFormat;
-  d->mSaveFormat = format;
+    delete d->mSaveFormat;
+    d->mSaveFormat = format;
 }
 
 CalFormat *FileStorage::saveFormat() const
 {
-  return d->mSaveFormat;
+    return d->mSaveFormat;
 }
 
 bool FileStorage::open()
 {
-  return true;
+    return true;
 }
 
 bool FileStorage::load()
 {
-  if ( d->mFileName.isEmpty() ) {
-    kWarning() << "Empty filename while trying to load";
-    return false;
-  }
-
-  // Always try to load with iCalendar. It will detect, if it is actually a
-  // vCalendar file.
-  bool success;
-  QString productId;
-  // First try the supplied format. Otherwise fall through to iCalendar, then
-  // to vCalendar
-  success = saveFormat() && saveFormat()->load( calendar(), d->mFileName );
-  if ( success ) {
-    productId = saveFormat()->loadedProductId();
-  } else {
-    ICalFormat iCal;
-
-    success = iCal.load( calendar(), d->mFileName );
-
-    if ( success ) {
-      productId = iCal.loadedProductId();
-    } else {
-      if ( iCal.exception() ) {
-        if ( iCal.exception()->code() == Exception::CalVersion1 ) {
-          // Expected non vCalendar file, but detected vCalendar
-          kDebug() << "Fallback to VCalFormat";
-          VCalFormat vCal;
-          success = vCal.load( calendar(), d->mFileName );
-          productId = vCal.loadedProductId();
-          if (!success) {
-            if (vCal.exception()) {
-              kWarning() << "Exception while importing:" << vCal.exception()->code();
-            }
-            return false;
-          }
-        } else {
-          return false;
-        }
-      } else {
-        kWarning() << "There should be an exception set.";
+    if (d->mFileName.isEmpty()) {
+        kWarning() << "Empty filename while trying to load";
         return false;
-      }
     }
-  }
 
-  calendar()->setProductId( productId );
-  calendar()->setModified( false );
+    // Always try to load with iCalendar. It will detect, if it is actually a
+    // vCalendar file.
+    bool success;
+    QString productId;
+    // First try the supplied format. Otherwise fall through to iCalendar, then
+    // to vCalendar
+    success = saveFormat() && saveFormat()->load(calendar(), d->mFileName);
+    if (success) {
+        productId = saveFormat()->loadedProductId();
+    } else {
+        ICalFormat iCal;
 
-  return true;
+        success = iCal.load(calendar(), d->mFileName);
+
+        if (success) {
+            productId = iCal.loadedProductId();
+        } else {
+            if (iCal.exception()) {
+                if (iCal.exception()->code() == Exception::CalVersion1) {
+                    // Expected non vCalendar file, but detected vCalendar
+                    kDebug() << "Fallback to VCalFormat";
+                    VCalFormat vCal;
+                    success = vCal.load(calendar(), d->mFileName);
+                    productId = vCal.loadedProductId();
+                    if (!success) {
+                        if (vCal.exception()) {
+                            kWarning() << "Exception while importing:" << vCal.exception()->code();
+                        }
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            } else {
+                kWarning() << "There should be an exception set.";
+                return false;
+            }
+        }
+    }
+
+    calendar()->setProductId(productId);
+    calendar()->setModified(false);
+
+    return true;
 }
 
 bool FileStorage::save()
 {
-  kDebug();
-  if ( d->mFileName.isEmpty() ) {
-    return false;
-  }
-
-  CalFormat *format = d->mSaveFormat ? d->mSaveFormat : new ICalFormat;
-
-  bool success = format->save( calendar(), d->mFileName );
-
-  if ( success ) {
-    calendar()->setModified( false );
-  } else {
-    if ( !format->exception() ) {
-      kDebug() << "Error. There should be an expection set.";
-    } else {
-      kDebug() << int( format->exception()->code() );
+    kDebug();
+    if (d->mFileName.isEmpty()) {
+        return false;
     }
-  }
 
-  if ( !d->mSaveFormat ) {
-    delete format;
-  }
+    CalFormat *format = d->mSaveFormat ? d->mSaveFormat : new ICalFormat;
 
-  return success;
+    bool success = format->save(calendar(), d->mFileName);
+
+    if (success) {
+        calendar()->setModified(false);
+    } else {
+        if (!format->exception()) {
+            kDebug() << "Error. There should be an expection set.";
+        } else {
+            kDebug() << int(format->exception()->code());
+        }
+    }
+
+    if (!d->mSaveFormat) {
+        delete format;
+    }
+
+    return success;
 }
 
 bool FileStorage::close()
 {
-  return true;
+    return true;
 }

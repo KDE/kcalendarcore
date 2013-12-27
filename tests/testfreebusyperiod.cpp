@@ -27,93 +27,93 @@
 #include <qtest_kde.h>
 #include <boost/concept_check.hpp>
 
-QTEST_KDEMAIN( FreeBusyPeriodTest, NoGUI )
+QTEST_KDEMAIN(FreeBusyPeriodTest, NoGUI)
 using namespace KCalCore;
 
 void FreeBusyPeriodTest::testValidity()
 {
-  const KDateTime p1DateTime( QDate( 2006, 8, 30 ), QTime( 7, 0, 0 ), KDateTime::UTC );
-  FreeBusyPeriod p1( p1DateTime, Duration( 60 ) );
+    const KDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), KDateTime::UTC);
+    FreeBusyPeriod p1(p1DateTime, Duration(60));
 
-  QString summary = "I can haz summary?";
-  QString location = "The Moon";
-  p1.setSummary( summary );
-  p1.setLocation( location );
+    QString summary = "I can haz summary?";
+    QString location = "The Moon";
+    p1.setSummary(summary);
+    p1.setLocation(location);
 
-  QVERIFY( p1.hasDuration() );
-  QCOMPARE( p1.duration().asSeconds(), 60 );
-  QVERIFY( p1.start() == KDateTime( QDate( 2006, 8, 30 ), QTime( 7, 0, 0 ), KDateTime::UTC ) );
+    QVERIFY(p1.hasDuration());
+    QCOMPARE(p1.duration().asSeconds(), 60);
+    QVERIFY(p1.start() == KDateTime(QDate(2006, 8, 30), QTime(7, 0, 0), KDateTime::UTC));
 
-  QCOMPARE( p1.summary(), summary );
-  QCOMPARE( p1.location(), location );
+    QCOMPARE(p1.summary(), summary);
+    QCOMPARE(p1.location(), location);
 }
 
 void FreeBusyPeriodTest::testAssign()
 {
-  const KDateTime p1DateTime( QDate( 2006, 8, 30 ), QTime( 7, 0, 0 ), KDateTime::UTC );
-  FreeBusyPeriod p1( p1DateTime, Duration( 60 ) );
-  FreeBusyPeriod p2;
+    const KDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), KDateTime::UTC);
+    FreeBusyPeriod p1(p1DateTime, Duration(60));
+    FreeBusyPeriod p2;
 
-  QString summary = "I can haz summary?";
-  QString location = "The Moon";
-  p1.setSummary( summary );
-  p1.setLocation( location );
+    QString summary = "I can haz summary?";
+    QString location = "The Moon";
+    p1.setSummary(summary);
+    p1.setLocation(location);
 
-  p2 = p1;
+    p2 = p1;
 
-  QVERIFY( p2.hasDuration() );
-  QVERIFY( p2.duration().asSeconds() == 60 );
-  QVERIFY( p2.start() == KDateTime( QDate( 2006, 8, 30 ), QTime( 7, 0, 0 ), KDateTime::UTC ) );
-  QCOMPARE( p1.summary(), summary );
-  QCOMPARE( p1.location(), location );
+    QVERIFY(p2.hasDuration());
+    QVERIFY(p2.duration().asSeconds() == 60);
+    QVERIFY(p2.start() == KDateTime(QDate(2006, 8, 30), QTime(7, 0, 0), KDateTime::UTC));
+    QCOMPARE(p1.summary(), summary);
+    QCOMPARE(p1.location(), location);
 }
 
 void FreeBusyPeriodTest::testDataStreamOut()
 {
-  const KDateTime p1DateTime( QDate( 2006, 8, 30 ), QTime( 7, 0, 0 ), KDateTime::UTC );
-  FreeBusyPeriod p1( p1DateTime, Duration( 60 ) );
+    const KDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), KDateTime::UTC);
+    FreeBusyPeriod p1(p1DateTime, Duration(60));
 
-  p1.setSummary( "I can haz summary?" );
-  p1.setLocation( "The Moon" );
+    p1.setSummary("I can haz summary?");
+    p1.setLocation("The Moon");
 
-  QByteArray byteArray;
-  QDataStream out_stream( &byteArray, QIODevice::WriteOnly );
+    QByteArray byteArray;
+    QDataStream out_stream(&byteArray, QIODevice::WriteOnly);
 
-  out_stream << p1;
+    out_stream << p1;
 
-  QDataStream in_stream( &byteArray, QIODevice::ReadOnly );
+    QDataStream in_stream(&byteArray, QIODevice::ReadOnly);
 
-  Period p2;
-  Period periodParent = static_cast<Period>( p1 );
-  in_stream >> p2;
-  QVERIFY( periodParent == p2 );
+    Period p2;
+    Period periodParent = static_cast<Period>(p1);
+    in_stream >> p2;
+    QVERIFY(periodParent == p2);
 
-  QString summary;
-  in_stream >> summary;
-  QCOMPARE( summary, p1.summary() );
+    QString summary;
+    in_stream >> summary;
+    QCOMPARE(summary, p1.summary());
 
-  QString location;
-  in_stream >> location;
-  QCOMPARE( location, p1.location() );
+    QString location;
+    in_stream >> location;
+    QCOMPARE(location, p1.location());
 }
 
 void FreeBusyPeriodTest::testDataStreamIn()
 {
-  const KDateTime p1DateTime( QDate( 2006, 8, 30 ) );
-  const Duration duration( 24 * 60 * 60 ) ;
-  FreeBusyPeriod p1( p1DateTime, duration );
-  p1.setSummary( "I can haz summary?" );
-  p1.setLocation( "The Moon" );
+    const KDateTime p1DateTime(QDate(2006, 8, 30));
+    const Duration duration(24 * 60 * 60) ;
+    FreeBusyPeriod p1(p1DateTime, duration);
+    p1.setSummary("I can haz summary?");
+    p1.setLocation("The Moon");
 
-  QByteArray byteArray;
-  QDataStream out_stream( &byteArray, QIODevice::WriteOnly );
+    QByteArray byteArray;
+    QDataStream out_stream(&byteArray, QIODevice::WriteOnly);
 
-  out_stream << p1;
+    out_stream << p1;
 
-  QDataStream in_stream( &byteArray, QIODevice::ReadOnly );
+    QDataStream in_stream(&byteArray, QIODevice::ReadOnly);
 
-  FreeBusyPeriod p2;
-  in_stream >> p2;
+    FreeBusyPeriod p2;
+    in_stream >> p2;
 
-  QCOMPARE( p2, p1 );
+    QCOMPARE(p2, p1);
 }

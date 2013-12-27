@@ -40,13 +40,13 @@ namespace KCalCore {
 */
 class KCALCORE_EXPORT Event : public Incidence
 {
-  public:
+public:
     /**
       The different Event transparency types.
     */
     enum Transparency {
-      Opaque,      /**< Event appears in free/busy time */
-      Transparent  /**< Event does @b not appear in free/busy time */
+        Opaque,      /**< Event appears in free/busy time */
+        Transparent  /**< Event does @b not appear in free/busy time */
     };
 
     /**
@@ -68,7 +68,7 @@ class KCALCORE_EXPORT Event : public Incidence
       Copy constructor.
       @param other is the event to copy.
     */
-    Event( const Event &other );
+    Event(const Event &other);
 
     /**
       Destroys the event.
@@ -98,7 +98,7 @@ class KCALCORE_EXPORT Event : public Incidence
       @param dt is the starting date/time.
       @see IncidenceBase::dtStart().
     */
-    virtual void setDtStart( const KDateTime &dt );
+    virtual void setDtStart(const KDateTime &dt);
 
     /**
       Sets the event end date and time.
@@ -108,7 +108,7 @@ class KCALCORE_EXPORT Event : public Incidence
       @param dtEnd is a KDateTime specifying when the event ends.
       @see dtEnd(), dateEnd().
     */
-    void setDtEnd( const KDateTime &dtEnd );
+    void setDtEnd(const KDateTime &dtEnd);
 
     /**
       Returns the event end date and time.
@@ -131,7 +131,7 @@ class KCALCORE_EXPORT Event : public Incidence
       @param b If set, indicates the event has an end date.
       @deprecated Use setDtEnd( KDateTime() )
     */
-    KCALCORE_DEPRECATED void setHasEndDate( bool b );
+    KCALCORE_DEPRECATED void setHasEndDate(bool b);
 
     /**
       Returns whether the event has an end date/time.
@@ -148,20 +148,20 @@ class KCALCORE_EXPORT Event : public Incidence
       @param spec If set, looks if the event is multiday for the given spec.
       If not set, looks if event this multiday for its spec.
     */
-    bool isMultiDay( const KDateTime::Spec &spec = KDateTime::Spec() ) const;
+    bool isMultiDay(const KDateTime::Spec &spec = KDateTime::Spec()) const;
 
     /**
       @copydoc
       IncidenceBase::shiftTimes()
     */
-    virtual void shiftTimes( const KDateTime::Spec &oldSpec,
-                             const KDateTime::Spec &newSpec );
+    virtual void shiftTimes(const KDateTime::Spec &oldSpec,
+                            const KDateTime::Spec &newSpec);
 
     /**
       Sets the event's time transparency level.
       @param transparency is the event Transparency level.
     */
-    void setTransparency( Transparency transparency );
+    void setTransparency(Transparency transparency);
 
     /**
       Returns the event's time transparency level.
@@ -172,25 +172,25 @@ class KCALCORE_EXPORT Event : public Incidence
       Sets the duration of this event.
       @param duration is the event Duration.
     */
-    void setDuration( const Duration &duration );
+    void setDuration(const Duration &duration);
 
     /**
       @copydoc
       IncidenceBase::setAllDay().
     */
-    void setAllDay( bool allDay );
+    void setAllDay(bool allDay);
 
     /**
       @copydoc
       IncidenceBase::dateTime()
     */
-    KDateTime dateTime( DateTimeRole role ) const;
+    KDateTime dateTime(DateTimeRole role) const;
 
     /**
       @copydoc
       IncidenceBase::setDateTime()
     */
-    void setDateTime( const KDateTime &dateTime, DateTimeRole role );
+    void setDateTime(const KDateTime &dateTime, DateTimeRole role);
 
     /**
       @copydoc
@@ -202,38 +202,38 @@ class KCALCORE_EXPORT Event : public Incidence
        @copydoc
        Incidence::iconName()
     */
-    QLatin1String iconName( const KDateTime &recurrenceId = KDateTime() ) const;
+    QLatin1String iconName(const KDateTime &recurrenceId = KDateTime()) const;
 
     /**
        Returns the Akonadi specific sub MIME type of a KCalCore::Event.
     */
     static QLatin1String eventMimeType();
 
-  protected:
+protected:
     /**
       Compares two events for equality.
       @param event is the event to compare.
     */
-    virtual bool equals( const IncidenceBase &event ) const;
+    virtual bool equals(const IncidenceBase &event) const;
 
     /**
       @copydoc
       IncidenceBase::assign()
     */
-    virtual IncidenceBase &assign( const IncidenceBase &other );
+    virtual IncidenceBase &assign(const IncidenceBase &other);
 
     /**
       @copydoc
       IncidenceBase::virtual_hook()
     */
-    virtual void virtual_hook( int id, void *data );
+    virtual void virtual_hook(int id, void *data);
 
-  private:
+private:
     /**
       @copydoc
       IncidenceBase::accept()
     */
-    bool accept( Visitor &v, IncidenceBase::Ptr incidence );
+    bool accept(Visitor &v, IncidenceBase::Ptr incidence);
 
     /**
       Disabled, otherwise could be dangerous if you subclass Event.
@@ -241,7 +241,7 @@ class KCALCORE_EXPORT Event : public Incidence
       virtual function assign().
       @param other is another Event object to assign to this one.
      */
-    Event &operator=( const Event &other );
+    Event &operator=(const Event &other);
 
     // For polymorfic serialization
     void serialize(QDataStream &out);
@@ -256,14 +256,14 @@ class KCALCORE_EXPORT Event : public Incidence
 } // namespace KCalCore
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO( KCalCore::Event::Ptr, Q_MOVABLE_TYPE );
-Q_DECLARE_METATYPE( KCalCore::Event::Ptr )
+Q_DECLARE_TYPEINFO(KCalCore::Event::Ptr, Q_MOVABLE_TYPE);
+Q_DECLARE_METATYPE(KCalCore::Event::Ptr)
 //@endcond
 
 //@cond PRIVATE
 namespace KPIMUtils {
-  // super class trait specialization
-  template <> struct SuperClass<KCalCore::Event> : public SuperClassTrait<KCalCore::Incidence>{};
+// super class trait specialization
+template <> struct SuperClass<KCalCore::Event> : public SuperClassTrait<KCalCore::Incidence> {};
 }
 //@endcond
 

@@ -50,11 +50,11 @@ namespace KCalCore {
 */
 class KCALCORE_EXPORT CustomProperties
 {
-    friend KCALCORE_EXPORT QDataStream &operator<<( QDataStream &s,
-                                                    const KCalCore::CustomProperties &properties );
-    friend KCALCORE_EXPORT QDataStream &operator>>( QDataStream &s,
-                                                    KCalCore::CustomProperties &properties );
-  public:
+    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &s,
+            const KCalCore::CustomProperties &properties);
+    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &s,
+            KCalCore::CustomProperties &properties);
+public:
     /**
       Constructs an empty custom properties instance.
     */
@@ -64,7 +64,7 @@ class KCALCORE_EXPORT CustomProperties
       Copy constructor.
       @param other is the one to copy.
     */
-    CustomProperties( const CustomProperties &other );
+    CustomProperties(const CustomProperties &other);
 
     /**
       Destructor.
@@ -76,7 +76,7 @@ class KCALCORE_EXPORT CustomProperties
       @param properties is the one to compare.
       @warning The comparison is not polymorphic.
     */
-    bool operator==( const CustomProperties &properties ) const;
+    bool operator==(const CustomProperties &properties) const;
 
     /**
       Create or modify a custom calendar property.
@@ -87,8 +87,8 @@ class KCALCORE_EXPORT CustomProperties
       will be ignored.
       @see removeCustomProperty().
     */
-    void setCustomProperty( const QByteArray &app, const QByteArray &key,
-                            const QString &value );
+    void setCustomProperty(const QByteArray &app, const QByteArray &key,
+                           const QString &value);
 
     /**
       Delete a custom calendar property.
@@ -97,7 +97,7 @@ class KCALCORE_EXPORT CustomProperties
       @param key Property identifier specific to the application.
       @see setCustomProperty().
     */
-    void removeCustomProperty( const QByteArray &app, const QByteArray &key );
+    void removeCustomProperty(const QByteArray &app, const QByteArray &key);
 
     /**
       Return the value of a custom calendar property.
@@ -107,7 +107,7 @@ class KCALCORE_EXPORT CustomProperties
       @return Property value, or QString() if (and only if) the property
       does not exist.
     */
-    QString customProperty( const QByteArray &app, const QByteArray &key ) const;
+    QString customProperty(const QByteArray &app, const QByteArray &key) const;
 
     /**
       Validate and return the full name of a custom calendar property.
@@ -117,7 +117,7 @@ class KCALCORE_EXPORT CustomProperties
       @return Full property name, or empty string if it would contain invalid
               characters
     */
-    static QByteArray customPropertyName( const QByteArray &app, const QByteArray &key );
+    static QByteArray customPropertyName(const QByteArray &app, const QByteArray &key);
 
     /**
       Create or modify a non-KDE or non-standard custom calendar property.
@@ -131,8 +131,8 @@ class KCALCORE_EXPORT CustomProperties
       through as-is albeit they can be of course parsed if need be.
       @see removeNonKDECustomProperty().
     */
-    void setNonKDECustomProperty( const QByteArray &name, const QString &value,
-                                  const QString &parameters = QString() );
+    void setNonKDECustomProperty(const QByteArray &name, const QString &value,
+                                 const QString &parameters = QString());
 
     /**
       Delete a non-KDE or non-standard custom calendar property.
@@ -140,7 +140,7 @@ class KCALCORE_EXPORT CustomProperties
       @param name Full property name
       @see setNonKDECustomProperty().
     */
-    void removeNonKDECustomProperty( const QByteArray &name );
+    void removeNonKDECustomProperty(const QByteArray &name);
 
     /**
       Return the value of a non-KDE or non-standard custom calendar property.
@@ -149,7 +149,7 @@ class KCALCORE_EXPORT CustomProperties
       @return Property value, or QString() if (and only if) the property
       does not exist.
     */
-    QString nonKDECustomProperty( const QByteArray &name ) const;
+    QString nonKDECustomProperty(const QByteArray &name) const;
 
     /**
       Return the parameters of a non-KDE or non-standard custom
@@ -159,7 +159,7 @@ class KCALCORE_EXPORT CustomProperties
       @return The parameters for the given property. Empty string is
       returned if none are set.
     */
-    QString nonKDECustomPropertyParameters( const QByteArray &name ) const;
+    QString nonKDECustomPropertyParameters(const QByteArray &name) const;
 
     /**
       Initialise the alarm's custom calendar properties to the specified
@@ -167,7 +167,7 @@ class KCALCORE_EXPORT CustomProperties
       @param properties is a QMap of property key/value pairs.
       @see customProperties().
     */
-    void setCustomProperties( const QMap<QByteArray, QString> &properties );
+    void setCustomProperties(const QMap<QByteArray, QString> &properties);
 
     /**
       Returns all custom calendar property key/value pairs.
@@ -180,9 +180,9 @@ class KCALCORE_EXPORT CustomProperties
       @warning The assignment is not polymorphic.
       @param other is the CustomProperty to assign.
     */
-    CustomProperties &operator=( const CustomProperties &other );
+    CustomProperties &operator=(const CustomProperties &other);
 
-  protected:
+protected:
     /**
       Called before a custom property will be changed.
       The default implementation does nothing: override in derived classes
@@ -201,9 +201,9 @@ class KCALCORE_EXPORT CustomProperties
       @copydoc
       IncidenceBase::virtual_hook()
     */
-    virtual void virtual_hook( int id, void *data );
+    virtual void virtual_hook(int id, void *data);
 
-  private:
+private:
     //@cond PRIVATE
     class Private;
     Private *const d;
@@ -213,14 +213,14 @@ class KCALCORE_EXPORT CustomProperties
 /**
   Serializes the @p properties object into the @p stream.
 */
-KCALCORE_EXPORT QDataStream &operator<<( QDataStream &stream,
-                                         const KCalCore::CustomProperties &properties );
+KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
+                                        const KCalCore::CustomProperties &properties);
 
 /**
   Initializes the @p properties object from the @p stream.
 */
-KCALCORE_EXPORT QDataStream &operator>>( QDataStream &stream,
-                                         KCalCore::CustomProperties &properties );
+KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream,
+                                        KCalCore::CustomProperties &properties);
 
 }
 

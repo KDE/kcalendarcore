@@ -36,26 +36,26 @@ namespace KCalCore {
 
 //@cond PRIVATE
 template <class T>
-void qSortUnique( QList<T> &list )
+void qSortUnique(QList<T> &list)
 {
-  if ( list.count() <= 1 ) {
-    return;
-  }
-  qSort( list );
-  typename QList<T>::iterator prev = list.begin();
-  for ( typename QList<T>::iterator it = prev + 1;  it != list.end();  ++it ) {
-    if ( *it == *prev ) {
-      // Found two equal values. Search for any further equal values and remove
-      // them all together for efficiency.
-      while ( ++it != list.end() && *it == *prev ) ;
-      prev = it = list.erase( prev + 1, it );
-      if ( it == list.end() ) {
-        break;
-      }
-    } else {
-      prev = it;
+    if (list.count() <= 1) {
+        return;
     }
-  }
+    qSort(list);
+    typename QList<T>::iterator prev = list.begin();
+    for (typename QList<T>::iterator it = prev + 1;  it != list.end();  ++it) {
+        if (*it == *prev) {
+            // Found two equal values. Search for any further equal values and remove
+            // them all together for efficiency.
+            while (++it != list.end() && *it == *prev) ;
+            prev = it = list.erase(prev + 1, it);
+            if (it == list.end()) {
+                break;
+            }
+        } else {
+            prev = it;
+        }
+    }
 }
 //@endcond
 
@@ -85,7 +85,7 @@ void qSortUnique( QList<T> &list )
 template <class T>
 class SortableList : public QList<T>
 {
-  public:
+public:
     /**
       Constructs an empty sortable list.
     */
@@ -96,7 +96,7 @@ class SortableList : public QList<T>
 
       @param list is the list to copy.
     */
-    SortableList( const QList<T> &list ) : QList<T>( list ) {}   // implicit conversion
+    SortableList(const QList<T> &list) : QList<T>(list) {}       // implicit conversion
 
     /**
       Return whether the list contains value @p value. The list must be sorted;
@@ -107,7 +107,9 @@ class SortableList : public QList<T>
       @param value is the value to find.
       @return true if list contains @p value; false otherwise.
     */
-    bool containsSorted( const T &value ) const  { return findSorted( value ) >= 0; }
+    bool containsSorted(const T &value) const  {
+        return findSorted(value) >= 0;
+    }
 
     /**
       Search the list for the item equal to @p value. The list must be sorted;
@@ -119,7 +121,7 @@ class SortableList : public QList<T>
       @param start is the start index for search (default is from beginning).
       @return index to item in list, or -1 if @p value not found in the list.
     */
-    int findSorted( const T &value, int start = 0 ) const;
+    int findSorted(const T &value, int start = 0) const;
 
     /**
       Search the list for the last item <= @p value. The list must be sorted;
@@ -129,7 +131,7 @@ class SortableList : public QList<T>
       @param start is the start index for search (default is from beginning).
       @return index to item in list, or -1 if @p value < first value in the list.
     */
-    int findLE( const T &value, int start = 0 ) const;
+    int findLE(const T &value, int start = 0) const;
 
     /**
       Search the list for the last item < @p value. The list must be sorted;
@@ -139,7 +141,7 @@ class SortableList : public QList<T>
       @param start is the start index for search (default is from beginning).
       @return index to item in list, or -1 if @p value <= first value in the list.
     */
-    int findLT( const T &value, int start = 0 ) const;
+    int findLT(const T &value, int start = 0) const;
 
     /**
       Search the list for the first item >= @p value. The list must be sorted;
@@ -149,7 +151,7 @@ class SortableList : public QList<T>
       @param start is the start index for search (default is from beginning).
       @return index to item in list, or -1 if @p value > last value in the list.
     */
-    int findGE( const T &value, int start = 0 ) const;
+    int findGE(const T &value, int start = 0) const;
 
     /**
       Search the list for the first item > @p value. The list must be sorted;
@@ -159,7 +161,7 @@ class SortableList : public QList<T>
       @param start is the start index for search (default is from beginning).
       @return index to item in list, or -1 if @p value >= last value in the list.
     */
-    int findGT( const T &value, int start = 0 ) const;
+    int findGT(const T &value, int start = 0) const;
 
     /**
       Insert a value in the list, in correct sorted order. If the same value
@@ -172,7 +174,7 @@ class SortableList : public QList<T>
       @return index to inserted item in list, or to the pre-existing entry
       equal to @p value.
     */
-    int insertSorted( const T &value );
+    int insertSorted(const T &value);
 
     /**
       Remove value @p value from the list. The list must be sorted.
@@ -183,119 +185,121 @@ class SortableList : public QList<T>
       @param start is the start index for search (default is from beginning).
       @return index to removed value, or -1 if not found.
     */
-    int removeSorted( const T &value, int start = 0 );
+    int removeSorted(const T &value, int start = 0);
 
     /**
       Sort the list. Any duplicate values are removed.
     */
-    void sortUnique()  { qSortUnique( *this ); }
+    void sortUnique()  {
+        qSortUnique(*this);
+    }
 };
 
 template <class T>
-int SortableList<T>::findSorted( const T &value, int start ) const
+int SortableList<T>::findSorted(const T &value, int start) const
 {
-  // Do a binary search to find the item == value
-  int st = start - 1;
-  int end = QList<T>::count();
-  while ( end - st > 1 ) {
-    int i = ( st + end ) / 2;
-    if ( value < QList<T>::at( i ) ) {
-      end = i;
-    } else {
-      st = i;
+    // Do a binary search to find the item == value
+    int st = start - 1;
+    int end = QList<T>::count();
+    while (end - st > 1) {
+        int i = (st + end) / 2;
+        if (value < QList<T>::at(i)) {
+            end = i;
+        } else {
+            st = i;
+        }
     }
-  }
-  return ( end > start && value == QList<T>::at( st ) ) ? st : -1;
+    return (end > start && value == QList<T>::at(st)) ? st : -1;
 }
 
 template <class T>
-int SortableList<T>::findLE( const T &value, int start ) const
+int SortableList<T>::findLE(const T &value, int start) const
 {
-  // Do a binary search to find the last item <= value
-  int st = start - 1;
-  int end = QList<T>::count();
-  while ( end - st > 1 ) {
-    int i = ( st + end ) / 2;
-    if ( value < QList<T>::at( i ) ) {
-      end = i;
-    } else {
-      st = i;
+    // Do a binary search to find the last item <= value
+    int st = start - 1;
+    int end = QList<T>::count();
+    while (end - st > 1) {
+        int i = (st + end) / 2;
+        if (value < QList<T>::at(i)) {
+            end = i;
+        } else {
+            st = i;
+        }
     }
-  }
-  return ( end > start ) ? st : -1;
+    return (end > start) ? st : -1;
 }
 
 template <class T>
-int SortableList<T>::findLT( const T &value, int start ) const
+int SortableList<T>::findLT(const T &value, int start) const
 {
-  // Do a binary search to find the last item < value
-  int st = start - 1;
-  int end = QList<T>::count();
-  while ( end - st > 1 ) {
-    int i = ( st + end ) / 2;
-    if ( value <= QList<T>::at( i ) ) {
-      end = i;
-    } else {
-      st = i;
+    // Do a binary search to find the last item < value
+    int st = start - 1;
+    int end = QList<T>::count();
+    while (end - st > 1) {
+        int i = (st + end) / 2;
+        if (value <= QList<T>::at(i)) {
+            end = i;
+        } else {
+            st = i;
+        }
     }
-  }
-  return ( end > start ) ? st : -1;
+    return (end > start) ? st : -1;
 }
 
 template <class T>
-int SortableList<T>::findGE( const T &value, int start ) const
+int SortableList<T>::findGE(const T &value, int start) const
 {
-  // Do a binary search to find the first item >= value
-  int st = start - 1;
-  int end = QList<T>::count();
-  while ( end - st > 1 ) {
-    int i = ( st + end ) / 2;
-    if ( value <= QList<T>::at( i ) ) {
-      end = i;
-    } else {
-      st = i;
+    // Do a binary search to find the first item >= value
+    int st = start - 1;
+    int end = QList<T>::count();
+    while (end - st > 1) {
+        int i = (st + end) / 2;
+        if (value <= QList<T>::at(i)) {
+            end = i;
+        } else {
+            st = i;
+        }
     }
-  }
-  ++st;
-  return ( st == QList<T>::count() ) ? -1 : st;
+    ++st;
+    return (st == QList<T>::count()) ? -1 : st;
 }
 
 template <class T>
-int SortableList<T>::findGT( const T &value, int start ) const
+int SortableList<T>::findGT(const T &value, int start) const
 {
-  // Do a binary search to find the first item > value
-  int st = start - 1;
-  int end = QList<T>::count();
-  while ( end - st > 1 ) {
-    int i = ( st + end ) / 2;
-    if ( value < QList<T>::at( i ) ) {
-      end = i;
-    } else {
-      st = i;
+    // Do a binary search to find the first item > value
+    int st = start - 1;
+    int end = QList<T>::count();
+    while (end - st > 1) {
+        int i = (st + end) / 2;
+        if (value < QList<T>::at(i)) {
+            end = i;
+        } else {
+            st = i;
+        }
     }
-  }
-  ++st;
-  return ( st == QList<T>::count() ) ? -1 : st;
+    ++st;
+    return (st == QList<T>::count()) ? -1 : st;
 }
 
 template <class T>
-int SortableList<T>::insertSorted( const T &value )
+int SortableList<T>::insertSorted(const T &value)
 {
-  int i = findLE( value );
-  if ( i < 0  ||  QList<T>::at( i ) != value ) {
-    QList<T>::insert( ++i, value );
-  }
-  return i;
+    int i = findLE(value);
+    if (i < 0  ||  QList<T>::at(i) != value) {
+        QList<T>::insert(++i, value);
+    }
+    return i;
 }
 
 template <class T>
-int SortableList<T>::removeSorted( const T &value, int start )
+int SortableList<T>::removeSorted(const T &value, int start)
 {
-  int i = findSorted( value, start );
-  if ( i >= 0 ) {
-    QList<T>::removeAt( i );
-  }
-  return i;
+    int i = findSorted(value, start);
+    if (i >= 0) {
+        QList<T>::removeAt(i);
+    }
+    return i;
 }
 
 } // namespace KCalCore

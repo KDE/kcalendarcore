@@ -45,10 +45,10 @@ using namespace KCalCore;
 //@cond PRIVATE
 class KCalCore::OccurrenceIterator::Private
 {
-  public:
-    Private( OccurrenceIterator *qq )
-      : q( qq ),
-        occurrenceIt( occurrenceList )
+public:
+    Private(OccurrenceIterator *qq)
+        : q(qq),
+          occurrenceIt(occurrenceList)
     {
     }
 
@@ -58,17 +58,17 @@ class KCalCore::OccurrenceIterator::Private
 
     struct Occurrence
     {
-      Occurrence()
-      {
-      }
+        Occurrence()
+        {
+        }
 
-      Occurrence( const Incidence::Ptr &i, const KDateTime &d )
-        : incidence( i ), date( d )
-      {
-      }
+        Occurrence(const Incidence::Ptr &i, const KDateTime &d)
+            : incidence(i), date(d)
+        {
+        }
 
-      Incidence::Ptr incidence;
-      KDateTime date;
+        Incidence::Ptr incidence;
+        KDateTime date;
     };
     QList<Occurrence> occurrenceList;
     QListIterator<Occurrence> occurrenceIt;
@@ -79,84 +79,84 @@ class KCalCore::OccurrenceIterator::Private
      * When filtering completed to-dos, the CalFilter doesn't hide
      * them if it's a recurring to-do.
      */
-    bool occurrenceIsHidden( const Calendar &calendar,
-                             const Incidence::Ptr &inc,
-                             const KDateTime &occurrenceDate )
+    bool occurrenceIsHidden(const Calendar &calendar,
+                            const Incidence::Ptr &inc,
+                            const KDateTime &occurrenceDate)
     {
-      if ( ( inc->type() == Incidence::TypeTodo ) &&
-           calendar.filter() &&
-           ( calendar.filter()->criteria() & KCalCore::CalFilter::HideCompletedTodos ) ) {
-          if ( inc->recurs() ) {
-          const Todo::Ptr todo = inc.staticCast<Todo>();
-          if ( todo && ( occurrenceDate < todo->dtDue() ) ) {
-            return true;
-          }
-        } else if ( inc->hasRecurrenceId() ) {
-          const Todo::Ptr mainTodo = calendar.todo( inc->uid() );
-          if ( mainTodo && mainTodo->isCompleted() ) {
-            return true;
-          }
+        if ((inc->type() == Incidence::TypeTodo) &&
+                calendar.filter() &&
+                (calendar.filter()->criteria() & KCalCore::CalFilter::HideCompletedTodos)) {
+            if (inc->recurs()) {
+                const Todo::Ptr todo = inc.staticCast<Todo>();
+                if (todo && (occurrenceDate < todo->dtDue())) {
+                    return true;
+                }
+            } else if (inc->hasRecurrenceId()) {
+                const Todo::Ptr mainTodo = calendar.todo(inc->uid());
+                if (mainTodo && mainTodo->isCompleted()) {
+                    return true;
+                }
+            }
         }
-      }
-      return false;
+        return false;
     }
 
-    void setupIterator( const Calendar &calendar, const Incidence::List &incidences )
+    void setupIterator(const Calendar &calendar, const Incidence::List &incidences)
     {
-      foreach ( const Incidence::Ptr &inc, incidences ) {
-        if ( inc->hasRecurrenceId() ) {
-          continue;
-        }
-        if ( inc->recurs() ) {
-          QHash<KDateTime, Incidence::Ptr> recurrenceIds;
-          KDateTime incidenceRecStart = inc->dateTime( Incidence::RoleRecurrenceStart );
-          foreach ( const Incidence::Ptr &exception, calendar.instances(inc) ) {
-            if ( incidenceRecStart.isValid() )
-              recurrenceIds.insert( exception->recurrenceId().toTimeSpec( incidenceRecStart.timeSpec() ), exception );
-          }
-          const bool isAllDay = inc->allDay();
-          const DateTimeList occurrences = inc->recurrence()->timesInInterval( start, end );
-          Incidence::Ptr incidence( inc );
-          qint64 offset(0);
-          foreach ( KDateTime occurrenceDate, occurrences ) { //krazy:exclude=foreach
-            //timesInInterval generates always date-times,
-            //which is not what we want for all-day events
-            occurrenceDate.setDateOnly( isAllDay );
+        foreach(const Incidence::Ptr &inc, incidences) {
+            if (inc->hasRecurrenceId()) {
+                continue;
+            }
+            if (inc->recurs()) {
+                QHash<KDateTime, Incidence::Ptr> recurrenceIds;
+                KDateTime incidenceRecStart = inc->dateTime(Incidence::RoleRecurrenceStart);
+                foreach(const Incidence::Ptr &exception, calendar.instances(inc)) {
+                    if (incidenceRecStart.isValid())
+                        recurrenceIds.insert(exception->recurrenceId().toTimeSpec(incidenceRecStart.timeSpec()), exception);
+                }
+                const bool isAllDay = inc->allDay();
+                const DateTimeList occurrences = inc->recurrence()->timesInInterval(start, end);
+                Incidence::Ptr incidence(inc);
+                qint64 offset(0);
+                foreach(KDateTime occurrenceDate, occurrences) {    //krazy:exclude=foreach
+                    //timesInInterval generates always date-times,
+                    //which is not what we want for all-day events
+                    occurrenceDate.setDateOnly(isAllDay);
 
-            bool resetIncidence = false;
-            if ( recurrenceIds.contains( occurrenceDate ) ) {
-              // TODO: exclude exceptions where the start/end is not within
-              // (so the occurrence of the recurrence is omitted, but no exception is added)
-              if ( recurrenceIds.value( occurrenceDate )->status() == Incidence::StatusCanceled )
-                  continue;
+                    bool resetIncidence = false;
+                    if (recurrenceIds.contains(occurrenceDate)) {
+                        // TODO: exclude exceptions where the start/end is not within
+                        // (so the occurrence of the recurrence is omitted, but no exception is added)
+                        if (recurrenceIds.value(occurrenceDate)->status() == Incidence::StatusCanceled)
+                            continue;
 
-              incidence = recurrenceIds.value( occurrenceDate );
-              occurrenceDate = incidence->dtStart();
-              resetIncidence = !incidence->thisAndFuture();
-              offset = incidence->recurrenceId().secsTo_long( incidence->dtStart() );
-            } else if ( inc != incidence ) { //thisAndFuture exception is active
-              occurrenceDate = occurrenceDate.addSecs( offset );
+                        incidence = recurrenceIds.value(occurrenceDate);
+                        occurrenceDate = incidence->dtStart();
+                        resetIncidence = !incidence->thisAndFuture();
+                        offset = incidence->recurrenceId().secsTo_long(incidence->dtStart());
+                    } else if (inc != incidence) {   //thisAndFuture exception is active
+                        occurrenceDate = occurrenceDate.addSecs(offset);
+                    }
+                    if (!occurrenceIsHidden(calendar, incidence, occurrenceDate)) {
+                        occurrenceList << Private::Occurrence(incidence, occurrenceDate);
+                    }
+                    if (resetIncidence) {
+                        incidence = inc;
+                        offset = 0;
+                    }
+                }
+            } else {
+                occurrenceList << Private::Occurrence(inc, inc->dtStart());
             }
-            if ( !occurrenceIsHidden( calendar, incidence, occurrenceDate ) ) {
-              occurrenceList << Private::Occurrence( incidence, occurrenceDate );
-            }
-            if ( resetIncidence ) {
-                incidence = inc;
-                offset = 0;
-            }
-          }
-        } else {
-          occurrenceList << Private::Occurrence( inc, inc->dtStart() );
         }
-      }
-      occurrenceIt = QListIterator<Private::Occurrence>( occurrenceList );
+        occurrenceIt = QListIterator<Private::Occurrence>(occurrenceList);
     }
 };
 //@endcond
 
-static uint qHash( const KDateTime &dt )
+static uint qHash(const KDateTime &dt)
 {
-  return qHash( dt.toString() );
+    return qHash(dt.toString());
 }
 
 /**
@@ -170,53 +170,53 @@ static uint qHash( const KDateTime &dt )
  * By making this class a friend of calendar, we could also use the internally
  * available data structures.
  */
-OccurrenceIterator::OccurrenceIterator( const Calendar &calendar,
-                                        const KDateTime &start,
-                                        const KDateTime &end )
-  : d( new KCalCore::OccurrenceIterator::Private( this ) )
+OccurrenceIterator::OccurrenceIterator(const Calendar &calendar,
+                                       const KDateTime &start,
+                                       const KDateTime &end)
+    : d(new KCalCore::OccurrenceIterator::Private(this))
 {
-  d->start = start;
-  d->end = end;
+    d->start = start;
+    d->end = end;
 
-  Event::List events = calendar.rawEvents( start.date(), end.date(), start.timeSpec() );
-  if ( calendar.filter() ) {
-    calendar.filter()->apply( &events );
-  }
+    Event::List events = calendar.rawEvents(start.date(), end.date(), start.timeSpec());
+    if (calendar.filter()) {
+        calendar.filter()->apply(&events);
+    }
 
-  Todo::List todos = calendar.rawTodos( start.date(), end.date(), start.timeSpec() );
-  if ( calendar.filter() ) {
-    calendar.filter()->apply( &todos );
-  }
+    Todo::List todos = calendar.rawTodos(start.date(), end.date(), start.timeSpec());
+    if (calendar.filter()) {
+        calendar.filter()->apply(&todos);
+    }
 
-  Journal::List journals;
-  const Journal::List allJournals = calendar.rawJournals();
-  foreach ( const KCalCore::Journal::Ptr &journal, allJournals ) {
-    const QDate journalStart = journal->dtStart().toTimeSpec( start.timeSpec() ).date();
-    if ( journal->dtStart().isValid() &&
-         journalStart >= start.date() &&
-         journalStart <= end.date() )
-      journals << journal;
-  }
+    Journal::List journals;
+    const Journal::List allJournals = calendar.rawJournals();
+    foreach(const KCalCore::Journal::Ptr &journal, allJournals) {
+        const QDate journalStart = journal->dtStart().toTimeSpec(start.timeSpec()).date();
+        if (journal->dtStart().isValid() &&
+                journalStart >= start.date() &&
+                journalStart <= end.date())
+            journals << journal;
+    }
 
-  if ( calendar.filter() ) {
-    calendar.filter()->apply( &journals );
-  }
+    if (calendar.filter()) {
+        calendar.filter()->apply(&journals);
+    }
 
-  const Incidence::List incidences =
-      KCalCore::Calendar::mergeIncidenceList( events, todos, journals );
-  d->setupIterator( calendar, incidences );
+    const Incidence::List incidences =
+        KCalCore::Calendar::mergeIncidenceList(events, todos, journals);
+    d->setupIterator(calendar, incidences);
 }
 
-OccurrenceIterator::OccurrenceIterator( const Calendar &calendar,
-                                        const Incidence::Ptr &incidence,
-                                        const KDateTime &start,
-                                        const KDateTime &end )
-  : d( new KCalCore::OccurrenceIterator::Private( this ) )
+OccurrenceIterator::OccurrenceIterator(const Calendar &calendar,
+                                       const Incidence::Ptr &incidence,
+                                       const KDateTime &start,
+                                       const KDateTime &end)
+    : d(new KCalCore::OccurrenceIterator::Private(this))
 {
-  Q_ASSERT( incidence );
-  d->start = start;
-  d->end = end;
-  d->setupIterator( calendar, Incidence::List() << incidence );
+    Q_ASSERT(incidence);
+    d->start = start;
+    d->end = end;
+    d->setupIterator(calendar, Incidence::List() << incidence);
 }
 
 OccurrenceIterator::~OccurrenceIterator()
@@ -225,20 +225,20 @@ OccurrenceIterator::~OccurrenceIterator()
 
 bool OccurrenceIterator::hasNext() const
 {
-  return d->occurrenceIt.hasNext();
+    return d->occurrenceIt.hasNext();
 }
 
 void OccurrenceIterator::next()
 {
-  d->current = d->occurrenceIt.next();
+    d->current = d->occurrenceIt.next();
 }
 
 Incidence::Ptr OccurrenceIterator::incidence() const
 {
-  return d->current.incidence;
+    return d->current.incidence;
 }
 
 KDateTime OccurrenceIterator::occurrenceStartDate() const
 {
-  return d->current.date;
+    return d->current.date;
 }

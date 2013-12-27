@@ -28,26 +28,26 @@ using namespace KCalCore;
 
 static Event *makeTestEvent()
 {
-  Event *event = new Event();
-  event->setSummary( "Test Event" );
-  event->recurrence()->setDaily( 2 );
-  event->recurrence()->setDuration( 3 );
-  return event;
+    Event *event = new Event();
+    event->setSummary("Test Event");
+    event->recurrence()->setDaily(2);
+    event->recurrence()->setDuration(3);
+    return event;
 }
 
 static Todo *makeTestTodo()
 {
-  Todo *todo = new Todo();
-  todo->setSummary( "Test Todo" );
-  todo->setPriority( 5 );
-  return todo;
+    Todo *todo = new Todo();
+    todo->setSummary("Test Todo");
+    todo->setPriority(5);
+    return todo;
 }
 
 static Journal *makeTestJournal()
 {
-  Journal *journal = new Journal();
-  journal->setSummary( "Test Journal" );
-  return journal;
+    Journal *journal = new Journal();
+    journal->setSummary("Test Journal");
+    return journal;
 }
 
 #endif

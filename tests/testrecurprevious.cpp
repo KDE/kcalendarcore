@@ -34,131 +34,131 @@
 
 using namespace KCalCore;
 
-static QString dumpTime( const KDateTime &dt, const KDateTime::Spec &viewSpec );
+static QString dumpTime(const KDateTime &dt, const KDateTime::Spec &viewSpec);
 
-int main( int argc, char **argv )
+int main(int argc, char **argv)
 {
-  KAboutData aboutData(
-    "testrecurrencenew", 0,
-    ki18n( "Load recurrence rules with the new class and print out debug messages" ), "0.1" );
-  KCmdLineArgs::init( argc, argv, &aboutData );
+    KAboutData aboutData(
+        "testrecurrencenew", 0,
+        ki18n("Load recurrence rules with the new class and print out debug messages"), "0.1");
+    KCmdLineArgs::init(argc, argv, &aboutData);
 
-  KCmdLineOptions options;
-  options.add( "verbose", ki18n( "Verbose output" ) );
-  options.add( "+input", ki18n( "Name of input file" ) );
-  options.add( "[+output]", ki18n( "optional name of output file for the recurrence dates" ) );
-  KCmdLineArgs::addCmdLineOptions( options );
+    KCmdLineOptions options;
+    options.add("verbose", ki18n("Verbose output"));
+    options.add("+input", ki18n("Name of input file"));
+    options.add("[+output]", ki18n("optional name of output file for the recurrence dates"));
+    KCmdLineArgs::addCmdLineOptions(options);
 
-  KComponentData componentData( &aboutData );
-  //QCoreApplication app( KCmdLineArgs::qtArgc(), KCmdLineArgs::qtArgv() );
+    KComponentData componentData(&aboutData);
+    //QCoreApplication app( KCmdLineArgs::qtArgc(), KCmdLineArgs::qtArgv() );
 
-  KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+    KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
-  if ( args->count() < 1 ) {
-    args->usage( "Wrong number of arguments." );
-  }
-
-  QString input = args->arg( 0 );
-  kDebug() << "Input file:" << input;
-
-  QTextStream *outstream;
-  outstream = 0;
-  QString fn( "" );
-  if ( args->count() > 1 ) {
-    fn = args->arg( 1 );
-    kDebug() << "We have a file name given:" << fn;
-  }
-  QFile outfile( fn );
-  if ( !fn.isEmpty() && outfile.open( QIODevice::WriteOnly ) ) {
-    kDebug() << "Opened output file!!!";
-    outstream = new QTextStream( &outfile );
-  }
-
-  MemoryCalendar::Ptr cal( new MemoryCalendar( KDateTime::UTC ) );
-
-  KDateTime::Spec viewSpec;
-  FileStorage store( cal, input );
-  if ( !store.load() ) return 1;
-  QString tz = cal->nonKDECustomProperty( "X-LibKCal-Testsuite-OutTZ" );
-  if ( !tz.isEmpty() ) {
-    viewSpec = KDateTime::Spec( KSystemTimeZones::zone( tz ) );
-  }
-
-  Incidence::List inc = cal->incidences();
-
-  for ( Incidence::List::Iterator it = inc.begin(); it != inc.end(); ++it ) {
-    Incidence::Ptr incidence = *it;
-    kDebug() << "*+*+*+*+*+*+*+*+*+*";
-    kDebug() << " ->" << incidence->summary() << "<-";
-
-    incidence->recurrence()->dump();
-
-    KDateTime dt( incidence->recurrence()->endDateTime() );
-    int i = 0;
-    if ( outstream ) {
-      if ( !dt.isValid() ) {
-        if ( viewSpec.isValid() ) {
-          dt = KDateTime( QDate( 2011, 1, 1 ), QTime( 0, 0, 1 ), viewSpec );
-        } else {
-          dt = KDateTime( QDate( 2011, 1, 1 ), QTime( 0, 0, 1 ) );
-        }
-      } else {
-        dt = dt.addYears( 2 );
-      }
-      kDebug() << "-------------------------------------------";
-      kDebug() << " *~*~*~*~ Starting with date:" << dumpTime( dt, viewSpec );
-      // Output to file for testing purposes
-      while ( dt.isValid() && i < 500 ) {
-        ++i;
-        dt = incidence->recurrence()->getPreviousDateTime( dt );
-        if ( dt.isValid() ) {
-          ( *outstream ) << dumpTime( dt, viewSpec ) << endl;
-        }
-      }
-    } else {
-      if ( !dt.isValid() ) {
-        dt = KDateTime( QDate( 2005, 7, 31 ), QTime( 23, 59, 59 ), KDateTime::Spec::UTC() );
-      } else {
-        dt = dt.addYears( 2 );
-      }
-      incidence->recurrence()->dump();
-      kDebug() << "-------------------------------------------";
-      kDebug() << " *~*~*~*~ Starting with date:" << dumpTime( dt, viewSpec );
-      // Output to konsole
-      while ( dt.isValid() && i < 50 ) {
-        ++i;
-        kDebug() << "-------------------------------------------";
-        dt = incidence->recurrence()->getPreviousDateTime( dt );
-        if ( dt.isValid() ) {
-          kDebug() << " *~*~*~*~ Previous date is:" << dumpTime( dt, viewSpec );
-        }
-      }
+    if (args->count() < 1) {
+        args->usage("Wrong number of arguments.");
     }
-  }
 
-  delete outstream;
-  outfile.close();
-  return 0;
+    QString input = args->arg(0);
+    kDebug() << "Input file:" << input;
+
+    QTextStream *outstream;
+    outstream = 0;
+    QString fn("");
+    if (args->count() > 1) {
+        fn = args->arg(1);
+        kDebug() << "We have a file name given:" << fn;
+    }
+    QFile outfile(fn);
+    if (!fn.isEmpty() && outfile.open(QIODevice::WriteOnly)) {
+        kDebug() << "Opened output file!!!";
+        outstream = new QTextStream(&outfile);
+    }
+
+    MemoryCalendar::Ptr cal(new MemoryCalendar(KDateTime::UTC));
+
+    KDateTime::Spec viewSpec;
+    FileStorage store(cal, input);
+    if (!store.load()) return 1;
+    QString tz = cal->nonKDECustomProperty("X-LibKCal-Testsuite-OutTZ");
+    if (!tz.isEmpty()) {
+        viewSpec = KDateTime::Spec(KSystemTimeZones::zone(tz));
+    }
+
+    Incidence::List inc = cal->incidences();
+
+    for (Incidence::List::Iterator it = inc.begin(); it != inc.end(); ++it) {
+        Incidence::Ptr incidence = *it;
+        kDebug() << "*+*+*+*+*+*+*+*+*+*";
+        kDebug() << " ->" << incidence->summary() << "<-";
+
+        incidence->recurrence()->dump();
+
+        KDateTime dt(incidence->recurrence()->endDateTime());
+        int i = 0;
+        if (outstream) {
+            if (!dt.isValid()) {
+                if (viewSpec.isValid()) {
+                    dt = KDateTime(QDate(2011, 1, 1), QTime(0, 0, 1), viewSpec);
+                } else {
+                    dt = KDateTime(QDate(2011, 1, 1), QTime(0, 0, 1));
+                }
+            } else {
+                dt = dt.addYears(2);
+            }
+            kDebug() << "-------------------------------------------";
+            kDebug() << " *~*~*~*~ Starting with date:" << dumpTime(dt, viewSpec);
+            // Output to file for testing purposes
+            while (dt.isValid() && i < 500) {
+                ++i;
+                dt = incidence->recurrence()->getPreviousDateTime(dt);
+                if (dt.isValid()) {
+                    (*outstream) << dumpTime(dt, viewSpec) << endl;
+                }
+            }
+        } else {
+            if (!dt.isValid()) {
+                dt = KDateTime(QDate(2005, 7, 31), QTime(23, 59, 59), KDateTime::Spec::UTC());
+            } else {
+                dt = dt.addYears(2);
+            }
+            incidence->recurrence()->dump();
+            kDebug() << "-------------------------------------------";
+            kDebug() << " *~*~*~*~ Starting with date:" << dumpTime(dt, viewSpec);
+            // Output to konsole
+            while (dt.isValid() && i < 50) {
+                ++i;
+                kDebug() << "-------------------------------------------";
+                dt = incidence->recurrence()->getPreviousDateTime(dt);
+                if (dt.isValid()) {
+                    kDebug() << " *~*~*~*~ Previous date is:" << dumpTime(dt, viewSpec);
+                }
+            }
+        }
+    }
+
+    delete outstream;
+    outfile.close();
+    return 0;
 }
 
-QString dumpTime( const KDateTime &dt, const KDateTime::Spec &viewSpec )
+QString dumpTime(const KDateTime &dt, const KDateTime::Spec &viewSpec)
 {
-  if ( !dt.isValid() ) {
-    return QString();
-  }
-  KDateTime vdt = viewSpec.isValid() ? dt.toTimeSpec( viewSpec ) : dt;
-  QString format;
+    if (!dt.isValid()) {
+        return QString();
+    }
+    KDateTime vdt = viewSpec.isValid() ? dt.toTimeSpec(viewSpec) : dt;
+    QString format;
 #ifdef FLOAT_IS_DATE_ONLY
-  if ( vdt.isDateOnly() ) {
-    format = QLatin1String( "%Y-%m-%d" );
-  } else
+    if (vdt.isDateOnly()) {
+        format = QLatin1String("%Y-%m-%d");
+    } else
 #endif
-    format = QLatin1String( "%Y-%m-%dT%H:%M:%S" );
-  if ( vdt.isSecondOccurrence() ) {
-    format += QLatin1String( " %Z" );
-  }
-  if ( vdt.timeSpec() != KDateTime::ClockTime ) {
-    format += QLatin1String( " %:Z" );
-  }
-  return vdt.toString( format );
+        format = QLatin1String("%Y-%m-%dT%H:%M:%S");
+    if (vdt.isSecondOccurrence()) {
+        format += QLatin1String(" %Z");
+    }
+    if (vdt.timeSpec() != KDateTime::ClockTime) {
+        format += QLatin1String(" %:Z");
+    }
+    return vdt.toString(format);
 }

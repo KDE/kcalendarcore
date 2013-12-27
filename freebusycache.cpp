@@ -34,9 +34,9 @@ FreeBusyCache::~FreeBusyCache()
 {
 }
 
-void FreeBusyCache::virtual_hook( int id, void *data )
+void FreeBusyCache::virtual_hook(int id, void *data)
 {
-  Q_UNUSED( id );
-  Q_UNUSED( data );
-  Q_ASSERT( false );
+    Q_UNUSED(id);
+    Q_UNUSED(data);
+    Q_ASSERT(false);
 }

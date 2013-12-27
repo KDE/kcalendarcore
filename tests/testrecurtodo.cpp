@@ -22,139 +22,139 @@
 #include "../todo.h"
 #include <kdebug.h>
 #include <qtest_kde.h>
-QTEST_KDEMAIN( RecurTodoTest, NoGUI )
+QTEST_KDEMAIN(RecurTodoTest, NoGUI)
 
 using namespace KCalCore;
 
 void RecurTodoTest::testAllDay()
 {
-  qputenv( "TZ", "GMT" );
-  const QDate currentDate = QDate::currentDate();
-  const KDateTime currentUtcDateTime = KDateTime::currentUtcDateTime();
+    qputenv("TZ", "GMT");
+    const QDate currentDate = QDate::currentDate();
+    const KDateTime currentUtcDateTime = KDateTime::currentUtcDateTime();
 
-  const QDate dueDate( QDate::currentDate() );
-  Todo *todo = new Todo();
-  todo->setDtStart( KDateTime( dueDate.addDays( -1 ) ) );
-  todo->setDtDue( KDateTime( dueDate ) );
-  todo->setSummary( QLatin1String( "All day event" ) );
-  todo->setAllDay( true );
+    const QDate dueDate(QDate::currentDate());
+    Todo *todo = new Todo();
+    todo->setDtStart(KDateTime(dueDate.addDays(-1)));
+    todo->setDtDue(KDateTime(dueDate));
+    todo->setSummary(QLatin1String("All day event"));
+    todo->setAllDay(true);
 
-  QCOMPARE( todo->dtStart().daysTo( todo->dtDue() ), 1);
+    QCOMPARE(todo->dtStart().daysTo(todo->dtDue()), 1);
 
-  Recurrence *recurrence = todo->recurrence();
-  recurrence->unsetRecurs();
-  recurrence->setDaily( 1 );
-  QVERIFY( todo->dtDue() == KDateTime( dueDate ) );
-  todo->setCompleted( currentUtcDateTime );
-  QVERIFY( todo->recurs() );
-  QVERIFY( todo->percentComplete() == 0 );
-  const QDate newStartDate = todo->dtStart().date();
-  const QDate newDueDate = todo->dtDue().date();
-  QCOMPARE( newStartDate, currentDate );
-  QCOMPARE( newStartDate.daysTo( newDueDate ), 1);
+    Recurrence *recurrence = todo->recurrence();
+    recurrence->unsetRecurs();
+    recurrence->setDaily(1);
+    QVERIFY(todo->dtDue() == KDateTime(dueDate));
+    todo->setCompleted(currentUtcDateTime);
+    QVERIFY(todo->recurs());
+    QVERIFY(todo->percentComplete() == 0);
+    const QDate newStartDate = todo->dtStart().date();
+    const QDate newDueDate = todo->dtDue().date();
+    QCOMPARE(newStartDate, currentDate);
+    QCOMPARE(newStartDate.daysTo(newDueDate), 1);
 
-  todo->setCompleted( currentUtcDateTime );
+    todo->setCompleted(currentUtcDateTime);
 
 
-  QCOMPARE( newDueDate, currentDate.addDays( 1 ) );
-  QCOMPARE( todo->dtDue( true /*first ocurrence*/ ).date(), dueDate );
+    QCOMPARE(newDueDate, currentDate.addDays(1));
+    QCOMPARE(todo->dtDue(true /*first ocurrence*/).date(), dueDate);
 }
 
 void RecurTodoTest::testRecurrenceStart()
 {
-  qputenv( "TZ", "GMT" );
-  const QDateTime currentDateTime = QDateTime::currentDateTime();
-  const QDate currentDate = currentDateTime.date();
-  const QTime currentTimeWithMS = currentDateTime.time();
+    qputenv("TZ", "GMT");
+    const QDateTime currentDateTime = QDateTime::currentDateTime();
+    const QDate currentDate = currentDateTime.date();
+    const QTime currentTimeWithMS = currentDateTime.time();
 
-  const QDate fourDaysAgo( currentDate.addDays( -4 ) );
-  const QDate treeDaysAgo( currentDate.addDays( -3 ) );
-  const QTime currentTime( currentTimeWithMS.hour(), currentTimeWithMS.minute(), currentTimeWithMS.second() );
+    const QDate fourDaysAgo(currentDate.addDays(-4));
+    const QDate treeDaysAgo(currentDate.addDays(-3));
+    const QTime currentTime(currentTimeWithMS.hour(), currentTimeWithMS.minute(), currentTimeWithMS.second());
 
-  Todo *todo = new Todo();
-  Recurrence *recurrence = todo->recurrence();
-  recurrence->unsetRecurs();
-  recurrence->setDaily( 1 );
-  todo->setDtStart( KDateTime( fourDaysAgo, currentTime ) );
-  const KDateTime originalDtDue(treeDaysAgo, currentTime );
-  todo->setDtDue( originalDtDue );
-  todo->setSummary( QLatin1String( "Not an all day event" ) );
-  QVERIFY( !todo->allDay() );
-  QVERIFY( recurrence->startDateTime().isValid() );
+    Todo *todo = new Todo();
+    Recurrence *recurrence = todo->recurrence();
+    recurrence->unsetRecurs();
+    recurrence->setDaily(1);
+    todo->setDtStart(KDateTime(fourDaysAgo, currentTime));
+    const KDateTime originalDtDue(treeDaysAgo, currentTime);
+    todo->setDtDue(originalDtDue);
+    todo->setSummary(QLatin1String("Not an all day event"));
+    QVERIFY(!todo->allDay());
+    QVERIFY(recurrence->startDateTime().isValid());
 }
 
 void RecurTodoTest::testNonAllDay()
 {
-  qputenv( "TZ", "GMT" );
-  const QDateTime currentDateTime = QDateTime::currentDateTime();
-  const QDate currentDate = currentDateTime.date();
-  const QTime currentTimeWithMS = currentDateTime.time();
+    qputenv("TZ", "GMT");
+    const QDateTime currentDateTime = QDateTime::currentDateTime();
+    const QDate currentDate = currentDateTime.date();
+    const QTime currentTimeWithMS = currentDateTime.time();
 
-  const QDate fourDaysAgo( currentDate.addDays( -4 ) );
-  const QDate treeDaysAgo( currentDate.addDays( -3 ) );
-  const QTime currentTime( currentTimeWithMS.hour(), currentTimeWithMS.minute(), currentTimeWithMS.second() );
+    const QDate fourDaysAgo(currentDate.addDays(-4));
+    const QDate treeDaysAgo(currentDate.addDays(-3));
+    const QTime currentTime(currentTimeWithMS.hour(), currentTimeWithMS.minute(), currentTimeWithMS.second());
 
-  Todo *todo = new Todo();
-  todo->setDtStart( KDateTime( fourDaysAgo, currentTime ) );
-  const KDateTime originalDtDue(treeDaysAgo, currentTime );
-  todo->setDtDue( originalDtDue );
-  todo->setSummary( QLatin1String( "Not an all day event" ) );
-  QVERIFY( !todo->allDay() );
-  Recurrence *recurrence = todo->recurrence();
-  recurrence->unsetRecurs();
-  recurrence->setDaily( 1 );
-  QVERIFY( recurrence->startDateTime().isValid() );
-  QVERIFY( todo->dtDue() == originalDtDue );
-  todo->setCompleted( KDateTime::currentUtcDateTime() );
-  QVERIFY( todo->recurs() );
-  QVERIFY( todo->percentComplete() == 0 );
+    Todo *todo = new Todo();
+    todo->setDtStart(KDateTime(fourDaysAgo, currentTime));
+    const KDateTime originalDtDue(treeDaysAgo, currentTime);
+    todo->setDtDue(originalDtDue);
+    todo->setSummary(QLatin1String("Not an all day event"));
+    QVERIFY(!todo->allDay());
+    Recurrence *recurrence = todo->recurrence();
+    recurrence->unsetRecurs();
+    recurrence->setDaily(1);
+    QVERIFY(recurrence->startDateTime().isValid());
+    QVERIFY(todo->dtDue() == originalDtDue);
+    todo->setCompleted(KDateTime::currentUtcDateTime());
+    QVERIFY(todo->recurs());
+    QVERIFY(todo->percentComplete() == 0);
 
-  const bool equal = todo->dtStart() == KDateTime( currentDate,
-                                                   currentTime,
-                                                   todo->dtStart().timeSpec() ).addDays( 1 );
-  if ( !equal ) {
-    kDebug() << "Test Failed. dtDue = " << todo->dtDue() << "OriginalDtDue:" << originalDtDue
-             <<  "KDateTime:"
-             << KDateTime( currentDate, currentTime, todo->dtDue().timeSpec() ).addDays( 1 );
-  }
+    const bool equal = todo->dtStart() == KDateTime(currentDate,
+                       currentTime,
+                       todo->dtStart().timeSpec()).addDays(1);
+    if (!equal) {
+        kDebug() << "Test Failed. dtDue = " << todo->dtDue() << "OriginalDtDue:" << originalDtDue
+                 <<  "KDateTime:"
+                 << KDateTime(currentDate, currentTime, todo->dtDue().timeSpec()).addDays(1);
+    }
 
-  QVERIFY( equal );
+    QVERIFY(equal);
 
-  todo->setCompleted( KDateTime::currentUtcDateTime() );
-  QVERIFY( todo->dtStart() == KDateTime( currentDate, currentTime, todo->dtStart().timeSpec() ).addDays( 2 ) );
-  QVERIFY( todo->dtDue( true /*first ocurrence*/ ) == KDateTime( treeDaysAgo, currentTime ) );
+    todo->setCompleted(KDateTime::currentUtcDateTime());
+    QVERIFY(todo->dtStart() == KDateTime(currentDate, currentTime, todo->dtStart().timeSpec()).addDays(2));
+    QVERIFY(todo->dtDue(true /*first ocurrence*/) == KDateTime(treeDaysAgo, currentTime));
 }
 
 void RecurTodoTest::testIsAllDay()
 {
-  ;
-  KCalCore::Todo::Ptr todo(new KCalCore::Todo());
-  todo->setUid("todo");
-  todo->setDtStart(KDateTime(QDate(2013, 03, 10), QTime(10, 0, 0), KDateTime::UTC));
-  todo->setDtDue(KDateTime(QDate(2013, 03, 10), QTime(10, 0, 0), KDateTime::UTC));
-  todo->recurrence()->setDaily(1);
-  todo->recurrence()->setDuration(2);
-  QCOMPARE(todo->allDay(), false);
-  QCOMPARE(todo->recurrence()->allDay(), false);
+    ;
+    KCalCore::Todo::Ptr todo(new KCalCore::Todo());
+    todo->setUid("todo");
+    todo->setDtStart(KDateTime(QDate(2013, 03, 10), QTime(10, 0, 0), KDateTime::UTC));
+    todo->setDtDue(KDateTime(QDate(2013, 03, 10), QTime(10, 0, 0), KDateTime::UTC));
+    todo->recurrence()->setDaily(1);
+    todo->recurrence()->setDuration(2);
+    QCOMPARE(todo->allDay(), false);
+    QCOMPARE(todo->recurrence()->allDay(), false);
 
-  KCalCore::Todo::Ptr allDay(new KCalCore::Todo());
-  allDay->setUid("todo");
-  allDay->setDtStart(KDateTime(QDate(2013, 03, 10), KDateTime::UTC));
-  allDay->setDtDue(KDateTime(QDate(2013, 03, 10), KDateTime::UTC));
-  allDay->recurrence()->setDaily(1);
-  allDay->recurrence()->setDuration(2);
-  QCOMPARE(allDay->allDay(), true);
-  QCOMPARE(allDay->recurrence()->allDay(), true);
+    KCalCore::Todo::Ptr allDay(new KCalCore::Todo());
+    allDay->setUid("todo");
+    allDay->setDtStart(KDateTime(QDate(2013, 03, 10), KDateTime::UTC));
+    allDay->setDtDue(KDateTime(QDate(2013, 03, 10), KDateTime::UTC));
+    allDay->recurrence()->setDaily(1);
+    allDay->recurrence()->setDuration(2);
+    QCOMPARE(allDay->allDay(), true);
+    QCOMPARE(allDay->recurrence()->allDay(), true);
 }
 
 void RecurTodoTest::testHasDueDate()
 {
-  KCalCore::Todo::Ptr todo(new KCalCore::Todo());
-  todo->setUid("todo");
-  todo->setDtStart(KDateTime(QDate(2013, 03, 10), QTime(10, 0, 0), KDateTime::UTC));
-  todo->recurrence()->setDaily(1);
-  todo->recurrence()->setDuration(2);
-  QVERIFY(!todo->hasDueDate());
+    KCalCore::Todo::Ptr todo(new KCalCore::Todo());
+    todo->setUid("todo");
+    todo->setDtStart(KDateTime(QDate(2013, 03, 10), QTime(10, 0, 0), KDateTime::UTC));
+    todo->recurrence()->setDaily(1);
+    todo->recurrence()->setDuration(2);
+    QVERIFY(!todo->hasDueDate());
 }
 
 void RecurTodoTest::testRecurTodo_data()
@@ -187,7 +187,7 @@ void RecurTodoTest::testRecurTodo()
     QCOMPARE(todo->percentComplete(), 0);
 
     // Recur it
-    todo->setCompleted( KDateTime::currentUtcDateTime() );
+    todo->setCompleted(KDateTime::currentUtcDateTime());
     QCOMPARE(todo->percentComplete(), 0);
 
     if (legacyMode) {
@@ -212,52 +212,52 @@ void RecurTodoTest::testRecurTodo()
 
 void RecurTodoTest::testDtStart()
 {
-  KDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), KDateTime::UTC);
-  KCalCore::Todo::Ptr todo(new KCalCore::Todo());
-  todo->setUid("todo");
-  todo->setDtStart(start);
-  todo->recurrence()->setDaily(1);
-  todo->recurrence()->setDuration(2);
-  QCOMPARE(todo->dtStart(), start);
+    KDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), KDateTime::UTC);
+    KCalCore::Todo::Ptr todo(new KCalCore::Todo());
+    todo->setUid("todo");
+    todo->setDtStart(start);
+    todo->recurrence()->setDaily(1);
+    todo->recurrence()->setDuration(2);
+    QCOMPARE(todo->dtStart(), start);
 
-  KCalCore::Todo::Ptr todoWithDue(new KCalCore::Todo());
-  todoWithDue->setUid("todoWithDue");
-  todoWithDue->setDtStart(start);
-  todoWithDue->setDtDue(KDateTime(start).addSecs(60));
-  todoWithDue->recurrence()->setDaily(1);
-  todoWithDue->recurrence()->setDuration(2);
-  QCOMPARE(todoWithDue->dtStart(), start);
+    KCalCore::Todo::Ptr todoWithDue(new KCalCore::Todo());
+    todoWithDue->setUid("todoWithDue");
+    todoWithDue->setDtStart(start);
+    todoWithDue->setDtDue(KDateTime(start).addSecs(60));
+    todoWithDue->recurrence()->setDaily(1);
+    todoWithDue->recurrence()->setDuration(2);
+    QCOMPARE(todoWithDue->dtStart(), start);
 }
 
 void RecurTodoTest::testRecurrenceBasedOnDtStart()
 {
-  const KDateTime dtstart(QDate(2013, 03, 10), QTime(10, 0, 0), KDateTime::UTC);
-  const KDateTime dtdue(QDate(2013, 03, 10), QTime(11, 0, 0), KDateTime::UTC);
+    const KDateTime dtstart(QDate(2013, 03, 10), QTime(10, 0, 0), KDateTime::UTC);
+    const KDateTime dtdue(QDate(2013, 03, 10), QTime(11, 0, 0), KDateTime::UTC);
 
-  KCalCore::Todo::Ptr todo(new KCalCore::Todo());
-  todo->setUid("todo");
-  todo->setDtStart(dtstart);
-  todo->setDtDue(dtdue);
-  todo->recurrence()->setDaily(1);
-  todo->recurrence()->setDuration(3);
+    KCalCore::Todo::Ptr todo(new KCalCore::Todo());
+    todo->setUid("todo");
+    todo->setDtStart(dtstart);
+    todo->setDtDue(dtdue);
+    todo->recurrence()->setDaily(1);
+    todo->recurrence()->setDuration(3);
 
-  QCOMPARE(todo->recurrence()->getNextDateTime(dtstart), KDateTime(dtstart).addDays(1));
-  QCOMPARE(todo->recurrence()->getNextDateTime(KDateTime(dtstart).addDays(1)), KDateTime(dtstart).addDays(2));
-  QCOMPARE(todo->recurrence()->getNextDateTime(KDateTime(dtstart).addDays(2)), KDateTime());
+    QCOMPARE(todo->recurrence()->getNextDateTime(dtstart), KDateTime(dtstart).addDays(1));
+    QCOMPARE(todo->recurrence()->getNextDateTime(KDateTime(dtstart).addDays(1)), KDateTime(dtstart).addDays(2));
+    QCOMPARE(todo->recurrence()->getNextDateTime(KDateTime(dtstart).addDays(2)), KDateTime());
 }
 
 //For backwards compatibility only
 void RecurTodoTest::testRecurrenceBasedOnDue()
 {
-  const KDateTime dtdue(QDate(2013, 03, 10), QTime(11, 0, 0), KDateTime::UTC);
+    const KDateTime dtdue(QDate(2013, 03, 10), QTime(11, 0, 0), KDateTime::UTC);
 
-  KCalCore::Todo::Ptr todo(new KCalCore::Todo());
-  todo->setUid("todo");
-  todo->setDtDue(dtdue);
-  todo->recurrence()->setDaily(1);
-  todo->recurrence()->setDuration(3);
+    KCalCore::Todo::Ptr todo(new KCalCore::Todo());
+    todo->setUid("todo");
+    todo->setDtDue(dtdue);
+    todo->recurrence()->setDaily(1);
+    todo->recurrence()->setDuration(3);
 
-  QCOMPARE(todo->recurrence()->getNextDateTime(dtdue), KDateTime(dtdue).addDays(1));
-  QCOMPARE(todo->recurrence()->getNextDateTime(KDateTime(dtdue).addDays(1)), KDateTime(dtdue).addDays(2));
-  QCOMPARE(todo->recurrence()->getNextDateTime(KDateTime(dtdue).addDays(2)), KDateTime());
+    QCOMPARE(todo->recurrence()->getNextDateTime(dtdue), KDateTime(dtdue).addDays(1));
+    QCOMPARE(todo->recurrence()->getNextDateTime(KDateTime(dtdue).addDays(1)), KDateTime(dtdue).addDays(2));
+    QCOMPARE(todo->recurrence()->getNextDateTime(KDateTime(dtdue).addDays(2)), KDateTime());
 }

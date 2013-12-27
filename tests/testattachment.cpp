@@ -23,78 +23,78 @@
 #include "../attachment.h"
 
 #include <qtest_kde.h>
-QTEST_KDEMAIN( AttachmentTest, NoGUI )
+QTEST_KDEMAIN(AttachmentTest, NoGUI)
 
 using namespace KCalCore;
 
 void AttachmentTest::testValidity()
 {
-  Attachment attachment( QString( "http://www.kde.org" ) );
-  QCOMPARE( attachment.uri(), QString::fromLatin1( "http://www.kde.org" ) );
-  QCOMPARE( attachment.data(), QByteArray() );
-  QVERIFY( attachment.decodedData().isEmpty() );
-  QVERIFY( !attachment.isBinary() );
+    Attachment attachment(QString("http://www.kde.org"));
+    QCOMPARE(attachment.uri(), QString::fromLatin1("http://www.kde.org"));
+    QCOMPARE(attachment.data(), QByteArray());
+    QVERIFY(attachment.decodedData().isEmpty());
+    QVERIFY(!attachment.isBinary());
 
-  attachment.setDecodedData( "foo" );
-  QVERIFY( attachment.isBinary() );
-  QCOMPARE( attachment.decodedData(), QByteArray( "foo" ) );
-  QCOMPARE( attachment.data(), QByteArray( "Zm9v" ) );
-  QCOMPARE( attachment.size(), 3U );
+    attachment.setDecodedData("foo");
+    QVERIFY(attachment.isBinary());
+    QCOMPARE(attachment.decodedData(), QByteArray("foo"));
+    QCOMPARE(attachment.data(), QByteArray("Zm9v"));
+    QCOMPARE(attachment.size(), 3U);
 
-  Attachment attachment2 = Attachment( QByteArray( "Zm9v" ) );
-  QCOMPARE( attachment2.size(), 3U );
-  QCOMPARE( attachment2.decodedData(), QByteArray( "foo" ) );
-  attachment2.setDecodedData( "123456" );
-  QCOMPARE( attachment2.size(), 6U );
+    Attachment attachment2 = Attachment(QByteArray("Zm9v"));
+    QCOMPARE(attachment2.size(), 3U);
+    QCOMPARE(attachment2.decodedData(), QByteArray("foo"));
+    attachment2.setDecodedData("123456");
+    QCOMPARE(attachment2.size(), 6U);
 
-  Attachment attachment3( attachment2 );
-  QCOMPARE( attachment3.size(), attachment2.size() );
+    Attachment attachment3(attachment2);
+    QCOMPARE(attachment3.size(), attachment2.size());
 
-  QByteArray fred( "jkajskldfasjfklasjfaskfaskfasfkasfjdasfkasjf" );
-  Attachment attachment4( fred, QByteArray( "image/nonsense" ) );
-  QCOMPARE( fred, attachment4.data() );
-  QVERIFY( attachment4.isBinary() );
-  QByteArray ethel( "a9fafafjafkasmfasfasffksjklfjau" );
-  attachment4.setData( ethel );
-  QCOMPARE( ethel, attachment4.data() );
+    QByteArray fred("jkajskldfasjfklasjfaskfaskfasfkasfjdasfkasjf");
+    Attachment attachment4(fred, QByteArray("image/nonsense"));
+    QCOMPARE(fred, attachment4.data());
+    QVERIFY(attachment4.isBinary());
+    QByteArray ethel("a9fafafjafkasmfasfasffksjklfjau");
+    attachment4.setData(ethel);
+    QCOMPARE(ethel, attachment4.data());
 
-  Attachment attachment5( QString( "http://www.kde.org" ) );
-  Attachment attachment6( QString( "http://www.kde.org" ) );
-  QVERIFY( attachment5 == attachment6 );
-  attachment5.setUri( "http://bugs.kde.org" );
-  QVERIFY( attachment5 != attachment6 );
-  attachment5.setDecodedData( "123456" );
-  attachment6.setDecodedData( "123456" );
-  QVERIFY( attachment5 == attachment6 );
-  attachment6.setDecodedData( "12345" );
-  QVERIFY( attachment5 != attachment6 );
+    Attachment attachment5(QString("http://www.kde.org"));
+    Attachment attachment6(QString("http://www.kde.org"));
+    QVERIFY(attachment5 == attachment6);
+    attachment5.setUri("http://bugs.kde.org");
+    QVERIFY(attachment5 != attachment6);
+    attachment5.setDecodedData("123456");
+    attachment6.setDecodedData("123456");
+    QVERIFY(attachment5 == attachment6);
+    attachment6.setDecodedData("12345");
+    QVERIFY(attachment5 != attachment6);
 }
 
 
 void AttachmentTest::testSerializer_data()
 {
-  QTest::addColumn<KCalCore::Attachment::Ptr>( "attachment" );
+    QTest::addColumn<KCalCore::Attachment::Ptr>("attachment");
 
-  Attachment::Ptr nonInline = Attachment::Ptr( new Attachment( QString( "http://www.kde.org" ) ) );
-  Attachment::Ptr inlineAttachment = Attachment::Ptr( new Attachment( QByteArray("foo"), QByteArray( "image/nonsense" ) ) );
+    Attachment::Ptr nonInline = Attachment::Ptr(new Attachment(QString("http://www.kde.org")));
+    Attachment::Ptr inlineAttachment = Attachment::Ptr(new Attachment(QByteArray("foo"), QByteArray("image/nonsense")));
 
-  QTest::newRow( "inline" ) << inlineAttachment;
-  QTest::newRow( "not inline" ) << nonInline;
+    QTest::newRow("inline") << inlineAttachment;
+    QTest::newRow("not inline") << nonInline;
 }
 
 
 void AttachmentTest::testSerializer()
 {
-  QFETCH( KCalCore::Attachment::Ptr , attachment );
+    QFETCH(KCalCore::Attachment::Ptr , attachment);
 
-  QByteArray array;
-  QDataStream stream(&array, QIODevice::WriteOnly);
-  stream << attachment; // Serialize
+    QByteArray array;
+    QDataStream stream(&array, QIODevice::WriteOnly);
+    stream << attachment; // Serialize
 
-  Attachment::Ptr attachment2 = Attachment::Ptr( new Attachment( QString( "foo" ) ) );
-  QVERIFY(*attachment != *attachment2);
-  QDataStream stream2(&array, QIODevice::ReadOnly);
-  stream2 >> attachment2; // deserialize
-  QVERIFY(*attachment == *attachment2);
+    Attachment::Ptr attachment2 = Attachment::Ptr(new Attachment(QString("foo")));
+    QVERIFY(*attachment != *attachment2);
+    QDataStream stream2(&array, QIODevice::ReadOnly);
+    stream2 >> attachment2; // deserialize
+    QVERIFY(*attachment == *attachment2);
 }
 

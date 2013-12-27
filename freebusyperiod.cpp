@@ -37,7 +37,7 @@ using namespace KCalCore;
 //@cond PRIVATE
 class KCalCore::FreeBusyPeriod::Private
 {
-  public:
+public:
     Private() {}
 
     QString mSummary;
@@ -45,85 +45,85 @@ class KCalCore::FreeBusyPeriod::Private
 };
 //@endcond
 
-FreeBusyPeriod::FreeBusyPeriod() : Period(), d( new KCalCore::FreeBusyPeriod::Private() )
+FreeBusyPeriod::FreeBusyPeriod() : Period(), d(new KCalCore::FreeBusyPeriod::Private())
 {
 }
 
-FreeBusyPeriod::FreeBusyPeriod( const KDateTime &start, const KDateTime &end )
-  : Period( start, end ), d( new KCalCore::FreeBusyPeriod::Private() )
+FreeBusyPeriod::FreeBusyPeriod(const KDateTime &start, const KDateTime &end)
+    : Period(start, end), d(new KCalCore::FreeBusyPeriod::Private())
 {
 }
 
-FreeBusyPeriod::FreeBusyPeriod( const KDateTime &start, const Duration &duration )
-  : Period( start, duration ), d( new KCalCore::FreeBusyPeriod::Private() )
+FreeBusyPeriod::FreeBusyPeriod(const KDateTime &start, const Duration &duration)
+    : Period(start, duration), d(new KCalCore::FreeBusyPeriod::Private())
 {
 }
 
-FreeBusyPeriod::FreeBusyPeriod( const FreeBusyPeriod &period )
-  : Period( period ), d( new KCalCore::FreeBusyPeriod::Private( *period.d ) )
+FreeBusyPeriod::FreeBusyPeriod(const FreeBusyPeriod &period)
+    : Period(period), d(new KCalCore::FreeBusyPeriod::Private(*period.d))
 {
 }
 
-FreeBusyPeriod::FreeBusyPeriod( const Period &period )
-  : Period( period ), d( new KCalCore::FreeBusyPeriod::Private() )
+FreeBusyPeriod::FreeBusyPeriod(const Period &period)
+    : Period(period), d(new KCalCore::FreeBusyPeriod::Private())
 {
 }
 
 FreeBusyPeriod::~FreeBusyPeriod()
 {
-  delete d;
+    delete d;
 }
 
-FreeBusyPeriod &FreeBusyPeriod::operator=( const FreeBusyPeriod &other )
+FreeBusyPeriod &FreeBusyPeriod::operator=(const FreeBusyPeriod &other)
 {
-  // check for self assignment
-  if ( &other == this ) {
-    return *this;
-  }
+    // check for self assignment
+    if (&other == this) {
+        return *this;
+    }
 
-  Period::operator=(other);
-  *d = *other.d;
-  return *this;
+    Period::operator=(other);
+    *d = *other.d;
+    return *this;
 }
 
 QString FreeBusyPeriod::summary() const
 {
-  return d->mSummary;
+    return d->mSummary;
 }
 
-void FreeBusyPeriod::setSummary( const QString &summary )
+void FreeBusyPeriod::setSummary(const QString &summary)
 {
-  d->mSummary = summary;
+    d->mSummary = summary;
 }
 
 QString FreeBusyPeriod::location() const
 {
-  return d->mLocation;
+    return d->mLocation;
 }
 
-void FreeBusyPeriod::setLocation( const QString &location )
+void FreeBusyPeriod::setLocation(const QString &location)
 {
-  d->mLocation = location;
+    d->mLocation = location;
 }
 
-QDataStream &KCalCore::operator<<( QDataStream &stream, const KCalCore::FreeBusyPeriod &period )
+QDataStream &KCalCore::operator<<(QDataStream &stream, const KCalCore::FreeBusyPeriod &period)
 {
-  KCalCore::Period periodParent = static_cast<KCalCore::Period>( period );
-  stream << periodParent;
-  stream << period.summary() << period.location();
-  return stream;
+    KCalCore::Period periodParent = static_cast<KCalCore::Period>(period);
+    stream << periodParent;
+    stream << period.summary() << period.location();
+    return stream;
 }
 
-QDataStream &KCalCore::operator>>( QDataStream &stream, FreeBusyPeriod &period )
+QDataStream &KCalCore::operator>>(QDataStream &stream, FreeBusyPeriod &period)
 {
-  KCalCore::Period periodParent;
-  QString summary, location;
+    KCalCore::Period periodParent;
+    QString summary, location;
 
-  stream >> periodParent >> summary >> location;
+    stream >> periodParent >> summary >> location;
 
-  period = periodParent;
-  period.setLocation( location );
-  period.setSummary( summary );
-  return stream;
+    period = periodParent;
+    period.setLocation(location);
+    period.setSummary(summary);
+    return stream;
 }
 

@@ -25,28 +25,28 @@
 #include <QStringList>
 
 #include <qtest_kde.h>
-QTEST_KDEMAIN( CalFilterTest, NoGUI )
+QTEST_KDEMAIN(CalFilterTest, NoGUI)
 
 using namespace KCalCore;
 
 void CalFilterTest::testValidity()
 {
-  CalFilter *f = new CalFilter;
-  f->setName( "testfilter" );
-  QVERIFY( f->name() == "testfilter" );
-  delete f;
-  CalFilter g( "fredfilter" );
-  QVERIFY( g.name() == "fredfilter" );
-  CalFilter f1, f2;
-  QVERIFY( f1 == f2 );
+    CalFilter *f = new CalFilter;
+    f->setName("testfilter");
+    QVERIFY(f->name() == "testfilter");
+    delete f;
+    CalFilter g("fredfilter");
+    QVERIFY(g.name() == "fredfilter");
+    CalFilter f1, f2;
+    QVERIFY(f1 == f2);
 }
 
 void CalFilterTest::testCats()
 {
-  CalFilter f1, f2;
-  QStringList cats;
-  cats << "a" << "b" << "c";
-  f1.setCategoryList( cats );
-  f2.setCategoryList( cats );
-  QVERIFY( f1.categoryList() == f2.categoryList() );
+    CalFilter f1, f2;
+    QStringList cats;
+    cats << "a" << "b" << "c";
+    f1.setCategoryList(cats);
+    f2.setCategoryList(cats);
+    QVERIFY(f1.categoryList() == f2.categoryList());
 }

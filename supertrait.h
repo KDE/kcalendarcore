@@ -26,29 +26,29 @@
 
 //@cond PRIVATE
 namespace KPIMUtils {
-  /**
-    @internal
-    @see super_class
-  */
-  template <typename Super>
-  struct SuperClassTrait
-  {
+/**
+  @internal
+  @see super_class
+*/
+template <typename Super>
+struct SuperClassTrait
+{
     typedef Super Type;
-  };
+};
 
-  /**
-    Type trait to provide information about a base class for a given class.
-    Used eg. for the Akonadi payload mechanism.
+/**
+  Type trait to provide information about a base class for a given class.
+  Used eg. for the Akonadi payload mechanism.
 
-    To provide base class introspection for own types, extend this trait as follows:
-    @code
-    namespace KPIMUtils
-    {
-      template <> struct SuperClass<MyClass> : public SuperClassTrait<MyBaseClass>{};
-    }
-    @endcode
-  */
-  template <typename Class> struct SuperClass : public SuperClassTrait<Class>{};
+  To provide base class introspection for own types, extend this trait as follows:
+  @code
+  namespace KPIMUtils
+  {
+    template <> struct SuperClass<MyClass> : public SuperClassTrait<MyBaseClass>{};
+  }
+  @endcode
+*/
+template <typename Class> struct SuperClass : public SuperClassTrait<Class> {};
 }
 //@endcond
 

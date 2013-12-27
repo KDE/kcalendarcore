@@ -26,8 +26,8 @@
 
 class EventTest : public QObject
 {
-  Q_OBJECT
-  private Q_SLOTS:
+    Q_OBJECT
+private Q_SLOTS:
     void testSetRoles_data();
     void testSetRoles();
     void testValidity();

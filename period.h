@@ -48,10 +48,10 @@ namespace KCalCore {
 */
 class KCALCORE_EXPORT Period
 {
-  public:
-   /**
-      List of periods.
-    */
+public:
+    /**
+       List of periods.
+     */
     typedef QVector<Period> List;
 
     /**
@@ -65,7 +65,7 @@ class KCALCORE_EXPORT Period
       @param start the time the period begins.
       @param end the time the period ends.
     */
-    Period( const KDateTime &start, const KDateTime &end );
+    Period(const KDateTime &start, const KDateTime &end);
 
     /**
       Constructs a period from @p start and lasting @p duration.
@@ -73,7 +73,7 @@ class KCALCORE_EXPORT Period
       @param start the time when the period starts.
       @param duration how long the period lasts.
     */
-    Period( const KDateTime &start, const Duration &duration );
+    Period(const KDateTime &start, const Duration &duration);
 
     /**
       Constructs a period by copying another period object
@@ -81,7 +81,7 @@ class KCALCORE_EXPORT Period
       @param period the period to copy
      */
 
-    Period( const Period &period );
+    Period(const Period &period);
 
     /**
       Destroys a period.
@@ -94,7 +94,7 @@ class KCALCORE_EXPORT Period
 
       @param other is the other period to compare.
     */
-    bool operator<( const Period &other ) const;
+    bool operator<(const Period &other) const;
 
     /**
       Returns true if the start of this period is later than the start of
@@ -102,7 +102,9 @@ class KCALCORE_EXPORT Period
 
       @param other the other period to compare
     */
-    bool operator>( const Period &other ) const  { return other.operator<( *this ); }
+    bool operator>(const Period &other) const  {
+        return other.operator<(*this);
+    }
 
     /**
       Returns true if this period is equal to the @p other one.
@@ -112,7 +114,7 @@ class KCALCORE_EXPORT Period
 
       @param other the other period to compare
     */
-    bool operator==( const Period &other ) const;
+    bool operator==(const Period &other) const;
 
     /**
       Returns true if this period is not equal to the @p other one.
@@ -120,14 +122,16 @@ class KCALCORE_EXPORT Period
       @param other the other period to compare
       @see operator==()
     */
-    bool operator!=( const Period &other ) const  { return !operator==( other ); }
+    bool operator!=(const Period &other) const  {
+        return !operator==(other);
+    }
 
     /**
       Sets this period equal to the @p other one.
 
       @param other is the other period to compare.
     */
-    Period &operator=( const Period &other );
+    Period &operator=(const Period &other);
 
     /**
       Returns when this period starts.
@@ -164,7 +168,7 @@ class KCALCORE_EXPORT Period
 
       @param type the unit of time to use (seconds or days)
     */
-    Duration duration( Duration::Type type ) const;
+    Duration duration(Duration::Type type) const;
 
     /**
       Returns true if this period has a set duration, false
@@ -186,37 +190,37 @@ class KCALCORE_EXPORT Period
       @param oldSpec the time specification which provides the clock times
       @param newSpec the new time specification
     */
-    void shiftTimes( const KDateTime::Spec &oldSpec,
-                     const KDateTime::Spec &newSpec );
+    void shiftTimes(const KDateTime::Spec &oldSpec,
+                    const KDateTime::Spec &newSpec);
 
-  private:
+private:
     //@cond PRIVATE
     class Private;
     Private *const d;
     //@endcond
 
-    friend KCALCORE_EXPORT QDataStream &operator<<( QDataStream &stream,
-                                                    const KCalCore::Period &period );
+    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
+            const KCalCore::Period &period);
 
-    friend KCALCORE_EXPORT QDataStream &operator>>( QDataStream &stream,
-                                                    KCalCore::Period &period );
+    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream,
+            KCalCore::Period &period);
 };
 
 /** Write @p period to the datastream @p stream, in binary format. */
-KCALCORE_EXPORT QDataStream &operator<<( QDataStream &stream, const KCalCore::Period &period );
+KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalCore::Period &period);
 
 /** Read a Period object into @p period from @p stream, in binary format. */
-KCALCORE_EXPORT QDataStream &operator>>( QDataStream &stream, KCalCore::Period &period );
+KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalCore::Period &period);
 }
 
 /**
   Return a hash value for a Period argument.
   @param key is a Period.
 */
-KCALCORE_EXPORT uint qHash( const KCalCore::Period &key );
+KCALCORE_EXPORT uint qHash(const KCalCore::Period &key);
 
 //@cond PRIVATE
-Q_DECLARE_METATYPE( KCalCore::Period )
+Q_DECLARE_METATYPE(KCalCore::Period)
 //@endcond
 
 #endif

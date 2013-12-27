@@ -44,11 +44,11 @@ using namespace KCalCore;
 //@cond PRIVATE
 class KCalCore::CalFilter::Private
 {
-  public:
+public:
     Private()
-      : mCriteria( 0 ),
-        mCompletedTimeSpan( 0 ),
-        mEnabled( true )
+        : mCriteria(0),
+          mCompletedTimeSpan(0),
+          mEnabled(true)
     {}
     QString mName;   // filter name
     QStringList mCategoryList;
@@ -60,214 +60,214 @@ class KCalCore::CalFilter::Private
 };
 //@endcond
 
-CalFilter::CalFilter() : d( new KCalCore::CalFilter::Private )
+CalFilter::CalFilter() : d(new KCalCore::CalFilter::Private)
 {
 }
 
-CalFilter::CalFilter( const QString &name )
-  : d( new KCalCore::CalFilter::Private )
+CalFilter::CalFilter(const QString &name)
+    : d(new KCalCore::CalFilter::Private)
 {
-  d->mName = name;
+    d->mName = name;
 }
 
 CalFilter::~CalFilter()
 {
-  delete d;
+    delete d;
 }
 
-bool KCalCore::CalFilter::operator==( const CalFilter &filter ) const
+bool KCalCore::CalFilter::operator==(const CalFilter &filter) const
 {
-  return d->mName == filter.d->mName &&
-    d->mCriteria == filter.d->mCriteria &&
-    d->mCategoryList == filter.d->mCategoryList &&
-    d->mEmailList == filter.d->mEmailList &&
-    d->mCompletedTimeSpan == filter.d->mCompletedTimeSpan;
+    return d->mName == filter.d->mName &&
+           d->mCriteria == filter.d->mCriteria &&
+           d->mCategoryList == filter.d->mCategoryList &&
+           d->mEmailList == filter.d->mEmailList &&
+           d->mCompletedTimeSpan == filter.d->mCompletedTimeSpan;
 }
 
-void CalFilter::apply( Event::List *eventList ) const
+void CalFilter::apply(Event::List *eventList) const
 {
-  if ( !d->mEnabled ) {
-    return;
-  }
-
-  Event::List::Iterator it = eventList->begin();
-  while ( it != eventList->end() ) {
-    if ( !filterIncidence( *it ) ) {
-      it = eventList->erase( it );
-    } else {
-      ++it;
+    if (!d->mEnabled) {
+        return;
     }
-  }
+
+    Event::List::Iterator it = eventList->begin();
+    while (it != eventList->end()) {
+        if (!filterIncidence(*it)) {
+            it = eventList->erase(it);
+        } else {
+            ++it;
+        }
+    }
 }
 
 // TODO: avoid duplicating apply() code
-void CalFilter::apply( Todo::List *todoList ) const
+void CalFilter::apply(Todo::List *todoList) const
 {
-  if ( !d->mEnabled ) {
-    return;
-  }
-
-  Todo::List::Iterator it = todoList->begin();
-  while ( it != todoList->end() ) {
-    if ( !filterIncidence( *it ) ) {
-      it = todoList->erase( it );
-    } else {
-      ++it;
+    if (!d->mEnabled) {
+        return;
     }
-  }
+
+    Todo::List::Iterator it = todoList->begin();
+    while (it != todoList->end()) {
+        if (!filterIncidence(*it)) {
+            it = todoList->erase(it);
+        } else {
+            ++it;
+        }
+    }
 }
 
-void CalFilter::apply( Journal::List *journalList ) const
+void CalFilter::apply(Journal::List *journalList) const
 {
-  if ( !d->mEnabled ) {
-    return;
-  }
-
-  Journal::List::Iterator it = journalList->begin();
-  while ( it != journalList->end() ) {
-    if ( !filterIncidence( *it ) ) {
-      it = journalList->erase( it );
-    } else {
-      ++it;
+    if (!d->mEnabled) {
+        return;
     }
-  }
+
+    Journal::List::Iterator it = journalList->begin();
+    while (it != journalList->end()) {
+        if (!filterIncidence(*it)) {
+            it = journalList->erase(it);
+        } else {
+            ++it;
+        }
+    }
 }
 
-bool CalFilter::filterIncidence( Incidence::Ptr incidence ) const
+bool CalFilter::filterIncidence(Incidence::Ptr incidence) const
 {
-  if ( !d->mEnabled ) {
-    return true;
-  }
+    if (!d->mEnabled) {
+        return true;
+    }
 
-  Todo::Ptr todo = incidence.dynamicCast<Todo>();
-  if ( todo ) {
-    if ( ( d->mCriteria & HideCompletedTodos ) && todo->isCompleted() ) {
-      // Check if completion date is suffently long ago:
-      if ( todo->completed().addDays( d->mCompletedTimeSpan ) <
-           KDateTime::currentUtcDateTime() ) {
+    Todo::Ptr todo = incidence.dynamicCast<Todo>();
+    if (todo) {
+        if ((d->mCriteria & HideCompletedTodos) && todo->isCompleted()) {
+            // Check if completion date is suffently long ago:
+            if (todo->completed().addDays(d->mCompletedTimeSpan) <
+                    KDateTime::currentUtcDateTime()) {
+                return false;
+            }
+        }
+
+        if ((d->mCriteria & HideInactiveTodos) &&
+                ((todo->hasStartDate() &&
+                  KDateTime::currentUtcDateTime() < todo->dtStart()) ||
+                 todo->isCompleted())) {
+            return false;
+        }
+
+        if (d->mCriteria & HideNoMatchingAttendeeTodos) {
+            bool iAmOneOfTheAttendees = false;
+            const Attendee::List &attendees = todo->attendees();
+            if (!todo->attendees().isEmpty()) {
+                Attendee::List::ConstIterator it;
+                for (it = attendees.begin(); it != attendees.end(); ++it) {
+                    if (d->mEmailList.contains((*it)->email())) {
+                        iAmOneOfTheAttendees = true;
+                        break;
+                    }
+                }
+            } else {
+                // no attendees, must be me only
+                iAmOneOfTheAttendees = true;
+            }
+            if (!iAmOneOfTheAttendees) {
+                return false;
+            }
+        }
+    }
+
+    if (d->mCriteria & HideRecurring) {
+        if (incidence->recurs() || incidence->hasRecurrenceId()) {
+            return false;
+        }
+    }
+
+    if (d->mCriteria & ShowCategories) {
+        for (QStringList::ConstIterator it = d->mCategoryList.constBegin();
+                it != d->mCategoryList.constEnd(); ++it) {
+            QStringList incidenceCategories = incidence->categories();
+            for (QStringList::ConstIterator it2 = incidenceCategories.constBegin();
+                    it2 != incidenceCategories.constEnd(); ++it2) {
+                if ((*it) == (*it2)) {
+                    return true;
+                }
+            }
+        }
         return false;
-      }
-    }
-
-    if ( ( d->mCriteria & HideInactiveTodos ) &&
-         ( ( todo->hasStartDate() &&
-             KDateTime::currentUtcDateTime() < todo->dtStart() ) ||
-           todo->isCompleted() ) ) {
-      return false;
-    }
-
-    if ( d->mCriteria & HideNoMatchingAttendeeTodos ) {
-      bool iAmOneOfTheAttendees = false;
-      const Attendee::List &attendees = todo->attendees();
-      if ( !todo->attendees().isEmpty() ) {
-        Attendee::List::ConstIterator it;
-        for ( it = attendees.begin(); it != attendees.end(); ++it ) {
-          if ( d->mEmailList.contains( ( *it )->email() ) ) {
-            iAmOneOfTheAttendees = true;
-            break;
-          }
+    } else {
+        for (QStringList::ConstIterator it = d->mCategoryList.constBegin();
+                it != d->mCategoryList.constEnd(); ++it) {
+            QStringList incidenceCategories = incidence->categories();
+            for (QStringList::ConstIterator it2 = incidenceCategories.constBegin();
+                    it2 != incidenceCategories.constEnd(); ++it2) {
+                if ((*it) == (*it2)) {
+                    return false;
+                }
+            }
         }
-      } else {
-        // no attendees, must be me only
-        iAmOneOfTheAttendees = true;
-      }
-      if ( !iAmOneOfTheAttendees ) {
-        return false;
-      }
+        return true;
     }
-  }
 
-  if ( d->mCriteria & HideRecurring ) {
-    if ( incidence->recurs() || incidence->hasRecurrenceId() ) {
-      return false;
-    }
-  }
-
-  if ( d->mCriteria & ShowCategories ) {
-    for ( QStringList::ConstIterator it = d->mCategoryList.constBegin();
-          it != d->mCategoryList.constEnd(); ++it ) {
-      QStringList incidenceCategories = incidence->categories();
-      for ( QStringList::ConstIterator it2 = incidenceCategories.constBegin();
-            it2 != incidenceCategories.constEnd(); ++it2 ) {
-        if ( ( *it ) == ( *it2 ) ) {
-          return true;
-        }
-      }
-    }
-    return false;
-  } else {
-    for ( QStringList::ConstIterator it = d->mCategoryList.constBegin();
-          it != d->mCategoryList.constEnd(); ++it ) {
-      QStringList incidenceCategories = incidence->categories();
-      for ( QStringList::ConstIterator it2 = incidenceCategories.constBegin();
-            it2 != incidenceCategories.constEnd(); ++it2 ) {
-        if ( ( *it ) == ( *it2 ) ) {
-          return false;
-        }
-      }
-    }
     return true;
-  }
-
-  return true;
 }
 
-void CalFilter::setName( const QString &name )
+void CalFilter::setName(const QString &name)
 {
-  d->mName = name;
+    d->mName = name;
 }
 
 QString CalFilter::name() const
 {
-  return d->mName;
+    return d->mName;
 }
 
-void CalFilter::setEnabled( bool enabled )
+void CalFilter::setEnabled(bool enabled)
 {
-  d->mEnabled = enabled;
+    d->mEnabled = enabled;
 }
 
 bool CalFilter::isEnabled() const
 {
-  return d->mEnabled;
+    return d->mEnabled;
 }
 
-void CalFilter::setCriteria( int criteria )
+void CalFilter::setCriteria(int criteria)
 {
-  d->mCriteria = criteria;
+    d->mCriteria = criteria;
 }
 
 int CalFilter::criteria() const
 {
-  return d->mCriteria;
+    return d->mCriteria;
 }
 
-void CalFilter::setCategoryList( const QStringList &categoryList )
+void CalFilter::setCategoryList(const QStringList &categoryList)
 {
-  d->mCategoryList = categoryList;
+    d->mCategoryList = categoryList;
 }
 
 QStringList CalFilter::categoryList() const
 {
-  return d->mCategoryList;
+    return d->mCategoryList;
 }
 
-void CalFilter::setEmailList( const QStringList &emailList )
+void CalFilter::setEmailList(const QStringList &emailList)
 {
-  d->mEmailList = emailList;
+    d->mEmailList = emailList;
 }
 
 QStringList CalFilter::emailList() const
 {
-  return d->mEmailList;
+    return d->mEmailList;
 }
 
-void CalFilter::setCompletedTimeSpan( int timespan )
+void CalFilter::setCompletedTimeSpan(int timespan)
 {
-  d->mCompletedTimeSpan = timespan;
+    d->mCompletedTimeSpan = timespan;
 }
 
 int CalFilter::completedTimeSpan() const
 {
-  return d->mCompletedTimeSpan;
+    return d->mCompletedTimeSpan;
 }

@@ -40,23 +40,23 @@ using namespace KCalCore;
 //@cond PRIVATE
 class KCalCore::Attachment::Private
 {
-  public:
-    Private( const QString &mime, bool binary )
-      : mSize( 0 ),
-        mMimeType( mime ),
-        mBinary( binary ),
-        mLocal( false ),
-        mShowInline( false )
+public:
+    Private(const QString &mime, bool binary)
+        : mSize(0),
+          mMimeType(mime),
+          mBinary(binary),
+          mLocal(false),
+          mShowInline(false)
     {}
-    Private( const Private &other )
-      : mSize( other.mSize ),
-        mMimeType( other.mMimeType ),
-        mUri( other.mUri ),
-        mEncodedData( other.mEncodedData ),
-        mLabel( other.mLabel ),
-        mBinary( other.mBinary ),
-        mLocal( other.mLocal ),
-        mShowInline( other.mShowInline )
+    Private(const Private &other)
+        : mSize(other.mSize),
+          mMimeType(other.mMimeType),
+          mUri(other.mUri),
+          mEncodedData(other.mEncodedData),
+          mLabel(other.mLabel),
+          mBinary(other.mBinary),
+          mLocal(other.mLocal),
+          mShowInline(other.mShowInline)
     {}
 
     ~Private()
@@ -75,181 +75,181 @@ class KCalCore::Attachment::Private
 };
 //@endcond
 
-Attachment::Attachment( const Attachment &attachment )
-  : d( new Attachment::Private( *attachment.d ) )
+Attachment::Attachment(const Attachment &attachment)
+    : d(new Attachment::Private(*attachment.d))
 {
 }
 
-Attachment::Attachment( const QString &uri, const QString &mime )
-  : d( new Attachment::Private( mime, false ) )
+Attachment::Attachment(const QString &uri, const QString &mime)
+    : d(new Attachment::Private(mime, false))
 {
-  d->mUri = uri;
+    d->mUri = uri;
 }
 
-Attachment::Attachment( const QByteArray &base64, const QString &mime )
-  : d( new Attachment::Private( mime, true ) )
+Attachment::Attachment(const QByteArray &base64, const QString &mime)
+    : d(new Attachment::Private(mime, true))
 {
-  d->mEncodedData = base64;
+    d->mEncodedData = base64;
 }
 
 Attachment::~Attachment()
 {
-  delete d;
+    delete d;
 }
 
 bool Attachment::isUri() const
 {
-  return !d->mBinary;
+    return !d->mBinary;
 }
 
 QString Attachment::uri() const
 {
-  if ( !d->mBinary ) {
-    return d->mUri;
-  } else {
-    return QString();
-  }
+    if (!d->mBinary) {
+        return d->mUri;
+    } else {
+        return QString();
+    }
 }
 
-void Attachment::setUri( const QString &uri )
+void Attachment::setUri(const QString &uri)
 {
-  d->mUri = uri;
-  d->mBinary = false;
+    d->mUri = uri;
+    d->mBinary = false;
 }
 
 bool Attachment::isBinary() const
 {
-  return d->mBinary;
+    return d->mBinary;
 }
 
 QByteArray Attachment::data() const
 {
-  if ( d->mBinary ) {
-    return d->mEncodedData;
-  } else {
-    return QByteArray();
-  }
+    if (d->mBinary) {
+        return d->mEncodedData;
+    } else {
+        return QByteArray();
+    }
 }
 
 QByteArray Attachment::decodedData() const
 {
-  if ( d->mDecodedDataCache.isNull() ) {
-    d->mDecodedDataCache = QByteArray::fromBase64( d->mEncodedData );
-  }
+    if (d->mDecodedDataCache.isNull()) {
+        d->mDecodedDataCache = QByteArray::fromBase64(d->mEncodedData);
+    }
 
-  return d->mDecodedDataCache;
+    return d->mDecodedDataCache;
 }
 
-void Attachment::setDecodedData( const QByteArray &data )
+void Attachment::setDecodedData(const QByteArray &data)
 {
-  setData( data.toBase64() );
-  d->mDecodedDataCache = data;
-  d->mSize = d->mDecodedDataCache.size();
+    setData(data.toBase64());
+    d->mDecodedDataCache = data;
+    d->mSize = d->mDecodedDataCache.size();
 }
 
-void Attachment::setData( const QByteArray &base64 )
+void Attachment::setData(const QByteArray &base64)
 {
-  d->mEncodedData = base64;
-  d->mBinary = true;
-  d->mDecodedDataCache = QByteArray();
-  d->mSize = 0;
+    d->mEncodedData = base64;
+    d->mBinary = true;
+    d->mDecodedDataCache = QByteArray();
+    d->mSize = 0;
 }
 
 uint Attachment::size() const
 {
-  if ( isUri() ) {
-    return 0;
-  }
-  if ( !d->mSize ) {
-    d->mSize = decodedData().size();
-  }
+    if (isUri()) {
+        return 0;
+    }
+    if (!d->mSize) {
+        d->mSize = decodedData().size();
+    }
 
-  return d->mSize;
+    return d->mSize;
 }
 
 QString Attachment::mimeType() const
 {
-  return d->mMimeType;
+    return d->mMimeType;
 }
 
-void Attachment::setMimeType( const QString &mime )
+void Attachment::setMimeType(const QString &mime)
 {
-  d->mMimeType = mime;
+    d->mMimeType = mime;
 }
 
 bool Attachment::showInline() const
 {
-  return d->mShowInline;
+    return d->mShowInline;
 }
 
-void Attachment::setShowInline( bool showinline )
+void Attachment::setShowInline(bool showinline)
 {
-  d->mShowInline = showinline;
+    d->mShowInline = showinline;
 }
 
 QString Attachment::label() const
 {
-  return d->mLabel;
+    return d->mLabel;
 }
 
-void Attachment::setLabel( const QString &label )
+void Attachment::setLabel(const QString &label)
 {
-  d->mLabel = label;
+    d->mLabel = label;
 }
 
 bool Attachment::isLocal() const
 {
-  return d->mLocal;
+    return d->mLocal;
 }
 
-void Attachment::setLocal( bool local )
+void Attachment::setLocal(bool local)
 {
-  d->mLocal = local;
+    d->mLocal = local;
 }
 
-Attachment &Attachment::operator=( const Attachment &other )
+Attachment &Attachment::operator=(const Attachment &other)
 {
-  if ( this != &other ) {
-    d->mSize = other.d->mSize;
-    d->mMimeType = other.d->mMimeType;
-    d->mUri = other.d->mUri;
-    d->mEncodedData = other.d->mEncodedData;
-    d->mLabel = other.d->mLabel;
-    d->mBinary = other.d->mBinary;
-    d->mLocal  = other.d->mLocal;
-    d->mShowInline = other.d->mShowInline;
-  }
+    if (this != &other) {
+        d->mSize = other.d->mSize;
+        d->mMimeType = other.d->mMimeType;
+        d->mUri = other.d->mUri;
+        d->mEncodedData = other.d->mEncodedData;
+        d->mLabel = other.d->mLabel;
+        d->mBinary = other.d->mBinary;
+        d->mLocal  = other.d->mLocal;
+        d->mShowInline = other.d->mShowInline;
+    }
 
-  return *this;
+    return *this;
 }
 
-bool Attachment::operator==( const Attachment &a2 ) const
+bool Attachment::operator==(const Attachment &a2) const
 {
-  return uri()          == a2.uri() &&
-         d->mLabel      == a2.label() &&
-         d->mLocal      == a2.isLocal() &&
-         d->mBinary     == a2.isBinary() &&
-         d->mShowInline == a2.showInline() &&
-         size()         == a2.size() &&
-         decodedData()  == a2.decodedData();
+    return uri()          == a2.uri() &&
+           d->mLabel      == a2.label() &&
+           d->mLocal      == a2.isLocal() &&
+           d->mBinary     == a2.isBinary() &&
+           d->mShowInline == a2.showInline() &&
+           size()         == a2.size() &&
+           decodedData()  == a2.decodedData();
 }
 
-bool Attachment::operator!=( const Attachment &a2 ) const
+bool Attachment::operator!=(const Attachment &a2) const
 {
-  return !( *this == a2 );
+    return !(*this == a2);
 }
 
 QDataStream& KCalCore::operator<<(QDataStream &out, const KCalCore::Attachment::Ptr &a)
 {
-  if (a)
-    out << a->d->mSize << a->d->mMimeType << a->d->mUri << a->d->mEncodedData << a->d->mLabel << a->d->mBinary << a->d->mLocal << a->d->mShowInline;
-  return out;
+    if (a)
+        out << a->d->mSize << a->d->mMimeType << a->d->mUri << a->d->mEncodedData << a->d->mLabel << a->d->mBinary << a->d->mLocal << a->d->mShowInline;
+    return out;
 }
 
 QDataStream& KCalCore::operator>>(QDataStream &in, const KCalCore::Attachment::Ptr &a)
 {
-  if (a)
-    in >> a->d->mSize >> a->d->mMimeType >> a->d->mUri >> a->d->mEncodedData >> a->d->mLabel >> a->d->mBinary >> a->d->mLocal >> a->d->mShowInline;
-  return in;
+    if (a)
+        in >> a->d->mSize >> a->d->mMimeType >> a->d->mUri >> a->d->mEncodedData >> a->d->mLabel >> a->d->mBinary >> a->d->mLocal >> a->d->mShowInline;
+    return in;
 }
 

@@ -39,26 +39,26 @@ Visitor::~Visitor()
 {
 }
 
-bool Visitor::visit( Event::Ptr event )
+bool Visitor::visit(Event::Ptr event)
 {
-  Q_UNUSED( event );
-  return false;
+    Q_UNUSED(event);
+    return false;
 }
 
-bool Visitor::visit( Todo::Ptr todo )
+bool Visitor::visit(Todo::Ptr todo)
 {
-  Q_UNUSED( todo );
-  return false;
+    Q_UNUSED(todo);
+    return false;
 }
 
-bool Visitor::visit( Journal::Ptr journal )
+bool Visitor::visit(Journal::Ptr journal)
 {
-  Q_UNUSED( journal );
-  return false;
+    Q_UNUSED(journal);
+    return false;
 }
 
-bool Visitor::visit( FreeBusy::Ptr freebusy )
+bool Visitor::visit(FreeBusy::Ptr freebusy)
 {
-  Q_UNUSED( freebusy );
-  return false;
+    Q_UNUSED(freebusy);
+    return false;
 }

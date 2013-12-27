@@ -58,7 +58,7 @@ namespace KCalCore {
 */
 class KCALCORE_EXPORT Attachment
 {
-  public:
+public:
     /**
       A shared pointer to an Attachment object.
     */
@@ -75,7 +75,7 @@ class KCALCORE_EXPORT Attachment
       @param uri is the @acronym URI referred to by this attachment.
       @param mime is the (optional) @acronym MIME type of the @p uri
     */
-    explicit Attachment( const QString &uri, const QString &mime = QString() );
+    explicit Attachment(const QString &uri, const QString &mime = QString());
 
     /**
       Constructs an attachment consisting of a binary blob of data
@@ -84,15 +84,15 @@ class KCALCORE_EXPORT Attachment
       @param base64 is the binary data in base64 format for the attachment.
       @param mime is the (optional) @acronym MIME type of the attachment
     */
-    explicit Attachment( const QByteArray &base64,
-                         const QString &mime = QString() );
+    explicit Attachment(const QByteArray &base64,
+                        const QString &mime = QString());
 
     /**
       Constructs an attachment by copying another attachment.
 
       @param attachment is the attachment to be copied.
     */
-    Attachment( const Attachment &attachment );
+    Attachment(const Attachment &attachment);
 
     /**
       Destroys the attachment.
@@ -106,7 +106,7 @@ class KCALCORE_EXPORT Attachment
 
       @see uri(), isUri()
     */
-    void setUri( const QString &uri );
+    void setUri(const QString &uri);
 
     /**
       Returns the @acronym URI of the attachment.
@@ -136,7 +136,7 @@ class KCALCORE_EXPORT Attachment
 
       @see data(), decodedData()
     */
-    void setData( const QByteArray &base64 );
+    void setData(const QByteArray &base64);
 
     /**
       Returns a pointer to a QByteArray containing the base64 encoded
@@ -153,7 +153,7 @@ class KCALCORE_EXPORT Attachment
 
       @see decodedData(), data()
     */
-    void setDecodedData( const QByteArray &data );
+    void setDecodedData(const QByteArray &data);
 
     /**
       Returns a QByteArray containing the decoded base64 binary data of the
@@ -177,7 +177,7 @@ class KCALCORE_EXPORT Attachment
 
       @see mimeType()
     */
-    void setMimeType( const QString &mime );
+    void setMimeType(const QString &mime);
 
     /**
       Returns the @acronym MIME-type of the attachment.
@@ -195,7 +195,7 @@ class KCALCORE_EXPORT Attachment
 
       @see showInline()
     */
-    void setShowInline( bool showinline );
+    void setShowInline(bool showinline);
 
     /**
       Returns the attachment "show in-line" flag.
@@ -212,7 +212,7 @@ class KCALCORE_EXPORT Attachment
 
       @see label()
     */
-    void setLabel( const QString &label );
+    void setLabel(const QString &label);
 
     /**
       Returns the attachment label string.
@@ -228,7 +228,7 @@ class KCALCORE_EXPORT Attachment
 
       @see local()
     */
-    void setLocal( bool local );
+    void setLocal(bool local);
 
     /**
       Returns the attachment "local" flag.
@@ -239,23 +239,23 @@ class KCALCORE_EXPORT Attachment
       Assignment operator.
       @param attachment is the attachment to assign.
     */
-    Attachment &operator=( const Attachment &attachment );
+    Attachment &operator=(const Attachment &attachment);
 
     /**
       Compare this with @p attachment for equality.
       @param attachment is the attachment to compare.
       @return true if the attachments are equal; false otherwise.
      */
-    bool operator==( const Attachment &attachment ) const;
+    bool operator==(const Attachment &attachment) const;
 
     /**
       Compare this with @p attachment for inequality.
       @param attachment is the attachment to compare.
       @return true if the attachments are /not/ equal; false otherwise.
      */
-    bool operator!=( const Attachment &attachment ) const;
+    bool operator!=(const Attachment &attachment) const;
 
-  private:
+private:
     //@cond PRIVATE
     class Private;
     Private *const d;
@@ -282,14 +282,14 @@ KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, const KCalCore::Attachm
 }
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO( KCalCore::Attachment::Ptr, Q_MOVABLE_TYPE );
-Q_DECLARE_METATYPE( KCalCore::Attachment::Ptr )
+Q_DECLARE_TYPEINFO(KCalCore::Attachment::Ptr, Q_MOVABLE_TYPE);
+Q_DECLARE_METATYPE(KCalCore::Attachment::Ptr)
 //@endcond
 
 //@cond PRIVATE
-inline uint qHash( const QSharedPointer<KCalCore::Attachment> &key )
+inline uint qHash(const QSharedPointer<KCalCore::Attachment> &key)
 {
-  return qHash<KCalCore::Attachment>( key.data() );
+    return qHash<KCalCore::Attachment>(key.data());
 }
 //@endcond
 

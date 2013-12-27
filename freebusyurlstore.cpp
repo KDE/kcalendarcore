@@ -38,21 +38,21 @@ using namespace KCalCore;
 //@cond PRIVATE
 class FreeBusyUrlStore::Private
 {
-  public:
+public:
     Private()
-     : mConfig(0)
+        : mConfig(0)
     {}
     ~Private()
     {
-      qRemovePostRoutine( cleanupFreeBusyUrlStore );
+        qRemovePostRoutine(cleanupFreeBusyUrlStore);
     }
     KConfig *mConfig;
 
     static FreeBusyUrlStore *sSelf;
     static void cleanupFreeBusyUrlStore()
     {
-      delete sSelf;
-      sSelf = 0;
+        delete sSelf;
+        sSelf = 0;
     }
 };
 FreeBusyUrlStore *FreeBusyUrlStore::Private::sSelf = 0;
@@ -60,40 +60,40 @@ FreeBusyUrlStore *FreeBusyUrlStore::Private::sSelf = 0;
 
 FreeBusyUrlStore *FreeBusyUrlStore::self()
 {
-  static Private p;
-  if ( !p.sSelf ) {
-    p.sSelf = new FreeBusyUrlStore();
-    qAddPostRoutine( Private::cleanupFreeBusyUrlStore );
-  }
-  return p.sSelf;
+    static Private p;
+    if (!p.sSelf) {
+        p.sSelf = new FreeBusyUrlStore();
+        qAddPostRoutine(Private::cleanupFreeBusyUrlStore);
+    }
+    return p.sSelf;
 }
 
-FreeBusyUrlStore::FreeBusyUrlStore() : d( new Private() )
+FreeBusyUrlStore::FreeBusyUrlStore() : d(new Private())
 {
-  QString configFile =
-    KStandardDirs::locateLocal( "data", QLatin1String("korganizer/freebusyurls") );
-  d->mConfig = new KConfig( configFile );
+    QString configFile =
+        KStandardDirs::locateLocal("data", QLatin1String("korganizer/freebusyurls"));
+    d->mConfig = new KConfig(configFile);
 }
 
 FreeBusyUrlStore::~FreeBusyUrlStore()
 {
-  delete d->mConfig;
-  delete d;
+    delete d->mConfig;
+    delete d;
 }
 
-void FreeBusyUrlStore::writeUrl( const QString &email, const QString &url )
+void FreeBusyUrlStore::writeUrl(const QString &email, const QString &url)
 {
-  KConfigGroup group = d->mConfig->group( email );
-  group.writeEntry( "url", url );
+    KConfigGroup group = d->mConfig->group(email);
+    group.writeEntry("url", url);
 }
 
-QString FreeBusyUrlStore::readUrl( const QString &email )
+QString FreeBusyUrlStore::readUrl(const QString &email)
 {
-  KConfigGroup group = d->mConfig->group( email );
-  return group.readEntry( "url" );
+    KConfigGroup group = d->mConfig->group(email);
+    return group.readEntry("url");
 }
 
 void FreeBusyUrlStore::sync()
 {
-  d->mConfig->sync();
+    d->mConfig->sync();
 }
