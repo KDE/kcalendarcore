@@ -35,63 +35,63 @@
 
 using namespace KCalCore;
 
-int main( int argc, char **argv )
+int main(int argc, char **argv)
 {
-  KAboutData aboutData( "readandwrite", 0, ki18n( "Read and Write Calendar" ), "0.1" );
-  KCmdLineArgs::init( argc, argv, &aboutData );
+    KAboutData aboutData("readandwrite", 0, ki18n("Read and Write Calendar"), "0.1");
+    KCmdLineArgs::init(argc, argv, &aboutData);
 
-  KCmdLineOptions options;
-  options.add( "verbose", ki18n( "Verbose output" ) );
-  options.add( "+input", ki18n( "Name of input file" ) );
-  options.add( "+output", ki18n( "Name of output file" ) );
-  KCmdLineArgs::addCmdLineOptions( options );
+    KCmdLineOptions options;
+    options.add("verbose", ki18n("Verbose output"));
+    options.add("+input", ki18n("Name of input file"));
+    options.add("+output", ki18n("Name of output file"));
+    KCmdLineArgs::addCmdLineOptions(options);
 
-  KComponentData componentData( &aboutData ); // needed by KConfig used by KSaveFile
+    KComponentData componentData(&aboutData);   // needed by KConfig used by KSaveFile
 
-  // Not needed, so let's save time
-  //QCoreApplication app( KCmdLineArgs::qtArgc(), KCmdLineArgs::qtArgv() );
+    // Not needed, so let's save time
+    //QCoreApplication app( KCmdLineArgs::qtArgc(), KCmdLineArgs::qtArgv() );
 
-  KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+    KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
-  if ( args->count() != 2 ) {
-    args->usage( "Wrong number of arguments." );
-  }
+    if (args->count() != 2) {
+        args->usage("Wrong number of arguments.");
+    }
 
-  QString input = args->arg( 0 );
-  QString output = args->arg( 1 );
+    QString input = args->arg(0);
+    QString output = args->arg(1);
 
-  QFileInfo outputFileInfo( output );
-  output = outputFileInfo.absoluteFilePath();
+    QFileInfo outputFileInfo(output);
+    output = outputFileInfo.absoluteFilePath();
 
-  kDebug() << "Input file:" << input;
-  kDebug() << "Output file:" << output;
+    kDebug() << "Input file:" << input;
+    kDebug() << "Output file:" << output;
 
 #ifdef USE_ICAL_0_46
-  // Jenkins is still running a old libical version.
-  // Add a workaround here since sysadmins don't have time to install libical 1.x before
-  // the 4.11 KDE release.
-  if (outputFileInfo.fileName() == QLatin1String("KOrganizer_3.1.ics.ical.out") ||
-      outputFileInfo.fileName() == QLatin1String("KOrganizer_3.2.ics.ical.out")) {
-    return 0;
-  }
+    // Jenkins is still running a old libical version.
+    // Add a workaround here since sysadmins don't have time to install libical 1.x before
+    // the 4.11 KDE release.
+    if (outputFileInfo.fileName() == QLatin1String("KOrganizer_3.1.ics.ical.out") ||
+            outputFileInfo.fileName() == QLatin1String("KOrganizer_3.2.ics.ical.out")) {
+        return 0;
+    }
 #endif
 
-  MemoryCalendar::Ptr cal( new MemoryCalendar( KDateTime::UTC ) );
-  FileStorage instore( cal, input );
+    MemoryCalendar::Ptr cal(new MemoryCalendar(KDateTime::UTC));
+    FileStorage instore(cal, input);
 
-  if ( !instore.load() ) {
-    kDebug() << "DAMN";
-    return 1;
-  }
-  QString tz = cal->nonKDECustomProperty( "X-LibKCal-Testsuite-OutTZ" );
-  if ( !tz.isEmpty() ) {
-    cal->setViewTimeZoneId( tz );
-  }
+    if (!instore.load()) {
+        kDebug() << "DAMN";
+        return 1;
+    }
+    QString tz = cal->nonKDECustomProperty("X-LibKCal-Testsuite-OutTZ");
+    if (!tz.isEmpty()) {
+        cal->setViewTimeZoneId(tz);
+    }
 
-  FileStorage outstore( cal, output );
-  if ( !outstore.save() ) {
-    return 1;
-  }
+    FileStorage outstore(cal, output);
+    if (!outstore.save()) {
+        return 1;
+    }
 
-  return 0;
+    return 0;
 }

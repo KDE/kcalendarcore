@@ -64,7 +64,7 @@ class ICalTimeZoneDataPrivate;
  */
 class KCALCORE_EXPORT ICalTimeZones
 {
-  public:
+public:
     /**
      * Constructs an empty time zone collection.
      */
@@ -74,13 +74,13 @@ class KCALCORE_EXPORT ICalTimeZones
      * Copy constructor.
      * @param rhs is the ICalTimeZones instance to copy.
      */
-    ICalTimeZones( const ICalTimeZones &rhs );
+    ICalTimeZones(const ICalTimeZones &rhs);
 
     /**
      * Assignment operator.
      * @param rhs is the ICalTimeZones instance to assign to this one.
      */
-    ICalTimeZones &operator=( const ICalTimeZones &rhs );
+    ICalTimeZones &operator=(const ICalTimeZones &rhs);
 
     /**
      * Destructor.
@@ -95,7 +95,7 @@ class KCALCORE_EXPORT ICalTimeZones
      * @param name name of time zone
      * @return time zone, or invalid if not found
      */
-    ICalTimeZone zone( const QString &name ) const;
+    ICalTimeZone zone(const QString &name) const;
 
     /**
      * Returns the time zone with similar zone information regardless of
@@ -109,7 +109,7 @@ class KCALCORE_EXPORT ICalTimeZones
      * @param zone zone information to look for
      * @return time zone, or invalid if not found
      */
-    ICalTimeZone zone( const ICalTimeZone &zone ) const;
+    ICalTimeZone zone(const ICalTimeZone &zone) const;
 
     typedef QMap<QString, ICalTimeZone> ZoneMap;
 
@@ -128,7 +128,7 @@ class KCALCORE_EXPORT ICalTimeZones
      * @return @c true if successful, @c false if zone's name duplicates one
      * already in the collection
      */
-    bool add( const ICalTimeZone &zone );
+    bool add(const ICalTimeZone &zone);
 
     /**
      * Removes a time zone from the collection.
@@ -136,7 +136,7 @@ class KCALCORE_EXPORT ICalTimeZones
      * @param zone time zone to remove
      * @return the time zone which was removed, or invalid if not found
      */
-    ICalTimeZone remove( const ICalTimeZone &zone );
+    ICalTimeZone remove(const ICalTimeZone &zone);
 
     /**
      * Removes a time zone from the collection.
@@ -144,7 +144,7 @@ class KCALCORE_EXPORT ICalTimeZones
      * @param name name of time zone to remove
      * @return the time zone which was removed, or invalid if not found
      */
-    ICalTimeZone remove( const QString &name );
+    ICalTimeZone remove(const QString &name);
 
     /**
      * Clears the collection.
@@ -158,7 +158,7 @@ class KCALCORE_EXPORT ICalTimeZones
      */
     int count();
 
-  private:
+private:
     //@cond PRIVATE
     ICalTimeZonesPrivate *const d;
     //@endcond
@@ -174,9 +174,9 @@ class KCALCORE_EXPORT ICalTimeZones
  * @author David Jarvie <djarvie@kde.org>
  */
 class KCALCORE_EXPORT ICalTimeZone : public KTimeZone //krazy:exclude=dpointer
-                                                      //(no d-pointer for KTimeZone derived classes)
+    //(no d-pointer for KTimeZone derived classes)
 {
-  public:
+public:
     /**
      * Constructs a null time zone. A null time zone is invalid.
      *
@@ -192,7 +192,7 @@ class KCALCORE_EXPORT ICalTimeZone : public KTimeZone //krazy:exclude=dpointer
      * @param name     time zone's unique name within the iCalendar object
      * @param data     parsed VTIMEZONE data
      */
-    ICalTimeZone( ICalTimeZoneSource *source, const QString &name, ICalTimeZoneData *data );
+    ICalTimeZone(ICalTimeZoneSource *source, const QString &name, ICalTimeZoneData *data);
 
     /**
      * Constructor which converts a KTimeZone to an ICalTimeZone instance.
@@ -200,7 +200,7 @@ class KCALCORE_EXPORT ICalTimeZone : public KTimeZone //krazy:exclude=dpointer
      * @param tz KTimeZone instance
      * @param earliest earliest date for which time zone data should be stored
      */
-    explicit ICalTimeZone( const KTimeZone &tz, const QDate &earliest = QDate() );
+    explicit ICalTimeZone(const KTimeZone &tz, const QDate &earliest = QDate());
 
     /**
      * Destructor.
@@ -257,7 +257,7 @@ class KCALCORE_EXPORT ICalTimeZone : public KTimeZone //krazy:exclude=dpointer
      * @param other time zone whose definition is to be used
      * @return true if definition was updated (i.e. names are the same)
      */
-    bool update( const ICalTimeZone &other );
+    bool update(const ICalTimeZone &other);
 
     /**
      * Returns a standard UTC time zone, with name "UTC".
@@ -271,14 +271,14 @@ class KCALCORE_EXPORT ICalTimeZone : public KTimeZone //krazy:exclude=dpointer
      */
     static ICalTimeZone utc();
 
-  protected:
+protected:
     /**
       @copydoc
       IncidenceBase::virtual_hook()
     */
-    virtual void virtual_hook( int id, void *data );
+    virtual void virtual_hook(int id, void *data);
 
-  private:
+private:
     // d-pointer is in ICalTimeZoneBackend.
     // This is a requirement for classes inherited from KTimeZone.
 };
@@ -298,7 +298,7 @@ class KCALCORE_EXPORT ICalTimeZone : public KTimeZone //krazy:exclude=dpointer
  */
 class KCALCORE_EXPORT ICalTimeZoneBackend : public KTimeZoneBackend
 {
-  public:
+public:
     /** Implements ICalTimeZone::ICalTimeZone(). */
     ICalTimeZoneBackend();
     /**
@@ -311,18 +311,18 @@ class KCALCORE_EXPORT ICalTimeZoneBackend : public KTimeZoneBackend
      * @param longitude   in degrees (between -180 and +180), UNKNOWN if not known
      * @param comment     description of the time zone, if any
      */
-    ICalTimeZoneBackend( ICalTimeZoneSource *source, const QString &name,
-                         const QString &countryCode = QString(),
-                         float latitude = KTimeZone::UNKNOWN,
-                         float longitude = KTimeZone::UNKNOWN,
-                         const QString &comment = QString() );
+    ICalTimeZoneBackend(ICalTimeZoneSource *source, const QString &name,
+                        const QString &countryCode = QString(),
+                        float latitude = KTimeZone::UNKNOWN,
+                        float longitude = KTimeZone::UNKNOWN,
+                        const QString &comment = QString());
 
     /** Implements ICalTimeZone::ICalTimeZone().
      *
      * @param tz KTimeZone instance
      * @param earliest earliest date for which time zone data should be stored
      */
-    ICalTimeZoneBackend( const KTimeZone &tz, const QDate &earliest );
+    ICalTimeZoneBackend(const KTimeZone &tz, const QDate &earliest);
 
     virtual ~ICalTimeZoneBackend();
 
@@ -348,19 +348,19 @@ class KCALCORE_EXPORT ICalTimeZoneBackend : public KTimeZoneBackend
      * @param caller calling ICalTimeZone object
      * @return @c true
      */
-    virtual bool hasTransitions( const KTimeZone *caller ) const;
+    virtual bool hasTransitions(const KTimeZone *caller) const;
 
-  protected:
+protected:
     /**
       @copydoc
       IncidenceBase::virtual_hook()
     */
-    virtual void virtual_hook( int id, void *data );
+    virtual void virtual_hook(int id, void *data);
 
-  private:
+private:
     //@cond PRIVATE
     ICalTimeZonePrivate *d; //krazy:exclude=dpointer
-                            //(non-const d-pointer for KTimeZoneBackend-derived classes)
+    //(non-const d-pointer for KTimeZoneBackend-derived classes)
     //@endcond
 };
 
@@ -371,24 +371,24 @@ class KCALCORE_EXPORT ICalTimeZoneBackend : public KTimeZoneBackend
  */
 
 typedef struct _MSSystemTime {
-  qint16 wYear;
-  qint16 wMonth;
-  qint16 wDayOfWeek;
-  qint16 wDay;
-  qint16 wHour;
-  qint16 wMinute;
-  qint16 wSecond;
-  qint16 wMilliseconds;
+    qint16 wYear;
+    qint16 wMonth;
+    qint16 wDayOfWeek;
+    qint16 wDay;
+    qint16 wHour;
+    qint16 wMinute;
+    qint16 wSecond;
+    qint16 wMilliseconds;
 } MSSystemTime;
 
 typedef struct _MSTimeZone {
-  long         Bias;
-  QString      StandardName;
-  MSSystemTime StandardDate;
-  long         StandardBias;
-  QString      DaylightName;
-  MSSystemTime DaylightDate;
-  long         DaylightBias;
+    long         Bias;
+    QString      StandardName;
+    MSSystemTime StandardDate;
+    long         StandardBias;
+    QString      DaylightName;
+    MSSystemTime DaylightDate;
+    long         DaylightBias;
 } MSTimeZone;
 
 /**
@@ -404,7 +404,7 @@ typedef struct _MSTimeZone {
  */
 class KCALCORE_EXPORT ICalTimeZoneSource : public KTimeZoneSource
 {
-  public:
+public:
     /**
      * Constructs an iCalendar time zone source.
      */
@@ -422,7 +422,7 @@ class KCALCORE_EXPORT ICalTimeZoneSource : public KTimeZoneSource
      * @param vtimezone the VTIMEZONE component from which data is to be extracted
      * @return an ICalTimeZone instance containing the parsed data, or invalid on error
      */
-    ICalTimeZone parse( icalcomponent *vtimezone );
+    ICalTimeZone parse(icalcomponent *vtimezone);
 
     /**
      * Creates an ICalTimeZone instance for each iCalendar VTIMEZONE component
@@ -438,7 +438,7 @@ class KCALCORE_EXPORT ICalTimeZoneSource : public KTimeZoneSource
      * @return @c false if any error occurred (either parsing a VTIMEZONE
      *         component or adding an ICalTimeZone to @p zones), @c true otherwise
      */
-    bool parse( icalcomponent *calendar, ICalTimeZones &zones );
+    bool parse(icalcomponent *calendar, ICalTimeZones &zones);
 
     /**
      * Creates an ICalTimeZone instance containing the detailed information
@@ -447,7 +447,7 @@ class KCALCORE_EXPORT ICalTimeZoneSource : public KTimeZoneSource
      * @param tz the MSTimeZone structure from which data is to be extracted
      * @return an ICalTimeZone instance containing the time zone data, or invalid on error
      */
-    ICalTimeZone parse( MSTimeZone *tz );
+    ICalTimeZone parse(MSTimeZone *tz);
 
     /**
      * Creates an ICalTimeZone instance and adds it to a ICalTimeZones
@@ -458,7 +458,7 @@ class KCALCORE_EXPORT ICalTimeZoneSource : public KTimeZoneSource
      *                 instances are to be added
      * @return an ICalTimeZone instance containing the time zone data, or invalid on error
      */
-    ICalTimeZone parse( MSTimeZone *tz, ICalTimeZones &zones );
+    ICalTimeZone parse(MSTimeZone *tz, ICalTimeZones &zones);
 
     /**
      * Creates an ICalTimeZone instance containing the detailed information
@@ -472,7 +472,7 @@ class KCALCORE_EXPORT ICalTimeZoneSource : public KTimeZoneSource
      *                 instances are to be added
      * @return an ICalTimeZone instance containing the time zone data, or invalid on error
      */
-    ICalTimeZone parse( const QString &name, const QStringList &tzList, ICalTimeZones &zones );
+    ICalTimeZone parse(const QString &name, const QStringList &tzList, ICalTimeZones &zones);
 
     /**
      * Creates an ICalTimeZone instance containing the detailed information
@@ -482,7 +482,7 @@ class KCALCORE_EXPORT ICalTimeZoneSource : public KTimeZoneSource
      * @param tzList the QStringList from which data is to be extracted
      * @return an ICalTimeZone instance containing the time zone data, or invalid on error
      */
-    ICalTimeZone parse( const QString &name, const QStringList &tzList );
+    ICalTimeZone parse(const QString &name, const QStringList &tzList);
 
     /**
      * Reads an iCalendar file and creates an ICalTimeZone instance for each
@@ -497,7 +497,7 @@ class KCALCORE_EXPORT ICalTimeZoneSource : public KTimeZoneSource
      *                 instances are to be added
      * @return @c false if any error occurred, @c true otherwise
      */
-    bool parse( const QString &fileName, ICalTimeZones &zones );
+    bool parse(const QString &fileName, ICalTimeZones &zones);
 
     /**
      * Creates an ICalTimeZone instance containing the detailed information
@@ -511,7 +511,7 @@ class KCALCORE_EXPORT ICalTimeZoneSource : public KTimeZoneSource
      * @param tz the icaltimezone structure from which data is to be extracted
      * @return an ICalTimeZone instance containing the time zone data, or invalid on error
      */
-    ICalTimeZone parse( icaltimezone *tz );
+    ICalTimeZone parse(icaltimezone *tz);
 
     /**
      * Creates an ICalTimeZone instance for a standard time zone. The system
@@ -524,7 +524,7 @@ class KCALCORE_EXPORT ICalTimeZoneSource : public KTimeZoneSource
      *                    and ignore system time zone definitions
      * @return an ICalTimeZone instance containing the time zone data, or invalid on error
      */
-    ICalTimeZone standardZone( const QString &zone, bool icalBuiltIn = false );
+    ICalTimeZone standardZone(const QString &zone, bool icalBuiltIn = false);
 
     /**
      * Returns the prefix string used in the TZID field in built-in libical
@@ -538,14 +538,14 @@ class KCALCORE_EXPORT ICalTimeZoneSource : public KTimeZoneSource
 
     using KTimeZoneSource::parse; // prevent warning about hidden virtual method
 
-  protected:
+protected:
     /**
       @copydoc
       IncidenceBase::virtual_hook()
     */
-    virtual void virtual_hook( int id, void *data );
+    virtual void virtual_hook(int id, void *data);
 
-  private:
+private:
     //@cond PRIVATE
     ICalTimeZoneSourcePrivate *const d;
     //@endcond
@@ -563,9 +563,9 @@ class KCALCORE_EXPORT ICalTimeZoneSource : public KTimeZoneSource
  */
 class KCALCORE_EXPORT ICalTimeZoneData : public KTimeZoneData
 {
-  friend class ICalTimeZoneSource;
+    friend class ICalTimeZoneSource;
 
-  public:
+public:
     /**
      * Default constructor.
      */
@@ -576,7 +576,7 @@ class KCALCORE_EXPORT ICalTimeZoneData : public KTimeZoneData
      *
      * @param rhs instance to copy from
      */
-    ICalTimeZoneData( const ICalTimeZoneData &rhs );
+    ICalTimeZoneData(const ICalTimeZoneData &rhs);
 
     /**
      * Constructor which converts a KTimeZoneData to an ICalTimeZoneData instance.
@@ -589,7 +589,7 @@ class KCALCORE_EXPORT ICalTimeZoneData : public KTimeZoneData
      * @param tz  time zone which @p rhs belongs to
      * @param earliest earliest date for which time zone data should be stored
      */
-    ICalTimeZoneData( const KTimeZoneData &rhs, const KTimeZone &tz, const QDate &earliest );
+    ICalTimeZoneData(const KTimeZoneData &rhs, const KTimeZone &tz, const QDate &earliest);
 
     /**
      * Destructor.
@@ -602,7 +602,7 @@ class KCALCORE_EXPORT ICalTimeZoneData : public KTimeZoneData
      * @param rhs instance to copy from
      * @return this instance
      */
-    ICalTimeZoneData &operator=( const ICalTimeZoneData &rhs );
+    ICalTimeZoneData &operator=(const ICalTimeZoneData &rhs);
 
     /**
      * Creates a new copy of this object.
@@ -657,14 +657,14 @@ class KCALCORE_EXPORT ICalTimeZoneData : public KTimeZoneData
      */
     virtual bool hasTransitions() const;
 
-  protected:
+protected:
     /**
       @copydoc
       IncidenceBase::virtual_hook()
     */
-    virtual void virtual_hook( int id, void *data );
+    virtual void virtual_hook(int id, void *data);
 
-  private:
+private:
     //@cond PRIVATE
     ICalTimeZoneDataPrivate *const d;
     //@endcond

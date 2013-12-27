@@ -51,13 +51,13 @@ namespace KCalCore {
 */
 class KCALCORE_EXPORT Duration
 {
-  public:
+public:
     /**
       The unit of time used to define the duration.
     */
     enum Type {
-      Seconds,   /**< duration is a number of seconds */
-      Days       /**< duration is a number of days */
+        Seconds,   /**< duration is a number of seconds */
+        Days       /**< duration is a number of days */
     };
 
     /**
@@ -76,7 +76,7 @@ class KCALCORE_EXPORT Duration
       @param start is the time the duration begins.
       @param end is the time the duration ends.
     */
-    Duration( const KDateTime &start, const KDateTime &end );
+    Duration(const KDateTime &start, const KDateTime &end);
 
     /**
       Constructs a duration from @p start to @p end.
@@ -89,7 +89,7 @@ class KCALCORE_EXPORT Duration
       @param end is the time the duration ends.
       @param type the unit of time to use (seconds or days)
     */
-    Duration( const KDateTime &start, const KDateTime &end, Type type );
+    Duration(const KDateTime &start, const KDateTime &end, Type type);
 
     /**
       Constructs a duration with a number of seconds or days.
@@ -98,14 +98,14 @@ class KCALCORE_EXPORT Duration
       @param type the unit of time to use (seconds or days)
     */
     // Keep the following implicit since instances are often used in integer evaluations.
-    Duration( int duration, Type type = Seconds ); //krazy:exclude=explicit
+    Duration(int duration, Type type = Seconds);   //krazy:exclude=explicit
 
     /**
       Constructs a duration by copying another duration object.
 
       @param duration is the duration to copy.
     */
-    Duration( const Duration &duration );
+    Duration(const Duration &duration);
 
     /**
       Destroys a duration.
@@ -117,7 +117,7 @@ class KCALCORE_EXPORT Duration
 
       @param duration is the duration to copy.
     */
-    Duration &operator=( const Duration &duration );
+    Duration &operator=(const Duration &duration);
 
     /**
       Returns true if this duration is non-zero.
@@ -127,34 +127,42 @@ class KCALCORE_EXPORT Duration
     /**
       Returns true if this duration is zero.
     */
-    bool operator!() const  { return !operator bool(); }
+    bool operator!() const  {
+        return !operator bool();
+    }
 
     /**
       Returns true if this duration is smaller than the @p other.
       @param other is the other duration to compare.
     */
-    bool operator<( const Duration &other ) const;
+    bool operator<(const Duration &other) const;
 
     /**
       Returns true if this duration is smaller than or equal to the @p other.
       @param other is the other duration to compare.
     */
-    bool operator<=( const Duration &other ) const
-    { return !other.operator<( *this ); }
+    bool operator<=(const Duration &other) const
+    {
+        return !other.operator<(*this);
+    }
 
     /**
       Returns true if this duration is greater than the @p other.
       @param other is the other duration to compare.
     */
-    bool operator>( const Duration &other ) const
-    { return other.operator<( *this ); }
+    bool operator>(const Duration &other) const
+    {
+        return other.operator<(*this);
+    }
 
     /**
       Returns true if this duration is greater than or equal to the @p other.
       @param other is the other duration to compare.
     */
-    bool operator>=( const Duration &other ) const
-    { return !operator<( other ); }
+    bool operator>=(const Duration &other) const
+    {
+        return !operator<(other);
+    }
 
     /**
       Returns true if this duration is equal to the @p other.
@@ -163,7 +171,7 @@ class KCALCORE_EXPORT Duration
       saving time change.
       @param other the other duration to compare
     */
-    bool operator==( const Duration &other ) const;
+    bool operator==(const Duration &other) const;
 
     /**
       Returns true if this duration is not equal to the @p other.
@@ -172,8 +180,10 @@ class KCALCORE_EXPORT Duration
       saving time change.
       @param other is the other duration to compare.
     */
-    bool operator!=( const Duration &other ) const
-    { return !operator==( other ); }
+    bool operator!=(const Duration &other) const
+    {
+        return !operator==(other);
+    }
 
     /**
       Adds another duration to this one.
@@ -181,7 +191,7 @@ class KCALCORE_EXPORT Duration
       the result is in terms of seconds.
       @param other the other duration to add
     */
-    Duration &operator+=( const Duration &other );
+    Duration &operator+=(const Duration &other);
 
     /**
       Adds two durations.
@@ -191,8 +201,10 @@ class KCALCORE_EXPORT Duration
       @param other the other duration to add
       @return combined duration
     */
-    Duration operator+( const Duration &other ) const
-    { return Duration( *this ) += other; }
+    Duration operator+(const Duration &other) const
+    {
+        return Duration(*this) += other;
+    }
 
     /**
       Returns the negative of this duration.
@@ -206,7 +218,7 @@ class KCALCORE_EXPORT Duration
 
       @param other the other duration to subtract
     */
-    Duration &operator-=( const Duration &other );
+    Duration &operator-=(const Duration &other);
 
     /**
       Returns the difference between another duration and this.
@@ -216,14 +228,16 @@ class KCALCORE_EXPORT Duration
       @param other the other duration to subtract
       @return difference in durations
     */
-    Duration operator-( const Duration &other ) const
-    { return Duration( *this ) += other; }
+    Duration operator-(const Duration &other) const
+    {
+        return Duration(*this) += other;
+    }
 
     /**
       Multiplies this duration by a value.
       @param value value to multiply by
     */
-    Duration &operator*=( int value );
+    Duration &operator*=(int value);
 
     /**
       Multiplies a duration by a value.
@@ -231,14 +245,16 @@ class KCALCORE_EXPORT Duration
       @param value value to multiply by
       @return resultant duration
     */
-    Duration operator*( int value ) const
-    { return Duration( *this ) *= value; }
+    Duration operator*(int value) const
+    {
+        return Duration(*this) *= value;
+    }
 
     /**
       Divides this duration by a value.
       @param value value to divide by
     */
-    Duration &operator/=( int value );
+    Duration &operator/=(int value);
 
     /**
       Divides a duration by a value.
@@ -246,8 +262,10 @@ class KCALCORE_EXPORT Duration
       @param value value to divide by
       @return resultant duration
     */
-    Duration operator/( int value ) const
-    { return Duration( *this ) /= value; }
+    Duration operator/(int value) const
+    {
+        return Duration(*this) /= value;
+    }
 
     /**
       Computes a duration end time by adding the number of seconds or
@@ -256,7 +274,7 @@ class KCALCORE_EXPORT Duration
       @param start is the start time.
       @return end time.
     */
-    KDateTime end( const KDateTime &start ) const;
+    KDateTime end(const KDateTime &start) const;
 
     /**
       Returns the time units (seconds or days) used to specify the duration.
@@ -288,7 +306,7 @@ class KCALCORE_EXPORT Duration
     */
     int value() const;
 
-  private:
+private:
     //@cond PRIVATE
     class Private;
     Private *const d;

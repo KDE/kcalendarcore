@@ -25,13 +25,13 @@
 
 #ifndef KCALCORE_EXPORT
 # if defined(KDEPIM_STATIC_LIBS)
-   /* No export/import for static libraries */
+/* No export/import for static libraries */
 #  define KCALCORE_EXPORT
 # elif defined(MAKE_KCALCORE_LIB)
-   /* We are building this library */
+/* We are building this library */
 #  define KCALCORE_EXPORT KDE_EXPORT
 # else
-   /* We are using this library */
+/* We are using this library */
 #  define KCALCORE_EXPORT KDE_IMPORT
 # endif
 #endif
@@ -47,13 +47,13 @@
 #ifdef COMPILING_TESTS
 #ifndef KCALCORE_TEST_EXPORT
 # if defined(KDEPIM_STATIC_LIBS)
-   /* No export/import for static libraries */
+/* No export/import for static libraries */
 #  define KCALCORE_TEST_EXPORT
 # elif defined(MAKE_KCALCORE_TEST_LIB)
-   /* We are building this library */
+/* We are building this library */
 #  define KCALCORE_TEST_EXPORT KDE_EXPORT
 # else
-   /* We are using this library */
+/* We are using this library */
 #  define KCALCORE_TEST_EXPORT KDE_IMPORT
 # endif
 #endif

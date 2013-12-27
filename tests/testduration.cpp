@@ -25,50 +25,50 @@
 #include <kdatetime.h>
 
 #include <qtest_kde.h>
-QTEST_KDEMAIN( DurationTest, NoGUI )
+QTEST_KDEMAIN(DurationTest, NoGUI)
 
 using namespace KCalCore;
 
 void DurationTest::testValidity()
 {
-  const KDateTime firstDateTime( QDate( 2006, 8, 3 ), QTime( 7, 0, 0 ), KDateTime::UTC );
+    const KDateTime firstDateTime(QDate(2006, 8, 3), QTime(7, 0, 0), KDateTime::UTC);
 
-  Duration d( firstDateTime,
-              KDateTime( QDate( 2006, 8, 3 ), QTime( 8, 0, 0 ), KDateTime::UTC ) );
+    Duration d(firstDateTime,
+               KDateTime(QDate(2006, 8, 3), QTime(8, 0, 0), KDateTime::UTC));
 
-  QCOMPARE( d.asSeconds(), 1 * 60 * 60 );
+    QCOMPARE(d.asSeconds(), 1 * 60 * 60);
 }
 
 void DurationTest::testCompare()
 {
-  const KDateTime firstDateTime( QDate( 2006, 8, 3 ), QTime( 7, 0, 0 ), KDateTime::UTC );
+    const KDateTime firstDateTime(QDate(2006, 8, 3), QTime(7, 0, 0), KDateTime::UTC);
 
-  Duration d1( firstDateTime,
-               KDateTime( QDate( 2006, 8, 3 ), QTime( 8, 0, 0 ), KDateTime::UTC ) );
-  //d1 has 1hr duration
+    Duration d1(firstDateTime,
+                KDateTime(QDate(2006, 8, 3), QTime(8, 0, 0), KDateTime::UTC));
+    //d1 has 1hr duration
 
-  Duration d2( 2 * 60 * 60 ); // 2hr duration
+    Duration d2(2 * 60 * 60);   // 2hr duration
 
-  Duration d1copy( d1 ); // test copy constructor
-  Duration d1assign = d1; // test operator=
+    Duration d1copy(d1);   // test copy constructor
+    Duration d1assign = d1; // test operator=
 
-  QVERIFY( d1 < d2 );
-  QVERIFY( d1 != d2 );
-  QVERIFY( d1copy == d1 );
-  QVERIFY( d1assign == d1 );
+    QVERIFY(d1 < d2);
+    QVERIFY(d1 != d2);
+    QVERIFY(d1copy == d1);
+    QVERIFY(d1assign == d1);
 
-  Duration d3( 7, Duration::Days );
-  Duration d4( 7 * 24 * 60 * 60, Duration::Seconds );
-  QVERIFY( d3 != d4 ); // cannot compare days durations with seconds durations
+    Duration d3(7, Duration::Days);
+    Duration d4(7 * 24 * 60 * 60, Duration::Seconds);
+    QVERIFY(d3 != d4);   // cannot compare days durations with seconds durations
 
-  QVERIFY( d3 > d2 );
-  QVERIFY( -d3 < d2 );
+    QVERIFY(d3 > d2);
+    QVERIFY(-d3 < d2);
 
-  Duration d5 = d1;
-  d5 += d2; // should be 3hrs
-  QVERIFY( d5 > d2 );
-  QVERIFY( d2 < d5 );
-  Duration d6( 3 * 60 * 60 );
-  QVERIFY( d6 == d5 );
-  QVERIFY( ( d6-=( 2 * 60 * 60 ) ) == d1 );
+    Duration d5 = d1;
+    d5 += d2; // should be 3hrs
+    QVERIFY(d5 > d2);
+    QVERIFY(d2 < d5);
+    Duration d6(3 * 60 * 60);
+    QVERIFY(d6 == d5);
+    QVERIFY((d6-=(2 * 60 * 60)) == d1);
 }

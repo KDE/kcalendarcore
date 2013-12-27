@@ -58,16 +58,16 @@ class Incidence;
 */
 class KCALCORE_EXPORT Alarm : public CustomProperties
 {
-  public:
+public:
     /**
       The different types of alarms.
     */
     enum Type {
-      Invalid,   /**< Invalid, or no alarm */
-      Display,   /**< Display a dialog box */
-      Procedure, /**< Call a script */
-      Email,     /**< Send email */
-      Audio      /**< Play an audio file */
+        Invalid,   /**< Invalid, or no alarm */
+        Display,   /**< Display a dialog box */
+        Procedure, /**< Call a script */
+        Email,     /**< Send email */
+        Audio      /**< Play an audio file */
     };
 
     /**
@@ -87,13 +87,13 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
     */
     // Can't find a way to use a shared pointer here.
     // Inside incidence.cpp, it does alarm->setParent( this )
-    explicit Alarm( Incidence *parent );
+    explicit Alarm(Incidence *parent);
 
     /**
       Copy constructor.
       @param other is the alarm to copy.
     */
-    Alarm( const Alarm &other );
+    Alarm(const Alarm &other);
 
     /**
       Destroys the alarm.
@@ -103,20 +103,20 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
     /**
       Copy operator.
     */
-    Alarm &operator=( const Alarm & );
+    Alarm &operator=(const Alarm &);
 
     /**
       Compares two alarms for equality.
       @param a is the comparison alarm.
     */
-    bool operator==( const Alarm &a ) const;
+    bool operator==(const Alarm &a) const;
 
     /**
       Compares two alarms for inequality.
 
       @param a is the comparison alarm.
     */
-    bool operator!=( const Alarm &a ) const;
+    bool operator!=(const Alarm &a) const;
 
     /**
       Sets the @p parent Incidence of the alarm.
@@ -130,7 +130,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
     // se we don't dereference a deleted pointer here.
     // Also, I renamed "Incidence *parent()" to "QString parentUid()"
     // So we don't return raw pointers
-    void setParent( Incidence *parent );
+    void setParent(Incidence *parent);
 
     /**
       Returns the parent's incidence UID of the alarm.
@@ -149,7 +149,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
 
       @see type()
     */
-    void setType( Type type );
+    void setType(Type type);
 
     /**
       Returns the #Type of the alarm.
@@ -167,7 +167,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
 
       @see setText(), text()
     */
-    void setDisplayAlarm( const QString &text = QString() );
+    void setDisplayAlarm(const QString &text = QString());
 
     /**
       Sets the description @p text to be displayed when the alarm is triggered.
@@ -177,7 +177,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
 
       @see setDisplayAlarm(), text()
     */
-    void setText( const QString &text );
+    void setText(const QString &text);
 
     /**
       Returns the display text string for a #Display alarm type.
@@ -196,7 +196,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
 
       @see setAudioFile(), audioFile()
     */
-    void setAudioAlarm( const QString &audioFile = QString() );
+    void setAudioAlarm(const QString &audioFile = QString());
 
     /**
       Sets the name of the audio file to play when the audio alarm is triggered.
@@ -207,7 +207,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
 
       @see setAudioAlarm(), audioFile()
     */
-    void setAudioFile( const QString &audioFile );
+    void setAudioFile(const QString &audioFile);
 
     /**
       Returns the audio file name for an #Audio alarm type.
@@ -228,8 +228,8 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
       @see setProgramFile(), programFile(),
       setProgramArguments(), programArguments()
     */
-    void setProcedureAlarm( const QString &programFile,
-                            const QString &arguments = QString() );
+    void setProcedureAlarm(const QString &programFile,
+                           const QString &arguments = QString());
 
     /**
       Sets the program file to execute when the alarm is triggered.
@@ -241,7 +241,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
       @see setProcedureAlarm(), programFile(),
       setProgramArguments(), programArguments()
     */
-    void setProgramFile( const QString &programFile );
+    void setProgramFile(const QString &programFile);
 
     /**
       Returns the program file name for a #Procedure alarm type.
@@ -261,7 +261,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
       @see setProcedureAlarm(), setProgramFile(), programFile(),
       programArguments()
     */
-    void setProgramArguments( const QString &arguments );
+    void setProgramArguments(const QString &arguments);
 
     /**
       Returns the program arguments string for a #Procedure alarm type.
@@ -286,9 +286,9 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
       @see setMailSubject(), setMailText(), setMailAddresses(),
       setMailAttachments()
     */
-    void setEmailAlarm( const QString &subject, const QString &text,
-                        const Person::List &addressees,
-                        const QStringList &attachments = QStringList() );
+    void setEmailAlarm(const QString &subject, const QString &text,
+                       const Person::List &addressees,
+                       const QStringList &attachments = QStringList());
 
     /**
       Sets the email address of an #Email type alarm.
@@ -300,7 +300,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
       @see setMailSubject(), setMailText(), setMailAddresses(),
       setMailAttachment(), setMailAttachments(), mailAddresses()
     */
-    void setMailAddress( const Person::Ptr &mailAlarmAddress );
+    void setMailAddress(const Person::Ptr &mailAlarmAddress);
 
     /**
       Sets a list of email addresses of an #Email type alarm.
@@ -312,7 +312,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
       @see setMailSubject(), setMailText(), setMailAddress(),
       setMailAttachments(), setMailAttachment(), mailAddresses()
     */
-    void setMailAddresses( const Person::List &mailAlarmAddresses );
+    void setMailAddresses(const Person::List &mailAlarmAddresses);
 
     /**
       Adds an address to the list of email addresses to send mail to when the
@@ -324,7 +324,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
 
       @see setMailAddress(), setMailAddresses(), mailAddresses()
     */
-    void addMailAddress( const Person::Ptr &mailAlarmAddress );
+    void addMailAddress(const Person::Ptr &mailAlarmAddress);
 
     /**
       Returns the list of addresses for an #Email alarm type.
@@ -344,7 +344,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
       @see setMailText(), setMailAddress(), setMailAddresses(),
       setMailAttachment(), setMailAttachments(), mailSubject()
     */
-    void setMailSubject( const QString &mailAlarmSubject );
+    void setMailSubject(const QString &mailAlarmSubject);
 
     /**
       Returns the subject line string for an #Email alarm type.
@@ -364,7 +364,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
       @see setMailSubject(), setMailText(), setMailAddress(),
       setMailAddresses(), setMailAttachments(), mailAttachments()
     */
-    void setMailAttachment( const QString &mailAttachFile );
+    void setMailAttachment(const QString &mailAttachFile);
 
     /**
       Sets a list of filenames to attach to a mail message for an #Email
@@ -376,7 +376,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
       @see setMailSubject(), setMailText(), setMailAttachment(),
       setMailAddress(), setMailAddresses()
     */
-    void setMailAttachments( const QStringList &mailAttachFiles );
+    void setMailAttachments(const QStringList &mailAttachFiles);
 
     /**
       Adds a filename to the list of files to attach to a mail message for
@@ -387,7 +387,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
 
       @see setMailAttachment(), setMailAttachments(), mailAttachments()
     */
-    void addMailAttachment( const QString &mailAttachFile );
+    void addMailAttachment(const QString &mailAttachFile);
 
     /**
       Returns the list of attachment filenames for an #Email alarm type.
@@ -407,7 +407,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
       @see setMailSubject(), setMailAddress(), setMailAddresses(),
       setMailAttachment(), setMailAttachments()
     */
-    void setMailText( const QString &text );
+    void setMailText(const QString &text);
 
     /**
       Returns the body text for an #Email alarm type.
@@ -424,7 +424,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
 
       @see time()
     */
-    void setTime( const KDateTime &alarmTime );
+    void setTime(const KDateTime &alarmTime);
 
     /**
       Returns the alarm trigger date/time.
@@ -441,7 +441,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
       @param ignoreRepetitions don't take repetitions into account
       @see nextRepetition()
     */
-    KDateTime nextTime( const KDateTime &preTime, bool ignoreRepetitions = false ) const;
+    KDateTime nextTime(const KDateTime &preTime, bool ignoreRepetitions = false) const;
 
     /**
       Returns the date/time when the last repetition of the alarm goes off.
@@ -464,7 +464,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
 
       @see setEndOffset(), startOffset(), endOffset()
     */
-    void setStartOffset( const Duration &offset );
+    void setStartOffset(const Duration &offset);
 
     /**
       Returns offset of alarm in time relative to the start of the parent
@@ -491,7 +491,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
 
       @see setStartOffset(), startOffset(), endOffset()
     */
-    void setEndOffset( const Duration &offset );
+    void setEndOffset(const Duration &offset);
 
     /**
       Returns offset of alarm in time relative to the end of the event.
@@ -524,8 +524,8 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
       @param oldSpec the time specification which provides the clock times
       @param newSpec the new time specification
     */
-    void shiftTimes( const KDateTime::Spec &oldSpec,
-                     const KDateTime::Spec &newSpec );
+    void shiftTimes(const KDateTime::Spec &oldSpec,
+                    const KDateTime::Spec &newSpec);
 
     /**
       Sets the snooze time interval for the alarm.
@@ -534,7 +534,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
 
       @see snoozeTime()
     */
-    void setSnoozeTime( const Duration &alarmSnoozeTime );
+    void setSnoozeTime(const Duration &alarmSnoozeTime);
 
     /**
       Returns the snooze time interval.
@@ -552,7 +552,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
 
       @see repeatCount()
     */
-    void setRepeatCount( int alarmRepeatCount );
+    void setRepeatCount(int alarmRepeatCount);
 
     /**
       Returns how many times an alarm may repeats after its initial occurrence.
@@ -572,7 +572,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
 
       @see previousRepetition()
     */
-    KDateTime nextRepetition( const KDateTime &preTime ) const;
+    KDateTime nextRepetition(const KDateTime &preTime) const;
 
     /**
       Returns the date/time of the alarm's latest repetition or, if none,
@@ -587,7 +587,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
 
       @see nextRepetition()
     */
-    KDateTime previousRepetition( const KDateTime &afterTime ) const;
+    KDateTime previousRepetition(const KDateTime &afterTime) const;
 
     /**
       Returns the interval between the alarm's initial occurrence and
@@ -609,7 +609,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
 
       @see enabled(), toggleAlarm()
     */
-    void setEnabled( bool enable );
+    void setEnabled(bool enable);
 
     /**
       Returns the alarm enabled status: true (enabled) or false (disabled).
@@ -624,7 +624,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
 
       @see setLocationRadius()
     */
-    void setHasLocationRadius( bool hasLocationRadius );
+    void setHasLocationRadius(bool hasLocationRadius);
 
     /**
       Returns true if alarm has location radius defined.
@@ -641,7 +641,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
       @param locationRadius radius in meters
       @see locationRadius()
     */
-    void setLocationRadius( int locationRadius );
+    void setLocationRadius(int locationRadius);
 
     /**
       Returns the location radius in meters.
@@ -650,7 +650,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
     */
     int locationRadius() const;
 
-  protected:
+protected:
     /**
       @copydoc
       CustomProperties::customPropertyUpdated()
@@ -661,9 +661,9 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
       @copydoc
       IncidenceBase::virtual_hook()
     */
-    virtual void virtual_hook( int id, void *data );
+    virtual void virtual_hook(int id, void *data);
 
-  private:
+private:
     //@cond PRIVATE
     class Private;
     Private *const d;
@@ -673,7 +673,7 @@ class KCALCORE_EXPORT Alarm : public CustomProperties
 }
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO( KCalCore::Alarm::Ptr, Q_MOVABLE_TYPE );
+Q_DECLARE_TYPEINFO(KCalCore::Alarm::Ptr, Q_MOVABLE_TYPE);
 //@endcond
 
 #endif

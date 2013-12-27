@@ -24,35 +24,35 @@
 #include "../alarm.h"
 
 #include <qtest_kde.h>
-QTEST_KDEMAIN( AlarmTest, NoGUI )
+QTEST_KDEMAIN(AlarmTest, NoGUI)
 
 using namespace KCalCore;
 
 void AlarmTest::testValidity()
 {
-  Event inc;
-  Alarm alarm( &inc );
-  alarm.setType( Alarm::Email );
-  QVERIFY( alarm.type() == Alarm::Email );
+    Event inc;
+    Alarm alarm(&inc);
+    alarm.setType(Alarm::Email);
+    QVERIFY(alarm.type() == Alarm::Email);
 }
 
 void AlarmTest::testCompare()
 {
-  Event inc1, inc2;
-  Alarm alarm1( &inc1 ), alarm2( &inc2 );
-  alarm1.setType( Alarm::Email );
-  alarm2.setType( Alarm::Email );
-  QVERIFY( alarm1 == alarm2 );
-  alarm2.setType( Alarm::Display );
-  QVERIFY( alarm1 != alarm2 );
+    Event inc1, inc2;
+    Alarm alarm1(&inc1), alarm2(&inc2);
+    alarm1.setType(Alarm::Email);
+    alarm2.setType(Alarm::Email);
+    QVERIFY(alarm1 == alarm2);
+    alarm2.setType(Alarm::Display);
+    QVERIFY(alarm1 != alarm2);
 }
 
 void AlarmTest::testAssignment()
 {
-  Alarm alarm1( 0 );
-  alarm1.setType( Alarm::Display );
-  Alarm alarm2 = alarm1;
-  QVERIFY( alarm1 == alarm2 );
-  Alarm *alarm3 = new Alarm( alarm1 );
-  QVERIFY( alarm2 == *alarm3 );
+    Alarm alarm1(0);
+    alarm1.setType(Alarm::Display);
+    Alarm alarm2 = alarm1;
+    QVERIFY(alarm1 == alarm2);
+    Alarm *alarm3 = new Alarm(alarm1);
+    QVERIFY(alarm2 == *alarm3);
 }

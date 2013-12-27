@@ -30,7 +30,7 @@ using namespace KCalCore;
 //@cond PRIVATE
 class KCalCore::ScheduleMessage::Private
 {
-  public:
+public:
     Private() {}
 
     IncidenceBase::Ptr mIncidence;
@@ -42,61 +42,61 @@ class KCalCore::ScheduleMessage::Private
 };
 //@endcond
 
-ScheduleMessage::ScheduleMessage( IncidenceBase::Ptr incidence,
-                                  iTIPMethod method,
-                                  ScheduleMessage::Status status )
-  : d( new KCalCore::ScheduleMessage::Private )
+ScheduleMessage::ScheduleMessage(IncidenceBase::Ptr incidence,
+                                 iTIPMethod method,
+                                 ScheduleMessage::Status status)
+    : d(new KCalCore::ScheduleMessage::Private)
 {
-  d->mIncidence = incidence;
-  d->mMethod = method;
-  d->mStatus = status;
+    d->mIncidence = incidence;
+    d->mMethod = method;
+    d->mStatus = status;
 }
 
 ScheduleMessage::~ScheduleMessage()
 {
-  delete d;
+    delete d;
 }
 
 IncidenceBase::Ptr ScheduleMessage::event() const
 {
-  return d->mIncidence;
+    return d->mIncidence;
 }
 
 iTIPMethod ScheduleMessage::method() const
 {
-  return d->mMethod;
+    return d->mMethod;
 }
 
-QString ScheduleMessage::methodName( iTIPMethod method )
+QString ScheduleMessage::methodName(iTIPMethod method)
 {
-  switch ( method ) {
-  case iTIPPublish:
-    return QLatin1String( "Publish" );
-  case iTIPRequest:
-    return QLatin1String( "Request" );
-  case iTIPRefresh:
-    return QLatin1String( "Refresh" );
-  case iTIPCancel:
-    return QLatin1String( "Cancel" );
-  case iTIPAdd:
-    return QLatin1String( "Add" );
-  case iTIPReply:
-    return QLatin1String( "Reply" );
-  case iTIPCounter:
-    return QLatin1String( "Counter" );
-  case iTIPDeclineCounter:
-    return QLatin1String( "Decline Counter" );
-  default:
-    return QLatin1String( "Unknown" );
-  }
+    switch (method) {
+    case iTIPPublish:
+        return QLatin1String("Publish");
+    case iTIPRequest:
+        return QLatin1String("Request");
+    case iTIPRefresh:
+        return QLatin1String("Refresh");
+    case iTIPCancel:
+        return QLatin1String("Cancel");
+    case iTIPAdd:
+        return QLatin1String("Add");
+    case iTIPReply:
+        return QLatin1String("Reply");
+    case iTIPCounter:
+        return QLatin1String("Counter");
+    case iTIPDeclineCounter:
+        return QLatin1String("Decline Counter");
+    default:
+        return QLatin1String("Unknown");
+    }
 }
 
 ScheduleMessage::Status ScheduleMessage::status() const
 {
-  return d->mStatus;
+    return d->mStatus;
 }
 
 QString ScheduleMessage::error() const
 {
-  return d->mError;
+    return d->mError;
 }

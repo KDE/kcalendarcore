@@ -22,80 +22,80 @@
 #include "../journal.h"
 
 #include <qtest_kde.h>
-QTEST_KDEMAIN( JournalTest, NoGUI )
+QTEST_KDEMAIN(JournalTest, NoGUI)
 
 using namespace KCalCore;
 
 void JournalTest::testValidity()
 {
-  QDate dt = QDate::currentDate();
-  Journal *journal = new Journal();
-  journal->setDtStart( KDateTime( dt ) );
-  journal->setSummary( "Journal Summary" );
-  journal->setDescription( "This is a description of my journal" );
-  journal->setLocation( "the place" );
-  //KDE5: QVERIFY( journal->typeStr() == i18n( "journal" ) );
-  QVERIFY( journal->summary() == "Journal Summary" );
-  QVERIFY( journal->location() == "the place" );
+    QDate dt = QDate::currentDate();
+    Journal *journal = new Journal();
+    journal->setDtStart(KDateTime(dt));
+    journal->setSummary("Journal Summary");
+    journal->setDescription("This is a description of my journal");
+    journal->setLocation("the place");
+    //KDE5: QVERIFY( journal->typeStr() == i18n( "journal" ) );
+    QVERIFY(journal->summary() == "Journal Summary");
+    QVERIFY(journal->location() == "the place");
 }
 
 void JournalTest::testCompare()
 {
-  QDate dt = QDate::currentDate();
-  Journal journal1;
-  journal1.setDtStart( KDateTime( dt ) );
-  journal1.setSummary( "Journal Summary" );
-  journal1.setDescription( "This is a description of my journal" );
-  journal1.setLocation( "the place" );
+    QDate dt = QDate::currentDate();
+    Journal journal1;
+    journal1.setDtStart(KDateTime(dt));
+    journal1.setSummary("Journal Summary");
+    journal1.setDescription("This is a description of my journal");
+    journal1.setLocation("the place");
 
-  Journal journal2;
-  journal2.setDtStart( KDateTime( dt ).addDays( 1 ) );
-  journal2.setSummary( "Journal2 Summary" );
-  journal2.setDescription( "This is a description of another journal" );
-  journal2.setLocation( "the other place" );
+    Journal journal2;
+    journal2.setDtStart(KDateTime(dt).addDays(1));
+    journal2.setSummary("Journal2 Summary");
+    journal2.setDescription("This is a description of another journal");
+    journal2.setLocation("the other place");
 
-  QVERIFY( !( journal1 == journal2 ) );
-  QVERIFY( journal2.summary() == "Journal2 Summary" );
+    QVERIFY(!(journal1 == journal2));
+    QVERIFY(journal2.summary() == "Journal2 Summary");
 }
 
 void JournalTest::testClone()
 {
-  QDate dt = QDate::currentDate();
-  Journal journal1;
-  journal1.setDtStart( KDateTime( dt ) );
-  journal1.setSummary( "Journal1 Summary" );
-  journal1.setDescription( "This is a description of the first journal" );
-  journal1.setLocation( "the place" );
+    QDate dt = QDate::currentDate();
+    Journal journal1;
+    journal1.setDtStart(KDateTime(dt));
+    journal1.setSummary("Journal1 Summary");
+    journal1.setDescription("This is a description of the first journal");
+    journal1.setLocation("the place");
 
-  Journal *journal2 = journal1.clone();
-  QVERIFY( journal1.summary() == journal2->summary() );
-  QVERIFY( journal1.dtStart() == journal2->dtStart() );
-  QVERIFY( journal1.description() == journal2->description() );
-  QVERIFY( journal1.location( ) == journal2->location() );
+    Journal *journal2 = journal1.clone();
+    QVERIFY(journal1.summary() == journal2->summary());
+    QVERIFY(journal1.dtStart() == journal2->dtStart());
+    QVERIFY(journal1.description() == journal2->description());
+    QVERIFY(journal1.location() == journal2->location());
 }
 
 void JournalTest::testRich()
 {
-  QDate dt = QDate::currentDate();
-  Journal journal1;
-  journal1.setDtStart( KDateTime( dt ) );
-  journal1.setSummary( "<html><b><i>Journal1 Summary</i></b></html>", true );
-  journal1.setDescription( "<html>This is a of the <b>first</b> journal</html>", true );
-  journal1.setLocation( "<qt><h1>the place</h1></qt>", true );
-  QVERIFY( journal1.summaryIsRich() );
-  QVERIFY( journal1.descriptionIsRich() );
-  QVERIFY( journal1.locationIsRich() );
+    QDate dt = QDate::currentDate();
+    Journal journal1;
+    journal1.setDtStart(KDateTime(dt));
+    journal1.setSummary("<html><b><i>Journal1 Summary</i></b></html>", true);
+    journal1.setDescription("<html>This is a of the <b>first</b> journal</html>", true);
+    journal1.setLocation("<qt><h1>the place</h1></qt>", true);
+    QVERIFY(journal1.summaryIsRich());
+    QVERIFY(journal1.descriptionIsRich());
+    QVERIFY(journal1.locationIsRich());
 }
 
 void JournalTest::testAssign()
 {
-  QDate dt = QDate::currentDate();
-  Journal journal1;
-  journal1.setDtStart( KDateTime( dt ) );
-  journal1.setSummary( "Journal1 Summary" );
-  journal1.setDescription( "This is a description of the first journal" );
-  journal1.setLocation( "the place" );
+    QDate dt = QDate::currentDate();
+    Journal journal1;
+    journal1.setDtStart(KDateTime(dt));
+    journal1.setSummary("Journal1 Summary");
+    journal1.setDescription("This is a description of the first journal");
+    journal1.setLocation("the place");
 
-  Journal journal2 = journal1;
-  QVERIFY( journal1 == journal2 );
+    Journal journal2 = journal1;
+    QVERIFY(journal1 == journal2);
 }

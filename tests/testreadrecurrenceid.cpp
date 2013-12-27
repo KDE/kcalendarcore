@@ -24,62 +24,62 @@
 #include "exceptions.h"
 
 #include <qtest_kde.h>
-QTEST_KDEMAIN( TestReadRecurrenceId, NoGUI )
+QTEST_KDEMAIN(TestReadRecurrenceId, NoGUI)
 
 void TestReadRecurrenceId::testReadSingleException()
 {
-  KCalCore::ICalFormat format;
-  QFile file(ICALTESTDATADIR "test_recurrenceid_single.ics");
-  QVERIFY(file.open(QIODevice::ReadOnly));
+    KCalCore::ICalFormat format;
+    QFile file(ICALTESTDATADIR "test_recurrenceid_single.ics");
+    QVERIFY(file.open(QIODevice::ReadOnly));
 //   kDebug() << file.readAll();
 
-  KCalCore::Incidence::Ptr i = format.fromString( QString::fromUtf8( file.readAll() ) );
-  if ( !i ) {
-      kWarning() << "Failed to parse incidence!";
-      if ( format.exception() ) {
-          kWarning() << format.exception()->arguments();
-      }
-  }
-  QVERIFY(i);
-  QVERIFY(i->hasRecurrenceId());
+    KCalCore::Incidence::Ptr i = format.fromString(QString::fromUtf8(file.readAll()));
+    if (!i) {
+        kWarning() << "Failed to parse incidence!";
+        if (format.exception()) {
+            kWarning() << format.exception()->arguments();
+        }
+    }
+    QVERIFY(i);
+    QVERIFY(i->hasRecurrenceId());
 }
 
 void TestReadRecurrenceId::testReadSingleExceptionWithThisAndFuture()
 {
-  KCalCore::ICalFormat format;
-  QFile file(ICALTESTDATADIR "test_recurrenceid_thisandfuture.ics");
-  QVERIFY(file.open(QIODevice::ReadOnly));
-  KCalCore::Incidence::Ptr i = format.fromString( QString::fromUtf8( file.readAll() ) );
-  QVERIFY(i);
-  QVERIFY(i->hasRecurrenceId());
-  QVERIFY(i->thisAndFuture());
+    KCalCore::ICalFormat format;
+    QFile file(ICALTESTDATADIR "test_recurrenceid_thisandfuture.ics");
+    QVERIFY(file.open(QIODevice::ReadOnly));
+    KCalCore::Incidence::Ptr i = format.fromString(QString::fromUtf8(file.readAll()));
+    QVERIFY(i);
+    QVERIFY(i->hasRecurrenceId());
+    QVERIFY(i->thisAndFuture());
 }
 
 void TestReadRecurrenceId::testReadWriteSingleExceptionWithThisAndFuture()
 {
-  KCalCore::MemoryCalendar::Ptr cal( new KCalCore::MemoryCalendar("UTC") );
-  KCalCore::ICalFormat format;
-  KCalCore::Incidence::Ptr inc( new KCalCore::Event );
-  inc->setDtStart(KDateTime::currentUtcDateTime());
-  inc->setRecurrenceId(KDateTime::currentUtcDateTime());
-  inc->setThisAndFuture( true );
-  cal->addIncidence( inc );
-  const QString result = format.toString( cal, QString() );
-  kDebug() << result;
+    KCalCore::MemoryCalendar::Ptr cal(new KCalCore::MemoryCalendar("UTC"));
+    KCalCore::ICalFormat format;
+    KCalCore::Incidence::Ptr inc(new KCalCore::Event);
+    inc->setDtStart(KDateTime::currentUtcDateTime());
+    inc->setRecurrenceId(KDateTime::currentUtcDateTime());
+    inc->setThisAndFuture(true);
+    cal->addIncidence(inc);
+    const QString result = format.toString(cal, QString());
+    kDebug() << result;
 
-  KCalCore::Incidence::Ptr i = format.fromString( result );
-  QVERIFY(i);
-  QVERIFY(i->hasRecurrenceId());
-  QVERIFY(i->thisAndFuture());
+    KCalCore::Incidence::Ptr i = format.fromString(result);
+    QVERIFY(i);
+    QVERIFY(i->hasRecurrenceId());
+    QVERIFY(i->thisAndFuture());
 }
 
 void TestReadRecurrenceId::testReadExceptionWithMainEvent()
 {
-  KCalCore::MemoryCalendar::Ptr calendar( new KCalCore::MemoryCalendar( KDateTime::UTC ) );
-  KCalCore::ICalFormat format;
-  QFile file(ICALTESTDATADIR "test_recurrenceid.ics");
-  QVERIFY(file.open(QIODevice::ReadOnly));
-  format.fromString( calendar, QString::fromUtf8( file.readAll() ) );
-  QCOMPARE( calendar->rawEvents().size(), 2 );
+    KCalCore::MemoryCalendar::Ptr calendar(new KCalCore::MemoryCalendar(KDateTime::UTC));
+    KCalCore::ICalFormat format;
+    QFile file(ICALTESTDATADIR "test_recurrenceid.ics");
+    QVERIFY(file.open(QIODevice::ReadOnly));
+    format.fromString(calendar, QString::fromUtf8(file.readAll()));
+    QCOMPARE(calendar->rawEvents().size(), 2);
 }
 

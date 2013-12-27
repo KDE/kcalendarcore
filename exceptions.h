@@ -49,34 +49,34 @@ namespace KCalCore {
 */
 class Exception
 {
-  public:
+public:
 
     /**
       The different types of error codes
     */
     //KDAB_TODO: give decent names here
     enum ErrorCode {
-      LoadError,         /**< Load error */
-      SaveError,         /**< Save error */
-      ParseErrorIcal,    /**< Parse error in libical */
-      ParseErrorKcal,    /**< Parse error in libkcal */
-      NoCalendar,        /**< No calendar component found */
-      CalVersion1,       /**< vCalendar v1.0 detected */
-      CalVersion2,       /**< iCalendar v2.0 detected */
-      CalVersionUnknown, /**< Unknown calendar format detected */
-      Restriction,       /**< Restriction violation */
-      UserCancel,        /**< User canceled the operation */
-      NoWritableFound,   /**< No writable resource is available */
-      SaveErrorOpenFile,
-      SaveErrorSaveFile,
-      LibICalError,
-      VersionPropertyMissing,
-      ExpectedCalVersion2,
-      ExpectedCalVersion2Unknown,
-      ParseErrorNotIncidence,
-      ParseErrorEmptyMessage,
-      ParseErrorUnableToParse,
-      ParseErrorMethodProperty
+        LoadError,         /**< Load error */
+        SaveError,         /**< Save error */
+        ParseErrorIcal,    /**< Parse error in libical */
+        ParseErrorKcal,    /**< Parse error in libkcal */
+        NoCalendar,        /**< No calendar component found */
+        CalVersion1,       /**< vCalendar v1.0 detected */
+        CalVersion2,       /**< iCalendar v2.0 detected */
+        CalVersionUnknown, /**< Unknown calendar format detected */
+        Restriction,       /**< Restriction violation */
+        UserCancel,        /**< User canceled the operation */
+        NoWritableFound,   /**< No writable resource is available */
+        SaveErrorOpenFile,
+        SaveErrorSaveFile,
+        LibICalError,
+        VersionPropertyMissing,
+        ExpectedCalVersion2,
+        ExpectedCalVersion2Unknown,
+        ParseErrorNotIncidence,
+        ParseErrorEmptyMessage,
+        ParseErrorUnableToParse,
+        ParseErrorMethodProperty
     };
 
     /**
@@ -86,8 +86,8 @@ class Exception
              to an i18n engine to help build a descriptive message for the user, a common
              argument is for example the filename where the error occurred.
     */
-    explicit Exception( const ErrorCode code,
-                        const QStringList &arguments = QStringList() );
+    explicit Exception(const ErrorCode code,
+                       const QStringList &arguments = QStringList());
 
     /**
       Destructor.
@@ -106,7 +106,7 @@ class Exception
     */
     virtual QStringList arguments() const;
 
-  protected:
+protected:
     /**
       The current exception code.
     */
@@ -115,9 +115,9 @@ class Exception
     /** Arguments to pass to i18n(). */
     QStringList mArguments;
 
-  private:
+private:
     //@cond PRIVATE
-    Q_DISABLE_COPY( Exception )
+    Q_DISABLE_COPY(Exception)
     class Private;
     Private *const d;
     //@endcond

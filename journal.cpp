@@ -36,7 +36,7 @@
 
 using namespace KCalCore;
 
-Journal::Journal() : d( 0 )
+Journal::Journal() : d(0)
 {
 }
 
@@ -46,81 +46,81 @@ Journal::~Journal()
 
 Incidence::IncidenceType Journal::type() const
 {
-  return TypeJournal;
+    return TypeJournal;
 }
 
 QByteArray Journal::typeStr() const
 {
-  return "Journal";
+    return "Journal";
 }
 
 Journal *Journal::clone() const
 {
-  return new Journal( *this );
+    return new Journal(*this);
 }
 
-IncidenceBase &Journal::assign( const IncidenceBase &other )
+IncidenceBase &Journal::assign(const IncidenceBase &other)
 {
-  Incidence::assign( other );
-  return *this;
+    Incidence::assign(other);
+    return *this;
 }
 
-bool Journal::equals( const IncidenceBase &journal ) const
+bool Journal::equals(const IncidenceBase &journal) const
 {
-  return Incidence::equals( journal );
+    return Incidence::equals(journal);
 }
 
-bool Journal::accept( Visitor &v, IncidenceBase::Ptr incidence )
+bool Journal::accept(Visitor &v, IncidenceBase::Ptr incidence)
 {
-  return v.visit( incidence.staticCast<Journal>() );
+    return v.visit(incidence.staticCast<Journal>());
 }
 
-KDateTime Journal::dateTime( DateTimeRole role ) const
+KDateTime Journal::dateTime(DateTimeRole role) const
 {
-  switch ( role ) {
+    switch (role) {
     case RoleEnd:
     case RoleEndTimeZone:
-      return KDateTime();
+        return KDateTime();
     case RoleDisplayStart:
     case RoleDisplayEnd:
-      return dtStart();
+        return dtStart();
     default:
-      return dtStart();
-  }
+        return dtStart();
+    }
 }
 
-void Journal::setDateTime( const KDateTime &dateTime, DateTimeRole role )
+void Journal::setDateTime(const KDateTime &dateTime, DateTimeRole role)
 {
-  switch ( role ) {
+    switch (role) {
     case RoleDnD:
     {
-      setDtStart( dateTime );
-      break;
+        setDtStart(dateTime);
+        break;
     }
     default:
-      kDebug() << "Unhandled role" << role;
-  }
+        kDebug() << "Unhandled role" << role;
+    }
 }
 
-void Journal::virtual_hook( int id, void *data )
+void Journal::virtual_hook(int id, void *data)
 {
-  Q_UNUSED( id );
-  Q_UNUSED( data );
-  Q_ASSERT( false );
+    Q_UNUSED(id);
+    Q_UNUSED(data);
+    Q_ASSERT(false);
 }
 
 QLatin1String Journal::mimeType() const
 {
-  return Journal::journalMimeType();
+    return Journal::journalMimeType();
 }
 
 /* static */
 QLatin1String Journal::journalMimeType()
 {
-  return QLatin1String( "application/x-vnd.akonadi.calendar.journal" );
+    return QLatin1String("application/x-vnd.akonadi.calendar.journal");
 }
 
-QLatin1String Journal::iconName( const KDateTime & ) const
+QLatin1String Journal::iconName(const KDateTime &) const
 {
-  return QLatin1String( "view-pim-journal" );
+    return QLatin1String("view-pim-journal");
 }

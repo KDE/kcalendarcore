@@ -43,7 +43,7 @@ namespace KCalCore {
 */
 class KCALCORE_EXPORT Todo : public Incidence
 {
-  public:
+public:
     /**
       A shared pointer to a Todo object.
     */
@@ -63,7 +63,7 @@ class KCALCORE_EXPORT Todo : public Incidence
       Copy constructor.
       @param other is the to-do to copy.
     */
-    Todo( const Todo &other );
+    Todo(const Todo &other);
 
     /**
       Destroys a to-do.
@@ -95,7 +95,7 @@ class KCALCORE_EXPORT Todo : public Incidence
       current occurrence will be returned. If non-recurrent, the normal due
       date will be returned.
     */
-    void setDtDue( const KDateTime &dtDue, bool first = false );
+    void setDtDue(const KDateTime &dtDue, bool first = false);
 
     /**
       Returns the todo due datetime.
@@ -106,7 +106,7 @@ class KCALCORE_EXPORT Todo : public Incidence
       datetime will be returned.
       @return A KDateTime containing the todo due datetime.
     */
-    KDateTime dtDue( bool first = false ) const;
+    KDateTime dtDue(bool first = false) const;
 
     /**
       Returns if the todo has a due datetime.
@@ -119,7 +119,7 @@ class KCALCORE_EXPORT Todo : public Incidence
       @param hasDueDate true if todo has a due datetime, otherwise false
       @deprecated Use setDtDue( KDateTime() )
     */
-    KDE_DEPRECATED void setHasDueDate( bool hasDueDate );
+    KDE_DEPRECATED void setHasDueDate(bool hasDueDate);
 
     /**
       Returns if the todo has a start datetime.
@@ -132,7 +132,7 @@ class KCALCORE_EXPORT Todo : public Incidence
       @param hasStartDate true if todo has a start datetime, otherwise false.
       @deprecated Use setDtStart( KDateTime() )
     */
-    KDE_DEPRECATED void setHasStartDate( bool hasStartDate );
+    KDE_DEPRECATED void setHasStartDate(bool hasStartDate);
 
     /**
       @copydoc IncidenceBase::dtStart()
@@ -149,13 +149,13 @@ class KCALCORE_EXPORT Todo : public Incidence
       based on the datetime returned by dtRecurrence().
       @return A KDateTime for the start datetime of the todo.
     */
-    KDateTime dtStart( bool first ) const;
+    KDateTime dtStart(bool first) const;
 
     /**
       Sets the start datetime of the todo.
       @param dtStart is the to-do start datetime.
     */ //TODO_KDE5: Remove (see IncidenceBase)
-    void setDtStart( const KDateTime &dtStart );
+    void setDtStart(const KDateTime &dtStart);
 
     /**
       Returns if the todo is 100% completed.
@@ -174,7 +174,7 @@ class KCALCORE_EXPORT Todo : public Incidence
 
       @see isCompleted(), percentComplete()
     */
-    void setCompleted( bool completed );
+    void setCompleted(bool completed);
 
     /**
       Returns what percentage of the to-do is completed.
@@ -192,7 +192,7 @@ class KCALCORE_EXPORT Todo : public Incidence
 
       @see isCompleted(), setCompleted()
     */
-    void setPercentComplete( int percent );
+    void setPercentComplete(int percent);
 
     /**
       Returns the to-do was completion datetime.
@@ -208,7 +208,7 @@ class KCALCORE_EXPORT Todo : public Incidence
       @param completeDate is the to-do completion date.
       @see completed(), hasCompletedDate()
     */
-    void setCompleted( const KDateTime &completeDate );
+    void setCompleted(const KDateTime &completeDate);
 
     /**
       Returns if the to-do has a completion datetime.
@@ -230,7 +230,7 @@ class KCALCORE_EXPORT Todo : public Incidence
       used, based on the date returned by dtRecurrence().
       @see isOverdue(), isCompleted(), isOpenEnded(), isNotStarted(bool)
     */
-    bool isInProgress( bool first ) const;
+    bool isInProgress(bool first) const;
 
     /**
       Returns true, if the to-do is open-ended (no due date); false otherwise.
@@ -249,25 +249,25 @@ class KCALCORE_EXPORT Todo : public Incidence
       based on the date returned by dtRecurrence().
       @see isOverdue(), isCompleted(), isInProgress(), isOpenEnded()
     */
-    bool isNotStarted( bool first ) const;
+    bool isNotStarted(bool first) const;
 
     /**
       @copydoc IncidenceBase::shiftTimes()
     */
-    virtual void shiftTimes( const KDateTime::Spec &oldSpec,
-                             const KDateTime::Spec &newSpec );
+    virtual void shiftTimes(const KDateTime::Spec &oldSpec,
+                            const KDateTime::Spec &newSpec);
 
     /**
       @copydoc IncidenceBase::setAllDay().
     */
-    void setAllDay( bool allDay );
+    void setAllDay(bool allDay);
 
     /**
       Sets the due date/time of the current occurrence if recurrent.
 
       @param dt is the
     */
-    void setDtRecurrence( const KDateTime &dt );
+    void setDtRecurrence(const KDateTime &dt);
 
     /**
       Returns the due date/time of the current occurrence if recurrent.
@@ -283,8 +283,8 @@ class KCALCORE_EXPORT Todo : public Incidence
       @param date is the date to check.
       @param timeSpec is the
     */
-    virtual bool recursOn( const QDate &date,
-                           const KDateTime::Spec &timeSpec ) const;
+    virtual bool recursOn(const QDate &date,
+                          const KDateTime::Spec &timeSpec) const;
 
     /**
       Returns true if this todo is overdue (e.g. due date is lower than today
@@ -296,12 +296,12 @@ class KCALCORE_EXPORT Todo : public Incidence
     /**
       @copydoc IncidenceBase::dateTime()
     */
-    KDateTime dateTime( DateTimeRole role ) const;
+    KDateTime dateTime(DateTimeRole role) const;
 
     /**
       @copydoc IncidenceBase::setDateTime()
     */
-    void setDateTime( const KDateTime &dateTime, DateTimeRole role );
+    void setDateTime(const KDateTime &dateTime, DateTimeRole role);
 
     /**
        @copydoc IncidenceBase::mimeType()
@@ -311,35 +311,35 @@ class KCALCORE_EXPORT Todo : public Incidence
     /**
        @copydoc Incidence::iconName()
     */
-    QLatin1String iconName( const KDateTime &recurrenceId = KDateTime() ) const;
+    QLatin1String iconName(const KDateTime &recurrenceId = KDateTime()) const;
 
     /**
        Returns the Akonadi specific sub MIME type of a KCalCore::Todo.
     */
     static QLatin1String todoMimeType();
 
-  protected:
+protected:
     /**
       Compare this with @p todo for equality.
       @param todo is the to-do to compare.
     */
-    virtual bool equals( const IncidenceBase &todo ) const;
+    virtual bool equals(const IncidenceBase &todo) const;
 
     /**
       @copydoc IncidenceBase::assign()
     */
-    virtual IncidenceBase &assign( const IncidenceBase &other );
+    virtual IncidenceBase &assign(const IncidenceBase &other);
 
     /**
       @copydoc IncidenceBase::virtual_hook()
     */
-    virtual void virtual_hook( int id, void *data );
+    virtual void virtual_hook(int id, void *data);
 
-  private:
+private:
     /**
       @copydoc IncidenceBase::accept()
     */
-    bool accept( Visitor &v, IncidenceBase::Ptr incidence );
+    bool accept(Visitor &v, IncidenceBase::Ptr incidence);
 
     /**
       Disabled, otherwise could be dangerous if you subclass Todo.
@@ -347,7 +347,7 @@ class KCALCORE_EXPORT Todo : public Incidence
       virtual function assign().
       @param other is another Todo object to assign to this one.
      */
-    Todo &operator=( const Todo &other );
+    Todo &operator=(const Todo &other);
 
     //@cond PRIVATE
     class Private;
@@ -358,11 +358,11 @@ class KCALCORE_EXPORT Todo : public Incidence
 } // namespace KCalCore
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO( KCalCore::Todo::Ptr, Q_MOVABLE_TYPE );
+Q_DECLARE_TYPEINFO(KCalCore::Todo::Ptr, Q_MOVABLE_TYPE);
 
 namespace KPIMUtils {
-  // super class trait specialization
-  template <> struct SuperClass<KCalCore::Todo> : public SuperClassTrait<KCalCore::Incidence>{};
+// super class trait specialization
+template <> struct SuperClass<KCalCore::Todo> : public SuperClassTrait<KCalCore::Incidence> {};
 }
 //@endcond
 

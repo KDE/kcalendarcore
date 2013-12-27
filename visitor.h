@@ -42,7 +42,7 @@ namespace KCalCore {
 */
 class KCALCORE_EXPORT Visitor //krazy:exclude=dpointer
 {
-  public:
+public:
     /** Destruct Incidence::Visitor */
     virtual ~Visitor();
 
@@ -51,30 +51,30 @@ class KCALCORE_EXPORT Visitor //krazy:exclude=dpointer
       IncidenceBase::Visitor to perform actions on an Event object.
       @param event is a pointer to a valid Event object.
     */
-    virtual bool visit( Event::Ptr event );
+    virtual bool visit(Event::Ptr event);
 
     /**
       Reimplement this function in your concrete subclass of
       IncidenceBase::Visitor to perform actions on a Todo object.
       @param todo is a pointer to a valid Todo object.
     */
-    virtual bool visit( Todo::Ptr todo );
+    virtual bool visit(Todo::Ptr todo);
 
     /**
       Reimplement this function in your concrete subclass of
       IncidenceBase::Visitor to perform actions on an Journal object.
       @param journal is a pointer to a valid Journal object.
     */
-    virtual bool visit( Journal::Ptr journal );
+    virtual bool visit(Journal::Ptr journal);
 
     /**
       Reimplement this function in your concrete subclass of
       IncidenceBase::Visitor to perform actions on a FreeBusy object.
       @param freebusy is a pointer to a valid FreeBusy object.
     */
-    virtual bool visit( FreeBusy::Ptr freebusy );
+    virtual bool visit(FreeBusy::Ptr freebusy);
 
-  protected:
+protected:
     /**
       Constructor is protected to prevent direct creation of visitor
       base class.

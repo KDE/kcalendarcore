@@ -43,61 +43,61 @@
 
 using namespace KCalCore;
 
-Compat *CompatFactory::createCompat( const QString &productId,
-                                     const QString &implementationVersion )
+Compat *CompatFactory::createCompat(const QString &productId,
+                                    const QString &implementationVersion)
 {
-  Compat *compat = 0;
+    Compat *compat = 0;
 
-  int korg = productId.indexOf( "KOrganizer" );
-  int outl9 = productId.indexOf( "Outlook 9.0" );
+    int korg = productId.indexOf("KOrganizer");
+    int outl9 = productId.indexOf("Outlook 9.0");
 
-  if ( korg >= 0 ) {
-    int versionStart = productId.indexOf( " ", korg );
-    if ( versionStart >= 0 ) {
-      int versionStop = productId.indexOf( QRegExp( "[ /]" ), versionStart + 1 );
-      if ( versionStop >= 0 ) {
-        QString version = productId.mid( versionStart + 1,
-                                         versionStop - versionStart - 1 );
+    if (korg >= 0) {
+        int versionStart = productId.indexOf(" ", korg);
+        if (versionStart >= 0) {
+            int versionStop = productId.indexOf(QRegExp("[ /]"), versionStart + 1);
+            if (versionStop >= 0) {
+                QString version = productId.mid(versionStart + 1,
+                                                versionStop - versionStart - 1);
 
-        int versionNum = version.section( '.', 0, 0 ).toInt() * 10000 +
-                         version.section( '.', 1, 1 ).toInt() * 100 +
-                         version.section( '.', 2, 2 ).toInt();
-        int releaseStop = productId.indexOf( "/", versionStop );
-        QString release;
-        if ( releaseStop > versionStop ) {
-          release = productId.mid( versionStop+1, releaseStop-versionStop-1 );
+                int versionNum = version.section('.', 0, 0).toInt() * 10000 +
+                                 version.section('.', 1, 1).toInt() * 100 +
+                                 version.section('.', 2, 2).toInt();
+                int releaseStop = productId.indexOf("/", versionStop);
+                QString release;
+                if (releaseStop > versionStop) {
+                    release = productId.mid(versionStop+1, releaseStop-versionStop-1);
+                }
+                if (versionNum < 30100) {
+                    compat = new CompatPre31;
+                } else if (versionNum < 30200) {
+                    compat = new CompatPre32;
+                } else if (versionNum == 30200 && release == "pre") {
+                    kDebug() << "Generating compat for KOrganizer 3.2 pre";
+                    compat = new Compat32PrereleaseVersions;
+                } else if (versionNum < 30400) {
+                    compat = new CompatPre34;
+                } else if (versionNum < 30500) {
+                    compat = new CompatPre35;
+                }
+            }
         }
-        if ( versionNum < 30100 ) {
-          compat = new CompatPre31;
-        } else if ( versionNum < 30200 ) {
-          compat = new CompatPre32;
-        } else if ( versionNum == 30200 && release == "pre" ) {
-          kDebug() << "Generating compat for KOrganizer 3.2 pre";
-          compat = new Compat32PrereleaseVersions;
-        } else if ( versionNum < 30400 ) {
-          compat = new CompatPre34;
-        } else if ( versionNum < 30500 ) {
-          compat = new CompatPre35;
-        }
-      }
+    } else if (outl9 >= 0) {
+        kDebug() << "Generating compat for Outlook < 2000 (Outlook 9.0)";
+        compat = new CompatOutlook9;
     }
-  } else if ( outl9 >= 0 ) {
-    kDebug() << "Generating compat for Outlook < 2000 (Outlook 9.0)";
-    compat = new CompatOutlook9;
-  }
-  if ( !compat ) {
-    compat = new Compat;
-  }
-  // Older implementations lacked the implementation version,
-  // so apply this fix if it is a file from kontact and the version is missing.
-  if ( implementationVersion.isEmpty() &&
-       ( productId.contains( "libkcal" ) ||
-         productId.contains( "KOrganizer" ) ||
-         productId.contains( "KAlarm" ) ) ) {
-    compat = new CompatPre410( compat );
-  }
+    if (!compat) {
+        compat = new Compat;
+    }
+    // Older implementations lacked the implementation version,
+    // so apply this fix if it is a file from kontact and the version is missing.
+    if (implementationVersion.isEmpty() &&
+            (productId.contains("libkcal") ||
+             productId.contains("KOrganizer") ||
+             productId.contains("KAlarm"))) {
+        compat = new CompatPre410(compat);
+    }
 
-  return compat;
+    return compat;
 }
 
 Compat::Compat()
@@ -108,252 +108,252 @@ Compat::~Compat()
 {
 }
 
-void Compat::fixEmptySummary( const Incidence::Ptr &incidence )
+void Compat::fixEmptySummary(const Incidence::Ptr &incidence)
 {
-  // some stupid vCal exporters ignore the standard and use Description
-  // instead of Summary for the default field. Correct for this: Copy the
-  // first line of the description to the summary (if summary is just one
-  // line, move it)
-  if ( incidence->summary().isEmpty() && !( incidence->description().isEmpty() ) ) {
-    QString oldDescription = incidence->description().trimmed();
-    QString newSummary( oldDescription );
-    newSummary.remove( QRegExp( "\n.*" ) );
-    incidence->setSummary( newSummary );
-    if ( oldDescription == newSummary ) {
-      incidence->setDescription( "" );
+    // some stupid vCal exporters ignore the standard and use Description
+    // instead of Summary for the default field. Correct for this: Copy the
+    // first line of the description to the summary (if summary is just one
+    // line, move it)
+    if (incidence->summary().isEmpty() && !(incidence->description().isEmpty())) {
+        QString oldDescription = incidence->description().trimmed();
+        QString newSummary(oldDescription);
+        newSummary.remove(QRegExp("\n.*"));
+        incidence->setSummary(newSummary);
+        if (oldDescription == newSummary) {
+            incidence->setDescription("");
+        }
     }
-  }
 }
 
-void Compat::fixAlarms( const Incidence::Ptr &incidence )
+void Compat::fixAlarms(const Incidence::Ptr &incidence)
 {
-  Q_UNUSED( incidence );
+    Q_UNUSED(incidence);
 }
 
-void Compat::fixFloatingEnd( QDate &date )
+void Compat::fixFloatingEnd(QDate &date)
 {
-  Q_UNUSED( date );
+    Q_UNUSED(date);
 }
 
-void Compat::fixRecurrence( const Incidence::Ptr &incidence )
+void Compat::fixRecurrence(const Incidence::Ptr &incidence)
 {
-  Q_UNUSED( incidence );
-  // Prevent use of compatibility mode during subsequent changes by the application
-  // incidence->recurrence()->setCompatVersion();
+    Q_UNUSED(incidence);
+    // Prevent use of compatibility mode during subsequent changes by the application
+    // incidence->recurrence()->setCompatVersion();
 }
 
-int Compat::fixPriority( int priority )
+int Compat::fixPriority(int priority)
 {
-  return priority;
+    return priority;
 }
 
 bool Compat::useTimeZoneShift()
 {
-  return true;
+    return true;
 }
 
-void Compat::setCreatedToDtStamp( const Incidence::Ptr &incidence, const KDateTime &dtstamp )
+void Compat::setCreatedToDtStamp(const Incidence::Ptr &incidence, const KDateTime &dtstamp)
 {
-  Q_UNUSED( incidence );
-  Q_UNUSED( dtstamp );
+    Q_UNUSED(incidence);
+    Q_UNUSED(dtstamp);
 }
 
 struct CompatDecorator::Private {
-  Compat *compat;
+    Compat *compat;
 };
 
-CompatDecorator::CompatDecorator( Compat *compat )
-: d( new CompatDecorator::Private )
+CompatDecorator::CompatDecorator(Compat *compat)
+    : d(new CompatDecorator::Private)
 {
-  d->compat = compat;
+    d->compat = compat;
 }
 
 CompatDecorator::~CompatDecorator()
 {
-  delete d->compat;
-  delete d;
+    delete d->compat;
+    delete d;
 }
 
-void CompatDecorator::fixEmptySummary( const Incidence::Ptr &incidence )
+void CompatDecorator::fixEmptySummary(const Incidence::Ptr &incidence)
 {
-  d->compat->fixEmptySummary( incidence );
+    d->compat->fixEmptySummary(incidence);
 }
 
-void CompatDecorator::fixAlarms( const Incidence::Ptr &incidence )
+void CompatDecorator::fixAlarms(const Incidence::Ptr &incidence)
 {
-  d->compat->fixAlarms( incidence );
+    d->compat->fixAlarms(incidence);
 }
 
-void CompatDecorator::fixFloatingEnd( QDate &date )
+void CompatDecorator::fixFloatingEnd(QDate &date)
 {
-  d->compat->fixFloatingEnd( date );
+    d->compat->fixFloatingEnd(date);
 }
 
-void CompatDecorator::fixRecurrence( const Incidence::Ptr &incidence )
+void CompatDecorator::fixRecurrence(const Incidence::Ptr &incidence)
 {
-  d->compat->fixRecurrence( incidence );
+    d->compat->fixRecurrence(incidence);
 }
 
-int CompatDecorator::fixPriority( int priority )
+int CompatDecorator::fixPriority(int priority)
 {
-  return d->compat->fixPriority( priority );
+    return d->compat->fixPriority(priority);
 }
 
 bool CompatDecorator::useTimeZoneShift()
 {
-  return d->compat->useTimeZoneShift();
+    return d->compat->useTimeZoneShift();
 }
 
-void CompatDecorator::setCreatedToDtStamp( const Incidence::Ptr &incidence,
-                                           const KDateTime &dtstamp )
+void CompatDecorator::setCreatedToDtStamp(const Incidence::Ptr &incidence,
+        const KDateTime &dtstamp)
 {
-  d->compat->setCreatedToDtStamp( incidence, dtstamp );
+    d->compat->setCreatedToDtStamp(incidence, dtstamp);
 }
 
-void CompatPre35::fixRecurrence( const Incidence::Ptr &incidence )
+void CompatPre35::fixRecurrence(const Incidence::Ptr &incidence)
 {
-  Recurrence *recurrence = incidence->recurrence();
-  if ( recurrence ) {
-    KDateTime start( incidence->dtStart() );
-    // kde < 3.5 only had one rrule, so no need to loop over all RRULEs.
-    RecurrenceRule *r = recurrence->defaultRRule();
-    if ( r && !r->dateMatchesRules( start ) ) {
-      recurrence->addExDateTime( start );
-    }
-  }
-
-  // Call base class method now that everything else is done
-  Compat::fixRecurrence( incidence );
-}
-
-int CompatPre34::fixPriority( int priority )
-{
-  if ( 0 < priority && priority < 6 ) {
-    // adjust 1->1, 2->3, 3->5, 4->7, 5->9
-    return 2 * priority - 1;
-  } else {
-    return priority;
-  }
-}
-
-void CompatPre32::fixRecurrence( const Incidence::Ptr &incidence )
-{
-  Recurrence *recurrence = incidence->recurrence();
-  if ( recurrence->recurs() &&  recurrence->duration() > 0 ) {
-    recurrence->setDuration( recurrence->duration() + incidence->recurrence()->exDates().count() );
-  }
-  // Call base class method now that everything else is done
-  CompatPre35::fixRecurrence( incidence );
-}
-
-void CompatPre31::fixFloatingEnd( QDate &endDate )
-{
-  endDate = endDate.addDays( 1 );
-}
-
-void CompatPre31::fixRecurrence( const Incidence::Ptr &incidence )
-{
-  CompatPre32::fixRecurrence( incidence );
-
-  Recurrence *recur = incidence->recurrence();
-  RecurrenceRule *r = 0;
-  if ( recur ) {
-    r = recur->defaultRRule();
-  }
-  if ( recur && r ) {
-    int duration = r->duration();
-    if ( duration > 0 ) {
-      // Backwards compatibility for KDE < 3.1.
-      // rDuration was set to the number of time periods to recur,
-      // with week start always on a Monday.
-      // Convert this to the number of occurrences.
-      r->setDuration( -1 );
-      QDate end( r->startDt().date() );
-      bool doNothing = false;
-      // # of periods:
-      int tmp = ( duration - 1 ) * r->frequency();
-      switch ( r->recurrenceType() ) {
-      case RecurrenceRule::rWeekly:
-      {
-        end = end.addDays( tmp * 7 + 7 - end.dayOfWeek() );
-        break;
-      }
-      case RecurrenceRule::rMonthly:
-      {
-        int month = end.month() - 1 + tmp;
-        end.setYMD( end.year() + month / 12, month % 12 + 1, 31 );
-        break;
-      }
-      case RecurrenceRule::rYearly:
-      {
-        end.setYMD( end.year() + tmp, 12, 31 );
-        break;
-      }
-      default:
-        doNothing = true;
-        break;
-      }
-      if ( !doNothing ) {
-        duration = r->durationTo(
-          KDateTime( end, QTime( 0, 0, 0 ), incidence->dtStart().timeSpec() ) );
-        r->setDuration( duration );
-      }
-    }
-
-    /* addYearlyNum */
-    // Dates were stored as day numbers, with a fiddle to take account of
-    // leap years. Convert the day number to a month.
-    QList<int> days = r->byYearDays();
-    if ( !days.isEmpty() ) {
-      QList<int> months = r->byMonths();
-      for ( int i = 0; i < months.size(); ++i ) {
-        int newmonth =
-          QDate( r->startDt().date().year(), 1, 1 ).addDays( months.at( i ) - 1 ).month();
-        if ( !months.contains( newmonth ) ) {
-          months.append( newmonth );
+    Recurrence *recurrence = incidence->recurrence();
+    if (recurrence) {
+        KDateTime start(incidence->dtStart());
+        // kde < 3.5 only had one rrule, so no need to loop over all RRULEs.
+        RecurrenceRule *r = recurrence->defaultRRule();
+        if (r && !r->dateMatchesRules(start)) {
+            recurrence->addExDateTime(start);
         }
-      }
-
-      r->setByMonths( months );
-      days.clear();
-      r->setByYearDays( days );
     }
-  }
+
+    // Call base class method now that everything else is done
+    Compat::fixRecurrence(incidence);
 }
 
-void CompatOutlook9::fixAlarms( const Incidence::Ptr &incidence )
+int CompatPre34::fixPriority(int priority)
 {
-  if ( !incidence ) {
-    return;
-  }
-  Alarm::List alarms = incidence->alarms();
-  Alarm::List::Iterator it;
-  for ( it = alarms.begin(); it != alarms.end(); ++it ) {
-    Alarm::Ptr al = *it;
-    if ( al && al->hasStartOffset() ) {
-      Duration offsetDuration = al->startOffset();
-      int offs = offsetDuration.asSeconds();
-      if ( offs > 0 ) {
-        offsetDuration = Duration( -offs );
-      }
-      al->setStartOffset( offsetDuration );
+    if (0 < priority && priority < 6) {
+        // adjust 1->1, 2->3, 3->5, 4->7, 5->9
+        return 2 * priority - 1;
+    } else {
+        return priority;
     }
-  }
+}
+
+void CompatPre32::fixRecurrence(const Incidence::Ptr &incidence)
+{
+    Recurrence *recurrence = incidence->recurrence();
+    if (recurrence->recurs() &&  recurrence->duration() > 0) {
+        recurrence->setDuration(recurrence->duration() + incidence->recurrence()->exDates().count());
+    }
+    // Call base class method now that everything else is done
+    CompatPre35::fixRecurrence(incidence);
+}
+
+void CompatPre31::fixFloatingEnd(QDate &endDate)
+{
+    endDate = endDate.addDays(1);
+}
+
+void CompatPre31::fixRecurrence(const Incidence::Ptr &incidence)
+{
+    CompatPre32::fixRecurrence(incidence);
+
+    Recurrence *recur = incidence->recurrence();
+    RecurrenceRule *r = 0;
+    if (recur) {
+        r = recur->defaultRRule();
+    }
+    if (recur && r) {
+        int duration = r->duration();
+        if (duration > 0) {
+            // Backwards compatibility for KDE < 3.1.
+            // rDuration was set to the number of time periods to recur,
+            // with week start always on a Monday.
+            // Convert this to the number of occurrences.
+            r->setDuration(-1);
+            QDate end(r->startDt().date());
+            bool doNothing = false;
+            // # of periods:
+            int tmp = (duration - 1) * r->frequency();
+            switch (r->recurrenceType()) {
+            case RecurrenceRule::rWeekly:
+            {
+                end = end.addDays(tmp * 7 + 7 - end.dayOfWeek());
+                break;
+            }
+            case RecurrenceRule::rMonthly:
+            {
+                int month = end.month() - 1 + tmp;
+                end.setYMD(end.year() + month / 12, month % 12 + 1, 31);
+                break;
+            }
+            case RecurrenceRule::rYearly:
+            {
+                end.setYMD(end.year() + tmp, 12, 31);
+                break;
+            }
+            default:
+                doNothing = true;
+                break;
+            }
+            if (!doNothing) {
+                duration = r->durationTo(
+                               KDateTime(end, QTime(0, 0, 0), incidence->dtStart().timeSpec()));
+                r->setDuration(duration);
+            }
+        }
+
+        /* addYearlyNum */
+        // Dates were stored as day numbers, with a fiddle to take account of
+        // leap years. Convert the day number to a month.
+        QList<int> days = r->byYearDays();
+        if (!days.isEmpty()) {
+            QList<int> months = r->byMonths();
+            for (int i = 0; i < months.size(); ++i) {
+                int newmonth =
+                    QDate(r->startDt().date().year(), 1, 1).addDays(months.at(i) - 1).month();
+                if (!months.contains(newmonth)) {
+                    months.append(newmonth);
+                }
+            }
+
+            r->setByMonths(months);
+            days.clear();
+            r->setByYearDays(days);
+        }
+    }
+}
+
+void CompatOutlook9::fixAlarms(const Incidence::Ptr &incidence)
+{
+    if (!incidence) {
+        return;
+    }
+    Alarm::List alarms = incidence->alarms();
+    Alarm::List::Iterator it;
+    for (it = alarms.begin(); it != alarms.end(); ++it) {
+        Alarm::Ptr al = *it;
+        if (al && al->hasStartOffset()) {
+            Duration offsetDuration = al->startOffset();
+            int offs = offsetDuration.asSeconds();
+            if (offs > 0) {
+                offsetDuration = Duration(-offs);
+            }
+            al->setStartOffset(offsetDuration);
+        }
+    }
 }
 
 bool Compat32PrereleaseVersions::useTimeZoneShift()
 {
-  return false;
+    return false;
 }
 
-CompatPre410::CompatPre410( Compat *decoratedCompat )
-: CompatDecorator( decoratedCompat )
+CompatPre410::CompatPre410(Compat *decoratedCompat)
+    : CompatDecorator(decoratedCompat)
 {
 }
 
-void CompatPre410::setCreatedToDtStamp( const Incidence::Ptr &incidence, const KDateTime &dtstamp )
+void CompatPre410::setCreatedToDtStamp(const Incidence::Ptr &incidence, const KDateTime &dtstamp)
 {
-  if ( dtstamp.isValid() ) {
-    incidence->setCreated( dtstamp );
-  }
+    if (dtstamp.isValid()) {
+        incidence->setCreated(dtstamp);
+    }
 }

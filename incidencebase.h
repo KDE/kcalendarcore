@@ -106,7 +106,7 @@ class Visitor;
 */
 class KCALCORE_EXPORT IncidenceBase : public CustomProperties
 {
-  public:
+public:
     /**
       A shared pointer to an IncidenceBase.
     */
@@ -117,11 +117,11 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       @see type(), typeStr()
     */
     enum IncidenceType {
-      TypeEvent = 0,           /**< Type is an event */
-      TypeTodo,                /**< Type is a to-do */
-      TypeJournal,             /**< Type is a journal */
-      TypeFreeBusy,            /**< Type is a free/busy */
-      TypeUnknown              /**< Type unknown */
+        TypeEvent = 0,           /**< Type is an event */
+        TypeTodo,                /**< Type is a to-do */
+        TypeJournal,             /**< Type is a journal */
+        TypeFreeBusy,            /**< Type is a free/busy */
+        TypeUnknown              /**< Type unknown */
     };
 
     /**
@@ -129,65 +129,65 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       @see dateTime()
     */
     enum DateTimeRole {
-      RoleAlarmStartOffset = 0,/**< Role for an incidence alarm's starting offset date/time */
-      RoleAlarmEndOffset,      /**< Role for an incidence alarm's ending offset date/time */
-      RoleSort,                /**< Role for an incidence's date/time used when sorting */
-      RoleCalendarHashing,     /**< Role for looking up an incidence in a Calendar */
-      RoleStartTimeZone,       /**< Role for determining an incidence's starting timezone */
-      RoleEndTimeZone,         /**< Role for determining an incidence's ending timezone */
-      RoleEndRecurrenceBase,
-      RoleEnd,                 /**< Role for determining an incidence's dtEnd, will return
+        RoleAlarmStartOffset = 0,/**< Role for an incidence alarm's starting offset date/time */
+        RoleAlarmEndOffset,      /**< Role for an incidence alarm's ending offset date/time */
+        RoleSort,                /**< Role for an incidence's date/time used when sorting */
+        RoleCalendarHashing,     /**< Role for looking up an incidence in a Calendar */
+        RoleStartTimeZone,       /**< Role for determining an incidence's starting timezone */
+        RoleEndTimeZone,         /**< Role for determining an incidence's ending timezone */
+        RoleEndRecurrenceBase,
+        RoleEnd,                 /**< Role for determining an incidence's dtEnd, will return
                                     an invalid KDateTime if the incidence does not support dtEnd */
-      RoleDisplayEnd,          /**< Role used for display purposes, represents the end boundary
+        RoleDisplayEnd,          /**< Role used for display purposes, represents the end boundary
                                     if an incidence supports dtEnd */
-      RoleAlarm,               /**< Role for determining the date/time of the first alarm.
+        RoleAlarm,               /**< Role for determining the date/time of the first alarm.
                                     Returns invalid time if the incidence doesn't have any alarm */
-      RoleRecurrenceStart,     /**< Role for determining the start of the recurrence.
+        RoleRecurrenceStart,     /**< Role for determining the start of the recurrence.
                                     Currently that's DTSTART for an event and DTDUE for a to-do.
                                     (NOTE: If the incidence is a to-do, recurrence should be
                                     calculated having DTSTART for a reference, not DT-DUE.
                                     This is one place KCalCore isn't compliant with RFC2445) */
-      RoleDisplayStart,        /**< Role for display purposes, represents the start boundary of an
+        RoleDisplayStart,        /**< Role for display purposes, represents the start boundary of an
                                     incidence. To-dos return dtDue here, for historical reasons */
-      RoleDnD                  /**< Role for determining new start and end dates after a DnD */
+        RoleDnD                  /**< Role for determining new start and end dates after a DnD */
     };
 
     /**
       The different types of incidence fields.
     */
     enum Field {
-      FieldDtStart,         ///> Field representing the DTSTART component.
-      FieldDtEnd,           ///> Field representing the DTEND component.
-      FieldLastModified,    ///> Field representing the LAST-MODIFIED component.
-      FieldDescription,     ///> Field representing the DESCRIPTION component.
-      FieldSummary,         ///> Field representing the SUMMARY component.
-      FieldLocation,        ///> Field representing the LOCATION component.
-      FieldCompleted,       ///> Field representing the COMPLETED component.
-      FieldPercentComplete, ///> Field representing the PERCENT-COMPLETE component.
-      FieldDtDue,           ///> Field representing the DUE component.
-      FieldCategories,      ///> Field representing the CATEGORIES component.
-      FieldRelatedTo,       ///> Field representing the RELATED-TO component.
-      FieldRecurrence,      ///> Field representing the EXDATE, EXRULE, RDATE, and RRULE components.
-      FieldAttachment,      ///> Field representing the ATTACH component.
-      FieldSecrecy,         ///> Field representing the CLASS component.
-      FieldStatus,          ///> Field representing the STATUS component.
-      FieldTransparency,    ///> Field representing the TRANSPARENCY component.
-      FieldResources,       ///> Field representing the RESOURCES component.
-      FieldPriority,        ///> Field representing the PRIORITY component.
-      FieldGeoLatitude,     ///> Field representing the latitude part of the GEO component.
-      FieldGeoLongitude,    ///> Field representing the longitude part of the GEO component.
-      FieldRecurrenceId,    ///> Field representing the RECURRENCE-ID component.
-      FieldAlarms,          ///> Field representing the VALARM component.
-      FieldSchedulingId,    ///> Field representing the X-KDE-LIBKCAL-ID component.
-      FieldAttendees,       ///> Field representing the ATTENDEE component.
-      FieldOrganizer,       ///> Field representing the ORGANIZER component.
-      FieldCreated,         ///> Field representing the CREATED component.
-      FieldRevision,        ///> Field representing the SEQUENCE component.
-      FieldDuration,        ///> Field representing the DURATION component.
-      FieldContact,         ///> Field representing the CONTACT component.
-      FieldComment,         ///> Field representing the COMMENT component.
-      FieldUid,             ///> Field representing the UID component.
-      FieldUnknown          ///> Something changed. Always set when you use the assignment operator.
+        FieldDtStart,         ///> Field representing the DTSTART component.
+        FieldDtEnd,           ///> Field representing the DTEND component.
+        FieldLastModified,    ///> Field representing the LAST-MODIFIED component.
+        FieldDescription,     ///> Field representing the DESCRIPTION component.
+        FieldSummary,         ///> Field representing the SUMMARY component.
+        FieldLocation,        ///> Field representing the LOCATION component.
+        FieldCompleted,       ///> Field representing the COMPLETED component.
+        FieldPercentComplete, ///> Field representing the PERCENT-COMPLETE component.
+        FieldDtDue,           ///> Field representing the DUE component.
+        FieldCategories,      ///> Field representing the CATEGORIES component.
+        FieldRelatedTo,       ///> Field representing the RELATED-TO component.
+        FieldRecurrence,      ///> Field representing the EXDATE, EXRULE, RDATE, and RRULE components.
+        FieldAttachment,      ///> Field representing the ATTACH component.
+        FieldSecrecy,         ///> Field representing the CLASS component.
+        FieldStatus,          ///> Field representing the STATUS component.
+        FieldTransparency,    ///> Field representing the TRANSPARENCY component.
+        FieldResources,       ///> Field representing the RESOURCES component.
+        FieldPriority,        ///> Field representing the PRIORITY component.
+        FieldGeoLatitude,     ///> Field representing the latitude part of the GEO component.
+        FieldGeoLongitude,    ///> Field representing the longitude part of the GEO component.
+        FieldRecurrenceId,    ///> Field representing the RECURRENCE-ID component.
+        FieldAlarms,          ///> Field representing the VALARM component.
+        FieldSchedulingId,    ///> Field representing the X-KDE-LIBKCAL-ID component.
+        FieldAttendees,       ///> Field representing the ATTENDEE component.
+        FieldOrganizer,       ///> Field representing the ORGANIZER component.
+        FieldCreated,         ///> Field representing the CREATED component.
+        FieldRevision,        ///> Field representing the SEQUENCE component.
+        FieldDuration,        ///> Field representing the DURATION component.
+        FieldContact,         ///> Field representing the CONTACT component.
+        FieldComment,         ///> Field representing the COMMENT component.
+        FieldUid,             ///> Field representing the UID component.
+        FieldUnknown          ///> Something changed. Always set when you use the assignment operator.
     };
 
     /**
@@ -195,7 +195,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
     */
     class KCALCORE_EXPORT IncidenceObserver
     {
-      public:
+    public:
 
         /**
           Destroys the IncidenceObserver.
@@ -208,7 +208,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
           @param uid is the string containing the incidence @ref uid.
           @param recurrenceId is possible recurrenceid of incidence.
         */
-        virtual void incidenceUpdate( const QString &uid, const KDateTime &recurrenceId ) = 0;
+        virtual void incidenceUpdate(const QString &uid, const KDateTime &recurrenceId) = 0;
 
         /**
           The IncidenceObserver interface.
@@ -216,7 +216,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
           @param uid is the string containing the incidence @ref uid.
           @param recurrenceId is possible recurrenceid of incidence.
         */
-        virtual void incidenceUpdated( const QString &uid, const KDateTime &recurrenceId ) = 0;
+        virtual void incidenceUpdated(const QString &uid, const KDateTime &recurrenceId) = 0;
     };
 
     /**
@@ -246,7 +246,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
 
       @param other is the IncidenceBase to assign.
      */
-    IncidenceBase &operator=( const IncidenceBase &other );
+    IncidenceBase &operator=(const IncidenceBase &other);
 
     /**
       Compares this with IncidenceBase @p ib for equality.
@@ -254,26 +254,26 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       @param ib is the IncidenceBase to compare against.
       @return true if the incidences are equal; false otherwise.
     */
-    bool operator==( const IncidenceBase &ib ) const;
+    bool operator==(const IncidenceBase &ib) const;
 
     /**
       Compares this with IncidenceBase @p ib for inequality.
       @param ib is the IncidenceBase to compare against.
       @return true if the incidences are /not/ equal; false otherwise.
     */
-    bool operator!=( const IncidenceBase &ib ) const;
+    bool operator!=(const IncidenceBase &ib) const;
 
-     /**
-      Accept IncidenceVisitor. A class taking part in the visitor mechanism
-      has to provide this implementation:
-      <pre>
-        bool accept(Visitor &v) { return v.visit(this); }
-      </pre>
+    /**
+     Accept IncidenceVisitor. A class taking part in the visitor mechanism
+     has to provide this implementation:
+     <pre>
+       bool accept(Visitor &v) { return v.visit(this); }
+     </pre>
 
-      @param v is a reference to a Visitor object.
-      @param incidence is a valid IncidenceBase object for visting.
+     @param v is a reference to a Visitor object.
+     @param incidence is a valid IncidenceBase object for visting.
     */
-    virtual bool accept( Visitor &v, IncidenceBase::Ptr incidence );
+    virtual bool accept(Visitor &v, IncidenceBase::Ptr incidence);
 
     /**
       Returns the incidence type.
@@ -290,7 +290,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       @param uid is the string containing the incidence @ref uid.
       @see uid()
     */
-    void setUid( const QString &uid );
+    void setUid(const QString &uid);
 
     /**
       Returns the unique id (@ref uid) for the incidence.
@@ -311,7 +311,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
 
       @see lastModified()
     */
-    virtual void setLastModified( const KDateTime &lm );
+    virtual void setLastModified(const KDateTime &lm);
 
     /**
       Returns the time the incidence was last modified.
@@ -325,7 +325,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       @param organizer is a non-null Person to use as the incidence @ref organizer.
       @see organizer(), setOrganizer(const QString &)
     */
-    void setOrganizer( const Person::Ptr &organizer );
+    void setOrganizer(const Person::Ptr &organizer);
 
     /**
       Sets the incidence organizer to any string @p organizer.
@@ -333,7 +333,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       @param organizer is a string to use as the incidence @ref organizer.
       @see organizer(), setOrganizer(const Person &)
     */
-    void setOrganizer( const QString &organizer );
+    void setOrganizer(const QString &organizer);
 
     /**
       Returns the Person associated with this incidence.
@@ -350,7 +350,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       can be modified.
       @see isReadOnly().
     */
-    virtual void setReadOnly( bool readOnly );
+    virtual void setReadOnly(bool readOnly);
 
     /**
       Returns true the object is read-only; false otherwise.
@@ -366,7 +366,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       @param dtStart is the incidence start date/time.
       @see dtStart().
     */
-    virtual void setDtStart( const KDateTime &dtStart );
+    virtual void setDtStart(const KDateTime &dtStart);
 
     /**
       Returns an incidence's starting date/time as a KDateTime.
@@ -381,7 +381,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
 
       @see duration()
     */
-    virtual void setDuration( const Duration &duration );
+    virtual void setDuration(const Duration &duration);
 
     /**
       Returns the length of the incidence duration.
@@ -394,7 +394,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       @param hasDuration true if the incidence has a duration; false otherwise.
       @see hasDuration()
     */
-    void setHasDuration( bool hasDuration );
+    void setHasDuration(bool hasDuration);
 
     /**
       Returns true if the incidence has a duration; false otherwise.
@@ -417,7 +417,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
 
       @see allDay()
     */
-    void setAllDay( bool allDay );
+    void setAllDay(bool allDay);
 
     /**
       Shift the times of the incidence so that they appear at the same clock
@@ -433,8 +433,8 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       @param oldSpec the time specification which provides the clock times
       @param newSpec the new time specification
     */
-    virtual void shiftTimes( const KDateTime::Spec &oldSpec,
-                             const KDateTime::Spec &newSpec );
+    virtual void shiftTimes(const KDateTime::Spec &oldSpec,
+                            const KDateTime::Spec &newSpec);
 
     /**
       Adds a comment to thieincidence. Does not add a linefeed character; simply
@@ -443,7 +443,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       @param comment is the QString containing the comment to add.
       @see removeComment().
     */
-    void addComment( const QString &comment );
+    void addComment(const QString &comment);
 
     /**
       Removes a comment from the incidence. Removes the first comment whose
@@ -453,7 +453,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       @return true if match found, false otherwise.
       @see addComment().
      */
-    bool removeComment( const QString &comment );
+    bool removeComment(const QString &comment);
 
     /**
       Deletes all incidence comments.
@@ -472,7 +472,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       @param contact is the QString containing the contact to add.
       @see removeContact().
     */
-    void addContact( const QString &contact );
+    void addContact(const QString &contact);
 
     /**
       Removes a contact from the incidence. Removes the first contact whose
@@ -482,7 +482,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       @return true if match found, false otherwise.
       @see addContact().
      */
-    bool removeContact( const QString &contact );
+    bool removeContact(const QString &contact);
 
     /**
       Deletes all incidence contacts.
@@ -501,8 +501,8 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       @param attendee a pointer to the attendee to add
       @param doUpdate If true the Observers are notified, if false they are not.
     */
-    void addAttendee( const Attendee::Ptr &attendee,
-                      bool doUpdate = true );
+    void addAttendee(const Attendee::Ptr &attendee,
+                     bool doUpdate = true);
 
     /**
       Removes all attendees from the incidence.
@@ -517,8 +517,8 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
      @param attendee The attendee to be removeComment
      @param doUpdate If true the Observers are notified, if false they are not.
     */
-    void deleteAttendee( const Attendee::Ptr &attendee,
-                         bool doUpdate = true );
+    void deleteAttendee(const Attendee::Ptr &attendee,
+                        bool doUpdate = true);
 
     /**
       Returns a list of incidence attendees.
@@ -538,7 +538,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       form "FirstName LastName <emailaddress>".
       @see attendeeByMails(), attendeesByUid().
     */
-    Attendee::Ptr attendeeByMail( const QString &email ) const;
+    Attendee::Ptr attendeeByMail(const QString &email) const;
 
     /**
       Returns the first incidence attendee with one of the specified
@@ -550,8 +550,8 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       in addition to the list specified in @p emails.
       @see attendeeByMail(), attendeesByUid().
     */
-    Attendee::Ptr attendeeByMails( const QStringList &emails,
-                                   const QString &email = QString() ) const;
+    Attendee::Ptr attendeeByMails(const QStringList &emails,
+                                  const QString &email = QString()) const;
 
     /**
       Returns the incidence attendee with the specified attendee @acronym UID.
@@ -559,7 +559,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       @param uid is a QString containing an attendee @acronym UID.
       @see attendeeByMail(), attendeeByMails().
     */
-    Attendee::Ptr attendeeByUid( const QString &uid ) const;
+    Attendee::Ptr attendeeByUid(const QString &uid) const;
 
     /**
       Register observer. The observer is notified when the observed object
@@ -569,7 +569,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       watching this incidence.
       @see unRegisterObserver()
     */
-    void registerObserver( IncidenceObserver *observer );
+    void registerObserver(IncidenceObserver *observer);
 
     /**
       Unregister observer. It isn't notified anymore about changes.
@@ -578,7 +578,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       watching this incidence.
       @see registerObserver().
     */
-    void unRegisterObserver( IncidenceObserver *observer );
+    void unRegisterObserver(IncidenceObserver *observer);
 
     /**
       Call this to notify the observers after the IncidenceBase object will be
@@ -610,14 +610,14 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       Returns a date/time corresponding to the specified DateTimeRole.
       @param role is a DateTimeRole.
     */
-    virtual KDateTime dateTime( DateTimeRole role ) const = 0;
+    virtual KDateTime dateTime(DateTimeRole role) const = 0;
 
     /**
       Sets the date/time corresponding to the specified DateTimeRole.
       @param dateTime is KDateTime value to set.
       @param role is a DateTimeRole.
     */
-    virtual void setDateTime( const KDateTime &dateTime, DateTimeRole role ) = 0;
+    virtual void setDateTime(const KDateTime &dateTime, DateTimeRole role) = 0;
 
     /**
       Returns the Akonadi specific sub MIME type of a KCalCore::IncidenceBase item,
@@ -645,7 +645,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
        @see dirtyFields()
        @since 4.8
      */
-    void setDirtyFields( const QSet<IncidenceBase::Field> & );
+    void setDirtyFields(const QSet<IncidenceBase::Field> &);
 
     /**
        Resets dirty fields.
@@ -653,14 +653,14 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
     */
     void resetDirtyFields();
 
-  protected:
+protected:
 
     /**
        Marks Field @p field as dirty.
        @param field is the Field type to mark as dirty.
        @see dirtyFields()
     */
-    void setFieldDirty( IncidenceBase::Field field );
+    void setFieldDirty(IncidenceBase::Field field);
 
     /**
       @copydoc
@@ -678,7 +678,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       Constructs an IncidenceBase as a copy of another IncidenceBase object.
       @param ib is the IncidenceBase to copy.
     */
-    IncidenceBase( const IncidenceBase &ib );
+    IncidenceBase(const IncidenceBase &ib);
 
     /**
       Provides polymorfic comparison for equality.
@@ -687,13 +687,13 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
       @param incidenceBase is the IncidenceBase to compare against.
       @return true if the incidences are equal; false otherwise.
     */
-    virtual bool equals( const IncidenceBase &incidenceBase ) const;
+    virtual bool equals(const IncidenceBase &incidenceBase) const;
 
     /**
       Provides polymorfic assignment.
       @param other is the IncidenceBase to assign.
     */
-    virtual IncidenceBase &assign( const IncidenceBase &other );
+    virtual IncidenceBase &assign(const IncidenceBase &other);
 
     /**
       Standard trick to add virtuals later.
@@ -702,14 +702,14 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
              to be called.
       @param data is a pointer to some glob of data, typically a struct.
     */
-    virtual void virtual_hook( int id, void *data ) = 0;
+    virtual void virtual_hook(int id, void *data) = 0;
 
     /**
       Identifies a read-only incidence.
     */
     bool mReadOnly;
 
-  private:
+private:
     //@cond PRIVATE
     class Private;
     Private *const d;
@@ -718,7 +718,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
 
 }
 
-Q_DECLARE_METATYPE( KCalCore::IncidenceBase * )
-Q_DECLARE_METATYPE( KCalCore::IncidenceBase::Ptr )
+Q_DECLARE_METATYPE(KCalCore::IncidenceBase *)
+Q_DECLARE_METATYPE(KCalCore::IncidenceBase::Ptr)
 
 #endif
