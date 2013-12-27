@@ -26,8 +26,8 @@
 
 class SortableListTest : public QObject
 {
-  Q_OBJECT
-  private Q_SLOTS:
+    Q_OBJECT
+private Q_SLOTS:
     void general();
 };
 

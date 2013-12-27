@@ -51,7 +51,7 @@ class Compat;
 */
 class CompatFactory
 {
-  public:
+public:
     /**
       Creates the appropriate Compat class as determined by the Product ID.
 
@@ -59,7 +59,7 @@ class CompatFactory
       a supported calendar format.
       @return A pointer to a Compat object which is owned by the caller.
     */
-    static Compat *createCompat( const QString &productId, const QString &implementationVersion );
+    static Compat *createCompat(const QString &productId, const QString &implementationVersion);
 };
 
 /**
@@ -70,7 +70,7 @@ class CompatFactory
 */
 class Compat
 {
-  public:
+public:
     /**
       Constructor.
     */
@@ -86,34 +86,34 @@ class Compat
       @param incidence is a pointer to an Incidence object that may
       need its recurrence rule fixed.
     */
-    virtual void fixRecurrence( const Incidence::Ptr &incidence );
+    virtual void fixRecurrence(const Incidence::Ptr &incidence);
 
     /**
       Fixes an empty summary for an incidence.
       @param incidence is a pointer to an Incidence object that may need
       its summary fixed.
     */
-    virtual void fixEmptySummary( const Incidence::Ptr &incidence );
+    virtual void fixEmptySummary(const Incidence::Ptr &incidence);
 
     /**
       Fixes the alarms list an incidence.
       @param incidence is a pointer to an Incidence object that may need
       its alarms fixed.
     */
-    virtual void fixAlarms( const Incidence::Ptr &incidence );
+    virtual void fixAlarms(const Incidence::Ptr &incidence);
 
     /**
       Fixes the end date for floating events.
       @param date is the end date to fix.
     */
-    virtual void fixFloatingEnd( QDate &date );
+    virtual void fixFloatingEnd(QDate &date);
 
     /**
       Fixes the priority.
       @param priority is the priority value to fix.
       @return an integer representing a valid priority value.
     */
-    virtual int fixPriority( int priority );
+    virtual int fixPriority(int priority);
 
     /**
       Returns true if a timezone shift should be used; false otherwise.
@@ -123,11 +123,11 @@ class Compat
     /**
       Sets the created and dtstamp.
     */
-    virtual void setCreatedToDtStamp( const Incidence::Ptr &incidence, const KDateTime &dtstamp );
+    virtual void setCreatedToDtStamp(const Incidence::Ptr &incidence, const KDateTime &dtstamp);
 
-  private:
+private:
     //@cond PRIVATE
-    Q_DISABLE_COPY( Compat )
+    Q_DISABLE_COPY(Compat)
     class Private;
     Private *d;
     //@endcond
@@ -139,39 +139,39 @@ class Compat
 */
 class CompatDecorator : public Compat
 {
-  public:
-    explicit CompatDecorator( Compat *decoratedCompat );
+public:
+    explicit CompatDecorator(Compat *decoratedCompat);
     virtual ~CompatDecorator();
 
     /**
       @copydoc
       Compat::fixRecurrence()
     */
-    virtual void fixRecurrence( const Incidence::Ptr &incidence );
+    virtual void fixRecurrence(const Incidence::Ptr &incidence);
 
     /**
       @copydoc
       Compat::fixEmptySummary()
     */
-    virtual void fixEmptySummary( const Incidence::Ptr &incidence );
+    virtual void fixEmptySummary(const Incidence::Ptr &incidence);
 
     /**
       @copydoc
       Compat::fixAlarms()
     */
-    virtual void fixAlarms( const Incidence::Ptr &incidence );
+    virtual void fixAlarms(const Incidence::Ptr &incidence);
 
     /**
       @copydoc
       Compat::fixFloatingEnd()
     */
-    virtual void fixFloatingEnd( QDate &date );
+    virtual void fixFloatingEnd(QDate &date);
 
     /**
       @copydoc
       Compat::fixPriority()
     */
-    virtual int fixPriority( int priority );
+    virtual int fixPriority(int priority);
 
     /**
       @copydoc
@@ -183,11 +183,11 @@ class CompatDecorator : public Compat
       @copydoc
       Compat::setCreatedToDtStamp()
     */
-    virtual void setCreatedToDtStamp( const Incidence::Ptr &incidence, const KDateTime &dtstamp );
+    virtual void setCreatedToDtStamp(const Incidence::Ptr &incidence, const KDateTime &dtstamp);
 
-  private:
+private:
     //@cond PRIVATE
-    Q_DISABLE_COPY( CompatDecorator )
+    Q_DISABLE_COPY(CompatDecorator)
     class Private;
     Private *d;
     //@endcond
@@ -205,14 +205,14 @@ class CompatDecorator : public Compat
 */
 class CompatPre35 : public Compat
 {
-  public:
+public:
     /**
       @copydoc
       Compat::fixRecurrence()
     */
-    virtual void fixRecurrence( const Incidence::Ptr &incidence );
+    virtual void fixRecurrence(const Incidence::Ptr &incidence);
 
-  private:
+private:
     //@cond PRIVATE
     class Private;
     Private *d;
@@ -225,14 +225,14 @@ class CompatPre35 : public Compat
 */
 class CompatPre34 : public CompatPre35
 {
-  public:
+public:
     /**
       @copydoc
       Compat::fixPriority()
     */
-    virtual int fixPriority( int priority );
+    virtual int fixPriority(int priority);
 
-  private:
+private:
     //@cond PRIVATE
     class Private;
     Private *d;
@@ -250,14 +250,14 @@ class CompatPre34 : public CompatPre35
 */
 class CompatPre32 : public CompatPre34
 {
-  public:
+public:
     /**
       @copydoc
       Compat::fixRecurrence()
     */
-    virtual void fixRecurrence( const Incidence::Ptr &incidence );
+    virtual void fixRecurrence(const Incidence::Ptr &incidence);
 
-  private:
+private:
     //@cond PRIVATE
 
     class Private;
@@ -282,20 +282,20 @@ class CompatPre32 : public CompatPre34
 */
 class CompatPre31 : public CompatPre32
 {
-  public:
+public:
     /**
       @copydoc
       Compat::fixFloatingEnd()
     */
-    virtual void fixFloatingEnd( QDate &date );
+    virtual void fixFloatingEnd(QDate &date);
 
     /**
       @copydoc
       Compat::fixRecurrence()
     */
-    virtual void fixRecurrence( const Incidence::Ptr &incidence );
+    virtual void fixRecurrence(const Incidence::Ptr &incidence);
 
-  private:
+private:
     //@cond PRIVATE
     class Private;
     Private *d;
@@ -308,14 +308,14 @@ class CompatPre31 : public CompatPre32
 */
 class Compat32PrereleaseVersions : public Compat
 {
-  public:
+public:
     /**
       @copydoc
       Compat::useTimeZoneShift()
     */
     virtual bool useTimeZoneShift();
 
-  private:
+private:
     //@cond PRIVATE
     class Private;
     Private *d;
@@ -332,14 +332,14 @@ class Compat32PrereleaseVersions : public Compat
 */
 class CompatOutlook9 : public Compat
 {
-  public:
+public:
     /**
       @copydoc
       Compat::fixAlarms()
     */
-    virtual void fixAlarms( const Incidence::Ptr &incidence );
+    virtual void fixAlarms(const Incidence::Ptr &incidence);
 
-  private:
+private:
     //@cond PRIVATE
     class Private;
     Private *d;
@@ -352,16 +352,16 @@ class CompatOutlook9 : public Compat
 */
 class CompatPre410 : public CompatDecorator
 {
-  public:
-    explicit CompatPre410( Compat *decoratedCompat );
+public:
+    explicit CompatPre410(Compat *decoratedCompat);
 
     /**
       @copydoc
       Compat::setCreatedToDtStamp()
     */
-    virtual void setCreatedToDtStamp( const Incidence::Ptr &incidence, const KDateTime &dtstamp );
+    virtual void setCreatedToDtStamp(const Incidence::Ptr &incidence, const KDateTime &dtstamp);
 
-  private:
+private:
     //@cond PRIVATE
     class Private;
     Private *d;

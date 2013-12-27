@@ -45,10 +45,10 @@ namespace KCalCore {
 */
 class KCALCORE_EXPORT FreeBusyPeriod : public Period
 {
-  public:
-   /**
-      List of periods.
-    */
+public:
+    /**
+       List of periods.
+     */
     typedef QVector<FreeBusyPeriod> List;
 
     /**
@@ -62,7 +62,7 @@ class KCALCORE_EXPORT FreeBusyPeriod : public Period
       @param start the time the period begins.
       @param end the time the period ends.
     */
-    FreeBusyPeriod( const KDateTime &start, const KDateTime &end );
+    FreeBusyPeriod(const KDateTime &start, const KDateTime &end);
 
     /**
       Constructs a period from @p start and lasting @p duration.
@@ -70,7 +70,7 @@ class KCALCORE_EXPORT FreeBusyPeriod : public Period
       @param start the time when the period starts.
       @param duration how long the period lasts.
     */
-    FreeBusyPeriod( const KDateTime &start, const Duration &duration );
+    FreeBusyPeriod(const KDateTime &start, const Duration &duration);
 
     /**
       Constructs a period by copying another period object
@@ -78,7 +78,7 @@ class KCALCORE_EXPORT FreeBusyPeriod : public Period
       @param period the period to copy
      */
 
-    FreeBusyPeriod( const FreeBusyPeriod &period );
+    FreeBusyPeriod(const FreeBusyPeriod &period);
 
     /**
       Constructs a period by copying another period object
@@ -86,7 +86,7 @@ class KCALCORE_EXPORT FreeBusyPeriod : public Period
       @param period the period to copy
      */
 
-    FreeBusyPeriod( const Period &period ); //krazy:exclude=explicit
+    FreeBusyPeriod(const Period &period);   //krazy:exclude=explicit
 
     /**
       Destroys a period.
@@ -98,14 +98,14 @@ class KCALCORE_EXPORT FreeBusyPeriod : public Period
 
       @param other is the other period to compare.
     */
-    FreeBusyPeriod &operator=( const FreeBusyPeriod &other );
+    FreeBusyPeriod &operator=(const FreeBusyPeriod &other);
 
     /**
       Sets the period summary.
       @param summary is the period summary string.
       @see summary().
     */
-    void setSummary( const QString &summary );
+    void setSummary(const QString &summary);
 
     /**
       Returns the period summary.
@@ -118,7 +118,7 @@ class KCALCORE_EXPORT FreeBusyPeriod : public Period
       @param location is the period location string.
       @see location().
     */
-    void setLocation( const QString &location );
+    void setLocation(const QString &location);
 
     /**
       Returns the period location.
@@ -126,28 +126,28 @@ class KCALCORE_EXPORT FreeBusyPeriod : public Period
     */
     QString location() const;
 
-  private:
+private:
     //@cond PRIVATE
     class Private;
     Private *const d;
     //@endcond
 
-    friend KCALCORE_EXPORT QDataStream &operator<<( QDataStream &stream,
-                                                    const KCalCore::FreeBusyPeriod &period );
-    friend KCALCORE_EXPORT QDataStream &operator>>( QDataStream &stream,
-                                                    KCalCore::FreeBusyPeriod &period );
+    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
+            const KCalCore::FreeBusyPeriod &period);
+    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream,
+            KCalCore::FreeBusyPeriod &period);
 };
 
 /** Write @p period to the datastream @p stream, in binary format. */
-KCALCORE_EXPORT QDataStream &operator<<( QDataStream &stream,
-                                         const KCalCore::FreeBusyPeriod &period );
+KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
+                                        const KCalCore::FreeBusyPeriod &period);
 
 /** Read a Period object into @p period from @p stream, in binary format. */
-KCALCORE_EXPORT QDataStream &operator>>( QDataStream &stream, KCalCore::FreeBusyPeriod &period );
+KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalCore::FreeBusyPeriod &period);
 }
 
 //@cond PRIVATE
-Q_DECLARE_METATYPE( KCalCore::FreeBusyPeriod )
+Q_DECLARE_METATYPE(KCalCore::FreeBusyPeriod)
 //@endcond
 
 #endif

@@ -26,8 +26,8 @@
 
 class FreeBusyTest : public QObject
 {
-  Q_OBJECT
-  private Q_SLOTS:
+    Q_OBJECT
+private Q_SLOTS:
     void testValidity();
     void testAddSort();
     void testAssign();

@@ -49,99 +49,101 @@ using namespace KCalCore;
 //@cond PRIVATE
 class KCalCore::CalFormat::Private
 {
-  public:
-    Private() : mException( 0 ) {}
-    ~Private() { delete mException; }
+public:
+    Private() : mException(0) {}
+    ~Private() {
+        delete mException;
+    }
     static QString mApplication; // Name of application, for creating unique ID strings
     static QString mProductId;   // PRODID string to write to calendar files
     QString mLoadedProductId;    // PRODID string loaded from calendar file
     Exception *mException;
 };
 
-QString CalFormat::Private::mApplication = QLatin1String( "libkcal" );
+QString CalFormat::Private::mApplication = QLatin1String("libkcal");
 QString CalFormat::Private::mProductId =
-  QLatin1String( "-//K Desktop Environment//NONSGML libkcal 4.3//EN" );
+    QLatin1String("-//K Desktop Environment//NONSGML libkcal 4.3//EN");
 //@endcond
 
 CalFormat::CalFormat()
-  : d( new KCalCore::CalFormat::Private )
+    : d(new KCalCore::CalFormat::Private)
 {
 }
 
 CalFormat::~CalFormat()
 {
-  clearException();
-  delete d;
+    clearException();
+    delete d;
 }
 
 void CalFormat::clearException()
 {
-  delete d->mException;
-  d->mException = 0;
+    delete d->mException;
+    d->mException = 0;
 }
 
-void CalFormat::setException( Exception *exception )
+void CalFormat::setException(Exception *exception)
 {
-  delete d->mException;
-  d->mException = exception;
+    delete d->mException;
+    d->mException = exception;
 }
 
 Exception *CalFormat::exception() const
 {
-  return d->mException;
+    return d->mException;
 }
 
-void CalFormat::setApplication( const QString &application,
-                                const QString &productID )
+void CalFormat::setApplication(const QString &application,
+                               const QString &productID)
 {
-  Private::mApplication = application;
-  Private::mProductId = productID;
+    Private::mApplication = application;
+    Private::mProductId = productID;
 }
 
 const QString &CalFormat::application()
 {
-  return Private::mApplication;
+    return Private::mApplication;
 }
 
 const QString &CalFormat::productId()
 {
-  return Private::mProductId;
+    return Private::mProductId;
 }
 
 QString CalFormat::loadedProductId()
 {
-  return d->mLoadedProductId;
+    return d->mLoadedProductId;
 }
 
-void CalFormat::setLoadedProductId( const QString &id )
+void CalFormat::setLoadedProductId(const QString &id)
 {
-  d->mLoadedProductId = id;
+    d->mLoadedProductId = id;
 }
 
 QString CalFormat::createUniqueId()
 {
 #if defined(HAVE_UUID_UUID_H)
-  uuid_t uuid;
-  char suuid[64];
+    uuid_t uuid;
+    char suuid[64];
 
-  uuid_generate_random( uuid );
-  uuid_unparse( uuid, suuid );
-  return QString::fromLatin1( suuid );
+    uuid_generate_random(uuid);
+    uuid_unparse(uuid, suuid);
+    return QString::fromLatin1(suuid);
 #else
-  int hashTime = QTime::currentTime().hour() +
-                 QTime::currentTime().minute() + QTime::currentTime().second() +
-                 QTime::currentTime().msec();
-  QString uidStr = QString( "%1-%2.%3" ).
-                   arg( Private::mApplication ).
-                   arg( KRandom::random() ).
-                   arg( hashTime );
-  return uidStr;
+    int hashTime = QTime::currentTime().hour() +
+                   QTime::currentTime().minute() + QTime::currentTime().second() +
+                   QTime::currentTime().msec();
+    QString uidStr = QString("%1-%2.%3").
+                     arg(Private::mApplication).
+                     arg(KRandom::random()).
+                     arg(hashTime);
+    return uidStr;
 #endif
 }
 
-void CalFormat::virtual_hook( int id, void *data )
+void CalFormat::virtual_hook(int id, void *data)
 {
-  Q_UNUSED( id );
-  Q_UNUSED( data );
-  Q_ASSERT( false );
+    Q_UNUSED(id);
+    Q_UNUSED(data);
+    Q_ASSERT(false);
 }

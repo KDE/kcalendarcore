@@ -25,8 +25,8 @@
 
 class AttachmentTest : public QObject
 {
-  Q_OBJECT
-  private Q_SLOTS:
+    Q_OBJECT
+private Q_SLOTS:
     void testValidity();
     void testSerializer_data();
     void testSerializer();

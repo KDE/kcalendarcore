@@ -47,7 +47,7 @@ class Exception;
 */
 class KCALCORE_EXPORT CalFormat
 {
-  public:
+public:
     /**
       Constructs a new Calendar Format object.
     */
@@ -66,7 +66,7 @@ class KCALCORE_EXPORT CalFormat
 
       @return true if successful; false otherwise.
     */
-    virtual bool load( const Calendar::Ptr &calendar, const QString &fileName ) = 0;
+    virtual bool load(const Calendar::Ptr &calendar, const QString &fileName) = 0;
 
     /**
       Writes the calendar to disk.
@@ -76,7 +76,7 @@ class KCALCORE_EXPORT CalFormat
 
       @return true if successful; false otherwise.
     */
-    virtual bool save( const Calendar::Ptr &calendar, const QString &fileName ) = 0;
+    virtual bool save(const Calendar::Ptr &calendar, const QString &fileName) = 0;
 
     /**
       Loads a calendar from a string
@@ -89,8 +89,8 @@ class KCALCORE_EXPORT CalFormat
       @return true if successful; false otherwise.
       @see fromRawString(), toString().
     */
-    virtual bool fromString( const Calendar::Ptr &calendar, const QString &string,
-                             bool deleted = false, const QString &notebook = QString() ) = 0;
+    virtual bool fromString(const Calendar::Ptr &calendar, const QString &string,
+                            bool deleted = false, const QString &notebook = QString()) = 0;
 
     /**
       Parses a utf8 encoded string, returning the first iCal component
@@ -106,8 +106,8 @@ class KCALCORE_EXPORT CalFormat
       @return true if successful; false otherwise.
       @see fromString(), toString().
     */
-    virtual bool fromRawString( const Calendar::Ptr &calendar, const QByteArray &string,
-                                bool deleted = false, const QString &notebook = QString() ) = 0;
+    virtual bool fromRawString(const Calendar::Ptr &calendar, const QByteArray &string,
+                               bool deleted = false, const QString &notebook = QString()) = 0;
 
     /**
       Returns the calendar as a string.
@@ -119,8 +119,8 @@ class KCALCORE_EXPORT CalFormat
       an empty string otherwise.
       @see fromString(), fromRawString().
     */
-    virtual QString toString( const Calendar::Ptr &calendar,
-                              const QString &notebook = QString(), bool deleted = false ) = 0;
+    virtual QString toString(const Calendar::Ptr &calendar,
+                             const QString &notebook = QString(), bool deleted = false) = 0;
 
     /**
       Clears the exception status.
@@ -140,8 +140,8 @@ class KCALCORE_EXPORT CalFormat
       @param application is a string containing the application name.
       @param productID is a string containing the product identifier.
     */
-    static void setApplication( const QString &application,
-                                const QString &productID );
+    static void setApplication(const QString &application,
+                               const QString &productID);
 
     /**
       Returns the application name used in unique IDs and error messages.
@@ -170,25 +170,25 @@ class KCALCORE_EXPORT CalFormat
 
       @param error is a pointer to an Exception which contains the exception.
     */
-    void setException( Exception *error );
+    void setException(Exception *error);
 
-  protected:
+protected:
     /**
       Sets the PRODID string loaded from calendar file.
       @param id is a pruduct Id string to set for the calendar file.
       @see loadedProductId()
     */
-    void setLoadedProductId( const QString &id );
+    void setLoadedProductId(const QString &id);
 
     /**
       @copydoc
       IncidenceBase::virtual_hook()
     */
-    virtual void virtual_hook( int id, void *data );
+    virtual void virtual_hook(int id, void *data);
 
-  private:
+private:
     //@cond PRIVATE
-    Q_DISABLE_COPY( CalFormat )
+    Q_DISABLE_COPY(CalFormat)
     class Private;
     Private *const d;
     //@endcond

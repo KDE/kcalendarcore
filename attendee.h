@@ -56,7 +56,7 @@ namespace KCalCore {
 */
 class KCALCORE_EXPORT Attendee : private Person
 {
-  public:
+public:
     using Person::setEmail;
     using Person::email;
     using Person::setName;
@@ -68,24 +68,24 @@ class KCALCORE_EXPORT Attendee : private Person
       The meaning is specific to the incidence type in context.
     */
     enum PartStat {
-      NeedsAction,     /**< Event, to-do or journal needs action (default) */
-      Accepted,        /**< Event, to-do or journal accepted */
-      Declined,        /**< Event, to-do or journal declined */
-      Tentative,       /**< Event or to-do tentatively accepted */
-      Delegated,       /**< Event or to-do delegated */
-      Completed,       /**< To-do completed */
-      InProcess,       /**< To-do in process of being completed */
-      None
+        NeedsAction,     /**< Event, to-do or journal needs action (default) */
+        Accepted,        /**< Event, to-do or journal accepted */
+        Declined,        /**< Event, to-do or journal declined */
+        Tentative,       /**< Event or to-do tentatively accepted */
+        Delegated,       /**< Event or to-do delegated */
+        Completed,       /**< To-do completed */
+        InProcess,       /**< To-do in process of being completed */
+        None
     };
 
     /**
       The different types of participation roles.
     */
     enum Role {
-      ReqParticipant,  /**< Participation is required (default) */
-      OptParticipant,  /**< Participation is optional */
-      NonParticipant,  /**< Non-Participant; copied for information purposes */
-      Chair            /**< Chairperson */
+        ReqParticipant,  /**< Participation is required (default) */
+        OptParticipant,  /**< Participation is optional */
+        NonParticipant,  /**< Non-Participant; copied for information purposes */
+        Chair            /**< Chairperson */
     };
 
     /**
@@ -110,16 +110,16 @@ class KCALCORE_EXPORT Attendee : private Person
       @param role is the #Role of the attendee.
       @param uid is the @acronym UID of the attendee.
     */
-    Attendee( const QString &name, const QString &email,
-              bool rsvp = false, PartStat status = None,
-              Role role = ReqParticipant, const QString &uid = QString() );
+    Attendee(const QString &name, const QString &email,
+             bool rsvp = false, PartStat status = None,
+             Role role = ReqParticipant, const QString &uid = QString());
 
     /**
       Constructs an attendee by copying another attendee.
 
       @param attendee is the attendee to be copied.
     */
-    Attendee( const Attendee &attendee );
+    Attendee(const Attendee &attendee);
 
     /**
       Destroys the attendee.
@@ -133,7 +133,7 @@ class KCALCORE_EXPORT Attendee : private Person
 
       @see role()
     */
-    void setRole( Role role );
+    void setRole(Role role);
 
     /**
       Returns the Role of the attendee.
@@ -149,7 +149,7 @@ class KCALCORE_EXPORT Attendee : private Person
 
       @see uid()
     */
-    void setUid ( const QString &uid );
+    void setUid(const QString &uid);
 
     /**
       Returns the @acronym UID of the attendee.
@@ -165,7 +165,7 @@ class KCALCORE_EXPORT Attendee : private Person
 
       @see status()
     */
-    void setStatus( PartStat status );
+    void setStatus(PartStat status);
 
     /**
       Returns the #PartStat of the attendee.
@@ -182,7 +182,7 @@ class KCALCORE_EXPORT Attendee : private Person
 
       @see RSVP()
     */
-    void setRSVP( bool rsvp );
+    void setRSVP(bool rsvp);
 
     /**
       Returns the attendee @acronym RSVP flag.
@@ -196,14 +196,14 @@ class KCALCORE_EXPORT Attendee : private Person
 
       @param attendee the attendee to compare.
     */
-    bool operator==( const Attendee &attendee ) const;
+    bool operator==(const Attendee &attendee) const;
 
     /**
       Compares this with @p attendee for inequality.
 
       @param attendee the attendee to compare.
     */
-    bool operator!=( const Attendee &attendee ) const;
+    bool operator!=(const Attendee &attendee) const;
 
     /**
       Sets the delegate.
@@ -211,7 +211,7 @@ class KCALCORE_EXPORT Attendee : private Person
       to attend the meeting.
       @see delegate(), setDelegator().
     */
-    void setDelegate( const QString &delegate );
+    void setDelegate(const QString &delegate);
 
     /**
       Returns the delegate.
@@ -225,7 +225,7 @@ class KCALCORE_EXPORT Attendee : private Person
       have delegated their meeting attendance.
       @see delegator(), setDelegate().
     */
-    void setDelegator( const QString &delegator );
+    void setDelegator(const QString &delegator);
 
     /**
       Returns the delegator.
@@ -238,7 +238,7 @@ class KCALCORE_EXPORT Attendee : private Person
       @param xname is the name of the property.
       @param xvalue is its value.
     */
-    void setCustomProperty( const QByteArray &xname, const QString &xvalue );
+    void setCustomProperty(const QByteArray &xname, const QString &xvalue);
 
     /**
       Returns a reference to the CustomProperties object
@@ -255,18 +255,18 @@ class KCALCORE_EXPORT Attendee : private Person
 
       @param attendee is the attendee to copy.
     */
-    Attendee &operator=( const Attendee &attendee );
+    Attendee &operator=(const Attendee &attendee);
 
-  private:
+private:
     //@cond PRIVATE
     class Private;
     Private *const d;
     //@endcond
 
-    friend KCALCORE_EXPORT QDataStream &operator<<( QDataStream &s,
-                                                    const KCalCore::Attendee::Ptr &attendee );
-    friend KCALCORE_EXPORT QDataStream &operator>>( QDataStream &s,
-                                                    KCalCore::Attendee::Ptr &attendee );
+    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &s,
+            const KCalCore::Attendee::Ptr &attendee);
+    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &s,
+            KCalCore::Attendee::Ptr &attendee);
 };
 
 /**
@@ -274,21 +274,21 @@ class KCALCORE_EXPORT Attendee : private Person
   @param stream is a QDataStream.
   @param attendee is a pointer to a Attendee object to be serialized.
 */
-KCALCORE_EXPORT QDataStream &operator<<( QDataStream &stream,
-                                         const KCalCore::Attendee::Ptr &attendee );
+KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
+                                        const KCalCore::Attendee::Ptr &attendee);
 
 /**
   Initializes an Attendee object from a data stream.
   @param stream is a QDataStream.
   @param attendee is a pointer to a Attendee object to be initialized.
 */
-KCALCORE_EXPORT QDataStream &operator>>( QDataStream &stream,
-                                         KCalCore::Attendee::Ptr &attendee );
+KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream,
+                                        KCalCore::Attendee::Ptr &attendee);
 }
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO( KCalCore::Attendee::Ptr, Q_MOVABLE_TYPE );
-Q_DECLARE_METATYPE( KCalCore::Attendee::Ptr )
+Q_DECLARE_TYPEINFO(KCalCore::Attendee::Ptr, Q_MOVABLE_TYPE);
+Q_DECLARE_METATYPE(KCalCore::Attendee::Ptr)
 //@endcond
 
 #endif

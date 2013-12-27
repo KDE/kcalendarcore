@@ -23,13 +23,13 @@
 #include "../exceptions.h"
 
 #include <qtest_kde.h>
-QTEST_KDEMAIN( ExceptionTest, NoGUI )
+QTEST_KDEMAIN(ExceptionTest, NoGUI)
 
 using namespace KCalCore;
 
 void ExceptionTest::testValidity()
 {
-  //KDAB_TODO: getting undefined reference while compiling
+    //KDAB_TODO: getting undefined reference while compiling
 //  Exception ef( Exception::LoadError );
 //  QVERIFY( ef.code() == Exception::LoadError );
 

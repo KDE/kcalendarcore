@@ -68,7 +68,7 @@ class Todo;
 */
 class KCALCORE_EXPORT VCalFormat : public CalFormat
 {
-  public:
+public:
     /**
       Constructor a new vCalendar Format object.
     */
@@ -83,96 +83,96 @@ class KCALCORE_EXPORT VCalFormat : public CalFormat
       @copydoc
       CalFormat::load()
     */
-    bool load( const Calendar::Ptr &calendar, const QString &fileName );
+    bool load(const Calendar::Ptr &calendar, const QString &fileName);
 
     /**
       @copydoc
       CalFormat::save()
     */
-    bool save( const Calendar::Ptr &calendar, const QString &fileName );
+    bool save(const Calendar::Ptr &calendar, const QString &fileName);
 
     /**
       @copydoc
       CalFormat::fromString()
     */
-    bool fromString( const Calendar::Ptr &calendar, const QString &string,
-                     bool deleted = false, const QString &notebook = QString() );
+    bool fromString(const Calendar::Ptr &calendar, const QString &string,
+                    bool deleted = false, const QString &notebook = QString());
 
     /**
       @copydoc
       CalFormat::toString()
     */
-    QString toString( const Calendar::Ptr &calendar, const QString &notebook = QString(),
-                      bool deleted = false );
+    QString toString(const Calendar::Ptr &calendar, const QString &notebook = QString(),
+                     bool deleted = false);
 
     /**
       @copydoc
       CalFormat::fromRawString()
     */
-    bool fromRawString( const Calendar::Ptr &calendar, const QByteArray &string,
-                        bool deleted = false, const QString &notebook = QString() );
+    bool fromRawString(const Calendar::Ptr &calendar, const QByteArray &string,
+                       bool deleted = false, const QString &notebook = QString());
 
-  protected:
+protected:
     /**
       Translates a VObject of the TODO type into an Event.
       @param vtodo is a pointer to a valid VObject object.
     */
-    Todo::Ptr VTodoToEvent( VObject *vtodo );
+    Todo::Ptr VTodoToEvent(VObject *vtodo);
 
     /**
       Translates a VObject into a Event and returns a pointer to it.
       @param vevent is a pointer to a valid VObject object.
     */
-    Event::Ptr VEventToEvent( VObject *vevent );
+    Event::Ptr VEventToEvent(VObject *vevent);
 
     /**
       Translates an Event into a VEvent-type VObject and returns a pointer to it.
       @param event is a pointer to a valid Event object.
     */
-    VObject *eventToVEvent( const Event::Ptr &event );
+    VObject *eventToVEvent(const Event::Ptr &event);
 
     /**
       Parse TZ tag from vtimezone.
     */
-    QString parseTZ( const QByteArray &timezone ) const;
+    QString parseTZ(const QByteArray &timezone) const;
 
     /**
       Parse DAYLIGHT tag from vtimezone.
     */
-    QString parseDst( QByteArray &timezone ) const;
+    QString parseDst(QByteArray &timezone) const;
 
     /**
       Translates a Todo into a VTodo-type VObject and return pointer.
       @param todo is a pointer to a valid Todo object.
     */
-    VObject *eventToVTodo( const Todo::Ptr &todo );
+    VObject *eventToVTodo(const Todo::Ptr &todo);
 
     /**
       Takes a QDate and returns a string in the format YYYYMMDDTHHMMSS.
       @param date is the date to format.
     */
-    QString qDateToISO( const QDate &date );
+    QString qDateToISO(const QDate &date);
 
     /**
       Takes a KDateTime and returns a string in format YYYYMMDDTHHMMSS.
       @param date is the date to format.
       @param zulu if true, then shift the date to UTC.
     */
-    QString kDateTimeToISO( const KDateTime &date, bool zulu = true );
+    QString kDateTimeToISO(const KDateTime &date, bool zulu = true);
 
     /**
       Takes a string in YYYYMMDDTHHMMSS format and returns a valid KDateTime.
       @param dtStr is a QString containing the date to convert. If this value
       is invalid, then KDateTime() is returned.
     */
-    KDateTime ISOToKDateTime( const QString &dtStr );
+    KDateTime ISOToKDateTime(const QString &dtStr);
 
     /**
       Takes a string in the YYYYMMDD format and returns a valid QDate.
       @param dtStr is a QString containing the date to convert. If this value
       is invalid, then KDateTime() is returned.
     */
-    QDate ISOToQDate( const QString &dtStr );
+    QDate ISOToQDate(const QString &dtStr);
 
     /**
       Parse one of the myriad of ISO8601 timezone offset formats, e.g.
@@ -184,13 +184,13 @@ class KCALCORE_EXPORT VCalFormat : public CalFormat
       @param result timezone offset in seconds, if parse succeeded.
       @return Whether the parse succeeded or not.
     */
-    bool parseTZOffsetISO8601( const QString &s, int &result );
+    bool parseTZOffsetISO8601(const QString &s, int &result);
 
     /**
       Takes a vCalendar tree of VObjects, and puts all of them that have the
       "event" property into the dictionary, todos in the todo-list, etc.
     */
-    void populate( VObject *vcal, bool deleted = false, const QString &notebook = QString() );
+    void populate(VObject *vcal, bool deleted = false, const QString &notebook = QString());
 
     /**
       Takes a number 0 - 6 and returns the two letter string of that day,
@@ -199,7 +199,7 @@ class KCALCORE_EXPORT VCalFormat : public CalFormat
       @param day number of the day to get a two letter name for. Range @c 0 - @c 6
       @see numFromDay().
     */
-    const char *dayFromNum( int day );
+    const char *dayFromNum(int day);
 
     /**
       Converts a two letter representation of the day (i.e. MO, TU, WE, etc) and
@@ -207,7 +207,7 @@ class KCALCORE_EXPORT VCalFormat : public CalFormat
       @param day is the QString containing the two letter day representation.
       @see dayFromNum().
     */
-    int numFromDay( const QString &day );
+    int numFromDay(const QString &day);
 
     /**
       Converts a status string into an Attendee::PartStat.
@@ -216,7 +216,7 @@ class KCALCORE_EXPORT VCalFormat : public CalFormat
       @return a valid Attendee::PartStat.  If the string provided is empty, null,
       or the contents are unrecognized, then Attendee::NeedsAction is returned.
     */
-    Attendee::PartStat readStatus( const char *s ) const;
+    Attendee::PartStat readStatus(const char *s) const;
 
     /**
       Converts an Attendee::PartStat into a QByteArray string.
@@ -224,30 +224,30 @@ class KCALCORE_EXPORT VCalFormat : public CalFormat
 
       @return a QByteArray containing the status string.
     */
-    QByteArray writeStatus( Attendee::PartStat status ) const;
+    QByteArray writeStatus(Attendee::PartStat status) const;
 
-    void readCustomProperties( VObject *o, const Incidence::Ptr &i );
-    void writeCustomProperties( VObject *o, const Incidence::Ptr &i );
+    void readCustomProperties(VObject *o, const Incidence::Ptr &i);
+    void writeCustomProperties(VObject *o, const Incidence::Ptr &i);
 
-  protected:
+protected:
     /**
       @copydoc
       IncidenceBase::virtual_hook()
     */
-    virtual void virtual_hook( int id, void *data );
+    virtual void virtual_hook(int id, void *data);
 
-  private:
+private:
     /**
       The Pilot synchronization states.
     */
     enum PilotState {
-      SYNCNONE = 0,
-      SYNCMOD = 1,
-      SYNCDEL = 3
+        SYNCNONE = 0,
+        SYNCMOD = 1,
+        SYNCDEL = 3
     };
 
     //@cond PRIVATE
-    Q_DISABLE_COPY( VCalFormat )
+    Q_DISABLE_COPY(VCalFormat)
     class Private;
     Private *const d;
     //@endcond

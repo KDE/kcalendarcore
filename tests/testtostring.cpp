@@ -28,21 +28,21 @@
 
 using namespace KCalCore;
 
-int main( int, char ** )
+int main(int, char **)
 {
 
- // std::cout << "Hello World!" << std::endl;
-  Event::Ptr ev = Event::Ptr( new Event );
-  ev->setSummary( "Griazi" );
-  ICalFormat iformat;
-  QString icalstr = iformat.toICalString( ev );
-  kDebug() << icalstr;
-  Incidence::Ptr ev2 = iformat.fromString( icalstr );
-  kDebug() << "Event reread!";
+// std::cout << "Hello World!" << std::endl;
+    Event::Ptr ev = Event::Ptr(new Event);
+    ev->setSummary("Griazi");
+    ICalFormat iformat;
+    QString icalstr = iformat.toICalString(ev);
+    kDebug() << icalstr;
+    Incidence::Ptr ev2 = iformat.fromString(icalstr);
+    kDebug() << "Event reread!";
 
-  if ( ev2 ) {
-    kDebug() << iformat.toICalString( ev2 );
-  } else {
-    kDebug() << "Could not read incidence";
-  }
+    if (ev2) {
+        kDebug() << iformat.toICalString(ev2);
+    } else {
+        kDebug() << "Could not read incidence";
+    }
 }

@@ -43,7 +43,7 @@ class Calendar;
 */
 class KCALCORE_EXPORT FileStorage : public CalStorage
 {
-  public:
+public:
 
     /**
       A shared pointer to a FileStorage.
@@ -61,9 +61,9 @@ class KCALCORE_EXPORT FileStorage : public CalStorage
       memory for @p format is deleted by this destructor. If no format is
       specified, then iCalendar format is assumed.
     */
-    explicit FileStorage( const Calendar::Ptr &calendar,
-                          const QString &fileName = QString(),
-                          KCalCore::CalFormat *format = 0 );
+    explicit FileStorage(const Calendar::Ptr &calendar,
+                         const QString &fileName = QString(),
+                         KCalCore::CalFormat *format = 0);
 
     /**
       Destructor.
@@ -76,7 +76,7 @@ class KCALCORE_EXPORT FileStorage : public CalStorage
       @param fileName is the name of the disk file containing the calendar data.
       @see fileName().
     */
-    void setFileName( const QString &fileName );
+    void setFileName(const QString &fileName);
 
     /**
       Returns the calendar file name.
@@ -92,7 +92,7 @@ class KCALCORE_EXPORT FileStorage : public CalStorage
       the calendar format to be used. FileStorage takes ownership.
       @see saveFormat().
     */
-    void setSaveFormat( KCalCore::CalFormat *format );
+    void setSaveFormat(KCalCore::CalFormat *format);
 
     /**
       Returns the CalFormat object used by this storage.
@@ -121,9 +121,9 @@ class KCALCORE_EXPORT FileStorage : public CalStorage
     */
     bool close();
 
-  private:
+private:
     //@cond PRIVATE
-    Q_DISABLE_COPY( FileStorage )
+    Q_DISABLE_COPY(FileStorage)
     class Private;
     Private *const d;
     //@endcond

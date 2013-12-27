@@ -42,13 +42,13 @@ using namespace KCalCore;
 //@cond PRIVATE
 class KCalCore::Period::Private
 {
-  public:
-    Private() : mHasDuration( false ), mDailyDuration( false )  {}
-    Private( const KDateTime &start, const KDateTime &end, bool hasDuration )
-      : mStart( start ),
-        mEnd( end ),
-        mHasDuration( hasDuration ),
-        mDailyDuration( false )
+public:
+    Private() : mHasDuration(false), mDailyDuration(false)  {}
+    Private(const KDateTime &start, const KDateTime &end, bool hasDuration)
+        : mStart(start),
+          mEnd(end),
+          mHasDuration(hasDuration),
+          mDailyDuration(false)
     {}
     KDateTime mStart;    // period starting date/time
     KDateTime mEnd;      // period ending date/time
@@ -57,123 +57,123 @@ class KCalCore::Period::Private
 };
 //@endcond
 
-Period::Period() : d( new KCalCore::Period::Private() )
+Period::Period() : d(new KCalCore::Period::Private())
 {
 }
 
-Period::Period( const KDateTime &start, const KDateTime &end )
-  : d( new KCalCore::Period::Private( start, end, false ) )
+Period::Period(const KDateTime &start, const KDateTime &end)
+    : d(new KCalCore::Period::Private(start, end, false))
 {
 }
 
-Period::Period( const KDateTime &start, const Duration &duration )
-  : d( new KCalCore::Period::Private( start, duration.end( start ), true ) )
+Period::Period(const KDateTime &start, const Duration &duration)
+    : d(new KCalCore::Period::Private(start, duration.end(start), true))
 {
-  d->mDailyDuration = duration.isDaily();
+    d->mDailyDuration = duration.isDaily();
 }
 
-Period::Period( const Period &period )
-  : d( new KCalCore::Period::Private( *period.d ) )
+Period::Period(const Period &period)
+    : d(new KCalCore::Period::Private(*period.d))
 {
 }
 
 Period::~Period()
 {
-  delete d;
+    delete d;
 }
 
-bool Period::operator<( const Period &other ) const
+bool Period::operator<(const Period &other) const
 {
-  return d->mStart < other.d->mStart;
+    return d->mStart < other.d->mStart;
 }
 
-bool Period::operator==( const Period &other ) const
+bool Period::operator==(const Period &other) const
 {
-  return
-    ( ( d->mStart == other.d->mStart ) ||
-      ( !d->mStart.isValid() && !other.d->mStart.isValid() ) ) &&
-    ( ( d->mEnd == other.d->mEnd ) ||
-      ( !d->mEnd.isValid() && !other.d->mEnd.isValid() ) ) &&
-    d->mHasDuration == other.d->mHasDuration;
+    return
+        ((d->mStart == other.d->mStart) ||
+         (!d->mStart.isValid() && !other.d->mStart.isValid())) &&
+        ((d->mEnd == other.d->mEnd) ||
+         (!d->mEnd.isValid() && !other.d->mEnd.isValid())) &&
+        d->mHasDuration == other.d->mHasDuration;
 }
 
-Period &Period::operator=( const Period &other )
+Period &Period::operator=(const Period &other)
 {
-  // check for self assignment
-  if ( &other == this ) {
+    // check for self assignment
+    if (&other == this) {
+        return *this;
+    }
+
+    *d = *other.d;
     return *this;
-  }
-
-  *d = *other.d;
-  return *this;
 }
 
 KDateTime Period::start() const
 {
-  return d->mStart;
+    return d->mStart;
 }
 
 KDateTime Period::end() const
 {
-  return d->mEnd;
+    return d->mEnd;
 }
 
 Duration Period::duration() const
 {
-  if ( d->mHasDuration ) {
-    return Duration( d->mStart, d->mEnd,
-                     d->mDailyDuration ? Duration::Days : Duration::Seconds );
-  } else {
-    return Duration( d->mStart, d->mEnd );
-  }
+    if (d->mHasDuration) {
+        return Duration(d->mStart, d->mEnd,
+                        d->mDailyDuration ? Duration::Days : Duration::Seconds);
+    } else {
+        return Duration(d->mStart, d->mEnd);
+    }
 }
 
-Duration Period::duration( Duration::Type type ) const
+Duration Period::duration(Duration::Type type) const
 {
-  return Duration( d->mStart, d->mEnd, type );
+    return Duration(d->mStart, d->mEnd, type);
 }
 
 bool Period::hasDuration() const
 {
-  return d->mHasDuration;
+    return d->mHasDuration;
 }
 
-void Period::shiftTimes( const KDateTime::Spec &oldSpec,
-                         const KDateTime::Spec &newSpec )
+void Period::shiftTimes(const KDateTime::Spec &oldSpec,
+                        const KDateTime::Spec &newSpec)
 {
-  if ( oldSpec.isValid() && newSpec.isValid() && oldSpec != newSpec ) {
-    d->mStart = d->mStart.toTimeSpec( oldSpec );
-    d->mStart.setTimeSpec( newSpec );
-    d->mEnd = d->mEnd.toTimeSpec( oldSpec );
-    d->mEnd.setTimeSpec( newSpec );
-  }
+    if (oldSpec.isValid() && newSpec.isValid() && oldSpec != newSpec) {
+        d->mStart = d->mStart.toTimeSpec(oldSpec);
+        d->mStart.setTimeSpec(newSpec);
+        d->mEnd = d->mEnd.toTimeSpec(oldSpec);
+        d->mEnd.setTimeSpec(newSpec);
+    }
 }
 
-QDataStream &KCalCore::operator<<( QDataStream &stream, const KCalCore::Period &period )
+QDataStream &KCalCore::operator<<(QDataStream &stream, const KCalCore::Period &period)
 {
-  return stream << period.d->mStart
-                << period.d->mEnd
-                << period.d->mDailyDuration
-                << period.d->mHasDuration;
+    return stream << period.d->mStart
+           << period.d->mEnd
+           << period.d->mDailyDuration
+           << period.d->mHasDuration;
 }
 
-QDataStream &KCalCore::operator>>( QDataStream &stream, KCalCore::Period &period )
+QDataStream &KCalCore::operator>>(QDataStream &stream, KCalCore::Period &period)
 {
-  stream >> period.d->mStart
-         >> period.d->mEnd
-         >> period.d->mDailyDuration
-         >> period.d->mHasDuration;
-  return stream;
+    stream >> period.d->mStart
+           >> period.d->mEnd
+           >> period.d->mDailyDuration
+           >> period.d->mHasDuration;
+    return stream;
 }
 
-uint qHash( const KCalCore::Period &key )
+uint qHash(const KCalCore::Period &key)
 {
-  QString strToHash = key.start().toString();
-  if ( key.hasDuration() ) {
-    strToHash += key.duration();
-  } else {
-    strToHash += key.end().toString();
-  }
-  return qHash( strToHash );
+    QString strToHash = key.start().toString();
+    if (key.hasDuration()) {
+        strToHash += key.duration();
+    } else {
+        strToHash += key.end().toString();
+    }
+    return qHash(strToHash);
 }
 
