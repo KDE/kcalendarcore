@@ -45,14 +45,14 @@ namespace KCalCore {
 */
 class KCALCORE_EXPORT CalStorage : public QObject
 {
-  Q_OBJECT
+    Q_OBJECT
 
-  public:
+public:
     /**
       Constructs a new storage object for a calendar.
       @param calendar is a pointer to a valid Calendar object.
     */
-    explicit CalStorage( const Calendar::Ptr &calendar );
+    explicit CalStorage(const Calendar::Ptr &calendar);
 
     /**
       Destuctor.
@@ -89,9 +89,9 @@ class KCALCORE_EXPORT CalStorage : public QObject
     */
     virtual bool close() = 0;
 
-  private:
+private:
     //@cond PRIVATE
-    Q_DISABLE_COPY( CalStorage )
+    Q_DISABLE_COPY(CalStorage)
     class Private;
     Private *const d;
     //@endcond

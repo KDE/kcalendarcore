@@ -49,15 +49,15 @@ namespace KCalCore {
 */
 class KCALCORE_EXPORT Person
 {
-  public:
+public:
     /**
       A shared pointer to a Person object.
     */
     typedef QSharedPointer<Person> Ptr;
 
-     /**
-       List of persons.
-     */
+    /**
+      List of persons.
+    */
     typedef QVector<Ptr> List;
 
     /**
@@ -72,7 +72,7 @@ class KCALCORE_EXPORT Person
         "FirstName LastName \<mail@domain\>".
       @return A Person object pointer.
     */
-    static Person::Ptr fromFullName( const QString &fullName );
+    static Person::Ptr fromFullName(const QString &fullName);
 
     /**
       Constructs a person with the name @p name and email address @p email.
@@ -80,13 +80,13 @@ class KCALCORE_EXPORT Person
       @param name is the name of this person.
       @param email is the email address of this person.
     */
-    Person( const QString &name, const QString &email );
+    Person(const QString &name, const QString &email);
 
     /**
        Constructs a person as a copy of another person object.
        @param person is the person to copy.
      */
-    Person( const Person &person );
+    Person(const Person &person);
 
     /**
       Destroys a person.
@@ -103,7 +103,7 @@ class KCALCORE_EXPORT Person
       @return A QString containing the person's full name in the form
         "FirstName LastName \<mail@domain\>".
     */
-    QString fullName( ) const;
+    QString fullName() const;
 
     /**
       Sets the name of the person to @p name.
@@ -112,7 +112,7 @@ class KCALCORE_EXPORT Person
 
       @see name()
     */
-    void setName( const QString &name );
+    void setName(const QString &name);
 
     /**
       Returns the person name string.
@@ -128,7 +128,7 @@ class KCALCORE_EXPORT Person
 
       @see email()
     */
-    void setEmail( const QString &email );
+    void setEmail(const QString &email);
 
     /**
       Returns the email address for this person.
@@ -148,7 +148,7 @@ class KCALCORE_EXPORT Person
 
       @param email is the email address to validate
     */
-    static bool isValidEmail( const QString &email );
+    static bool isValidEmail(const QString &email);
 
     /**
       Sets the number of references for this person.
@@ -160,7 +160,7 @@ class KCALCORE_EXPORT Person
 
       @see count()
     */
-    void setCount( int count );
+    void setCount(int count);
 
     /**
       Returns the number of references or zero if it is not initialized.
@@ -174,44 +174,44 @@ class KCALCORE_EXPORT Person
 
       @param person is the person to compare.
     */
-    bool operator==( const Person &person ) const;
+    bool operator==(const Person &person) const;
 
     /**
       Compares this with @p person for non-equality.
 
       @param person is the person to compare.
     */
-    bool operator!=( const Person &person ) const;
+    bool operator!=(const Person &person) const;
 
     /**
       Sets this person equal to @p person.
 
       @param person is the person to copy.
     */
-    Person &operator=( const Person &person );
+    Person &operator=(const Person &person);
 
-  private:
+private:
     //@cond PRIVATE
     class Private;
     Private *const d;
-   //@endcond
+    //@endcond
 
     // TODO_KDE5: FIXME: This operator does slicing,if the object is in fact one of the derived classes (Attendee)
-    friend KCALCORE_EXPORT QDataStream &operator<<( QDataStream &s,
-                                                    const KCalCore::Person::Ptr &person );
-    friend KCALCORE_EXPORT QDataStream &operator>>( QDataStream &s,
-                                                    KCalCore::Person::Ptr &person );
+    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &s,
+            const KCalCore::Person::Ptr &person);
+    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &s,
+            KCalCore::Person::Ptr &person);
 };
 
 /**
   Serializes the @p person object into the @p stream.
 */
-KCALCORE_EXPORT QDataStream &operator<<( QDataStream &stream, const KCalCore::Person::Ptr &person );
+KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalCore::Person::Ptr &person);
 
 /**
   Initializes the @p person object from the @p stream.
 */
-KCALCORE_EXPORT QDataStream &operator>>( QDataStream &stream, KCalCore::Person::Ptr &person );
+KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalCore::Person::Ptr &person);
 
 }
 
@@ -219,11 +219,11 @@ KCALCORE_EXPORT QDataStream &operator>>( QDataStream &stream, KCalCore::Person::
   Return a hash value for a Person argument.
   @param key is a Person.
 */
-KCALCORE_EXPORT uint qHash( const KCalCore::Person &key );
+KCALCORE_EXPORT uint qHash(const KCalCore::Person &key);
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO( KCalCore::Person::Ptr, Q_MOVABLE_TYPE );
-Q_DECLARE_METATYPE( KCalCore::Person::Ptr )
+Q_DECLARE_TYPEINFO(KCalCore::Person::Ptr, Q_MOVABLE_TYPE);
+Q_DECLARE_METATYPE(KCalCore::Person::Ptr)
 //@endcond
 
 #endif

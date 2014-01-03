@@ -27,8 +27,8 @@
 
 class TimesInIntervalTest : public QObject
 {
-  Q_OBJECT
-  private Q_SLOTS:
+    Q_OBJECT
+private Q_SLOTS:
     void test();
     void testSubDailyRecurrenceIntervalInclusive();
     void testSubDailyRecurrence2();

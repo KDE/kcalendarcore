@@ -66,34 +66,34 @@ namespace KCalCore {
   Events, Todos and Journals, but are not allowed for FreeBusy entries.
 */
 class KCALCORE_EXPORT Incidence
-  : public IncidenceBase, public Recurrence::RecurrenceObserver
+    : public IncidenceBase, public Recurrence::RecurrenceObserver
 {
-  public:
+public:
 
     /**
       The different types of overall incidence status or confirmation.
       The meaning is specific to the incidence type in context.
     */
     enum Status {
-      StatusNone,           /**< No status */
-      StatusTentative,      /**< event is tentative */
-      StatusConfirmed,      /**< event is definite */
-      StatusCompleted,      /**< to-do completed */
-      StatusNeedsAction,    /**< to-do needs action */
-      StatusCanceled,       /**< event or to-do canceled; journal removed */
-      StatusInProcess,      /**< to-do in process */
-      StatusDraft,          /**< journal is draft */
-      StatusFinal,          /**< journal is final */
-      StatusX               /**< a non-standard status string */
+        StatusNone,           /**< No status */
+        StatusTentative,      /**< event is tentative */
+        StatusConfirmed,      /**< event is definite */
+        StatusCompleted,      /**< to-do completed */
+        StatusNeedsAction,    /**< to-do needs action */
+        StatusCanceled,       /**< event or to-do canceled; journal removed */
+        StatusInProcess,      /**< to-do in process */
+        StatusDraft,          /**< journal is draft */
+        StatusFinal,          /**< journal is final */
+        StatusX               /**< a non-standard status string */
     };
 
     /**
       The different types of incidence access classifications.
     */
     enum Secrecy {
-      SecrecyPublic,      /**< Not secret (default) */
-      SecrecyPrivate,     /**< Secret to the owner */
-      SecrecyConfidential /**< Secret to the owner and some others */
+        SecrecyPublic,      /**< Not secret (default) */
+        SecrecyPrivate,     /**< Secret to the owner */
+        SecrecyConfidential /**< Secret to the owner and some others */
     };
 
     /**
@@ -101,9 +101,9 @@ class KCALCORE_EXPORT Incidence
        Only RelTypeParent is supported for now.
     */
     enum RelType {
-      RelTypeParent,  /**< The related incidence is a parent. */
-      RelTypeChild,   /**< The related incidence is a child. */
-      RelTypeSibling  /**< The related incidence is a peer. */
+        RelTypeParent,  /**< The related incidence is a parent. */
+        RelTypeChild,   /**< The related incidence is a child. */
+        RelTypeSibling  /**< The related incidence is a peer. */
     };
 
     /**
@@ -148,12 +148,12 @@ class KCALCORE_EXPORT Incidence
       @param readonly If true, the incidence is set to readonly, if false the
                       incidence is set to readwrite.
     */
-    void setReadOnly( bool readonly );
+    void setReadOnly(bool readonly);
 
     /**
       @copydoc IncidenceBase::setLastModified().
     */
-    void setLastModified( const KDateTime &lm );
+    void setLastModified(const KDateTime &lm);
 
     /**
       Set localOnly state of incidence.
@@ -163,7 +163,7 @@ class KCALCORE_EXPORT Incidence
       @param localonly If true, the incidence is set to localonly, if false the
                       incidence is set to normal stat.
     */
-    void setLocalOnly( bool localonly );
+    void setLocalOnly(bool localonly);
 
     /**
       Get the localOnly status.
@@ -176,7 +176,7 @@ class KCALCORE_EXPORT Incidence
     /**
       @copydoc IncidenceBase::setAllDay().
     */
-    void setAllDay( bool allDay );
+    void setAllDay(bool allDay);
 
     /**
       Recreate incidence. The incidence is made a new unique incidence, but already stored
@@ -191,7 +191,7 @@ class KCALCORE_EXPORT Incidence
       @param dt is the creation date/time.
       @see created().
     */
-    void setCreated( const KDateTime &dt );
+    void setCreated(const KDateTime &dt);
 
     /**
       Returns the incidence creation date/time.
@@ -205,7 +205,7 @@ class KCALCORE_EXPORT Incidence
       @param rev is the incidence revision number.
       @see revision().
     */
-    void setRevision( int rev );
+    void setRevision(int rev);
 
     /**
       Returns the number of revisions this incidence has seen.
@@ -219,13 +219,13 @@ class KCALCORE_EXPORT Incidence
       @param dt is the starting date/time.
       @see IncidenceBase::dtStart().
     */
-    virtual void setDtStart( const KDateTime &dt );
+    virtual void setDtStart(const KDateTime &dt);
 
     /**
       @copydoc IncidenceBase::shiftTimes()
     */
-    virtual void shiftTimes( const KDateTime::Spec &oldSpec,
-                             const KDateTime::Spec &newSpec );
+    virtual void shiftTimes(const KDateTime::Spec &oldSpec,
+                            const KDateTime::Spec &newSpec);
 
     /**
       Sets the incidence description.
@@ -234,7 +234,7 @@ class KCALCORE_EXPORT Incidence
       @param isRich if true indicates the description string contains richtext.
       @see description().
     */
-    void setDescription( const QString &description, bool isRich );
+    void setDescription(const QString &description, bool isRich);
 
     /**
       Sets the incidence description and tries to guess if the description
@@ -243,7 +243,7 @@ class KCALCORE_EXPORT Incidence
       @param description is the incidence description string.
       @see description().
     */
-    void setDescription( const QString &description );
+    void setDescription(const QString &description);
 
     /**
       Returns the incidence description.
@@ -272,7 +272,7 @@ class KCALCORE_EXPORT Incidence
       @param isRich if true indicates the summary string contains richtext.
       @see summary().
     */
-    void setSummary( const QString &summary, bool isRich );
+    void setSummary(const QString &summary, bool isRich);
 
     /**
       Sets the incidence summary and tries to guess if the summary is richtext.
@@ -280,7 +280,7 @@ class KCALCORE_EXPORT Incidence
       @param summary is the incidence summary string.
       @see summary().
     */
-    void setSummary( const QString &summary );
+    void setSummary(const QString &summary);
 
     /**
       Returns the incidence summary.
@@ -309,7 +309,7 @@ class KCALCORE_EXPORT Incidence
       @param isRich if true indicates the location string contains richtext.
       @see location().
     */
-    void setLocation( const QString &location, bool isRich );
+    void setLocation(const QString &location, bool isRich);
 
     /**
       Sets the incidence location and tries to guess if the location is
@@ -318,7 +318,7 @@ class KCALCORE_EXPORT Incidence
       @param location is the incidence location string.
       @see location().
     */
-    void setLocation( const QString &location );
+    void setLocation(const QString &location);
 
     /**
       Returns the incidence location. Do _not_ use with journals.
@@ -346,7 +346,7 @@ class KCALCORE_EXPORT Incidence
       @param categories is a list of category strings.
       @see setCategories( const QString &), categories().
     */
-    void setCategories( const QStringList &categories );
+    void setCategories(const QStringList &categories);
 
     /**
       Sets the incidence category list based on a comma delimited string.
@@ -355,7 +355,7 @@ class KCALCORE_EXPORT Incidence
       are delimited by a comma character.
       @see setCategories( const QStringList &), categories().
     */
-    void setCategories( const QString &catStr );
+    void setCategories(const QString &catStr);
 
     /**
       Returns the incidence categories as a list of strings.
@@ -380,7 +380,7 @@ class KCALCORE_EXPORT Incidence
 
       @see relatedTo().
     */
-    void setRelatedTo( const QString &uid, RelType relType = RelTypeParent );
+    void setRelatedTo(const QString &uid, RelType relType = RelTypeParent);
 
     /**
       Returns a UID string for the incidence that is related to this one.
@@ -393,7 +393,7 @@ class KCALCORE_EXPORT Incidence
 
       @see setRelatedTo().
     */
-    QString relatedTo( RelType relType = RelTypeParent ) const;
+    QString relatedTo(RelType relType = RelTypeParent) const;
 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // %%%%%  Convenience wrappers for property handling
@@ -411,7 +411,7 @@ class KCALCORE_EXPORT Incidence
       @param altdescription is the incidence altdescription string.
       @see altAltdescription().
     */
-    void setAltDescription( const QString &altdescription );
+    void setAltDescription(const QString &altdescription);
 
     /**
       Returns the incidence alternative (=text/html) description.
@@ -447,12 +447,12 @@ class KCALCORE_EXPORT Incidence
     /**
       @copydoc Recurrence::recursOn()
     */
-    virtual bool recursOn( const QDate &date, const KDateTime::Spec &timeSpec ) const;
+    virtual bool recursOn(const QDate &date, const KDateTime::Spec &timeSpec) const;
 
     /**
       @copydoc Recurrence::recursAt()
     */
-    bool recursAt( const KDateTime &dt ) const;
+    bool recursAt(const KDateTime &dt) const;
 
     /**
       Calculates the start date/time for all recurrences that happen at some
@@ -466,8 +466,8 @@ class KCALCORE_EXPORT Incidence
       date at all.
     */
     virtual QList<KDateTime> startDateTimesForDate(
-      const QDate &date,
-      const KDateTime::Spec &timeSpec = KDateTime::LocalZone ) const;
+        const QDate &date,
+        const KDateTime::Spec &timeSpec = KDateTime::LocalZone) const;
 
     /**
       Calculates the start date/time for all recurrences that happen at the
@@ -479,7 +479,7 @@ class KCALCORE_EXPORT Incidence
       given time at all.
     */
     virtual QList<KDateTime> startDateTimesForDateTime(
-      const KDateTime &datetime ) const;
+        const KDateTime &datetime) const;
 
     /**
       Returns the end date/time of the incidence occurrence if it starts at
@@ -490,7 +490,7 @@ class KCALCORE_EXPORT Incidence
       date/time if the end date/time is invalid; or the end date/time if
       the start date/time is invalid.
     */
-    virtual KDateTime endDateForStart( const KDateTime &startDt ) const;
+    virtual KDateTime endDateForStart(const KDateTime &startDt) const;
 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // %%%%%  Attachment-related methods
@@ -502,7 +502,7 @@ class KCALCORE_EXPORT Incidence
       @param attachment is a pointer to a valid Attachment object.
       @see deleteAttachment().
     */
-    void addAttachment( const Attachment::Ptr &attachment );
+    void addAttachment(const Attachment::Ptr &attachment);
 
     /**
       Removes the specified attachment from the incidence.  Additionally,
@@ -511,7 +511,7 @@ class KCALCORE_EXPORT Incidence
       @param attachment is a pointer to a valid Attachment object.
       @see addAttachment(), deleteAttachments().
     */
-    void deleteAttachment( const Attachment::Ptr &attachment );
+    void deleteAttachment(const Attachment::Ptr &attachment);
 
     /**
       Removes all attachments of the specified MIME type from the incidence.
@@ -520,7 +520,7 @@ class KCALCORE_EXPORT Incidence
       @param mime is a QString containing the MIME type.
       @see deleteAttachment().
     */
-    void deleteAttachments( const QString &mime );
+    void deleteAttachments(const QString &mime);
 
     /**
       Returns a list of all incidence attachments.
@@ -534,7 +534,7 @@ class KCALCORE_EXPORT Incidence
       @param mime is a QString containing the MIME type.
       @see attachments().
     */
-    Attachment::List attachments( const QString &mime ) const;
+    Attachment::List attachments(const QString &mime) const;
 
     /**
       Removes all attachments and frees the memory used by them.
@@ -550,7 +550,7 @@ class KCALCORE_EXPORT Incidence
       @return a string containing the name of the temporary file containing the attachment.
       @see clearTempFiles().
     */
-    QString writeAttachmentToTempFile( const Attachment::Ptr &attachment ) const;
+    QString writeAttachmentToTempFile(const Attachment::Ptr &attachment) const;
 
     /**
       Deletes all temporary files used by attachments and frees any memory in use by them.
@@ -568,7 +568,7 @@ class KCALCORE_EXPORT Incidence
       @param secrecy is the incidence #Secrecy to set.
       @see secrecy(), secrecyStr().
     */
-    void setSecrecy( Secrecy secrecy );
+    void setSecrecy(Secrecy secrecy);
 
     /**
       Returns the incidence #Secrecy.
@@ -583,7 +583,7 @@ class KCALCORE_EXPORT Incidence
       @param status is the incidence #Status to set.
       @see status(), setCustomStatus().
     */
-    void setStatus( Status status );
+    void setStatus(Status status);
 
     /**
       Sets the incidence #Status to a non-standard status value.
@@ -592,7 +592,7 @@ class KCALCORE_EXPORT Incidence
       the incidence #Status will be set to StatusNone.
       @see setStatus(), status() customStatus().
     */
-    void setCustomStatus( const QString &status );
+    void setCustomStatus(const QString &status);
 
     /**
        Returns the non-standard status value.
@@ -617,7 +617,7 @@ class KCALCORE_EXPORT Incidence
       @param resources is a list of resource strings.
       @see resources().
     */
-    void setResources( const QStringList &resources );
+    void setResources(const QStringList &resources);
 
     /**
       Returns the incidence resources as a list of strings.
@@ -633,7 +633,7 @@ class KCALCORE_EXPORT Incidence
       @param priority is the incidence priority to set.
       @see priority().
     */
-    void setPriority( int priority );
+    void setPriority(int priority);
 
     /**
       Returns the incidence priority.
@@ -652,14 +652,14 @@ class KCALCORE_EXPORT Incidence
       @param hasGeo true if incidence has geo data, otherwise false
       @see hasGeo(), geoLatitude(), geoLongitude().
     */
-    void setHasGeo( bool hasGeo );
+    void setHasGeo(bool hasGeo);
 
     /**
       Set the incidences geoLatitude.
       @param geolatitude is the incidence geolatitude to set
       @see geoLatitude().
     */
-    void setGeoLatitude( float geolatitude );
+    void setGeoLatitude(float geolatitude);
 
     /**
       Returns the incidence geoLatidude.
@@ -673,7 +673,7 @@ class KCALCORE_EXPORT Incidence
       @param geolongitude is the incidence geolongitude to set
       @see geoLongitude().
     */
-    void setGeoLongitude( float geolongitude );
+    void setGeoLongitude(float geolongitude);
 
     /**
       Returns the incidence geoLongitude.
@@ -695,7 +695,7 @@ class KCALCORE_EXPORT Incidence
       @param recurrenceId is the incidence recurrenceId to set
       @see recurrenceId().
     */
-    void setRecurrenceId( const KDateTime &recurrenceId );
+    void setRecurrenceId(const KDateTime &recurrenceId);
 
     /**
       Returns the incidence recurrenceId.
@@ -711,7 +711,7 @@ class KCALCORE_EXPORT Incidence
       @see thisAndFuture(), setRecurrenceId()
       @since 4.11
     */
-    void setThisAndFuture( bool thisAndFuture );
+    void setThisAndFuture(bool thisAndFuture);
 
     /**
       Returns true if the exception also applies to all future occurrences.
@@ -741,7 +741,7 @@ class KCALCORE_EXPORT Incidence
       @param alarm is a pointer to a valid Alarm object.
       @see removeAlarm().
     */
-    void addAlarm( const Alarm::Ptr &alarm );
+    void addAlarm(const Alarm::Ptr &alarm);
 
     /**
       Removes the specified alarm from the incidence.
@@ -749,7 +749,7 @@ class KCALCORE_EXPORT Incidence
       @param alarm is a pointer to a valid Alarm object.
       @see addAlarm().
     */
-    void removeAlarm( const Alarm::Ptr &alarm );
+    void removeAlarm(const Alarm::Ptr &alarm);
 
     /**
       Removes all alarms.
@@ -790,8 +790,8 @@ class KCALCORE_EXPORT Incidence
              is ignored.
       @see schedulingID().
     */
-    void setSchedulingID( const QString &sid,
-                          const QString &uid = QString() );
+    void setSchedulingID(const QString &sid,
+                         const QString &uid = QString());
 
     /**
       Returns the incidence scheduling ID. Do _not_ use with journals.
@@ -807,7 +807,7 @@ class KCALCORE_EXPORT Incidence
 
       @param recurrence is a pointer to a valid Recurrence object.
     */
-    virtual void recurrenceUpdated( Recurrence *recurrence );
+    virtual void recurrenceUpdated(Recurrence *recurrence);
 
     /**
       Returns the name of the icon that best represents this incidence.
@@ -816,7 +816,7 @@ class KCALCORE_EXPORT Incidence
       for example, completed to-do occurrences. Use this parameter to identify
       the specific occurrence in a recurring serie.
     */
-    virtual QLatin1String iconName( const KDateTime &recurrenceId = KDateTime() ) const = 0;
+    virtual QLatin1String iconName(const KDateTime &recurrenceId = KDateTime()) const = 0;
 
     /**
      * Returns true if the incidence type supports groupware communication.
@@ -835,37 +835,37 @@ class KCALCORE_EXPORT Incidence
      */
     static QStringList mimeTypes();
 
-  protected:
+protected:
 
     /**
       Copy constructor.
       @param other is the incidence to copy.
     */
-    Incidence( const Incidence &other );
+    Incidence(const Incidence &other);
 
     /**
       Compares this with Incidence @p incidence for equality.
       @param incidence is the Incidence to compare against.
       @return true if the incidences are equal; false otherwise.
     */
-    virtual bool equals( const IncidenceBase &incidence ) const;
+    virtual bool equals(const IncidenceBase &incidence) const;
 
     /**
       @copydoc IncidenceBase::assign()
     */
-    virtual IncidenceBase &assign( const IncidenceBase &other );
+    virtual IncidenceBase &assign(const IncidenceBase &other);
 
     void serialize(QDataStream &out);
     void deserialize(QDataStream &in);
 
-  private:
+private:
     /**
       Disabled, not polymorphic.
       Use IncidenceBase::operator= which is safe because it calls
       virtual function assign.
       @param other is another Incidence object to assign to this one.
      */
-    Incidence &operator=( const Incidence &other );
+    Incidence &operator=(const Incidence &other);
 
     //@cond PRIVATE
     class Private;
@@ -876,15 +876,15 @@ class KCALCORE_EXPORT Incidence
 }
 
 //@cond PRIVATE
-inline uint qHash( const QSharedPointer<KCalCore::Incidence> &key )
+inline uint qHash(const QSharedPointer<KCalCore::Incidence> &key)
 {
-  return qHash<KCalCore::Incidence>( key.data() );
+    return qHash<KCalCore::Incidence>(key.data());
 }
 //@endcond
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO( KCalCore::Incidence::Ptr, Q_MOVABLE_TYPE );
-Q_DECLARE_METATYPE( KCalCore::Incidence * )
+Q_DECLARE_TYPEINFO(KCalCore::Incidence::Ptr, Q_MOVABLE_TYPE);
+Q_DECLARE_METATYPE(KCalCore::Incidence *)
 //@endcond
 
 #endif

@@ -40,21 +40,21 @@ namespace KCalCore {
 */
 class KCALCORE_EXPORT FreeBusyUrlStore
 {
-  public:
+public:
     static FreeBusyUrlStore *self();
     ~FreeBusyUrlStore();
 
-    void writeUrl( const QString &email, const QString &url );
+    void writeUrl(const QString &email, const QString &url);
 
-    QString readUrl( const QString &email );
+    QString readUrl(const QString &email);
 
     void sync();
 
-  private:
+private:
     FreeBusyUrlStore();
 
     //@cond PRIVATE
-    Q_DISABLE_COPY( FreeBusyUrlStore )
+    Q_DISABLE_COPY(FreeBusyUrlStore)
     class Private;
     Private *const d;
     //@endcond

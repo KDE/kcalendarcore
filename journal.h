@@ -42,7 +42,7 @@ namespace KCalCore {
 */
 class KCALCORE_EXPORT Journal : public Incidence
 {
-  public:
+public:
     /**
       A shared pointer to a Journal object.
     */
@@ -85,13 +85,13 @@ class KCALCORE_EXPORT Journal : public Incidence
       @copydoc
       IncidenceBase::dateTime(DateTimeRole)const
     */
-    KDateTime dateTime( DateTimeRole role ) const;
+    KDateTime dateTime(DateTimeRole role) const;
 
     /**
       @copydoc
       IncidenceBase::setDateTime(const KDateTime &, DateTimeRole )
     */
-    void setDateTime( const KDateTime &dateTime, DateTimeRole role );
+    void setDateTime(const KDateTime &dateTime, DateTimeRole role);
 
     /**
        @copydoc
@@ -103,39 +103,39 @@ class KCALCORE_EXPORT Journal : public Incidence
        @copydoc
        Incidence::iconName()
     */
-    QLatin1String iconName( const KDateTime &recurrenceId = KDateTime() ) const;
+    QLatin1String iconName(const KDateTime &recurrenceId = KDateTime()) const;
 
     /**
        Returns the Akonadi specific sub MIME type of a KCalCore::Journal.
     */
     static QLatin1String journalMimeType();
 
-  protected:
+protected:
     /**
       Compare this with @p journal for equality.
 
       @param journal is the journal to compare.
     */
-    bool equals( const IncidenceBase &journal ) const;
+    bool equals(const IncidenceBase &journal) const;
 
     /**
       @copydoc
       IncidenceBase::assign()
     */
-    virtual IncidenceBase &assign( const IncidenceBase &other );
+    virtual IncidenceBase &assign(const IncidenceBase &other);
 
     /**
       @copydoc
       IncidenceBase::virtual_hook()
     */
-    virtual void virtual_hook( int id, void *data );
+    virtual void virtual_hook(int id, void *data);
 
-  private:
+private:
     /**
       @copydoc
       IncidenceBase::accept(Visitor &, IncidenceBase::Ptr)
     */
-    bool accept( Visitor &v, IncidenceBase::Ptr incidence );
+    bool accept(Visitor &v, IncidenceBase::Ptr incidence);
 
     /**
       Disabled, otherwise could be dangerous if you subclass Journal.
@@ -143,7 +143,7 @@ class KCALCORE_EXPORT Journal : public Incidence
       virtual function assign().
       @param other is another Journal object to assign to this one.
      */
-    Journal &operator=( const Journal &other );
+    Journal &operator=(const Journal &other);
 
     // For polymorfic serialization
     void serialize(QDataStream &out);
@@ -159,14 +159,14 @@ class KCALCORE_EXPORT Journal : public Incidence
 } // namespace KCalCore
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO( KCalCore::Journal::Ptr, Q_MOVABLE_TYPE );
-Q_DECLARE_METATYPE( KCalCore::Journal::Ptr )
+Q_DECLARE_TYPEINFO(KCalCore::Journal::Ptr, Q_MOVABLE_TYPE);
+Q_DECLARE_METATYPE(KCalCore::Journal::Ptr)
 //@endcond
 
 //@cond PRIVATE
 namespace KPIMUtils {
-  // super class trait specialization
-  template <> struct SuperClass<KCalCore::Journal> : public SuperClassTrait<KCalCore::Incidence>{};
+// super class trait specialization
+template <> struct SuperClass<KCalCore::Journal> : public SuperClassTrait<KCalCore::Incidence> {};
 }
 //@endcond
 

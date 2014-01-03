@@ -54,16 +54,16 @@ namespace KCalCore {
 */
 class KCALCORE_EXPORT CalFilter
 {
-  public:
+public:
     /**
       Filtering Criteria.
     */
     enum Criteria {
-      HideRecurring = 1,     /**< Remove incidences that recur */
-      HideCompletedTodos = 2,/**< Remove completed to-dos */
-      ShowCategories = 4,    /**< Show incidences with at least one matching category */
-      HideInactiveTodos = 8, /**< Remove to-dos that haven't started yet */
-      HideNoMatchingAttendeeTodos = 16 /**< Remove to-dos without a matching attendee */
+        HideRecurring = 1,     /**< Remove incidences that recur */
+        HideCompletedTodos = 2,/**< Remove completed to-dos */
+        ShowCategories = 4,    /**< Show incidences with at least one matching category */
+        HideInactiveTodos = 8, /**< Remove to-dos that haven't started yet */
+        HideNoMatchingAttendeeTodos = 16 /**< Remove to-dos without a matching attendee */
     };
 
     /**
@@ -76,7 +76,7 @@ class KCALCORE_EXPORT CalFilter
 
       @param name is the name of this filter.
     */
-    explicit CalFilter( const QString &name );
+    explicit CalFilter(const QString &name);
 
     /**
       Destroys this filter.
@@ -89,7 +89,7 @@ class KCALCORE_EXPORT CalFilter
       @param name is the name of this filter.
       @see name().
     */
-    void setName( const QString &name );
+    void setName(const QString &name);
 
     /**
       Returns the filter name.
@@ -104,7 +104,7 @@ class KCALCORE_EXPORT CalFilter
       @param criteria is a combination of #Criteria.
       @see criteria().
     */
-    void setCriteria( int criteria );
+    void setCriteria(int criteria);
 
     /**
       Returns the inclusive filter criteria.
@@ -118,7 +118,7 @@ class KCALCORE_EXPORT CalFilter
 
       @param eventList is a list of Events to filter.
     */
-    void apply( Event::List *eventList ) const;
+    void apply(Event::List *eventList) const;
 
     /**
       Applies the filter to a list of To-dos. All to-dos not matching the
@@ -126,7 +126,7 @@ class KCALCORE_EXPORT CalFilter
 
       @param todoList is a list of To-dos to filter.
     */
-    void apply( Todo::List *todoList ) const;
+    void apply(Todo::List *todoList) const;
 
     /**
       Applies the filter to a list of Journals. All journals not matching the
@@ -134,7 +134,7 @@ class KCALCORE_EXPORT CalFilter
 
       @param journalList is a list of Journals to filter.
     */
-    void apply( Journal::List *journalList ) const;
+    void apply(Journal::List *journalList) const;
 
     /**
       Applies the filter criteria to the specified Incidence.
@@ -142,7 +142,7 @@ class KCALCORE_EXPORT CalFilter
       @param incidence is the Incidence to filter.
       @return true if the Incidence passes the criteria; false otherwise.
     */
-    bool filterIncidence( Incidence::Ptr incidence ) const;
+    bool filterIncidence(Incidence::Ptr incidence) const;
 
     /**
       Enables or disables the filter.
@@ -150,7 +150,7 @@ class KCALCORE_EXPORT CalFilter
       @param enabled is true if the filter is to be enabled; false otherwise.
       @see isEnabled().
     */
-    void setEnabled( bool enabled );
+    void setEnabled(bool enabled);
 
     /**
       Returns whether the filter is enabled or not.
@@ -165,7 +165,7 @@ class KCALCORE_EXPORT CalFilter
       @param categoryList is a QStringList of categories.
       @see categoryList().
     */
-    void setCategoryList( const QStringList &categoryList );
+    void setCategoryList(const QStringList &categoryList);
 
     /**
       Returns the category list for this filter.
@@ -180,7 +180,7 @@ class KCALCORE_EXPORT CalFilter
       @param emailList is a QStringList of email addresses.
       @see emailList().
     */
-    void setEmailList( const QStringList &emailList );
+    void setEmailList(const QStringList &emailList);
 
     /**
       Returns the email list for this filter.
@@ -198,7 +198,7 @@ class KCALCORE_EXPORT CalFilter
       @param timespan is an integer representing a time span in days.
       @see completedTimeSpan().
      */
-    void setCompletedTimeSpan( int timespan );
+    void setCompletedTimeSpan(int timespan);
 
     /**
       Returns the completed time span for this filter.
@@ -211,11 +211,11 @@ class KCALCORE_EXPORT CalFilter
 
       @param filter the CalFilter to compare.
     */
-    bool operator==( const CalFilter &filter ) const;
+    bool operator==(const CalFilter &filter) const;
 
-  private:
+private:
     //@cond PRIVATE
-    Q_DISABLE_COPY( CalFilter )
+    Q_DISABLE_COPY(CalFilter)
     class Private;
     Private *const d;
     //@endcond

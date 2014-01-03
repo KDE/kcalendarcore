@@ -25,8 +25,8 @@ class testcreateddatecompat
 
 class CreatedDateCompatTest : public QObject
 {
-  Q_OBJECT
-  private Q_SLOTS:
+    Q_OBJECT
+private Q_SLOTS:
     void testCompat32();
     void testCompat33();
 };

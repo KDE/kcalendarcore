@@ -45,23 +45,23 @@ class Calendar;
  */
 class KCALCORE_EXPORT OccurrenceIterator
 {
-  public:
+public:
     /**
      * Creates iterator that iterates over all occurrences of all incidences
      * between @param start and @param end (inclusive)
      */
-    explicit OccurrenceIterator( const Calendar &calendar,
-                                 const KDateTime &start = KDateTime(),
-                                 const KDateTime &end = KDateTime() );
+    explicit OccurrenceIterator(const Calendar &calendar,
+                                const KDateTime &start = KDateTime(),
+                                const KDateTime &end = KDateTime());
 
     /**
      * Creates iterator that iterates over all occurrences
      * of @param incidence between @param start and @param end (inclusive)
      */
-    OccurrenceIterator( const Calendar &calendar,
-                        const KCalCore::Incidence::Ptr &incidence,
-                        const KDateTime &start = KDateTime(),
-                        const KDateTime &end = KDateTime() );
+    OccurrenceIterator(const Calendar &calendar,
+                       const KCalCore::Incidence::Ptr &incidence,
+                       const KDateTime &start = KDateTime(),
+                       const KDateTime &end = KDateTime());
     ~OccurrenceIterator();
     bool hasNext() const;
 
@@ -83,8 +83,8 @@ class KCALCORE_EXPORT OccurrenceIterator
      */
     KDateTime occurrenceStartDate() const;
 
-  private:
-     Q_DISABLE_COPY(OccurrenceIterator)
+private:
+    Q_DISABLE_COPY(OccurrenceIterator)
     //@cond PRIVATE
     class Private;
     QScopedPointer<Private> d;

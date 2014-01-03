@@ -29,39 +29,39 @@
 
 using namespace KCalCore;
 
-int main( int argc, char **argv )
+int main(int argc, char **argv)
 {
-  KAboutData aboutData( "testcalendar", 0, ki18n( "Test Calendar" ), "0.1" );
-  KCmdLineArgs::init( argc, argv, &aboutData );
+    KAboutData aboutData("testcalendar", 0, ki18n("Test Calendar"), "0.1");
+    KCmdLineArgs::init(argc, argv, &aboutData);
 
-  KCmdLineOptions options;
-  options.add( "verbose", ki18n( "Verbose output" ) );
-  KCmdLineArgs::addCmdLineOptions( options );
+    KCmdLineOptions options;
+    options.add("verbose", ki18n("Verbose output"));
+    KCmdLineArgs::addCmdLineOptions(options);
 
-  KComponentData componentData( &aboutData );
-  //QCoreApplication app( KCmdLineArgs::qtArgc(), KCmdLineArgs::qtArgv() );
+    KComponentData componentData(&aboutData);
+    //QCoreApplication app( KCmdLineArgs::qtArgc(), KCmdLineArgs::qtArgv() );
 
-  KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+    KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
-  Q_UNUSED( args );
+    Q_UNUSED(args);
 
-  MemoryCalendar::Ptr cal( new MemoryCalendar( KDateTime::UTC ) );
-  FileStorage store( cal, "cal" );
-  store.load();
+    MemoryCalendar::Ptr cal(new MemoryCalendar(KDateTime::UTC));
+    FileStorage store(cal, "cal");
+    store.load();
 
-  Todo::List todoList;
+    Todo::List todoList;
 
-  // Build dictionary to look up Task object from Todo uid.  Each task is a
-  // QListViewItem, and is initially added with the view as the parent.
-  todoList = cal->rawTodos();
-  kDebug() << ( *todoList.begin() )->uid();
-  QString result = ( *todoList.begin() )->customProperty( QByteArray( "karm" ),
-                                                          QByteArray( "totalTaskTime" ) );
-  kDebug() << result;
-  if ( result != QString( "a,b" ) ) {
-    kDebug() << "The string a,b was expected, but given was" << result;
-    return 1;
-  } else {
-    kDebug() << "Test passed";
-  }
+    // Build dictionary to look up Task object from Todo uid.  Each task is a
+    // QListViewItem, and is initially added with the view as the parent.
+    todoList = cal->rawTodos();
+    kDebug() << (*todoList.begin())->uid();
+    QString result = (*todoList.begin())->customProperty(QByteArray("karm"),
+                     QByteArray("totalTaskTime"));
+    kDebug() << result;
+    if (result != QString("a,b")) {
+        kDebug() << "The string a,b was expected, but given was" << result;
+        return 1;
+    } else {
+        kDebug() << "Test passed";
+    }
 }

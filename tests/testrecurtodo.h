@@ -26,8 +26,8 @@
 
 class RecurTodoTest : public QObject
 {
-  Q_OBJECT
-  private Q_SLOTS:
+    Q_OBJECT
+private Q_SLOTS:
     void testAllDay();
     void testNonAllDay();
     void testIsAllDay();

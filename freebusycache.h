@@ -46,7 +46,7 @@ class Person;
 */
 class KCALCORE_EXPORT FreeBusyCache
 {
-  public:
+public:
     /**
       Destructor.
     */
@@ -59,7 +59,7 @@ class KCALCORE_EXPORT FreeBusyCache
       @param person is a valid Person instance.
       @return true if the save was successful; false otherwise.
     */
-    virtual bool saveFreeBusy( const FreeBusy::Ptr &freebusy, const Person::Ptr &person ) = 0;
+    virtual bool saveFreeBusy(const FreeBusy::Ptr &freebusy, const Person::Ptr &person) = 0;
 
     /**
       Load freebusy information belonging to an email.
@@ -69,13 +69,13 @@ class KCALCORE_EXPORT FreeBusyCache
       @return A pointer to the FreeBusy object loaded for the specified email; returns 0 if
         there was some problem attempting to load the FreeBusy information.
     */
-    virtual FreeBusy::Ptr loadFreeBusy( const QString &email ) = 0;
+    virtual FreeBusy::Ptr loadFreeBusy(const QString &email) = 0;
 
-  protected:
+protected:
     /**
       @copydoc IncidenceBase::virtual_hook()
     */
-    virtual void virtual_hook( int id, void *data );
+    virtual void virtual_hook(int id, void *data);
 };
 
 }

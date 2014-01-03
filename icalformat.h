@@ -57,7 +57,7 @@ class RecurrenceRule;
 */
 class KCALCORE_EXPORT ICalFormat : public CalFormat
 {
-  public:
+public:
     /**
       Constructor a new iCalendar Format object.
     */
@@ -72,13 +72,13 @@ class KCALCORE_EXPORT ICalFormat : public CalFormat
       @copydoc
       CalFormat::load()
     */
-    bool load( const Calendar::Ptr &calendar, const QString &fileName );
+    bool load(const Calendar::Ptr &calendar, const QString &fileName);
 
     /**
       @copydoc
       CalFormat::save()
     */
-    bool save( const Calendar::Ptr &calendar, const QString &fileName );
+    bool save(const Calendar::Ptr &calendar, const QString &fileName);
 
     /**
       @copydoc
@@ -86,8 +86,8 @@ class KCALCORE_EXPORT ICalFormat : public CalFormat
 
       @note The notebook is ignored and the default one is used
     */
-    bool fromString( const Calendar::Ptr &calendar, const QString &string,
-                     bool deleted = false, const QString &notebook = QString() );
+    bool fromString(const Calendar::Ptr &calendar, const QString &string,
+                    bool deleted = false, const QString &notebook = QString());
 
     /**
       Parses a string, returning the first iCal component as an Incidence.
@@ -97,7 +97,7 @@ class KCALCORE_EXPORT ICalFormat : public CalFormat
       @return non-zero pointer if the parsing was successful; 0 otherwise.
       @see fromString(const Calendar::Ptr &, const QString &), fromRawString()
     */
-    Incidence::Ptr fromString( const QString &string );
+    Incidence::Ptr fromString(const QString &string);
 
     /**
       Parses a string and fills a RecurrenceRule object with the information.
@@ -106,21 +106,21 @@ class KCALCORE_EXPORT ICalFormat : public CalFormat
       @param string is a QString containing the data to be parsed.
       @return true if successful; false otherwise.
     */
-    bool fromString ( RecurrenceRule *rule, const QString &string );
+    bool fromString(RecurrenceRule *rule, const QString &string);
 
     /**
       @copydoc
       CalFormat::fromRawString()
     */
-    bool fromRawString( const Calendar::Ptr &calendar, const QByteArray &string,
-                        bool deleted = false, const QString &notebook = QString() );
+    bool fromRawString(const Calendar::Ptr &calendar, const QByteArray &string,
+                       bool deleted = false, const QString &notebook = QString());
 
     /**
       @copydoc
       CalFormat::toString()
     */
-    QString toString( const Calendar::Ptr &calendar,
-                      const QString &notebook = QString(), bool deleted = false );
+    QString toString(const Calendar::Ptr &calendar,
+                     const QString &notebook = QString(), bool deleted = false);
 
     /**
       Converts an Incidence to a QString.
@@ -129,7 +129,7 @@ class KCALCORE_EXPORT ICalFormat : public CalFormat
 
       @return the QString will be Null if the conversion was unsuccessful.
     */
-    QString toString( const Incidence::Ptr &incidence );
+    QString toString(const Incidence::Ptr &incidence);
 
     /**
       Converts an Incidence to a QByteArray.
@@ -139,7 +139,7 @@ class KCALCORE_EXPORT ICalFormat : public CalFormat
       @return the QString will be Null if the conversion was unsuccessful.
       @since 4.7
     */
-    QByteArray toRawString( const Incidence::Ptr &incidence );
+    QByteArray toRawString(const Incidence::Ptr &incidence);
 
     /**
       Converts a RecurrenceRule to a QString.
@@ -148,7 +148,7 @@ class KCALCORE_EXPORT ICalFormat : public CalFormat
 
       @return the QString will be Null if the conversion was unsuccessful.
     */
-    QString toString( RecurrenceRule *rule );
+    QString toString(RecurrenceRule *rule);
 
     /**
       Converts an Incidence to iCalendar formatted text.
@@ -157,7 +157,7 @@ class KCALCORE_EXPORT ICalFormat : public CalFormat
       into iCal formatted text.
       @return the QString will be Null if the conversion was unsuccessful.
     */
-    QString toICalString( const Incidence::Ptr &incidence );
+    QString toICalString(const Incidence::Ptr &incidence);
 
     /**
       Creates a scheduling message string for an Incidence.
@@ -167,8 +167,8 @@ class KCALCORE_EXPORT ICalFormat : public CalFormat
 
       @return a QString containing the message if successful; 0 otherwise.
     */
-    QString createScheduleMessage( const IncidenceBase::Ptr &incidence,
-                                   iTIPMethod method );
+    QString createScheduleMessage(const IncidenceBase::Ptr &incidence,
+                                  iTIPMethod method);
 
     /**
       Parses a Calendar scheduling message string into ScheduleMessage object.
@@ -180,8 +180,8 @@ class KCALCORE_EXPORT ICalFormat : public CalFormat
       @return a pointer to a ScheduleMessage object if successful; 0 otherwise.
       The calling routine may later free the return memory.
     */
-    ScheduleMessage::Ptr parseScheduleMessage( const Calendar::Ptr &calendar,
-                                               const QString &string );
+    ScheduleMessage::Ptr parseScheduleMessage(const Calendar::Ptr &calendar,
+            const QString &string);
 
     /**
       Converts a QString into a FreeBusy object.
@@ -191,14 +191,14 @@ class KCALCORE_EXPORT ICalFormat : public CalFormat
 
       @note Do not attempt to free the FreeBusy memory from the calling routine.
     */
-    FreeBusy::Ptr parseFreeBusy( const QString &string );
+    FreeBusy::Ptr parseFreeBusy(const QString &string);
 
     /**
       Sets the iCalendar time specification (time zone, etc.).
       @param timeSpec is the time specification to set.
       @see timeSpec().
     */
-    void setTimeSpec( const KDateTime::Spec &timeSpec );
+    void setTimeSpec(const KDateTime::Spec &timeSpec);
 
     /**
       Returns the iCalendar time specification.
@@ -212,16 +212,16 @@ class KCALCORE_EXPORT ICalFormat : public CalFormat
     */
     QString timeZoneId() const;
 
-  protected:
+protected:
     /**
       @copydoc
       IncidenceBase::virtual_hook()
     */
-    virtual void virtual_hook( int id, void *data );
+    virtual void virtual_hook(int id, void *data);
 
-  private:
+private:
     //@cond PRIVATE
-    Q_DISABLE_COPY( ICalFormat )
+    Q_DISABLE_COPY(ICalFormat)
     class Private;
     Private *const d;
     //@endcond

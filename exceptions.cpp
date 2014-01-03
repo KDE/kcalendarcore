@@ -38,8 +38,8 @@
 
 using namespace KCalCore;
 
-Exception::Exception( const ErrorCode code, const QStringList &arguments )
-  : mCode( code ), mArguments( arguments ), d( 0 )
+Exception::Exception(const ErrorCode code, const QStringList &arguments)
+    : mCode(code), mArguments(arguments), d(0)
 {
 }
 
@@ -49,12 +49,12 @@ Exception::~Exception()
 
 Exception::ErrorCode Exception::code() const
 {
-  return mCode;
+    return mCode;
 }
 
 QStringList Exception::arguments() const
 {
-  return mArguments;
+    return mArguments;
 }
 
 /**

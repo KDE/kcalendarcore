@@ -40,25 +40,25 @@ using namespace KCalCore;
 //@cond PRIVATE
 class KCalCore::CalStorage::Private
 {
-  public:
-    Private( const Calendar::Ptr &cal )
-      : mCalendar( cal )
+public:
+    Private(const Calendar::Ptr &cal)
+        : mCalendar(cal)
     {}
     Calendar::Ptr mCalendar;
 };
 //@endcond
 
-CalStorage::CalStorage( const Calendar::Ptr &calendar )
-  : d( new KCalCore::CalStorage::Private ( calendar ) )
+CalStorage::CalStorage(const Calendar::Ptr &calendar)
+    : d(new KCalCore::CalStorage::Private(calendar))
 {
 }
 
 CalStorage::~CalStorage()
 {
-  delete d;
+    delete d;
 }
 
 Calendar::Ptr CalStorage::calendar() const
 {
-  return d->mCalendar;
+    return d->mCalendar;
 }

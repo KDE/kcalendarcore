@@ -88,12 +88,12 @@ class Todo;
 */
 class ICalFormatImpl
 {
-  public:
+public:
     /**
       Construct a new iCal format for calendar object.
       @param parent is a pointer to a valid ICalFormat object.
     */
-    explicit ICalFormatImpl( ICalFormat *parent );
+    explicit ICalFormatImpl(ICalFormat *parent);
 
     /**
       Destructor.
@@ -105,68 +105,68 @@ class ICalFormatImpl
       existing in @p calendar are not affected except that if a new incidence
       with the same UID is found, the existing incidence is replaced.
     */
-    bool populate( const Calendar::Ptr &calendar, icalcomponent *fs,
-                   bool deleted = false, const QString &notebook = QString() );
+    bool populate(const Calendar::Ptr &calendar, icalcomponent *fs,
+                  bool deleted = false, const QString &notebook = QString());
 
-    icalcomponent *writeIncidence( const IncidenceBase::Ptr &incidence,
-                                   iTIPMethod method = iTIPRequest,
-                                   ICalTimeZones *tzList = 0,
-                                   ICalTimeZones *tzUsedList = 0 );
+    icalcomponent *writeIncidence(const IncidenceBase::Ptr &incidence,
+                                  iTIPMethod method = iTIPRequest,
+                                  ICalTimeZones *tzList = 0,
+                                  ICalTimeZones *tzUsedList = 0);
 
-    icalcomponent *writeTodo( const Todo::Ptr &todo, ICalTimeZones *tzlist = 0,
-                              ICalTimeZones *tzUsedList = 0 );
+    icalcomponent *writeTodo(const Todo::Ptr &todo, ICalTimeZones *tzlist = 0,
+                             ICalTimeZones *tzUsedList = 0);
 
-    icalcomponent *writeEvent( const Event::Ptr &event, ICalTimeZones *tzlist = 0,
-                               ICalTimeZones *tzUsedList = 0 );
+    icalcomponent *writeEvent(const Event::Ptr &event, ICalTimeZones *tzlist = 0,
+                              ICalTimeZones *tzUsedList = 0);
 
-    icalcomponent *writeJournal( const Journal::Ptr &journal, ICalTimeZones *tzlist = 0,
-                                 ICalTimeZones *tzUsedList = 0 );
+    icalcomponent *writeJournal(const Journal::Ptr &journal, ICalTimeZones *tzlist = 0,
+                                ICalTimeZones *tzUsedList = 0);
 
-    icalcomponent *writeFreeBusy( const FreeBusy::Ptr &freebusy,
-                                  iTIPMethod method = iTIPPublish );
+    icalcomponent *writeFreeBusy(const FreeBusy::Ptr &freebusy,
+                                 iTIPMethod method = iTIPPublish);
 
-    void writeIncidence( icalcomponent *parent, const Incidence::Ptr &incidence,
-                         ICalTimeZones *tzlist = 0, ICalTimeZones *tzUsedList = 0 );
+    void writeIncidence(icalcomponent *parent, const Incidence::Ptr &incidence,
+                        ICalTimeZones *tzlist = 0, ICalTimeZones *tzUsedList = 0);
 
-    icalproperty *writeDescription( const QString &description, bool isRich = false );
-    icalproperty *writeSummary( const QString &summary, bool isRich = false );
-    icalproperty *writeLocation( const QString &location, bool isRich = false );
-    icalproperty *writeAttendee( const Attendee::Ptr &attendee );
-    icalproperty *writeOrganizer( const Person::Ptr &organizer );
-    icalproperty *writeAttachment( const Attachment::Ptr &attach );
-    icalproperty *writeRecurrenceRule( Recurrence * );
-    icalrecurrencetype writeRecurrenceRule( RecurrenceRule *recur );
-    icalcomponent *writeAlarm( const Alarm::Ptr &alarm );
+    icalproperty *writeDescription(const QString &description, bool isRich = false);
+    icalproperty *writeSummary(const QString &summary, bool isRich = false);
+    icalproperty *writeLocation(const QString &location, bool isRich = false);
+    icalproperty *writeAttendee(const Attendee::Ptr &attendee);
+    icalproperty *writeOrganizer(const Person::Ptr &organizer);
+    icalproperty *writeAttachment(const Attachment::Ptr &attach);
+    icalproperty *writeRecurrenceRule(Recurrence *);
+    icalrecurrencetype writeRecurrenceRule(RecurrenceRule *recur);
+    icalcomponent *writeAlarm(const Alarm::Ptr &alarm);
 
-    QString extractErrorProperty( icalcomponent * );
-    Todo::Ptr readTodo( icalcomponent *vtodo, ICalTimeZones *tzlist );
-    Event::Ptr readEvent( icalcomponent *vevent, ICalTimeZones *tzlist );
-    FreeBusy::Ptr readFreeBusy( icalcomponent *vfreebusy );
-    Journal::Ptr readJournal( icalcomponent *vjournal, ICalTimeZones *tzlist );
-    Attendee::Ptr readAttendee( icalproperty *attendee );
-    Person::Ptr readOrganizer( icalproperty *organizer );
-    Attachment::Ptr readAttachment( icalproperty *attach );
-    void readIncidence( icalcomponent *parent, Incidence::Ptr incidence,
-                        ICalTimeZones *tzlist );
-    void readRecurrenceRule( icalproperty *rrule, Incidence::Ptr event );
-    void readExceptionRule( icalproperty *rrule, Incidence::Ptr incidence );
-    void readRecurrence( const struct icalrecurrencetype &r,
-                         RecurrenceRule *recur );
-    void readAlarm( icalcomponent *alarm, Incidence::Ptr incidence,
-                    ICalTimeZones *tzlist );
+    QString extractErrorProperty(icalcomponent *);
+    Todo::Ptr readTodo(icalcomponent *vtodo, ICalTimeZones *tzlist);
+    Event::Ptr readEvent(icalcomponent *vevent, ICalTimeZones *tzlist);
+    FreeBusy::Ptr readFreeBusy(icalcomponent *vfreebusy);
+    Journal::Ptr readJournal(icalcomponent *vjournal, ICalTimeZones *tzlist);
+    Attendee::Ptr readAttendee(icalproperty *attendee);
+    Person::Ptr readOrganizer(icalproperty *organizer);
+    Attachment::Ptr readAttachment(icalproperty *attach);
+    void readIncidence(icalcomponent *parent, Incidence::Ptr incidence,
+                       ICalTimeZones *tzlist);
+    void readRecurrenceRule(icalproperty *rrule, Incidence::Ptr event);
+    void readExceptionRule(icalproperty *rrule, Incidence::Ptr incidence);
+    void readRecurrence(const struct icalrecurrencetype &r,
+                        RecurrenceRule *recur);
+    void readAlarm(icalcomponent *alarm, Incidence::Ptr incidence,
+                   ICalTimeZones *tzlist);
 
     /**
       Returns the PRODID string loaded from calendar file.
     */
     QString loadedProductId() const;
 
-    static icaltimetype writeICalDate( const QDate & );
+    static icaltimetype writeICalDate(const QDate &);
 
     static QDate readICalDate(icaltimetype);
 
-    static icaltimetype writeICalDateTime( const KDateTime & );
+    static icaltimetype writeICalDateTime(const KDateTime &);
 
-    static icaltimetype writeICalUtcDateTime( const KDateTime & );
+    static icaltimetype writeICalUtcDateTime(const KDateTime &);
 
     /**
       Creates an ical property from a date/time value.
@@ -183,10 +183,10 @@ class ICalFormatImpl
       @return property, or null if error. It is the caller's responsibility
       to free the returned property.
     */
-    static icalproperty *writeICalDateTimeProperty( const icalproperty_kind kind,
-                                                    const KDateTime &dt,
-                                                    ICalTimeZones *tzlist = 0,
-                                                    ICalTimeZones *tzUsedList = 0 );
+    static icalproperty *writeICalDateTimeProperty(const icalproperty_kind kind,
+            const KDateTime &dt,
+            ICalTimeZones *tzlist = 0,
+            ICalTimeZones *tzUsedList = 0);
 
     /**
       Converts a date/time from ICal format.
@@ -200,8 +200,8 @@ class ICalFormatImpl
       @param utc    UTC date/time is expected
       @return date/time, converted to UTC if @p utc is @c true
     */
-    static KDateTime readICalDateTime( icalproperty *p, const icaltimetype &t,
-                                       ICalTimeZones *tzlist, bool utc = false );
+    static KDateTime readICalDateTime(icalproperty *p, const icaltimetype &t,
+                                      ICalTimeZones *tzlist, bool utc = false);
 
     /**
       Converts a UTC date/time from ICal format.
@@ -212,11 +212,11 @@ class ICalFormatImpl
       @param tzlist time zones collection
       @return date/time, or invalid if @p t is not UTC
     */
-    static KDateTime readICalUtcDateTime( icalproperty *p, icaltimetype &t,
-                                          ICalTimeZones *tzlist = 0 )
+    static KDateTime readICalUtcDateTime(icalproperty *p, icaltimetype &t,
+                                         ICalTimeZones *tzlist = 0)
     //TODO: KDE5, move this implementation to icalformat_p.cpp
     {
-      return readICalDateTime( p, t, tzlist, true );
+        return readICalDateTime(p, t, tzlist, true);
     }
 
     /**
@@ -229,31 +229,33 @@ class ICalFormatImpl
       @return date or date/time, or invalid if property doesn't contain
       a time value.
     */
-    static KDateTime readICalDateTimeProperty( icalproperty *p,
-                                               ICalTimeZones *tzlist, bool utc = false );
+    static KDateTime readICalDateTimeProperty(icalproperty *p,
+            ICalTimeZones *tzlist, bool utc = false);
 
     /**
       Reads a UTC date/time value from a property.
       @param p is a pointer to a valid icalproperty structure.
     */
-    static KDateTime readICalUtcDateTimeProperty( icalproperty *p )
-    { return readICalDateTimeProperty( p, 0, true ); }
+    static KDateTime readICalUtcDateTimeProperty(icalproperty *p)
+    {
+        return readICalDateTimeProperty(p, 0, true);
+    }
 
-    static icaldurationtype writeICalDuration( const Duration &duration );
+    static icaldurationtype writeICalDuration(const Duration &duration);
 
-    static Duration readICalDuration( icaldurationtype d );
+    static Duration readICalDuration(icaldurationtype d);
 
-    static icaldatetimeperiodtype writeICalDatePeriod( const QDate &date );
+    static icaldatetimeperiodtype writeICalDatePeriod(const QDate &date);
 
-    icalcomponent *createCalendarComponent( const Calendar::Ptr &calendar = Calendar::Ptr() );
+    icalcomponent *createCalendarComponent(const Calendar::Ptr &calendar = Calendar::Ptr());
 
-    icalcomponent *createScheduleComponent( const IncidenceBase::Ptr &incidence,
-                                            iTIPMethod method );
+    icalcomponent *createScheduleComponent(const IncidenceBase::Ptr &incidence,
+                                           iTIPMethod method);
 
-  protected:
+protected:
     // void dumpIcalRecurrence( const icalrecurrencetype &r );
 
-  private:
+private:
     //@cond PRIVATE
     class Private;
     Private *const d;
