@@ -38,7 +38,6 @@
 #include <QDate>
 #include <QDataStream>
 #include <KDateTime>
-#include <KDebug>
 
 using namespace KCalCore;
 
@@ -60,7 +59,7 @@ public:
 
     MemoryCalendar *q;
     CalFormat *mFormat;                    // calendar format
-    QString mIncidenceBeingUpdated;        //  Instance identifier of Incidence currently beeing updated
+    QString mIncidenceBeingUpdated;        //  Instance identifier of Incidence currently being updated
 
     /**
      * List of all incidences.
