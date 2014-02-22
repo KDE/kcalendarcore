@@ -101,6 +101,7 @@ Compat *CompatFactory::createCompat(const QString &productId,
 }
 
 Compat::Compat()
+   : d( 0 )
 {
 }
 
