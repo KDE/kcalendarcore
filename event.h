@@ -129,7 +129,7 @@ public:
     /**
       Sets whether the event has an end date/time.
       @param b If set, indicates the event has an end date.
-      @deprecated Use setDtEnd( KDateTime() )
+      @deprecated Use setDtEnd( KDateTime() ) instead of setHasEndDate( false )
     */
     KCALCORE_DEPRECATED void setHasEndDate(bool b);
 
