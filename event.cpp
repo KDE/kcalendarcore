@@ -139,8 +139,8 @@ void Event::setDtEnd(const KDateTime &dtEnd)
 
     d->mDtEnd = dtEnd;
     d->mMultiDayValid = false;
-    if (dtEnd.isValid()) {
-        setHasEndDate(true);
+    d->mHasEndDate = dtEnd.isValid();
+    if (d->mHasEndDate) {
         setHasDuration(false);
     }
     setFieldDirty(FieldDtEnd);
