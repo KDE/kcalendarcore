@@ -4,7 +4,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 include(GenerateExportHeader)
 
-find_package(ECM 0.0.9 REQUIRED NO_MODULE)
+find_package(ECM 0.0.11 REQUIRED NO_MODULE)
 ecm_setup_version(5.0.0 VARIABLE_PREFIX KCALCORE
                         VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kcalcore_version.h"
                         PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KF5KCalCoreConfigVersion.cmake")
