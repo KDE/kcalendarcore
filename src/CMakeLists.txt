@@ -13,7 +13,8 @@ set(libversit_SRCS
   ${CMAKE_CURRENT_SOURCE_DIR}/versit/vobject.c
 )
 
-set(kcalcore_LIB_SRCS ${libversit_SRCS}
+set(kcalcore_LIB_SRCS
+  ${libversit_SRCS}
   alarm.cpp
   attachment.cpp
   attendee.cpp
@@ -66,6 +67,47 @@ set_target_properties(kcalcore PROPERTIES
 
 install(TARGETS kcalcore EXPORT kdepimlibsLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
 
+########### Generate Headers ###############
+ecm_generate_headers(KCalCore_HEADERS
+  HEADER_NAMES
+  Alarm
+  Attachment
+  Attendee
+  CalFilter
+  CalFormat
+  CalStorage
+  Calendar
+  Compat
+  CustomProperties
+  Duration
+  Event
+  Exception
+  FileStorage
+  FreeBusy
+  FreeBusyCache
+  FreeBusyPeriod
+  FreeBusyUrlStore
+  ICalFormat
+  ICalTimeZones
+  Incidence
+  IncidenceBase
+  Journal
+  MemoryCalendar
+  OccurrenceIterator
+  Period
+  Person
+  Recurrence
+  RecurrenceRule
+  ScheduleMessage
+  SortableList
+  Sorting
+  Todo
+  VCalFormat
+  Visitor
+
+  REQUIRED_HEADERS KCalCore_HEADERS
+)
+
 ########### install files ###############
 
 install(FILES
@@ -105,4 +147,5 @@ install(FILES
   todo.h
   vcalformat.h
   visitor.h
+  ${KCalCore_HEADERS}
   DESTINATION ${INCLUDE_INSTALL_DIR}/kcalcore COMPONENT Devel)
