@@ -86,7 +86,7 @@ set_target_properties(KF5CalendarCore PROPERTIES
 install(TARGETS KF5CalendarCore EXPORT KF5CalendarCoreTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 ########### Generate Headers ###############
-ecm_generate_headers(KCalCore_HEADERS
+ecm_generate_headers(KCalCore_CamelCase_HEADERS
   HEADER_NAMES
   Alarm
   Attachment
@@ -124,47 +124,19 @@ ecm_generate_headers(KCalCore_HEADERS
   Visitor
 
   REQUIRED_HEADERS KCalCore_HEADERS
+  PREFIX KCalCore
 )
 
 ########### install files ###############
 
 install(FILES
+    ${KCalCore_CamelCase_HEADERS}
+    DESTINATION ${INCLUDE_INSTALL_DIR}/KCalCore
+    COMPONENT Devel
+)
+
+install(FILES
   ${CMAKE_CURRENT_BINARY_DIR}/kcalcore_export.h
-  alarm.h
-  attachment.h
-  attendee.h
-  calendar.h
-  calfilter.h
-  calformat.h
-  calstorage.h
-  compat.h
-  customproperties.h
-  duration.h
-  event.h
-  exceptions.h
-  filestorage.h
-  freebusy.h
-  freebusycache.h
-  freebusyperiod.h
-  freebusyurlstore.h
-  icalformat.h
-  icaltimezones.h
-  incidence.h
-  incidencebase.h
-  journal.h
-  memorycalendar.h
-  occurrenceiterator.h
-  period.h
-  person.h
-  recurrence.h
-  recurrencerule.h
-  schedulemessage.h
-  sortablelist.h
-  sorting.h
-  supertrait.h
-  todo.h
-  vcalformat.h
-  visitor.h
   ${KCalCore_HEADERS}
   DESTINATION ${INCLUDE_INSTALL_DIR}/kcalcore
   COMPONENT Devel
