@@ -80,6 +80,11 @@ install(EXPORT KF5CalendarCoreTargets
     NAMESPACE KF5::
 )
 
+install(FILES
+   ${CMAKE_CURRENT_BINARY_DIR}/kcalcore_version.h
+  DESTINATION ${INCLUDE_INSTALL_DIR} COMPONENT Devel
+)
+
 if ("${CMAKE_BINARY_DIR}" STREQUAL "${KCalCore_BINARY_DIR}")
   feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 endif()
