@@ -59,7 +59,7 @@ add_subdirectory(src)
 #add_subdirectory(autotests)
 
 ########### CMake Config Files ###########
-set(CMAKECONFIG_INSTALL_DIR "${CMAKECONFIG_INSTALL_PREFIX}/KF5Syndication")
+set(CMAKECONFIG_INSTALL_DIR "${CMAKECONFIG_INSTALL_PREFIX}/KF5CalendarCore")
 
 ecm_configure_package_config_file(
   "${CMAKE_CURRENT_SOURCE_DIR}/KF5CalendarCoreConfig.cmake.in"
@@ -79,7 +79,6 @@ install(EXPORT KF5CalendarCoreTargets
     FILE KF5CalendarCoreTargets.cmake
     NAMESPACE KF5::
 )
-
 
 if ("${CMAKE_BINARY_DIR}" STREQUAL "${KCalCore_BINARY_DIR}")
   feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
