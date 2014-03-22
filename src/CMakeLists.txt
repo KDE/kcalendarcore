@@ -1,9 +1,15 @@
+# FIXME: Make it build with this flag
+remove_definitions(-DQT_NO_CAST_FROM_BYTEARRAY)
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-kcalcore.h.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/config-kcalcore.h
+)
+
 include_directories(
   ${LIBICAL_INCLUDE_DIRS}
   ${LIBICAL_INCLUDE_DIRS}/libical
   ${CMAKE_CURRENT_SOURCE_DIR}/versit
   ${CMAKE_CURRENT_BINARY_DIR}
-  ${KDE4_INCLUDE_DIR}
 )
 
 ########### next target ###############
@@ -51,21 +57,33 @@ set(kcalcore_LIB_SRCS
   visitor.cpp
 )
 
-add_library(kcalcore ${LIBRARY_TYPE} ${kcalcore_LIB_SRCS})
-generate_export_header(kcalcore)
+add_library(KF5CalendarCore ${kcalcore_LIB_SRCS})
 
-target_link_libraries(kcalcore KF5::ItemViews KF5::KDE4Support ${LIBICAL_LIBRARIES})
+generate_export_header(KF5CalendarCore BASE_NAME kcalcore)
 
-if(HAVE_UUID_LIBRARY)
-  target_link_libraries(kcalcore "${UUID_LIBRARY}")
-endif()
+add_library(KF5::CalendarCore ALIAS KF5CalendarCore)
 
-set_target_properties(kcalcore PROPERTIES
-  VERSION ${ECM_VERSION_STRING}
-  SOVERSION ${ECM_SOVERSION}
+target_include_directories(KF5CalendarCore INTERFACE "$<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}/kcalcore>")
+
+target_link_libraries(KF5CalendarCore
+    KF5::ItemViews
+    KF5::KDE4Support
+    ${LIBICAL_LIBRARIES}
 )
 
-install(TARGETS kcalcore EXPORT kdepimlibsLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
+if(HAVE_UUID_LIBRARY)
+  target_link_libraries(KF5CalendarCore
+      ${UUID_LIBRARY}
+  )
+endif()
+
+set_target_properties(KF5CalendarCore PROPERTIES
+    VERSION ${KCALCORE_VERSION_STRING}
+    SOVERSION ${KCALCORE_SOVERSION}
+    EXPORT_NAME kcalcore
+)
+
+install(TARGETS KF5CalendarCore EXPORT KF5CalendarCoreTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 ########### Generate Headers ###############
 ecm_generate_headers(KCalCore_HEADERS
@@ -81,7 +99,7 @@ ecm_generate_headers(KCalCore_HEADERS
   CustomProperties
   Duration
   Event
-  Exception
+  Exceptions # NOTE: Used to be called 'Exception' in KDE4
   FileStorage
   FreeBusy
   FreeBusyCache
@@ -148,4 +166,6 @@ install(FILES
   vcalformat.h
   visitor.h
   ${KCalCore_HEADERS}
-  DESTINATION ${INCLUDE_INSTALL_DIR}/kcalcore COMPONENT Devel)
+  DESTINATION ${INCLUDE_INSTALL_DIR}/kcalcore
+  COMPONENT Devel
+)

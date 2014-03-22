@@ -4,7 +4,7 @@ project(KCalCore)
 
 # ECM setup
 find_package(ECM 0.0.11 CONFIG REQUIRED)
-set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${KCalCore_SOURCE_DIR}/cmake)
 
 include(ECMGenerateHeaders)
 include(ECMGeneratePriFile)
@@ -53,7 +53,10 @@ set_package_properties(Libical PROPERTIES
 )
 
 include(ConfigureChecks.cmake)
-configure_file(config-kcalcore.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kcalcore.h)
 
-
+add_subdirectory(src)
 #add_subdirectory(tests)
+
+if ("${CMAKE_BINARY_DIR}" STREQUAL "${KCalCore_BINARY_DIR}")
+  feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
+endif()
