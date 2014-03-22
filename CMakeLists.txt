@@ -1,15 +1,27 @@
-project(kcalcore)
+cmake_minimum_required(VERSION 2.8.12)
 
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-include(GenerateExportHeader)
+project(KCalCore)
 
-find_package(ECM 0.0.11 REQUIRED NO_MODULE)
-ecm_setup_version(5.0.0 VARIABLE_PREFIX KCALCORE
-                        VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kcalcore_version.h"
-                        PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KF5KCalCoreConfigVersion.cmake")
+# ECM setup
+find_package(ECM 0.0.11 CONFIG REQUIRED)
+set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
-find_package(KF5 NO_MODULE REQUIRED COMPONENTS ItemViews KDE4Support)
+include(ECMGenerateHeaders)
+include(ECMGeneratePriFile)
+include(ECMPackageConfigHelpers)
+include(ECMSetupVersion)
+include(FeatureSummary)
+include(KDEInstallDirs)
+include(KDECMakeSettings)
+include(KDEFrameworkCompilerSettings)
+
+set(KF5_VERSION "4.97.0")
+ecm_setup_version(${KF5_VERSION} VARIABLE_PREFIX KCALCORE
+                        VERSION_HEADER "${KCalCore_BINARY_DIR}/kcalcore_version.h"
+                        PACKAGE_VERSION_FILE "${KCalCore_BINARY_DIR}/KF5KCalCoreConfigVersion.cmake"
+                        SOVERSION 5
+)
+
 ############### Build Options ###############
 
 # The following macros can be defined to alter how KCalCore is built.
@@ -29,127 +41,19 @@ if(KCALCORE_FOR_SYMBIAN)
   add_definitions(-DKCALCORE_FOR_SYMBIAN)
 endif()
 
-###########################################################
+########### Find packages ###########
+find_package(KF5 ${KF5_VERSION} CONFIG REQUIRED COMPONENTS ItemViews KDE4Support)
 
-add_definitions(-DKDE_DEFAULT_DEBUG_AREA=5810)
+set(LIBICAL_MIN_VERSION "0.42")
+find_package(Libical)
+set_package_properties(Libical PROPERTIES
+                               DESCRIPTION "The libical library"
+                               URL "http://sourceforge.net/projects/freeassociation"
+                               TYPE REQUIRED
+)
 
 include(ConfigureChecks.cmake)
 configure_file(config-kcalcore.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kcalcore.h)
 
-#add_definitions( -DQT_NO_CAST_FROM_ASCII )
-#add_definitions( -DQT_NO_CAST_TO_ASCII )
-
-
-include_directories(
-  ${LIBICAL_INCLUDE_DIRS}
-  ${LIBICAL_INCLUDE_DIRS}/libical
-  ${CMAKE_CURRENT_SOURCE_DIR}/versit
-  ${CMAKE_CURRENT_BINARY_DIR}
-  ${KDE4_INCLUDE_DIR}
-)
-
-########### next target ###############
-
-set(libversit_SRCS
-  ${CMAKE_CURRENT_SOURCE_DIR}/versit/vcc.c
-  ${CMAKE_CURRENT_SOURCE_DIR}/versit/vobject.c
-)
-
-set(kcalcore_LIB_SRCS ${libversit_SRCS}
-  alarm.cpp
-  attachment.cpp
-  attendee.cpp
-  calendar.cpp
-  calfilter.cpp
-  calformat.cpp
-  calstorage.cpp
-  compat.cpp
-  customproperties.cpp
-  duration.cpp
-  event.cpp
-  exceptions.cpp
-  filestorage.cpp
-  freebusy.cpp
-  freebusycache.cpp
-  freebusyurlstore.cpp
-  freebusyperiod.cpp
-  icalformat.cpp
-  icalformat_p.cpp
-  icaltimezones.cpp
-  incidence.cpp
-  incidencebase.cpp
-  journal.cpp
-  memorycalendar.cpp
-  occurrenceiterator.cpp
-  period.cpp
-  person.cpp
-  recurrence.cpp
-  recurrencerule.cpp
-  schedulemessage.cpp
-  sorting.cpp
-  todo.cpp
-  vcalformat.cpp
-  visitor.cpp
-)
-
-add_library(kcalcore ${LIBRARY_TYPE} ${kcalcore_LIB_SRCS})
-generate_export_header(kcalcore)
-
-target_link_libraries(kcalcore KF5::ItemViews KF5::KDE4Support ${LIBICAL_LIBRARIES})
-
-if(HAVE_UUID_LIBRARY)
-  target_link_libraries(kcalcore "${UUID_LIBRARY}")
-endif()
-
-set_target_properties(kcalcore PROPERTIES
-  VERSION ${ECM_VERSION_STRING}
-  SOVERSION ${ECM_SOVERSION}
-)
-
-install(TARGETS kcalcore EXPORT kdepimlibsLibraryTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
-
-
-########### next target ###############
 
 #add_subdirectory(tests)
-
-########### install files ###############
-
-install(FILES
-  ${CMAKE_CURRENT_BINARY_DIR}/kcalcore_export.h
-  alarm.h
-  attachment.h
-  attendee.h
-  calendar.h
-  calfilter.h
-  calformat.h
-  calstorage.h
-  compat.h
-  customproperties.h
-  duration.h
-  event.h
-  exceptions.h
-  filestorage.h
-  freebusy.h
-  freebusycache.h
-  freebusyperiod.h
-  freebusyurlstore.h
-  icalformat.h
-  icaltimezones.h
-  incidence.h
-  incidencebase.h
-  journal.h
-  memorycalendar.h
-  occurrenceiterator.h
-  period.h
-  person.h
-  recurrence.h
-  recurrencerule.h
-  schedulemessage.h
-  sortablelist.h
-  sorting.h
-  supertrait.h
-  todo.h
-  vcalformat.h
-  visitor.h
-  DESTINATION ${INCLUDE_INSTALL_DIR}/kcalcore COMPONENT Devel)
