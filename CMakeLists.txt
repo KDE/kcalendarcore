@@ -55,7 +55,7 @@ set_package_properties(Libical PROPERTIES
 include(ConfigureChecks.cmake)
 
 add_subdirectory(src)
-#add_subdirectory(tests)
+#add_subdirectory(autotests)
 
 if ("${CMAKE_BINARY_DIR}" STREQUAL "${KCalCore_BINARY_DIR}")
   feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
