@@ -19,7 +19,7 @@
   Boston, MA 02110-1301, USA.
 */
 #include "testtodo.h"
-#include "../todo.h"
+#include "todo.h"
 #include "attachment.h"
 
 #include <qtest_kde.h>

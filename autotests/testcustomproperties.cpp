@@ -21,7 +21,7 @@
   Boston, MA 02110-1301, USA.
 */
 #include "testcustomproperties.h"
-#include "../customproperties.h"
+#include "customproperties.h"
 
 #include <qtest_kde.h>
 QTEST_KDEMAIN(CustomPropertiesTest, NoGUI)

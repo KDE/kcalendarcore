@@ -19,9 +19,9 @@
   Boston, MA 02110-1301, USA.
 */
 
-#include "../icalformat.h"
-#include "../event.h"
-#include "../todo.h"
+#include "icalformat.h"
+#include "event.h"
+#include "todo.h"
 
 #include <kaboutdata.h>
 #include <kcmdlineargs.h>

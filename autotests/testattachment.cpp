@@ -19,8 +19,8 @@
 */
 
 #include "testattachment.h"
-#include "../event.h"
-#include "../attachment.h"
+#include "event.h"
+#include "attachment.h"
 
 #include <qtest_kde.h>
 QTEST_KDEMAIN(AttachmentTest, NoGUI)

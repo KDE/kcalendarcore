@@ -19,10 +19,10 @@
   Boston, MA 02110-1301, USA.
 */
 
-#include "../icalformat.h"
-#include "../event.h"
-#include "../memorycalendar.h"
-#include "../freebusy.h"
+#include "icalformat.h"
+#include "event.h"
+#include "memorycalendar.h"
+#include "freebusy.h"
 
 #include <iostream>
 

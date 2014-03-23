@@ -21,7 +21,7 @@
 */
 
 #include "testattendee.h"
-#include "../attendee.h"
+#include "attendee.h"
 
 #include <kdebug.h>
 

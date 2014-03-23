@@ -34,7 +34,7 @@ QTEST_KDEMAIN(ICalTimeZonesTest, NoGUI)
 extern "C" {
 #include <libical/ical.h>
 }
-#include "../icaltimezones.h"
+#include "icaltimezones.h"
 using namespace KCalCore;
 
 static icalcomponent *loadCALENDAR(const char *vcal);

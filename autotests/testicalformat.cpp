@@ -21,9 +21,9 @@
 */
 
 #include "testicalformat.h"
-#include "../event.h"
-#include "../icalformat.h"
-#include "../memorycalendar.h"
+#include "event.h"
+#include "icalformat.h"
+#include "memorycalendar.h"
 
 #include <KDebug>
 #include <kdatetime.h>

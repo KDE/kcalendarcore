@@ -22,7 +22,7 @@
 
 #include "testfreebusyperiod.h"
 
-#include "../freebusyperiod.h"
+#include "freebusyperiod.h"
 
 #include <qtest_kde.h>
 #include <boost/concept_check.hpp>

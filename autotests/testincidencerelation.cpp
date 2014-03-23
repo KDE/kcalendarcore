@@ -19,7 +19,7 @@
   Boston, MA 02110-1301, USA.
 */
 #include "testincidencerelation.h"
-#include "../todo.h"
+#include "todo.h"
 
 #include <qtest_kde.h>
 QTEST_KDEMAIN(IncidenceRelationTest, NoGUI)

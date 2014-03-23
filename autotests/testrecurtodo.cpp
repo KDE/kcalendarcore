@@ -19,7 +19,7 @@
   Boston, MA 02110-1301, USA.
 */
 #include "testrecurtodo.h"
-#include "../todo.h"
+#include "todo.h"
 #include <kdebug.h>
 #include <qtest_kde.h>
 QTEST_KDEMAIN(RecurTodoTest, NoGUI)

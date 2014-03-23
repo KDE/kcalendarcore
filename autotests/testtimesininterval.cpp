@@ -20,7 +20,7 @@
   Boston, MA 02110-1301, USA.
 */
 #include "testtimesininterval.h"
-#include "../event.h"
+#include "event.h"
 
 #include <kdebug.h>
 

@@ -20,7 +20,7 @@
 */
 
 #include "testexception.h"
-#include "../exceptions.h"
+#include "exceptions.h"
 
 #include <qtest_kde.h>
 QTEST_KDEMAIN(ExceptionTest, NoGUI)

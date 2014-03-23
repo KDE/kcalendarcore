@@ -22,7 +22,7 @@
 */
 
 #include "testperson.h"
-#include "../person.h"
+#include "person.h"
 
 #include <kdebug.h>
 

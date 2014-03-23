@@ -22,7 +22,7 @@
 */
 
 #include "testperiod.h"
-#include "../period.h"
+#include "period.h"
 
 #include <ksystemtimezone.h>
 

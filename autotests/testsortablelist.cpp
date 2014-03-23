@@ -20,7 +20,7 @@
 */
 
 #include "testsortablelist.h"
-#include "../sortablelist.h"
+#include "sortablelist.h"
 
 #include <stdlib.h>
 

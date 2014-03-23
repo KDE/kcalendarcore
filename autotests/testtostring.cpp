@@ -19,8 +19,8 @@
   Boston, MA 02110-1301, USA.
 */
 
-#include "../event.h"
-#include "../icalformat.h"
+#include "event.h"
+#include "icalformat.h"
 
 #include <kdebug.h>
 

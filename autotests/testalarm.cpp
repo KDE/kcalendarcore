@@ -20,8 +20,8 @@
 
 #include "testalarm.h"
 
-#include "../event.h"
-#include "../alarm.h"
+#include "event.h"
+#include "alarm.h"
 
 #include <qtest_kde.h>
 QTEST_KDEMAIN(AlarmTest, NoGUI)

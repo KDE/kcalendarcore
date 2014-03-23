@@ -20,8 +20,8 @@
 */
 
 #include "testmemorycalendar.h"
-#include "../filestorage.h"
-#include "../memorycalendar.h"
+#include "filestorage.h"
+#include "memorycalendar.h"
 
 #include <kdebug.h>
 

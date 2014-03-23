@@ -20,8 +20,8 @@
   Boston, MA 02110-1301, USA.
 */
 
-#include "../filestorage.h"
-#include "../memorycalendar.h"
+#include "filestorage.h"
+#include "memorycalendar.h"
 
 #include <kaboutdata.h>
 #include <kcmdlineargs.h>
