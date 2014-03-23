@@ -21,30 +21,30 @@ if (WIN32)
 endif()
 
 set(LIBICAL_FIND_REQUIRED ${Libical_FIND_REQUIRED})
-if(LIBICAL_INCLUDE_DIRS AND LIBICAL_LIBRARIES)
-
-  # Already in cache, be silent
-  set(LIBICAL_FIND_QUIETLY TRUE)
-
-endif()
 
 #set the root from the LIBICAL_BASE environment
-file(TO_CMAKE_PATH "$ENV{LIBICAL_BASE}" libical_root )
+file(TO_CMAKE_PATH "$ENV{LIBICAL_BASE}" libical_root)
+
 #override the root from LIBICAL_BASE defined to cmake
 if(DEFINED LIBICAL_BASE)
-  file(TO_CMAKE_PATH "${LIBICAL_BASE}" libical_root )
+  file(TO_CMAKE_PATH "${LIBICAL_BASE}" libical_root)
 endif()
 
-find_path(LIBICAL_INCLUDE_DIRS NAMES libical/ical.h
-  HINTS ${libical_root}/include ${_program_FILES_DIR}/libical/include ${KDE4_INCLUDE_DIR}
+find_path(LIBICAL_INCLUDE_DIRS
+    NAMES libical/ical.h
+    HINTS ${libical_root}/include ${_program_FILES_DIR}/libical/include
 )
 
-find_library(LIBICAL_LIBRARY NAMES ical libical
-  HINTS ${libical_root}/lib ${_program_FILES_DIR}/libical/lib ${KDE4_LIB_DIR}
+find_library(LIBICAL_LIBRARY
+    NAMES ical libical
+    HINTS ${libical_root}/lib ${_program_FILES_DIR}/libical/lib
 )
-find_library(LIBICALSS_LIBRARY NAMES icalss libicalss
-  HINTS ${libical_root}/lib ${_program_FILES_DIR}/libical/lib ${KDE4_LIB_DIR}
+
+find_library(LIBICALSS_LIBRARY
+    NAMES icalss libicalss
+    HINTS ${libical_root}/lib ${_program_FILES_DIR}/libical/lib
 )
+
 set(LIBICAL_LIBRARIES ${LIBICAL_LIBRARY} ${LIBICALSS_LIBRARY})
 
 if(LIBICAL_INCLUDE_DIRS AND LIBICAL_LIBRARIES)
@@ -93,7 +93,6 @@ if(LIBICAL_INCLUDE_DIRS AND LIBICAL_LIBRARIES)
 endif()
 
 include(FindPackageHandleStandardArgs)
-FIND_PACKAGE_HANDLE_STANDARD_ARGS(LIBICAL DEFAULT_MSG LIBICAL_LIBRARIES LIBICAL_INCLUDE_DIRS)
+find_package_handle_standard_args(LIBICAL DEFAULT_MSG LIBICAL_LIBRARIES LIBICAL_INCLUDE_DIRS)
 
 mark_as_advanced(LIBICAL_INCLUDE_DIRS LIBICAL_LIBRARIES)
-
