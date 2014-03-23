@@ -5,13 +5,6 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-kcalcore.h.cmake
     ${CMAKE_CURRENT_BINARY_DIR}/config-kcalcore.h
 )
 
-include_directories(
-  ${LibIcal_INCLUDE_DIRS}
-  ${LibIcal_INCLUDE_DIRS}/libical
-  ${CMAKE_CURRENT_SOURCE_DIR}/versit
-  ${CMAKE_CURRENT_BINARY_DIR}
-)
-
 ########### next target ###############
 
 set(libversit_SRCS
@@ -63,7 +56,9 @@ generate_export_header(KF5CalendarCore BASE_NAME kcalcore)
 
 add_library(KF5::CalendarCore ALIAS KF5CalendarCore)
 
-target_include_directories(KF5CalendarCore INTERFACE "$<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}/kcalcore>")
+target_include_directories(KF5CalendarCore INTERFACE "$<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}/kcalcore;${LibIcal_INCLUDE_DIRS};${LibIcal_INCLUDE_DIRS}/libical>")
+target_include_directories(KF5CalendarCore PUBLIC "$<BUILD_INTERFACE:${KCalCore_SOURCE_DIR}/src;${KCalCore_BINARY_DIR}/src;${KCalCore_SOURCE_DIR}/src/versit>")
+target_include_directories(KF5CalendarCore PUBLIC "$<BUILD_INTERFACE:${LibIcal_INCLUDE_DIRS};${LibIcal_INCLUDE_DIRS}/libical>")
 
 target_link_libraries(KF5CalendarCore
     KF5::ItemViews
