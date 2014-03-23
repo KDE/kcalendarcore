@@ -56,7 +56,9 @@ set_package_properties(LibIcal PROPERTIES
 include(ConfigureChecks.cmake)
 
 add_subdirectory(src)
+# FIXME: Fix & reenable the tests
 #add_subdirectory(autotests)
+add_subdirectory(cmake)
 
 ########### CMake Config Files ###########
 set(CMAKECONFIG_INSTALL_DIR "${CMAKECONFIG_INSTALL_PREFIX}/KF5CalendarCore")
