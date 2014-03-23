@@ -6,8 +6,8 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-kcalcore.h.cmake
 )
 
 include_directories(
-  ${LIBICAL_INCLUDE_DIRS}
-  ${LIBICAL_INCLUDE_DIRS}/libical
+  ${LibIcal_INCLUDE_DIRS}
+  ${LibIcal_INCLUDE_DIRS}/libical
   ${CMAKE_CURRENT_SOURCE_DIR}/versit
   ${CMAKE_CURRENT_BINARY_DIR}
 )
@@ -68,7 +68,7 @@ target_include_directories(KF5CalendarCore INTERFACE "$<INSTALL_INTERFACE:${INCL
 target_link_libraries(KF5CalendarCore
     KF5::ItemViews
     KF5::KDE4Support
-    ${LIBICAL_LIBRARIES}
+    ${LibIcal_LIBRARIES}
 )
 
 if(HAVE_UUID_LIBRARY)

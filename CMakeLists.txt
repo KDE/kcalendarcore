@@ -45,9 +45,8 @@ endif()
 ########### Find packages ###########
 find_package(KF5 ${KF5_VERSION} CONFIG REQUIRED COMPONENTS ItemViews KDE4Support)
 
-set(LIBICAL_MIN_VERSION "0.42")
-find_package(Libical)
-set_package_properties(Libical PROPERTIES
+find_package(LibIcal 0.42)
+set_package_properties(LibIcal PROPERTIES
                                DESCRIPTION "The libical library"
                                URL "http://sourceforge.net/projects/freeassociation"
                                TYPE REQUIRED
