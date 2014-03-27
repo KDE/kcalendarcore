@@ -133,6 +133,7 @@ install(FILES
 install(FILES
   ${CMAKE_CURRENT_BINARY_DIR}/kcalcore_export.h
   ${KCalCore_HEADERS}
+  supertrait.h
   DESTINATION ${INCLUDE_INSTALL_DIR}/kcalcore
   COMPONENT Devel
 )
