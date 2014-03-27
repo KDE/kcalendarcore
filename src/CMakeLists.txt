@@ -75,7 +75,7 @@ endif()
 set_target_properties(KF5CalendarCore PROPERTIES
     VERSION ${KCALCORE_VERSION_STRING}
     SOVERSION ${KCALCORE_SOVERSION}
-    EXPORT_NAME kcalcore
+    EXPORT_NAME CalendarCore
 )
 
 install(TARGETS KF5CalendarCore EXPORT KF5CalendarCoreTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
