@@ -1,2 +1,2 @@
-install(FILES FindLibIcal.cmake DESTINATION ${DATA_INSTALL_DIR}/cmake/modules)
+install(FILES FindLibIcal.cmake DESTINATION ${CMAKECONFIG_INSTALL_DIR})
 
