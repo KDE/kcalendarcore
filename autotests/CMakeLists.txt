@@ -53,8 +53,8 @@ macro_unit_tests(
 
 )
 
-set_target_properties(testmemorycalendar PROPERTIES COMPILE_FLAGS -DICALTESTDATADIR="\\"${CMAKE_SOURCE_DIR}/kcalcore/tests/data/\\"" )
-set_target_properties(testreadrecurrenceid PROPERTIES COMPILE_FLAGS -DICALTESTDATADIR="\\"${CMAKE_SOURCE_DIR}/kcalcore/tests/data/\\"" )
+set_target_properties(testmemorycalendar PROPERTIES COMPILE_FLAGS -DICALTESTDATADIR="\\"${CMAKE_CURRENT_SOURCE_DIR}/data/\\"" )
+set_target_properties(testreadrecurrenceid PROPERTIES COMPILE_FLAGS -DICALTESTDATADIR="\\"${CMAKE_CURRENT_SOURCE_DIR}/data/\\"" )
 if(FALSE)
 # this test cannot work with msvc because libical should not be altered
 # and therefore we can't add KCALCORE_EXPORT there
