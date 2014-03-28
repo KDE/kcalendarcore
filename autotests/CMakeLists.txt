@@ -1,30 +1,15 @@
-set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
+include(ECMMarkAsTest)
 
-include_directories(${LIBICAL_INCLUDE_DIRS})
+set(QT_REQUIRED_VERSION "5.2.0")
+find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Test)
 
 
 macro(macro_unit_tests)
   foreach(_testname ${ARGN})
-    kde4_add_unit_test(${_testname} NOGUI ${_testname}.cpp)
-    target_link_libraries(${_testname}
-      ${KDE4_KDECORE_LIBS}
-      ${LIBICAL_LIBRARIES}
-      ${QT_QTGUI_LIBRARY}
-      ${QT_QTTEST_LIBRARY}
-      kcalcore
-    )
-  endforeach()
-endmacro()
-
-macro(macro_exec_tests)
-  foreach(_testname ${ARGN})
-    kde4_add_executable(${_testname} NOGUI TEST ${_testname}.cpp)
-    target_link_libraries(${_testname}
-      ${KDE4_KDECORE_LIBS}
-      ${QT_QTCORE_LIBRARY}
-      ${QT_QTTEST_LIBRARY}
-      kcalcore
-    )
+    add_executable(${_testname} ${_testname}.cpp)
+    add_test(${_testname} ${_testname})
+    ecm_mark_as_test(${_testname})
+    target_link_libraries(${_testname} KF5CalendarCore Qt5::Test)
   endforeach()
 endmacro()
 
@@ -54,20 +39,6 @@ macro_unit_tests(
   testrecurrenceexception
   testoccurrenceiterator
   testreadrecurrenceid
-)
-
-set_target_properties(testmemorycalendar PROPERTIES COMPILE_FLAGS -DICALTESTDATADIR="\\"${CMAKE_SOURCE_DIR}/kcalcore/tests/data/\\"" )
-set_target_properties(testreadrecurrenceid PROPERTIES COMPILE_FLAGS -DICALTESTDATADIR="\\"${CMAKE_SOURCE_DIR}/kcalcore/tests/data/\\"" )
-
-# this test cannot work with msvc because libical should not be altered
-# and therefore we can't add KCALCORE_EXPORT there
-# it should work fine with mingw because of the auto-import feature
-# KDAB_TODO: check if this can build with msvc now (and if it works on Windows)
-if(NOT MSVC)
-  macro_unit_tests(testicaltimezones)
-endif()
-
-macro_exec_tests(
   incidencestest
   loadcalendar
   fbrecurring
@@ -79,7 +50,19 @@ macro_exec_tests(
   testrecurson
   testtostring
   testvcalexport
+
 )
+
+set_target_properties(testmemorycalendar PROPERTIES COMPILE_FLAGS -DICALTESTDATADIR="\\"${CMAKE_SOURCE_DIR}/kcalcore/tests/data/\\"" )
+set_target_properties(testreadrecurrenceid PROPERTIES COMPILE_FLAGS -DICALTESTDATADIR="\\"${CMAKE_SOURCE_DIR}/kcalcore/tests/data/\\"" )
+if(FALSE)
+# this test cannot work with msvc because libical should not be altered
+# and therefore we can't add KCALCORE_EXPORT there
+# it should work fine with mingw because of the auto-import feature
+# KDAB_TODO: check if this can build with msvc now (and if it works on Windows)
+if(NOT MSVC)
+  macro_unit_tests(testicaltimezones)
+endif()
 
 ########### Tests #######################
 
@@ -137,3 +120,4 @@ endforeach()
 foreach(file ${vCalFiles})
   kcalcore_run_single_test(VCalIn ${file} readandwrite "ical")
 endforeach()
+endif()

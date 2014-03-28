@@ -68,8 +68,7 @@ ecm_configure_package_config_file(
 
 ########### Targets ###########
 add_subdirectory(src)
-# FIXME: Fix & reenable the tests
-#add_subdirectory(autotests)
+add_subdirectory(autotests)
 add_subdirectory(cmake)
 
 ########### Install Files ###########
