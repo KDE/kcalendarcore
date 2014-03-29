@@ -58,6 +58,12 @@ int main(int argc, char **argv)
     // Build dictionary to look up Task object from Todo uid.  Each task is a
     // QListViewItem, and is initially added with the view as the parent.
     todoList = cal->rawTodos();
+
+    if (todoList.isEmpty()) {
+      kWarning() << "Error loading calendar";
+      return 1;
+    }
+
     kDebug() << (*todoList.begin())->uid();
     QString result = (*todoList.begin())->customProperty(QByteArray("karm"),
                      QByteArray("totalTaskTime"));
