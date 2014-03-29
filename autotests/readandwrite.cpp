@@ -27,38 +27,43 @@
 
 #include <kaboutdata.h>
 #include <kdebug.h>
-#include <klocalizedstring.h>
+#include <KI18n/KLocalizedString>
 #include <kcomponentdata.h>
 #include <kcmdlineargs.h>
 
 #include <QtCore/QFileInfo>
+#include <QtCore/QCoreApplication>
+#include <QtCore/QCommandLineParser>
 
 using namespace KCalCore;
 
 int main(int argc, char **argv)
 {
-    KAboutData aboutData("readandwrite", 0, ki18n("Read and Write Calendar"), "0.1");
-    KCmdLineArgs::init(argc, argv, &aboutData);
+    QCommandLineParser parser;
+    parser.addOption(QCommandLineOption(QStringList() << "verbose" , i18n("Verbose output")));
+    parser.addPositionalArgument("source", i18n("Source file to copy."));
+    parser.addPositionalArgument("destination", i18n("Destination directory."));
 
-    KCmdLineOptions options;
-    options.add("verbose", ki18n("Verbose output"));
-    options.add("+input", ki18n("Name of input file"));
-    options.add("+output", ki18n("Name of output file"));
-    KCmdLineArgs::addCmdLineOptions(options);
+    KAboutData about(QLatin1String("readandwrite"), QString(),
+                     i18n("Read and Write Calendar"), QLatin1String("0.1"));
 
-    KComponentData componentData(&aboutData);   // needed by KConfig used by KSaveFile
+    about.setupCommandLine(&parser);
+    KAboutData::setApplicationData(about);
 
-    // Not needed, so let's save time
-    //QCoreApplication app( KCmdLineArgs::qtArgc(), KCmdLineArgs::qtArgv() );
+    QCoreApplication app(argc, argv);
+    QCoreApplication::setApplicationName(QLatin1String("readandwrite"));
+    QCoreApplication::setApplicationVersion("0.1");
+    parser.process(app);
+    about.processCommandLine(&parser);
+    // KComponentData componentData(&about);   // needed by KConfig used by KSaveFile TODO: still needed ?
 
-    KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-
-    if (args->count() != 2) {
-        args->usage("Wrong number of arguments.");
+    const QStringList parsedArgs = parser.positionalArguments();
+    if (parsedArgs.count() != 2) {
+        parser.showHelp();
     }
 
-    QString input = args->arg(0);
-    QString output = args->arg(1);
+    QString input = parsedArgs[0];
+    QString output = parsedArgs[1];
 
     QFileInfo outputFileInfo(output);
     output = outputFileInfo.absoluteFilePath();

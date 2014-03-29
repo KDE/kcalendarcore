@@ -52,10 +52,10 @@ int main(int, char **)
 
     ICalFormat format;
     FreeBusy::Ptr fb = format.parseFreeBusy(fbString);
-    kDebug() << fb->fullBusyPeriods().count() << " " << fb->dtStart();
+    kDebug() << fb->fullBusyPeriods().count() << " " << fb->dtStart().toString();
     const FreeBusyPeriod::List l = fb->fullBusyPeriods();
     for (FreeBusyPeriod::List::ConstIterator it = l.begin(); it != l.end(); ++it) {
-        kDebug() << (*it).start() << " " << (*it).end() << "+ "
+        kDebug() << (*it).start().toString() << " " << (*it).end().toString() << "+ "
                  << (*it).summary() << ":" << (*it).location();
     }
     typedef QMap<QByteArray, QString> FooMap;

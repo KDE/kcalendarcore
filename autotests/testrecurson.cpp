@@ -28,42 +28,47 @@
 #include <kcomponentdata.h>
 #include <kdebug.h>
 
+#include <QDate>
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
+#include <QtCore/QCoreApplication>
+#include <QtCore/QCommandLineParser>
 
 using namespace KCalCore;
 
 int main(int argc, char **argv)
 {
-    KAboutData aboutData(
-        "testrecurson", 0,
-        ki18n("Tests all dates from 2002 to 2010 to test if the event recurs on each individual date. "
-              "This is meant to test the Recurrence::recursOn method for errors."), "0.1");
-    KCmdLineArgs::init(argc, argv, &aboutData);
+    QCommandLineParser parser;
+    parser.addOption(QCommandLineOption(QStringList() << "verbose" , i18n("Verbose output")));
+    parser.addPositionalArgument("input", i18n("Name of input file"));
+    parser.addPositionalArgument("output", i18n("optional name of output file for the recurrence dates"));
 
-    KCmdLineOptions options;
-    options.add("verbose", ki18n("Verbose output"));
-    options.add("+input", ki18n("Name of input file"));
-    options.add("[+output]", ki18n("optional name of output file for the recurrence dates"));
-    KCmdLineArgs::addCmdLineOptions(options);
+    KAboutData about(QLatin1String("testrecurson"), QString(),
+                     i18n("Tests all dates from 2002 to 2010 to test if the event recurs on each individual date. "
+                          "This is meant to test the Recurrence::recursOn method for errors."),
+                     QLatin1String("0.1"));
 
-    KComponentData componentData(&aboutData);
-    //QCoreApplication app( KCmdLineArgs::qtArgc(), KCmdLineArgs::qtArgv() );
+    about.setupCommandLine(&parser);
+    KAboutData::setApplicationData(about);
 
-    KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+    QCoreApplication app(argc, argv);
+    QCoreApplication::setApplicationName(QLatin1String("testrecurson"));
+    QCoreApplication::setApplicationVersion("0.1");
+    parser.process(app);
+    about.processCommandLine(&parser);
 
-    if (args->count() < 1) {
-        args->usage("Wrong number of arguments.");
+    const QStringList parsedArgs = parser.positionalArguments();
+
+    if (parsedArgs.isEmpty()) {
+        parser.showHelp();
     }
 
-    QString input = args->arg(0);
-//   kDebug() << "Input file:" << input;
+    QString input = parsedArgs[0];
 
-    QTextStream *outstream;
-    outstream = 0;
-    QString fn("");
-    if (args->count() > 1) {
-        fn = args->arg(1);
+    QTextStream *outstream = 0;
+    QString fn;
+    if (parsedArgs.count() > 1) {
+        fn = parsedArgs[1];
 //     kDebug() << "We have a file name given:" << fn;
     }
     QFile outfile(fn);

@@ -27,23 +27,27 @@
 #include <kcomponentdata.h>
 #include <kdebug.h>
 
+#include <QtCore/QCoreApplication>
+#include <QtCore/QCommandLineParser>
+
 using namespace KCalCore;
 
 int main(int argc, char **argv)
 {
-    KAboutData aboutData("testcalendar", 0, ki18n("Test Calendar"), "0.1");
-    KCmdLineArgs::init(argc, argv, &aboutData);
+    QCommandLineParser parser;
+    parser.addOption(QCommandLineOption(QStringList() << "verbose" , i18n("Verbose output")));
 
-    KCmdLineOptions options;
-    options.add("verbose", ki18n("Verbose output"));
-    KCmdLineArgs::addCmdLineOptions(options);
+    KAboutData about(QLatin1String("testcalendar"), QString(),
+                     i18n("Test Calendar"), QLatin1String("0.1"));
 
-    KComponentData componentData(&aboutData);
-    //QCoreApplication app( KCmdLineArgs::qtArgc(), KCmdLineArgs::qtArgv() );
+    about.setupCommandLine(&parser);
+    KAboutData::setApplicationData(about);
 
-    KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-
-    Q_UNUSED(args);
+    QCoreApplication app(argc, argv);
+    QCoreApplication::setApplicationName(QLatin1String("testincidence"));
+    QCoreApplication::setApplicationVersion("0.1");
+    parser.process(app);
+    about.processCommandLine(&parser);
 
     MemoryCalendar::Ptr cal(new MemoryCalendar(KDateTime::UTC));
     FileStorage store(cal, "cal");

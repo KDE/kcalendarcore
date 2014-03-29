@@ -110,7 +110,7 @@ void TestOccurrenceIterator::testEventsAndTodos()
     expectedEventOccurrences << start << start.addDays(1);
     while (rIt.hasNext()) {
         rIt.next();
-        kDebug() << rIt.occurrenceStartDate();
+        kDebug() << rIt.occurrenceStartDate().toString();
         if (rIt.incidence()->type() == KCalCore::Incidence::TypeTodo) {
             QCOMPARE(expectedTodoOccurrences.removeAll(rIt.occurrenceStartDate()), 1);
         } else {
@@ -165,7 +165,7 @@ void TestOccurrenceIterator::testAllDayEvents()
     expectedEventOccurrences << start << start.addDays(1);
     while (rIt.hasNext()) {
         rIt.next();
-        kDebug() << rIt.occurrenceStartDate();
+        kDebug() << rIt.occurrenceStartDate().toString();
         QCOMPARE(expectedEventOccurrences.removeAll(rIt.occurrenceStartDate()), 1);
     }
     QCOMPARE(expectedEventOccurrences.size(), 0);
@@ -247,7 +247,7 @@ void TestOccurrenceIterator::testSubDailyRecurrences()
     expectedEventOccurrences << start << start.addSecs(60*60);
     while (rIt.hasNext()) {
         rIt.next();
-        kDebug() << rIt.occurrenceStartDate();
+        kDebug() << rIt.occurrenceStartDate().toString();
         QCOMPARE(expectedEventOccurrences.removeAll(rIt.occurrenceStartDate()), 1);
     }
     QCOMPARE(expectedEventOccurrences.size(), 0);
