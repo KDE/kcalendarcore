@@ -3,6 +3,8 @@ include(ECMMarkAsTest)
 set(QT_REQUIRED_VERSION "5.2.0")
 find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Test)
 
+# needed by loadcalendar
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/cal DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 macro(macro_unit_tests)
   foreach(_testname ${ARGN})
