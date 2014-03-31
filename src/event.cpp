@@ -316,7 +316,7 @@ void Event::setDateTime(const KDateTime &dateTime, DateTimeRole role)
         setDtEnd(dateTime);
         break;
     default:
-        kDebug() << "Unhandled role" << role;
+        qDebug() << "Unhandled role" << role;
     }
 }
 

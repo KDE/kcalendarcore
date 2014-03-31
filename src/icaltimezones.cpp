@@ -478,7 +478,7 @@ ICalTimeZoneData::ICalTimeZoneData(const KTimeZoneData &rhs,
             // transitions() can return an empty list
             // In that case try get one transition to write a valid VTIMEZONE entry.
             if (transits.isEmpty()) {
-                kDebug() << "No transition information available VTIMEZONE will be invalid.";
+                qDebug() << "No transition information available VTIMEZONE will be invalid.";
             }
         }
         if (earliest.isValid()) {
@@ -889,7 +889,7 @@ ICalTimeZone ICalTimeZoneSource::parse(icalcomponent *vtimezone)
             if (t.is_utc) {
                 data->d->lastModified = toQDateTime(t);
             } else {
-                kDebug() << "LAST-MODIFIED not UTC";
+                qDebug() << "LAST-MODIFIED not UTC";
             }
             break;
         }
@@ -900,7 +900,7 @@ ICalTimeZone ICalTimeZoneSource::parse(icalcomponent *vtimezone)
     }
 
     if (name.isEmpty()) {
-        kDebug() << "TZID missing";
+        qDebug() << "TZID missing";
         delete data;
         return ICalTimeZone();
     }
@@ -915,7 +915,7 @@ ICalTimeZone ICalTimeZoneSource::parse(icalcomponent *vtimezone)
             name = name.mid(i + 1);
         }
     }
-    //kDebug() << "---zoneId: \"" << name << '"';
+    //qDebug() << "---zoneId: \"" << name << '"';
 
     /*
      * Iterate through all time zone rules for this VTIMEZONE,
@@ -934,17 +934,17 @@ ICalTimeZone ICalTimeZoneSource::parse(icalcomponent *vtimezone)
         switch (kind) {
 
         case ICAL_XSTANDARD_COMPONENT:
-            //kDebug() << "---standard phase: found";
+            //qDebug() << "---standard phase: found";
             times = ICalTimeZoneSourcePrivate::parsePhase(c, false, prevoff, phase);
             break;
 
         case ICAL_XDAYLIGHT_COMPONENT:
-            //kDebug() << "---daylight phase: found";
+            //qDebug() << "---daylight phase: found";
             times = ICalTimeZoneSourcePrivate::parsePhase(c, true, prevoff, phase);
             break;
 
         default:
-            kDebug() << "Unknown component:" << int(kind);
+            qDebug() << "Unknown component:" << int(kind);
             break;
         }
         const int tcount = times.count();
@@ -976,7 +976,7 @@ ICalTimeZone ICalTimeZoneSource::parse(icalcomponent *vtimezone)
     data->setTransitions(transitions);
 
     data->d->setComponent(icalcomponent_new_clone(vtimezone));
-    //kDebug() << "VTIMEZONE" << name;
+    //qDebug() << "VTIMEZONE" << name;
     return ICalTimeZone(this, name, data);
 }
 
@@ -1244,7 +1244,7 @@ QList<QDateTime> ICalTimeZoneSourcePrivate::parsePhase(icalcomponent *c,
             break;
 
         default:
-            kDebug() << "Unknown property:" << int(kind);
+            qDebug() << "Unknown property:" << int(kind);
             break;
         }
         p = icalcomponent_get_next_property(c, ICAL_ANY_PROPERTY);
@@ -1252,7 +1252,7 @@ QList<QDateTime> ICalTimeZoneSourcePrivate::parsePhase(icalcomponent *c,
 
     // Validate the phase data
     if (!found_dtstart || !found_tzoffsetfrom || !found_tzoffsetto) {
-        kDebug() << "DTSTART/TZOFFSETFROM/TZOFFSETTO missing";
+        qDebug() << "DTSTART/TZOFFSETFROM/TZOFFSETTO missing";
         return transitions;
     }
 
@@ -1353,7 +1353,7 @@ ICalTimeZone ICalTimeZoneSource::standardZone(const QString &zone, bool icalBuil
         if (ktz.isValid()) {
             if (ktz.data(true)) {
                 const ICalTimeZone icaltz(ktz);
-                //kDebug() << zone << " read from system database";
+                //qDebug() << zone << " read from system database";
                 return icaltz;
             }
         }
@@ -1384,7 +1384,7 @@ QByteArray ICalTimeZoneSource::icalTzidPrefix()
                 return ICalTimeZoneSourcePrivate::icalTzidPrefix;
             }
         }
-        kError() << "failed to get libical TZID prefix";
+        qCritical() << "failed to get libical TZID prefix";
     }
     return ICalTimeZoneSourcePrivate::icalTzidPrefix;
 }

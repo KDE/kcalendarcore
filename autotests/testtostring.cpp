@@ -36,13 +36,13 @@ int main(int, char **)
     ev->setSummary("Griazi");
     ICalFormat iformat;
     QString icalstr = iformat.toICalString(ev);
-    kDebug() << icalstr;
+    qDebug() << icalstr;
     Incidence::Ptr ev2 = iformat.fromString(icalstr);
-    kDebug() << "Event reread!";
+    qDebug() << "Event reread!";
 
     if (ev2) {
-        kDebug() << iformat.toICalString(ev2);
+        qDebug() << iformat.toICalString(ev2);
     } else {
-        kDebug() << "Could not read incidence";
+        qDebug() << "Could not read incidence";
     }
 }

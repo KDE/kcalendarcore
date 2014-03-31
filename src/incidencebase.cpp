@@ -179,7 +179,7 @@ bool IncidenceBase::operator!=(const IncidenceBase &i2) const
 bool IncidenceBase::equals(const IncidenceBase &i2) const
 {
     if (attendees().count() != i2.attendees().count()) {
-        // kDebug() << "Attendee count is different";
+        // qDebug() << "Attendee count is different";
         return false;
     }
 
@@ -191,13 +191,13 @@ bool IncidenceBase::equals(const IncidenceBase &i2) const
     //Please delete this comment if you know it's ok, kthx
     for (; a1 != al1.constEnd() && a2 != al2.constEnd(); ++a1, ++a2) {
         if (!(**a1 == **a2)) {
-            // kDebug() << "Attendees are different";
+            // qDebug() << "Attendees are different";
             return false;
         }
     }
 
     if (!CustomProperties::operator==(i2)) {
-        // kDebug() << "Properties are different";
+        // qDebug() << "Properties are different";
         return false;
     }
 
@@ -213,7 +213,7 @@ bool IncidenceBase::equals(const IncidenceBase &i2) const
     bool f = hasDuration() == i2.hasDuration();
     bool g = url() == i2.url();
 
-    //kDebug() << a << b << c << d << e << f << g;
+    //qDebug() << a << b << c << d << e << f << g;
     return a && b && c && d && e && f && g;
 }
 
@@ -308,7 +308,7 @@ void IncidenceBase::setDtStart(const KDateTime &dtStart)
 //  if ( mReadOnly ) return;
 
     if (!dtStart.isValid() && type() != IncidenceBase::TypeTodo) {
-        kWarning() << "Invalid dtStart";
+        qWarning() << "Invalid dtStart";
     }
 
     update();
@@ -710,14 +710,14 @@ QDataStream& KCalCore::operator>>(QDataStream &in, const KCalCore::IncidenceBase
     in >> magic;
 
     if (magic != KCALCORE_MAGIC_NUMBER) {
-        kWarning() << "Invalid magic on serialized data";
+        qWarning() << "Invalid magic on serialized data";
         return in;
     }
 
     in >> version;
 
     if (version > KCALCORE_MAGIC_NUMBER) {
-        kWarning() << "Invalid version on serialized data";
+        qWarning() << "Invalid version on serialized data";
         return in;
     }
 

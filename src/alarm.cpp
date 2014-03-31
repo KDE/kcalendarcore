@@ -544,11 +544,11 @@ KDateTime Alarm::nextTime(const KDateTime &preTime, bool ignoreRepetitions) cons
         // offset from the recurrence time.
         Duration alarmOffset(dtStart, alarmStart);
         /*
-        kDebug() << "dtStart       " << dtStart;
-        kDebug() << "dtEnd         " << dtEnd;
-        kDebug() << "alarmStart    " << alarmStart;
-        kDebug() << "alarmOffset   " << alarmOffset.value();
-        kDebug() << "preTime       " << preTime;
+        qDebug() << "dtStart       " << dtStart;
+        qDebug() << "dtEnd         " << dtEnd;
+        qDebug() << "alarmStart    " << alarmStart;
+        qDebug() << "alarmOffset   " << alarmOffset.value();
+        qDebug() << "preTime       " << preTime;
         */
         if (alarmStart > preTime) {
             // No need to go further.
@@ -560,12 +560,12 @@ KDateTime Alarm::nextTime(const KDateTime &preTime, bool ignoreRepetitions) cons
             KDateTime prevRecurrence = d->mParent->recurrence()->getPreviousDateTime(preTime);
             if (prevRecurrence.isValid()) {
                 KDateTime prevLastRepeat = alarmOffset.end(duration().end(prevRecurrence));
-                // kDebug() << "prevRecurrence" << prevRecurrence;
-                // kDebug() << "prevLastRepeat" << prevLastRepeat;
+                // qDebug() << "prevRecurrence" << prevRecurrence;
+                // qDebug() << "prevLastRepeat" << prevLastRepeat;
                 if (prevLastRepeat > preTime) {
                     // Yes they did, return alarm offset to previous recurrence.
                     KDateTime prevAlarm = alarmOffset.end(prevRecurrence);
-                    // kDebug() << "prevAlarm     " << prevAlarm;
+                    // qDebug() << "prevAlarm     " << prevAlarm;
                     return prevAlarm;
                 }
             }
@@ -575,8 +575,8 @@ KDateTime Alarm::nextTime(const KDateTime &preTime, bool ignoreRepetitions) cons
         if (nextRecurrence.isValid()) {
             KDateTime nextAlarm = alarmOffset.end(nextRecurrence);
             /*
-            kDebug() << "nextRecurrence" << nextRecurrence;
-            kDebug() << "nextAlarm     " << nextAlarm;
+            qDebug() << "nextRecurrence" << nextRecurrence;
+            qDebug() << "nextAlarm     " << nextAlarm;
             */
             if (nextAlarm > preTime) {
                 // It's first alarm takes place after given time.

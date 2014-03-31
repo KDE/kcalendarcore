@@ -65,17 +65,17 @@ int main(int argc, char **argv)
     }
 
     QString input = parsedArgs[0];
-    kDebug() << "Input file:" << input;
+    qDebug() << "Input file:" << input;
 
     QTextStream *outstream = 0;
     QString fn;
     if (parsedArgs.count() > 1) {
         fn = parsedArgs[1];
-        kDebug() << "We have a file name given:" << fn;
+        qDebug() << "We have a file name given:" << fn;
     }
     QFile outfile(fn);
     if (!fn.isEmpty() && outfile.open(QIODevice::WriteOnly)) {
-        kDebug() << "Opened output file!!!";
+        qDebug() << "Opened output file!!!";
         outstream = new QTextStream(&outfile);
     }
 
@@ -93,8 +93,8 @@ int main(int argc, char **argv)
 
     for (Incidence::List::Iterator it = inc.begin(); it != inc.end(); ++it) {
         Incidence::Ptr incidence = *it;
-        kDebug() << "*+*+*+*+*+*+*+*+*+*";
-        kDebug() << " ->" << incidence->summary() << "<-";
+        qDebug() << "*+*+*+*+*+*+*+*+*+*";
+        qDebug() << " ->" << incidence->summary() << "<-";
 
         incidence->recurrence()->dump();
 
@@ -119,10 +119,10 @@ int main(int argc, char **argv)
             // Output to konsole
             while (dt.isValid() && i<10) {
                 ++i;
-                kDebug() << "-------------------------------------------";
+                qDebug() << "-------------------------------------------";
                 dt = incidence->recurrence()->getNextDateTime(dt);
                 if (dt.isValid()) {
-                    kDebug() << " *~*~*~*~ Next date is:" << dumpTime(dt, viewSpec);
+                    qDebug() << " *~*~*~*~ Next date is:" << dumpTime(dt, viewSpec);
                 }
             }
         }

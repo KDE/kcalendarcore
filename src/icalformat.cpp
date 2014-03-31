@@ -79,13 +79,13 @@ ICalFormat::~ICalFormat()
 
 bool ICalFormat::load(const Calendar::Ptr &calendar, const QString &fileName)
 {
-    kDebug() << fileName;
+    qDebug() << fileName;
 
     clearException();
 
     QFile file(fileName);
     if (!file.open(QIODevice::ReadOnly)) {
-        kError() << "load error";
+        qCritical() << "load error";
         setException(new Exception(Exception::LoadError));
         return false;
     }
@@ -104,7 +104,7 @@ bool ICalFormat::load(const Calendar::Ptr &calendar, const QString &fileName)
 
 bool ICalFormat::save(const Calendar::Ptr &calendar, const QString &fileName)
 {
-    kDebug() << fileName;
+    qDebug() << fileName;
 
     clearException();
 
@@ -118,7 +118,7 @@ bool ICalFormat::save(const Calendar::Ptr &calendar, const QString &fileName)
 
     KSaveFile file(fileName);
     if (!file.open()) {
-        kError() << "file open error: " << file.errorString() << ";filename=" << fileName;
+        qCritical() << "file open error: " << file.errorString() << ";filename=" << fileName;
         setException(new Exception(Exception::SaveErrorOpenFile,
                                    QStringList(fileName)));
 
@@ -130,7 +130,7 @@ bool ICalFormat::save(const Calendar::Ptr &calendar, const QString &fileName)
     file.write(textUtf8.data(), textUtf8.size());
 
     if (!file.finalize()) {
-        kDebug() << "file finalize error:" << file.errorString();
+        qDebug() << "file finalize error:" << file.errorString();
         setException(new Exception(Exception::SaveErrorSaveFile,
                                    QStringList(fileName)));
 
@@ -157,7 +157,7 @@ bool ICalFormat::fromRawString(const Calendar::Ptr &cal, const QByteArray &strin
     // Let's defend const correctness until the very gates of hell^Wlibical
     calendar = icalcomponent_new_from_string(const_cast<char*>((const char *)string));
     if (!calendar) {
-        kError() << "parse error ; string is empty?" << string.isEmpty();
+        qCritical() << "parse error ; string is empty?" << string.isEmpty();
         setException(new Exception(Exception::ParseErrorIcal));
         return false;
     }
@@ -170,7 +170,7 @@ bool ICalFormat::fromRawString(const Calendar::Ptr &cal, const QByteArray &strin
                 comp; comp = icalcomponent_get_next_component(calendar, ICAL_VCALENDAR_COMPONENT)) {
             // put all objects into their proper places
             if (!d->mImpl->populate(cal, comp, deleted)) {
-                kError() << "Could not populate calendar";
+                qCritical() << "Could not populate calendar";
                 if (!exception()) {
                     setException(new Exception(Exception::ParseErrorKcal));
                 }
@@ -180,13 +180,13 @@ bool ICalFormat::fromRawString(const Calendar::Ptr &cal, const QByteArray &strin
             }
         }
     } else if (icalcomponent_isa(calendar) != ICAL_VCALENDAR_COMPONENT) {
-        kDebug() << "No VCALENDAR component found";
+        qDebug() << "No VCALENDAR component found";
         setException(new Exception(Exception::NoCalendar));
         success = false;
     } else {
         // put all objects into their proper places
         if (!d->mImpl->populate(cal, calendar, deleted)) {
-            kDebug() << "Could not populate calendar";
+            qDebug() << "Could not populate calendar";
             if (!exception()) {
                 setException(new Exception(Exception::ParseErrorKcal));
             }
@@ -272,7 +272,7 @@ QString ICalFormat::toString(const Calendar::Ptr &cal,
             it != zones.constEnd(); ++it) {
         icaltimezone *tz = (*it).icalTimezone();
         if (!tz) {
-            kError() << "bad time zone";
+            qCritical() << "bad time zone";
         } else {
             component = icalcomponent_new_clone(icaltimezone_get_component(tz));
             icalcomponent_add_component(calendar, component);
@@ -322,7 +322,7 @@ QByteArray ICalFormat::toRawString(const Incidence::Ptr &incidence)
             it != zones.constEnd(); ++it) {
         icaltimezone *tz = (*it).icalTimezone();
         if (!tz) {
-            kError() << "bad time zone";
+            qCritical() << "bad time zone";
         } else {
             icalcomponent *tzcomponent = icaltimezone_get_component(tz);
             icalcomponent_add_component(component, component);
@@ -354,7 +354,7 @@ bool ICalFormat::fromString(RecurrenceRule *recurrence, const QString &rrule)
     icalerror_clear_errno();
     struct icalrecurrencetype recur = icalrecurrencetype_from_string(rrule.toLatin1());
     if (icalerrno != ICAL_NO_ERROR) {
-        kDebug() << "Recurrence parsing error:" << icalerror_strerror(icalerrno);
+        qDebug() << "Recurrence parsing error:" << icalerror_strerror(icalerrno);
         success = false;
     }
 
@@ -440,7 +440,7 @@ FreeBusy::Ptr ICalFormat::parseFreeBusy(const QString &str)
     }
 
     if (!freeBusy) {
-        kDebug() << "object is not a freebusy.";
+        qDebug() << "object is not a freebusy.";
     }
 
     icalcomponent_free(message);
@@ -514,7 +514,7 @@ ScheduleMessage::Ptr ICalFormat::parseScheduleMessage(const Calendar::Ptr &cal,
     }
 
     if (!incidence) {
-        kDebug() << "object is not a freebusy, event, todo or journal";
+        qDebug() << "object is not a freebusy, event, todo or journal";
         setException(new Exception(Exception::ParseErrorNotIncidence));
 
         return ScheduleMessage::Ptr();
@@ -550,14 +550,14 @@ ScheduleMessage::Ptr ICalFormat::parseScheduleMessage(const Calendar::Ptr &cal,
         break;
     default:
         method = iTIPNoMethod;
-        kDebug() << "Unknown method";
+        qDebug() << "Unknown method";
         break;
     }
 
     if (!icalrestriction_check(message)) {
-        kWarning() << endl
+        qWarning() << endl
                    << "kcalcore library reported a problem while parsing:";
-        kWarning() << ScheduleMessage::methodName(method) << ":"    //krazy:exclude=kdebug
+        qWarning() << ScheduleMessage::methodName(method) << ":"    //krazy:exclude=kdebug
                    << d->mImpl->extractErrorProperty(c);
     }
 

@@ -99,7 +99,7 @@ bool FileStorage::open()
 bool FileStorage::load()
 {
     if (d->mFileName.isEmpty()) {
-        kWarning() << "Empty filename while trying to load";
+        qWarning() << "Empty filename while trying to load";
         return false;
     }
 
@@ -123,13 +123,13 @@ bool FileStorage::load()
             if (iCal.exception()) {
                 if (iCal.exception()->code() == Exception::CalVersion1) {
                     // Expected non vCalendar file, but detected vCalendar
-                    kDebug() << "Fallback to VCalFormat";
+                    qDebug() << "Fallback to VCalFormat";
                     VCalFormat vCal;
                     success = vCal.load(calendar(), d->mFileName);
                     productId = vCal.loadedProductId();
                     if (!success) {
                         if (vCal.exception()) {
-                            kWarning() << "Exception while importing:" << vCal.exception()->code();
+                            qWarning() << "Exception while importing:" << vCal.exception()->code();
                         }
                         return false;
                     }
@@ -137,7 +137,7 @@ bool FileStorage::load()
                     return false;
                 }
             } else {
-                kWarning() << "There should be an exception set.";
+                qWarning() << "There should be an exception set.";
                 return false;
             }
         }
@@ -151,7 +151,7 @@ bool FileStorage::load()
 
 bool FileStorage::save()
 {
-    kDebug();
+    qDebug();
     if (d->mFileName.isEmpty()) {
         return false;
     }
@@ -164,9 +164,9 @@ bool FileStorage::save()
         calendar()->setModified(false);
     } else {
         if (!format->exception()) {
-            kDebug() << "Error. There should be an expection set.";
+            qDebug() << "Error. There should be an expection set.";
         } else {
-            kDebug() << int(format->exception()->code());
+            qDebug() << int(format->exception()->code());
         }
     }
 

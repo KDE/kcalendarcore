@@ -68,8 +68,8 @@ int main(int argc, char **argv)
     QFileInfo outputFileInfo(output);
     output = outputFileInfo.absoluteFilePath();
 
-    kDebug() << "Input file:" << input;
-    kDebug() << "Output file:" << output;
+    qDebug() << "Input file:" << input;
+    qDebug() << "Output file:" << output;
 
 #ifdef USE_ICAL_0_46
     // Jenkins is still running a old libical version.
@@ -85,7 +85,7 @@ int main(int argc, char **argv)
     FileStorage instore(cal, input);
 
     if (!instore.load()) {
-        kDebug() << "DAMN";
+        qDebug() << "DAMN";
         return 1;
     }
     QString tz = cal->nonKDECustomProperty("X-LibKCal-Testsuite-OutTZ");

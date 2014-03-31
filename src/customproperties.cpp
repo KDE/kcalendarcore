@@ -60,7 +60,7 @@ public:
 bool CustomProperties::Private::operator==(const CustomProperties::Private &other) const
 {
     if (mProperties.count() != other.mProperties.count()) {
-        // kDebug() << "Property count is different:" << mProperties << other.mProperties;
+        // qDebug() << "Property count is different:" << mProperties << other.mProperties;
         return false;
     }
     for (QMap<QByteArray, QString>::ConstIterator it = mProperties.begin();

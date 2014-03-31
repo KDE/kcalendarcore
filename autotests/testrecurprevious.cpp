@@ -65,18 +65,18 @@ int main(int argc, char **argv)
         parser.showHelp();
     }
     QString input = parsedArgs[0];
-    kDebug() << "Input file:" << input;
+    qDebug() << "Input file:" << input;
 
     QTextStream *outstream;
     outstream = 0;
     QString fn("");
     if (parsedArgs.count() > 1) {
         fn = parsedArgs[1];
-        kDebug() << "We have a file name given:" << fn;
+        qDebug() << "We have a file name given:" << fn;
     }
     QFile outfile(fn);
     if (!fn.isEmpty() && outfile.open(QIODevice::WriteOnly)) {
-        kDebug() << "Opened output file!!!";
+        qDebug() << "Opened output file!!!";
         outstream = new QTextStream(&outfile);
     }
 
@@ -94,8 +94,8 @@ int main(int argc, char **argv)
 
     for (Incidence::List::Iterator it = inc.begin(); it != inc.end(); ++it) {
         Incidence::Ptr incidence = *it;
-        kDebug() << "*+*+*+*+*+*+*+*+*+*";
-        kDebug() << " ->" << incidence->summary() << "<-";
+        qDebug() << "*+*+*+*+*+*+*+*+*+*";
+        qDebug() << " ->" << incidence->summary() << "<-";
 
         incidence->recurrence()->dump();
 
@@ -111,8 +111,8 @@ int main(int argc, char **argv)
             } else {
                 dt = dt.addYears(2);
             }
-            kDebug() << "-------------------------------------------";
-            kDebug() << " *~*~*~*~ Starting with date:" << dumpTime(dt, viewSpec);
+            qDebug() << "-------------------------------------------";
+            qDebug() << " *~*~*~*~ Starting with date:" << dumpTime(dt, viewSpec);
             // Output to file for testing purposes
             while (dt.isValid() && i < 500) {
                 ++i;
@@ -128,15 +128,15 @@ int main(int argc, char **argv)
                 dt = dt.addYears(2);
             }
             incidence->recurrence()->dump();
-            kDebug() << "-------------------------------------------";
-            kDebug() << " *~*~*~*~ Starting with date:" << dumpTime(dt, viewSpec);
+            qDebug() << "-------------------------------------------";
+            qDebug() << " *~*~*~*~ Starting with date:" << dumpTime(dt, viewSpec);
             // Output to konsole
             while (dt.isValid() && i < 50) {
                 ++i;
-                kDebug() << "-------------------------------------------";
+                qDebug() << "-------------------------------------------";
                 dt = incidence->recurrence()->getPreviousDateTime(dt);
                 if (dt.isValid()) {
-                    kDebug() << " *~*~*~*~ Previous date is:" << dumpTime(dt, viewSpec);
+                    qDebug() << " *~*~*~*~ Previous date is:" << dumpTime(dt, viewSpec);
                 }
             }
         }

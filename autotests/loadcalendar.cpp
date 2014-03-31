@@ -60,18 +60,18 @@ int main(int argc, char **argv)
     todoList = cal->rawTodos();
 
     if (todoList.isEmpty()) {
-      kWarning() << "Error loading calendar";
+      qWarning() << "Error loading calendar";
       return 1;
     }
 
-    kDebug() << (*todoList.begin())->uid();
+    qDebug() << (*todoList.begin())->uid();
     QString result = (*todoList.begin())->customProperty(QByteArray("karm"),
                      QByteArray("totalTaskTime"));
-    kDebug() << result;
+    qDebug() << result;
     if (result != QString("a,b")) {
-        kDebug() << "The string a,b was expected, but given was" << result;
+        qDebug() << "The string a,b was expected, but given was" << result;
         return 1;
     } else {
-        kDebug() << "Test passed";
+        qDebug() << "Test passed";
     }
 }

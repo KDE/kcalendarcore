@@ -113,7 +113,7 @@ void RecurTodoTest::testNonAllDay()
                        currentTime,
                        todo->dtStart().timeSpec()).addDays(1);
     if (!equal) {
-        kDebug() << "Test Failed. dtDue = " << todo->dtDue().toString() << "OriginalDtDue:" << originalDtDue.toString()
+        qDebug() << "Test Failed. dtDue = " << todo->dtDue().toString() << "OriginalDtDue:" << originalDtDue.toString()
                  <<  "KDateTime:"
                  << KDateTime(currentDate, currentTime, todo->dtDue().timeSpec()).addDays(1).toString();
     }

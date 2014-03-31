@@ -129,7 +129,7 @@ void FreeBusy::Private::init(const Event::List &eventList,
         Event::Ptr allDayEvent;
         if (event->allDay()) {
             // addDay event. Do the hack
-            kDebug() << "All-day event";
+            qDebug() << "All-day event";
             allDayEvent = Event::Ptr(new Event(*event));
 
             // Set the start and end times to be on midnight
@@ -141,7 +141,7 @@ void FreeBusy::Private::init(const Event::List &eventList,
             allDayEvent->setDtStart(st);
             allDayEvent->setDtEnd(nd);
 
-            kDebug() << "Use:" << st.toString() << "to" << nd.toString();
+            qDebug() << "Use:" << st.toString() << "to" << nd.toString();
             // Finally, use this event for the setting below
             event = allDayEvent;
         }
@@ -420,8 +420,8 @@ QDataStream &KCalCore::operator>>(QDataStream &stream, KCalCore::FreeBusy::Ptr &
     freebusy = format.parseFreeBusy(freeBusyVCal);
 
     if (!freebusy) {
-        kDebug() << "Error parsing free/busy";
-        kDebug() << freeBusyVCal;
+        qDebug() << "Error parsing free/busy";
+        qDebug() << freeBusyVCal;
     }
 
     return stream;

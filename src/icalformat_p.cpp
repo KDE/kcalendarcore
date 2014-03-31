@@ -62,10 +62,10 @@ static const char IMPLEMENTATION_VERSION_XPROPERTY[] = "X-KDE-ICAL-IMPLEMENTATIO
 /*
 static void _dumpIcaltime( const icaltimetype& t)
 {
-  kDebug() << "--- Y:" << t.year << "M:" << t.month << "D:" << t.day;
-  kDebug() << "--- H:" << t.hour << "M:" << t.minute << "S:" << t.second;
-  kDebug() << "--- isUtc:" << icaltime_is_utc( t );
-  kDebug() << "--- zoneId:" << icaltimezone_get_tzid( const_cast<icaltimezone*>( t.zone ) );
+  qDebug() << "--- Y:" << t.year << "M:" << t.month << "D:" << t.day;
+  qDebug() << "--- H:" << t.hour << "M:" << t.minute << "S:" << t.second;
+  qDebug() << "--- isUtc:" << icaltime_is_utc( t );
+  qDebug() << "--- zoneId:" << icaltimezone_get_tzid( const_cast<icaltimezone*>( t.zone ) );
 }
 */
 
@@ -919,7 +919,7 @@ icalrecurrencetype ICalFormatImpl::writeRecurrenceRule(RecurrenceRule *recur)
         break;
     default:
         r.freq = ICAL_NO_RECURRENCE;
-        kDebug() << "no recurrence";
+        qDebug() << "no recurrence";
         break;
     }
 
@@ -1086,7 +1086,7 @@ icalcomponent *ICalFormatImpl::writeAlarm(const Alarm::Ptr &alarm)
         break;
     case Alarm::Invalid:
     default:
-        kDebug() << "Unknown type of alarm";
+        qDebug() << "Unknown type of alarm";
         action = ICAL_ACTION_NONE;
         break;
     }
@@ -1179,7 +1179,7 @@ Todo::Ptr ICalFormatImpl::readTodo(icalcomponent *vtodo, ICalTimeZones *tzlist)
             if (dateTime.isValid()) {
                 todo->setDtRecurrence(dateTime);
             } else {
-                kDebug() << "Invalid dateTime";
+                qDebug() << "Invalid dateTime";
             }
         }
         break;
@@ -1879,7 +1879,7 @@ void ICalFormatImpl::Private::readIncidenceBase(icalcomponent *parent,
     }
 
     if (!uidProcessed) {
-        kWarning() << "The incidence didn't have any UID! Report a bug "
+        qWarning() << "The incidence didn't have any UID! Report a bug "
                    << "to the application that generated this file."
                    << endl;
 
@@ -2082,7 +2082,7 @@ void ICalFormatImpl::readAlarm(icalcomponent *alarm,
     Alarm::Type type = Alarm::Display;
     icalproperty_action action = ICAL_ACTION_DISPLAY;
     if (!p) {
-        kDebug() << "Unknown type of alarm, using default";
+        qDebug() << "Unknown type of alarm, using default";
         // TODO: do something about unknown alarm type?
     } else {
 
@@ -2202,7 +2202,7 @@ void ICalFormatImpl::readAlarm(icalcomponent *alarm,
                     break;
                 }
             } else {
-                kDebug() << "Alarm attachments currently only support URIs,"
+                qDebug() << "Alarm attachments currently only support URIs,"
                          << "but no binary data";
             }
             break;
@@ -2376,7 +2376,7 @@ KDateTime ICalFormatImpl::readICalDateTime(icalproperty *p,
         ICalTimeZones *tzlist,
         bool utc)
 {
-//  kDebug();
+//  qDebug();
 //  _dumpIcaltime( t );
 
     KDateTime::Spec timeSpec;
@@ -2591,7 +2591,7 @@ icalcomponent *ICalFormatImpl::createCalendarComponent(const Calendar::Ptr &cal)
             it != zmaps.constEnd(); ++it ) {
         icaltimezone *icaltz = (*it).icalTimezone();
         if ( !icaltz ) {
-          kError() << "bad time zone";
+          qCritical() << "bad time zone";
         } else {
           icalcomponent *tz = icalcomponent_new_clone( icaltimezone_get_component( icaltz ) );
           icalcomponent_add_component( calendar, tz );
@@ -2616,13 +2616,13 @@ bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar,
 {
     Q_UNUSED(notebook);
 
-    // kDebug()<<"Populate called";
+    // qDebug()<<"Populate called";
 
     // this function will populate the caldict dictionary and other event
     // lists. It turns vevents into Events and then inserts them.
 
     if (!calendar) {
-        kWarning() << "Populate called with empty calendar";
+        qWarning() << "Populate called with empty calendar";
         return false;
     }
 
@@ -2653,7 +2653,7 @@ bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar,
 
     p = icalcomponent_get_first_property(calendar, ICAL_PRODID_PROPERTY);
     if (!p) {
-        kDebug() << "No PRODID property found";
+        qDebug() << "No PRODID property found";
         d->mLoadedProductId = QLatin1String("");
     } else {
         d->mLoadedProductId = QString::fromUtf8(icalproperty_get_prodid(p));
@@ -2664,23 +2664,23 @@ bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar,
 
     p = icalcomponent_get_first_property(calendar, ICAL_VERSION_PROPERTY);
     if (!p) {
-        kDebug() << "No VERSION property found";
+        qDebug() << "No VERSION property found";
         d->mParent->setException(new Exception(Exception::CalVersionUnknown));
         return false;
     } else {
         const char *version = icalproperty_get_version(p);
         if (!version) {
-            kDebug() << "No VERSION property found";
+            qDebug() << "No VERSION property found";
             d->mParent->setException(new Exception(Exception::VersionPropertyMissing));
 
             return false;
         }
         if (strcmp(version, "1.0") == 0) {
-            kDebug() << "Expected iCalendar, got vCalendar";
+            qDebug() << "Expected iCalendar, got vCalendar";
             d->mParent->setException(new Exception(Exception::CalVersion1));
             return false;
         } else if (strcmp(version, "2.0") != 0) {
-            kDebug() << "Expected iCalendar, got unknown format";
+            qDebug() << "Expected iCalendar, got unknown format";
             d->mParent->setException(new Exception(
                                          Exception::CalVersionUnknown));
             return false;
@@ -2706,34 +2706,34 @@ bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar,
     while (c) {
         Todo::Ptr todo = readTodo(c, tzlist);
         if (todo) {
-            // kDebug() << "todo is not zero and deleted is " << deleted;
+            // qDebug() << "todo is not zero and deleted is " << deleted;
             Todo::Ptr old = cal->todo(todo->uid(), todo->recurrenceId());
             if (old) {
                 if (old->uid().isEmpty()) {
-                    kWarning() << "Skipping invalid VTODO";
+                    qWarning() << "Skipping invalid VTODO";
                     c = icalcomponent_get_next_component(calendar, ICAL_VTODO_COMPONENT);
                     continue;
                 }
-                // kDebug() << "Found an old todo with uid " << old->uid();
+                // qDebug() << "Found an old todo with uid " << old->uid();
                 if (deleted) {
-                    // kDebug() << "Todo " << todo->uid() << " already deleted";
+                    // qDebug() << "Todo " << todo->uid() << " already deleted";
                     cal->deleteTodo(old);   // move old to deleted
                     removeAllICal(d->mTodosRelate, old);
                 } else if (todo->revision() > old->revision()) {
-                    // kDebug() << "Replacing old todo " << old.data() << " with this one " << todo.data();
+                    // qDebug() << "Replacing old todo " << old.data() << " with this one " << todo.data();
                     cal->deleteTodo(old);   // move old to deleted
                     removeAllICal(d->mTodosRelate, old);
                     cal->addTodo(todo);   // and replace it with this one
                 }
             } else if (deleted) {
-                // kDebug() << "Todo " << todo->uid() << " already deleted";
+                // qDebug() << "Todo " << todo->uid() << " already deleted";
                 old = cal->deletedTodo(todo->uid(), todo->recurrenceId());
                 if (!old) {
                     cal->addTodo(todo);   // add this one
                     cal->deleteTodo(todo);   // and move it to deleted
                 }
             } else {
-                // kDebug() << "Adding todo " << todo.data() << todo->uid();
+                // qDebug() << "Adding todo " << todo.data() << todo->uid();
                 cal->addTodo(todo);   // just add this one
             }
         }
@@ -2745,34 +2745,34 @@ bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar,
     while (c) {
         Event::Ptr event = readEvent(c, tzlist);
         if (event) {
-            // kDebug() << "event is not zero and deleted is " << deleted;
+            // qDebug() << "event is not zero and deleted is " << deleted;
             Event::Ptr old = cal->event(event->uid(), event->recurrenceId());
             if (old) {
                 if (old->uid().isEmpty()) {
-                    kWarning() << "Skipping invalid VEVENT";
+                    qWarning() << "Skipping invalid VEVENT";
                     c = icalcomponent_get_next_component(calendar, ICAL_VEVENT_COMPONENT);
                     continue;
                 }
-                // kDebug() << "Found an old event with uid " << old->uid();
+                // qDebug() << "Found an old event with uid " << old->uid();
                 if (deleted) {
-                    // kDebug() << "Event " << event->uid() << " already deleted";
+                    // qDebug() << "Event " << event->uid() << " already deleted";
                     cal->deleteEvent(old);   // move old to deleted
                     removeAllICal(d->mEventsRelate, old);
                 } else if (event->revision() > old->revision()) {
-                    // kDebug() << "Replacing old event " << old.data() << " with this one " << event.data();
+                    // qDebug() << "Replacing old event " << old.data() << " with this one " << event.data();
                     cal->deleteEvent(old);   // move old to deleted
                     removeAllICal(d->mEventsRelate, old);
                     cal->addEvent(event);   // and replace it with this one
                 }
             } else if (deleted) {
-                // kDebug() << "Event " << event->uid() << " already deleted";
+                // qDebug() << "Event " << event->uid() << " already deleted";
                 old = cal->deletedEvent(event->uid(), event->recurrenceId());
                 if (!old) {
                     cal->addEvent(event);   // add this one
                     cal->deleteEvent(event);   // and move it to deleted
                 }
             } else {
-                // kDebug() << "Adding event " << event.data() << event->uid();
+                // qDebug() << "Adding event " << event.data() << event->uid();
                 cal->addEvent(event);   // just add this one
             }
         }
@@ -2830,16 +2830,16 @@ void ICalFormatImpl::dumpIcalRecurrence( const icalrecurrencetype &r )
 {
   int i;
 
-  kDebug() << " Freq:" << int( r.freq );
-  kDebug() << " Until:" << icaltime_as_ical_string( r.until );
-  kDebug() << " Count:" << r.count;
+  qDebug() << " Freq:" << int( r.freq );
+  qDebug() << " Until:" << icaltime_as_ical_string( r.until );
+  qDebug() << " Count:" << r.count;
   if ( r.by_day[0] != ICAL_RECURRENCE_ARRAY_MAX ) {
     int index = 0;
     QString out = " By Day: ";
     while ( ( i = r.by_day[index++] ) != ICAL_RECURRENCE_ARRAY_MAX ) {
       out.append( QString::number( i ) + ' ' );
     }
-    kDebug() << out;
+    qDebug() << out;
   }
   if ( r.by_month_day[0] != ICAL_RECURRENCE_ARRAY_MAX ) {
     int index = 0;
@@ -2847,7 +2847,7 @@ void ICalFormatImpl::dumpIcalRecurrence( const icalrecurrencetype &r )
     while ( ( i = r.by_month_day[index++] ) != ICAL_RECURRENCE_ARRAY_MAX ) {
       out.append( QString::number( i ) + ' ' );
     }
-    kDebug() << out;
+    qDebug() << out;
   }
   if ( r.by_year_day[0] != ICAL_RECURRENCE_ARRAY_MAX ) {
     int index = 0;
@@ -2855,7 +2855,7 @@ void ICalFormatImpl::dumpIcalRecurrence( const icalrecurrencetype &r )
     while ( ( i = r.by_year_day[index++] ) != ICAL_RECURRENCE_ARRAY_MAX ) {
       out.append( QString::number( i ) + ' ' );
     }
-    kDebug() << out;
+    qDebug() << out;
   }
   if ( r.by_month[0] != ICAL_RECURRENCE_ARRAY_MAX ) {
     int index = 0;
@@ -2863,16 +2863,16 @@ void ICalFormatImpl::dumpIcalRecurrence( const icalrecurrencetype &r )
     while ( ( i = r.by_month[index++] ) != ICAL_RECURRENCE_ARRAY_MAX ) {
       out.append( QString::number( i ) + ' ' );
     }
-    kDebug() << out;
+    qDebug() << out;
   }
   if ( r.by_set_pos[0] != ICAL_RECURRENCE_ARRAY_MAX ) {
     int index = 0;
     QString out = " By Set Pos: ";
     while ( ( i = r.by_set_pos[index++] ) != ICAL_RECURRENCE_ARRAY_MAX ) {
-      kDebug() << "=========" << i;
+      qDebug() << "=========" << i;
       out.append( QString::number( i ) + ' ' );
     }
-    kDebug() << out;
+    qDebug() << out;
   }
 }
 */
@@ -2901,7 +2901,7 @@ icalcomponent *ICalFormatImpl::createScheduleComponent(const IncidenceBase::Ptr 
                 it != zmaps.constEnd(); ++it) {
             icaltimezone *icaltz = (*it).icalTimezone();
             if (!icaltz) {
-                kError() << "bad time zone";
+                qCritical() << "bad time zone";
             } else {
                 icalcomponent *tz = icalcomponent_new_clone(icaltimezone_get_component(icaltz));
                 icalcomponent_add_component(message, tz);
@@ -2909,7 +2909,7 @@ icalcomponent *ICalFormatImpl::createScheduleComponent(const IncidenceBase::Ptr 
             }
         }
     } else {
-        kDebug() << "No incidence";
+        qDebug() << "No incidence";
         return message;
     }
 
@@ -2941,7 +2941,7 @@ icalcomponent *ICalFormatImpl::createScheduleComponent(const IncidenceBase::Ptr 
         icalmethod = ICAL_METHOD_DECLINECOUNTER;
         break;
     default:
-        kDebug() << "Unknown method";
+        qDebug() << "Unknown method";
         return message;
     }
 

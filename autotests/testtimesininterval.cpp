@@ -101,9 +101,9 @@ void TimesInIntervalTest::testSubDailyRecurrenceIntervalInclusive()
     expectedEventOccurrences << start << start.addSecs(60*60);
 
     const DateTimeList timesInInterval = event->recurrence()->timesInInterval(start, end);
-//   kDebug() << "timesInInterval " << timesInInterval;
+//   qDebug() << "timesInInterval " << timesInInterval;
     foreach(const KDateTime &dt, timesInInterval) {
-//     kDebug() << dt;
+//     qDebug() << dt;
         QCOMPARE(expectedEventOccurrences.removeAll(dt), 1);
     }
     QCOMPARE(expectedEventOccurrences.size(), 0);
@@ -125,9 +125,9 @@ void TimesInIntervalTest::testSubDailyRecurrence2()
     expectedEventOccurrences << start << start.addSecs(60*60);
 
     const DateTimeList timesInInterval = event->recurrence()->timesInInterval(start.addSecs(-20), end.addSecs(20));
-//   kDebug() << "timesInInterval " << timesInInterval;
+//   qDebug() << "timesInInterval " << timesInInterval;
     foreach(const KDateTime &dt, timesInInterval) {
-//     kDebug() << dt;
+//     qDebug() << dt;
         QCOMPARE(expectedEventOccurrences.removeAll(dt), 1);
     }
     QCOMPARE(expectedEventOccurrences.size(), 0);
@@ -148,9 +148,9 @@ void TimesInIntervalTest::testSubDailyRecurrenceIntervalLimits()
     expectedEventOccurrences << start.addSecs(60*60);
 
     const DateTimeList timesInInterval = event->recurrence()->timesInInterval(start.addSecs(1), end.addSecs(-1));
-//   kDebug() << "timesInInterval " << timesInInterval;
+//   qDebug() << "timesInInterval " << timesInInterval;
     foreach(const KDateTime &dt, timesInInterval) {
-//     kDebug() << dt;
+//     qDebug() << dt;
         QCOMPARE(expectedEventOccurrences.removeAll(dt), 1);
     }
     QCOMPARE(expectedEventOccurrences.size(), 0);

@@ -31,13 +31,13 @@ void TestReadRecurrenceId::testReadSingleException()
     KCalCore::ICalFormat format;
     QFile file(ICALTESTDATADIR "test_recurrenceid_single.ics");
     QVERIFY(file.open(QIODevice::ReadOnly));
-//   kDebug() << file.readAll();
+//   qDebug() << file.readAll();
 
     KCalCore::Incidence::Ptr i = format.fromString(QString::fromUtf8(file.readAll()));
     if (!i) {
-        kWarning() << "Failed to parse incidence!";
+        qWarning() << "Failed to parse incidence!";
         if (format.exception()) {
-            kWarning() << format.exception()->arguments();
+            qWarning() << format.exception()->arguments();
         }
     }
     QVERIFY(i);
@@ -65,7 +65,7 @@ void TestReadRecurrenceId::testReadWriteSingleExceptionWithThisAndFuture()
     inc->setThisAndFuture(true);
     cal->addIncidence(inc);
     const QString result = format.toString(cal, QString());
-    kDebug() << result;
+    qDebug() << result;
 
     KCalCore::Incidence::Ptr i = format.fromString(result);
     QVERIFY(i);

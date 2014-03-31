@@ -70,8 +70,8 @@ int main(int argc, char **argv)
     QFileInfo outputFileInfo(output);
     output = outputFileInfo.absoluteFilePath();
 
-    kDebug() << "Input file:" << input;
-    kDebug() << "Output file:" << output;
+    qDebug() << "Input file:" << input;
+    qDebug() << "Output file:" << output;
 
     MemoryCalendar::Ptr cal(new MemoryCalendar(KDateTime::UTC));
     FileStorage instore(cal, input);

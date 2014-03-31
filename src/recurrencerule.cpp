@@ -1362,7 +1362,7 @@ bool RecurrenceRule::Private::buildCache() const
 
 // it = dts.begin();
 // while ( it != dts.end() ) {
-//   kDebug() << "            -=>" << dumpTime(*it);
+//   qDebug() << "            -=>" << dumpTime(*it);
 //   ++it;
 // }
     if (int(dts.count()) == mDuration) {
@@ -2017,13 +2017,13 @@ DateTimeList RecurrenceRule::Private::datesForInterval(const Constraint &interva
     lst.sortUnique();
 
     /*if ( lst.isEmpty() ) {
-      kDebug() << "         No Dates in Interval";
+      qDebug() << "         No Dates in Interval";
     } else {
-      kDebug() << "         Dates:";
+      qDebug() << "         Dates:";
       for ( int i = 0, iend = lst.count();  i < iend;  ++i ) {
-        kDebug()<< "              -)" << dumpTime(lst[i]);
+        qDebug()<< "              -)" << dumpTime(lst[i]);
       }
-      kDebug() << "       ---------------------";
+      qDebug() << "       ---------------------";
     }*/
     if (!mBySetPos.isEmpty()) {
         DateTimeList tmplst = lst;
@@ -2050,15 +2050,15 @@ DateTimeList RecurrenceRule::Private::datesForInterval(const Constraint &interva
 void RecurrenceRule::dump() const
 {
 #ifndef NDEBUG
-    kDebug();
+    qDebug();
     if (!d->mRRule.isEmpty()) {
-        kDebug() << "   RRULE=" << d->mRRule;
+        qDebug() << "   RRULE=" << d->mRRule;
     }
-    kDebug() << "   Read-Only:" << isReadOnly();
+    qDebug() << "   Read-Only:" << isReadOnly();
 
-    kDebug() << "   Period type:" << int(recurrenceType()) << ", frequency:" << frequency();
-    kDebug() << "   #occurrences:" << duration();
-    kDebug() << "   start date:" << dumpTime(startDt())
+    qDebug() << "   Period type:" << int(recurrenceType()) << ", frequency:" << frequency();
+    qDebug() << "   #occurrences:" << duration();
+    qDebug() << "   start date:" << dumpTime(startDt())
              << ", end date:" << dumpTime(endDt());
 
 #define dumpByIntList(list,label) \
@@ -2067,7 +2067,7 @@ void RecurrenceRule::dump() const
     for ( int i = 0, iend = list.count();  i < iend;  ++i ) {\
       lst.append( QString::number( list[i] ) );\
     }\
-    kDebug() << "  " << label << lst.join( QLatin1String(", ") );\
+    qDebug() << "  " << label << lst.join( QLatin1String(", ") );\
   }
     dumpByIntList(d->mBySeconds, QLatin1String("BySeconds:  "));
     dumpByIntList(d->mByMinutes, QLatin1String("ByMinutes:  "));
@@ -2079,7 +2079,7 @@ void RecurrenceRule::dump() const
             lst.append((d->mByDays[i].pos() ? QString::number(d->mByDays[i].pos()) : QLatin1String("")) +
                        DateHelper::dayName(d->mByDays[i].day()));
         }
-        kDebug() << "   ByDays:    " << lst.join(QLatin1String(", "));
+        qDebug() << "   ByDays:    " << lst.join(QLatin1String(", "));
     }
     dumpByIntList(d->mByMonthDays, QLatin1String("ByMonthDays:"));
     dumpByIntList(d->mByYearDays, QLatin1String("ByYearDays: "));
@@ -2088,9 +2088,9 @@ void RecurrenceRule::dump() const
     dumpByIntList(d->mBySetPos, QLatin1String("BySetPos:   "));
 #undef dumpByIntList
 
-    kDebug() << "   Week start:" << DateHelper::dayName(d->mWeekStart);   //krazy:exclude=kdebug
+    qDebug() << "   Week start:" << DateHelper::dayName(d->mWeekStart);   //krazy:exclude=kdebug
 
-    kDebug() << "   Constraints:";
+    qDebug() << "   Constraints:";
     // dump constraints
     for (int i = 0, iend = d->mConstraints.count();  i < iend;  ++i) {
         d->mConstraints[i].dump();
@@ -2101,7 +2101,7 @@ void RecurrenceRule::dump() const
 //@cond PRIVATE
 void Constraint::dump() const
 {
-    kDebug() << "     ~> Y=" << year
+    qDebug() << "     ~> Y=" << year
              << ", M=" << month
              << ", D=" << day
              << ", H=" << hour

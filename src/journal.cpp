@@ -98,7 +98,7 @@ void Journal::setDateTime(const KDateTime &dateTime, DateTimeRole role)
         break;
     }
     default:
-        kDebug() << "Unhandled role" << role;
+        qDebug() << "Unhandled role" << role;
     }
 }
 

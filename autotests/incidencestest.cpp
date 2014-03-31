@@ -62,7 +62,7 @@ int main(int argc, char **argv)
 
     QString eventString1 = f.toString(event1.staticCast<Incidence>());
     if (verbose) {
-        kDebug() << "EVENT1 START:" << eventString1 << "EVENT1 END";
+        qDebug() << "EVENT1 START:" << eventString1 << "EVENT1 END";
     }
 
     event1->setSchedulingID("foo");
@@ -73,31 +73,31 @@ int main(int argc, char **argv)
 
     QString eventString2 = f.toString(event2.staticCast<Incidence>());
     if (verbose) {
-        kDebug() << "EVENT2 START:" << eventString2 << "EVENT2 END";
+        qDebug() << "EVENT2 START:" << eventString2 << "EVENT2 END";
     }
 
     if (eventString1 != eventString2) {
-        kDebug() << "Clone Event FAILED.";
+        qDebug() << "Clone Event FAILED.";
     } else {
-        kDebug() << "Clone Event SUCCEEDED.";
+        qDebug() << "Clone Event SUCCEEDED.";
     }
 
     Todo::Ptr todo1 = Todo::Ptr(new Todo);
     todo1->setSummary("Test todo");
     QString todoString1 = f.toString(todo1.staticCast<Incidence>());
     if (verbose) {
-        kDebug() << "todo1 START:" << todoString1 << "todo1 END";
+        qDebug() << "todo1 START:" << todoString1 << "todo1 END";
     }
 
     Incidence::Ptr todo2 = Incidence::Ptr(todo1->clone());
     QString todoString2 = f.toString(todo2);
     if (verbose) {
-        kDebug() << "todo2 START:" << todoString2 << "todo2 END";
+        qDebug() << "todo2 START:" << todoString2 << "todo2 END";
     }
 
     if (todoString1 != todoString2) {
-        kDebug() << "Clone Todo FAILED.";
+        qDebug() << "Clone Todo FAILED.";
     } else {
-        kDebug() << "Clone Todo SUCCEEDED.";
+        qDebug() << "Clone Todo SUCCEEDED.";
     }
 }
