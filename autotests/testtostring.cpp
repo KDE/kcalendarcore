@@ -22,7 +22,7 @@
 #include "event.h"
 #include "icalformat.h"
 
-#include <kdebug.h>
+#include <qdebug.h>
 
 #include <iostream>
 

@@ -21,7 +21,7 @@
 #include "calfilter.h"
 
 #include <qtest_kde.h>
-#include <kdebug.h>
+#include <qdebug.h>
 QTEST_KDEMAIN(TestOccurrenceIterator, NoGUI)
 
 void TestOccurrenceIterator::testIterationWithExceptions()

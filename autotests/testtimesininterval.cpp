@@ -22,7 +22,7 @@
 #include "testtimesininterval.h"
 #include "event.h"
 
-#include <kdebug.h>
+#include <qdebug.h>
 
 #include <qtest_kde.h>
 QTEST_KDEMAIN(TimesInIntervalTest, NoGUI)
