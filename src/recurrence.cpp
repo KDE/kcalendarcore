@@ -1371,22 +1371,22 @@ void Recurrence::dump() const
     }
 
     count = d->mRDates.count();
-    qDebug() << endl << "  -)" << count << "Recurrence Dates:";
+    qDebug()  << "  -)" << count << "Recurrence Dates:";
     for (i = 0;  i < count;  ++i) {
         qDebug() << "    " << d->mRDates[i];
     }
     count = d->mRDateTimes.count();
-    qDebug() << endl << "  -)" << count << "Recurrence Date/Times:";
+    qDebug()  << "  -)" << count << "Recurrence Date/Times:";
     for (i = 0;  i < count;  ++i) {
         qDebug() << "    " << d->mRDateTimes[i].dateTime();
     }
     count = d->mExDates.count();
-    qDebug() << endl << "  -)" << count << "Exceptions Dates:";
+    qDebug()  << "  -)" << count << "Exceptions Dates:";
     for (i = 0;  i < count;  ++i) {
         qDebug() << "    " << d->mExDates[i];
     }
     count = d->mExDateTimes.count();
-    qDebug() << endl << "  -)" << count << "Exception Date/Times:";
+    qDebug()  << "  -)" << count << "Exception Date/Times:";
     for (i = 0;  i < count;  ++i) {
         qDebug() << "    " << d->mExDateTimes[i].dateTime();
     }

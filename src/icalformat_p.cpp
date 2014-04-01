@@ -1881,7 +1881,7 @@ void ICalFormatImpl::Private::readIncidenceBase(icalcomponent *parent,
     if (!uidProcessed) {
         qWarning() << "The incidence didn't have any UID! Report a bug "
                    << "to the application that generated this file."
-                   << endl;
+                   ;
 
         // Our in-memory incidence has a random uid generated in Event's ctor.
         // Make it empty so it matches what's in the file:

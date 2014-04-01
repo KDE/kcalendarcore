@@ -26,7 +26,7 @@
 #include <kaboutdata.h>
 #include <kcmdlineargs.h>
 #include <kcomponentdata.h>
-#include <kdebug.h>
+#include <qdebug.h>
 
 #include <QDate>
 #include <QtCore/QFile>
@@ -101,7 +101,7 @@ int main(int argc, char **argv)
             int nr = 0;
             while (dt.year() <= 2020 && nr<=500) {
                 if (incidence->recursOn(dt, cal->viewTimeSpec())) {
-                    (*outstream) << dt.toString(Qt::ISODate) << endl;
+                    (*outstream) << dt.toString(Qt::ISODate) ;
                     nr++;
                 }
                 dt = dt.addDays(1);

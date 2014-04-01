@@ -26,7 +26,7 @@
 #include <kaboutdata.h>
 #include <kcmdlineargs.h>
 #include <kcomponentdata.h>
-#include <kdebug.h>
+#include <qdebug.h>
 #include <ksystemtimezone.h>
 #include <KLocalizedString>
 
@@ -118,7 +118,7 @@ int main(int argc, char **argv)
                 ++i;
                 dt = incidence->recurrence()->getPreviousDateTime(dt);
                 if (dt.isValid()) {
-                    (*outstream) << dumpTime(dt, viewSpec) << endl;
+                    (*outstream) << dumpTime(dt, viewSpec) ;
                 }
             }
         } else {

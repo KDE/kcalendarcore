@@ -23,7 +23,7 @@
 #include "icalformat.h"
 #include "freebusy.h"
 
-#include <kdebug.h>
+#include <qdebug.h>
 #include <iostream>
 
 using namespace KCalCore;
