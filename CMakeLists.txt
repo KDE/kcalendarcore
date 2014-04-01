@@ -44,7 +44,8 @@ if(KCALCORE_FOR_SYMBIAN)
 endif()
 
 ########### Find packages ###########
-find_package(KF5 ${KF5_VERSION} CONFIG REQUIRED COMPONENTS ItemViews KDE4Support)
+find_package(KF5ItemViews ${KF5_VERSION} CONFIG REQUIRED)
+find_package(KF5KDE4Support ${KF5_VERSION} CONFIG REQUIRED)
 
 set(LibIcal_MIN_VERSION "0.42")
 find_package(LibIcal ${LibIcal_MIN_VERSION})
