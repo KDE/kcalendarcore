@@ -34,16 +34,16 @@ using namespace KCalCore;
 void FileStorageTest::testValidity()
 {
     MemoryCalendar::Ptr cal(new MemoryCalendar(KDateTime::UTC));
-    FileStorage fs(cal, QLatin1String("fred.ics"));
-    QCOMPARE(fs.fileName(), QLatin1String("fred.ics"));
+    FileStorage fs(cal, QStringLiteral("fred.ics"));
+    QCOMPARE(fs.fileName(), QStringLiteral("fred.ics"));
     QCOMPARE(fs.calendar().data(), cal.data());
     cal->close();
 }
 
 void FileStorageTest::testSave()
 {
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QLatin1String("UTC")));
-    FileStorage fs(cal, QLatin1String("fred.ics"));
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QStringLiteral("UTC")));
+    FileStorage fs(cal, QStringLiteral("fred.ics"));
 
     QDate dt = QDate::currentDate();
 
@@ -74,8 +74,8 @@ void FileStorageTest::testSave()
 
 void FileStorageTest::testSaveLoadSave()
 {
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QLatin1String("UTC")));
-    FileStorage fs(cal, QLatin1String("fred.ics"));
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QStringLiteral("UTC")));
+    FileStorage fs(cal, QStringLiteral("fred.ics"));
 
     QDate dt = QDate::currentDate();
 
@@ -128,8 +128,8 @@ void FileStorageTest::testSpecialChars()
     event->setSummary(QString(latin1_umlaut));
 
     // Save to file:
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QLatin1String("UTC")));
-    FileStorage fs(cal, QLatin1String("bart.ics"));
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QStringLiteral("UTC")));
+    FileStorage fs(cal, QStringLiteral("bart.ics"));
     cal->addEvent(event);
 
     QVERIFY(fs.open());
@@ -137,8 +137,8 @@ void FileStorageTest::testSpecialChars()
     QVERIFY(fs.close());
 
     // Load again:
-    MemoryCalendar::Ptr otherCalendar(new MemoryCalendar(QLatin1String("UTC")));
-    FileStorage otherFs(otherCalendar, QLatin1String("bart.ics"));
+    MemoryCalendar::Ptr otherCalendar(new MemoryCalendar(QStringLiteral("UTC")));
+    FileStorage otherFs(otherCalendar, QStringLiteral("bart.ics"));
     QVERIFY(otherFs.open());
     QVERIFY(otherFs.load());
 
@@ -154,7 +154,7 @@ void FileStorageTest::testSpecialChars()
                    QString(latin1_umlaut).toLatin1().constData()) == 0);
 
     // Make sure bart.ics is in UTF-8
-    QFile file(QLatin1String("bart.ics"));
+    QFile file(QStringLiteral("bart.ics"));
     QVERIFY(file.open(QIODevice::ReadOnly | QIODevice::Text));
 
     const QByteArray bytesFromFile = file.readAll();

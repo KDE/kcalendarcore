@@ -44,16 +44,16 @@ int main(int argc, char **argv)
     parser.addPositionalArgument("input", i18n("Name of input file"));
     parser.addPositionalArgument("output", i18n("Name of output file"));
 
-    KAboutData about(QLatin1String("testvcalexport"), QString(),
+    KAboutData about(QStringLiteral("testvcalexport"), QString(),
                      i18n("Part of LibKCal's test suite. Checks if export "
                                "to vCalendar still works correctly."),
-                     QLatin1String("0.1"));
+                     QStringLiteral("0.1"));
 
     about.setupCommandLine(&parser);
     KAboutData::setApplicationData(about);
 
     QCoreApplication app(argc, argv);
-    QCoreApplication::setApplicationName(QLatin1String("testvcalexport"));
+    QCoreApplication::setApplicationName(QStringLiteral("testvcalexport"));
     QCoreApplication::setApplicationVersion("0.1");
     parser.process(app);
     about.processCommandLine(&parser);

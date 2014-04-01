@@ -37,14 +37,14 @@ int main(int argc, char **argv)
     QCommandLineParser parser;
     parser.addOption(QCommandLineOption(QStringList() << "verbose" , i18n("Verbose output")));
 
-    KAboutData about(QLatin1String("testcalendar"), QString(),
-                     i18n("Test Calendar"), QLatin1String("0.1"));
+    KAboutData about(QStringLiteral("testcalendar"), QString(),
+                     i18n("Test Calendar"), QStringLiteral("0.1"));
 
     about.setupCommandLine(&parser);
     KAboutData::setApplicationData(about);
 
     QCoreApplication app(argc, argv);
-    QCoreApplication::setApplicationName(QLatin1String("testincidence"));
+    QCoreApplication::setApplicationName(QStringLiteral("testincidence"));
     QCoreApplication::setApplicationVersion("0.1");
     parser.process(app);
     about.processCommandLine(&parser);

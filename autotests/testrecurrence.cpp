@@ -46,15 +46,15 @@ int main(int argc, char **argv)
     parser.addPositionalArgument("input", i18n("Name of input file"));
     parser.addPositionalArgument("output", i18n("optional name of output file for the recurrence dates"));
 
-    KAboutData about(QLatin1String("testrecurrencenew"), QString(),
+    KAboutData about(QStringLiteral("testrecurrencenew"), QString(),
                      i18n("Load recurrence rules with the new class and print out debug messages"),
-                     QLatin1String("0.1"));
+                     QStringLiteral("0.1"));
 
     about.setupCommandLine(&parser);
     KAboutData::setApplicationData(about);
 
     QCoreApplication app(argc, argv);
-    QCoreApplication::setApplicationName(QLatin1String("testrecurrencenew"));
+    QCoreApplication::setApplicationName(QStringLiteral("testrecurrencenew"));
     QCoreApplication::setApplicationVersion("0.1");
     parser.process(app);
     about.processCommandLine(&parser);
@@ -142,15 +142,15 @@ QString dumpTime(const KDateTime &dt, const KDateTime::Spec &viewSpec)
     QString format;
 #ifdef FLOAT_IS_DATE_ONLY
     if (vdt.isDateOnly()) {
-        format = QLatin1String("%Y-%m-%d");
+        format = QStringLiteral("%Y-%m-%d");
     } else
 #endif
-        format = QLatin1String("%Y-%m-%dT%H:%M:%S");
+        format = QStringLiteral("%Y-%m-%dT%H:%M:%S");
     if (vdt.isSecondOccurrence()) {
-        format += QLatin1String(" %Z");
+        format += QStringLiteral(" %Z");
     }
     if (vdt.timeSpec() != KDateTime::ClockTime) {
-        format += QLatin1String(" %:Z");
+        format += QStringLiteral(" %:Z");
     }
     return vdt.toString(format);
 }

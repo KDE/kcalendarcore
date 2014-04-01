@@ -550,7 +550,7 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent,
     }
 
     // categories
-    QString categories = incidence->categories().join(QLatin1String(","));
+    QString categories = incidence->categories().join(QStringLiteral(","));
     if (!categories.isEmpty()) {
         icalcomponent_add_property(
             parent, icalproperty_new_categories(categories.toUtf8()));
@@ -1021,9 +1021,9 @@ icalrecurrencetype ICalFormatImpl::writeRecurrenceRule(RecurrenceRule *recur)
 icalcomponent *ICalFormatImpl::writeAlarm(const Alarm::Ptr &alarm)
 {
     if (alarm->enabled()) {
-        alarm->setCustomProperty(APP_NAME_FOR_XPROPERTIES, ENABLED_ALARM_XPROPERTY, QLatin1String("TRUE"));
+        alarm->setCustomProperty(APP_NAME_FOR_XPROPERTIES, ENABLED_ALARM_XPROPERTY, QStringLiteral("TRUE"));
     } else {
-        alarm->setCustomProperty(APP_NAME_FOR_XPROPERTIES, ENABLED_ALARM_XPROPERTY, QLatin1String("FALSE"));
+        alarm->setCustomProperty(APP_NAME_FOR_XPROPERTIES, ENABLED_ALARM_XPROPERTY, QStringLiteral("FALSE"));
     }
 
     icalcomponent *a = icalcomponent_new(ICAL_VALARM_COMPONENT);
@@ -1167,7 +1167,7 @@ Todo::Ptr ICalFormatImpl::readTodo(icalcomponent *vtodo, ICalTimeZones *tzlist)
 
         case ICAL_DTSTART_PROPERTY:
             // Flag that todo has start date. Value is read in by readIncidence().
-            if (todo->comments().filter(QLatin1String("NoStartDate")).count()) {
+            if (todo->comments().filter(QStringLiteral("NoStartDate")).count()) {
                 todo->setDtStart(KDateTime());
             } else {
                 todo->setHasStartDate(true);
@@ -1265,7 +1265,7 @@ Event::Ptr ICalFormatImpl::readEvent(icalcomponent *vevent, ICalTimeZones *tzlis
 
     QString msade = event->nonKDECustomProperty("X-MICROSOFT-CDO-ALLDAYEVENT");
     if (!msade.isEmpty()) {
-        bool allDay = (msade == QLatin1String("TRUE"));
+        bool allDay = (msade == QStringLiteral("TRUE"));
         event->setAllDay(allDay);
     }
 
@@ -1361,7 +1361,7 @@ Attendee::Ptr ICalFormatImpl::readAttendee(icalproperty *attendee)
     icalparameter *p = 0;
 
     QString email = QString::fromUtf8(icalproperty_get_attendee(attendee));
-    if (email.startsWith(QLatin1String("mailto:"), Qt::CaseInsensitive)) {
+    if (email.startsWith(QStringLiteral("mailto:"), Qt::CaseInsensitive)) {
         email = email.mid(7);
     }
 
@@ -1444,7 +1444,7 @@ Attendee::Ptr ICalFormatImpl::readAttendee(icalproperty *attendee)
     while (p) {
         QString xname = QString::fromLatin1(icalparameter_get_xname(p)).toUpper();
         QString xvalue = QString::fromUtf8(icalparameter_get_xvalue(p));
-        if (xname == QLatin1String("X-UID")) {
+        if (xname == QStringLiteral("X-UID")) {
             uid = xvalue;
         } else {
             custom[xname.toUtf8()] = xvalue;
@@ -1471,7 +1471,7 @@ Attendee::Ptr ICalFormatImpl::readAttendee(icalproperty *attendee)
 Person::Ptr ICalFormatImpl::readOrganizer(icalproperty *organizer)
 {
     QString email = QString::fromUtf8(icalproperty_get_organizer(organizer));
-    if (email.startsWith(QLatin1String("mailto:"), Qt::CaseInsensitive)) {
+    if (email.startsWith(QStringLiteral("mailto:"), Qt::CaseInsensitive)) {
         email = email.mid(7);
     }
     QString cn;
@@ -1538,14 +1538,14 @@ Attachment::Ptr ICalFormatImpl::readAttachment(icalproperty *attach)
         while (p) {
             QString xname = QString::fromLatin1(icalparameter_get_xname(p)).toUpper();
             QString xvalue = QString::fromUtf8(icalparameter_get_xvalue(p));
-            if (xname == QLatin1String("X-CONTENT-DISPOSITION")) {
-                attachment->setShowInline(xvalue.toLower() == QLatin1String("inline"));
+            if (xname == QStringLiteral("X-CONTENT-DISPOSITION")) {
+                attachment->setShowInline(xvalue.toLower() == QStringLiteral("inline"));
             }
-            if (xname == QLatin1String("X-LABEL")) {
+            if (xname == QStringLiteral("X-LABEL")) {
                 attachment->setLabel(xvalue);
             }
-            if (xname == QLatin1String("X-KONTACT-TYPE")) {
-                attachment->setLocal(xvalue.toLower() == QLatin1String("local"));
+            if (xname == QStringLiteral("X-KONTACT-TYPE")) {
+                attachment->setLocal(xvalue.toLower() == QStringLiteral("local"));
             }
             p = icalproperty_get_next_parameter(attach, ICAL_X_PARAMETER);
         }
@@ -1615,7 +1615,7 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent,
             if (!textStr.isEmpty()) {
                 QString valStr = QString::fromUtf8(
                                      icalproperty_get_parameter_as_string(p, "X-KDE-TEXTFORMAT"));
-                if (!valStr.compare(QLatin1String("HTML"), Qt::CaseInsensitive)) {
+                if (!valStr.compare(QStringLiteral("HTML"), Qt::CaseInsensitive)) {
                     incidence->setDescription(textStr, true);
                 } else {
                     incidence->setDescription(textStr, false);
@@ -1630,7 +1630,7 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent,
             if (!textStr.isEmpty()) {
                 QString valStr = QString::fromUtf8(
                                      icalproperty_get_parameter_as_string(p, "X-KDE-TEXTFORMAT"));
-                if (!valStr.compare(QLatin1String("HTML"), Qt::CaseInsensitive)) {
+                if (!valStr.compare(QStringLiteral("HTML"), Qt::CaseInsensitive)) {
                     incidence->setSummary(textStr, true);
                 } else {
                     incidence->setSummary(textStr, false);
@@ -1651,7 +1651,7 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent,
             if (!textStr.isEmpty()) {
                 QString valStr = QString::fromUtf8(
                                      icalproperty_get_parameter_as_string(p, "X-KDE-TEXTFORMAT"));
-                if (!valStr.compare(QLatin1String("HTML"), Qt::CaseInsensitive)) {
+                if (!valStr.compare(QStringLiteral("HTML"), Qt::CaseInsensitive)) {
                     incidence->setLocation(textStr, true);
                 } else {
                     incidence->setLocation(textStr, false);
@@ -1932,9 +1932,9 @@ void ICalFormatImpl::Private::readCustomProperties(icalcomponent *parent,
                 const char *c = icalparameter_as_ical_string(param);
                 parametervalues.push_back(QLatin1String(c));
             }
-            parameters = parametervalues.join(QLatin1String(";"));
+            parameters = parametervalues.join(QStringLiteral(";"));
         } else {
-            value = value.append(QLatin1String(",")).append(nvalue);
+            value = value.append(QStringLiteral(",")).append(nvalue);
         }
         p = icalcomponent_get_next_property(parent, ICAL_X_PROPERTY);
     }
@@ -2172,7 +2172,7 @@ void ICalFormatImpl::readAlarm(icalcomponent *alarm,
         case ICAL_ATTENDEE_PROPERTY:
         {   // Only in EMAIL alarm
             QString email = QString::fromUtf8(icalproperty_get_attendee(p));
-            if (email.startsWith(QLatin1String("mailto:"), Qt::CaseInsensitive)) {
+            if (email.startsWith(QStringLiteral("mailto:"), Qt::CaseInsensitive)) {
                 email = email.mid(7);
             }
             QString name;
@@ -2223,7 +2223,7 @@ void ICalFormatImpl::readAlarm(icalcomponent *alarm,
     }
 
     if (ialarm->customProperty(APP_NAME_FOR_XPROPERTIES,
-                               ENABLED_ALARM_XPROPERTY) == QLatin1String("FALSE")) {
+                               ENABLED_ALARM_XPROPERTY) == QStringLiteral("FALSE")) {
         ialarm->setEnabled(false);
     }
     // TODO: check for consistency of alarm properties
@@ -2467,7 +2467,7 @@ KDateTime ICalFormatImpl::readICalDateTimeProperty(icalproperty *p,
     case ICAL_X_PROPERTY:
     {
         const char *name = icalproperty_get_x_name(p);
-        if (QLatin1String(name) == QLatin1String("X-KDE-LIBKCAL-DTRECURRENCE")) {
+        if (QLatin1String(name) == QStringLiteral("X-KDE-LIBKCAL-DTRECURRENCE")) {
             const char *value =  icalvalue_as_ical_string(icalproperty_get_value(p));
             icalvalue *v = icalvalue_new_from_string(ICAL_DATETIME_VALUE, value);
             tp.time = icalvalue_get_datetime(v);
@@ -2654,7 +2654,7 @@ bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar,
     p = icalcomponent_get_first_property(calendar, ICAL_PRODID_PROPERTY);
     if (!p) {
         qDebug() << "No PRODID property found";
-        d->mLoadedProductId = QLatin1String("");
+        d->mLoadedProductId = QStringLiteral("");
     } else {
         d->mLoadedProductId = QString::fromUtf8(icalproperty_get_prodid(p));
 

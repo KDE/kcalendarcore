@@ -71,23 +71,23 @@ QString ScheduleMessage::methodName(iTIPMethod method)
 {
     switch (method) {
     case iTIPPublish:
-        return QLatin1String("Publish");
+        return QStringLiteral("Publish");
     case iTIPRequest:
-        return QLatin1String("Request");
+        return QStringLiteral("Request");
     case iTIPRefresh:
-        return QLatin1String("Refresh");
+        return QStringLiteral("Refresh");
     case iTIPCancel:
-        return QLatin1String("Cancel");
+        return QStringLiteral("Cancel");
     case iTIPAdd:
-        return QLatin1String("Add");
+        return QStringLiteral("Add");
     case iTIPReply:
-        return QLatin1String("Reply");
+        return QStringLiteral("Reply");
     case iTIPCounter:
-        return QLatin1String("Counter");
+        return QStringLiteral("Counter");
     case iTIPDeclineCounter:
-        return QLatin1String("Decline Counter");
+        return QStringLiteral("Decline Counter");
     default:
-        return QLatin1String("Unknown");
+        return QStringLiteral("Unknown");
     }
 }
 

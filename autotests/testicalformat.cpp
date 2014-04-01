@@ -117,6 +117,6 @@ void ICalFormatTest::testVolatileProperties()
     QString string = format.toICalString(event);
     Incidence::Ptr incidence = format.fromString(string);
 
-    QCOMPARE(incidence->uid(), QLatin1String("12345"));
+    QCOMPARE(incidence->uid(), QStringLiteral("12345"));
     QVERIFY(incidence->customProperties().isEmpty());
 }

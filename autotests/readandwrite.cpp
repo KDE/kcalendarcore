@@ -44,14 +44,14 @@ int main(int argc, char **argv)
     parser.addPositionalArgument("source", i18n("Source file to copy."));
     parser.addPositionalArgument("destination", i18n("Destination directory."));
 
-    KAboutData about(QLatin1String("readandwrite"), QString(),
-                     i18n("Read and Write Calendar"), QLatin1String("0.1"));
+    KAboutData about(QStringLiteral("readandwrite"), QString(),
+                     i18n("Read and Write Calendar"), QStringLiteral("0.1"));
 
     about.setupCommandLine(&parser);
     KAboutData::setApplicationData(about);
 
     QCoreApplication app(argc, argv);
-    QCoreApplication::setApplicationName(QLatin1String("readandwrite"));
+    QCoreApplication::setApplicationName(QStringLiteral("readandwrite"));
     QCoreApplication::setApplicationVersion("0.1");
     parser.process(app);
     about.processCommandLine(&parser);
@@ -75,8 +75,8 @@ int main(int argc, char **argv)
     // Jenkins is still running a old libical version.
     // Add a workaround here since sysadmins don't have time to install libical 1.x before
     // the 4.11 KDE release.
-    if (outputFileInfo.fileName() == QLatin1String("KOrganizer_3.1.ics.ical.out") ||
-            outputFileInfo.fileName() == QLatin1String("KOrganizer_3.2.ics.ical.out")) {
+    if (outputFileInfo.fileName() == QStringLiteral("KOrganizer_3.1.ics.ical.out") ||
+            outputFileInfo.fileName() == QStringLiteral("KOrganizer_3.2.ics.ical.out")) {
         return 0;
     }
 #endif

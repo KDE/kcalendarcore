@@ -60,9 +60,9 @@ public:
     Exception *mException;
 };
 
-QString CalFormat::Private::mApplication = QLatin1String("libkcal");
+QString CalFormat::Private::mApplication = QStringLiteral("libkcal");
 QString CalFormat::Private::mProductId =
-    QLatin1String("-//K Desktop Environment//NONSGML libkcal 4.3//EN");
+    QStringLiteral("-//K Desktop Environment//NONSGML libkcal 4.3//EN");
 //@endcond
 
 CalFormat::CalFormat()

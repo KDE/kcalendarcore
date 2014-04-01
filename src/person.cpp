@@ -108,7 +108,7 @@ QString Person::fullName() const
         } else {
             // Taken from KABC::Addressee::fullEmail
             QString name = d->mName;
-            QRegExp needQuotes(QLatin1String("[^ 0-9A-Za-z\\x0080-\\xFFFF]"));
+            QRegExp needQuotes(QStringLiteral("[^ 0-9A-Za-z\\x0080-\\xFFFF]"));
             bool weNeedToQuote = name.indexOf(needQuotes) != -1;
             if (weNeedToQuote) {
                 if (name[0] != QLatin1Char('"')) {
@@ -118,7 +118,7 @@ QString Person::fullName() const
                     name.append(QLatin1Char('"'));
                 }
             }
-            return name + QLatin1String(" <") + d->mEmail + QLatin1Char('>');
+            return name + QStringLiteral(" <") + d->mEmail + QLatin1Char('>');
         }
     }
 }
@@ -145,7 +145,7 @@ void Person::setName(const QString &name)
 
 void Person::setEmail(const QString &email)
 {
-    if (email.startsWith(QLatin1String("mailto:"), Qt::CaseInsensitive)) {
+    if (email.startsWith(QStringLiteral("mailto:"), Qt::CaseInsensitive)) {
         d->mEmail = email.mid(7);
     } else {
         d->mEmail = email;
@@ -154,8 +154,8 @@ void Person::setEmail(const QString &email)
 
 bool Person::isValidEmail(const QString &email)
 {
-    int pos = email.lastIndexOf(QLatin1String("@"));
-    return (pos > 0) && (email.lastIndexOf(QLatin1String(".")) > pos) && ((email.length() - pos) > 4);
+    int pos = email.lastIndexOf(QStringLiteral("@"));
+    return (pos > 0) && (email.lastIndexOf(QStringLiteral(".")) > pos) && ((email.length() - pos) > 4);
 }
 
 void Person::setCount(int count)

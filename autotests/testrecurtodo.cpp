@@ -36,7 +36,7 @@ void RecurTodoTest::testAllDay()
     Todo *todo = new Todo();
     todo->setDtStart(KDateTime(dueDate.addDays(-1)));
     todo->setDtDue(KDateTime(dueDate));
-    todo->setSummary(QLatin1String("All day event"));
+    todo->setSummary(QStringLiteral("All day event"));
     todo->setAllDay(true);
 
     QCOMPARE(todo->dtStart().daysTo(todo->dtDue()), 1);
@@ -78,7 +78,7 @@ void RecurTodoTest::testRecurrenceStart()
     todo->setDtStart(KDateTime(fourDaysAgo, currentTime));
     const KDateTime originalDtDue(treeDaysAgo, currentTime);
     todo->setDtDue(originalDtDue);
-    todo->setSummary(QLatin1String("Not an all day event"));
+    todo->setSummary(QStringLiteral("Not an all day event"));
     QVERIFY(!todo->allDay());
     QVERIFY(recurrence->startDateTime().isValid());
 }
@@ -98,7 +98,7 @@ void RecurTodoTest::testNonAllDay()
     todo->setDtStart(KDateTime(fourDaysAgo, currentTime));
     const KDateTime originalDtDue(treeDaysAgo, currentTime);
     todo->setDtDue(originalDtDue);
-    todo->setSummary(QLatin1String("Not an all day event"));
+    todo->setSummary(QStringLiteral("Not an all day event"));
     QVERIFY(!todo->allDay());
     Recurrence *recurrence = todo->recurrence();
     recurrence->unsetRecurs();

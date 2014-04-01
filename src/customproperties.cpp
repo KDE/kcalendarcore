@@ -53,7 +53,7 @@ public:
 
     bool isVolatileProperty(const QString &name) const
     {
-        return name.startsWith(QLatin1String("X-KDE-VOLATILE"));
+        return name.startsWith(QStringLiteral("X-KDE-VOLATILE"));
     }
 };
 
@@ -197,9 +197,9 @@ void CustomProperties::setCustomProperties(const QMap<QByteArray, QString> &prop
         // Validate the property name and convert any null string to empty string
         if (checkName(it.key())) {
             if (d->isVolatileProperty(it.key())) {
-                d->mVolatileProperties[it.key()] = it.value().isNull() ? QLatin1String("") : it.value();
+                d->mVolatileProperties[it.key()] = it.value().isNull() ? QStringLiteral("") : it.value();
             } else {
-                d->mProperties[it.key()] = it.value().isNull() ? QLatin1String("") : it.value();
+                d->mProperties[it.key()] = it.value().isNull() ? QStringLiteral("") : it.value();
             }
             if (!changed) {
                 customPropertyUpdate();

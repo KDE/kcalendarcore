@@ -276,7 +276,7 @@ void IncidenceBase::setOrganizer(const Person::Ptr &organizer)
 void IncidenceBase::setOrganizer(const QString &o)
 {
     QString mail(o);
-    if (mail.startsWith(QLatin1String("MAILTO:"), Qt::CaseInsensitive)) {
+    if (mail.startsWith(QStringLiteral("MAILTO:"), Qt::CaseInsensitive)) {
         mail = mail.remove(0, 7);
     }
 
@@ -436,7 +436,7 @@ void IncidenceBase::addAttendee(const Attendee::Ptr &a, bool doupdate)
     if (doupdate) {
         update();
     }
-    if (a->name().left(7).toUpper() == QLatin1String("MAILTO:")) {
+    if (a->name().left(7).toUpper() == QStringLiteral("MAILTO:")) {
         a->setName(a->name().remove(0, 7));
     }
 
@@ -661,7 +661,7 @@ void IncidenceBase::setFieldDirty(IncidenceBase::Field field)
 
 KUrl IncidenceBase::uri() const
 {
-    return KUrl(QLatin1String("urn:x-ical:") + uid());
+    return KUrl(QStringLiteral("urn:x-ical:") + uid());
 }
 
 void IncidenceBase::setDirtyFields(const QSet<IncidenceBase::Field> &dirtyFields)

@@ -437,7 +437,7 @@ QString Incidence::richDescription() const
     if (descriptionIsRich()) {
         return d->mDescription;
     } else {
-        return Qt::escape(d->mDescription).replace(QLatin1Char('\n'), QLatin1String("<br/>"));
+        return Qt::escape(d->mDescription).replace(QLatin1Char('\n'), QStringLiteral("<br/>"));
     }
 }
 
@@ -473,7 +473,7 @@ QString Incidence::richSummary() const
     if (summaryIsRich()) {
         return d->mSummary;
     } else {
-        return Qt::escape(d->mSummary).replace(QLatin1Char('\n'), QLatin1String("<br/>"));
+        return Qt::escape(d->mSummary).replace(QLatin1Char('\n'), QStringLiteral("<br/>"));
     }
 }
 
@@ -525,7 +525,7 @@ QStringList Incidence::categories() const
 
 QString Incidence::categoriesStr() const
 {
-    return d->mCategories.join(QLatin1String(","));
+    return d->mCategories.join(QStringLiteral(","));
 }
 
 void Incidence::setRelatedTo(const QString &relatedToUid, RelType relType)
@@ -950,7 +950,7 @@ QString Incidence::richLocation() const
     if (locationIsRich()) {
         return d->mLocation;
     } else {
-        return Qt::escape(d->mLocation).replace(QLatin1Char('\n'), QLatin1String("<br/>"));
+        return Qt::escape(d->mLocation).replace(QLatin1Char('\n'), QStringLiteral("<br/>"));
     }
 }
 
@@ -1075,7 +1075,7 @@ void Incidence::recurrenceUpdated(Recurrence *recurrence)
 
 //@cond PRIVATE
 #define ALT_DESC_FIELD "X-ALT-DESC"
-#define ALT_DESC_PARAMETERS QLatin1String("FMTTYPE=text/html")
+#define ALT_DESC_PARAMETERS QStringLiteral("FMTTYPE=text/html")
 //@endcond
 
 bool Incidence::hasAltDescription() const
@@ -1114,7 +1114,7 @@ bool Incidence::supportsGroupwareCommunication() const
 /** static */
 QStringList Incidence::mimeTypes()
 {
-    return QStringList() << QLatin1String("text/calendar")
+    return QStringList() << QStringLiteral("text/calendar")
            << KCalCore::Event::eventMimeType()
            << KCalCore::Todo::todoMimeType()
            << KCalCore::Journal::journalMimeType();

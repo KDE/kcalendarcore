@@ -1018,7 +1018,7 @@ ICalTimeZone ICalTimeZoneSource::parse(MSTimeZone *tz)
     const KTimeZone::Phase standardPhase(
         (tz->Bias + tz->StandardBias) * -60,
         standardAbbrevs, false,
-        QLatin1String("Microsoft TIME_ZONE_INFORMATION"));
+        QStringLiteral("Microsoft TIME_ZONE_INFORMATION"));
     phases += standardPhase;
 
     QList<QByteArray> daylightAbbrevs;
@@ -1026,7 +1026,7 @@ ICalTimeZone ICalTimeZoneSource::parse(MSTimeZone *tz)
     const KTimeZone::Phase daylightPhase(
         (tz->Bias + tz->DaylightBias) * -60,
         daylightAbbrevs, true,
-        QLatin1String("Microsoft TIME_ZONE_INFORMATION"));
+        QStringLiteral("Microsoft TIME_ZONE_INFORMATION"));
     phases += daylightPhase;
 
     // Set phases used by the time zone, but note that previous time zone
@@ -1086,19 +1086,19 @@ ICalTimeZone ICalTimeZoneSource::parse(const QString &name, const QStringList &t
     for (QStringList::ConstIterator it = tzList.begin(); it != tzList.end(); ++it) {
         QString value = *it;
         daylight = false;
-        const QString tzName = value.mid(0, value.indexOf(QLatin1String(";")));
-        value = value.mid((value.indexOf(QLatin1String(";")) + 1));
-        const QString tzOffset = value.mid(0, value.indexOf(QLatin1String(";")));
-        value = value.mid((value.indexOf(QLatin1String(";")) + 1));
-        const QString tzDaylight = value.mid(0, value.indexOf(QLatin1String(";")));
-        const KDateTime tzDate = KDateTime::fromString(value.mid((value.lastIndexOf(QLatin1String(";")) + 1)));
-        if (tzDaylight == QLatin1String("true")) {
+        const QString tzName = value.mid(0, value.indexOf(QStringLiteral(";")));
+        value = value.mid((value.indexOf(QStringLiteral(";")) + 1));
+        const QString tzOffset = value.mid(0, value.indexOf(QStringLiteral(";")));
+        value = value.mid((value.indexOf(QStringLiteral(";")) + 1));
+        const QString tzDaylight = value.mid(0, value.indexOf(QStringLiteral(";")));
+        const KDateTime tzDate = KDateTime::fromString(value.mid((value.lastIndexOf(QStringLiteral(";")) + 1)));
+        if (tzDaylight == QStringLiteral("true")) {
             daylight = true;
         }
 
         const KTimeZone::Phase tzPhase(
             tzOffset.toInt(),
-            QByteArray(tzName.toLatin1()), daylight, QLatin1String("VCAL_TZ_INFORMATION"));
+            QByteArray(tzName.toLatin1()), daylight, QStringLiteral("VCAL_TZ_INFORMATION"));
         phases += tzPhase;
         transitions += KTimeZone::Transition(tzDate.dateTime(), tzPhase);
     }

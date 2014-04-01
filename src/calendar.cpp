@@ -72,8 +72,8 @@ public:
         mFilter->setEnabled(false);
 
         mOwner = Person::Ptr(new Person());
-        mOwner->setName(QLatin1String("Unknown Name"));
-        mOwner->setEmail(QLatin1String("unknown@nowhere"));
+        mOwner->setName(QStringLiteral("Unknown Name"));
+        mOwner->setEmail(QStringLiteral("unknown@nowhere"));
     }
 
     ~Private()
@@ -272,7 +272,7 @@ KDateTime::Spec Calendar::Private::timeZoneIdSpec(const QString &timeZoneId,
     } else {
         mBuiltInTimeZone = ICalTimeZone();
     }
-    if (timeZoneId == QLatin1String("UTC")) {
+    if (timeZoneId == QStringLiteral("UTC")) {
         return KDateTime::UTC;
     }
     ICalTimeZone tz = mTimeZones->zone(timeZoneId);

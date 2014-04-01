@@ -82,21 +82,21 @@ QString DateHelper::dayName(short day)
 {
     switch (day) {
     case 1:
-        return QLatin1String("MO");
+        return QStringLiteral("MO");
     case 2:
-        return QLatin1String("TU");
+        return QStringLiteral("TU");
     case 3:
-        return QLatin1String("WE");
+        return QStringLiteral("WE");
     case 4:
-        return QLatin1String("TH");
+        return QStringLiteral("TH");
     case 5:
-        return QLatin1String("FR");
+        return QStringLiteral("FR");
     case 6:
-        return QLatin1String("SA");
+        return QStringLiteral("SA");
     case 7:
-        return QLatin1String("SU");
+        return QStringLiteral("SU");
     default:
-        return QLatin1String("??");
+        return QStringLiteral("??");
     }
 }
 #endif
@@ -2067,25 +2067,25 @@ void RecurrenceRule::dump() const
     for ( int i = 0, iend = list.count();  i < iend;  ++i ) {\
       lst.append( QString::number( list[i] ) );\
     }\
-    qDebug() << "  " << label << lst.join( QLatin1String(", ") );\
+    qDebug() << "  " << label << lst.join( QStringLiteral(", ") );\
   }
-    dumpByIntList(d->mBySeconds, QLatin1String("BySeconds:  "));
-    dumpByIntList(d->mByMinutes, QLatin1String("ByMinutes:  "));
-    dumpByIntList(d->mByHours, QLatin1String("ByHours:    "));
+    dumpByIntList(d->mBySeconds, QStringLiteral("BySeconds:  "));
+    dumpByIntList(d->mByMinutes, QStringLiteral("ByMinutes:  "));
+    dumpByIntList(d->mByHours, QStringLiteral("ByHours:    "));
     if (!d->mByDays.isEmpty()) {
         QStringList lst;
         for (int i = 0, iend = d->mByDays.count();  i < iend;  ++i) {
             \
-            lst.append((d->mByDays[i].pos() ? QString::number(d->mByDays[i].pos()) : QLatin1String("")) +
+            lst.append((d->mByDays[i].pos() ? QString::number(d->mByDays[i].pos()) : QStringLiteral("")) +
                        DateHelper::dayName(d->mByDays[i].day()));
         }
-        qDebug() << "   ByDays:    " << lst.join(QLatin1String(", "));
+        qDebug() << "   ByDays:    " << lst.join(QStringLiteral(", "));
     }
-    dumpByIntList(d->mByMonthDays, QLatin1String("ByMonthDays:"));
-    dumpByIntList(d->mByYearDays, QLatin1String("ByYearDays: "));
-    dumpByIntList(d->mByWeekNumbers, QLatin1String("ByWeekNr:   "));
-    dumpByIntList(d->mByMonths, QLatin1String("ByMonths:   "));
-    dumpByIntList(d->mBySetPos, QLatin1String("BySetPos:   "));
+    dumpByIntList(d->mByMonthDays, QStringLiteral("ByMonthDays:"));
+    dumpByIntList(d->mByYearDays, QStringLiteral("ByYearDays: "));
+    dumpByIntList(d->mByWeekNumbers, QStringLiteral("ByWeekNr:   "));
+    dumpByIntList(d->mByMonths, QStringLiteral("ByMonths:   "));
+    dumpByIntList(d->mBySetPos, QStringLiteral("BySetPos:   "));
 #undef dumpByIntList
 
     qDebug() << "   Week start:" << DateHelper::dayName(d->mWeekStart);   //krazy:exclude=kdebug
@@ -2122,15 +2122,15 @@ QString dumpTime(const KDateTime &dt)
     }
     QString result;
     if (dt.isDateOnly()) {
-        result = dt.toString(QLatin1String("%a %Y-%m-%d %:Z"));
+        result = dt.toString(QStringLiteral("%a %Y-%m-%d %:Z"));
     } else {
-        result = dt.toString(QLatin1String("%a %Y-%m-%d %H:%M:%S %:Z"));
+        result = dt.toString(QStringLiteral("%a %Y-%m-%d %H:%M:%S %:Z"));
         if (dt.isSecondOccurrence()) {
-            result += QLatin1String(" (2nd)");
+            result += QStringLiteral(" (2nd)");
         }
     }
     if (dt.timeSpec() == KDateTime::Spec::ClockTime()) {
-        result += QLatin1String("Clock");
+        result += QStringLiteral("Clock");
     }
     return result;
 #else
