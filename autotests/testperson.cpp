@@ -24,7 +24,7 @@
 #include "testperson.h"
 #include "person.h"
 
-#include <qdebug.h>
+#include <kdebug.h>
 
 #include <qtest_kde.h>
 QTEST_KDEMAIN(PersonTest, NoGUI)

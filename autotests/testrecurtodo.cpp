@@ -20,7 +20,7 @@
 */
 #include "testrecurtodo.h"
 #include "todo.h"
-#include <qdebug.h>
+#include <kdebug.h>
 #include <qtest_kde.h>
 QTEST_KDEMAIN(RecurTodoTest, NoGUI)
 

@@ -17,7 +17,7 @@
 
 #include "testreadrecurrenceid.h"
 
-#include <qdebug.h>
+#include <kdebug.h>
 
 #include "memorycalendar.h"
 #include "icalformat.h"

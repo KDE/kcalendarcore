@@ -23,7 +23,7 @@
 #include "testattendee.h"
 #include "attendee.h"
 
-#include <qdebug.h>
+#include <kdebug.h>
 
 #include <qtest_kde.h>
 QTEST_KDEMAIN(AttendeeTest, NoGUI)

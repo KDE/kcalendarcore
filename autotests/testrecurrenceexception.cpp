@@ -19,7 +19,7 @@
 #include "memorycalendar.h"
 
 #include <qtest_kde.h>
-#include <qdebug.h>
+#include <kdebug.h>
 QTEST_KDEMAIN(TestRecurrenceException, NoGUI)
 
 void TestRecurrenceException::testCreateTodoException()

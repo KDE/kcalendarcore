@@ -555,7 +555,7 @@ ScheduleMessage::Ptr ICalFormat::parseScheduleMessage(const Calendar::Ptr &cal,
     }
 
     if (!icalrestriction_check(message)) {
-        qWarning() 
+        qWarning() << endl
                    << "kcalcore library reported a problem while parsing:";
         qWarning() << ScheduleMessage::methodName(method) << ":"    //krazy:exclude=kdebug
                    << d->mImpl->extractErrorProperty(c);

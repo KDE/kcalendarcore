@@ -27,7 +27,7 @@
 #include <kaboutdata.h>
 #include <kcmdlineargs.h>
 #include <kcomponentdata.h>
-#include <qdebug.h>
+#include <kdebug.h>
 #include <klocalizedstring.h>
 
 #include <QtCore/QFile>
