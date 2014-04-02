@@ -32,6 +32,7 @@
 #include <KStandardDirs>
 
 #include <QtCore/QCoreApplication>
+#include <QStandardPaths>
 
 using namespace KCalCore;
 
@@ -71,7 +72,7 @@ FreeBusyUrlStore *FreeBusyUrlStore::self()
 FreeBusyUrlStore::FreeBusyUrlStore() : d(new Private())
 {
     QString configFile =
-        KStandardDirs::locateLocal("data", QStringLiteral("korganizer/freebusyurls"));
+        QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1Char('/') + QStringLiteral("korganizer/freebusyurls");
     d->mConfig = new KConfig(configFile);
 }
 
