@@ -71,7 +71,7 @@ Compat *CompatFactory::createCompat(const QString &productId,
                     compat = new CompatPre31;
                 } else if (versionNum < 30200) {
                     compat = new CompatPre32;
-                } else if (versionNum == 30200 && release == QStringLiteral("pre")) {
+                } else if (versionNum == 30200 && release == QLatin1String("pre")) {
                     qDebug() << "Generating compat for KOrganizer 3.2 pre";
                     compat = new Compat32PrereleaseVersions;
                 } else if (versionNum < 30400) {

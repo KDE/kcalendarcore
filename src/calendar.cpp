@@ -272,7 +272,7 @@ KDateTime::Spec Calendar::Private::timeZoneIdSpec(const QString &timeZoneId,
     } else {
         mBuiltInTimeZone = ICalTimeZone();
     }
-    if (timeZoneId == QStringLiteral("UTC")) {
+    if (timeZoneId == QLatin1String("UTC")) {
         return KDateTime::UTC;
     }
     ICalTimeZone tz = mTimeZones->zone(timeZoneId);

@@ -75,8 +75,8 @@ int main(int argc, char **argv)
     // Jenkins is still running a old libical version.
     // Add a workaround here since sysadmins don't have time to install libical 1.x before
     // the 4.11 KDE release.
-    if (outputFileInfo.fileName() == QStringLiteral("KOrganizer_3.1.ics.ical.out") ||
-            outputFileInfo.fileName() == QStringLiteral("KOrganizer_3.2.ics.ical.out")) {
+    if (outputFileInfo.fileName() == QLatin1String("KOrganizer_3.1.ics.ical.out") ||
+            outputFileInfo.fileName() == QLatin1String("KOrganizer_3.2.ics.ical.out")) {
         return 0;
     }
 #endif

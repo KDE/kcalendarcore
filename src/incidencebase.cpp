@@ -436,7 +436,7 @@ void IncidenceBase::addAttendee(const Attendee::Ptr &a, bool doupdate)
     if (doupdate) {
         update();
     }
-    if (a->name().left(7).toUpper() == QStringLiteral("MAILTO:")) {
+    if (a->name().left(7).toUpper() == QLatin1String("MAILTO:")) {
         a->setName(a->name().remove(0, 7));
     }
 

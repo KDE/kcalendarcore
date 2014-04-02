@@ -150,7 +150,7 @@ bool VCalFormat::save(const Calendar::Ptr &calendar, const QString &fileName)
     Todo::List todoList = d->mCalendar->rawTodos();
     Todo::List::ConstIterator it;
     for (it = todoList.constBegin(); it != todoList.constEnd(); ++it) {
-        if ((*it)->dtStart().timeZone().name().mid(0, 4) == QStringLiteral("VCAL")) {
+        if ((*it)->dtStart().timeZone().name().mid(0, 4) == QLatin1String("VCAL")) {
             ICalTimeZone zone = tzlist->zone((*it)->dtStart().timeZone().name());
             if (zone.isValid()) {
                 QByteArray timezone = zone.vtimezone();
@@ -169,7 +169,7 @@ bool VCalFormat::save(const Calendar::Ptr &calendar, const QString &fileName)
     Event::List events = d->mCalendar->rawEvents();
     Event::List::ConstIterator it2;
     for (it2 = events.constBegin(); it2 != events.constEnd(); ++it2) {
-        if ((*it2)->dtStart().timeZone().name().mid(0, 4) == QStringLiteral("VCAL")) {
+        if ((*it2)->dtStart().timeZone().name().mid(0, 4) == QLatin1String("VCAL")) {
             ICalTimeZone zone = tzlist->zone((*it2)->dtStart().timeZone().name());
             if (zone.isValid()) {
                 QByteArray timezone = zone.vtimezone();
@@ -255,7 +255,7 @@ QString VCalFormat::toString(const Calendar::Ptr &calendar,
             if (notebook.isEmpty() ||
                     (!calendar->notebook(*it).isEmpty() &&
                      notebook.endsWith(calendar->notebook(*it)))) {
-                if ((*it)->dtStart().timeZone().name().mid(0, 4) == QStringLiteral("VCAL")) {
+                if ((*it)->dtStart().timeZone().name().mid(0, 4) == QLatin1String("VCAL")) {
                     ICalTimeZone zone = tzlist->zone((*it)->dtStart().timeZone().name());
                     if (zone.isValid()) {
                         QByteArray timezone = zone.vtimezone();
@@ -282,7 +282,7 @@ QString VCalFormat::toString(const Calendar::Ptr &calendar,
             if (notebook.isEmpty() ||
                     (!calendar->notebook(*it2).isEmpty() &&
                      notebook.endsWith(calendar->notebook(*it2)))) {
-                if ((*it2)->dtStart().timeZone().name().mid(0, 4) == QStringLiteral("VCAL")) {
+                if ((*it2)->dtStart().timeZone().name().mid(0, 4) == QLatin1String("VCAL")) {
                     ICalTimeZone zone = tzlist->zone((*it2)->dtStart().timeZone().name());
                     if (zone.isValid()) {
                         QByteArray timezone = zone.vtimezone();
@@ -1063,7 +1063,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
         anEvent->setOrganizer(s = fakeCString(vObjectUStringZValue(vo)));
         deleteStr(s);
     } else {
-        if (d->mCalendar->owner()->name() != QStringLiteral("Unknown Name")) {
+        if (d->mCalendar->owner()->name() != QLatin1String("Unknown Name")) {
             anEvent->setOrganizer(d->mCalendar->owner());
         }
     }
@@ -2342,7 +2342,7 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
                     }
 
                     // We don't care about the non-DST periods
-                    if (argl[0] != QStringLiteral("TRUE")) {
+                    if (argl[0] != QLatin1String("TRUE")) {
                         continue;
                     }
 
@@ -2555,25 +2555,25 @@ const char *VCalFormat::dayFromNum(int day)
 
 int VCalFormat::numFromDay(const QString &day)
 {
-    if (day == QStringLiteral("MO ")) {
+    if (day == QLatin1String("MO ")) {
         return 0;
     }
-    if (day == QStringLiteral("TU ")) {
+    if (day == QLatin1String("TU ")) {
         return 1;
     }
-    if (day == QStringLiteral("WE ")) {
+    if (day == QLatin1String("WE ")) {
         return 2;
     }
-    if (day == QStringLiteral("TH ")) {
+    if (day == QLatin1String("TH ")) {
         return 3;
     }
-    if (day == QStringLiteral("FR ")) {
+    if (day == QLatin1String("FR ")) {
         return 4;
     }
-    if (day == QStringLiteral("SA ")) {
+    if (day == QLatin1String("SA ")) {
         return 5;
     }
-    if (day == QStringLiteral("SU ")) {
+    if (day == QLatin1String("SU ")) {
         return 6;
     }
 
@@ -2586,23 +2586,23 @@ Attendee::PartStat VCalFormat::readStatus(const char *s) const
     statStr = statStr.toUpper();
     Attendee::PartStat status;
 
-    if (statStr == QStringLiteral("X-ACTION")) {
+    if (statStr == QLatin1String("X-ACTION")) {
         status = Attendee::NeedsAction;
-    } else if (statStr == QStringLiteral("NEEDS ACTION")) {
+    } else if (statStr == QLatin1String("NEEDS ACTION")) {
         status = Attendee::NeedsAction;
-    } else if (statStr == QStringLiteral("ACCEPTED")) {
+    } else if (statStr == QLatin1String("ACCEPTED")) {
         status = Attendee::Accepted;
-    } else if (statStr == QStringLiteral("SENT")) {
+    } else if (statStr == QLatin1String("SENT")) {
         status = Attendee::NeedsAction;
-    } else if (statStr == QStringLiteral("TENTATIVE")) {
+    } else if (statStr == QLatin1String("TENTATIVE")) {
         status = Attendee::Tentative;
-    } else if (statStr == QStringLiteral("CONFIRMED")) {
+    } else if (statStr == QLatin1String("CONFIRMED")) {
         status = Attendee::Accepted;
-    } else if (statStr == QStringLiteral("DECLINED")) {
+    } else if (statStr == QLatin1String("DECLINED")) {
         status = Attendee::Declined;
-    } else if (statStr == QStringLiteral("COMPLETED")) {
+    } else if (statStr == QLatin1String("COMPLETED")) {
         status = Attendee::Completed;
-    } else if (statStr == QStringLiteral("DELEGATED")) {
+    } else if (statStr == QLatin1String("DELEGATED")) {
         status = Attendee::Delegated;
     } else {
         qDebug() << "error setting attendee mStatus, unknown mStatus!";

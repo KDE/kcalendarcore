@@ -1092,7 +1092,7 @@ ICalTimeZone ICalTimeZoneSource::parse(const QString &name, const QStringList &t
         value = value.mid((value.indexOf(QStringLiteral(";")) + 1));
         const QString tzDaylight = value.mid(0, value.indexOf(QStringLiteral(";")));
         const KDateTime tzDate = KDateTime::fromString(value.mid((value.lastIndexOf(QStringLiteral(";")) + 1)));
-        if (tzDaylight == QStringLiteral("true")) {
+        if (tzDaylight == QLatin1String("true")) {
             daylight = true;
         }
 

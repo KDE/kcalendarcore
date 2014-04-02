@@ -1265,7 +1265,7 @@ Event::Ptr ICalFormatImpl::readEvent(icalcomponent *vevent, ICalTimeZones *tzlis
 
     QString msade = event->nonKDECustomProperty("X-MICROSOFT-CDO-ALLDAYEVENT");
     if (!msade.isEmpty()) {
-        bool allDay = (msade == QStringLiteral("TRUE"));
+        bool allDay = (msade == QLatin1String("TRUE"));
         event->setAllDay(allDay);
     }
 
@@ -1444,7 +1444,7 @@ Attendee::Ptr ICalFormatImpl::readAttendee(icalproperty *attendee)
     while (p) {
         QString xname = QString::fromLatin1(icalparameter_get_xname(p)).toUpper();
         QString xvalue = QString::fromUtf8(icalparameter_get_xvalue(p));
-        if (xname == QStringLiteral("X-UID")) {
+        if (xname == QLatin1String("X-UID")) {
             uid = xvalue;
         } else {
             custom[xname.toUtf8()] = xvalue;
@@ -1538,14 +1538,14 @@ Attachment::Ptr ICalFormatImpl::readAttachment(icalproperty *attach)
         while (p) {
             QString xname = QString::fromLatin1(icalparameter_get_xname(p)).toUpper();
             QString xvalue = QString::fromUtf8(icalparameter_get_xvalue(p));
-            if (xname == QStringLiteral("X-CONTENT-DISPOSITION")) {
-                attachment->setShowInline(xvalue.toLower() == QStringLiteral("inline"));
+            if (xname == QLatin1String("X-CONTENT-DISPOSITION")) {
+                attachment->setShowInline(xvalue.toLower() == QLatin1String("inline"));
             }
-            if (xname == QStringLiteral("X-LABEL")) {
+            if (xname == QLatin1String("X-LABEL")) {
                 attachment->setLabel(xvalue);
             }
-            if (xname == QStringLiteral("X-KONTACT-TYPE")) {
-                attachment->setLocal(xvalue.toLower() == QStringLiteral("local"));
+            if (xname == QLatin1String("X-KONTACT-TYPE")) {
+                attachment->setLocal(xvalue.toLower() == QLatin1String("local"));
             }
             p = icalproperty_get_next_parameter(attach, ICAL_X_PARAMETER);
         }
@@ -2223,7 +2223,7 @@ void ICalFormatImpl::readAlarm(icalcomponent *alarm,
     }
 
     if (ialarm->customProperty(APP_NAME_FOR_XPROPERTIES,
-                               ENABLED_ALARM_XPROPERTY) == QStringLiteral("FALSE")) {
+                               ENABLED_ALARM_XPROPERTY) == QLatin1String("FALSE")) {
         ialarm->setEnabled(false);
     }
     // TODO: check for consistency of alarm properties
@@ -2467,7 +2467,7 @@ KDateTime ICalFormatImpl::readICalDateTimeProperty(icalproperty *p,
     case ICAL_X_PROPERTY:
     {
         const char *name = icalproperty_get_x_name(p);
-        if (QLatin1String(name) == QStringLiteral("X-KDE-LIBKCAL-DTRECURRENCE")) {
+        if (QLatin1String(name) == QLatin1String("X-KDE-LIBKCAL-DTRECURRENCE")) {
             const char *value =  icalvalue_as_ical_string(icalproperty_get_value(p));
             icalvalue *v = icalvalue_new_from_string(ICAL_DATETIME_VALUE, value);
             tp.time = icalvalue_get_datetime(v);

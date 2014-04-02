@@ -36,8 +36,8 @@ void MemoryCalendarTest::testValidity()
 {
     MemoryCalendar::Ptr cal(new MemoryCalendar(KDateTime::UTC));
     cal->setProductId(QStringLiteral("fredware calendar"));
-    QVERIFY(cal->productId() == QStringLiteral("fredware calendar"));
-    QVERIFY(cal->timeZoneId() == QStringLiteral("UTC"));
+    QVERIFY(cal->productId() == QLatin1String("fredware calendar"));
+    QVERIFY(cal->timeZoneId() == QLatin1String("UTC"));
     QVERIFY(cal->timeSpec() == KDateTime::UTC);
     cal->close();
 }
