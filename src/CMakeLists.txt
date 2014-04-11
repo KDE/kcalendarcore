@@ -138,5 +138,5 @@ install(FILES
   COMPONENT Devel
 )
 
-ecm_generate_pri_file(BASE_NAME KCalCore LIB_NAME KF5CalendarCore DEPS "ItemViews KDE4Support" FILENAME_VAR PRI_FILENAME)
+ecm_generate_pri_file(BASE_NAME KCalCore LIB_NAME KF5CalendarCore DEPS "ItemViews KDELibs4Support" FILENAME_VAR PRI_FILENAME)
 install(FILES ${PRI_FILENAME} DESTINATION ${ECM_MKSPECS_INSTALL_DIR})
