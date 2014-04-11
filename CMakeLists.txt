@@ -45,7 +45,7 @@ endif()
 
 ########### Find packages ###########
 find_package(KF5ItemViews ${KF5_VERSION} CONFIG REQUIRED)
-find_package(KF5KDE4Support ${KF5_VERSION} CONFIG REQUIRED)
+find_package(KF5KDELibs4Support ${KF5_VERSION} CONFIG REQUIRED)
 
 set(LibIcal_MIN_VERSION "0.42")
 find_package(LibIcal ${LibIcal_MIN_VERSION})
