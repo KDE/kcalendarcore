@@ -35,7 +35,7 @@
 #include "visitor.h"
 #include "recurrence.h"
 
-#include <KDebug>
+#include <QDebug>
 
 #include <QTime>
 

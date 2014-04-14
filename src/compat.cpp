@@ -35,7 +35,7 @@
 #include "compat.h"
 #include "incidence.h"
 
-#include <KDebug>
+#include <QDebug>
 
 #include <QtCore/QRegExp>
 #include <QtCore/QString>

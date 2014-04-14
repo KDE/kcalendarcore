@@ -44,7 +44,7 @@
 #include "versit/vobject.h"
 
 #include <KCodecs>
-#include <KDebug>
+#include <QDebug>
 
 #include <QtCore/QBitArray>
 #include <QtCore/QFile>

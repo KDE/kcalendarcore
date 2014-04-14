@@ -48,7 +48,7 @@
 #include "visitor.h"
 
 #include <KCodecs>
-#include <KDebug>
+#include <QDebug>
 
 #include <QtCore/QFile>
 

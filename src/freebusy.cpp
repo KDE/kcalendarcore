@@ -35,7 +35,7 @@
 
 #include "icalformat.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <QTime>
 
 using namespace KCalCore;

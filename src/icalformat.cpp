@@ -34,7 +34,7 @@
 #include "freebusy.h"
 #include "memorycalendar.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <KSaveFile>
 #include <kbackup.h>
 

@@ -32,7 +32,7 @@
 #include "event.h"
 #include "visitor.h"
 
-#include <KDebug>
+#include <QDebug>
 
 #include <QDate>
 

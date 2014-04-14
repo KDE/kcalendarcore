@@ -39,7 +39,7 @@
 #include "visitor.h"
 
 #include <QTime>
-#include <KDebug>
+#include <QDebug>
 #include <KUrl>
 
 #include <QtCore/QStringList>

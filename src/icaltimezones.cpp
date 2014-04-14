@@ -26,7 +26,7 @@
 #include "recurrence.h"
 #include "recurrencerule.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <KDateTime>
 #include <KSystemTimeZone>
 

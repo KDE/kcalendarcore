@@ -34,7 +34,7 @@
 #include "memorycalendar.h"
 #include "vcalformat.h"
 
-#include <KDebug>
+#include <QDebug>
 
 using namespace KCalCore;
 

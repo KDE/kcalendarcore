@@ -34,7 +34,7 @@
 
 #include "memorycalendar.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <QDate>
 #include <QDataStream>
 #include <KDateTime>

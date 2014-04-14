@@ -37,7 +37,7 @@
 
 #include <KMimeType>
 #include <KTemporaryFile>
-#include <KDebug>
+#include <QDebug>
 
 #include <QTextDocument> // for Qt::escape() and Qt::mightBeRichText()
 #include <QStringList>

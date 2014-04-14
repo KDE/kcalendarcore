@@ -23,7 +23,7 @@
 */
 #include "recurrence.h"
 
-#include <KDebug>
+#include <QDebug>
 
 #include <QtCore/QBitArray>
 #include <QtCore/QTime>

@@ -40,7 +40,7 @@
 #include "sorting.h"
 #include "visitor.h"
 
-#include <KDebug>
+#include <QDebug>
 
 extern "C" {
 #include <icaltimezone.h>

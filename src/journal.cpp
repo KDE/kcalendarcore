@@ -32,7 +32,7 @@
 #include "journal.h"
 #include "visitor.h"
 
-#include <KDebug>
+#include <QDebug>
 
 using namespace KCalCore;
 

@@ -21,7 +21,7 @@
 */
 #include "recurrencerule.h"
 
-#include <KDebug>
+#include <QDebug>
 
 #include <QtCore/QStringList>
 #include <QtCore/QTime>
