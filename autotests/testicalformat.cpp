@@ -25,7 +25,7 @@
 #include "icalformat.h"
 #include "memorycalendar.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <kdatetime.h>
 
 #include <qtest_kde.h>
