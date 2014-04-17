@@ -35,7 +35,7 @@
 #include "memorycalendar.h"
 
 #include <QDebug>
-#include <KSaveFile>
+#include <QSaveFile>
 #include <kbackup.h>
 
 #include <QtCore/QFile>
@@ -116,8 +116,8 @@ bool ICalFormat::save(const Calendar::Ptr &calendar, const QString &fileName)
     // Write backup file
   KBackup::backupFile( fileName );
 
-    KSaveFile file(fileName);
-    if (!file.open()) {
+    QSaveFile file(fileName);
+    if (!file.open(QIODevice::WriteOnly)) {
         qCritical() << "file open error: " << file.errorString() << ";filename=" << fileName;
         setException(new Exception(Exception::SaveErrorOpenFile,
                                    QStringList(fileName)));
@@ -129,7 +129,7 @@ bool ICalFormat::save(const Calendar::Ptr &calendar, const QString &fileName)
     QByteArray textUtf8 = text.toUtf8();
     file.write(textUtf8.data(), textUtf8.size());
 
-    if (!file.finalize()) {
+    if (!file.commit()) {
         qDebug() << "file finalize error:" << file.errorString();
         setException(new Exception(Exception::SaveErrorSaveFile,
                                    QStringList(fileName)));
