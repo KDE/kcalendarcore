@@ -124,12 +124,6 @@ ecm_generate_headers(KCalCore_CamelCase_HEADERS
 ########### install files ###############
 
 install(FILES
-    ${KCalCore_CamelCase_HEADERS}
-    DESTINATION ${KF5_INCLUDE_INSTALL_DIR}/KCalCore
-    COMPONENT Devel
-)
-
-install(FILES
   ${KCalCore_CamelCase_HEADERS}
   ${CMAKE_CURRENT_BINARY_DIR}/kcalcore_export.h
   ${KCalCore_HEADERS}
