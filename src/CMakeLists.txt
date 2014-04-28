@@ -119,7 +119,6 @@ ecm_generate_headers(KCalCore_CamelCase_HEADERS
   Visitor
 
   REQUIRED_HEADERS KCalCore_HEADERS
-  PREFIX KCalCore
 )
 
 ########### install files ###############
