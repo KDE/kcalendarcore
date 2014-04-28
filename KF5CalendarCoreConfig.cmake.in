@@ -11,4 +11,6 @@ set_package_properties(LibIcal PROPERTIES
                                URL "http://sourceforge.net/projects/freeassociation"
 )
 
+include(FeatureSummary)
+
 include("${CMAKE_CURRENT_LIST_DIR}/KF5CalendarCoreTargets.cmake")
