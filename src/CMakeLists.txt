@@ -56,7 +56,7 @@ generate_export_header(KF5CalendarCore BASE_NAME kcalcore)
 
 add_library(KF5::CalendarCore ALIAS KF5CalendarCore)
 
-target_include_directories(KF5CalendarCore INTERFACE "$<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}/kcalcore;${LibIcal_INCLUDE_DIRS};${LibIcal_INCLUDE_DIRS}/libical>")
+target_include_directories(KF5CalendarCore INTERFACE "$<INSTALL_INTERFACE:${KF5_INCLUDE_INSTALL_DIR}/KCalCore;${LibIcal_INCLUDE_DIRS};${LibIcal_INCLUDE_DIRS}/libical>")
 target_include_directories(KF5CalendarCore PUBLIC "$<BUILD_INTERFACE:${KCalCore_SOURCE_DIR}/src;${KCalCore_BINARY_DIR}/src;${KCalCore_SOURCE_DIR}/src/versit>")
 target_include_directories(KF5CalendarCore PUBLIC "$<BUILD_INTERFACE:${LibIcal_INCLUDE_DIRS};${LibIcal_INCLUDE_DIRS}/libical>")
 
@@ -126,15 +126,16 @@ ecm_generate_headers(KCalCore_CamelCase_HEADERS
 
 install(FILES
     ${KCalCore_CamelCase_HEADERS}
-    DESTINATION ${INCLUDE_INSTALL_DIR}/KCalCore
+    DESTINATION ${KF5_INCLUDE_INSTALL_DIR}/KCalCore
     COMPONENT Devel
 )
 
 install(FILES
+  ${KCalCore_CamelCase_HEADERS}
   ${CMAKE_CURRENT_BINARY_DIR}/kcalcore_export.h
   ${KCalCore_HEADERS}
   supertrait.h
-  DESTINATION ${INCLUDE_INSTALL_DIR}/kcalcore
+  DESTINATION ${KF5_INCLUDE_INSTALL_DIR}/KCalCore
   COMPONENT Devel
 )
 
