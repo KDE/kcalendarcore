@@ -88,6 +88,23 @@ public:
         Chair            /**< Chairperson */
     };
 
+
+    /**
+     * The different types of a participant.
+     */
+    enum CuType {
+        Individual,       /**< An individual (default) */
+        Group,            /**< A group of individuals */
+        Resource,         /**< A physical resource */
+        Room,             /**< A room resource */
+        Unknown           /**< Otherwise not known */
+        /**
+         * Parameters that have to set via the QString variant of @setCuType() and @cuType()
+         * x-name         ; Experimental cuType
+         * iana-token     ; Other IANA-registered
+         */
+    };
+
     /**
       A shared pointer to an Attendee object.
     */
@@ -173,6 +190,40 @@ public:
       @see setStatus()
     */
     PartStat status() const;
+
+    /**
+      Sets the #CuType of the attendee to @p cuType.
+
+      @param cuType is the #CuType to use for the attendee.
+
+      @see cuType()
+    */
+    void setCuType(CuType cuType);
+
+    /**
+      Sets the #CuType of the attendee to @p cuType.
+
+      @param cuType is the #CuType to use for the attendee.
+
+      @see cuType()
+    */
+    void setCuType(const QString &cuType);
+
+
+    /**
+      Returns the #CuType of the attendee.
+
+      @see setCuType()
+    */
+    CuType cuType() const;
+
+    /**
+      Returns the #CuType of the attendee.
+
+      @see setCuType()
+    */
+    QString cuTypeStr() const;
+
 
     /**
       Sets the @acronym RSVP flag of the attendee to @p rsvp.
