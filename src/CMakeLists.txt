@@ -118,17 +118,23 @@ ecm_generate_headers(KCalCore_CamelCase_HEADERS
   VCalFormat
   Visitor
 
+  PREFIX KCalCore
   REQUIRED_HEADERS KCalCore_HEADERS
 )
 
 ########### install files ###############
 
 install(FILES
-  ${KCalCore_CamelCase_HEADERS}
   ${CMAKE_CURRENT_BINARY_DIR}/kcalcore_export.h
   ${KCalCore_HEADERS}
   supertrait.h
-  DESTINATION ${KF5_INCLUDE_INSTALL_DIR}/KCalCore
+  DESTINATION ${KF5_INCLUDE_INSTALL_DIR}/KCalCore/kcalcore
+  COMPONENT Devel
+)
+
+install(FILES
+  ${KCalCore_CamelCase_HEADERS}
+  DESTINATION ${KF5_INCLUDE_INSTALL_DIR}/KCalCore/KCalCore
   COMPONENT Devel
 )
 
