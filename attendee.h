@@ -91,6 +91,8 @@ public:
 
     /**
      * The different types of a participant.
+     *
+     * @since 4.14
      */
     enum CuType {
         Individual,       /**< An individual (default) */
@@ -197,6 +199,8 @@ public:
       @param cuType is the #CuType to use for the attendee.
 
       @see cuType()
+
+      @since 4.14
     */
     void setCuType(CuType cuType);
 
@@ -206,6 +210,8 @@ public:
       @param cuType is the #CuType to use for the attendee.
 
       @see cuType()
+
+      @since 4.14
     */
     void setCuType(const QString &cuType);
 
@@ -214,6 +220,8 @@ public:
       Returns the #CuType of the attendee.
 
       @see setCuType()
+
+      @since 4.14
     */
     CuType cuType() const;
 
@@ -221,6 +229,8 @@ public:
       Returns the #CuType of the attendee.
 
       @see setCuType()
+
+      @since 4.14
     */
     QString cuTypeStr() const;
 
