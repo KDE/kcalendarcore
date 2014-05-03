@@ -37,6 +37,60 @@ void AttendeeTest::testValidity()
     QVERIFY(attendee.role() == Attendee::Chair);
 }
 
+void AttendeeTest::testType()
+{
+    Attendee attendee("fred", "fred@flintstone.com");
+    QCOMPARE(attendee.cuType(), Attendee::Individual);
+    QCOMPARE(attendee.cuTypeStr(), QLatin1String("INDIVIDUAL"));
+
+    attendee.setCuType(attendee.cuTypeStr());
+    QCOMPARE(attendee.cuType(), Attendee::Individual);
+
+    attendee.setCuType(QLatin1String("INVALID"));
+    QCOMPARE(attendee.cuType(), Attendee::Unknown);
+    QCOMPARE(attendee.cuTypeStr(), QLatin1String("UNKNOWN"));
+
+    attendee.setCuType(QLatin1String("group"));
+    QCOMPARE(attendee.cuType(), Attendee::Group);
+    QCOMPARE(attendee.cuTypeStr(), QLatin1String("GROUP"));
+
+    attendee.setCuType(QLatin1String("resource"));
+    QCOMPARE(attendee.cuType(), Attendee::Resource);
+    QCOMPARE(attendee.cuTypeStr(), QLatin1String("RESOURCE"));
+
+    attendee.setCuType(QLatin1String("ROOM"));
+    QCOMPARE(attendee.cuType(), Attendee::Room);
+    QCOMPARE(attendee.cuTypeStr(), QLatin1String("ROOM"));
+
+    attendee.setCuType(QLatin1String("UNKNOWN"));
+    QCOMPARE(attendee.cuType(), Attendee::Unknown);
+    QCOMPARE(attendee.cuTypeStr(), QLatin1String("UNKNOWN"));
+
+    attendee.setCuType(QLatin1String("X-test"));
+    QCOMPARE(attendee.cuType(), Attendee::Unknown);
+    QCOMPARE(attendee.cuTypeStr(), QLatin1String("X-TEST"));
+
+    attendee.setCuType(QLatin1String("IANA-TEST"));
+    QCOMPARE(attendee.cuType(), Attendee::Unknown);
+    QCOMPARE(attendee.cuTypeStr(), QLatin1String("IANA-TEST"));
+
+    attendee.setCuType(Attendee::Individual);
+    QCOMPARE(attendee.cuType(), Attendee::Individual);
+
+    attendee.setCuType(Attendee::Group);
+    QCOMPARE(attendee.cuType(), Attendee::Group);
+
+    attendee.setCuType(Attendee::Resource);
+    QCOMPARE(attendee.cuType(), Attendee::Resource);
+
+    attendee.setCuType(Attendee::Room);
+    QCOMPARE(attendee.cuType(), Attendee::Room);
+
+    attendee.setCuType(Attendee::Unknown);
+    QCOMPARE(attendee.cuType(), Attendee::Unknown);
+}
+
+
 void AttendeeTest::testCompare()
 {
     Attendee attendee1("fred", "fred@flintstone.com");
@@ -47,6 +101,19 @@ void AttendeeTest::testCompare()
     attendee2.setRole(Attendee::ReqParticipant);
     QVERIFY(!(attendee1 == attendee2));
     QVERIFY(attendee1.name() == "fred");
+}
+
+void AttendeeTest::testCompareType()
+{
+    Attendee attendee1("fred", "fred@flintstone.com");
+    attendee1.setCuType(Attendee::Resource);
+    Attendee attendee2 = attendee1;
+
+    QCOMPARE(attendee2.cuType(), Attendee::Resource);
+    QVERIFY(attendee1 == attendee2);
+
+    attendee2.setCuType(Attendee::Individual);
+    QVERIFY(!(attendee1 == attendee2));
 }
 
 void AttendeeTest::testAssign()
@@ -70,6 +137,7 @@ void AttendeeTest::testDataStreamOut()
     attendee1->setUid("Shooby Doo Bop");
     attendee1->setDelegate("I AM THE Delegate");
     attendee1->setDelegator("AND I AM THE Delegator");
+    attendee1->setCuType(QLatin1String("X-SPECIAL"));
     attendee1->setCustomProperty("name", "value");
     attendee1->setCustomProperty("foo", "bar");
 
@@ -82,7 +150,7 @@ void AttendeeTest::testDataStreamOut()
 
     Person::Ptr person;
     bool rsvp;
-    QString name, email, delegate, delegator, uid;
+    QString name, email, delegate, delegator, cuType, uid;
     CustomProperties customProperties;
     Attendee::Role role;
     Attendee::PartStat status;
@@ -112,6 +180,9 @@ void AttendeeTest::testDataStreamOut()
     in_stream >> delegator;
     QVERIFY(delegator == attendee1->delegator());
 
+    in_stream >> cuType;
+    QVERIFY(cuType == attendee1->cuTypeStr());
+
     in_stream >> customProperties;
     QVERIFY(customProperties == attendee1->customProperties());
 }
@@ -121,6 +192,7 @@ void AttendeeTest::testDataStreamIn()
     Attendee::Ptr attendee1(new Attendee("fred", "fred@flintstone.com"));
     attendee1->setRSVP(true);
     attendee1->setRole(Attendee::Chair);
+    attendee1->setCuType(QLatin1String("IANA-FOO"));
     attendee1->setUid("Shooby Doo Bop");
     attendee1->setDelegate("I AM THE Delegate");
     attendee1->setDelegator("AND I AM THE Delegator");
@@ -141,6 +213,7 @@ void AttendeeTest::testDataStreamIn()
     QVERIFY(attendee2->uid() == attendee1->uid());
     QVERIFY(attendee2->RSVP() == attendee1->RSVP());
     QVERIFY(attendee2->role() == attendee1->role());
+    QVERIFY(attendee2->cuTypeStr() == attendee1->cuTypeStr());
     QVERIFY(attendee2->status() == attendee1->status());
     QVERIFY(attendee2->delegate() == attendee1->delegate());
     QVERIFY(attendee2->delegator() == attendee1->delegator());

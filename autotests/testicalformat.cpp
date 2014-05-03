@@ -120,3 +120,33 @@ void ICalFormatTest::testVolatileProperties()
     QCOMPARE(incidence->uid(), QStringLiteral("12345"));
     QVERIFY(incidence->customProperties().isEmpty());
 }
+
+void ICalFormatTest::testCuType()
+{
+    ICalFormat format;
+    const QDate currentDate = QDate::currentDate();
+    Event::Ptr event(new Event());
+    event->setUid("12345");
+    event->setDtStart(KDateTime(currentDate));
+    event->setDtEnd(KDateTime(currentDate.addDays(1)));
+
+    Attendee::Ptr attendee(new Attendee("fred", "fred@flintstone.com"));
+    attendee->setCuType(Attendee::Resource);
+
+    event->addAttendee(attendee);
+
+    const QString serialized = format.toString(event.staticCast<Incidence>());
+
+    // test fromString(QString)
+    const QString serializedCalendar =
+        "BEGIN:VCALENDAR\nPRODID:-//K Desktop Environment//NONSGML libkcal 3.2//EN\nVERSION:2.0\n" +
+        serialized +
+        "\nEND:VCALENDAR";
+
+    Incidence::Ptr event2 = format.fromString(serializedCalendar);
+    QVERIFY(event2->attendeeCount() == 1);
+    Attendee::Ptr attendee2 = event2->attendees()[0];
+    QVERIFY(attendee2->cuType() == attendee->cuType());
+    QVERIFY(attendee2->name() == attendee->name());
+    QVERIFY(attendee2->email() == attendee->email());
+}

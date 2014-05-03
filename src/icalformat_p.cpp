@@ -821,6 +821,27 @@ icalproperty *ICalFormatImpl::writeAttendee(const Attendee::Ptr &attendee)
     }
     icalproperty_add_parameter(p, icalparameter_new_role(role));
 
+    icalparameter_cutype cutype = ICAL_CUTYPE_INDIVIDUAL;
+    switch (attendee->cuType()) {
+    case Attendee::Unknown:
+        cutype = ICAL_CUTYPE_UNKNOWN;
+        break;
+    default:
+    case Attendee::Individual:
+        cutype = ICAL_CUTYPE_INDIVIDUAL;
+        break;
+    case Attendee::Group:
+        cutype = ICAL_CUTYPE_GROUP;
+        break;
+    case Attendee::Resource:
+        cutype = ICAL_CUTYPE_RESOURCE;
+        break;
+    case Attendee::Room:
+        cutype = ICAL_CUTYPE_ROOM;
+        break;
+    }
+    icalproperty_add_parameter(p, icalparameter_new_cutype(cutype));
+
     if (!attendee->uid().isEmpty()) {
         icalparameter *icalparameter_uid = icalparameter_new_x(attendee->uid().toUtf8());
 
@@ -1439,6 +1460,32 @@ Attendee::Ptr ICalFormatImpl::readAttendee(icalproperty *attendee)
         }
     }
 
+    Attendee::CuType cuType = Attendee::Individual;
+    p = icalproperty_get_first_parameter( attendee, ICAL_CUTYPE_PARAMETER );
+    if (p) {
+        icalparameter_cutype cutypeParameter = icalparameter_get_cutype(p);
+        switch (cutypeParameter) {
+        case ICAL_CUTYPE_X:
+        case ICAL_CUTYPE_UNKNOWN:
+            cuType = Attendee::Unknown;
+            break;
+        default:
+        case ICAL_CUTYPE_NONE:
+        case ICAL_CUTYPE_INDIVIDUAL:
+            cuType = Attendee::Individual;
+            break;
+        case ICAL_CUTYPE_GROUP:
+            cuType = Attendee::Group;
+            break;
+        case ICAL_CUTYPE_RESOURCE:
+            cuType = Attendee::Resource;
+            break;
+        case ICAL_CUTYPE_ROOM:
+            cuType = Attendee::Room;
+            break;
+        }
+    }
+
     p = icalproperty_get_first_parameter(attendee, ICAL_X_PARAMETER);
     QMap<QByteArray, QString> custom;
     while (p) {
@@ -1453,6 +1500,7 @@ Attendee::Ptr ICalFormatImpl::readAttendee(icalproperty *attendee)
     }
 
     Attendee::Ptr a(new Attendee(name, email, rsvp, status, role, uid));
+    a->setCuType(cuType);
     a->customProperties().setCustomProperties(custom);
 
     p = icalproperty_get_first_parameter(attendee, ICAL_DELEGATEDTO_PARAMETER);

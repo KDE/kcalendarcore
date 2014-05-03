@@ -45,6 +45,11 @@ using namespace KCalCore;
 class KCalCore::Attendee::Private
 {
 public:
+    void setCuType(CuType cuType);
+    void setCuType(const QString &cuType);
+    CuType cuType() const;
+    QString cuTypeStr() const;
+
     bool mRSVP;
     Role mRole;
     PartStat mStatus;
@@ -52,8 +57,64 @@ public:
     QString mDelegate;
     QString mDelegator;
     CustomProperties mCustomProperties;
+private:
+    QString sCuType;
+    CuType mCuType;
 };
 //@endcond
+
+void KCalCore::Attendee::Private::setCuType(Attendee::CuType cuType)
+{
+    mCuType = cuType;
+    sCuType.clear();
+}
+
+void KCalCore::Attendee::Private::setCuType(const QString &cuType)
+{
+    const QString upper = cuType.toUpper();
+    if (upper == QLatin1String("INDIVIDUAL")) {
+        setCuType(Attendee::Individual);
+    } else if (upper == QLatin1String("GROUP")) {
+        setCuType(Attendee::Group);
+    } else if (upper == QLatin1String("RESOURCE")) {
+        setCuType(Attendee::Resource);
+    } else if (upper == QLatin1String("ROOM")) {
+        setCuType(Attendee::Room);
+    } else {
+        setCuType(Attendee::Unknown);
+        if (upper.startsWith(QLatin1String("X-")) || upper.startsWith(QLatin1String("IANA-"))) {
+            sCuType = upper;
+        }
+    }
+}
+
+Attendee::CuType KCalCore::Attendee::Private::cuType() const
+{
+    return mCuType;
+}
+
+QString KCalCore::Attendee::Private::cuTypeStr() const
+{
+    switch (mCuType) {
+    case Attendee::Individual:
+        return QLatin1String("INDIVIDUAL");
+    case Attendee::Group:
+        return QLatin1String("GROUP");
+    case Attendee::Resource:
+        return QLatin1String("RESOURCE");
+    case Attendee::Room:
+        return QLatin1String("ROOM");
+    case Attendee::Unknown:
+        if (sCuType.isEmpty()) {
+            return QLatin1String("UNKNOWN");
+        } else {
+            return sCuType;
+        }
+    }
+    return QLatin1String("UNKNOWN");
+}
+
+
 
 Attendee::Attendee(const QString &name, const QString &email, bool rsvp,
                    Attendee::PartStat status, Attendee::Role role, const QString &uid)
@@ -65,6 +126,7 @@ Attendee::Attendee(const QString &name, const QString &email, bool rsvp,
     d->mStatus = status;
     d->mRole = role;
     d->mUid = uid;
+    d->setCuType(Attendee::Individual);
 }
 
 Attendee::Attendee(const Attendee &attendee)
@@ -87,6 +149,7 @@ bool KCalCore::Attendee::operator==(const Attendee &attendee) const
         d->mStatus == attendee.d->mStatus &&
         d->mDelegate == attendee.d->mDelegate &&
         d->mDelegator == attendee.d->mDelegator &&
+        d->cuTypeStr() == attendee.d->cuTypeStr() &&
         (const Person &)*this == (const Person &)attendee;
 }
 
@@ -126,6 +189,26 @@ void Attendee::setStatus(Attendee::PartStat status)
 Attendee::PartStat Attendee::status() const
 {
     return d->mStatus;
+}
+
+void Attendee::setCuType(Attendee::CuType cuType)
+{
+    d->setCuType(cuType);
+}
+
+void Attendee::setCuType(const QString &cuType)
+{
+    d->setCuType(cuType);
+}
+
+Attendee::CuType Attendee::cuType() const
+{
+    return d->cuType();
+}
+
+QString Attendee::cuTypeStr() const
+{
+    return d->cuTypeStr();
 }
 
 void Attendee::setRole(Attendee::Role role)
@@ -193,6 +276,7 @@ QDataStream &KCalCore::operator<<(QDataStream &stream, const KCalCore::Attendee:
            << attendee->d->mUid
            << attendee->d->mDelegate
            << attendee->d->mDelegator
+           << attendee->d->cuTypeStr()
            << attendee->d->mCustomProperties;
 }
 
@@ -204,6 +288,7 @@ QDataStream &KCalCore::operator>>(QDataStream &stream, KCalCore::Attendee::Ptr &
     QString uid;
     QString delegate;
     QString delegator;
+    QString cuType;
     CustomProperties customProperties;
     uint role_int;
     uint status_int;
@@ -216,6 +301,7 @@ QDataStream &KCalCore::operator>>(QDataStream &stream, KCalCore::Attendee::Ptr &
            >> uid
            >> delegate
            >> delegator
+           >> cuType
            >> customProperties;
 
     role = Attendee::Role(role_int);
@@ -225,6 +311,7 @@ QDataStream &KCalCore::operator>>(QDataStream &stream, KCalCore::Attendee::Ptr &
                            RSVP, status, role, uid));
     att_temp->setDelegate(delegate);
     att_temp->setDelegator(delegator);
+    att_temp->setCuType(cuType);
     att_temp->d->mCustomProperties = customProperties;
     attendee.swap(att_temp);
     return stream;

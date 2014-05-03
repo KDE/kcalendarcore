@@ -30,7 +30,9 @@ class AttendeeTest : public QObject
     Q_OBJECT
 private Q_SLOTS:
     void testValidity();
+    void testType();
     void testCompare();
+    void testCompareType();
     void testAssign();
     void testDataStreamOut();
     void testDataStreamIn();
