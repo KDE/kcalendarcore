@@ -241,7 +241,7 @@ public:
       if ( i1.type() == i2.type() ) {
         i1 = i2;
       } else {
-        kDebug() << "Invalid assignment!";
+        qDebug() << "Invalid assignment!";
       }
       @endcode
 
