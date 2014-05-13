@@ -61,13 +61,14 @@ target_include_directories(KF5CalendarCore PUBLIC "$<BUILD_INTERFACE:${KCalCore_
 target_include_directories(KF5CalendarCore PUBLIC "$<BUILD_INTERFACE:${LibIcal_INCLUDE_DIRS};${LibIcal_INCLUDE_DIRS}/libical>")
 
 target_link_libraries(KF5CalendarCore
-    KF5::ItemViews
+PUBLIC
     KF5::KDELibs4Support
     ${LibIcal_LIBRARIES}
 )
 
 if(HAVE_UUID_LIBRARY)
   target_link_libraries(KF5CalendarCore
+PRIVATE
       ${UUID_LIBRARY}
   )
 endif()
