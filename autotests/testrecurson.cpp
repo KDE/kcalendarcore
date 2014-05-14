@@ -43,7 +43,7 @@ int main(int argc, char **argv)
     parser.addPositionalArgument("input", i18n("Name of input file"));
     parser.addPositionalArgument("output", i18n("optional name of output file for the recurrence dates"));
 
-    KAboutData about(QStringLiteral("testrecurson"), QString(),
+    KAboutData about(QStringLiteral("testrecurson"), 
                      i18n("Tests all dates from 2002 to 2010 to test if the event recurs on each individual date. "
                           "This is meant to test the Recurrence::recursOn method for errors."),
                      QStringLiteral("0.1"));

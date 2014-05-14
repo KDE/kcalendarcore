@@ -46,7 +46,7 @@ int main(int argc, char **argv)
     parser.addPositionalArgument("input", i18n("Name of input file"));
     parser.addPositionalArgument("output", i18n("optional name of output file for the recurrence dates"));
 
-    KAboutData about(QStringLiteral("testrecurrencenew"), QString(),
+    KAboutData about(QStringLiteral("testrecurrencenew"), 
                      i18n("Load recurrence rules with the new class and print out debug messages"),
                      QStringLiteral("0.1"));
 

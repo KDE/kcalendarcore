@@ -44,7 +44,7 @@ int main(int argc, char **argv)
     parser.addPositionalArgument("input", i18n("Name of input file"));
     parser.addPositionalArgument("output", i18n("Name of output file"));
 
-    KAboutData about(QStringLiteral("testvcalexport"), QString(),
+    KAboutData about(QStringLiteral("testvcalexport"),
                      i18n("Part of LibKCal's test suite. Checks if export "
                                "to vCalendar still works correctly."),
                      QStringLiteral("0.1"));

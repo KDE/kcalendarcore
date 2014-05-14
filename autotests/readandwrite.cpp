@@ -44,7 +44,7 @@ int main(int argc, char **argv)
     parser.addPositionalArgument("source", i18n("Source file to copy."));
     parser.addPositionalArgument("destination", i18n("Destination directory."));
 
-    KAboutData about(QStringLiteral("readandwrite"), QString(),
+    KAboutData about(QStringLiteral("readandwrite"),
                      i18n("Read and Write Calendar"), QStringLiteral("0.1"));
 
     about.setupCommandLine(&parser);

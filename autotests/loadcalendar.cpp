@@ -37,7 +37,7 @@ int main(int argc, char **argv)
     QCommandLineParser parser;
     parser.addOption(QCommandLineOption(QStringList() << "verbose" , i18n("Verbose output")));
 
-    KAboutData about(QStringLiteral("testcalendar"), QString(),
+    KAboutData about(QStringLiteral("testcalendar"),
                      i18n("Test Calendar"), QStringLiteral("0.1"));
 
     about.setupCommandLine(&parser);
