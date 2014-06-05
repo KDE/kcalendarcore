@@ -335,6 +335,10 @@ void ICalTimeZonesTest::offsetAtZoneTime()
     QVERIFY(tz.isValid());
 
     // Standard time: start of definitions at 2:00:00 local time
+    QCOMPARE(tz.offsetAtZoneTime(QDTLocal(1967,10,29, 0,59,59), &offset2), -4 * 3600);
+    QCOMPARE(offset2, -4 * 3600);
+    QCOMPARE(tz.offsetAtZoneTime(QDTLocal(1967,10,29, 1,0,0), &offset2), -4 * 3600);
+    QCOMPARE(offset2, -5 * 3600);
     QCOMPARE(tz.offsetAtZoneTime(QDTLocal(1967,10,29, 1,59,59), &offset2), -4 * 3600);
     QCOMPARE(offset2, -5 * 3600);
     QCOMPARE(tz.offsetAtZoneTime(QDTLocal(1967,10,29, 2,0,0), &offset2), -5 * 3600);
