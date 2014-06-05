@@ -40,8 +40,8 @@ using namespace KCalCore;
 static icalcomponent *loadCALENDAR(const char *vcal);
 static icalcomponent *loadVTIMEZONE(const char *vtz);
 
-#define QDTUtc(y,mo,d,h,mi,s)  QDateTime(QDate(y,mo,d), QTime(h,mi,d), Qt::UTC)
-#define QDTLocal(y,mo,d,h,mi,s)  QDateTime(QDate(y,mo,d), QTime(h,mi,d), Qt::LocalTime)
+#define QDTUtc(y,mo,d,h,mi,s)  QDateTime(QDate(y,mo,d), QTime(h,mi,s), Qt::UTC)
+#define QDTLocal(y,mo,d,h,mi,s)  QDateTime(QDate(y,mo,d), QTime(h,mi,s), Qt::LocalTime)
 
 static QDateTime start(QDate(1967,10,29), QTime(6,0,0), Qt::UTC);
 static QDateTime daylight87(QDate(1987,4,5),   QTime(7,0,0), Qt::UTC);
