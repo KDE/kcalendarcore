@@ -40,8 +40,8 @@ using namespace KCalCore;
 static icalcomponent *loadCALENDAR(const char *vcal);
 static icalcomponent *loadVTIMEZONE(const char *vtz);
 
-#define QDTUtc(y,mo,d,h,mi,s)  QDateTime(QDate(y,mo,d), QTime(h,mi,d), Qt::UTC)
-#define QDTLocal(y,mo,d,h,mi,s)  QDateTime(QDate(y,mo,d), QTime(h,mi,d), Qt::LocalTime)
+#define QDTUtc(y,mo,d,h,mi,s)  QDateTime(QDate(y,mo,d), QTime(h,mi,s), Qt::UTC)
+#define QDTLocal(y,mo,d,h,mi,s)  QDateTime(QDate(y,mo,d), QTime(h,mi,s), Qt::LocalTime)
 
 static QDateTime start(QDate(1967,10,29), QTime(6,0,0), Qt::UTC);
 static QDateTime daylight87(QDate(1987,4,5),   QTime(7,0,0), Qt::UTC);
@@ -335,6 +335,10 @@ void ICalTimeZonesTest::offsetAtZoneTime()
     QVERIFY(tz.isValid());
 
     // Standard time: start of definitions at 2:00:00 local time
+    QCOMPARE(tz.offsetAtZoneTime(QDTLocal(1967,10,29, 0,59,59), &offset2), -4 * 3600);
+    QCOMPARE(offset2, -4 * 3600);
+    QCOMPARE(tz.offsetAtZoneTime(QDTLocal(1967,10,29, 1,0,0), &offset2), -4 * 3600);
+    QCOMPARE(offset2, -5 * 3600);
     QCOMPARE(tz.offsetAtZoneTime(QDTLocal(1967,10,29, 1,59,59), &offset2), -4 * 3600);
     QCOMPARE(offset2, -5 * 3600);
     QCOMPARE(tz.offsetAtZoneTime(QDTLocal(1967,10,29, 2,0,0), &offset2), -5 * 3600);
