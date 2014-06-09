@@ -67,7 +67,7 @@
 #include <QtCore/QUrl>
 #include <QDataStream>
 
-class KUrl;
+class QUrl;
 class QDate;
 
 namespace KCalCore {
@@ -304,7 +304,7 @@ public:
     /**
       Returns the uri for the incidence, of form urn:x-ical:\<uid\>
     */
-    KUrl uri() const;
+    QUrl uri() const;
 
     /**
       Sets the time the incidence was last modified to @p lm.

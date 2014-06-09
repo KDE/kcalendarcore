@@ -40,7 +40,7 @@
 
 #include <QTime>
 #include <QDebug>
-#include <KUrl>
+#include <QUrl>
 
 #include <QtCore/QStringList>
 
@@ -659,9 +659,9 @@ void IncidenceBase::setFieldDirty(IncidenceBase::Field field)
     d->mDirtyFields.insert(field);
 }
 
-KUrl IncidenceBase::uri() const
+QUrl IncidenceBase::uri() const
 {
-    return KUrl(QStringLiteral("urn:x-ical:") + uid());
+    return QUrl(QStringLiteral("urn:x-ical:") + uid());
 }
 
 void IncidenceBase::setDirtyFields(const QSet<IncidenceBase::Field> &dirtyFields)
