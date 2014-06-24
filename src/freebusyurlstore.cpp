@@ -29,7 +29,6 @@
 
 #include <KConfig>
 #include <KConfigGroup>
-#include <KStandardDirs>
 
 #include <QtCore/QCoreApplication>
 #include <QStandardPaths>

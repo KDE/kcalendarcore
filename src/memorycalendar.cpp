@@ -36,7 +36,6 @@
 
 #include <QDebug>
 #include <QDate>
-#include <QDataStream>
 #include <KDateTime>
 
 using namespace KCalCore;

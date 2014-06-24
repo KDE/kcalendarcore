@@ -33,7 +33,6 @@
 #include "calendar.h"
 #include "calfilter.h"
 
-#include <QDebug>
 #include <QDate>
 
 using namespace KCalCore;

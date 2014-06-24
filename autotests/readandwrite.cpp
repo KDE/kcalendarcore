@@ -27,7 +27,6 @@
 
 #include <kaboutdata.h>
 #include <qdebug.h>
-#include <KI18n/KLocalizedString>
 #include <kcomponentdata.h>
 #include <kcmdlineargs.h>
 

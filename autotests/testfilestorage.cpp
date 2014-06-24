@@ -22,7 +22,6 @@
 #include "filestorage.h"
 #include "memorycalendar.h"
 
-#include <QDebug>
 
 #include <unistd.h>
 
