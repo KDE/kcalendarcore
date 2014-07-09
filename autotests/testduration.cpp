@@ -24,8 +24,8 @@
 
 #include <kdatetime.h>
 
-#include <qtest_kde.h>
-QTEST_KDEMAIN(DurationTest, NoGUI)
+#include <qtest.h>
+QTEST_MAIN(DurationTest)
 
 using namespace KCalCore;
 

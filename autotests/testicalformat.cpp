@@ -28,11 +28,11 @@
 #include <QDebug>
 #include <kdatetime.h>
 
-#include <qtest_kde.h>
+#include <qtest.h>
 
 #include <unistd.h>
 
-QTEST_KDEMAIN(ICalFormatTest, NoGUI)
+QTEST_MAIN(ICalFormatTest)
 
 using namespace KCalCore;
 

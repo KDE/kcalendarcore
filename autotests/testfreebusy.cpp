@@ -21,8 +21,8 @@
 #include "testfreebusy.h"
 #include "freebusy.h"
 
-#include <qtest_kde.h>
-QTEST_KDEMAIN(FreeBusyTest, NoGUI)
+#include <qtest.h>
+QTEST_MAIN(FreeBusyTest)
 
 using namespace KCalCore;
 

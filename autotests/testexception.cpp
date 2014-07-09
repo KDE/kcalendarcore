@@ -22,8 +22,8 @@
 #include "testexception.h"
 #include "exceptions.h"
 
-#include <qtest_kde.h>
-QTEST_KDEMAIN(ExceptionTest, NoGUI)
+#include <qtest.h>
+QTEST_MAIN(ExceptionTest)
 
 using namespace KCalCore;
 

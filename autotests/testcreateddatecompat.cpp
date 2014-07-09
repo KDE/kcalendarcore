@@ -20,7 +20,7 @@
 #include "memorycalendar.h"
 #include <iostream>
 
-#include <qtest_kde.h>
+#include <qtest.h>
 //"X-KDE-ICAL-IMPLEMENTATION-VERSION:1.0\n"
 
 const char *icalFile32 =
@@ -79,4 +79,4 @@ void CreatedDateCompatTest::testCompat33()
     QVERIFY(!event->customProperties().contains("X-KDE-ICAL-IMPLEMENTATION-VERSION"));
 }
 
-QTEST_KDEMAIN(CreatedDateCompatTest, NoGUI)
+QTEST_MAIN(CreatedDateCompatTest)

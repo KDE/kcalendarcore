@@ -24,8 +24,8 @@
 
 #include <QStringList>
 
-#include <qtest_kde.h>
-QTEST_KDEMAIN(CalFilterTest, NoGUI)
+#include <qtest.h>
+QTEST_MAIN(CalFilterTest)
 
 using namespace KCalCore;
 

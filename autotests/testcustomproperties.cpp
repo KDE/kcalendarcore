@@ -23,8 +23,8 @@
 #include "testcustomproperties.h"
 #include "customproperties.h"
 
-#include <qtest_kde.h>
-QTEST_KDEMAIN(CustomPropertiesTest, NoGUI)
+#include <qtest.h>
+QTEST_MAIN(CustomPropertiesTest)
 
 using namespace KCalCore;
 

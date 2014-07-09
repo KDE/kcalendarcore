@@ -20,9 +20,9 @@
 #include "memorycalendar.h"
 #include "calfilter.h"
 
-#include <qtest_kde.h>
+#include <qtest.h>
 #include <qdebug.h>
-QTEST_KDEMAIN(TestOccurrenceIterator, NoGUI)
+QTEST_MAIN(TestOccurrenceIterator)
 
 void TestOccurrenceIterator::testIterationWithExceptions()
 {

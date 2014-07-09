@@ -21,8 +21,8 @@
 #include "testincidencerelation.h"
 #include "todo.h"
 
-#include <qtest_kde.h>
-QTEST_KDEMAIN(IncidenceRelationTest, NoGUI)
+#include <qtest.h>
+QTEST_MAIN(IncidenceRelationTest)
 
 using namespace KCalCore;
 

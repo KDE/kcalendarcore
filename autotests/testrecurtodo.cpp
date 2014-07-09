@@ -21,8 +21,8 @@
 #include "testrecurtodo.h"
 #include "todo.h"
 #include <qdebug.h>
-#include <qtest_kde.h>
-QTEST_KDEMAIN(RecurTodoTest, NoGUI)
+#include <qtest.h>
+QTEST_MAIN(RecurTodoTest)
 
 using namespace KCalCore;
 

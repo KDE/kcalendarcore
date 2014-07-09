@@ -28,8 +28,8 @@
 
 #include <stdlib.h>
 
-#include <qtest_kde.h>
-QTEST_KDEMAIN(ICalTimeZonesTest, NoGUI)
+#include <qtest.h>
+QTEST_MAIN(ICalTimeZonesTest)
 
 extern "C" {
 #include <libical/ical.h>

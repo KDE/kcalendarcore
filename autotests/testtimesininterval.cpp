@@ -24,8 +24,8 @@
 
 #include <qdebug.h>
 
-#include <qtest_kde.h>
-QTEST_KDEMAIN(TimesInIntervalTest, NoGUI)
+#include <qtest.h>
+QTEST_MAIN(TimesInIntervalTest)
 
 using namespace KCalCore;
 

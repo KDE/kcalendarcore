@@ -21,8 +21,8 @@
 #include "testevent.h"
 #include "event.h"
 
-#include <qtest_kde.h>
-QTEST_KDEMAIN(EventTest, NoGUI)
+#include <qtest.h>
+QTEST_MAIN(EventTest)
 
 Q_DECLARE_METATYPE(KCalCore::Incidence::DateTimeRole)
 

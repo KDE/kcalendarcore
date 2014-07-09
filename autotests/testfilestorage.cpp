@@ -25,8 +25,8 @@
 
 #include <unistd.h>
 
-#include <qtest_kde.h>
-QTEST_KDEMAIN(FileStorageTest, NoGUI)
+#include <qtest.h>
+QTEST_MAIN(FileStorageTest)
 
 using namespace KCalCore;
 

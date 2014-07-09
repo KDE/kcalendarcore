@@ -24,10 +24,10 @@
 
 #include "freebusyperiod.h"
 
-#include <qtest_kde.h>
+#include <qtest.h>
 #include <boost/concept_check.hpp>
 
-QTEST_KDEMAIN(FreeBusyPeriodTest, NoGUI)
+QTEST_MAIN(FreeBusyPeriodTest)
 using namespace KCalCore;
 
 void FreeBusyPeriodTest::testValidity()

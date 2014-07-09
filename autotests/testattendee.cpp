@@ -25,8 +25,8 @@
 
 #include <qdebug.h>
 
-#include <qtest_kde.h>
-QTEST_KDEMAIN(AttendeeTest, NoGUI)
+#include <qtest.h>
+QTEST_MAIN(AttendeeTest)
 
 using namespace KCalCore;
 

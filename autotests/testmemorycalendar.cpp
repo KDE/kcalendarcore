@@ -27,8 +27,8 @@
 
 #include <unistd.h>
 
-#include <qtest_kde.h>
-QTEST_KDEMAIN(MemoryCalendarTest, NoGUI)
+#include <qtest.h>
+QTEST_MAIN(MemoryCalendarTest)
 
 using namespace KCalCore;
 

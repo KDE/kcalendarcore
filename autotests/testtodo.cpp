@@ -22,8 +22,8 @@
 #include "todo.h"
 #include "attachment.h"
 
-#include <qtest_kde.h>
-QTEST_KDEMAIN(TodoTest, NoGUI)
+#include <qtest.h>
+QTEST_MAIN(TodoTest)
 
 using namespace KCalCore;
 

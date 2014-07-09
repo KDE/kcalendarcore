@@ -22,8 +22,8 @@
 #include "event.h"
 #include "attachment.h"
 
-#include <qtest_kde.h>
-QTEST_KDEMAIN(AttachmentTest, NoGUI)
+#include <qtest.h>
+QTEST_MAIN(AttachmentTest)
 
 using namespace KCalCore;
 

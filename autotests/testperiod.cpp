@@ -26,8 +26,8 @@
 
 #include <ksystemtimezone.h>
 
-#include <qtest_kde.h>
-QTEST_KDEMAIN(PeriodTest, NoGUI)
+#include <qtest.h>
+QTEST_MAIN(PeriodTest)
 
 using namespace KCalCore;
 

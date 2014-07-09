@@ -23,8 +23,8 @@
 #include "icalformat.h"
 #include "exceptions.h"
 
-#include <qtest_kde.h>
-QTEST_KDEMAIN(TestReadRecurrenceId, NoGUI)
+#include <qtest.h>
+QTEST_MAIN(TestReadRecurrenceId)
 
 void TestReadRecurrenceId::testReadSingleException()
 {

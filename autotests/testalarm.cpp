@@ -23,8 +23,8 @@
 #include "event.h"
 #include "alarm.h"
 
-#include <qtest_kde.h>
-QTEST_KDEMAIN(AlarmTest, NoGUI)
+#include <qtest.h>
+QTEST_MAIN(AlarmTest)
 
 using namespace KCalCore;
 
