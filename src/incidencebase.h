@@ -61,7 +61,7 @@
 #include "duration.h"
 #include "sortablelist.h"
 
-#include <KDE/KDateTime>
+#include <KDateTime>
 
 #include <QtCore/QSet>
 #include <QtCore/QUrl>

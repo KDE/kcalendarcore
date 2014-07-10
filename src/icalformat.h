@@ -34,7 +34,7 @@
 #include "calformat.h"
 #include "schedulemessage.h"
 
-#include <KDE/KDateTime>
+#include <KDateTime>
 
 namespace KCalCore {
 

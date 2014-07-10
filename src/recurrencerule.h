@@ -27,7 +27,7 @@
 #include "kcalcore_export.h"
 #include "sortablelist.h"
 
-#include <KDE/KDateTime>
+#include <KDateTime>
 
 namespace KCalCore {
 

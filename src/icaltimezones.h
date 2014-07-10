@@ -23,7 +23,7 @@
 
 #include "kcalcore_export.h"
 
-#include <KDE/KTimeZone>
+#include <KTimeZone>
 
 #include <QtCore/QMap>
 

@@ -34,7 +34,7 @@
 #include "kcalcore_export.h"
 #include "duration.h"
 
-#include <KDE/KDateTime>
+#include <KDateTime>
 
 #include <QtCore/QDataStream>
 #include <QtCore/QMetaType>
