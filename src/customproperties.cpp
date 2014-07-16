@@ -126,7 +126,7 @@ void CustomProperties::setCustomProperty(const QByteArray &app, const QByteArray
     }
     customPropertyUpdate();
 
-    if (d->isVolatileProperty(property))  {
+    if (d->isVolatileProperty(QLatin1String(property)))  {
         d->mVolatileProperties[property] = value;
     } else {
         d->mProperties[property] = value;
@@ -181,7 +181,7 @@ void CustomProperties::removeNonKDECustomProperty(const QByteArray &name)
 
 QString CustomProperties::nonKDECustomProperty(const QByteArray &name) const
 {
-    return d->isVolatileProperty(name) ? d->mVolatileProperties.value(name) : d->mProperties.value(name);
+    return d->isVolatileProperty(QLatin1String(name)) ? d->mVolatileProperties.value(name) : d->mProperties.value(name);
 }
 
 QString CustomProperties::nonKDECustomPropertyParameters(const QByteArray &name) const
@@ -196,7 +196,7 @@ void CustomProperties::setCustomProperties(const QMap<QByteArray, QString> &prop
             it != properties.end();  ++it) {
         // Validate the property name and convert any null string to empty string
         if (checkName(it.key())) {
-            if (d->isVolatileProperty(it.key())) {
+            if (d->isVolatileProperty(QLatin1String(it.key()))) {
                 d->mVolatileProperties[it.key()] = it.value().isNull() ? QStringLiteral("") : it.value();
             } else {
                 d->mProperties[it.key()] = it.value().isNull() ? QStringLiteral("") : it.value();
