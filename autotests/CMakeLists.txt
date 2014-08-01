@@ -3,9 +3,6 @@ include(ECMMarkAsTest)
 set(QT_REQUIRED_VERSION "5.2.0")
 find_package(Qt5Test ${QT_REQUIRED_VERSION} CONFIG REQUIRED)
 
-# needed by loadcalendar
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/cal DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-
 macro(macro_unit_tests)
   foreach(_testname ${ARGN})
     add_executable(${_testname} ${_testname}.cpp)
@@ -41,18 +38,8 @@ macro_unit_tests(
   testrecurrenceexception
   testoccurrenceiterator
   testreadrecurrenceid
-  incidencestest
-  loadcalendar
   fbrecurring
-  readandwrite
   testfb
-  testrecurprevious
-  testrecurrence
-  testrecurrencetype
-  testrecurson
-  testtostring
-  testvcalexport
-
 )
 
 set_target_properties(testmemorycalendar PROPERTIES COMPILE_FLAGS -DICALTESTDATADIR="\\"${CMAKE_CURRENT_SOURCE_DIR}/data/\\"" )
