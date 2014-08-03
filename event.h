@@ -71,6 +71,14 @@ public:
     Event(const Event &other);
 
     /**
+      Costructs an event out of an incidence
+      This constructs allows to make it easy to create an event from a todo.
+      @param other is the incidence to copy.
+      @since 4.14
+    */
+    Event(const Incidence &other);
+
+    /**
       Destroys the event.
     */
     ~Event();
