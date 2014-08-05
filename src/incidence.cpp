@@ -38,7 +38,7 @@
 #include <KMimeType>
 #include <KTemporaryFile>
 
-#include <QTextDocument> // for Qt::escape() and Qt::mightBeRichText()
+#include <QTextDocument> // for .toHtmlEscaped() and Qt::mightBeRichText()
 #include <QStringList>
 #include <QTime>
 
@@ -436,7 +436,7 @@ QString Incidence::richDescription() const
     if (descriptionIsRich()) {
         return d->mDescription;
     } else {
-        return Qt::escape(d->mDescription).replace(QLatin1Char('\n'), QStringLiteral("<br/>"));
+        return d->mDescription.toHtmlEscaped().replace(QLatin1Char('\n'), QStringLiteral("<br/>"));
     }
 }
 
@@ -472,7 +472,7 @@ QString Incidence::richSummary() const
     if (summaryIsRich()) {
         return d->mSummary;
     } else {
-        return Qt::escape(d->mSummary).replace(QLatin1Char('\n'), QStringLiteral("<br/>"));
+        return d->mSummary.toHtmlEscaped().replace(QLatin1Char('\n'), QStringLiteral("<br/>"));
     }
 }
 
@@ -949,7 +949,7 @@ QString Incidence::richLocation() const
     if (locationIsRich()) {
         return d->mLocation;
     } else {
-        return Qt::escape(d->mLocation).replace(QLatin1Char('\n'), QStringLiteral("<br/>"));
+        return d->mLocation.toHtmlEscaped().replace(QLatin1Char('\n'), QStringLiteral("<br/>"));
     }
 }
 

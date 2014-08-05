@@ -48,7 +48,7 @@
 
 #include <QtCore/QBitArray>
 #include <QtCore/QFile>
-#include <QTextDocument> // for Qt::escape() and Qt::mightBeRichText()
+#include <QTextDocument> // for .toHtmlEscaped() and Qt::mightBeRichText()
 
 using namespace KCalCore;
 
