@@ -20,6 +20,7 @@
 */
 #include "testtodo.h"
 #include "todo.h"
+#include "event.h"
 #include "attachment.h"
 
 #include <qtest.h>
@@ -85,6 +86,23 @@ void TodoTest::testClone()
     QVERIFY(todo1.description() == todo2->description());
     QVERIFY(todo1.location() == todo2->location());
     QVERIFY(todo1.isCompleted() == todo2->isCompleted());
+}
+
+void TodoTest::testCopyIncidence()
+{
+  QDate dt = QDate::currentDate();
+  Event event;
+  event.setDtStart(KDateTime(dt));
+  event.setSummary(QLatin1String("Event1 Summary"));
+  event.setDescription(QLatin1String("This is a description of the first event"));
+  event.setLocation(QLatin1String("the place"));
+
+  Todo todo(event);
+  QCOMPARE(todo.uid(), event.uid());
+  QCOMPARE(todo.dtStart(), event.dtStart());
+  QCOMPARE(todo.summary(), event.summary());
+  QCOMPARE(todo.description(), event.description());
+  QCOMPARE(todo.location(), event.location());
 }
 
 void TodoTest::testAssign()

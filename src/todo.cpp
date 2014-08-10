@@ -92,6 +92,12 @@ Todo::Todo(const Todo &other)
 {
 }
 
+Todo::Todo(const Incidence &other)
+    : Incidence(other)
+    , d(new KCalCore::Todo::Private)
+{
+}
+
 Todo::~Todo()
 {
     delete d;

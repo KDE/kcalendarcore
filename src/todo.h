@@ -66,6 +66,14 @@ public:
     Todo(const Todo &other);
 
     /**
+      Costructs a todo out of an incidence
+      This constructs allows to make it easy to create a todo from an event.
+      @param other is the incidence to copy.
+      @since 4.14
+     */
+    Todo(const Incidence &other);
+
+    /**
       Destroys a to-do.
     */
     ~Todo();

@@ -31,6 +31,7 @@ private Q_SLOTS:
     void testValidity();
     void testCompare();
     void testClone();
+    void testCopyIncidence();
     void testAssign();
     void testSetCompleted();
     void testStatus();

@@ -78,6 +78,12 @@ Event::Event(const Event &other)
 {
 }
 
+Event::Event(const Incidence &other)
+    : Incidence(other)
+    , d(new KCalCore::Event::Private)
+{
+}
+
 Event::~Event()
 {
     delete d;
