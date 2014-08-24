@@ -21,7 +21,7 @@
 
 #include "testicaltimezones.h"
 
-#include <ktemporaryfile.h>
+#include <QTemporaryFile>
 
 #include <QtCore/QDateTime>
 #include <QtCore/QTextStream>
@@ -122,7 +122,7 @@ void ICalTimeZonesTest::parse()
     text += VTZ_Western;
     text += VTZ_other;
     text += calendarFooter;
-    KTemporaryFile tmpFile;
+    QTemporaryFile tmpFile;
     tmpFile.open();
     QString path = tmpFile.fileName();
     QTextStream ts(&tmpFile);
