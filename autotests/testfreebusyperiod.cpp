@@ -25,7 +25,6 @@
 #include "freebusyperiod.h"
 
 #include <qtest.h>
-#include <boost/concept_check.hpp>
 
 QTEST_MAIN(FreeBusyPeriodTest)
 using namespace KCalCore;
