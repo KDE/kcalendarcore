@@ -135,7 +135,7 @@ void ICalTimeZonesTest::parse()
     ICalTimeZones timezones1;
     QVERIFY(src.parse(path, timezones1));
 
-    icalcomponent *calendar = loadCALENDAR(text);
+    icalcomponent *calendar = loadCALENDAR(text.constData());
     QVERIFY(calendar);
     ICalTimeZones timezones2;
     QVERIFY(src.parse(calendar, timezones2));
