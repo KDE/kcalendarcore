@@ -3,6 +3,9 @@ include(ECMMarkAsTest)
 set(QT_REQUIRED_VERSION "5.2.0")
 find_package(Qt5Test ${QT_REQUIRED_VERSION} CONFIG REQUIRED)
 
+# needed by loadcalendar
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/cal DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
 macro(macro_unit_tests)
   foreach(_testname ${ARGN})
     add_executable(${_testname} ${_testname}.cpp)
@@ -38,13 +41,22 @@ macro_unit_tests(
   testrecurrenceexception
   testoccurrenceiterator
   testreadrecurrenceid
+  incidencestest
+  loadcalendar
   fbrecurring
+  readandwrite
   testfb
+  testrecurprevious
+  testrecurrence
+  testrecurrencetype
+  testrecurson
+  testtostring
+  testvcalexport
+
 )
 
 set_target_properties(testmemorycalendar PROPERTIES COMPILE_FLAGS -DICALTESTDATADIR="\\"${CMAKE_CURRENT_SOURCE_DIR}/data/\\"" )
 set_target_properties(testreadrecurrenceid PROPERTIES COMPILE_FLAGS -DICALTESTDATADIR="\\"${CMAKE_CURRENT_SOURCE_DIR}/data/\\"" )
-if(FALSE)
 # this test cannot work with msvc because libical should not be altered
 # and therefore we can't add KCALCORE_EXPORT there
 # it should work fine with mingw because of the auto-import feature
@@ -73,11 +85,12 @@ macro(kcalcore_run_single_test _prefix _f _test _testarg)
   file(MAKE_DIRECTORY ${_outputPath})
 
   set(_runner ${CMAKE_CURRENT_SOURCE_DIR}/runsingletestcase.pl)
-  if(UNIX)
-    set(_test_path ${EXECUTABLE_OUTPUT_PATH}/${_test}.shell)
+  get_property(_output_dir TARGET ${_test} PROPERTY RUNTIME_OUTPUT_DIRECTORY)
+  if(NOT _output_dir)
+    set(_output_dir ${CMAKE_CURRENT_BINARY_DIR})
   endif()
+  set(_test_path ${_output_dir}/${_test})
   if(WIN32)
-    set(_test_path ${EXECUTABLE_OUTPUT_PATH}/${_test}.exe.bat)
     set(_runner ${PERL_EXECUTABLE} ${_runner})
   endif()
 
@@ -109,4 +122,3 @@ endforeach()
 foreach(file ${vCalFiles})
   kcalcore_run_single_test(VCalIn ${file} readandwrite "ical")
 endforeach()
-endif()
