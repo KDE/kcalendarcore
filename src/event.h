@@ -266,6 +266,7 @@ private:
 //@cond PRIVATE
 Q_DECLARE_TYPEINFO(KCalCore::Event::Ptr, Q_MOVABLE_TYPE);
 Q_DECLARE_METATYPE(KCalCore::Event::Ptr)
+Q_DECLARE_METATYPE(KCalCore::Event*)
 //@endcond
 
 //@cond PRIVATE
