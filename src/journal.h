@@ -161,6 +161,7 @@ private:
 //@cond PRIVATE
 Q_DECLARE_TYPEINFO(KCalCore::Journal::Ptr, Q_MOVABLE_TYPE);
 Q_DECLARE_METATYPE(KCalCore::Journal::Ptr)
+Q_DECLARE_METATYPE(KCalCore::Journal*)
 //@endcond
 
 //@cond PRIVATE
