@@ -270,7 +270,7 @@ Q_DECLARE_METATYPE(KCalCore::Event*)
 //@endcond
 
 //@cond PRIVATE
-namespace KPIMUtils {
+namespace Akonadi {
 // super class trait specialization
 template <> struct SuperClass<KCalCore::Event> : public SuperClassTrait<KCalCore::Incidence> {};
 }

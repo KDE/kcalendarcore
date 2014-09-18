@@ -165,7 +165,7 @@ Q_DECLARE_METATYPE(KCalCore::Journal*)
 //@endcond
 
 //@cond PRIVATE
-namespace KPIMUtils {
+namespace Akonadi {
 // super class trait specialization
 template <> struct SuperClass<KCalCore::Journal> : public SuperClassTrait<KCalCore::Incidence> {};
 }

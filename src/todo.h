@@ -373,7 +373,8 @@ private:
 Q_DECLARE_TYPEINFO(KCalCore::Todo::Ptr, Q_MOVABLE_TYPE);
 Q_DECLARE_METATYPE(KCalCore::Todo::Ptr)
 Q_DECLARE_METATYPE(KCalCore::Todo*)
-namespace KPIMUtils {
+
+namespace Akonadi {
 // super class trait specialization
 template <> struct SuperClass<KCalCore::Todo> : public SuperClassTrait<KCalCore::Incidence> {};
 }
