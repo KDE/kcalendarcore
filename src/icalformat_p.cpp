@@ -1196,11 +1196,14 @@ Todo::Ptr ICalFormatImpl::readTodo(icalcomponent *vtodo, ICalTimeZones *tzlist)
             break;
         case ICAL_X_PROPERTY:
         {
-            const KDateTime dateTime = readICalDateTimeProperty(p, tzlist);
-            if (dateTime.isValid()) {
-                todo->setDtRecurrence(dateTime);
-            } else {
-                qDebug() << "Invalid dateTime";
+            const char *name = icalproperty_get_x_name( p );
+            if (QLatin1String(name) == QLatin1String("X-KDE-LIBKCAL-DTRECURRENCE")) {
+                const KDateTime dateTime = readICalDateTimeProperty(p, tzlist);
+                if (dateTime.isValid()) {
+                    todo->setDtRecurrence(dateTime);
+                } else {
+                    qDebug() << "Invalid dateTime";
+                }
             }
         }
         break;
