@@ -2639,6 +2639,29 @@ icalcomponent *ICalFormatImpl::createCalendarComponent(const Calendar::Ptr &cal)
     return calendar;
 }
 
+Incidence::Ptr ICalFormatImpl::readOneIncidence(icalcomponent *calendar, ICalTimeZones *tzlist)
+{
+    if (!calendar) {
+        qCWarning(KCALCORE_LOG) << "Populate called with empty calendar";
+        return Incidence::Ptr();
+    }
+    icalcomponent *c;
+    c = icalcomponent_get_first_component(calendar, ICAL_VEVENT_COMPONENT);
+    if (c) {
+        return readEvent(c, tzlist);
+    }
+    c = icalcomponent_get_first_component(calendar, ICAL_VTODO_COMPONENT);
+    if (c) {
+        return readTodo(c, tzlist);
+    }
+    c = icalcomponent_get_first_component(calendar, ICAL_VJOURNAL_COMPONENT);
+    if (c) {
+        return readJournal(c, tzlist);
+    }
+    qCWarning(KCALCORE_LOG) << "Found no incidence";
+    return Incidence::Ptr();
+}
+
 // take a raw vcalendar (i.e. from a file on disk, clipboard, etc. etc.
 // and break it down from its tree-like format into the dictionary format
 // that is used internally in the ICalFormatImpl.
@@ -2719,6 +2742,7 @@ bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar,
     }
 
     // Populate the calendar's time zone collection with all VTIMEZONE components
+    // FIXME: HUUUUUGE memory consumption
     ICalTimeZones *tzlist = cal->timeZones();
     ICalTimeZoneSource tzs;
     tzs.parse(calendar, *tzlist);

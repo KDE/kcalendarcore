@@ -147,6 +147,39 @@ bool ICalFormat::fromString(const Calendar::Ptr &cal, const QString &string,
     return fromRawString(cal, string.toUtf8(), deleted, notebook);
 }
 
+Incidence::Ptr ICalFormat::readIncidence(const QByteArray &string, ICalTimeZones *tzlist)
+{
+    icalcomponent *calendar;
+
+    // Let's defend const correctness until the very gates of hell^Wlibical
+    calendar = icalcomponent_new_from_string(const_cast<char*>((const char *)string));
+    if (!calendar) {
+        qCritical() << "parse error ; string is empty?" << string.isEmpty();
+        setException(new Exception(Exception::ParseErrorIcal));
+        return Incidence::Ptr();
+    }
+
+    Incidence::Ptr incidence;
+    if (icalcomponent_isa(calendar) == ICAL_VCALENDAR_COMPONENT) {
+        incidence = d->mImpl->readOneIncidence(calendar, tzlist);
+    } else if (icalcomponent_isa(calendar) == ICAL_XROOT_COMPONENT) {
+        icalcomponent *comp = icalcomponent_get_first_component(calendar, ICAL_VCALENDAR_COMPONENT);
+        if (comp) {
+            incidence = d->mImpl->readOneIncidence(comp, tzlist);
+        }
+    }
+
+    if (!incidence) {
+        qCDebug(KCALCORE_LOG) << "No VCALENDAR component found";
+        setException(new Exception(Exception::NoCalendar));
+    }
+
+    icalcomponent_free(calendar);
+    icalmemory_free_ring();
+
+    return incidence;
+}
+
 bool ICalFormat::fromRawString(const Calendar::Ptr &cal, const QByteArray &string,
                                bool deleted, const QString &notebook)
 {

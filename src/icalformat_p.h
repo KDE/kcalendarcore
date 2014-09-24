@@ -109,6 +109,8 @@ public:
     bool populate(const Calendar::Ptr &calendar, icalcomponent *fs,
                   bool deleted = false, const QString &notebook = QString());
 
+    Incidence::Ptr readOneIncidence(icalcomponent *calendar, ICalTimeZones *tzlist);
+
     icalcomponent *writeIncidence(const IncidenceBase::Ptr &incidence,
                                   iTIPMethod method = iTIPRequest,
                                   ICalTimeZones *tzList = 0,
