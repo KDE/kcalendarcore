@@ -200,20 +200,19 @@ bool Event::isMultiDay(const KDateTime::Spec &spec) const
         end = dtEnd().toTimeSpec(spec);
     }
 
-    // End date is non inclusive, so subtract 1 second... except if we
-    // got the event from some braindead implementation which gave us
-    // start == end one (those do happen)
-    if (start != end) {
-        end = end.addSecs(-1);
-    }
+    bool multi = (start < end && start.date() != end.date());
 
-    const bool multi = (start.date() != end.date() && start <= end);
+    // End date is non inclusive
+    // If we have an incidence that duration is one day and ends with a start of a new day
+    // than it is not a multiday event
+    if (multi && end.time() != QTime(0,0,0)) {
+        multi = start.daysTo(end) > 1;
+    }
 
     // Update the cache
-    if (spec.isValid()) {
-        d->mMultiDayValid = true;
-        d->mMultiDay = multi;
-    }
+    // Also update Cache if spec is invalid
+    d->mMultiDayValid = true;
+    d->mMultiDay = multi;
     return multi;
 }
 
