@@ -372,17 +372,54 @@ icalcomponent *ICalFormatImpl::writeFreeBusy(const FreeBusy::Ptr &freebusy,
 #endif
 
     //Loops through all the periods in the freebusy object
-    Period::List list = freebusy->busyPeriods();
+    FreeBusyPeriod::List list = freebusy->fullBusyPeriods();
     icalperiodtype period = icalperiodtype_null_period();
     for (int i = 0, count = list.count(); i < count; ++i) {
-        period.start = writeICalUtcDateTime(list[i].start());
-        if (list[i].hasDuration()) {
-            period.duration = writeICalDuration(list[i].duration());
+        const FreeBusyPeriod fbPeriod = list[i];
+        period.start = writeICalUtcDateTime(fbPeriod.start());
+        if (fbPeriod.hasDuration()) {
+            period.duration = writeICalDuration(fbPeriod.duration());
         } else {
-            period.end = writeICalUtcDateTime(list[i].end());
+            period.end = writeICalUtcDateTime(fbPeriod.end());
         }
-        icalcomponent_add_property(
-            vfreebusy, icalproperty_new_freebusy(period));
+
+        icalproperty *property = icalproperty_new_freebusy(period);
+
+        icalparameter_fbtype fbType;
+        switch (fbPeriod.type()) {
+          case FreeBusyPeriod::Free:
+              fbType = ICAL_FBTYPE_FREE;
+              break;
+          case FreeBusyPeriod::Busy:
+              fbType = ICAL_FBTYPE_BUSY;
+              break;
+          case FreeBusyPeriod::BusyTentative:
+              fbType = ICAL_FBTYPE_BUSYTENTATIVE;
+              break;
+          case FreeBusyPeriod::BusyUnavailable:
+              fbType = ICAL_FBTYPE_BUSYUNAVAILABLE;
+              break;
+          case FreeBusyPeriod::Unknown:
+              fbType = ICAL_FBTYPE_X;
+              break;
+          default:
+              fbType = ICAL_FBTYPE_NONE;
+              break;
+        }
+        icalproperty_set_parameter(property, icalparameter_new_fbtype(fbType));
+
+        if (!fbPeriod.summary().isEmpty()) {
+            icalparameter *param = icalparameter_new_x("X-SUMMARY");
+            icalparameter_set_xvalue(param, KCodecs::base64Encode(fbPeriod.summary().toUtf8()));
+            icalproperty_set_parameter(property, param);
+        }
+        if (!fbPeriod.location().isEmpty()) {
+            icalparameter *param = icalparameter_new_x("X-LOCATION");
+            icalparameter_set_xvalue(param, KCodecs::base64Encode(fbPeriod.location().toUtf8()));
+            icalproperty_set_parameter(property, param);
+        }
+
+        icalcomponent_add_property(vfreebusy, property);
     }
 
     return vfreebusy;
@@ -1328,7 +1365,32 @@ FreeBusy::Ptr ICalFormatImpl::readFreeBusy(icalcomponent *vfreebusy)
                 period = FreeBusyPeriod(period_start, duration);
             }
 
-            icalparameter *param = icalproperty_get_first_parameter(p, ICAL_X_PARAMETER);
+            icalparameter *param = icalproperty_get_first_parameter(p, ICAL_FBTYPE_PARAMETER);
+            if (param) {
+                icalparameter_fbtype fbType = icalparameter_get_fbtype(param);
+                switch (fbType) {
+                case ICAL_FBTYPE_FREE:
+                    period.setType(FreeBusyPeriod::Free);
+                    break;
+                case ICAL_FBTYPE_BUSY:
+                    period.setType(FreeBusyPeriod::Busy);
+                    break;
+                case ICAL_FBTYPE_BUSYTENTATIVE:
+                    period.setType(FreeBusyPeriod::BusyTentative);
+                    break;
+                case ICAL_FBTYPE_BUSYUNAVAILABLE:
+                    period.setType(FreeBusyPeriod::BusyUnavailable);
+                    break;
+                case ICAL_FBTYPE_X:
+                    period.setType(FreeBusyPeriod::Unknown);
+                    break;
+                case ICAL_FBTYPE_NONE:
+                    period.setType(FreeBusyPeriod::Free);
+                    break;
+                }
+            }
+
+            param = icalproperty_get_first_parameter(p, ICAL_X_PARAMETER);
             while (param) {
                 if (strncmp(icalparameter_get_xname(param), "X-SUMMARY", 9) == 0) {
                     period.setSummary(QString::fromUtf8(

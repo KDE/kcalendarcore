@@ -38,10 +38,13 @@ using namespace KCalCore;
 class KCalCore::FreeBusyPeriod::Private
 {
 public:
-    Private() {}
+    Private():
+       mType(Unknown)
+    {}
 
     QString mSummary;
     QString mLocation;
+    FreeBusyType mType;
 };
 //@endcond
 
@@ -106,11 +109,22 @@ void FreeBusyPeriod::setLocation(const QString &location)
     d->mLocation = location;
 }
 
+FreeBusyPeriod::FreeBusyType FreeBusyPeriod::type() const
+{
+    return d->mType;
+}
+
+void FreeBusyPeriod::setType(FreeBusyPeriod::FreeBusyType type)
+{
+    d->mType = type;
+}
+
+
 QDataStream &KCalCore::operator<<(QDataStream &stream, const KCalCore::FreeBusyPeriod &period)
 {
     KCalCore::Period periodParent = static_cast<KCalCore::Period>(period);
     stream << periodParent;
-    stream << period.summary() << period.location();
+    stream << period.summary() << period.location() << static_cast<int>(period.type());
     return stream;
 }
 
@@ -118,12 +132,14 @@ QDataStream &KCalCore::operator>>(QDataStream &stream, FreeBusyPeriod &period)
 {
     KCalCore::Period periodParent;
     QString summary, location;
+    int type;
 
-    stream >> periodParent >> summary >> location;
+    stream >> periodParent >> summary >> location >> type;
 
     period = periodParent;
     period.setLocation(location);
     period.setSummary(summary);
+    period.setType(static_cast<FreeBusyPeriod::FreeBusyType>(type));
     return stream;
 }
 
