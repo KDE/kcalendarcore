@@ -16,7 +16,7 @@ include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings)
 
-set(KF5_VERSION "5.3.0")
+set(KF5_VERSION "5.4.0")
 set(KDEPIMLIBS_VERSION "4.71.0")
 ecm_setup_version(${KDEPIMLIBS_VERSION} VARIABLE_PREFIX KCALCORE
                         VERSION_HEADER "${KCalCore_BINARY_DIR}/kcalcore_version.h"
