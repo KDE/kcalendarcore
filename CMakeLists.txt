@@ -17,7 +17,7 @@ include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings)
 
 set(KF5_VERSION "5.4.0")
-set(KDEPIMLIBS_VERSION "4.72.0")
+set(KDEPIMLIBS_VERSION "4.73.0")
 ecm_setup_version(${KDEPIMLIBS_VERSION} VARIABLE_PREFIX KCALCORE
                         VERSION_HEADER "${KCalCore_BINARY_DIR}/kcalcore_version.h"
                         PACKAGE_VERSION_FILE "${KCalCore_BINARY_DIR}/KF5CalendarCoreConfigVersion.cmake"
