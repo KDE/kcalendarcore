@@ -106,7 +106,7 @@ QString Person::fullName() const
         if (d->mEmail.isEmpty()) {
             return d->mName;
         } else {
-            // Taken from KABC::Addressee::fullEmail
+            // Taken from KContacts::Addressee::fullEmail
             QString name = d->mName;
             QRegExp needQuotes(QStringLiteral("[^ 0-9A-Za-z\\x0080-\\xFFFF]"));
             bool weNeedToQuote = name.indexOf(needQuotes) != -1;
