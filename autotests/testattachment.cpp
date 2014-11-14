@@ -30,7 +30,7 @@ using namespace KCalCore;
 void AttachmentTest::testValidity()
 {
     Attachment attachment(QString("http://www.kde.org"));
-    QCOMPARE(attachment.uri(), QString::fromLatin1("http://www.kde.org"));
+    QCOMPARE(attachment.uri(), QStringLiteral("http://www.kde.org"));
     QCOMPARE(attachment.data(), QByteArray());
     QVERIFY(attachment.decodedData().isEmpty());
     QVERIFY(!attachment.isBinary());

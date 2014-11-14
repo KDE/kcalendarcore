@@ -35,7 +35,7 @@ int main()
 {
     ICalFormat f;
 
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QString::fromLatin1("UTC")));
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QStringLiteral("UTC")));
 
     Event::Ptr event1 = Event::Ptr(new Event);
     event1->setSummary("A");
