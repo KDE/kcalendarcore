@@ -2088,7 +2088,7 @@ void RecurrenceRule::dump() const
     dumpByIntList(d->mBySetPos, QStringLiteral("BySetPos:   "));
 #undef dumpByIntList
 
-    qDebug() << "   Week start:" << DateHelper::dayName(d->mWeekStart);   //krazy:exclude=kdebug
+    qDebug() << "   Week start:" << DateHelper::dayName(d->mWeekStart);  
 
     qDebug() << "   Constraints:";
     // dump constraints
