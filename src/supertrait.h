@@ -20,8 +20,8 @@
 #ifndef AKONADI_SUPERTRAIT_H
 #define AKONADI_SUPERTRAIT_H
 
-// NOTE: This header is a copy of kdepimlibs/kpimutils/supertrait.h because we can't
-//       depend on KPIMUtils.
+// NOTE: This header is a copy of akonadi/src/core/supertrait.h because we can't
+//       depend on Akonadi
 // DO NOT change include guards or namespace.
 
 //@cond PRIVATE
@@ -42,7 +42,7 @@ struct SuperClassTrait
 
   To provide base class introspection for own types, extend this trait as follows:
   @code
-  namespace KPIMUtils
+  namespace Akonadi
   {
     template <> struct SuperClass<MyClass> : public SuperClassTrait<MyBaseClass>{};
   }
