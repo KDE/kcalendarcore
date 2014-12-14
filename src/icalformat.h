@@ -36,7 +36,8 @@
 
 #include <KDateTime>
 
-namespace KCalCore {
+namespace KCalCore
+{
 
 class FreeBusy;
 class Incidence;

@@ -34,7 +34,8 @@
 #include <QtCore/QMap>
 #include <QtCore/QString>
 
-namespace KCalCore {
+namespace KCalCore
+{
 
 /**
   @brief

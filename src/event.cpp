@@ -98,7 +98,7 @@ IncidenceBase &Event::assign(const IncidenceBase &other)
 {
     if (&other != this) {
         Incidence::assign(other);
-        const Event *e = static_cast<const Event*>(&other);
+        const Event *e = static_cast<const Event *>(&other);
         *d = *(e->d);
     }
     return *this;
@@ -110,7 +110,7 @@ bool Event::equals(const IncidenceBase &event) const
         return false;
     } else {
         // If they weren't the same type IncidenceBase::equals would had returned false already
-        const Event *e = static_cast<const Event*>(&event);
+        const Event *e = static_cast<const Event *>(&event);
         return
             ((dtEnd() == e->dtEnd()) ||
              (!dtEnd().isValid() && !e->dtEnd().isValid())) &&
@@ -310,8 +310,7 @@ KDateTime Event::dateTime(DateTimeRole role) const
 void Event::setDateTime(const KDateTime &dateTime, DateTimeRole role)
 {
     switch (role) {
-    case RoleDnD:
-    {
+    case RoleDnD: {
         const int duration = dtStart().secsTo(dtEnd());
 
         setDtStart(dateTime);
@@ -330,10 +329,10 @@ void Event::virtual_hook(int id, void *data)
 {
     switch (static_cast<IncidenceBase::VirtualHook>(id)) {
     case IncidenceBase::SerializerHook:
-        serialize(*reinterpret_cast<QDataStream*>(data));
+        serialize(*reinterpret_cast<QDataStream *>(data));
         break;
     case IncidenceBase::DeserializerHook:
-        deserialize(*reinterpret_cast<QDataStream*>(data));
+        deserialize(*reinterpret_cast<QDataStream *>(data));
         break;
     default:
         Q_ASSERT(false);

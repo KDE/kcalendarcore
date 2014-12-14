@@ -100,7 +100,6 @@ void JournalTest::testAssign()
     QVERIFY(journal1 == journal2);
 }
 
-
 void JournalTest::testSerializer_data()
 {
     QTest::addColumn<KCalCore::Journal::Ptr>("journal");

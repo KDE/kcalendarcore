@@ -74,10 +74,8 @@ which accompanied this distribution.
 
 */
 
-
 #ifndef __VOBJECT_H__
 #define __VOBJECT_H__ 1
-
 
 #include "port.h"
 #include <stdlib.h>
@@ -86,7 +84,6 @@ which accompanied this distribution.
 #if defined(__CPLUSPLUS__) || defined(__cplusplus)
 extern "C" {
 #endif
-
 
 #define VC7bitProp                              "7BIT"
 #define VC8bitProp                              "8BIT"
@@ -248,139 +245,139 @@ extern "C" {
 #define VCX509Prop                              "X509"
 #define VCXRuleProp                             "XRULE"
 
-/* extensions for KOrganizer / KPilot */
+    /* extensions for KOrganizer / KPilot */
 #define KPilotIdProp                            "X-PILOTID"
 #define KPilotStatusProp                        "X-PILOTSTAT"
 
-/* extensions for iMIP / iTIP */
+    /* extensions for iMIP / iTIP */
 #define ICOrganizerProp                         "X-ORGANIZER"
 #define ICMethodProp                            "X-METHOD"
 #define ICRequestStatusProp                     "X-REQUEST-STATUS"
 
 #if defined(KCALCORE_FOR_SYMBIAN)
-/* S60 et al specify the visible object type as follows */
+    /* S60 et al specify the visible object type as follows */
 #define EPOCAgendaEntryTypeProp                 "X-EPOCAGENDAENTRYTYPE"
-/* recurrence-id vcal extension */
+    /* recurrence-id vcal extension */
 #define VCRecurrenceIdProp                      "X-RECURRENCE-ID"
 #endif
 
-typedef struct VObject VObject;
+    typedef struct VObject VObject;
 
-typedef union ValueItem {
-    const char *strs;
-    const wchar_t *ustrs;
-    unsigned int i;
-    unsigned long l;
-    void *any;
-    VObject *vobj;
+    typedef union ValueItem {
+        const char *strs;
+        const wchar_t *ustrs;
+        unsigned int i;
+        unsigned long l;
+        void *any;
+        VObject *vobj;
     } ValueItem;
 
-struct VObject {
-    VObject *next;
-    const char *id;
-    VObject *prop;
-    unsigned short valType;
-    ValueItem val;
+    struct VObject {
+        VObject *next;
+        const char *id;
+        VObject *prop;
+        unsigned short valType;
+        ValueItem val;
     };
 
-typedef struct StrItem StrItem;
+    typedef struct StrItem StrItem;
 
-struct StrItem {
-    StrItem *next;
-    const char *s;
-    unsigned int refCnt;
+    struct StrItem {
+        StrItem *next;
+        const char *s;
+        unsigned int refCnt;
     };
 
-typedef struct VObjectIterator {
-    VObject* start;
-    VObject* next;
+    typedef struct VObjectIterator {
+        VObject *start;
+        VObject *next;
     } VObjectIterator;
 
-extern VObject* newVObject(const char *id);
-extern void deleteVObject(VObject *p);
-extern char* dupStr(const char *s, unsigned int size);
-extern void deleteStr(const char *p);
-extern void unUseStr(const char *s);
+    extern VObject *newVObject(const char *id);
+    extern void deleteVObject(VObject *p);
+    extern char *dupStr(const char *s, unsigned int size);
+    extern void deleteStr(const char *p);
+    extern void unUseStr(const char *s);
 
-extern void setVObjectName(VObject *o, const char* id);
-extern void setVObjectStringZValue(VObject *o, const char *s);
-extern void setVObjectStringZValue_(VObject *o, const char *s);
-extern void setVObjectUStringZValue(VObject *o, const wchar_t *s);
-extern void setVObjectUStringZValue_(VObject *o, const wchar_t *s);
-extern void setVObjectIntegerValue(VObject *o, unsigned int i);
-extern void setVObjectLongValue(VObject *o, unsigned long l);
-extern void setVObjectAnyValue(VObject *o, void *t);
-extern VObject* setValueWithSize(VObject *prop, void *val, unsigned int size);
-extern VObject* setValueWithSize_(VObject *prop, void *val, unsigned int size);
+    extern void setVObjectName(VObject *o, const char *id);
+    extern void setVObjectStringZValue(VObject *o, const char *s);
+    extern void setVObjectStringZValue_(VObject *o, const char *s);
+    extern void setVObjectUStringZValue(VObject *o, const wchar_t *s);
+    extern void setVObjectUStringZValue_(VObject *o, const wchar_t *s);
+    extern void setVObjectIntegerValue(VObject *o, unsigned int i);
+    extern void setVObjectLongValue(VObject *o, unsigned long l);
+    extern void setVObjectAnyValue(VObject *o, void *t);
+    extern VObject *setValueWithSize(VObject *prop, void *val, unsigned int size);
+    extern VObject *setValueWithSize_(VObject *prop, void *val, unsigned int size);
 
-extern const char* vObjectName(VObject *o);
-extern const char* vObjectStringZValue(VObject *o);
-extern const wchar_t* vObjectUStringZValue(VObject *o);
-extern unsigned int vObjectIntegerValue(VObject *o);
-extern unsigned long vObjectLongValue(VObject *o);
-extern void* vObjectAnyValue(VObject *o);
-extern VObject* vObjectVObjectValue(VObject *o);
-extern void setVObjectVObjectValue(VObject *o, VObject *p);
+    extern const char *vObjectName(VObject *o);
+    extern const char *vObjectStringZValue(VObject *o);
+    extern const wchar_t *vObjectUStringZValue(VObject *o);
+    extern unsigned int vObjectIntegerValue(VObject *o);
+    extern unsigned long vObjectLongValue(VObject *o);
+    extern void *vObjectAnyValue(VObject *o);
+    extern VObject *vObjectVObjectValue(VObject *o);
+    extern void setVObjectVObjectValue(VObject *o, VObject *p);
 
-extern VObject* addVObjectProp(VObject *o, VObject *p);
-extern VObject* addProp(VObject *o, const char *id);
-extern VObject* addProp_(VObject *o, const char *id);
-extern VObject* addPropValue(VObject *o, const char *p, const char *v);
-extern VObject* addPropSizedValue_(VObject *o, const char *p, const char *v, unsigned int size);
-extern VObject* addPropSizedValue(VObject *o, const char *p, const char *v, unsigned int size);
-extern VObject* addGroup(VObject *o, const char *g);
-extern void addList(VObject **o, VObject *p);
+    extern VObject *addVObjectProp(VObject *o, VObject *p);
+    extern VObject *addProp(VObject *o, const char *id);
+    extern VObject *addProp_(VObject *o, const char *id);
+    extern VObject *addPropValue(VObject *o, const char *p, const char *v);
+    extern VObject *addPropSizedValue_(VObject *o, const char *p, const char *v, unsigned int size);
+    extern VObject *addPropSizedValue(VObject *o, const char *p, const char *v, unsigned int size);
+    extern VObject *addGroup(VObject *o, const char *g);
+    extern void addList(VObject **o, VObject *p);
 
-extern VObject* isAPropertyOf(VObject *o, const char *id);
+    extern VObject *isAPropertyOf(VObject *o, const char *id);
 
-extern VObject* nextVObjectInList(VObject *o);
-extern void initPropIterator(VObjectIterator *i, VObject *o);
-extern int moreIteration(VObjectIterator *i);
-extern VObject* nextVObject(VObjectIterator *i);
+    extern VObject *nextVObjectInList(VObject *o);
+    extern void initPropIterator(VObjectIterator *i, VObject *o);
+    extern int moreIteration(VObjectIterator *i);
+    extern VObject *nextVObject(VObjectIterator *i);
 
-extern char* writeMemVObject(char *s, int *len, VObject *o);
-extern char* writeMemVObjects(char *s, int *len, VObject *list);
+    extern char *writeMemVObject(char *s, int *len, VObject *o);
+    extern char *writeMemVObjects(char *s, int *len, VObject *list);
 
-extern const char* lookupStr(const char *s);
-extern void cleanStrTbl();
+    extern const char *lookupStr(const char *s);
+    extern void cleanStrTbl();
 
-extern void cleanVObject(VObject *o);
-extern void cleanVObjects(VObject *list);
+    extern void cleanVObject(VObject *o);
+    extern void cleanVObjects(VObject *list);
 
-extern const char* lookupProp(const char* str);
-extern const char* lookupProp_(const char* str);
+    extern const char *lookupProp(const char *str);
+    extern const char *lookupProp_(const char *str);
 
-extern wchar_t* fakeUnicode(const char *ps, int *bytes);
-extern unsigned int uStrLen(const wchar_t *u);
-extern char* fakeCString(const wchar_t *u);
+    extern wchar_t *fakeUnicode(const char *ps, int *bytes);
+    extern unsigned int uStrLen(const wchar_t *u);
+    extern char *fakeCString(const wchar_t *u);
 
-extern void printVObjectToFile(char *fname,VObject *o);
-extern void printVObjectsToFile(char *fname,VObject *list);
-extern void writeVObjectToFile(char *fname, VObject *o);
-extern void writeVObjectsToFile(char *fname, VObject *list);
+    extern void printVObjectToFile(char *fname, VObject *o);
+    extern void printVObjectsToFile(char *fname, VObject *list);
+    extern void writeVObjectToFile(char *fname, VObject *o);
+    extern void writeVObjectsToFile(char *fname, VObject *list);
 
-extern int vObjectValueType(VObject *o);
+    extern int vObjectValueType(VObject *o);
 
-/* return type of vObjectValueType: */
+    /* return type of vObjectValueType: */
 #define VCVT_NOVALUE        0
-        /* if the VObject has no value associated with it. */
+    /* if the VObject has no value associated with it. */
 #define VCVT_STRINGZ        1
-        /* if the VObject has value set by setVObjectStringZValue. */
+    /* if the VObject has value set by setVObjectStringZValue. */
 #define VCVT_USTRINGZ       2
-        /* if the VObject has value set by setVObjectUStringZValue. */
+    /* if the VObject has value set by setVObjectUStringZValue. */
 #define VCVT_UINT           3
-        /* if the VObject has value set by setVObjectIntegerValue. */
+    /* if the VObject has value set by setVObjectIntegerValue. */
 #define VCVT_ULONG          4
-        /* if the VObject has value set by setVObjectLongValue. */
+    /* if the VObject has value set by setVObjectLongValue. */
 #define VCVT_RAW            5
-        /* if the VObject has value set by setVObjectAnyValue. */
+    /* if the VObject has value set by setVObjectAnyValue. */
 #define VCVT_VOBJECT        6
-        /* if the VObject has value set by setVObjectVObjectValue. */
+    /* if the VObject has value set by setVObjectVObjectValue. */
 
-extern const char** fieldedProp;
+    extern const char **fieldedProp;
 
-extern void printVObject(FILE *fp,VObject *o);
-extern void writeVObject(FILE *fp, VObject *o);
+    extern void printVObject(FILE *fp, VObject *o);
+    extern void writeVObject(FILE *fp, VObject *o);
 
 #if defined(__CPLUSPLUS__) || defined(__cplusplus)
 }

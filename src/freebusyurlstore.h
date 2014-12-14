@@ -32,7 +32,8 @@
 #include "kcalcore_export.h"
 #include <QtCore/QString>
 
-namespace KCalCore {
+namespace KCalCore
+{
 
 /**
   A class for reading and writing Free/Busy URLs to a cache file.

@@ -48,7 +48,8 @@
 
 class QDate;
 
-namespace KCalCore {
+namespace KCalCore
+{
 
 class Alarm;
 class Attachment;

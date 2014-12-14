@@ -41,7 +41,8 @@
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 
-namespace KCalCore {
+namespace KCalCore
+{
 
 /**
   Exception base class, currently used as a fancy kind of error code

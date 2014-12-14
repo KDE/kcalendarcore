@@ -34,7 +34,8 @@
 
 #include <QtCore/QObject>
 
-namespace KCalCore {
+namespace KCalCore
+{
 
 /**
   @brief

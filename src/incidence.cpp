@@ -128,13 +128,13 @@ public:
         // Alarms and Attachments are stored in ListBase<...>, which is a QValueList<...*>.
         // We need to really duplicate the objects stored therein, otherwise deleting
         // i will also delete all attachments from this object (setAutoDelete...)
-        foreach(Alarm::Ptr alarm, src.d->mAlarms) {
+        foreach (Alarm::Ptr alarm, src.d->mAlarms) {
             Alarm::Ptr b(new Alarm(*alarm.data()));
             b->setParent(dest);
             mAlarms.append(b);
         }
 
-        foreach(Attachment::Ptr attachment, src.d->mAttachments) {
+        foreach (Attachment::Ptr attachment, src.d->mAttachments) {
             Attachment::Ptr a(new Attachment(*attachment));
             mAttachments.append(a);
         }
@@ -167,11 +167,11 @@ public:
     int mPriority;                      // priority: 1 = highest, 2 = less, etc.
     QString mSchedulingID;              // ID for scheduling mails
 
-    QMap<RelType,QString> mRelatedToUid;// incidence uid this is related to, for each relType
+    QMap<RelType, QString> mRelatedToUid; // incidence uid this is related to, for each relType
     float mGeoLatitude;                 // Specifies latitude in decimal degrees
     float mGeoLongitude;                // Specifies longitude in decimal degrees
     bool mHasGeo;                       // if incidence has geo data
-    QHash<Attachment::Ptr,QString> mTempFiles; // Temporary files for writing attachments to.
+    QHash<Attachment::Ptr, QString> mTempFiles; // Temporary files for writing attachments to.
     KDateTime mRecurrenceId;            // recurrenceId
     bool mThisAndFuture;
     bool mLocalOnly;                    // allow changes that won't go to the server
@@ -198,7 +198,7 @@ Incidence::~Incidence()
 {
     // Alarm has a raw incidence pointer, so we must set it to 0
     // so Alarm doesn't use it after Incidence is destroyed
-    foreach(Alarm::Ptr alarm, d->mAlarms) {
+    foreach (Alarm::Ptr alarm, d->mAlarms) {
         alarm->setParent(0);
     }
 
@@ -220,7 +220,7 @@ IncidenceBase &Incidence::assign(const IncidenceBase &other)
         d->clear();
         //TODO: should relations be cleared out, as in destructor???
         IncidenceBase::assign(other);
-        const Incidence *i = static_cast<const Incidence*>(&other);
+        const Incidence *i = static_cast<const Incidence *>(&other);
         d->init(this, *i);
     }
 
@@ -554,7 +554,7 @@ Recurrence *Incidence::recurrence() const
         d->mRecurrence->setStartDateTime(dateTime(RoleRecurrenceStart));
         d->mRecurrence->setAllDay(allDay());
         d->mRecurrence->setRecurReadOnly(mReadOnly);
-        d->mRecurrence->addObserver(const_cast<KCalCore::Incidence*>(this));
+        d->mRecurrence->addObserver(const_cast<KCalCore::Incidence *>(this));
     }
 
     return d->mRecurrence;
@@ -624,7 +624,7 @@ QList<KDateTime> Incidence::startDateTimesForDate(const QDate &date,
     while (tmpday <= date) {
         if (recurrence()->recursOn(tmpday, timeSpec)) {
             QList<QTime> times = recurrence()->recurTimesOn(tmpday, timeSpec);
-            foreach(const QTime &time, times) {
+            foreach (const QTime &time, times) {
                 tmp = KDateTime(tmpday, time, start.timeSpec());
                 if (endDateForStart(tmp) >= kdate) {
                     result << tmp;
@@ -664,7 +664,7 @@ QList<KDateTime> Incidence::startDateTimesForDateTime(const KDateTime &datetime)
         if (recurrence()->recursOn(tmpday, datetime.timeSpec())) {
             // Get the times during the day (in start date's time zone) when recurrences happen
             QList<QTime> times = recurrence()->recurTimesOn(tmpday, start.timeSpec());
-            foreach(const QTime &time, times) {
+            foreach (const QTime &time, times) {
                 tmp = KDateTime(tmpday, time, start.timeSpec());
                 if (!(tmp > datetime || endDateForStart(tmp) < datetime)) {
                     result << tmp;
@@ -735,7 +735,7 @@ Attachment::List Incidence::attachments() const
 Attachment::List Incidence::attachments(const QString &mime) const
 {
     Attachment::List attachments;
-    foreach(Attachment::Ptr attachment, d->mAttachments) {
+    foreach (Attachment::Ptr attachment, d->mAttachments) {
         if (attachment->mimeType() == mime) {
             attachments.append(attachment);
         }
@@ -773,8 +773,8 @@ QString Incidence::writeAttachmentToTempFile(const Attachment::Ptr &attachment) 
 
 void Incidence::clearTempFiles()
 {
-    QHash<Attachment::Ptr,QString>::const_iterator it = d->mTempFiles.constBegin();
-    const QHash<Attachment::Ptr,QString>::const_iterator end = d->mTempFiles.constEnd();
+    QHash<Attachment::Ptr, QString>::const_iterator it = d->mTempFiles.constBegin();
+    const QHash<Attachment::Ptr, QString>::const_iterator end = d->mTempFiles.constEnd();
     for (; it != end; ++it) {
         QFile::remove(it.value());
     }
@@ -913,7 +913,7 @@ void Incidence::clearAlarms()
 
 bool Incidence::hasEnabledAlarms() const
 {
-    foreach(Alarm::Ptr alarm, d->mAlarms) {
+    foreach (Alarm::Ptr alarm, d->mAlarms) {
         if (alarm->enabled()) {
             return true;
         }
@@ -1128,14 +1128,15 @@ void Incidence::serialize(QDataStream &out)
         << d->mLocalOnly << d->mStatus << d->mSecrecy << (d->mRecurrence ? true : false)
         << d->mAttachments.count() << d->mAlarms.count() << d->mRelatedToUid;
 
-    if (d->mRecurrence)
+    if (d->mRecurrence) {
         out << d->mRecurrence;
+    }
 
-    foreach(const Attachment::Ptr &attachment, d->mAttachments) {
+    foreach (const Attachment::Ptr &attachment, d->mAttachments) {
         out << attachment;
     }
 
-    foreach(const Alarm::Ptr &alarm, d->mAlarms) {
+    foreach (const Alarm::Ptr &alarm, d->mAlarms) {
         out << alarm;
     }
 }
@@ -1145,7 +1146,7 @@ void Incidence::deserialize(QDataStream &in)
     quint32 status, secrecy;
     bool hasRecurrence;
     int attachmentCount, alarmCount;
-    QMap<int,QString> relatedToUid;
+    QMap<int, QString> relatedToUid;
     in >> d->mCreated >> d->mRevision >> d->mDescription >> d->mDescriptionIsRich >> d->mSummary
        >> d->mSummaryIsRich >> d->mLocation >> d->mLocationIsRich >> d->mCategories
        >> d->mResources >> d->mStatusString >> d->mPriority >> d->mSchedulingID
@@ -1155,20 +1156,20 @@ void Incidence::deserialize(QDataStream &in)
 
     if (hasRecurrence) {
         d->mRecurrence = new Recurrence();
-        d->mRecurrence->addObserver(const_cast<KCalCore::Incidence*>(this));
+        d->mRecurrence->addObserver(const_cast<KCalCore::Incidence *>(this));
         in >> d->mRecurrence;
     }
 
     d->mAttachments.clear();
     d->mAlarms.clear();
 
-    for (int i=0; i<attachmentCount; ++i) {
+    for (int i = 0; i < attachmentCount; ++i) {
         Attachment::Ptr attachment = Attachment::Ptr(new Attachment(QString()));
         in >> attachment;
         d->mAttachments.append(attachment);
     }
 
-    for (int i=0; i<alarmCount; ++i) {
+    for (int i = 0; i < alarmCount; ++i) {
         Alarm::Ptr alarm = Alarm::Ptr(new Alarm(this));
         in >> alarm;
         d->mAlarms.append(alarm);
@@ -1178,9 +1179,8 @@ void Incidence::deserialize(QDataStream &in)
     d->mSecrecy = static_cast<Incidence::Secrecy>(secrecy);
 
     d->mRelatedToUid.clear();
-    foreach(int key, relatedToUid.keys()) { //krazy:exclude=foreach
+    foreach (int key, relatedToUid.keys()) { //krazy:exclude=foreach
         d->mRelatedToUid.insert(static_cast<Incidence::RelType>(key), relatedToUid.value(key));
     }
-
 
 }

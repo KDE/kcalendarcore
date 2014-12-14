@@ -70,9 +70,8 @@ void DurationTest::testCompare()
     QVERIFY(d2 < d5);
     Duration d6(3 * 60 * 60);
     QVERIFY(d6 == d5);
-    QVERIFY((d6-=(2 * 60 * 60)) == d1);
+    QVERIFY((d6 -= (2 * 60 * 60)) == d1);
 }
-
 
 void DurationTest::testSerializer_data()
 {
@@ -84,7 +83,6 @@ void DurationTest::testSerializer_data()
 
     const KDateTime firstDateTime(QDate(2006, 8, 3), QTime(7, 0, 0), KDateTime::UTC);
     Duration duration4(firstDateTime, KDateTime(QDate(2006, 8, 3), QTime(8, 0, 0), KDateTime::UTC));
-
 
     QTest::newRow("duration1") << duration1;
     QTest::newRow("duration2") << duration2;

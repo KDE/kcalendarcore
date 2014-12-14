@@ -90,7 +90,6 @@ void AttendeeTest::testType()
     QCOMPARE(attendee.cuType(), Attendee::Unknown);
 }
 
-
 void AttendeeTest::testCompare()
 {
     Attendee attendee1("fred", "fred@flintstone.com");

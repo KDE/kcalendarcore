@@ -57,7 +57,8 @@ This API needs serious cleaning up:
 
 #include <QtCore/QObject>
 
-namespace KCalCore {
+namespace KCalCore
+{
 
 class CalFilter;
 class Person;

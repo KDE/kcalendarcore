@@ -35,7 +35,8 @@ typedef struct icalcomponent_impl icalcomponent;
 typedef struct _icaltimezone  icaltimezone;
 #endif
 
-namespace KCalCore {
+namespace KCalCore
+{
 
 class ICalTimeZone;
 class ICalTimeZoneSource;

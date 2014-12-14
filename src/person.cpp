@@ -114,7 +114,7 @@ QString Person::fullName() const
                 if (name[0] != QLatin1Char('"')) {
                     name.prepend(QLatin1Char('"'));
                 }
-                if (name[ name.length()-1 ] != QLatin1Char('"')) {
+                if (name[ name.length() - 1 ] != QLatin1Char('"')) {
                     name.append(QLatin1Char('"'));
                 }
             }
@@ -206,7 +206,7 @@ static bool extractEmailAddressAndName(const QString &aStr, QString &mail, QStri
 
     bool bInComment = false;
     bool bInQuotesOutsideOfEmail = false;
-    int i=0, iAd=0, iMailStart=0, iMailEnd=0;
+    int i = 0, iAd = 0, iMailStart = 0, iMailEnd = 0;
     QChar c;
     unsigned int commentstack = 0;
 
@@ -257,7 +257,7 @@ static bool extractEmailAddressAndName(const QString &aStr, QString &mail, QStri
         //          and outside of quoted text before the leading '<'.
         bInComment = false;
         bInQuotesOutsideOfEmail = false;
-        for (i = iAd-1; 0 <= i; --i) {
+        for (i = iAd - 1; 0 <= i; --i) {
             c = aStr[i];
             if (bInComment) {
                 if (QLatin1Char('(') == c) {
@@ -321,7 +321,7 @@ static bool extractEmailAddressAndName(const QString &aStr, QString &mail, QStri
         bInComment = false;
         bInQuotesOutsideOfEmail = false;
         int parenthesesNesting = 0;
-        for (i = iAd+1; len > i; ++i) {
+        for (i = iAd + 1; len > i; ++i) {
             c = aStr[i];
             if (bInComment) {
                 if (QLatin1Char(')') == c) {

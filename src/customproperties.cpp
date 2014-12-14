@@ -50,7 +50,6 @@ public:
     // They are only used for runtime purposes and are not part of the payload.
     QMap<QByteArray, QString> mVolatileProperties;
 
-
     bool isVolatileProperty(const QString &name) const
     {
         return name.startsWith(QStringLiteral("X-KDE-VOLATILE"));

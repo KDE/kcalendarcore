@@ -36,7 +36,8 @@
 #include <QtCore/QSharedPointer>
 #include <QMetaType>
 
-namespace KCalCore {
+namespace KCalCore
+{
 
 /**
   @brief

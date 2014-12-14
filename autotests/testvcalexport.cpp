@@ -46,7 +46,7 @@ int main(int argc, char **argv)
 
     KAboutData about(QStringLiteral("testvcalexport"),
                      i18n("Part of LibKCal's test suite. Checks if export "
-                               "to vCalendar still works correctly."),
+                          "to vCalendar still works correctly."),
                      QStringLiteral("0.1"));
 
     about.setupCommandLine(&parser);

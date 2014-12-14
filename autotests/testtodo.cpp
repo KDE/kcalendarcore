@@ -90,19 +90,19 @@ void TodoTest::testClone()
 
 void TodoTest::testCopyIncidence()
 {
-  QDate dt = QDate::currentDate();
-  Event event;
-  event.setDtStart(KDateTime(dt));
-  event.setSummary(QLatin1String("Event1 Summary"));
-  event.setDescription(QLatin1String("This is a description of the first event"));
-  event.setLocation(QLatin1String("the place"));
+    QDate dt = QDate::currentDate();
+    Event event;
+    event.setDtStart(KDateTime(dt));
+    event.setSummary(QLatin1String("Event1 Summary"));
+    event.setDescription(QLatin1String("This is a description of the first event"));
+    event.setLocation(QLatin1String("the place"));
 
-  Todo todo(event);
-  QCOMPARE(todo.uid(), event.uid());
-  QCOMPARE(todo.dtStart(), event.dtStart());
-  QCOMPARE(todo.summary(), event.summary());
-  QCOMPARE(todo.description(), event.description());
-  QCOMPARE(todo.location(), event.location());
+    Todo todo(event);
+    QCOMPARE(todo.uid(), event.uid());
+    QCOMPARE(todo.dtStart(), event.dtStart());
+    QCOMPARE(todo.summary(), event.summary());
+    QCOMPARE(todo.description(), event.description());
+    QCOMPARE(todo.location(), event.location());
 }
 
 void TodoTest::testAssign()
@@ -119,7 +119,8 @@ void TodoTest::testAssign()
     QVERIFY(todo1 == todo2);
 }
 
-void TodoTest::testSetCompleted() {
+void TodoTest::testSetCompleted()
+{
 
     Todo todo1, todo2;
     todo1.setSummary("Todo Summary");
@@ -141,7 +142,8 @@ void TodoTest::testSetCompleted() {
     QVERIFY(todo2.isCompleted());
 }
 
-void TodoTest::testStatus() {
+void TodoTest::testStatus()
+{
     KDateTime today = KDateTime::currentUtcDateTime();
     KDateTime yesterday = today.addDays(-1);
 
@@ -202,7 +204,6 @@ void TodoTest::testSerializer_data()
 
     Attachment::Ptr attachment = Attachment::Ptr(new Attachment(QString("http://www.kde.org")));
     todo4->addAttachment(attachment);
-
 
     todo5->recurrence()->setDaily(1);
     todo5->setCompleted(today);

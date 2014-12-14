@@ -69,7 +69,7 @@ public:
     /**
      * Has all incidences, indexed by identifier.
      */
-    QHash<QString,KCalCore::Incidence::Ptr> mIncidencesByIdentifier;
+    QHash<QString, KCalCore::Incidence::Ptr> mIncidencesByIdentifier;
 
     /**
      * List of all deleted incidences.
@@ -153,8 +153,9 @@ bool MemoryCalendar::deleteIncidence(const Incidence::Ptr &incidence)
         d->mIncidencesByIdentifier.remove(incidence->instanceIdentifier());
         setModified(true);
         notifyIncidenceDeleted(incidence);
-        if (deletionTracking())
+        if (deletionTracking()) {
             d->mDeletedIncidences[type].insert(uid, incidence);
+        }
 
         const KDateTime dt = incidence->dateTime(Incidence::RoleCalendarHashing);
         if (dt.isValid()) {
@@ -180,10 +181,10 @@ bool MemoryCalendar::deleteIncidenceInstances(const Incidence::Ptr &incidence)
         Incidence::Ptr i = *it;
         if (i->hasRecurrenceId()) {
             qCDebug(KCALCORE_LOG) << "deleting child"
-                     << ", type=" << int(type)
-                     << ", uid=" << i->uid()
+                                  << ", type=" << int(type)
+                                  << ", uid=" << i->uid()
 //                   << ", start=" << i->dtStart()
-                     << " from calendar";
+                                  << " from calendar";
             deleteIncidence(i);
         }
     }

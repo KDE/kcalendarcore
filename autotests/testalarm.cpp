@@ -65,7 +65,6 @@ void AlarmTest::testAssignment()
     QVERIFY(alarm2 == *alarm3);
 }
 
-
 void AlarmTest::testSerializer_data()
 {
     QTest::addColumn<KCalCore::Alarm::Ptr>("alarm");
@@ -73,7 +72,6 @@ void AlarmTest::testSerializer_data()
     Alarm::Ptr a2 = Alarm::Ptr(new Alarm(0));
     Alarm::Ptr a3 = Alarm::Ptr(new Alarm(0));
     Alarm::Ptr a4 = Alarm::Ptr(new Alarm(0));
-
 
     a1->setType(Alarm::Email);
     a2->setType(Alarm::Procedure);

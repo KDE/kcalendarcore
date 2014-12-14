@@ -112,7 +112,7 @@ IncidenceBase &Todo::assign(const IncidenceBase &other)
 {
     if (&other != this) {
         Incidence::assign(other);
-        const Todo *t = static_cast<const Todo*>(&other);
+        const Todo *t = static_cast<const Todo *>(&other);
         d->init(*(t->d));
     }
     return *this;
@@ -124,7 +124,7 @@ bool Todo::equals(const IncidenceBase &todo) const
         return false;
     } else {
         // If they weren't the same type IncidenceBase::equals would had returned false already
-        const Todo *t = static_cast<const Todo*>(&todo);
+        const Todo *t = static_cast<const Todo *>(&todo);
         return ((dtDue() == t->dtDue()) ||
                 (!dtDue().isValid() && !t->dtDue().isValid())) &&
                hasDueDate() == t->hasDueDate() &&
@@ -552,7 +552,7 @@ KDateTime Todo::dateTime(DateTimeRole role) const
             return dtStart();
         }
         return dtDue(); //For the sake of backwards compatibility
-        //where we calculated recurrences based on dtDue
+    //where we calculated recurrences based on dtDue
     case RoleEnd:
         return dtDue();
     default:
@@ -578,10 +578,10 @@ void Todo::virtual_hook(int id, void *data)
 {
     switch (static_cast<IncidenceBase::VirtualHook>(id)) {
     case IncidenceBase::SerializerHook:
-        serialize(*reinterpret_cast<QDataStream*>(data));
+        serialize(*reinterpret_cast<QDataStream *>(data));
         break;
     case IncidenceBase::DeserializerHook:
-        deserialize(*reinterpret_cast<QDataStream*>(data));
+        deserialize(*reinterpret_cast<QDataStream *>(data));
         break;
     default:
         Q_ASSERT(false);

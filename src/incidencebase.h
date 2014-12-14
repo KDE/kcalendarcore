@@ -70,7 +70,8 @@
 class QUrl;
 class QDate;
 
-namespace KCalCore {
+namespace KCalCore
+{
 
 /** List of dates */
 typedef SortableList<QDate> DateList;

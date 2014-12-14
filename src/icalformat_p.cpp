@@ -151,7 +151,8 @@ class ICalFormatImpl::Private
 public:
     Private(ICalFormatImpl *impl, ICalFormat *parent)
         : mImpl(impl), mParent(parent), mCompat(new Compat) {}
-    ~Private()  {
+    ~Private()
+    {
         delete mCompat;
     }
     void writeIncidenceBase(icalcomponent *parent, IncidenceBase::Ptr);
@@ -502,8 +503,7 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent,
     case Incidence::StatusFinal:
         status = ICAL_STATUS_FINAL;
         break;
-    case Incidence::StatusX:
-    {
+    case Incidence::StatusX: {
         icalproperty *p = icalproperty_new_status(ICAL_STATUS_X);
         icalvalue_set_x(icalproperty_get_value(p), incidence->customStatus().toUtf8());
         icalcomponent_add_property(parent, p);
@@ -701,7 +701,7 @@ void ICalFormatImpl::Private::writeCustomProperties(icalcomponent *parent,
         // the given input text (not really parsing as such)
         if (!parameters.isEmpty()) {
             QStringList sl = parameters.split(QLatin1Char(';'));
-            foreach(const QString &parameter, sl) {
+            foreach (const QString &parameter, sl) {
                 icalparameter *param = icalparameter_new_from_string(parameter.toUtf8());
                 if (param) {
                     icalproperty_add_parameter(p, param);
@@ -1071,8 +1071,7 @@ icalcomponent *ICalFormatImpl::writeAlarm(const Alarm::Ptr &alarm)
             icalcomponent_add_property(a, icalproperty_new_attach(attach));
         }
         break;
-    case Alarm::Email:
-    {
+    case Alarm::Email: {
         action = ICAL_ACTION_EMAIL;
         const Person::List addresses = alarm->mailAddresses();
         for (Person::List::ConstIterator ad = addresses.constBegin();
@@ -1166,8 +1165,8 @@ Todo::Ptr ICalFormatImpl::readTodo(icalcomponent *vtodo, ICalTimeZones *tzlist)
     while (p) {
         icalproperty_kind kind = icalproperty_isa(p);
         switch (kind) {
-        case ICAL_DUE_PROPERTY:
-        {   // due date/time
+        case ICAL_DUE_PROPERTY: {
+            // due date/time
             KDateTime kdt = readICalDateTimeProperty(p, tzlist);
             todo->setDtDue(kdt, true);
             todo->setAllDay(kdt.isDateOnly());
@@ -1194,9 +1193,8 @@ Todo::Ptr ICalFormatImpl::readTodo(icalcomponent *vtodo, ICalTimeZones *tzlist)
                 todo->setHasStartDate(true);
             }
             break;
-        case ICAL_X_PROPERTY:
-        {
-            const char *name = icalproperty_get_x_name( p );
+        case ICAL_X_PROPERTY: {
+            const char *name = icalproperty_get_x_name(p);
             if (QLatin1String(name) == QLatin1String("X-KDE-LIBKCAL-DTRECURRENCE")) {
                 const KDateTime dateTime = readICalDateTimeProperty(p, tzlist);
                 if (dateTime.isValid()) {
@@ -1236,8 +1234,8 @@ Event::Ptr ICalFormatImpl::readEvent(icalcomponent *vevent, ICalTimeZones *tzlis
     while (p) {
         icalproperty_kind kind = icalproperty_isa(p);
         switch (kind) {
-        case ICAL_DTEND_PROPERTY:
-        {   // end date and time
+        case ICAL_DTEND_PROPERTY: {
+            // end date and time
             KDateTime kdt = readICalDateTimeProperty(p, tzlist);
             if (kdt.isDateOnly()) {
                 // End date is non-inclusive
@@ -1261,8 +1259,7 @@ Event::Ptr ICalFormatImpl::readEvent(icalcomponent *vevent, ICalTimeZones *tzlis
             d->mEventsRelate.append(event);
             break;
 
-        case ICAL_TRANSP_PROPERTY:  // Transparency
-        {
+        case ICAL_TRANSP_PROPERTY: { // Transparency
             icalproperty_transp transparency = icalproperty_get_transp(p);
             if (transparency == ICAL_TRANSP_TRANSPARENT) {
                 event->setTransparency(Event::Transparent);
@@ -1322,8 +1319,7 @@ FreeBusy::Ptr ICalFormatImpl::readFreeBusy(icalcomponent *vfreebusy)
             freebusy->setDtEnd(readICalUtcDateTimeProperty(p));
             break;
 
-        case ICAL_FREEBUSY_PROPERTY: //Any FreeBusy Times (UTC)
-        {
+        case ICAL_FREEBUSY_PROPERTY: { //Any FreeBusy Times (UTC)
             icalperiodtype icalperiod = icalproperty_get_freebusy(p);
             KDateTime period_start = readICalUtcDateTime(p, icalperiod.start);
             FreeBusyPeriod period;
@@ -1464,7 +1460,7 @@ Attendee::Ptr ICalFormatImpl::readAttendee(icalproperty *attendee)
     }
 
     Attendee::CuType cuType = Attendee::Individual;
-    p = icalproperty_get_first_parameter( attendee, ICAL_CUTYPE_PARAMETER );
+    p = icalproperty_get_first_parameter(attendee, ICAL_CUTYPE_PARAMETER);
     if (p) {
         icalparameter_cutype cutypeParameter = icalparameter_get_cutype(p);
         switch (cutypeParameter) {
@@ -1545,8 +1541,7 @@ Attachment::Ptr ICalFormatImpl::readAttachment(icalproperty *attach)
     icalvalue *value = icalproperty_get_value(attach);
 
     switch (icalvalue_isa(value)) {
-    case ICAL_ATTACH_VALUE:
-    {
+    case ICAL_ATTACH_VALUE: {
         icalattach *a = icalproperty_get_attach(attach);
         if (!icalattach_get_is_url(a)) {
             p = QByteArray(reinterpret_cast<const char *>(icalattach_get_data(a)));
@@ -1561,8 +1556,7 @@ Attachment::Ptr ICalFormatImpl::readAttachment(icalproperty *attach)
         }
         break;
     }
-    case ICAL_BINARY_VALUE:
-    {
+    case ICAL_BINARY_VALUE: {
         icalattach *a = icalproperty_get_attach(attach);
         p = QByteArray(reinterpret_cast<const char *>(icalattach_get_data(a)));
         if (!p.isEmpty()) {
@@ -1660,8 +1654,7 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent,
             incidence->setDuration(readICalDuration(icalduration));
             break;
 
-        case ICAL_DESCRIPTION_PROPERTY:  // description
-        {
+        case ICAL_DESCRIPTION_PROPERTY: { // description
             QString textStr = QString::fromUtf8(icalproperty_get_description(p));
             if (!textStr.isEmpty()) {
                 QString valStr = QString::fromUtf8(
@@ -1675,8 +1668,7 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent,
         }
         break;
 
-        case ICAL_SUMMARY_PROPERTY:  // summary
-        {
+        case ICAL_SUMMARY_PROPERTY: { // summary
             QString textStr = QString::fromUtf8(icalproperty_get_summary(p));
             if (!textStr.isEmpty()) {
                 QString valStr = QString::fromUtf8(
@@ -1690,8 +1682,7 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent,
         }
         break;
 
-        case ICAL_LOCATION_PROPERTY:  // location
-        {
+        case ICAL_LOCATION_PROPERTY: { // location
             if (!icalproperty_get_value(p)) {
                 //Fix for #191472. This is a pre-crash guard in case libical was
                 //compiled in superstrict mode (--enable-icalerrors-are-fatal)
@@ -1711,8 +1702,7 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent,
         }
         break;
 
-        case ICAL_STATUS_PROPERTY:  // status
-        {
+        case ICAL_STATUS_PROPERTY: { // status
             Incidence::Status stat;
             switch (icalproperty_get_status(p)) {
             case ICAL_STATUS_TENTATIVE:
@@ -1755,8 +1745,7 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent,
             break;
         }
 
-        case ICAL_GEO_PROPERTY:  // geo
-        {
+        case ICAL_GEO_PROPERTY: { // geo
             icalgeotype geo = icalproperty_get_geo(p);
             incidence->setGeoLatitude(geo.lat);
             incidence->setGeoLongitude(geo.lon);
@@ -1772,14 +1761,13 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent,
             incidence->setPriority(intvalue);
             break;
 
-        case ICAL_CATEGORIES_PROPERTY:  // categories
-        {
+        case ICAL_CATEGORIES_PROPERTY: { // categories
             // We have always supported multiple CATEGORIES properties per component
             // even though the RFC seems to indicate only 1 is permitted.
             // We can't change that -- in order to retain backwards compatibility.
             text = icalproperty_get_categories(p);
             const QString val = QString::fromUtf8(text);
-            foreach(const QString &cat, val.split(QLatin1Char(','), QString::SkipEmptyParts)) {
+            foreach (const QString &cat, val.split(QLatin1Char(','), QString::SkipEmptyParts)) {
                 // ensure no duplicates
                 if (!categories.contains(cat)) {
                     categories.append(cat);
@@ -1931,8 +1919,8 @@ void ICalFormatImpl::Private::readIncidenceBase(icalcomponent *parent,
 
     if (!uidProcessed) {
         qCWarning(KCALCORE_LOG) << "The incidence didn't have any UID! Report a bug "
-                   << "to the application that generated this file."
-                   << endl;
+                                << "to the application that generated this file."
+                                << endl;
 
         // Our in-memory incidence has a random uid generated in Event's ctor.
         // Make it empty so it matches what's in the file:
@@ -2025,7 +2013,7 @@ void ICalFormatImpl::readRecurrence(const struct icalrecurrencetype &r, Recurren
 {
     // Generate the RRULE string
     recur->setRRule(
-        QLatin1String(icalrecurrencetype_as_string(const_cast<struct icalrecurrencetype*>(&r))));
+        QLatin1String(icalrecurrencetype_as_string(const_cast<struct icalrecurrencetype *>(&r))));
     // Period
     switch (r.freq) {
     case ICAL_SECONDLY_RECURRENCE:
@@ -2079,14 +2067,14 @@ void ICalFormatImpl::readRecurrence(const struct icalrecurrencetype &r, Recurren
 
 //@cond PRIVATE
 #define readSetByList( rrulecomp, setfunc )                             \
-  index = 0;                                                            \
-  lst.clear();                                                          \
-  while ( ( i = r.rrulecomp[index++] ) != ICAL_RECURRENCE_ARRAY_MAX ) { \
-    lst.append( i );                                                    \
-  }                                                                     \
-  if ( !lst.isEmpty() ) {                                               \
-    recur->setfunc( lst );                                              \
-  }
+    index = 0;                                                            \
+    lst.clear();                                                          \
+    while ( ( i = r.rrulecomp[index++] ) != ICAL_RECURRENCE_ARRAY_MAX ) { \
+        lst.append( i );                                                    \
+    }                                                                     \
+    if ( !lst.isEmpty() ) {                                               \
+        recur->setfunc( lst );                                              \
+    }
 //@endcond
 
     // BYSECOND, MINUTE and HOUR, MONTHDAY, YEARDAY, WEEKNUMBER, MONTH
@@ -2105,7 +2093,7 @@ void ICalFormatImpl::readRecurrence(const struct icalrecurrencetype &r, Recurren
     // BYDAY is a special case, since it's not an int list
     QList<RecurrenceRule::WDayPos> wdlst;
     short day;
-    index=0;
+    index = 0;
     while ((day = r.by_day[index++]) != ICAL_RECURRENCE_ARRAY_MAX) {
         RecurrenceRule::WDayPos pos;
         pos.setDay(static_cast<short>((icalrecurrencetype_day_day_of_week(day) + 5) % 7 + 1));
@@ -2163,8 +2151,7 @@ void ICalFormatImpl::readAlarm(icalcomponent *alarm,
         icalproperty_kind kind = icalproperty_isa(p);
 
         switch (kind) {
-        case ICAL_TRIGGER_PROPERTY:
-        {
+        case ICAL_TRIGGER_PROPERTY: {
             icaltriggertype trigger = icalproperty_get_trigger(p);
             if (!icaltime_is_null_time(trigger.time)) {
                 //set the trigger to a specific time (which is not in rfc2445, btw)
@@ -2187,8 +2174,7 @@ void ICalFormatImpl::readAlarm(icalcomponent *alarm,
             }
             break;
         }
-        case ICAL_DURATION_PROPERTY:
-        {
+        case ICAL_DURATION_PROPERTY: {
             icaldurationtype duration = icalproperty_get_duration(p);
             ialarm->setSnoozeTime(readICalDuration(duration));
             break;
@@ -2197,8 +2183,8 @@ void ICalFormatImpl::readAlarm(icalcomponent *alarm,
             ialarm->setRepeatCount(icalproperty_get_repeat(p));
             break;
 
-        case ICAL_DESCRIPTION_PROPERTY:
-        {   // Only in DISPLAY and EMAIL and PROCEDURE alarms
+        case ICAL_DESCRIPTION_PROPERTY: {
+            // Only in DISPLAY and EMAIL and PROCEDURE alarms
             QString description = QString::fromUtf8(icalproperty_get_description(p));
             switch (action) {
             case ICAL_ACTION_DISPLAY:
@@ -2220,8 +2206,8 @@ void ICalFormatImpl::readAlarm(icalcomponent *alarm,
             ialarm->setMailSubject(QString::fromUtf8(icalproperty_get_summary(p)));
             break;
 
-        case ICAL_ATTENDEE_PROPERTY:
-        {   // Only in EMAIL alarm
+        case ICAL_ATTENDEE_PROPERTY: {
+            // Only in EMAIL alarm
             QString email = QString::fromUtf8(icalproperty_get_attendee(p));
             if (email.startsWith(QStringLiteral("mailto:"), Qt::CaseInsensitive)) {
                 email = email.mid(7);
@@ -2235,8 +2221,8 @@ void ICalFormatImpl::readAlarm(icalcomponent *alarm,
             break;
         }
 
-        case ICAL_ATTACH_PROPERTY:
-        {   // Only in AUDIO and EMAIL and PROCEDURE alarms
+        case ICAL_ATTACH_PROPERTY: {
+            // Only in AUDIO and EMAIL and PROCEDURE alarms
             Attachment::Ptr attach = readAttachment(p);
             if (attach && attach->isUri()) {
                 switch (action) {
@@ -2254,7 +2240,7 @@ void ICalFormatImpl::readAlarm(icalcomponent *alarm,
                 }
             } else {
                 qCDebug(KCALCORE_LOG) << "Alarm attachments currently only support URIs,"
-                         << "but no binary data";
+                                      << "but no binary data";
             }
             break;
         }
@@ -2374,16 +2360,14 @@ icalproperty *ICalFormatImpl::writeICalDateTimeProperty(const icalproperty_kind 
     case ICAL_EXDATE_PROPERTY:
         p = icalproperty_new_exdate(t);
         break;
-    case ICAL_X_PROPERTY:
-    {
+    case ICAL_X_PROPERTY: {
         p = icalproperty_new_x("");
         icaltimetype timeType = writeICalDateTime(dt);
         icalvalue *text = icalvalue_new_datetime(timeType);
         icalproperty_set_value(p, text);
     }
     break;
-    default:
-    {
+    default: {
         icaldatetimeperiodtype tp;
         tp.time = t;
         tp.period = icalperiodtype_null_period();
@@ -2515,8 +2499,7 @@ KDateTime ICalFormatImpl::readICalDateTimeProperty(icalproperty *p,
     case ICAL_EXDATE_PROPERTY:
         tp.time = icalproperty_get_exdate(p);
         break;
-    case ICAL_X_PROPERTY:
-    {
+    case ICAL_X_PROPERTY: {
         const char *name = icalproperty_get_x_name(p);
         if (QLatin1String(name) == QLatin1String("X-KDE-LIBKCAL-DTRECURRENCE")) {
             const char *value =  icalvalue_as_ical_string(icalproperty_get_value(p));
@@ -2948,7 +2931,7 @@ icalcomponent *ICalFormatImpl::createScheduleComponent(const IncidenceBase::Ptr 
         }
 
         const ICalTimeZones::ZoneMap zmaps = zones.zones();
-        for (ICalTimeZones::ZoneMap::ConstIterator it=zmaps.constBegin();
+        for (ICalTimeZones::ZoneMap::ConstIterator it = zmaps.constBegin();
                 it != zmaps.constEnd(); ++it) {
             icaltimezone *icaltz = (*it).icalTimezone();
             if (!icaltz) {

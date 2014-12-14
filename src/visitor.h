@@ -31,7 +31,8 @@
 #include "todo.h"
 #include "freebusy.h"
 
-namespace KCalCore {
+namespace KCalCore
+{
 
 /**
   This class provides the interface for a visitor of calendar components.

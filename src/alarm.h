@@ -44,7 +44,8 @@
 #include <QDataStream>
 #include <QMetaType>
 
-namespace KCalCore {
+namespace KCalCore
+{
 
 class Incidence;
 

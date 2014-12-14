@@ -30,9 +30,11 @@
 
 #include "kcalcore_export.h"
 
-namespace KCalCore {
+namespace KCalCore
+{
 
-namespace Events {
+namespace Events
+{
 
 KCALCORE_EXPORT bool startDateLessThan(const Event::Ptr &e1, const Event::Ptr &e2);
 
@@ -48,7 +50,8 @@ KCALCORE_EXPORT bool endDateMoreThan(const Event::Ptr &e1, const Event::Ptr &e2)
 
 }
 
-namespace Todos {
+namespace Todos
+{
 
 KCALCORE_EXPORT bool startDateLessThan(const Todo::Ptr &t1, const Todo::Ptr &t2);
 
@@ -76,7 +79,8 @@ KCALCORE_EXPORT bool createdMoreThan(const Todo::Ptr &t1, const Todo::Ptr &t2);
 
 }
 
-namespace Journals {
+namespace Journals
+{
 
 KCALCORE_EXPORT bool dateLessThan(const Journal::Ptr &j1, const Journal::Ptr &j2);
 
@@ -88,7 +92,8 @@ KCALCORE_EXPORT bool summaryMoreThan(const Journal::Ptr &j1, const Journal::Ptr 
 
 }
 
-namespace Incidences {
+namespace Incidences
+{
 
 KCALCORE_EXPORT bool dateLessThan(const Incidence::Ptr &i1,
                                   const Incidence::Ptr &i2);
@@ -110,7 +115,8 @@ KCALCORE_EXPORT bool summaryMoreThan(const Incidence::Ptr &i1,
 
 }
 
-namespace Persons {
+namespace Persons
+{
 KCALCORE_EXPORT bool countMoreThan(const Person::Ptr &p1, const Person::Ptr &p2);
 }
 

@@ -244,7 +244,7 @@ void TestOccurrenceIterator::testSubDailyRecurrences()
 
     KCalCore::OccurrenceIterator rIt(calendar, start, actualEnd);
     QList<KDateTime> expectedEventOccurrences;
-    expectedEventOccurrences << start << start.addSecs(60*60);
+    expectedEventOccurrences << start << start.addSecs(60 * 60);
     while (rIt.hasNext()) {
         rIt.next();
         qDebug() << rIt.occurrenceStartDate().toString();

@@ -58,7 +58,8 @@ public:
         : mImpl(new ICalFormatImpl(parent)),
           mTimeSpec(KDateTime::UTC)
     {}
-    ~Private()  {
+    ~Private()
+    {
         delete mImpl;
     }
     ICalFormatImpl *mImpl;
@@ -114,7 +115,7 @@ bool ICalFormat::save(const Calendar::Ptr &calendar, const QString &fileName)
     }
 
     // Write backup file
-  KBackup::backupFile( fileName );
+    KBackup::backupFile(fileName);
 
     QSaveFile file(fileName);
     if (!file.open(QIODevice::WriteOnly)) {
@@ -155,7 +156,7 @@ bool ICalFormat::fromRawString(const Calendar::Ptr &cal, const QByteArray &strin
     icalcomponent *calendar;
 
     // Let's defend const correctness until the very gates of hell^Wlibical
-    calendar = icalcomponent_new_from_string(const_cast<char*>((const char *)string));
+    calendar = icalcomponent_new_from_string(const_cast<char *>((const char *)string));
     if (!calendar) {
         qCritical() << "parse error ; string is empty?" << string.isEmpty();
         setException(new Exception(Exception::ParseErrorIcal));
@@ -556,9 +557,9 @@ ScheduleMessage::Ptr ICalFormat::parseScheduleMessage(const Calendar::Ptr &cal,
 
     if (!icalrestriction_check(message)) {
         qCWarning(KCALCORE_LOG) << endl
-                   << "kcalcore library reported a problem while parsing:";
+                                << "kcalcore library reported a problem while parsing:";
         qCWarning(KCALCORE_LOG) << ScheduleMessage::methodName(method) << ":"
-                   << d->mImpl->extractErrorProperty(c);
+                                << d->mImpl->extractErrorProperty(c);
     }
 
     Incidence::Ptr existingIncidence = cal->incidence(incidence->uid());

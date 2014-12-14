@@ -394,8 +394,7 @@ VObject *VCalFormat::eventToVTodo(const Todo::Ptr &anEvent)
                 }
             }
             break;
-        case Recurrence::rMonthlyPos:
-        {
+        case Recurrence::rMonthlyPos: {
             tmpStr.sprintf("MP%i ", recur->frequency());
             // write out all rMonthPos's
             QList<RecurrenceRule::WDayPos> tmpPositions = recur->monthPositions();
@@ -413,8 +412,7 @@ VObject *VCalFormat::eventToVTodo(const Todo::Ptr &anEvent)
             }
             break;
         }
-        case Recurrence::rMonthlyDay:
-        {
+        case Recurrence::rMonthlyDay: {
             tmpStr.sprintf("MD%i ", recur->frequency());
             // write out all rMonthDays;
             const QList<int> tmpDays = recur->monthDays();
@@ -425,8 +423,7 @@ VObject *VCalFormat::eventToVTodo(const Todo::Ptr &anEvent)
             }
             break;
         }
-        case Recurrence::rYearlyMonth:
-        {
+        case Recurrence::rYearlyMonth: {
             tmpStr.sprintf("YM%i ", recur->frequency());
             // write out all the months;'
             // TODO: Any way to write out the day within the month???
@@ -438,8 +435,7 @@ VObject *VCalFormat::eventToVTodo(const Todo::Ptr &anEvent)
             }
             break;
         }
-        case Recurrence::rYearlyDay:
-        {
+        case Recurrence::rYearlyDay: {
             tmpStr.sprintf("YD%i ", recur->frequency());
             // write out all the rYearNums;
             const QList<int> tmpDays = recur->yearDays();
@@ -740,8 +736,7 @@ VObject *VCalFormat::eventToVEvent(const Event::Ptr &anEvent)
                 }
             }
             break;
-        case Recurrence::rMonthlyPos:
-        {
+        case Recurrence::rMonthlyPos: {
             tmpStr.sprintf("MP%i ", recur->frequency());
             // write out all rMonthPos's
             QList<RecurrenceRule::WDayPos> tmpPositions = recur->monthPositions();
@@ -759,8 +754,7 @@ VObject *VCalFormat::eventToVEvent(const Event::Ptr &anEvent)
             }
             break;
         }
-        case Recurrence::rMonthlyDay:
-        {
+        case Recurrence::rMonthlyDay: {
             tmpStr.sprintf("MD%i ", recur->frequency());
             // write out all rMonthDays;
             const QList<int> tmpDays = recur->monthDays();
@@ -771,8 +765,7 @@ VObject *VCalFormat::eventToVEvent(const Event::Ptr &anEvent)
             }
             break;
         }
-        case Recurrence::rYearlyMonth:
-        {
+        case Recurrence::rYearlyMonth: {
             tmpStr.sprintf("YM%i ", recur->frequency());
             // write out all the months;'
             // TODO: Any way to write out the day within the month???
@@ -784,8 +777,7 @@ VObject *VCalFormat::eventToVEvent(const Event::Ptr &anEvent)
             }
             break;
         }
-        case Recurrence::rYearlyDay:
-        {
+        case Recurrence::rYearlyDay: {
             tmpStr.sprintf("YD%i ", recur->frequency());
             // write out all the rYearNums;
             const QList<int> tmpDays = recur->yearDays();
@@ -1235,8 +1227,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
                 anEvent->recurrence()->setDaily(rFreq);
                 break;
 
-            case Recurrence::rWeekly:
-            {
+            case Recurrence::rWeekly: {
                 QBitArray qba(7);
                 QString dayStr;
                 if (index == last) {
@@ -1257,8 +1248,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
                 break;
             }
 
-            case Recurrence::rMonthlyPos:
-            {
+            case Recurrence::rMonthlyPos: {
                 anEvent->recurrence()->setMonthly(rFreq);
 
                 QBitArray qba(7);
@@ -1719,8 +1709,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
                 anEvent->recurrence()->setDaily(rFreq);
                 break;
 
-            case Recurrence::rWeekly:
-            {
+            case Recurrence::rWeekly: {
                 QBitArray qba(7);
                 QString dayStr;
                 if (index == last) {
@@ -1741,8 +1730,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
                 break;
             }
 
-            case Recurrence::rMonthlyPos:
-            {
+            case Recurrence::rMonthlyPos: {
                 anEvent->recurrence()->setMonthly(rFreq);
 
                 QBitArray qba(7);
@@ -2286,7 +2274,7 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
         char *s = fakeCString(vObjectUStringZValue(curVO));
         if (!s || strcmp(productId().toUtf8(), s) != 0) {
             qCDebug(KCALCORE_LOG) << "This vCalendar file was not created by KOrganizer or"
-                     << "any other product we support. Loading anyway...";
+                                  << "any other product we support. Loading anyway...";
         }
         setLoadedProductId(s);
         deleteStr(s);
@@ -2297,7 +2285,7 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
         char *s = fakeCString(vObjectUStringZValue(curVO));
         if (!s || strcmp(_VCAL_VERSION, s) != 0) {
             qCDebug(KCALCORE_LOG) << "This vCalendar file has version" << s
-                     << "We only support" << _VCAL_VERSION;
+                                  << "We only support" << _VCAL_VERSION;
         }
         deleteStr(s);
     }
@@ -2525,7 +2513,7 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
         } else {
             qCDebug(KCALCORE_LOG) << "Ignoring unknown vObject \"" << vObjectName(curVO) << "\"";
         }
-SKIP:
+    SKIP:
         ;
     } // while
 

@@ -20,4 +20,3 @@
 #include "kcalcore_debug.h"
 Q_LOGGING_CATEGORY(KCALCORE_LOG, "log_kcalcore")
 
-

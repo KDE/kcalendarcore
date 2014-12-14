@@ -114,8 +114,6 @@ QString KCalCore::Attendee::Private::cuTypeStr() const
     return QLatin1String("UNKNOWN");
 }
 
-
-
 Attendee::Attendee(const QString &name, const QString &email, bool rsvp,
                    Attendee::PartStat status, Attendee::Role role, const QString &uid)
     : d(new Attendee::Private)
@@ -150,7 +148,7 @@ bool KCalCore::Attendee::operator==(const Attendee &attendee) const
         d->mDelegate == attendee.d->mDelegate &&
         d->mDelegator == attendee.d->mDelegator &&
         d->cuTypeStr() == attendee.d->cuTypeStr() &&
-        (const Person &)*this == (const Person &)attendee;
+        (const Person &) * this == (const Person &)attendee;
 }
 
 bool KCalCore::Attendee::operator!=(const Attendee &attendee) const

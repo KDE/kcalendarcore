@@ -40,7 +40,8 @@
 #include <QtCore/QMetaType>
 #include <QtCore/QVector>
 
-namespace KCalCore {
+namespace KCalCore
+{
 
 /**
   The period can be defined by either a start time and an end time or
@@ -102,8 +103,9 @@ public:
 
       @param other the other period to compare
     */
-    bool operator>(const Period &other) const  {
-        return other.operator<(*this);
+    bool operator>(const Period &other) const
+    {
+        return other.operator < (*this);
     }
 
     /**
@@ -122,7 +124,8 @@ public:
       @param other the other period to compare
       @see operator==()
     */
-    bool operator!=(const Period &other) const  {
+    bool operator!=(const Period &other) const
+    {
         return !operator==(other);
     }
 

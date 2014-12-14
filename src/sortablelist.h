@@ -32,7 +32,8 @@
 #include <QtCore/QList>
 #include <QtCore/QtAlgorithms>
 
-namespace KCalCore {
+namespace KCalCore
+{
 
 //@cond PRIVATE
 template <class T>
@@ -107,7 +108,8 @@ public:
       @param value is the value to find.
       @return true if list contains @p value; false otherwise.
     */
-    bool containsSorted(const T &value) const  {
+    bool containsSorted(const T &value) const
+    {
         return findSorted(value) >= 0;
     }
 
@@ -190,7 +192,8 @@ public:
     /**
       Sort the list. Any duplicate values are removed.
     */
-    void sortUnique()  {
+    void sortUnique()
+    {
         qSortUnique(*this);
     }
 };

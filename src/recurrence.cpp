@@ -62,7 +62,7 @@ public:
     DateTimeList mExDateTimes;
     DateList mExDates;
     KDateTime mStartDateTime;    // date/time of first recurrence
-    QList<RecurrenceObserver*> mObservers;
+    QList<RecurrenceObserver *> mObservers;
 
     // Cache the type of the recurrence with the old system (e.g. MonthlyPos)
     mutable ushort mCachedType;
@@ -203,7 +203,7 @@ RecurrenceRule *Recurrence::defaultRRule(bool create) const
         }
         RecurrenceRule *rrule = new RecurrenceRule();
         rrule->setStartDt(startDateTime());
-        const_cast<KCalCore::Recurrence*>(this)->addRRule(rrule);
+        const_cast<KCalCore::Recurrence *>(this)->addRRule(rrule);
         return rrule;
     } else {
         return d->mRRules[0];
@@ -287,8 +287,7 @@ ushort Recurrence::recurrenceType(const RecurrenceRule *rrule)
         return rDaily;
     case RecurrenceRule::rWeekly:
         return rWeekly;
-    case RecurrenceRule::rMonthly:
-    {
+    case RecurrenceRule::rMonthly: {
         if (rrule->byDays().isEmpty()) {
             return rMonthlyDay;
         } else if (rrule->byMonthDays().isEmpty()) {
@@ -297,8 +296,7 @@ ushort Recurrence::recurrenceType(const RecurrenceRule *rrule)
             return rOther; // both position and date specified
         }
     }
-    case RecurrenceRule::rYearly:
-    {
+    case RecurrenceRule::rYearly: {
         // Possible combinations:
         //   rYearlyMonth: [BYMONTH &] BYMONTHDAY
         //   rYearlyDay: BYYEARDAY
@@ -1396,32 +1394,33 @@ Recurrence::RecurrenceObserver::~RecurrenceObserver()
 {
 }
 
-KCALCORE_EXPORT QDataStream& KCalCore::operator<<(QDataStream &out, KCalCore::Recurrence *r)
+KCALCORE_EXPORT QDataStream &KCalCore::operator<<(QDataStream &out, KCalCore::Recurrence *r)
 {
-    if (!r)
+    if (!r) {
         return out;
+    }
 
     out << r->d->mRDateTimes << r->d->mExDateTimes
         << r->d->mRDates << r->d->mStartDateTime << r->d->mCachedType
         << r->d->mAllDay << r->d->mRecurReadOnly << r->d->mExDates
         << r->d->mExRules.count() << r->d->mRRules.count();
 
-    foreach(RecurrenceRule *rule, r->d->mExRules) {
+    foreach (RecurrenceRule *rule, r->d->mExRules) {
         out << rule;
     }
 
-    foreach(RecurrenceRule *rule, r->d->mRRules) {
+    foreach (RecurrenceRule *rule, r->d->mRRules) {
         out << rule;
     }
 
     return out;
 }
 
-
-KCALCORE_EXPORT QDataStream& KCalCore::operator>>(QDataStream &in, KCalCore::Recurrence *r)
+KCALCORE_EXPORT QDataStream &KCalCore::operator>>(QDataStream &in, KCalCore::Recurrence *r)
 {
-    if (!r)
+    if (!r) {
         return in;
+    }
 
     int rruleCount, exruleCount;
 
@@ -1433,14 +1432,14 @@ KCALCORE_EXPORT QDataStream& KCalCore::operator>>(QDataStream &in, KCalCore::Rec
     r->d->mExRules.clear();
     r->d->mRRules.clear();
 
-    for (int i=0; i<exruleCount; ++i) {
+    for (int i = 0; i < exruleCount; ++i) {
         RecurrenceRule *rule = new RecurrenceRule();
         rule->addObserver(r);
         in >> rule;
         r->d->mExRules.append(rule);
     }
 
-    for (int i=0; i<rruleCount; ++i) {
+    for (int i = 0; i < rruleCount; ++i) {
         RecurrenceRule *rule = new RecurrenceRule();
         rule->addObserver(r);
         in >> rule;

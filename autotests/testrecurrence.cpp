@@ -46,7 +46,7 @@ int main(int argc, char **argv)
     parser.addPositionalArgument("input", i18n("Name of input file"));
     parser.addPositionalArgument("output", i18n("optional name of output file for the recurrence dates"));
 
-    KAboutData about(QStringLiteral("testrecurrencenew"), 
+    KAboutData about(QStringLiteral("testrecurrencenew"),
                      i18n("Load recurrence rules with the new class and print out debug messages"),
                      QStringLiteral("0.1"));
 
@@ -83,7 +83,9 @@ int main(int argc, char **argv)
 
     KDateTime::Spec viewSpec;
     FileStorage store(cal, input);
-    if (!store.load()) return 1;
+    if (!store.load()) {
+        return 1;
+    }
     QString tz = cal->nonKDECustomProperty("X-LibKCal-Testsuite-OutTZ");
     if (!tz.isEmpty()) {
         viewSpec = KDateTime::Spec(KSystemTimeZones::zone(tz));
@@ -104,7 +106,7 @@ int main(int argc, char **argv)
         } else {
             dt = incidence->dtStart().addSecs(-1);
         }
-        int i=0;
+        int i = 0;
         if (outstream) {
             // Output to file for testing purposes
             while (dt.isValid() && i < 500) {

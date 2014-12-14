@@ -29,7 +29,8 @@
 
 #include <KDateTime>
 
-namespace KCalCore {
+namespace KCalCore
+{
 
 // These two are duplicates wrt. incidencebase.h
 typedef SortableList<KDateTime> DateTimeList;
@@ -50,7 +51,7 @@ public:
         /** This method is called on each change of the recurrence object */
         virtual void recurrenceChanged(RecurrenceRule *) = 0;
     };
-    typedef QList<RecurrenceRule*> List;
+    typedef QList<RecurrenceRule *> List;
 
     /** enum for describing the frequency how an event recurs, if at all. */
     enum PeriodType {
@@ -82,8 +83,8 @@ public:
         int mPos;   // week of the day (-1 for last, 1 for first, 0 for all weeks)
         // Bounded by -366 and +366, 0 means all weeks in that period
 
-        friend KCALCORE_EXPORT QDataStream& operator<<(QDataStream &out, const KCalCore::RecurrenceRule::WDayPos &);
-        friend KCALCORE_EXPORT QDataStream& operator>>(QDataStream &in, KCalCore::RecurrenceRule::WDayPos &);
+        friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalCore::RecurrenceRule::WDayPos &);
+        friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalCore::RecurrenceRule::WDayPos &);
     };
 
     // Q_DECLARE_TYPEINFO(RecurrenceRule::WDayPos, Q_MOVABLE_TYPE) TODO_KDE5
@@ -93,7 +94,8 @@ public:
     ~RecurrenceRule();
 
     bool operator==(const RecurrenceRule &r) const;
-    bool operator!=(const RecurrenceRule &r) const  {
+    bool operator!=(const RecurrenceRule &r) const
+    {
         return !operator==(r);
     }
     RecurrenceRule &operator=(const RecurrenceRule &r);
@@ -325,23 +327,23 @@ private:
     Private *const d;
     //@endcond
 
-    friend KCALCORE_EXPORT QDataStream& operator<<(QDataStream &out, const KCalCore::RecurrenceRule *);
-    friend KCALCORE_EXPORT QDataStream& operator>>(QDataStream &in, const KCalCore::RecurrenceRule *);
+    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalCore::RecurrenceRule *);
+    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, const KCalCore::RecurrenceRule *);
 };
 
 /**
  * RecurrenceRule serializer and deserializer.
  * @since 4.12
  */
-KCALCORE_EXPORT QDataStream& operator<<(QDataStream &out, const KCalCore::RecurrenceRule *);
-KCALCORE_EXPORT QDataStream& operator>>(QDataStream &in, const KCalCore::RecurrenceRule *);
+KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalCore::RecurrenceRule *);
+KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, const KCalCore::RecurrenceRule *);
 
 /**
  * RecurrenceRule::WDayPos serializer and deserializer.
  * @since 4.12
  */
-KCALCORE_EXPORT QDataStream& operator<<(QDataStream &out, const KCalCore::RecurrenceRule::WDayPos &);
-KCALCORE_EXPORT QDataStream& operator>>(QDataStream &in, KCalCore::RecurrenceRule::WDayPos &);
+KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalCore::RecurrenceRule::WDayPos &);
+KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalCore::RecurrenceRule::WDayPos &);
 
 }
 

@@ -44,7 +44,8 @@
 #define INVALID_LATLON 255.0
 //@endcond
 
-namespace KCalCore {
+namespace KCalCore
+{
 
 /**
   @brief

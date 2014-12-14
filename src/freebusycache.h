@@ -35,7 +35,8 @@
 
 class QString;
 
-namespace KCalCore {
+namespace KCalCore
+{
 
 class Person;
 

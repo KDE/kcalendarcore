@@ -46,15 +46,15 @@ extern "C" {
 #define vCardClipboardFormat            "+//ISBN 1-887687-00-9::versit::PDI//vCard"
 #define vCalendarClipboardFormat        "+//ISBN 1-887687-00-9::versit::PDI//vCalendar"
 
-/* The above strings vCardClipboardFormat and vCalendarClipboardFormat
-are globally unique IDs which can be used to generate clipboard format
-ID's as per the requirements of a specific platform. For example, in
-Windows they are used as the parameter in a call to RegisterClipboardFormat.
-For example:
+    /* The above strings vCardClipboardFormat and vCalendarClipboardFormat
+    are globally unique IDs which can be used to generate clipboard format
+    ID's as per the requirements of a specific platform. For example, in
+    Windows they are used as the parameter in a call to RegisterClipboardFormat.
+    For example:
 
-  CLIPFORMAT foo = RegisterClipboardFormat(vCardClipboardFormat);
+      CLIPFORMAT foo = RegisterClipboardFormat(vCardClipboardFormat);
 
-*/
+    */
 
 #define vCardMimeType           "text/x-vCard"
 #define vCalendarMimeType       "text/x-vCalendar"

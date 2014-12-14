@@ -92,7 +92,7 @@ public:
     Attendee::List mAttendees;   // list of incidence attendees
     QStringList mComments;       // list of incidence comments
     QStringList mContacts;       // list of incidence contacts
-    QList<IncidenceObserver*> mObservers; // list of incidence observers
+    QList<IncidenceObserver *> mObservers; // list of incidence observers
     QSet<Field> mDirtyFields;    // Fields that changed since last time the incidence was created
     // or since resetDirtyFlags() was called
     QUrl mUrl;                   // incidence url property
@@ -287,8 +287,9 @@ void IncidenceBase::setOrganizer(const QString &o)
 
 Person::Ptr IncidenceBase::organizer() const
 {
-    if (!d->mOrganizer)
-        d->mOrganizer = Person::Ptr(new Person());   // init at first use only to save memory
+    if (!d->mOrganizer) {
+        d->mOrganizer = Person::Ptr(new Person());    // init at first use only to save memory
+    }
 
     return d->mOrganizer;
 }
@@ -567,7 +568,7 @@ bool IncidenceBase::hasDuration() const
     return d->mHasDuration;
 }
 
-void IncidenceBase::setUrl(const QUrl& url)
+void IncidenceBase::setUrl(const QUrl &url)
 {
     d->mDirtyFields.insert(FieldUrl);
     d->mUrl = url;
@@ -595,7 +596,7 @@ void IncidenceBase::update()
     if (!d->mUpdateGroupLevel) {
         d->mUpdatedPending = true;
         KDateTime rid = recurrenceId();
-        foreach(IncidenceObserver *o, d->mObservers) {
+        foreach (IncidenceObserver *o, d->mObservers) {
             o->incidenceUpdate(uid(), rid);
         }
     }
@@ -607,7 +608,7 @@ void IncidenceBase::updated()
         d->mUpdatedPending = true;
     } else {
         const KDateTime rid = recurrenceId();
-        foreach(IncidenceObserver *o, d->mObservers) {
+        foreach (IncidenceObserver *o, d->mObservers) {
             o->incidenceUpdated(uid(), rid);
         }
     }
@@ -675,21 +676,22 @@ quint32 IncidenceBase::magicSerializationIdentifier()
     return KCALCORE_MAGIC_NUMBER;
 }
 
-QDataStream& KCalCore::operator<<(QDataStream &out, const KCalCore::IncidenceBase::Ptr &i)
+QDataStream &KCalCore::operator<<(QDataStream &out, const KCalCore::IncidenceBase::Ptr &i)
 {
-    if (!i)
+    if (!i) {
         return out;
+    }
 
     out << static_cast<quint32>(KCALCORE_MAGIC_NUMBER); // Magic number to identify KCalCore data
     out << static_cast<quint32>(KCALCORE_SERIALIZATION_VERSION);
     out << static_cast<qint32>(i->type());
 
-    out << *(static_cast<CustomProperties*>(i.data()));
+    out << *(static_cast<CustomProperties *>(i.data()));
     out << i->d->mLastModified << i->d->mDtStart << i->organizer() << i->d->mUid << i->d->mDuration
         << i->d->mAllDay << i->d->mHasDuration << i->d->mComments << i->d->mContacts
         << i->d->mAttendees.count() << i->d->mUrl;
 
-    foreach(const Attendee::Ptr &attendee, i->d->mAttendees) {
+    foreach (const Attendee::Ptr &attendee, i->d->mAttendees) {
         out << attendee;
     }
 
@@ -699,10 +701,11 @@ QDataStream& KCalCore::operator<<(QDataStream &out, const KCalCore::IncidenceBas
     return out;
 }
 
-QDataStream& KCalCore::operator>>(QDataStream &in, const KCalCore::IncidenceBase::Ptr &i)
+QDataStream &KCalCore::operator>>(QDataStream &in, const KCalCore::IncidenceBase::Ptr &i)
 {
-    if (!i)
+    if (!i) {
         return in;
+    }
 
     qint32 attendeeCount, type;
     quint32 magic, version;
@@ -723,13 +726,13 @@ QDataStream& KCalCore::operator>>(QDataStream &in, const KCalCore::IncidenceBase
 
     in >> type;
 
-    in >> *(static_cast<CustomProperties*>(i.data()));
+    in >> *(static_cast<CustomProperties *>(i.data()));
     in >> i->d->mLastModified >> i->d->mDtStart >> i->d->mOrganizer >> i->d->mUid >> i->d->mDuration
        >> i->d->mAllDay >> i->d->mHasDuration >> i->d->mComments >> i->d->mContacts >> attendeeCount
        >> i->d->mUrl;
 
     i->d->mAttendees.clear();
-    for (int it=0; it<attendeeCount; it++) {
+    for (int it = 0; it < attendeeCount; it++) {
         Attendee::Ptr attendee = Attendee::Ptr(new Attendee(QString(), QString()));
         in >> attendee;
         i->d->mAttendees.append(attendee);

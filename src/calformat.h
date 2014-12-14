@@ -34,7 +34,8 @@
 
 #include <QtCore/QString>
 
-namespace KCalCore {
+namespace KCalCore
+{
 
 class Exception;
 

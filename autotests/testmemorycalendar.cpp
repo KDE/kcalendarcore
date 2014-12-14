@@ -152,7 +152,6 @@ void MemoryCalendarTest::testRelationsCrash()
     // Here we make sure that non of the old items have connections to the new items, and
     // the other way around.
 
-
     // This doesn't makes sense so i commented it. when you load a calendar the second time
     // it reuses what it can, so oldTodo == newTodo
 
@@ -229,7 +228,6 @@ void MemoryCalendarTest::testChangeRecurId()
     event1->recurrence()->setDaily(1);
     event1->recurrence()->setDuration(3);
     QVERIFY(cal->addEvent(event1));
-
 
     // Add exception event:
     const KDateTime recurrenceId = event1->dtStart().addDays(1);

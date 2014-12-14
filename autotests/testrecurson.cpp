@@ -43,7 +43,7 @@ int main(int argc, char **argv)
     parser.addPositionalArgument("input", i18n("Name of input file"));
     parser.addPositionalArgument("output", i18n("optional name of output file for the recurrence dates"));
 
-    KAboutData about(QStringLiteral("testrecurson"), 
+    KAboutData about(QStringLiteral("testrecurson"),
                      i18n("Tests all dates from 2002 to 2010 to test if the event recurs on each individual date. "
                           "This is meant to test the Recurrence::recursOn method for errors."),
                      QStringLiteral("0.1"));
@@ -80,7 +80,9 @@ int main(int argc, char **argv)
     MemoryCalendar::Ptr cal(new MemoryCalendar(KDateTime::UTC));
 
     FileStorage store(cal, input);
-    if (!store.load()) return 1;
+    if (!store.load()) {
+        return 1;
+    }
     QString tz = cal->nonKDECustomProperty("X-LibKCal-Testsuite-OutTZ");
     if (!tz.isEmpty()) {
         cal->setViewTimeZoneId(tz);
@@ -99,7 +101,7 @@ int main(int argc, char **argv)
         if (outstream) {
             // Output to file for testing purposes
             int nr = 0;
-            while (dt.year() <= 2020 && nr<=500) {
+            while (dt.year() <= 2020 && nr <= 500) {
                 if (incidence->recursOn(dt, cal->viewTimeSpec())) {
                     (*outstream) << dt.toString(Qt::ISODate) << endl;
                     nr++;

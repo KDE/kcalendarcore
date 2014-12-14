@@ -29,7 +29,8 @@
 
 class QBitArray;
 
-namespace KCalCore {
+namespace KCalCore
+{
 
 class RecurrenceRule;
 
@@ -108,7 +109,7 @@ public:
         rYearlyDay = 0x0008,
         rYearlyPos = 0x0009,
         rOther = 0x000A,
-        rMax=0x00FF
+        rMax = 0x00FF
     };
 
     /**
@@ -139,7 +140,8 @@ public:
       @param r instance to compare with
       @return true if recurrences are the different, false if the same
     */
-    bool operator!=(const Recurrence &r) const  {
+    bool operator!=(const Recurrence &r) const
+    {
         return !operator==(r);
     }
 
@@ -647,16 +649,16 @@ private:
     Private *const d;
     //@endcond
 
-    friend KCALCORE_EXPORT QDataStream& operator<<(QDataStream &out, KCalCore::Recurrence *);
-    friend KCALCORE_EXPORT QDataStream& operator>>(QDataStream &in, KCalCore::Recurrence *);
+    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, KCalCore::Recurrence *);
+    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalCore::Recurrence *);
 };
 
 /**
  * Recurrence serializer and deserializer.
  * @since 4.12
  */
-KCALCORE_EXPORT QDataStream& operator<<(QDataStream &out, KCalCore::Recurrence *);
-KCALCORE_EXPORT QDataStream& operator>>(QDataStream &in, KCalCore::Recurrence *);
+KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, KCalCore::Recurrence *);
+KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalCore::Recurrence *);
 
 }
 

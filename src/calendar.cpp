@@ -97,7 +97,7 @@ public:
     bool mModified;
     bool mNewObserver;
     bool mObserversEnabled;
-    QList<CalendarObserver*> mObservers;
+    QList<CalendarObserver *> mObservers;
 
     CalFilter *mDefaultFilter;
     CalFilter *mFilter;
@@ -121,21 +121,21 @@ public:
   Make a QHash::value that returns a QVector.
 */
 template <typename K, typename V>
-QVector<V> values(const QMultiHash<K,V> &c)
+QVector<V> values(const QMultiHash<K, V> &c)
 {
     QVector<V> v;
     v.reserve(c.size());
-    for (typename QMultiHash<K,V>::const_iterator it = c.begin(), end = c.end(); it != end; ++it) {
+    for (typename QMultiHash<K, V>::const_iterator it = c.begin(), end = c.end(); it != end; ++it) {
         v.push_back(it.value());
     }
     return v;
 }
 
 template <typename K, typename V>
-QVector<V> values(const QMultiHash<K,V> &c, const K &x)
+QVector<V> values(const QMultiHash<K, V> &c, const K &x)
 {
     QVector<V> v;
-    typename QMultiHash<K,V>::const_iterator it = c.find(x);
+    typename QMultiHash<K, V>::const_iterator it = c.find(x);
     while (it != c.end() && it.key() == x) {
         v.push_back(it.value());
         ++it;
@@ -764,7 +764,7 @@ Incidence::Ptr Calendar::dissociateOccurrence(const Incidence::Ptr &incidence,
             int doneduration = recur->durationTo(date.addDays(-1));
             if (doneduration >= duration) {
                 qCDebug(KCALCORE_LOG) << "The dissociated event already occurred more often"
-                         << "than it was supposed to ever occur. ERROR!";
+                                      << "than it was supposed to ever occur. ERROR!";
                 recur->clear();
             } else {
                 recur->setDuration(duration - doneduration);
@@ -1070,7 +1070,7 @@ void Calendar::removeRelations(const Incidence::Ptr &incidence)
 
     const QString uid = incidence->uid();
 
-    foreach(Incidence::Ptr i, d->mIncidenceRelations[uid]) {
+    foreach (Incidence::Ptr i, d->mIncidenceRelations[uid]) {
         if (!d->mOrphanUids.contains(i->uid())) {
             d->mOrphans.insert(uid, i);
             d->mOrphanUids.insert(i->uid(), i);
@@ -1118,7 +1118,7 @@ void Calendar::removeRelations(const Incidence::Ptr &incidence)
             // Remove all to get access to the remaining entries
             QList<Incidence::Ptr> l = d->mOrphans.values(*uidit);
             d->mOrphans.remove(*uidit);
-            foreach(Incidence::Ptr i, l) {
+            foreach (Incidence::Ptr i, l) {
                 if (i != incidence) {
                     tempList.append(i);
                 }
@@ -1223,7 +1223,7 @@ void Calendar::setModified(bool modified)
 {
     if (modified != d->mModified || d->mNewObserver) {
         d->mNewObserver = false;
-        foreach(CalendarObserver *observer, d->mObservers) {
+        foreach (CalendarObserver *observer, d->mObservers) {
             observer->calendarModified(modified, this);
         }
         d->mModified = modified;
@@ -1279,7 +1279,7 @@ void Calendar::notifyIncidenceAdded(const Incidence::Ptr &incidence)
         return;
     }
 
-    foreach(CalendarObserver *observer, d->mObservers) {
+    foreach (CalendarObserver *observer, d->mObservers) {
         observer->calendarIncidenceAdded(incidence);
     }
 }
@@ -1294,7 +1294,7 @@ void Calendar::notifyIncidenceChanged(const Incidence::Ptr &incidence)
         return;
     }
 
-    foreach(CalendarObserver *observer, d->mObservers) {
+    foreach (CalendarObserver *observer, d->mObservers) {
         observer->calendarIncidenceChanged(incidence);
     }
 }
@@ -1309,7 +1309,7 @@ void Calendar::notifyIncidenceDeleted(const Incidence::Ptr &incidence)
         return;
     }
 
-    foreach(CalendarObserver *observer, d->mObservers) {
+    foreach (CalendarObserver *observer, d->mObservers) {
         observer->calendarIncidenceDeleted(incidence);
     }
 }
@@ -1324,7 +1324,7 @@ void Calendar::notifyIncidenceAdditionCanceled(const Incidence::Ptr &incidence)
         return;
     }
 
-    foreach(CalendarObserver *observer, d->mObservers) {
+    foreach (CalendarObserver *observer, d->mObservers) {
         observer->calendarIncidenceAdditionCanceled(incidence);
     }
 }
@@ -1455,8 +1455,7 @@ void Calendar::appendRecurringAlarms(Alarm::List &alarms,
                 // Treate the two offsets separately in case one is daily and the other not.
                 dt = incidence->recurrence()->getNextDateTime(baseStart.addSecs(-1));
                 if (!dt.isValid() ||
-                        (dt = endOffset.end(offset.end(dt))) > to)        // adjust 'dt' to get the alarm time
-                {
+                        (dt = endOffset.end(offset.end(dt))) > to) {      // adjust 'dt' to get the alarm time
                     // The next recurrence is too late.
                     if (!a->repeatCount()) {
                         continue;
@@ -1493,8 +1492,7 @@ void Calendar::appendRecurringAlarms(Alarm::List &alarms,
                             int toFrom = dt.secsTo(base);
                             if (period.asSeconds() >= snooze ||
                                     toFrom % snooze == 0 ||
-                                    (toFrom / snooze + 1) * snooze <= toFrom + period.asSeconds())
-                            {
+                                    (toFrom / snooze + 1) * snooze <= toFrom + period.asSeconds()) {
                                 found = true;
 #ifndef NDEBUG
                                 // for debug output

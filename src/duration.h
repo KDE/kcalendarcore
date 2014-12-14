@@ -38,7 +38,8 @@
 
 class KDateTime;
 
-namespace KCalCore {
+namespace KCalCore
+{
 
 /**
   @brief
@@ -130,7 +131,8 @@ public:
     /**
       Returns true if this duration is zero.
     */
-    bool operator!() const  {
+    bool operator!() const
+    {
         return !operator bool();
     }
 
@@ -146,7 +148,7 @@ public:
     */
     bool operator<=(const Duration &other) const
     {
-        return !other.operator<(*this);
+        return !other.operator < (*this);
     }
 
     /**
@@ -155,7 +157,7 @@ public:
     */
     bool operator>(const Duration &other) const
     {
-        return other.operator<(*this);
+        return other.operator < (*this);
     }
 
     /**

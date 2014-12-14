@@ -53,7 +53,8 @@ class QDate;
 
 #define _VCAL_VERSION "1.0"
 
-namespace KCalCore {
+namespace KCalCore
+{
 
 class Event;
 class Todo;

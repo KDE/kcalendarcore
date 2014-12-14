@@ -35,7 +35,7 @@ using namespace KCalCore;
 
 bool KCalCore::Events::startDateLessThan(const Event::Ptr &e1, const Event::Ptr &e2)
 {
-    const KDateTime d1= e1->dtStart();
+    const KDateTime d1 = e1->dtStart();
     KDateTime::Comparison res = d1.compare(e2->dtStart());
     if (res == KDateTime::Equal) {
         return Events::summaryLessThan(e1, e2);
@@ -46,7 +46,7 @@ bool KCalCore::Events::startDateLessThan(const Event::Ptr &e1, const Event::Ptr 
 
 bool KCalCore::Events::startDateMoreThan(const Event::Ptr &e1, const Event::Ptr &e2)
 {
-    const KDateTime d1= e1->dtStart();
+    const KDateTime d1 = e1->dtStart();
     KDateTime::Comparison res = d1.compare(e2->dtStart());
     if (res == KDateTime::Equal) {
         return Events::summaryMoreThan(e1, e2);
@@ -67,7 +67,7 @@ bool KCalCore::Events::summaryMoreThan(const Event::Ptr &e1, const Event::Ptr &e
 
 bool KCalCore::Events::endDateLessThan(const Event::Ptr &e1, const Event::Ptr &e2)
 {
-    const KDateTime d1= e1->dtEnd();
+    const KDateTime d1 = e1->dtEnd();
     KDateTime::Comparison res = d1.compare(e2->dtEnd());
     if (res == KDateTime::Equal) {
         return Events::summaryLessThan(e1, e2);
@@ -78,7 +78,7 @@ bool KCalCore::Events::endDateLessThan(const Event::Ptr &e1, const Event::Ptr &e
 
 bool KCalCore::Events::endDateMoreThan(const Event::Ptr &e1, const Event::Ptr &e2)
 {
-    const KDateTime d1= e1->dtEnd();
+    const KDateTime d1 = e1->dtEnd();
     KDateTime::Comparison res = d1.compare(e2->dtEnd());
     if (res == KDateTime::Equal) {
         return Events::summaryMoreThan(e1, e2);
@@ -96,7 +96,7 @@ bool KCalCore::Journals::dateLessThan(const Journal::Ptr &j1, const Journal::Ptr
 
 bool KCalCore::Journals::dateMoreThan(const Journal::Ptr &j1, const Journal::Ptr &j2)
 {
-    const KDateTime d1= j1->dtStart();
+    const KDateTime d1 = j1->dtStart();
     KDateTime::Comparison res = d1.compare(j2->dtStart());
     return (res & KDateTime::After || res & KDateTime::AtEnd);
 }
@@ -114,7 +114,7 @@ bool KCalCore::Journals::summaryMoreThan(const Journal::Ptr &j1, const Journal::
 
 bool KCalCore::Todos::startDateLessThan(const Todo::Ptr &t1, const Todo::Ptr &t2)
 {
-    const KDateTime d1= t1->dtStart();
+    const KDateTime d1 = t1->dtStart();
     KDateTime::Comparison res = d1.compare(t2->dtStart());
     if (res == KDateTime::Equal) {
         return Todos::summaryLessThan(t1, t2);
@@ -125,7 +125,7 @@ bool KCalCore::Todos::startDateLessThan(const Todo::Ptr &t1, const Todo::Ptr &t2
 
 bool KCalCore::Todos::startDateMoreThan(const Todo::Ptr &t1, const Todo::Ptr &t2)
 {
-    const KDateTime d1= t1->dtStart();
+    const KDateTime d1 = t1->dtStart();
     KDateTime::Comparison res = d1.compare(t2->dtStart());
     if (res == KDateTime::Equal) {
         return Todos::summaryMoreThan(t1, t2);
@@ -136,7 +136,7 @@ bool KCalCore::Todos::startDateMoreThan(const Todo::Ptr &t1, const Todo::Ptr &t2
 
 bool KCalCore::Todos::dueDateLessThan(const Todo::Ptr &t1, const Todo::Ptr &t2)
 {
-    const KDateTime d1= t1->dtDue();
+    const KDateTime d1 = t1->dtDue();
     KDateTime::Comparison res = d1.compare(t2->dtDue());
     if (res == KDateTime::Equal) {
         return Todos::summaryLessThan(t1, t2);
@@ -147,7 +147,7 @@ bool KCalCore::Todos::dueDateLessThan(const Todo::Ptr &t1, const Todo::Ptr &t2)
 
 bool KCalCore::Todos::dueDateMoreThan(const Todo::Ptr &t1, const Todo::Ptr &t2)
 {
-    const KDateTime d1= t1->dtDue();
+    const KDateTime d1 = t1->dtDue();
     KDateTime::Comparison res = d1.compare(t2->dtDue());
     if (res == KDateTime::Equal) {
         return Todos::summaryMoreThan(t1, t2);
@@ -212,7 +212,7 @@ bool KCalCore::Todos::summaryMoreThan(const Todo::Ptr &t1, const Todo::Ptr &t2)
 
 bool KCalCore::Todos::createdLessThan(const Todo::Ptr &t1, const Todo::Ptr &t2)
 {
-    const KDateTime d1= t1->created();
+    const KDateTime d1 = t1->created();
     KDateTime::Comparison res = d1.compare(t2->created());
     if (res == KDateTime::Equal) {
         return Todos::summaryLessThan(t1, t2);
@@ -223,7 +223,7 @@ bool KCalCore::Todos::createdLessThan(const Todo::Ptr &t1, const Todo::Ptr &t2)
 
 bool KCalCore::Todos::createdMoreThan(const Todo::Ptr &t1, const Todo::Ptr &t2)
 {
-    const KDateTime d1= t1->created();
+    const KDateTime d1 = t1->created();
     KDateTime::Comparison res = d1.compare(t2->created());
     if (res == KDateTime::Equal) {
         return Todos::summaryMoreThan(t1, t2);
@@ -263,7 +263,7 @@ bool KCalCore::Incidences::dateMoreThan(const Incidence::Ptr &i1,
 bool KCalCore::Incidences::createdLessThan(const Incidence::Ptr &i1,
         const Incidence::Ptr &i2)
 {
-    const KDateTime d1= i1->created();
+    const KDateTime d1 = i1->created();
     KDateTime::Comparison res = d1.compare(i2->created());
     if (res == KDateTime::Equal) {
         return Incidences::summaryLessThan(i1, i2);
@@ -275,7 +275,7 @@ bool KCalCore::Incidences::createdLessThan(const Incidence::Ptr &i1,
 bool KCalCore::Incidences::createdMoreThan(const Incidence::Ptr &i1,
         const Incidence::Ptr &i2)
 {
-    const KDateTime d1= i1->created();
+    const KDateTime d1 = i1->created();
     KDateTime::Comparison res = d1.compare(i2->created());
     if (res == KDateTime::Equal) {
         return Incidences::summaryMoreThan(i1, i2);

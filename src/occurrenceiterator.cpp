@@ -55,8 +55,7 @@ public:
     KDateTime start;
     KDateTime end;
 
-    struct Occurrence
-    {
+    struct Occurrence {
         Occurrence()
         {
         }
@@ -102,22 +101,23 @@ public:
 
     void setupIterator(const Calendar &calendar, const Incidence::List &incidences)
     {
-        foreach(const Incidence::Ptr &inc, incidences) {
+        foreach (const Incidence::Ptr &inc, incidences) {
             if (inc->hasRecurrenceId()) {
                 continue;
             }
             if (inc->recurs()) {
                 QHash<KDateTime, Incidence::Ptr> recurrenceIds;
                 KDateTime incidenceRecStart = inc->dateTime(Incidence::RoleRecurrenceStart);
-                foreach(const Incidence::Ptr &exception, calendar.instances(inc)) {
-                    if (incidenceRecStart.isValid())
+                foreach (const Incidence::Ptr &exception, calendar.instances(inc)) {
+                    if (incidenceRecStart.isValid()) {
                         recurrenceIds.insert(exception->recurrenceId().toTimeSpec(incidenceRecStart.timeSpec()), exception);
+                    }
                 }
                 const bool isAllDay = inc->allDay();
                 const DateTimeList occurrences = inc->recurrence()->timesInInterval(start, end);
                 Incidence::Ptr incidence(inc);
                 qint64 offset(0);
-                foreach(KDateTime occurrenceDate, occurrences) {    //krazy:exclude=foreach
+                foreach (KDateTime occurrenceDate, occurrences) {   //krazy:exclude=foreach
                     //timesInInterval generates always date-times,
                     //which is not what we want for all-day events
                     occurrenceDate.setDateOnly(isAllDay);
@@ -126,8 +126,9 @@ public:
                     if (recurrenceIds.contains(occurrenceDate)) {
                         // TODO: exclude exceptions where the start/end is not within
                         // (so the occurrence of the recurrence is omitted, but no exception is added)
-                        if (recurrenceIds.value(occurrenceDate)->status() == Incidence::StatusCanceled)
+                        if (recurrenceIds.value(occurrenceDate)->status() == Incidence::StatusCanceled) {
                             continue;
+                        }
 
                         incidence = recurrenceIds.value(occurrenceDate);
                         occurrenceDate = incidence->dtStart();
@@ -189,12 +190,13 @@ OccurrenceIterator::OccurrenceIterator(const Calendar &calendar,
 
     Journal::List journals;
     const Journal::List allJournals = calendar.rawJournals();
-    foreach(const KCalCore::Journal::Ptr &journal, allJournals) {
+    foreach (const KCalCore::Journal::Ptr &journal, allJournals) {
         const QDate journalStart = journal->dtStart().toTimeSpec(start.timeSpec()).date();
         if (journal->dtStart().isValid() &&
                 journalStart >= start.date() &&
-                journalStart <= end.date())
+                journalStart <= end.date()) {
             journals << journal;
+        }
     }
 
     if (calendar.filter()) {

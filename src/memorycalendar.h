@@ -35,7 +35,8 @@
 #include "kcalcore_export.h"
 #include "calendar.h"
 
-namespace KCalCore {
+namespace KCalCore
+{
 
 class CalFormat;
 

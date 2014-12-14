@@ -85,7 +85,8 @@ static icaltimetype writeLocalICalDateTime(const QDateTime &utc, int offset)
     return t;
 }
 
-namespace KCalCore {
+namespace KCalCore
+{
 
 /******************************************************************************/
 
@@ -285,7 +286,7 @@ ICalTimeZone::ICalTimeZone(const KTimeZone &tz, const QDate &earliest)
 {
     const KTimeZoneData *data = tz.data(true);
     if (data) {
-        const ICalTimeZoneData *icaldata = dynamic_cast<const ICalTimeZoneData*>(data);
+        const ICalTimeZoneData *icaldata = dynamic_cast<const ICalTimeZoneData *>(data);
         if (icaldata) {
             setData(new ICalTimeZoneData(*icaldata));
         } else {
@@ -299,31 +300,31 @@ ICalTimeZone::~ICalTimeZone()
 
 QString ICalTimeZone::city() const
 {
-    const ICalTimeZoneData *dat = static_cast<const ICalTimeZoneData*>(data());
+    const ICalTimeZoneData *dat = static_cast<const ICalTimeZoneData *>(data());
     return dat ? dat->city() : QString();
 }
 
 QByteArray ICalTimeZone::url() const
 {
-    const ICalTimeZoneData *dat = static_cast<const ICalTimeZoneData*>(data());
+    const ICalTimeZoneData *dat = static_cast<const ICalTimeZoneData *>(data());
     return dat ? dat->url() : QByteArray();
 }
 
 QDateTime ICalTimeZone::lastModified() const
 {
-    const ICalTimeZoneData *dat = static_cast<const ICalTimeZoneData*>(data());
+    const ICalTimeZoneData *dat = static_cast<const ICalTimeZoneData *>(data());
     return dat ? dat->lastModified() : QDateTime();
 }
 
 QByteArray ICalTimeZone::vtimezone() const
 {
-    const ICalTimeZoneData *dat = static_cast<const ICalTimeZoneData*>(data());
+    const ICalTimeZoneData *dat = static_cast<const ICalTimeZoneData *>(data());
     return dat ? dat->vtimezone() : QByteArray();
 }
 
 icaltimezone *ICalTimeZone::icalTimezone() const
 {
-    const ICalTimeZoneData *dat = static_cast<const ICalTimeZoneData*>(data());
+    const ICalTimeZoneData *dat = static_cast<const ICalTimeZoneData *>(data());
     return dat ? dat->icalTimezone() : 0;
 }
 
@@ -368,7 +369,8 @@ public:
         }
     }
 
-    icalcomponent *component() const {
+    icalcomponent *component() const
+    {
         return icalComponent;
     }
     void setComponent(icalcomponent *c)
@@ -531,7 +533,7 @@ ICalTimeZoneData::ICalTimeZoneData(const KTimeZoneData &rhs,
             for (int a = 0, aend = abbrevs.count();  a < aend;  ++a) {
                 icalcomponent_add_property(phaseComp,
                                            icalproperty_new_tzname(
-                                               static_cast<const char*>(abbrevs[a])));
+                                               static_cast<const char *>(abbrevs[a])));
             }
             if (!phase.comment().isEmpty()) {
                 icalcomponent_add_property(phaseComp,
@@ -875,16 +877,15 @@ ICalTimeZone ICalTimeZoneSource::parse(icalcomponent *vtimezone)
             data->d->location = QString::fromUtf8(icalproperty_get_location(p));
             break;
 
-        case ICAL_X_PROPERTY:
-        {   // use X-LIC-LOCATION if LOCATION is missing
+        case ICAL_X_PROPERTY: {
+            // use X-LIC-LOCATION if LOCATION is missing
             const char *xname = icalproperty_get_x_name(p);
             if (xname && !strcmp(xname, "X-LIC-LOCATION")) {
                 xlocation = QString::fromUtf8(icalproperty_get_x(p));
             }
             break;
         }
-        case ICAL_LASTMODIFIED_PROPERTY:
-        {
+        case ICAL_LASTMODIFIED_PROPERTY: {
             const icaltimetype t = icalproperty_get_lastmodified(p);
             if (t.is_utc) {
                 data->d->lastModified = toQDateTime(t);
@@ -1201,8 +1202,7 @@ QList<QDateTime> ICalTimeZoneSourcePrivate::parsePhase(icalcomponent *c,
         icalproperty_kind kind = icalproperty_isa(p);
         switch (kind) {
 
-        case ICAL_TZNAME_PROPERTY:     // abbreviated name for this time offset
-        {
+        case ICAL_TZNAME_PROPERTY: {   // abbreviated name for this time offset
             // TZNAME can appear multiple times in order to provide language
             // translations of the time zone offset name.
 
@@ -1277,8 +1277,7 @@ QList<QDateTime> ICalTimeZoneSourcePrivate::parsePhase(icalcomponent *c,
             icalproperty_kind kind = icalproperty_isa(p);
             switch (kind) {
 
-            case ICAL_RDATE_PROPERTY:
-            {
+            case ICAL_RDATE_PROPERTY: {
                 icaltimetype t = icalproperty_get_rdate(p).time;
                 if (icaltime_is_date(t)) {
                     // RDATE with a DATE value inherits the (local) time from DTSTART
@@ -1298,8 +1297,7 @@ QList<QDateTime> ICalTimeZoneSourcePrivate::parsePhase(icalcomponent *c,
                 transitions += toQDateTime(t);
                 break;
             }
-            case ICAL_RRULE_PROPERTY:
-            {
+            case ICAL_RRULE_PROPERTY: {
                 RecurrenceRule r;
                 ICalFormat icf;
                 ICalFormatImpl impl(&icf);

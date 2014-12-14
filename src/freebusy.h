@@ -39,7 +39,8 @@
 
 #include <QtCore/QMetaType>
 
-namespace KCalCore {
+namespace KCalCore
+{
 
 class FreeBusy;
 

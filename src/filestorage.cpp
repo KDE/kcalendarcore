@@ -49,7 +49,8 @@ public:
         : mFileName(fileName),
           mSaveFormat(format)
     {}
-    ~Private() {
+    ~Private()
+    {
         delete mSaveFormat;
     }
 

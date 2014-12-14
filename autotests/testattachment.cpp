@@ -70,7 +70,6 @@ void AttachmentTest::testValidity()
     QVERIFY(attachment5 != attachment6);
 }
 
-
 void AttachmentTest::testSerializer_data()
 {
     QTest::addColumn<KCalCore::Attachment::Ptr>("attachment");
@@ -81,7 +80,6 @@ void AttachmentTest::testSerializer_data()
     QTest::newRow("inline") << inlineAttachment;
     QTest::newRow("not inline") << nonInline;
 }
-
 
 void AttachmentTest::testSerializer()
 {

@@ -65,7 +65,7 @@ Compat *CompatFactory::createCompat(const QString &productId,
                 int releaseStop = productId.indexOf(QStringLiteral("/"), versionStop);
                 QString release;
                 if (releaseStop > versionStop) {
-                    release = productId.mid(versionStop+1, releaseStop-versionStop-1);
+                    release = productId.mid(versionStop + 1, releaseStop - versionStop - 1);
                 }
                 if (versionNum < 30100) {
                     compat = new CompatPre31;
@@ -101,7 +101,7 @@ Compat *CompatFactory::createCompat(const QString &productId,
 }
 
 Compat::Compat()
-   : d( 0 )
+    : d(0)
 {
 }
 
@@ -159,7 +159,8 @@ void Compat::setCreatedToDtStamp(const Incidence::Ptr &incidence, const KDateTim
     Q_UNUSED(dtstamp);
 }
 
-class CompatDecorator::Private {
+class CompatDecorator::Private
+{
 public:
     Compat *compat;
 };
@@ -275,19 +276,16 @@ void CompatPre31::fixRecurrence(const Incidence::Ptr &incidence)
             // # of periods:
             int tmp = (duration - 1) * r->frequency();
             switch (r->recurrenceType()) {
-            case RecurrenceRule::rWeekly:
-            {
+            case RecurrenceRule::rWeekly: {
                 end = end.addDays(tmp * 7 + 7 - end.dayOfWeek());
                 break;
             }
-            case RecurrenceRule::rMonthly:
-            {
+            case RecurrenceRule::rMonthly: {
                 int month = end.month() - 1 + tmp;
                 end.setYMD(end.year() + month / 12, month % 12 + 1, 31);
                 break;
             }
-            case RecurrenceRule::rYearly:
-            {
+            case RecurrenceRule::rYearly: {
                 end.setYMD(end.year() + tmp, 12, 31);
                 break;
             }

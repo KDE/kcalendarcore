@@ -37,7 +37,8 @@
 
 #include <QtCore/QMetaType>
 
-namespace KCalCore {
+namespace KCalCore
+{
 
 /**
   The period can be defined by either a start time and an end time or

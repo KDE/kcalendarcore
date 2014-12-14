@@ -142,7 +142,7 @@ Alarm &Alarm::operator=(const Alarm &a)
 static bool compareMailAddresses(const Person::List &list1, const Person::List &list2)
 {
     if (list1.count() == list2.count()) {
-        for (int i=0; i<list1.count(); ++i) {
+        for (int i = 0; i < list1.count(); ++i) {
             if (*list1.at(i) != *list2.at(i)) {
                 return false;
             }
@@ -850,7 +850,7 @@ int Alarm::locationRadius() const
     return d->mLocationRadius;
 }
 
-QDataStream& KCalCore::operator<<(QDataStream &out, const KCalCore::Alarm::Ptr &a)
+QDataStream &KCalCore::operator<<(QDataStream &out, const KCalCore::Alarm::Ptr &a)
 {
     if (a) {
         out << ((quint32)a->d->mType) << a->d->mAlarmSnoozeTime << a->d->mAlarmRepeatCount << a->d->mEndOffset << a->d->mHasTime
@@ -860,7 +860,7 @@ QDataStream& KCalCore::operator<<(QDataStream &out, const KCalCore::Alarm::Ptr &
     return out;
 }
 
-QDataStream& KCalCore::operator>>(QDataStream &in, const KCalCore::Alarm::Ptr &a)
+QDataStream &KCalCore::operator>>(QDataStream &in, const KCalCore::Alarm::Ptr &a)
 {
     if (a) {
         quint32 type;

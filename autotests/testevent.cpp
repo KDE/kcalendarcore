@@ -39,7 +39,6 @@ void EventTest::testSetRoles_data()
     QTest::addColumn<KDateTime>("expectedDtStart");
     QTest::addColumn<KDateTime>("expectedDtEnd");
 
-
     const KDateTime todayDate(QDate::currentDate());   // all day event
     const KDateTime todayDateTime = KDateTime::currentUtcDateTime();
 

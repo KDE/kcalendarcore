@@ -45,7 +45,8 @@ using namespace KCalCore;
 class KCalCore::Duration::Private
 {
 public:
-    int seconds() const {
+    int seconds() const
+    {
         return mDaily ? mDuration * 86400 : mDuration;
     }
     int mDuration; // number of seconds or days in the duration

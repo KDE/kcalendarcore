@@ -34,7 +34,8 @@
 #include "incidence.h"
 #include "supertrait.h"
 
-namespace KCalCore {
+namespace KCalCore
+{
 
 /**
   @brief
@@ -155,17 +156,17 @@ private:
     //@endcond
 };
 
-
 } // namespace KCalCore
 
 //@cond PRIVATE
 Q_DECLARE_TYPEINFO(KCalCore::Journal::Ptr, Q_MOVABLE_TYPE);
 Q_DECLARE_METATYPE(KCalCore::Journal::Ptr)
-Q_DECLARE_METATYPE(KCalCore::Journal*)
+Q_DECLARE_METATYPE(KCalCore::Journal *)
 //@endcond
 
 //@cond PRIVATE
-namespace Akonadi {
+namespace Akonadi
+{
 // super class trait specialization
 template <> struct SuperClass<KCalCore::Journal> : public SuperClassTrait<KCalCore::Incidence> {};
 }

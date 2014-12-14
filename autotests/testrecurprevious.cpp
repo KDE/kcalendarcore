@@ -84,7 +84,9 @@ int main(int argc, char **argv)
 
     KDateTime::Spec viewSpec;
     FileStorage store(cal, input);
-    if (!store.load()) return 1;
+    if (!store.load()) {
+        return 1;
+    }
     QString tz = cal->nonKDECustomProperty("X-LibKCal-Testsuite-OutTZ");
     if (!tz.isEmpty()) {
         viewSpec = KDateTime::Spec(KSystemTimeZones::zone(tz));

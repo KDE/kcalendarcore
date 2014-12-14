@@ -55,7 +55,6 @@ void RecurTodoTest::testAllDay()
 
     todo->setCompleted(currentUtcDateTime);
 
-
     QCOMPARE(newDueDate, currentDate.addDays(1));
     QCOMPARE(todo->dtDue(true /*first ocurrence*/).date(), dueDate);
 }

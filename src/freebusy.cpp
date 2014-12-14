@@ -234,7 +234,7 @@ Period::List FreeBusy::busyPeriods() const
 {
     Period::List res;
 
-    foreach(const FreeBusyPeriod &p, d->mBusyPeriods) {
+    foreach (const FreeBusyPeriod &p, d->mBusyPeriods) {
         res << p;
     }
 
@@ -254,7 +254,7 @@ void FreeBusy::sortList()
 
 void FreeBusy::addPeriods(const Period::List &list)
 {
-    foreach(const Period &p, list) {
+    foreach (const Period &p, list) {
         d->mBusyPeriods << FreeBusyPeriod(p);
     }
     sortList();
@@ -303,7 +303,7 @@ void FreeBusy::shiftTimes(const KDateTime::Spec &oldSpec,
         IncidenceBase::shiftTimes(oldSpec, newSpec);
         d->mDtEnd = d->mDtEnd.toTimeSpec(oldSpec);
         d->mDtEnd.setTimeSpec(newSpec);
-        foreach(FreeBusyPeriod p, d->mBusyPeriods) {    //krazy:exclude=foreach
+        foreach (FreeBusyPeriod p, d->mBusyPeriods) {   //krazy:exclude=foreach
             p.shiftTimes(oldSpec, newSpec);
         }
     }
@@ -313,7 +313,7 @@ IncidenceBase &FreeBusy::assign(const IncidenceBase &other)
 {
     if (&other != this) {
         IncidenceBase::assign(other);
-        const FreeBusy *f = static_cast<const FreeBusy*>(&other);
+        const FreeBusy *f = static_cast<const FreeBusy *>(&other);
         d->init(*(f->d));
     }
     return *this;
@@ -325,7 +325,7 @@ bool FreeBusy::equals(const IncidenceBase &freeBusy) const
         return false;
     } else {
         // If they weren't the same type IncidenceBase::equals would had returned false already
-        const FreeBusy *fb = static_cast<const FreeBusy*>(&freeBusy);
+        const FreeBusy *fb = static_cast<const FreeBusy *>(&freeBusy);
         return
             dtEnd() == fb->dtEnd() &&
             d->mBusyPeriods == fb->d->mBusyPeriods;

@@ -35,7 +35,8 @@
 #include "customproperties.h"
 #include "person.h"
 
-namespace KCalCore {
+namespace KCalCore
+{
 
 /**
   @brief
@@ -87,7 +88,6 @@ public:
         NonParticipant,  /**< Non-Participant; copied for information purposes */
         Chair            /**< Chairperson */
     };
-
 
     /**
      * The different types of a participant.
@@ -215,7 +215,6 @@ public:
     */
     void setCuType(const QString &cuType);
 
-
     /**
       Returns the #CuType of the attendee.
 
@@ -233,7 +232,6 @@ public:
       @since 4.14
     */
     QString cuTypeStr() const;
-
 
     /**
       Sets the @acronym RSVP flag of the attendee to @p rsvp.

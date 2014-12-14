@@ -60,8 +60,8 @@ int main(int argc, char **argv)
     todoList = cal->rawTodos();
 
     if (todoList.isEmpty()) {
-      qWarning() << "Error loading calendar";
-      return 1;
+        qWarning() << "Error loading calendar";
+        return 1;
     }
 
     qDebug() << (*todoList.begin())->uid();

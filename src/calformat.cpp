@@ -51,7 +51,8 @@ class KCalCore::CalFormat::Private
 {
 public:
     Private() : mException(0) {}
-    ~Private() {
+    ~Private()
+    {
         delete mException;
     }
     static QString mApplication; // Name of application, for creating unique ID strings

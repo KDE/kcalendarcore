@@ -25,7 +25,8 @@
 
 #include "kcalcore_export.h"
 
-namespace KCalCore {
+namespace KCalCore
+{
 
 class IncidenceBase;
 

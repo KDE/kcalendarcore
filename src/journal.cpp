@@ -92,8 +92,7 @@ KDateTime Journal::dateTime(DateTimeRole role) const
 void Journal::setDateTime(const KDateTime &dateTime, DateTimeRole role)
 {
     switch (role) {
-    case RoleDnD:
-    {
+    case RoleDnD: {
         setDtStart(dateTime);
         break;
     }
@@ -106,10 +105,10 @@ void Journal::virtual_hook(int id, void *data)
 {
     switch (static_cast<IncidenceBase::VirtualHook>(id)) {
     case IncidenceBase::SerializerHook:
-        serialize(*reinterpret_cast<QDataStream*>(data));
+        serialize(*reinterpret_cast<QDataStream *>(data));
         break;
     case IncidenceBase::DeserializerHook:
-        deserialize(*reinterpret_cast<QDataStream*>(data));
+        deserialize(*reinterpret_cast<QDataStream *>(data));
         break;
     default:
         Q_ASSERT(false);
