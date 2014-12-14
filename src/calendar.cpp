@@ -40,7 +40,7 @@
 #include "sorting.h"
 #include "visitor.h"
 
-#include <QDebug>
+#include "kcalcore_debug.h"
 
 extern "C" {
 #include <icaltimezone.h>
@@ -529,7 +529,7 @@ bool Calendar::setNotebook(const Incidence::Ptr &inc, const QString &notebook)
 
     if (!notebook.isEmpty() &&
             !incidence(inc->uid(), inc->recurrenceId())) {
-        qWarning() << "cannot set notebook until incidence has been added";
+        qCWarning(KCALCORE_LOG) << "cannot set notebook until incidence has been added";
         return false;
     }
 
@@ -537,7 +537,7 @@ bool Calendar::setNotebook(const Incidence::Ptr &inc, const QString &notebook)
         QString old = d->mUidToNotebook.value(inc->uid());
         if (!old.isEmpty() && notebook != old) {
             if (inc->hasRecurrenceId()) {
-                qWarning() << "cannot set notebook for child incidences";
+                qCWarning(KCALCORE_LOG) << "cannot set notebook for child incidences";
                 return false;
             }
             // Move all possible children also.
@@ -555,7 +555,7 @@ bool Calendar::setNotebook(const Incidence::Ptr &inc, const QString &notebook)
     if (!notebook.isEmpty()) {
         d->mUidToNotebook.insert(inc->uid(), notebook);
         d->mNotebookIncidences.insert(notebook, inc);
-        qDebug() << "setting notebook" << notebook << "for" << inc->uid();
+        qCDebug(KCALCORE_LOG) << "setting notebook" << notebook << "for" << inc->uid();
         notifyIncidenceChanged(inc);   // for inserting into new notebook
     }
 
@@ -763,7 +763,7 @@ Incidence::Ptr Calendar::dissociateOccurrence(const Incidence::Ptr &incidence,
         if (duration > 0) {
             int doneduration = recur->durationTo(date.addDays(-1));
             if (doneduration >= duration) {
-                qDebug() << "The dissociated event already occurred more often"
+                qCDebug(KCALCORE_LOG) << "The dissociated event already occurred more often"
                          << "than it was supposed to ever occur. ERROR!";
                 recur->clear();
             } else {
@@ -1045,7 +1045,7 @@ void Calendar::setupRelations(const Incidence::Ptr &forincidence)
             // look for hierarchy loops
             if (isAncestorOf(forincidence, parent)) {
                 forincidence->setRelatedTo(QString());
-                qWarning() << "hierarchy loop beetween " << forincidence->uid() << " and " << parent->uid();
+                qCWarning(KCALCORE_LOG) << "hierarchy loop beetween " << forincidence->uid() << " and " << parent->uid();
             } else {
                 d->mIncidenceRelations[parent->uid()].append(forincidence);
             }
@@ -1064,7 +1064,7 @@ void Calendar::setupRelations(const Incidence::Ptr &forincidence)
 void Calendar::removeRelations(const Incidence::Ptr &incidence)
 {
     if (!incidence) {
-        qDebug() << "Warning: incidence is 0";
+        qCDebug(KCALCORE_LOG) << "Warning: incidence is 0";
         return;
     }
 
@@ -1394,7 +1394,7 @@ void Calendar::appendAlarms(Alarm::List &alarms, const Incidence::Ptr &incidence
         if (alarmlist[i]->enabled()) {
             KDateTime dt = alarmlist[i]->nextRepetition(preTime);
             if (dt.isValid() && dt <= to) {
-                qDebug() << incidence->summary() << "':" << dt.toString();
+                qCDebug(KCALCORE_LOG) << incidence->summary() << "':" << dt.toString();
                 alarms.append(alarmlist[i]);
             }
         }
@@ -1509,7 +1509,7 @@ void Calendar::appendRecurringAlarms(Alarm::List &alarms,
                     }
                 }
             }
-            qDebug() << incidence->summary() << "':" << dt.toString();
+            qCDebug(KCALCORE_LOG) << incidence->summary() << "':" << dt.toString();
             alarms.append(a);
         }
     }

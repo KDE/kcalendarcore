@@ -14,6 +14,7 @@ set(libversit_SRCS
 
 set(kcalcore_LIB_SRCS
   ${libversit_SRCS}
+  kcalcore_debug.cpp
   alarm.cpp
   attachment.cpp
   attendee.cpp

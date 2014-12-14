@@ -35,7 +35,7 @@
 
 #include "icalformat.h"
 
-#include <QDebug>
+#include "kcalcore_debug.h"
 #include <QTime>
 
 using namespace KCalCore;
@@ -129,7 +129,7 @@ void FreeBusy::Private::init(const Event::List &eventList,
         Event::Ptr allDayEvent;
         if (event->allDay()) {
             // addDay event. Do the hack
-            qDebug() << "All-day event";
+            qCDebug(KCALCORE_LOG) << "All-day event";
             allDayEvent = Event::Ptr(new Event(*event));
 
             // Set the start and end times to be on midnight
@@ -141,7 +141,7 @@ void FreeBusy::Private::init(const Event::List &eventList,
             allDayEvent->setDtStart(st);
             allDayEvent->setDtEnd(nd);
 
-            qDebug() << "Use:" << st.toString() << "to" << nd.toString();
+            qCDebug(KCALCORE_LOG) << "Use:" << st.toString() << "to" << nd.toString();
             // Finally, use this event for the setting below
             event = allDayEvent;
         }
@@ -420,8 +420,8 @@ QDataStream &KCalCore::operator>>(QDataStream &stream, KCalCore::FreeBusy::Ptr &
     freebusy = format.parseFreeBusy(freeBusyVCal);
 
     if (!freebusy) {
-        qDebug() << "Error parsing free/busy";
-        qDebug() << freeBusyVCal;
+        qCDebug(KCALCORE_LOG) << "Error parsing free/busy";
+        qCDebug(KCALCORE_LOG) << freeBusyVCal;
     }
 
     return stream;

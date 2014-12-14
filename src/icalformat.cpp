@@ -34,7 +34,7 @@
 #include "freebusy.h"
 #include "memorycalendar.h"
 
-#include <QDebug>
+#include "kcalcore_debug.h"
 #include <QSaveFile>
 #include <kbackup.h>
 
@@ -79,7 +79,7 @@ ICalFormat::~ICalFormat()
 
 bool ICalFormat::load(const Calendar::Ptr &calendar, const QString &fileName)
 {
-    qDebug() << fileName;
+    qCDebug(KCALCORE_LOG) << fileName;
 
     clearException();
 
@@ -104,7 +104,7 @@ bool ICalFormat::load(const Calendar::Ptr &calendar, const QString &fileName)
 
 bool ICalFormat::save(const Calendar::Ptr &calendar, const QString &fileName)
 {
-    qDebug() << fileName;
+    qCDebug(KCALCORE_LOG) << fileName;
 
     clearException();
 
@@ -130,7 +130,7 @@ bool ICalFormat::save(const Calendar::Ptr &calendar, const QString &fileName)
     file.write(textUtf8.data(), textUtf8.size());
 
     if (!file.commit()) {
-        qDebug() << "file finalize error:" << file.errorString();
+        qCDebug(KCALCORE_LOG) << "file finalize error:" << file.errorString();
         setException(new Exception(Exception::SaveErrorSaveFile,
                                    QStringList(fileName)));
 
@@ -180,13 +180,13 @@ bool ICalFormat::fromRawString(const Calendar::Ptr &cal, const QByteArray &strin
             }
         }
     } else if (icalcomponent_isa(calendar) != ICAL_VCALENDAR_COMPONENT) {
-        qDebug() << "No VCALENDAR component found";
+        qCDebug(KCALCORE_LOG) << "No VCALENDAR component found";
         setException(new Exception(Exception::NoCalendar));
         success = false;
     } else {
         // put all objects into their proper places
         if (!d->mImpl->populate(cal, calendar, deleted)) {
-            qDebug() << "Could not populate calendar";
+            qCDebug(KCALCORE_LOG) << "Could not populate calendar";
             if (!exception()) {
                 setException(new Exception(Exception::ParseErrorKcal));
             }
@@ -354,7 +354,7 @@ bool ICalFormat::fromString(RecurrenceRule *recurrence, const QString &rrule)
     icalerror_clear_errno();
     struct icalrecurrencetype recur = icalrecurrencetype_from_string(rrule.toLatin1());
     if (icalerrno != ICAL_NO_ERROR) {
-        qDebug() << "Recurrence parsing error:" << icalerror_strerror(icalerrno);
+        qCDebug(KCALCORE_LOG) << "Recurrence parsing error:" << icalerror_strerror(icalerrno);
         success = false;
     }
 
@@ -440,7 +440,7 @@ FreeBusy::Ptr ICalFormat::parseFreeBusy(const QString &str)
     }
 
     if (!freeBusy) {
-        qDebug() << "object is not a freebusy.";
+        qCDebug(KCALCORE_LOG) << "object is not a freebusy.";
     }
 
     icalcomponent_free(message);
@@ -514,7 +514,7 @@ ScheduleMessage::Ptr ICalFormat::parseScheduleMessage(const Calendar::Ptr &cal,
     }
 
     if (!incidence) {
-        qDebug() << "object is not a freebusy, event, todo or journal";
+        qCDebug(KCALCORE_LOG) << "object is not a freebusy, event, todo or journal";
         setException(new Exception(Exception::ParseErrorNotIncidence));
 
         return ScheduleMessage::Ptr();
@@ -550,14 +550,14 @@ ScheduleMessage::Ptr ICalFormat::parseScheduleMessage(const Calendar::Ptr &cal,
         break;
     default:
         method = iTIPNoMethod;
-        qDebug() << "Unknown method";
+        qCDebug(KCALCORE_LOG) << "Unknown method";
         break;
     }
 
     if (!icalrestriction_check(message)) {
-        qWarning() << endl
+        qCWarning(KCALCORE_LOG) << endl
                    << "kcalcore library reported a problem while parsing:";
-        qWarning() << ScheduleMessage::methodName(method) << ":"
+        qCWarning(KCALCORE_LOG) << ScheduleMessage::methodName(method) << ":"
                    << d->mImpl->extractErrorProperty(c);
     }
 

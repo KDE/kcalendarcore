@@ -34,7 +34,7 @@
 #include "memorycalendar.h"
 #include "vcalformat.h"
 
-#include <QDebug>
+#include "kcalcore_debug.h"
 
 using namespace KCalCore;
 
@@ -99,7 +99,7 @@ bool FileStorage::open()
 bool FileStorage::load()
 {
     if (d->mFileName.isEmpty()) {
-        qWarning() << "Empty filename while trying to load";
+        qCWarning(KCALCORE_LOG) << "Empty filename while trying to load";
         return false;
     }
 
@@ -123,13 +123,13 @@ bool FileStorage::load()
             if (iCal.exception()) {
                 if (iCal.exception()->code() == Exception::CalVersion1) {
                     // Expected non vCalendar file, but detected vCalendar
-                    qDebug() << "Fallback to VCalFormat";
+                    qCDebug(KCALCORE_LOG) << "Fallback to VCalFormat";
                     VCalFormat vCal;
                     success = vCal.load(calendar(), d->mFileName);
                     productId = vCal.loadedProductId();
                     if (!success) {
                         if (vCal.exception()) {
-                            qWarning() << "Exception while importing:" << vCal.exception()->code();
+                            qCWarning(KCALCORE_LOG) << "Exception while importing:" << vCal.exception()->code();
                         }
                         return false;
                     }
@@ -137,7 +137,7 @@ bool FileStorage::load()
                     return false;
                 }
             } else {
-                qWarning() << "There should be an exception set.";
+                qCWarning(KCALCORE_LOG) << "There should be an exception set.";
                 return false;
             }
         }
@@ -151,7 +151,7 @@ bool FileStorage::load()
 
 bool FileStorage::save()
 {
-    qDebug();
+    qCDebug(KCALCORE_LOG);
     if (d->mFileName.isEmpty()) {
         return false;
     }
@@ -164,9 +164,9 @@ bool FileStorage::save()
         calendar()->setModified(false);
     } else {
         if (!format->exception()) {
-            qDebug() << "Error. There should be an expection set.";
+            qCDebug(KCALCORE_LOG) << "Error. There should be an expection set.";
         } else {
-            qDebug() << int(format->exception()->code());
+            qCDebug(KCALCORE_LOG) << int(format->exception()->code());
         }
     }
 

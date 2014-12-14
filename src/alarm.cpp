@@ -544,11 +544,11 @@ KDateTime Alarm::nextTime(const KDateTime &preTime, bool ignoreRepetitions) cons
         // offset from the recurrence time.
         Duration alarmOffset(dtStart, alarmStart);
         /*
-        qDebug() << "dtStart       " << dtStart;
-        qDebug() << "dtEnd         " << dtEnd;
-        qDebug() << "alarmStart    " << alarmStart;
-        qDebug() << "alarmOffset   " << alarmOffset.value();
-        qDebug() << "preTime       " << preTime;
+        qCDebug(KCALCORE_LOG) << "dtStart       " << dtStart;
+        qCDebug(KCALCORE_LOG) << "dtEnd         " << dtEnd;
+        qCDebug(KCALCORE_LOG) << "alarmStart    " << alarmStart;
+        qCDebug(KCALCORE_LOG) << "alarmOffset   " << alarmOffset.value();
+        qCDebug(KCALCORE_LOG) << "preTime       " << preTime;
         */
         if (alarmStart > preTime) {
             // No need to go further.
@@ -560,12 +560,12 @@ KDateTime Alarm::nextTime(const KDateTime &preTime, bool ignoreRepetitions) cons
             KDateTime prevRecurrence = d->mParent->recurrence()->getPreviousDateTime(preTime);
             if (prevRecurrence.isValid()) {
                 KDateTime prevLastRepeat = alarmOffset.end(duration().end(prevRecurrence));
-                // qDebug() << "prevRecurrence" << prevRecurrence;
-                // qDebug() << "prevLastRepeat" << prevLastRepeat;
+                // qCDebug(KCALCORE_LOG) << "prevRecurrence" << prevRecurrence;
+                // qCDebug(KCALCORE_LOG) << "prevLastRepeat" << prevLastRepeat;
                 if (prevLastRepeat > preTime) {
                     // Yes they did, return alarm offset to previous recurrence.
                     KDateTime prevAlarm = alarmOffset.end(prevRecurrence);
-                    // qDebug() << "prevAlarm     " << prevAlarm;
+                    // qCDebug(KCALCORE_LOG) << "prevAlarm     " << prevAlarm;
                     return prevAlarm;
                 }
             }
@@ -575,8 +575,8 @@ KDateTime Alarm::nextTime(const KDateTime &preTime, bool ignoreRepetitions) cons
         if (nextRecurrence.isValid()) {
             KDateTime nextAlarm = alarmOffset.end(nextRecurrence);
             /*
-            qDebug() << "nextRecurrence" << nextRecurrence;
-            qDebug() << "nextAlarm     " << nextAlarm;
+            qCDebug(KCALCORE_LOG) << "nextRecurrence" << nextRecurrence;
+            qCDebug(KCALCORE_LOG) << "nextAlarm     " << nextAlarm;
             */
             if (nextAlarm > preTime) {
                 // It's first alarm takes place after given time.

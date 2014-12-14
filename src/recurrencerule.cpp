@@ -21,7 +21,7 @@
 */
 #include "recurrencerule.h"
 
-#include <QDebug>
+#include "kcalcore_debug.h"
 
 #include <QtCore/QStringList>
 #include <QtCore/QTime>
@@ -1362,7 +1362,7 @@ bool RecurrenceRule::Private::buildCache() const
 
 // it = dts.begin();
 // while ( it != dts.end() ) {
-//   qDebug() << "            -=>" << dumpTime(*it);
+//   qCDebug(KCALCORE_LOG) << "            -=>" << dumpTime(*it);
 //   ++it;
 // }
     if (int(dts.count()) == mDuration) {
@@ -2017,13 +2017,13 @@ DateTimeList RecurrenceRule::Private::datesForInterval(const Constraint &interva
     lst.sortUnique();
 
     /*if ( lst.isEmpty() ) {
-      qDebug() << "         No Dates in Interval";
+      qCDebug(KCALCORE_LOG) << "         No Dates in Interval";
     } else {
-      qDebug() << "         Dates:";
+      qCDebug(KCALCORE_LOG) << "         Dates:";
       for ( int i = 0, iend = lst.count();  i < iend;  ++i ) {
-        qDebug()<< "              -)" << dumpTime(lst[i]);
+        qCDebug(KCALCORE_LOG)<< "              -)" << dumpTime(lst[i]);
       }
-      qDebug() << "       ---------------------";
+      qCDebug(KCALCORE_LOG) << "       ---------------------";
     }*/
     if (!mBySetPos.isEmpty()) {
         DateTimeList tmplst = lst;
@@ -2050,15 +2050,15 @@ DateTimeList RecurrenceRule::Private::datesForInterval(const Constraint &interva
 void RecurrenceRule::dump() const
 {
 #ifndef NDEBUG
-    qDebug();
+    qCDebug(KCALCORE_LOG);
     if (!d->mRRule.isEmpty()) {
-        qDebug() << "   RRULE=" << d->mRRule;
+        qCDebug(KCALCORE_LOG) << "   RRULE=" << d->mRRule;
     }
-    qDebug() << "   Read-Only:" << isReadOnly();
+    qCDebug(KCALCORE_LOG) << "   Read-Only:" << isReadOnly();
 
-    qDebug() << "   Period type:" << int(recurrenceType()) << ", frequency:" << frequency();
-    qDebug() << "   #occurrences:" << duration();
-    qDebug() << "   start date:" << dumpTime(startDt())
+    qCDebug(KCALCORE_LOG) << "   Period type:" << int(recurrenceType()) << ", frequency:" << frequency();
+    qCDebug(KCALCORE_LOG) << "   #occurrences:" << duration();
+    qCDebug(KCALCORE_LOG) << "   start date:" << dumpTime(startDt())
              << ", end date:" << dumpTime(endDt());
 
 #define dumpByIntList(list,label) \
@@ -2067,7 +2067,7 @@ void RecurrenceRule::dump() const
     for ( int i = 0, iend = list.count();  i < iend;  ++i ) {\
       lst.append( QString::number( list[i] ) );\
     }\
-    qDebug() << "  " << label << lst.join( QStringLiteral(", ") );\
+    qCDebug(KCALCORE_LOG) << "  " << label << lst.join( QStringLiteral(", ") );\
   }
     dumpByIntList(d->mBySeconds, QStringLiteral("BySeconds:  "));
     dumpByIntList(d->mByMinutes, QStringLiteral("ByMinutes:  "));
@@ -2079,7 +2079,7 @@ void RecurrenceRule::dump() const
             lst.append((d->mByDays[i].pos() ? QString::number(d->mByDays[i].pos()) : QStringLiteral("")) +
                        DateHelper::dayName(d->mByDays[i].day()));
         }
-        qDebug() << "   ByDays:    " << lst.join(QStringLiteral(", "));
+        qCDebug(KCALCORE_LOG) << "   ByDays:    " << lst.join(QStringLiteral(", "));
     }
     dumpByIntList(d->mByMonthDays, QStringLiteral("ByMonthDays:"));
     dumpByIntList(d->mByYearDays, QStringLiteral("ByYearDays: "));
@@ -2088,9 +2088,9 @@ void RecurrenceRule::dump() const
     dumpByIntList(d->mBySetPos, QStringLiteral("BySetPos:   "));
 #undef dumpByIntList
 
-    qDebug() << "   Week start:" << DateHelper::dayName(d->mWeekStart);  
+    qCDebug(KCALCORE_LOG) << "   Week start:" << DateHelper::dayName(d->mWeekStart);  
 
-    qDebug() << "   Constraints:";
+    qCDebug(KCALCORE_LOG) << "   Constraints:";
     // dump constraints
     for (int i = 0, iend = d->mConstraints.count();  i < iend;  ++i) {
         d->mConstraints[i].dump();
@@ -2101,7 +2101,7 @@ void RecurrenceRule::dump() const
 //@cond PRIVATE
 void Constraint::dump() const
 {
-    qDebug() << "     ~> Y=" << year
+    qCDebug(KCALCORE_LOG) << "     ~> Y=" << year
              << ", M=" << month
              << ", D=" << day
              << ", H=" << hour

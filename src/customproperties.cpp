@@ -32,7 +32,7 @@
 #include "customproperties.h"
 
 #include <QDataStream>
-#include <QDebug>
+#include "kcalcore_debug.h"
 
 using namespace KCalCore;
 
@@ -60,7 +60,7 @@ public:
 bool CustomProperties::Private::operator==(const CustomProperties::Private &other) const
 {
     if (mProperties.count() != other.mProperties.count()) {
-        // qDebug() << "Property count is different:" << mProperties << other.mProperties;
+        // qCDebug(KCALCORE_LOG) << "Property count is different:" << mProperties << other.mProperties;
         return false;
     }
     for (QMap<QByteArray, QString>::ConstIterator it = mProperties.begin();

@@ -34,7 +34,7 @@
 
 #include "memorycalendar.h"
 
-#include <QDebug>
+#include "kcalcore_debug.h"
 #include <QDate>
 #include <KDateTime>
 
@@ -166,7 +166,7 @@ bool MemoryCalendar::deleteIncidence(const Incidence::Ptr &incidence)
         }
         return true;
     } else {
-        qWarning() << incidence->typeStr() << " not found. uid=" << uid;
+        qCWarning(KCALCORE_LOG) << incidence->typeStr() << " not found. uid=" << uid;
         return false;
     }
 }
@@ -179,7 +179,7 @@ bool MemoryCalendar::deleteIncidenceInstances(const Incidence::Ptr &incidence)
     for (it = values.constBegin(); it != values.constEnd(); ++it) {
         Incidence::Ptr i = *it;
         if (i->hasRecurrenceId()) {
-            qDebug() << "deleting child"
+            qCDebug(KCALCORE_LOG) << "deleting child"
                      << ", type=" << int(type)
                      << ", uid=" << i->uid()
 //                   << ", start=" << i->dtStart()
@@ -529,7 +529,7 @@ void MemoryCalendar::incidenceUpdate(const QString &uid, const KDateTime &recurr
 
     if (inc) {
         if (!d->mIncidenceBeingUpdated.isEmpty()) {
-            qWarning() << "Incidence::update() called twice without an updated() call in between.";
+            qCWarning(KCALCORE_LOG) << "Incidence::update() called twice without an updated() call in between.";
         }
 
         // Save it so we can detect changes to uid or recurringId.
@@ -550,7 +550,7 @@ void MemoryCalendar::incidenceUpdated(const QString &uid, const KDateTime &recur
     if (inc) {
 
         if (d->mIncidenceBeingUpdated.isEmpty()) {
-            qWarning() << "Incidence::updated() called twice without an update() call in between.";
+            qCWarning(KCALCORE_LOG) << "Incidence::updated() called twice without an update() call in between.";
         } else if (inc->instanceIdentifier() != d->mIncidenceBeingUpdated) {
             // Instance identifier changed, update our hash table
             d->mIncidencesByIdentifier.remove(d->mIncidenceBeingUpdated);

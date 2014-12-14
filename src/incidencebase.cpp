@@ -39,7 +39,7 @@
 #include "visitor.h"
 
 #include <QTime>
-#include <QDebug>
+#include "kcalcore_debug.h"
 #include <QUrl>
 
 #include <QtCore/QStringList>
@@ -179,7 +179,7 @@ bool IncidenceBase::operator!=(const IncidenceBase &i2) const
 bool IncidenceBase::equals(const IncidenceBase &i2) const
 {
     if (attendees().count() != i2.attendees().count()) {
-        // qDebug() << "Attendee count is different";
+        // qCDebug(KCALCORE_LOG) << "Attendee count is different";
         return false;
     }
 
@@ -191,13 +191,13 @@ bool IncidenceBase::equals(const IncidenceBase &i2) const
     //Please delete this comment if you know it's ok, kthx
     for (; a1 != al1.constEnd() && a2 != al2.constEnd(); ++a1, ++a2) {
         if (!(**a1 == **a2)) {
-            // qDebug() << "Attendees are different";
+            // qCDebug(KCALCORE_LOG) << "Attendees are different";
             return false;
         }
     }
 
     if (!CustomProperties::operator==(i2)) {
-        // qDebug() << "Properties are different";
+        // qCDebug(KCALCORE_LOG) << "Properties are different";
         return false;
     }
 
@@ -213,7 +213,7 @@ bool IncidenceBase::equals(const IncidenceBase &i2) const
     bool f = hasDuration() == i2.hasDuration();
     bool g = url() == i2.url();
 
-    //qDebug() << a << b << c << d << e << f << g;
+    //qCDebug(KCALCORE_LOG) << a << b << c << d << e << f << g;
     return a && b && c && d && e && f && g;
 }
 
@@ -308,7 +308,7 @@ void IncidenceBase::setDtStart(const KDateTime &dtStart)
 //  if ( mReadOnly ) return;
 
     if (!dtStart.isValid() && type() != IncidenceBase::TypeTodo) {
-        qWarning() << "Invalid dtStart";
+        qCWarning(KCALCORE_LOG) << "Invalid dtStart";
     }
 
     update();
@@ -710,14 +710,14 @@ QDataStream& KCalCore::operator>>(QDataStream &in, const KCalCore::IncidenceBase
     in >> magic;
 
     if (magic != KCALCORE_MAGIC_NUMBER) {
-        qWarning() << "Invalid magic on serialized data";
+        qCWarning(KCALCORE_LOG) << "Invalid magic on serialized data";
         return in;
     }
 
     in >> version;
 
     if (version > KCALCORE_MAGIC_NUMBER) {
-        qWarning() << "Invalid version on serialized data";
+        qCWarning(KCALCORE_LOG) << "Invalid version on serialized data";
         return in;
     }
 

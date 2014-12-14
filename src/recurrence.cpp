@@ -23,7 +23,7 @@
 */
 #include "recurrence.h"
 
-#include <QDebug>
+#include "kcalcore_debug.h"
 
 #include <QtCore/QBitArray>
 #include <QtCore/QTime>
@@ -73,7 +73,7 @@ public:
 
 bool Recurrence::Private::operator==(const Recurrence::Private &p) const
 {
-//   qDebug() << mStartDateTime << p.mStartDateTime;
+//   qCDebug(KCALCORE_LOG) << mStartDateTime << p.mStartDateTime;
     if ((mStartDateTime != p.mStartDateTime &&
             (mStartDateTime.isValid() || p.mStartDateTime.isValid())) ||
             mAllDay != p.mAllDay ||
@@ -881,7 +881,7 @@ void Recurrence::addYearlyMonth(short month)
 
 TimeList Recurrence::recurTimesOn(const QDate &date, const KDateTime::Spec &timeSpec) const
 {
-// qDebug() << "recurTimesOn(" << date << ")";
+// qCDebug(KCALCORE_LOG) << "recurTimesOn(" << date << ")";
     int i, end;
     TimeList times;
 
@@ -1354,41 +1354,41 @@ void Recurrence::recurrenceChanged(RecurrenceRule *)
 
 void Recurrence::dump() const
 {
-    qDebug();
+    qCDebug(KCALCORE_LOG);
 
     int i;
     int count = d->mRRules.count();
-    qDebug() << "  -)" << count << "RRULEs:";
+    qCDebug(KCALCORE_LOG) << "  -)" << count << "RRULEs:";
     for (i = 0;  i < count;  ++i) {
-        qDebug() << "    -) RecurrenceRule: ";
+        qCDebug(KCALCORE_LOG) << "    -) RecurrenceRule: ";
         d->mRRules[i]->dump();
     }
     count = d->mExRules.count();
-    qDebug() << "  -)" << count << "EXRULEs:";
+    qCDebug(KCALCORE_LOG) << "  -)" << count << "EXRULEs:";
     for (i = 0;  i < count;  ++i) {
-        qDebug() << "    -) ExceptionRule :";
+        qCDebug(KCALCORE_LOG) << "    -) ExceptionRule :";
         d->mExRules[i]->dump();
     }
 
     count = d->mRDates.count();
-    qDebug() << endl << "  -)" << count << "Recurrence Dates:";
+    qCDebug(KCALCORE_LOG) << endl << "  -)" << count << "Recurrence Dates:";
     for (i = 0;  i < count;  ++i) {
-        qDebug() << "    " << d->mRDates[i];
+        qCDebug(KCALCORE_LOG) << "    " << d->mRDates[i];
     }
     count = d->mRDateTimes.count();
-    qDebug() << endl << "  -)" << count << "Recurrence Date/Times:";
+    qCDebug(KCALCORE_LOG) << endl << "  -)" << count << "Recurrence Date/Times:";
     for (i = 0;  i < count;  ++i) {
-        qDebug() << "    " << d->mRDateTimes[i].dateTime();
+        qCDebug(KCALCORE_LOG) << "    " << d->mRDateTimes[i].dateTime();
     }
     count = d->mExDates.count();
-    qDebug() << endl << "  -)" << count << "Exceptions Dates:";
+    qCDebug(KCALCORE_LOG) << endl << "  -)" << count << "Exceptions Dates:";
     for (i = 0;  i < count;  ++i) {
-        qDebug() << "    " << d->mExDates[i];
+        qCDebug(KCALCORE_LOG) << "    " << d->mExDates[i];
     }
     count = d->mExDateTimes.count();
-    qDebug() << endl << "  -)" << count << "Exception Date/Times:";
+    qCDebug(KCALCORE_LOG) << endl << "  -)" << count << "Exception Date/Times:";
     for (i = 0;  i < count;  ++i) {
-        qDebug() << "    " << d->mExDateTimes[i].dateTime();
+        qCDebug(KCALCORE_LOG) << "    " << d->mExDateTimes[i].dateTime();
     }
 }
 

@@ -32,7 +32,7 @@
 #include "event.h"
 #include "visitor.h"
 
-#include <QDebug>
+#include "kcalcore_debug.h"
 
 #include <QDate>
 
@@ -322,7 +322,7 @@ void Event::setDateTime(const KDateTime &dateTime, DateTimeRole role)
         setDtEnd(dateTime);
         break;
     default:
-        qDebug() << "Unhandled role" << role;
+        qCDebug(KCALCORE_LOG) << "Unhandled role" << role;
     }
 }
 

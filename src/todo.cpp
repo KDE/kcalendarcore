@@ -35,7 +35,7 @@
 #include "visitor.h"
 #include "recurrence.h"
 
-#include <QDebug>
+#include "kcalcore_debug.h"
 
 #include <QTime>
 
@@ -166,7 +166,7 @@ void Todo::setDtDue(const KDateTime &dtDue, bool first)
     }
 
     if (recurs() && dtDue.isValid() && (!dtStart().isValid() || dtDue < recurrence()->startDateTime())) {
-        qDebug() << "To-do recurrences are now calculated against DTSTART. Fixing legacy to-do.";
+        qCDebug(KCALCORE_LOG) << "To-do recurrences are now calculated against DTSTART. Fixing legacy to-do.";
         setDtStart(dtDue);
     }
 
@@ -570,7 +570,7 @@ void Todo::setDateTime(const KDateTime &dateTime, DateTimeRole role)
         setDtDue(dateTime, true);
         break;
     default:
-        qDebug() << "Unhandled role" << role;
+        qCDebug(KCALCORE_LOG) << "Unhandled role" << role;
     }
 }
 

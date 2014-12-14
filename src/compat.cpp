@@ -35,7 +35,7 @@
 #include "compat.h"
 #include "incidence.h"
 
-#include <QDebug>
+#include "kcalcore_debug.h"
 
 #include <QtCore/QRegExp>
 #include <QtCore/QString>
@@ -72,7 +72,7 @@ Compat *CompatFactory::createCompat(const QString &productId,
                 } else if (versionNum < 30200) {
                     compat = new CompatPre32;
                 } else if (versionNum == 30200 && release == QLatin1String("pre")) {
-                    qDebug() << "Generating compat for KOrganizer 3.2 pre";
+                    qCDebug(KCALCORE_LOG) << "Generating compat for KOrganizer 3.2 pre";
                     compat = new Compat32PrereleaseVersions;
                 } else if (versionNum < 30400) {
                     compat = new CompatPre34;
@@ -82,7 +82,7 @@ Compat *CompatFactory::createCompat(const QString &productId,
             }
         }
     } else if (outl9 >= 0) {
-        qDebug() << "Generating compat for Outlook < 2000 (Outlook 9.0)";
+        qCDebug(KCALCORE_LOG) << "Generating compat for Outlook < 2000 (Outlook 9.0)";
         compat = new CompatOutlook9;
     }
     if (!compat) {

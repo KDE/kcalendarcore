@@ -32,7 +32,7 @@
 #include "journal.h"
 #include "visitor.h"
 
-#include <QDebug>
+#include "kcalcore_debug.h"
 
 using namespace KCalCore;
 
@@ -98,7 +98,7 @@ void Journal::setDateTime(const KDateTime &dateTime, DateTimeRole role)
         break;
     }
     default:
-        qDebug() << "Unhandled role" << role;
+        qCDebug(KCALCORE_LOG) << "Unhandled role" << role;
     }
 }
 
