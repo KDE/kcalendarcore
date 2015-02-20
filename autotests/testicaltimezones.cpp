@@ -468,8 +468,8 @@ void ICalTimeZonesTest::offsetAtZoneTime()
     QCOMPARE(offset2, -5 * 3600);
 
     // UTC time
-    QCOMPARE(tz.offsetAtZoneTime(daylight99.addSecs(-1), &offset2), 0);
-    QCOMPARE(offset2, 0);
+    QCOMPARE(tz.offsetAtZoneTime(daylight99.addSecs(-1), &offset2), KTimeZone::InvalidOffset);
+    QCOMPARE(offset2, KTimeZone::InvalidOffset);
 
     icaltimezone_free(icaltz, 1);
 }
