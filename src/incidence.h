@@ -149,12 +149,12 @@ public:
       @param readonly If true, the incidence is set to readonly, if false the
                       incidence is set to readwrite.
     */
-    void setReadOnly(bool readonly);
+    void setReadOnly(bool readonly) Q_DECL_OVERRIDE;
 
     /**
       @copydoc IncidenceBase::setLastModified().
     */
-    void setLastModified(const KDateTime &lm);
+    void setLastModified(const KDateTime &lm) Q_DECL_OVERRIDE;
 
     /**
       Set localOnly state of incidence.
@@ -220,13 +220,13 @@ public:
       @param dt is the starting date/time.
       @see IncidenceBase::dtStart().
     */
-    virtual void setDtStart(const KDateTime &dt);
+    void setDtStart(const KDateTime &dt) Q_DECL_OVERRIDE;
 
     /**
       @copydoc IncidenceBase::shiftTimes()
     */
-    virtual void shiftTimes(const KDateTime::Spec &oldSpec,
-                            const KDateTime::Spec &newSpec);
+    void shiftTimes(const KDateTime::Spec &oldSpec,
+                    const KDateTime::Spec &newSpec) Q_DECL_OVERRIDE;
 
     /**
       Sets the incidence description.
@@ -703,7 +703,7 @@ public:
       @return incidences recurrenceId value
       @see setRecurrenceId().
     */
-    KDateTime recurrenceId() const;
+    KDateTime recurrenceId() const Q_DECL_OVERRIDE;
 
     /**
       Set to true if the exception also applies to all future occurrences.
@@ -808,7 +808,7 @@ public:
 
       @param recurrence is a pointer to a valid Recurrence object.
     */
-    virtual void recurrenceUpdated(Recurrence *recurrence);
+    void recurrenceUpdated(Recurrence *recurrence) Q_DECL_OVERRIDE;
 
     /**
       Returns the name of the icon that best represents this incidence.
@@ -849,12 +849,12 @@ protected:
       @param incidence is the Incidence to compare against.
       @return true if the incidences are equal; false otherwise.
     */
-    virtual bool equals(const IncidenceBase &incidence) const;
+    bool equals(const IncidenceBase &incidence) const Q_DECL_OVERRIDE;
 
     /**
       @copydoc IncidenceBase::assign()
     */
-    virtual IncidenceBase &assign(const IncidenceBase &other);
+    IncidenceBase &assign(const IncidenceBase &other) Q_DECL_OVERRIDE;
 
     void serialize(QDataStream &out);
     void deserialize(QDataStream &in);

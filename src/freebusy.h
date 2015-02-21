@@ -118,13 +118,13 @@ public:
       @copydoc
       IncidenceBase::type()
     */
-    IncidenceType type() const;
+    IncidenceType type() const Q_DECL_OVERRIDE;
 
     /**
       @copydoc
       IncidenceBase::typeStr()
     */
-    QByteArray typeStr() const;
+    QByteArray typeStr() const Q_DECL_OVERRIDE;
 
     /**
       Sets the start date/time for the free/busy. Note that this date/time
@@ -133,7 +133,7 @@ public:
       @param start is a KDateTime specifying an start datetime.
       @see IncidenceBase::dtStart(), setDtEnd().
     */
-    virtual void setDtStart(const KDateTime &start);
+    void setDtStart(const KDateTime &start) Q_DECL_OVERRIDE;
 
     /**
       Sets the end datetime for the free/busy. Note that this datetime
@@ -155,8 +155,8 @@ public:
       @copydoc
       IncidenceBase::shiftTimes()
     */
-    virtual void shiftTimes(const KDateTime::Spec &oldSpec,
-                            const KDateTime::Spec &newSpec);
+    void shiftTimes(const KDateTime::Spec &oldSpec,
+                    const KDateTime::Spec &newSpec) Q_DECL_OVERRIDE;
 
     /**
       Returns the list of all periods within the free/busy.
@@ -218,19 +218,19 @@ public:
       @copydoc
       IncidenceBase::dateTime()
     */
-    KDateTime dateTime(DateTimeRole role) const;
+    KDateTime dateTime(DateTimeRole role) const Q_DECL_OVERRIDE;
 
     /**
       @copydoc
       IncidenceBase::setDateTime()
     */
-    void setDateTime(const KDateTime &dateTime, DateTimeRole role);
+    void setDateTime(const KDateTime &dateTime, DateTimeRole role) Q_DECL_OVERRIDE;
 
     /**
        @copydoc
        IncidenceBase::mimeType()
     */
-    QLatin1String mimeType() const;
+    QLatin1String mimeType() const Q_DECL_OVERRIDE;
 
     /**
        Returns the Akonadi specific sub MIME type of a KCalCore::FreeBusy.
@@ -242,26 +242,26 @@ protected:
       Compare this with @p freebusy for equality.
       @param freebusy is the FreeBusy to compare.
     */
-    virtual bool equals(const IncidenceBase &freebusy) const;
+    bool equals(const IncidenceBase &freebusy) const Q_DECL_OVERRIDE;
 
     /**
       @copydoc
       IncidenceBase::assign()
     */
-    virtual IncidenceBase &assign(const IncidenceBase &other);
+    IncidenceBase &assign(const IncidenceBase &other) Q_DECL_OVERRIDE;
 
     /**
       @copydoc
       IncidenceBase::virtual_hook()
     */
-    virtual void virtual_hook(int id, void *data);
+    void virtual_hook(int id, void *data) Q_DECL_OVERRIDE;
 
 private:
     /**
      @copydoc
      IncidenceBase::accept()
     */
-    bool accept(Visitor &v, IncidenceBase::Ptr incidence);
+    bool accept(Visitor &v, IncidenceBase::Ptr incidence) Q_DECL_OVERRIDE;
 
     /**
       Disabled, otherwise could be dangerous if you subclass FreeBusy.
