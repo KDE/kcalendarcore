@@ -369,3 +369,8 @@ void Event::deserialize(QDataStream &in)
     d->mTransparency = static_cast<Transparency>(transp);
     in >> d->mMultiDayValid >> d->mMultiDay;
 }
+
+bool Event::supportsGroupwareCommunication() const
+{
+    return true;
+}

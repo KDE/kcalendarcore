@@ -628,3 +628,8 @@ void Todo::deserialize(QDataStream &in)
     Incidence::deserialize(in);
     in >> d->mDtDue >> d->mDtRecurrence >> d->mCompleted >> d->mPercentComplete;
 }
+
+bool Todo::supportsGroupwareCommunication() const
+{
+    return true;
+}

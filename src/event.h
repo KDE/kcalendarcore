@@ -214,6 +214,12 @@ public:
     QLatin1String iconName(const KDateTime &recurrenceId = KDateTime()) const;
 
     /**
+       @copydoc
+       Incidence::supportsGroupwareCommunication()
+    */
+    bool supportsGroupwareCommunication() const;
+
+    /**
        Returns the Akonadi specific sub MIME type of a KCalCore::Event.
     */
     static QLatin1String eventMimeType();

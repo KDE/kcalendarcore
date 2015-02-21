@@ -823,7 +823,7 @@ public:
      * Returns true if the incidence type supports groupware communication.
      * @since 4.10
      */ //TODO_KDE5: make pure virtual
-    bool supportsGroupwareCommunication() const;
+    virtual bool supportsGroupwareCommunication() const = 0;
 
     /**
       Returns the list of possible mime types in an Incidence object:

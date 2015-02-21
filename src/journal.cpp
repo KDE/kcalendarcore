@@ -140,3 +140,8 @@ void Journal::deserialize(QDataStream &in)
 {
     Incidence::deserialize(in);
 }
+
+bool Journal::supportsGroupwareCommunication() const
+{
+    return false;
+}

@@ -1105,11 +1105,6 @@ QString Incidence::altDescription() const
     }
 }
 
-bool Incidence::supportsGroupwareCommunication() const
-{
-    return type() == TypeEvent || type() == TypeTodo;
-}
-
 /** static */
 QStringList Incidence::mimeTypes()
 {
