@@ -269,7 +269,7 @@ public:
     /**
       @copydoc IncidenceBase::setAllDay().
     */
-    void setAllDay(bool allDay);
+    void setAllDay(bool allDay) Q_DECL_OVERRIDE;
 
     /**
       Sets the due date/time of the current occurrence if recurrent.

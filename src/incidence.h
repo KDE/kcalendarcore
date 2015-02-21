@@ -177,7 +177,7 @@ public:
     /**
       @copydoc IncidenceBase::setAllDay().
     */
-    void setAllDay(bool allDay);
+    void setAllDay(bool allDay) Q_DECL_OVERRIDE;
 
     /**
       Recreate incidence. The incidence is made a new unique incidence, but already stored

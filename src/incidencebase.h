@@ -421,7 +421,7 @@ public:
 
       @see allDay()
     */
-    void setAllDay(bool allDay);
+    virtual void setAllDay(bool allDay);
 
     /**
       Shift the times of the incidence so that they appear at the same clock
