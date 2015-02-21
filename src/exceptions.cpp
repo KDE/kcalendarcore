@@ -41,6 +41,7 @@ using namespace KCalCore;
 Exception::Exception(const ErrorCode code, const QStringList &arguments)
     : mCode(code), mArguments(arguments), d(0)
 {
+    Q_UNUSED(d);
 }
 
 Exception::~Exception()
