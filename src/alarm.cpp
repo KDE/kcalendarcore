@@ -671,7 +671,7 @@ KDateTime Alarm::nextRepetition(const KDateTime &preTime) const
         }
         repetition = daysTo / interval + 1;
     } else {
-        repetition = at.secsTo_long(preTime) / interval + 1;
+        repetition = at.secsTo(preTime) / interval + 1;
     }
     if (repetition > d->mAlarmRepeatCount) {
         // all repetitions have finished before the specified time
@@ -701,7 +701,7 @@ KDateTime Alarm::previousRepetition(const KDateTime &afterTime) const
         }
         repetition = daysTo / interval;
     } else {
-        repetition = (at.secsTo_long(afterTime) - 1) / interval;
+        repetition = (at.secsTo(afterTime) - 1) / interval;
     }
     if (repetition > d->mAlarmRepeatCount) {
         repetition = d->mAlarmRepeatCount;

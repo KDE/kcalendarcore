@@ -133,7 +133,7 @@ public:
                         incidence = recurrenceIds.value(occurrenceDate);
                         occurrenceDate = incidence->dtStart();
                         resetIncidence = !incidence->thisAndFuture();
-                        offset = incidence->recurrenceId().secsTo_long(incidence->dtStart());
+                        offset = incidence->recurrenceId().secsTo(incidence->dtStart());
                     } else if (inc != incidence) {   //thisAndFuture exception is active
                         occurrenceDate = occurrenceDate.addSecs(offset);
                     }

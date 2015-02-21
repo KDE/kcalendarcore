@@ -1471,7 +1471,7 @@ bool RecurrenceRule::recursOn(const QDate &qd, const KDateTime::Spec &timeSpec) 
 
     if (d->mTimedRepetition) {
         // It's a simple sub-daily recurrence with no constraints
-        int n = static_cast<int>((d->mDateStart.secsTo_long(start) - 1) % d->mTimedRepetition);
+        int n = static_cast<int>((d->mDateStart.secsTo(start) - 1) % d->mTimedRepetition);
         return start.addSecs(d->mTimedRepetition - n) < end;
     }
 
@@ -1545,7 +1545,7 @@ bool RecurrenceRule::recursAt(const KDateTime &kdt) const
 
     if (d->mTimedRepetition) {
         // It's a simple sub-daily recurrence with no constraints
-        return !(d->mDateStart.secsTo_long(dt) % d->mTimedRepetition);
+        return !(d->mDateStart.secsTo(dt) % d->mTimedRepetition);
     }
 
     // The date must be in an appropriate interval (getNextValidDateInterval),
@@ -1595,7 +1595,7 @@ int RecurrenceRule::durationTo(const KDateTime &dt) const
 
     if (d->mTimedRepetition) {
         // It's a simple sub-daily recurrence with no constraints
-        return static_cast<int>(d->mDateStart.secsTo_long(toDate) / d->mTimedRepetition);
+        return static_cast<int>(d->mDateStart.secsTo(toDate) / d->mTimedRepetition);
     }
 
     return timesInInterval(d->mDateStart, toDate).count();
@@ -1622,7 +1622,7 @@ KDateTime RecurrenceRule::getPreviousDate(const KDateTime &afterDate) const
         if (d->mDuration >= 0 && endDt().isValid() && toDate > endDt()) {
             prev = endDt().addSecs(1).toTimeSpec(d->mDateStart.timeSpec());
         }
-        int n = static_cast<int>((d->mDateStart.secsTo_long(prev) - 1) % d->mTimedRepetition);
+        int n = static_cast<int>((d->mDateStart.secsTo(prev) - 1) % d->mTimedRepetition);
         if (n < 0) {
             return KDateTime();  // before recurrence start
         }
@@ -1688,7 +1688,7 @@ KDateTime RecurrenceRule::getNextDate(const KDateTime &preDate) const
 
     if (d->mTimedRepetition) {
         // It's a simple sub-daily recurrence with no constraints
-        int n = static_cast<int>((d->mDateStart.secsTo_long(fromDate) + 1) % d->mTimedRepetition);
+        int n = static_cast<int>((d->mDateStart.secsTo(fromDate) + 1) % d->mTimedRepetition);
         KDateTime next = fromDate.addSecs(d->mTimedRepetition - n + 1);
         return d->mDuration < 0 || !endDt().isValid() || next <= endDt() ? next : KDateTime();
     }
@@ -1764,14 +1764,14 @@ DateTimeList RecurrenceRule::timesInInterval(const KDateTime &dtStart,
         qint64 offsetFromNextOccurrence;
         if (d->mDateStart < start) {
             offsetFromNextOccurrence =
-                d->mTimedRepetition - (d->mDateStart.secsTo_long(start) % d->mTimedRepetition);
+                d->mTimedRepetition - (d->mDateStart.secsTo(start) % d->mTimedRepetition);
         } else {
-            offsetFromNextOccurrence = -(d->mDateStart.secsTo_long(start) % d->mTimedRepetition);
+            offsetFromNextOccurrence = -(d->mDateStart.secsTo(start) % d->mTimedRepetition);
         }
         KDateTime dt = start.addSecs(offsetFromNextOccurrence);
         if (dt <= enddt) {
             int numberOfOccurrencesWithinInterval =
-                static_cast<int>(dt.secsTo_long(enddt) / d->mTimedRepetition) + 1;
+                static_cast<int>(dt.secsTo(enddt) / d->mTimedRepetition) + 1;
             // limit n by a sane value else we can "explode".
             numberOfOccurrencesWithinInterval = qMin(numberOfOccurrencesWithinInterval, LOOP_LIMIT);
             for (int i = 0;
@@ -1869,7 +1869,7 @@ Constraint RecurrenceRule::Private::getPreviousValidDateInterval(const KDateTime
     case rMinutely:
         modifier *= 60;
     case rSecondly:
-        periods = static_cast<int>(start.secsTo_long(toDate) / modifier);
+        periods = static_cast<int>(start.secsTo(toDate) / modifier);
         // round it down to the next lower multiple of frequency:
         if (mFrequency > 0) {
             periods = (periods / mFrequency) * mFrequency;
@@ -1941,7 +1941,7 @@ Constraint RecurrenceRule::Private::getNextValidDateInterval(const KDateTime &dt
     case rMinutely:
         modifier *= 60;
     case rSecondly:
-        periods = static_cast<int>(start.secsTo_long(toDate) / modifier);
+        periods = static_cast<int>(start.secsTo(toDate) / modifier);
         periods = qMax(0L, periods);
         if (periods > 0 && mFrequency > 0) {
             periods += (mFrequency - 1 - ((periods - 1) % mFrequency));

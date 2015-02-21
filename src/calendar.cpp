@@ -725,7 +725,7 @@ Incidence::Ptr Calendar::createException(const Incidence::Ptr &incidence,
             int offset = incidence->dtStart().daysTo(recurrenceId);
             end = end.addDays(offset);
         } else {
-            qint64 offset = incidence->dtStart().secsTo_long(recurrenceId);
+            qint64 offset = incidence->dtStart().secsTo(recurrenceId);
             end = end.addSecs(offset);
         }
         newInc->setDateTime(end, IncidenceBase::RoleEnd);
