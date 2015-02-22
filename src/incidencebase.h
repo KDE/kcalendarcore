@@ -697,13 +697,13 @@ protected:
       @copydoc
       CustomProperties::customPropertyUpdate()
     */
-    virtual void customPropertyUpdate();
+    void customPropertyUpdate() Q_DECL_OVERRIDE;
 
     /**
       @copydoc
       CustomProperties::customPropertyUpdated()
     */
-    virtual void customPropertyUpdated();
+    void customPropertyUpdated() Q_DECL_OVERRIDE;
 
     /**
       Constructs an IncidenceBase as a copy of another IncidenceBase object.
@@ -725,16 +725,6 @@ protected:
       @param other is the IncidenceBase to assign.
     */
     virtual IncidenceBase &assign(const IncidenceBase &other);
-
-    /**
-      Standard trick to add virtuals later.
-
-      @param id is any integer unique to this class which we will use to identify the method
-             to be called.
-      @param data is a pointer to some glob of data, typically a struct.
-      // TODO_KDE5: change from int to VirtualHook type.
-    */
-    virtual void virtual_hook(int id, void *data) = 0;
 
     enum VirtualHook {
         SerializerHook,
