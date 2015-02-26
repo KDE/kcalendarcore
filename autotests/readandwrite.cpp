@@ -36,8 +36,12 @@
 
 using namespace KCalCore;
 
+extern Q_CORE_EXPORT QBasicAtomicInt qt_qhash_seed; // from qhash.cpp
+
 int main(int argc, char **argv)
 {
+    qt_qhash_seed.fetchAndStoreRelaxed(0); // Disable QHash randomness
+
     QCommandLineParser parser;
     parser.addOption(QCommandLineOption(QStringList() << "verbose" , i18n("Verbose output")));
     parser.addPositionalArgument("source", i18n("Source file to copy."));
