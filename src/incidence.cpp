@@ -35,9 +35,9 @@
 #include "incidence.h"
 #include "calformat.h"
 
-#include <KMimeType>
 #include <KTemporaryFile>
 
+#include <QMimeDatabase>
 #include <QTextDocument> // for .toHtmlEscaped() and Qt::mightBeRichText()
 #include <QStringList>
 #include <QTime>
@@ -756,7 +756,8 @@ QString Incidence::writeAttachmentToTempFile(const Attachment::Ptr &attachment) 
     }
     KTemporaryFile *file = new KTemporaryFile();
 
-    QStringList patterns = KMimeType::mimeType(attachment->mimeType())->patterns();
+    QMimeDatabase mimeDb;
+    QStringList patterns = mimeDb.mimeTypeForName(attachment->mimeType()).globPatterns();
 
     if (!patterns.empty()) {
         file->setSuffix(QString(patterns.first()).remove(QLatin1Char('*')));

@@ -96,3 +96,10 @@ void AttachmentTest::testSerializer()
     QVERIFY(*attachment == *attachment2);
 }
 
+void AttachmentTest::testWriteToTempFile()
+{
+    Attachment::Ptr inlineAttachment = Attachment::Ptr(new Attachment(QByteArray("foo"), QByteArray("image/png")));
+    Event *event = new Event();
+    QString file = event->writeAttachmentToTempFile(inlineAttachment);
+    QVERIFY(file.endsWith(".png"));
+}
