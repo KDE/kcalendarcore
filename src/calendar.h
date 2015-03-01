@@ -732,13 +732,6 @@ public:
     virtual bool deleteEventInstances(const Event::Ptr &event) = 0;
 
     /**
-      Removes all Events from the calendar.
-      @see deleteEvent()
-      TODO_KDE5: Remove these methods. They are dangerous and don't add value.
-    */
-    virtual void deleteAllEvents() = 0;
-
-    /**
       Sort a list of Events.
 
       @param eventList is a pointer to a list of Events.
@@ -952,12 +945,6 @@ public:
     virtual bool deleteTodoInstances(const Todo::Ptr &todo) = 0;
 
     /**
-      Removes all To-dos from the calendar.
-      @see deleteTodo()
-    */
-    virtual void deleteAllTodos() = 0;
-
-    /**
       Sort a list of Todos.
 
       @param todoList is a pointer to a list of Todos.
@@ -1132,12 +1119,6 @@ public:
       @return true if delete was successful; false otherwise
     */
     virtual bool deleteJournalInstances(const Journal::Ptr &journal) = 0;
-
-    /**
-      Removes all Journals from the calendar.
-      @see deleteJournal()
-    */
-    virtual void deleteAllJournals() = 0;
 
     /**
       Sort a list of Journals.

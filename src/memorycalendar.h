@@ -106,11 +106,6 @@ public:
     bool deleteEventInstances(const Event::Ptr &event);
 
     /**
-      @copydoc Calendar::deleteAllEvents()
-    */
-    void deleteAllEvents();
-
-    /**
       @copydoc Calendar::rawEvents(EventSortField, SortDirection)const
     */
     Event::List rawEvents(
@@ -198,11 +193,6 @@ public:
     bool deleteTodoInstances(const Todo::Ptr &todo);
 
     /**
-      @copydoc Calendar::deleteAllTodos()
-    */
-    void deleteAllTodos();
-
-    /**
       @copydoc Calendar::rawTodos(TodoSortField, SortDirection)const
     */
     Todo::List rawTodos(
@@ -263,11 +253,6 @@ public:
       @copydoc Calendar::deleteJournalInstances()
     */
     bool deleteJournalInstances(const Journal::Ptr &journal);
-
-    /**
-      @copydoc Calendar::deleteAllJournals()
-    */
-    void deleteAllJournals();
 
     /**
       @copydoc Calendar::rawJournals()

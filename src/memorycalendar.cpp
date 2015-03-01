@@ -304,11 +304,6 @@ bool MemoryCalendar::deleteEventInstances(const Event::Ptr &event)
     return deleteIncidenceInstances(event);
 }
 
-void MemoryCalendar::deleteAllEvents()
-{
-    d->deleteAllIncidences(Incidence::TypeEvent);
-}
-
 Event::Ptr MemoryCalendar::event(const QString &uid,
                                  const KDateTime &recurrenceId) const
 {
@@ -333,11 +328,6 @@ bool MemoryCalendar::deleteTodo(const Todo::Ptr &todo)
 bool MemoryCalendar::deleteTodoInstances(const Todo::Ptr &todo)
 {
     return deleteIncidenceInstances(todo);
-}
-
-void MemoryCalendar::deleteAllTodos()
-{
-    d->deleteAllIncidences(Incidence::TypeTodo);
 }
 
 Todo::Ptr MemoryCalendar::todo(const QString &uid,
@@ -768,11 +758,6 @@ bool MemoryCalendar::deleteJournal(const Journal::Ptr &journal)
 bool MemoryCalendar::deleteJournalInstances(const Journal::Ptr &journal)
 {
     return deleteIncidenceInstances(journal);
-}
-
-void MemoryCalendar::deleteAllJournals()
-{
-    d->deleteAllIncidences(Incidence::TypeJournal);
 }
 
 Journal::Ptr MemoryCalendar::journal(const QString &uid,
