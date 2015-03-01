@@ -98,8 +98,12 @@ void AttachmentTest::testSerializer()
 
 void AttachmentTest::testWriteToTempFile()
 {
-    Attachment::Ptr inlineAttachment = Attachment::Ptr(new Attachment(QByteArray("foo"), QByteArray("image/png")));
+    QByteArray data("foo");
+    Attachment::Ptr inlineAttachment = Attachment::Ptr(new Attachment(data.toBase64(), QByteArray("image/png")));
     Event *event = new Event();
-    QString file = event->writeAttachmentToTempFile(inlineAttachment);
-    QVERIFY(file.endsWith(".png"));
+    QString filePath = event->writeAttachmentToTempFile(inlineAttachment);
+    QVERIFY(filePath.endsWith(".png"));
+    QFile file(filePath);
+    QVERIFY(file.open(QIODevice::ReadOnly | QIODevice::Text));
+    QCOMPARE(file.readLine(), data);
 }
