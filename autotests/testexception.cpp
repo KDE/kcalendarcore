@@ -29,7 +29,7 @@ using namespace KCalCore;
 
 void ExceptionTest::testValidity()
 {
-    //KDAB_TODO: getting undefined reference while compiling
+    //TODO: getting undefined reference while compiling
 //  Exception ef( Exception::LoadError );
 //  QVERIFY( ef.code() == Exception::LoadError );
 

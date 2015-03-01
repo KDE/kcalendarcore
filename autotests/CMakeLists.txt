@@ -60,7 +60,7 @@ set_target_properties(testreadrecurrenceid PROPERTIES COMPILE_FLAGS -DICALTESTDA
 # this test cannot work with msvc because libical should not be altered
 # and therefore we can't add KCALCORE_EXPORT there
 # it should work fine with mingw because of the auto-import feature
-# KDAB_TODO: check if this can build with msvc now (and if it works on Windows)
+# TODO: check if this can build with msvc now (and if it works on Windows)
 if(NOT MSVC)
   macro_unit_tests(testicaltimezones)
 endif()

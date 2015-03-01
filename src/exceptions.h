@@ -55,7 +55,6 @@ public:
     /**
       The different types of error codes
     */
-    //KDAB_TODO: give decent names here
     enum ErrorCode {
         LoadError,         /**< Load error */
         SaveError,         /**< Save error */
