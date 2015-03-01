@@ -200,7 +200,7 @@ Incidence::~Incidence()
     foreach (Alarm::Ptr alarm, d->mAlarms) {
         alarm->setParent(0);
     }
-
+    clearTempFiles();
     delete d->mRecurrence;
     delete d;
 }

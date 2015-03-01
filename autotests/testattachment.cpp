@@ -106,4 +106,7 @@ void AttachmentTest::testWriteToTempFile()
     QFile file(filePath);
     QVERIFY(file.open(QIODevice::ReadOnly | QIODevice::Text));
     QCOMPARE(file.readLine(), data);
+
+    delete event; // file is deleted in DTOR
+    QVERIFY(!QFile::exists(filePath));
 }
