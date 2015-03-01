@@ -197,7 +197,7 @@ Incidence::~Incidence()
 {
     // Alarm has a raw incidence pointer, so we must set it to 0
     // so Alarm doesn't use it after Incidence is destroyed
-    foreach (Alarm::Ptr alarm, d->mAlarms) {
+    foreach (const Alarm::Ptr &alarm, d->mAlarms) {
         alarm->setParent(0);
     }
     clearTempFiles();
