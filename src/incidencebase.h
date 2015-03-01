@@ -732,6 +732,15 @@ protected:
     };
 
     /**
+      Standard trick to add virtuals later.
+
+      @param id is any integer unique to this class which we will use to identify the method
+             to be called.
+      @param data is a pointer to some glob of data, typically a struct.
+    */
+    virtual void virtual_hook(VirtualHook id, void *data) = 0;
+
+    /**
       Identifies a read-only incidence.
     */
     bool mReadOnly;

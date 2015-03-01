@@ -197,17 +197,6 @@ protected:
       to perform change processing.
     */
     virtual void customPropertyUpdated();
-
-    /**
-      Standard trick to add virtuals later.
-
-      @param id is any integer unique to this class which we will use to identify the method
-             to be called.
-      @param data is a pointer to some glob of data, typically a struct.
-      // TODO_KDE5: change from int to VirtualHook type.
-    */
-    virtual void virtual_hook(int id, void *data);
-
 private:
     //@cond PRIVATE
     class Private;

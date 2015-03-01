@@ -569,9 +569,9 @@ void Todo::setDateTime(const KDateTime &dateTime, DateTimeRole role)
     }
 }
 
-void Todo::virtual_hook(int id, void *data)
+void Todo::virtual_hook(VirtualHook id, void *data)
 {
-    switch (static_cast<IncidenceBase::VirtualHook>(id)) {
+    switch (id) {
     case IncidenceBase::SerializerHook:
         serialize(*reinterpret_cast<QDataStream *>(data));
         break;

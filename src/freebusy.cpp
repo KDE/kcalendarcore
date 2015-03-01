@@ -350,7 +350,7 @@ void FreeBusy::setDateTime(const KDateTime &dateTime, DateTimeRole role)
     Q_UNUSED(role);
 }
 
-void FreeBusy::virtual_hook(int id, void *data)
+void FreeBusy::virtual_hook(VirtualHook id, void *data)
 {
     Q_UNUSED(id);
     Q_UNUSED(data);

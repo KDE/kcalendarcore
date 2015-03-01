@@ -228,13 +228,6 @@ void CustomProperties::customPropertyUpdated()
 {
 }
 
-void CustomProperties::virtual_hook(int id, void *data)
-{
-    Q_UNUSED(id);
-    Q_UNUSED(data);
-    Q_ASSERT(false);
-}
-
 //@cond PRIVATE
 bool checkName(const QByteArray &name)
 {
