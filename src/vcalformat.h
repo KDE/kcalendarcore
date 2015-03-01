@@ -84,34 +84,34 @@ public:
       @copydoc
       CalFormat::load()
     */
-    bool load(const Calendar::Ptr &calendar, const QString &fileName);
+    bool load(const Calendar::Ptr &calendar, const QString &fileName) Q_DECL_OVERRIDE;
 
     /**
       @copydoc
       CalFormat::save()
     */
-    bool save(const Calendar::Ptr &calendar, const QString &fileName);
+    bool save(const Calendar::Ptr &calendar, const QString &fileName) Q_DECL_OVERRIDE;
 
     /**
       @copydoc
       CalFormat::fromString()
     */
     bool fromString(const Calendar::Ptr &calendar, const QString &string,
-                    bool deleted = false, const QString &notebook = QString());
+                    bool deleted = false, const QString &notebook = QString()) Q_DECL_OVERRIDE;
 
     /**
       @copydoc
       CalFormat::toString()
     */
     QString toString(const Calendar::Ptr &calendar, const QString &notebook = QString(),
-                     bool deleted = false);
+                     bool deleted = false) Q_DECL_OVERRIDE;
 
     /**
       @copydoc
       CalFormat::fromRawString()
     */
     bool fromRawString(const Calendar::Ptr &calendar, const QByteArray &string,
-                       bool deleted = false, const QString &notebook = QString());
+                       bool deleted = false, const QString &notebook = QString()) Q_DECL_OVERRIDE;
 
 protected:
     /**
@@ -235,7 +235,7 @@ protected:
       @copydoc
       IncidenceBase::virtual_hook()
     */
-    virtual void virtual_hook(int id, void *data);
+    void virtual_hook(int id, void *data) Q_DECL_OVERRIDE;
 
 private:
     /**
