@@ -35,8 +35,7 @@
 #include "incidence.h"
 #include "calformat.h"
 
-#include <KTemporaryFile>
-
+#include <QTemporaryFile>
 #include <QMimeDatabase>
 #include <QTextDocument> // for .toHtmlEscaped() and Qt::mightBeRichText()
 #include <QStringList>
@@ -754,21 +753,21 @@ QString Incidence::writeAttachmentToTempFile(const Attachment::Ptr &attachment) 
     if (d->mTempFiles.contains(attachment)) {
         return d->mTempFiles.value(attachment);
     }
-    KTemporaryFile *file = new KTemporaryFile();
+    QTemporaryFile file;
 
     QMimeDatabase mimeDb;
     QStringList patterns = mimeDb.mimeTypeForName(attachment->mimeType()).globPatterns();
 
     if (!patterns.empty()) {
-        file->setSuffix(QString(patterns.first()).remove(QLatin1Char('*')));
+        file.setFileTemplate(file.fileTemplate() + QString(patterns.first()).remove(QLatin1Char('*')));
     }
-    file->setAutoRemove(true);
-    file->open();
+    file.setAutoRemove(false);
+    file.open();
     // read-only not to give the idea that it could be written to
-    file->setPermissions(QFile::ReadUser);
-    file->write(QByteArray::fromBase64(attachment->data()));
-    d->mTempFiles.insert(attachment, file->fileName());
-    file->close();
+    file.setPermissions(QFile::ReadUser);
+    file.write(QByteArray::fromBase64(attachment->data()));
+    d->mTempFiles.insert(attachment, file.fileName());
+    file.close();
     return d->mTempFiles.value(attachment);
 }
 
