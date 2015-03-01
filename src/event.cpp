@@ -47,21 +47,18 @@ class KCalCore::Event::Private
 {
 public:
     Private()
-        : mHasEndDate(false),
-          mTransparency(Opaque),
+        : mTransparency(Opaque),
           mMultiDayValid(false),
           mMultiDay(false)
     {}
     Private(const KCalCore::Event::Private &other)
         : mDtEnd(other.mDtEnd),
-          mHasEndDate(other.mHasEndDate),
           mTransparency(other.mTransparency),
           mMultiDayValid(false),
           mMultiDay(false)
     {}
 
     KDateTime mDtEnd;
-    bool mHasEndDate;
     Transparency mTransparency;
     bool mMultiDayValid;
     bool mMultiDay;
@@ -114,7 +111,6 @@ bool Event::equals(const IncidenceBase &event) const
         return
             ((dtEnd() == e->dtEnd()) ||
              (!dtEnd().isValid() && !e->dtEnd().isValid())) &&
-            hasEndDate() == e->hasEndDate() &&
             transparency() == e->transparency();
     }
 }
@@ -145,17 +141,14 @@ void Event::setDtEnd(const KDateTime &dtEnd)
 
     d->mDtEnd = dtEnd;
     d->mMultiDayValid = false;
-    d->mHasEndDate = dtEnd.isValid();
-    if (d->mHasEndDate) {
-        setHasDuration(false);
-    }
+    setHasDuration(!dtEnd.isValid());
     setFieldDirty(FieldDtEnd);
     updated();
 }
 
 KDateTime Event::dtEnd() const
 {
-    if (hasEndDate()) {
+    if (d->mDtEnd.isValid()) {
         return d->mDtEnd;
     }
 
@@ -184,15 +177,9 @@ QDate Event::dateEnd() const
     }
 }
 
-void Event::setHasEndDate(bool b)
-{
-    d->mHasEndDate = b;
-    setFieldDirty(FieldDtEnd);
-}
-
 bool Event::hasEndDate() const
 {
-    return d->mHasEndDate;
+    return d->mDtEnd.isValid();
 }
 
 bool Event::isMultiDay(const KDateTime::Spec &spec) const
@@ -234,7 +221,7 @@ void Event::shiftTimes(const KDateTime::Spec &oldSpec,
                        const KDateTime::Spec &newSpec)
 {
     Incidence::shiftTimes(oldSpec, newSpec);
-    if (hasEndDate()) {
+    if (d->mDtEnd.isValid()) {
         d->mDtEnd = d->mDtEnd.toTimeSpec(oldSpec);
         d->mDtEnd.setTimeSpec(newSpec);
     }
@@ -357,13 +344,14 @@ QLatin1String Event::iconName(const KDateTime &) const
 void Event::serialize(QDataStream &out)
 {
     Incidence::serialize(out);
-    out << d->mDtEnd << d->mHasEndDate << static_cast<quint32>(d->mTransparency) << d->mMultiDayValid << d->mMultiDay;
+    out << d->mDtEnd << hasEndDate() << static_cast<quint32>(d->mTransparency) << d->mMultiDayValid << d->mMultiDay;
 }
 
 void Event::deserialize(QDataStream &in)
 {
     Incidence::deserialize(in);
-    in >> d->mDtEnd >> d->mHasEndDate;
+    bool hasEndDateDummy = true;
+    in >> d->mDtEnd >> hasEndDateDummy;
     quint32 transp;
     in >> transp;
     d->mTransparency = static_cast<Transparency>(transp);

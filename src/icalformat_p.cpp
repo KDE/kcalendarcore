@@ -1281,7 +1281,6 @@ Event::Ptr ICalFormatImpl::readEvent(icalcomponent *vevent, ICalTimeZones *tzlis
     // start date. so assign one equal to start date.
     if (!dtEndProcessed && !event->hasDuration()) {
         event->setDtEnd(event->dtStart());
-        event->setHasEndDate(false);
     }
 
     QString msade = event->nonKDECustomProperty("X-MICROSOFT-CDO-ALLDAYEVENT");
