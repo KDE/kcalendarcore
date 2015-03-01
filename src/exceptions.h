@@ -48,7 +48,7 @@ namespace KCalCore
   Exception base class, currently used as a fancy kind of error code
   and not as an C++ exception.
 */
-class Exception
+class KCALCORE_EXPORT Exception
 {
 public:
 

@@ -29,8 +29,6 @@ using namespace KCalCore;
 
 void ExceptionTest::testValidity()
 {
-    //TODO: getting undefined reference while compiling
-//  Exception ef( Exception::LoadError );
-//  QVERIFY( ef.code() == Exception::LoadError );
-
+    Exception ef(Exception::LoadError);
+    QVERIFY(ef.code() == Exception::LoadError);
 }
