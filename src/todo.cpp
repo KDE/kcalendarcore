@@ -275,11 +275,6 @@ KDateTime Todo::dtStart(bool first) const
     }
 }
 
-void Todo::setDtStart(const KDateTime &dtStart)
-{
-    Incidence::setDtStart(dtStart);
-}
-
 bool Todo::isCompleted() const
 {
     return d->mPercentComplete == 100;

@@ -161,12 +161,6 @@ public:
     KDateTime dtStart(bool first) const;
 
     /**
-      Sets the start datetime of the todo.
-      @param dtStart is the to-do start datetime.
-    */ //TODO_KDE5: Remove (see IncidenceBase)
-    void setDtStart(const KDateTime &dtStart) Q_DECL_OVERRIDE;
-
-    /**
       Returns if the todo is 100% completed.
       @return true if the todo is 100% completed; false otherwise.
 
