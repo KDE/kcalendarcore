@@ -130,7 +130,7 @@ private:
     //@cond PRIVATE
     Q_DISABLE_COPY(Compat)
     class Private;
-    Private *d;
+    Private *const d;
     //@endcond
 };
 
@@ -190,7 +190,7 @@ private:
     //@cond PRIVATE
     Q_DISABLE_COPY(CompatDecorator)
     class Private;
-    Private *d;
+    Private *const d;
     //@endcond
 };
 
@@ -207,6 +207,9 @@ private:
 class CompatPre35 : public Compat
 {
 public:
+    CompatPre35();
+    ~CompatPre35();
+
     /**
       @copydoc
       Compat::fixRecurrence()
@@ -216,7 +219,7 @@ public:
 private:
     //@cond PRIVATE
     class Private;
-    Private *d;
+    Private *const d;
     //@endcond
 };
 
@@ -227,6 +230,9 @@ private:
 class CompatPre34 : public CompatPre35
 {
 public:
+    CompatPre34();
+    ~CompatPre34();
+
     /**
       @copydoc
       Compat::fixPriority()
@@ -236,7 +242,7 @@ public:
 private:
     //@cond PRIVATE
     class Private;
-    Private *d;
+    Private *const d;
     //@endcond
 };
 
@@ -252,6 +258,9 @@ private:
 class CompatPre32 : public CompatPre34
 {
 public:
+    CompatPre32();
+    ~CompatPre32();
+
     /**
       @copydoc
       Compat::fixRecurrence()
@@ -262,7 +271,7 @@ private:
     //@cond PRIVATE
 
     class Private;
-    Private *d;
+    Private *const d;
     //@endcond
 };
 
@@ -284,6 +293,9 @@ private:
 class CompatPre31 : public CompatPre32
 {
 public:
+    CompatPre31();
+    ~CompatPre31();
+
     /**
       @copydoc
       Compat::fixFloatingEnd()
@@ -299,7 +311,7 @@ public:
 private:
     //@cond PRIVATE
     class Private;
-    Private *d;
+    Private *const d;
     //@endcond
 };
 
@@ -310,6 +322,9 @@ private:
 class Compat32PrereleaseVersions : public Compat
 {
 public:
+    Compat32PrereleaseVersions();
+    ~Compat32PrereleaseVersions();
+
     /**
       @copydoc
       Compat::useTimeZoneShift()
@@ -319,7 +334,7 @@ public:
 private:
     //@cond PRIVATE
     class Private;
-    Private *d;
+    Private *const d;
     //@endcond
 };
 
@@ -334,6 +349,9 @@ private:
 class CompatOutlook9 : public Compat
 {
 public:
+    CompatOutlook9();
+    ~CompatOutlook9();
+
     /**
       @copydoc
       Compat::fixAlarms()
@@ -343,7 +361,7 @@ public:
 private:
     //@cond PRIVATE
     class Private;
-    Private *d;
+    Private *const d;
     //@endcond
 };
 
@@ -355,7 +373,7 @@ class CompatPre410 : public CompatDecorator
 {
 public:
     explicit CompatPre410(Compat *decoratedCompat);
-
+    ~CompatPre410();
     /**
       @copydoc
       Compat::setCreatedToDtStamp()
@@ -365,7 +383,7 @@ public:
 private:
     //@cond PRIVATE
     class Private;
-    Private *d;
+    Private *const d;
     //@endcond
 };
 

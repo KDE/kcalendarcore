@@ -100,8 +100,7 @@ Compat *CompatFactory::createCompat(const QString &productId,
     return compat;
 }
 
-Compat::Compat()
-    : d(0)
+Compat::Compat() : d(0)
 {
 }
 
@@ -213,6 +212,14 @@ void CompatDecorator::setCreatedToDtStamp(const Incidence::Ptr &incidence,
     d->compat->setCreatedToDtStamp(incidence, dtstamp);
 }
 
+CompatPre35::CompatPre35() : d(0)
+{
+}
+
+CompatPre35::~CompatPre35()
+{
+}
+
 void CompatPre35::fixRecurrence(const Incidence::Ptr &incidence)
 {
     Recurrence *recurrence = incidence->recurrence();
@@ -229,6 +236,14 @@ void CompatPre35::fixRecurrence(const Incidence::Ptr &incidence)
     Compat::fixRecurrence(incidence);
 }
 
+CompatPre34::CompatPre34() : d(0)
+{
+}
+
+CompatPre34::~CompatPre34()
+{
+}
+
 int CompatPre34::fixPriority(int priority)
 {
     if (0 < priority && priority < 6) {
@@ -239,6 +254,14 @@ int CompatPre34::fixPriority(int priority)
     }
 }
 
+CompatPre32::CompatPre32() : d(0)
+{
+}
+
+CompatPre32::~CompatPre32()
+{
+}
+
 void CompatPre32::fixRecurrence(const Incidence::Ptr &incidence)
 {
     Recurrence *recurrence = incidence->recurrence();
@@ -247,6 +270,14 @@ void CompatPre32::fixRecurrence(const Incidence::Ptr &incidence)
     }
     // Call base class method now that everything else is done
     CompatPre35::fixRecurrence(incidence);
+}
+
+CompatPre31::CompatPre31() : d(0)
+{
+}
+
+CompatPre31::~CompatPre31()
+{
 }
 
 void CompatPre31::fixFloatingEnd(QDate &endDate)
@@ -321,6 +352,14 @@ void CompatPre31::fixRecurrence(const Incidence::Ptr &incidence)
     }
 }
 
+CompatOutlook9::CompatOutlook9() : d(0)
+{
+}
+
+CompatOutlook9::~CompatOutlook9()
+{
+}
+
 void CompatOutlook9::fixAlarms(const Incidence::Ptr &incidence)
 {
     if (!incidence) {
@@ -341,6 +380,14 @@ void CompatOutlook9::fixAlarms(const Incidence::Ptr &incidence)
     }
 }
 
+Compat32PrereleaseVersions::Compat32PrereleaseVersions() : d(0)
+{
+}
+
+Compat32PrereleaseVersions::~Compat32PrereleaseVersions()
+{
+}
+
 bool Compat32PrereleaseVersions::useTimeZoneShift()
 {
     return false;
@@ -348,6 +395,11 @@ bool Compat32PrereleaseVersions::useTimeZoneShift()
 
 CompatPre410::CompatPre410(Compat *decoratedCompat)
     : CompatDecorator(decoratedCompat)
+    , d(0)
+{
+}
+
+CompatPre410::~CompatPre410()
 {
 }
 
