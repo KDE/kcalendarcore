@@ -124,13 +124,6 @@ public:
     bool hasDueDate() const;
 
     /**
-      Sets if the todo has a due datetime.
-      @param hasDueDate true if todo has a due datetime, otherwise false
-      @deprecated Use setDtDue( KDateTime() )
-    */
-    KCALCORE_DEPRECATED void setHasDueDate(bool hasDueDate);
-
-    /**
       Returns if the todo has a start datetime.
       @return true if the todo has a start datetime; false otherwise.
     */

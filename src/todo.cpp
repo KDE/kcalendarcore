@@ -205,25 +205,6 @@ bool Todo::hasDueDate() const
     return d->mDtDue.isValid();
 }
 
-void Todo::setHasDueDate(bool has)
-{
-    if (mReadOnly) {
-        return;
-    }
-    update();
-    if (!has) {
-        d->mDtDue = KDateTime();
-
-        if (!dtStart().isValid()) {
-            // Recurrence is only calculated against dtdue if dtstart is invalid
-            d->mDtRecurrence = KDateTime();
-        }
-    }
-
-    setFieldDirty(FieldDtDue);
-    updated();
-}
-
 bool Todo::hasStartDate() const
 {
     return IncidenceBase::dtStart().isValid();
