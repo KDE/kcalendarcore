@@ -31,10 +31,9 @@ using namespace KCalCore;
 
 void CalFilterTest::testValidity()
 {
-    CalFilter *f = new CalFilter;
-    f->setName("testfilter");
-    QVERIFY(f->name() == "testfilter");
-    delete f;
+    CalFilter f;
+    f.setName("testfilter");
+    QVERIFY(f.name() == "testfilter");
     CalFilter g("fredfilter");
     QVERIFY(g.name() == "fredfilter");
     CalFilter f1, f2;
