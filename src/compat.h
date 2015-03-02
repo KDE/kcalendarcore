@@ -142,49 +142,49 @@ class CompatDecorator : public Compat
 {
 public:
     explicit CompatDecorator(Compat *decoratedCompat);
-    virtual ~CompatDecorator();
+    ~CompatDecorator();
 
     /**
       @copydoc
       Compat::fixRecurrence()
     */
-    virtual void fixRecurrence(const Incidence::Ptr &incidence);
+    void fixRecurrence(const Incidence::Ptr &incidence) Q_DECL_OVERRIDE;
 
     /**
       @copydoc
       Compat::fixEmptySummary()
     */
-    virtual void fixEmptySummary(const Incidence::Ptr &incidence);
+    void fixEmptySummary(const Incidence::Ptr &incidence) Q_DECL_OVERRIDE;
 
     /**
       @copydoc
       Compat::fixAlarms()
     */
-    virtual void fixAlarms(const Incidence::Ptr &incidence);
+    void fixAlarms(const Incidence::Ptr &incidence) Q_DECL_OVERRIDE;
 
     /**
       @copydoc
       Compat::fixFloatingEnd()
     */
-    virtual void fixFloatingEnd(QDate &date);
+    void fixFloatingEnd(QDate &date) Q_DECL_OVERRIDE;
 
     /**
       @copydoc
       Compat::fixPriority()
     */
-    virtual int fixPriority(int priority);
+    int fixPriority(int priority) Q_DECL_OVERRIDE;
 
     /**
       @copydoc
       Compat::useTimeZoneShift()
     */
-    virtual bool useTimeZoneShift();
+    bool useTimeZoneShift() Q_DECL_OVERRIDE;
 
     /**
       @copydoc
       Compat::setCreatedToDtStamp()
     */
-    virtual void setCreatedToDtStamp(const Incidence::Ptr &incidence, const KDateTime &dtstamp);
+    void setCreatedToDtStamp(const Incidence::Ptr &incidence, const KDateTime &dtstamp) Q_DECL_OVERRIDE;
 
 private:
     //@cond PRIVATE
@@ -211,7 +211,7 @@ public:
       @copydoc
       Compat::fixRecurrence()
     */
-    virtual void fixRecurrence(const Incidence::Ptr &incidence);
+    void fixRecurrence(const Incidence::Ptr &incidence) Q_DECL_OVERRIDE;
 
 private:
     //@cond PRIVATE
@@ -231,7 +231,7 @@ public:
       @copydoc
       Compat::fixPriority()
     */
-    virtual int fixPriority(int priority);
+    int fixPriority(int priority) Q_DECL_OVERRIDE;
 
 private:
     //@cond PRIVATE
@@ -256,7 +256,7 @@ public:
       @copydoc
       Compat::fixRecurrence()
     */
-    virtual void fixRecurrence(const Incidence::Ptr &incidence);
+    void fixRecurrence(const Incidence::Ptr &incidence) Q_DECL_OVERRIDE;
 
 private:
     //@cond PRIVATE
@@ -288,13 +288,13 @@ public:
       @copydoc
       Compat::fixFloatingEnd()
     */
-    virtual void fixFloatingEnd(QDate &date);
+    void fixFloatingEnd(QDate &date) Q_DECL_OVERRIDE;
 
     /**
       @copydoc
       Compat::fixRecurrence()
     */
-    virtual void fixRecurrence(const Incidence::Ptr &incidence);
+    void fixRecurrence(const Incidence::Ptr &incidence) Q_DECL_OVERRIDE;
 
 private:
     //@cond PRIVATE
@@ -314,7 +314,7 @@ public:
       @copydoc
       Compat::useTimeZoneShift()
     */
-    virtual bool useTimeZoneShift();
+    bool useTimeZoneShift() Q_DECL_OVERRIDE;
 
 private:
     //@cond PRIVATE
@@ -338,7 +338,7 @@ public:
       @copydoc
       Compat::fixAlarms()
     */
-    virtual void fixAlarms(const Incidence::Ptr &incidence);
+    void fixAlarms(const Incidence::Ptr &incidence) Q_DECL_OVERRIDE;
 
 private:
     //@cond PRIVATE
@@ -360,7 +360,7 @@ public:
       @copydoc
       Compat::setCreatedToDtStamp()
     */
-    virtual void setCreatedToDtStamp(const Incidence::Ptr &incidence, const KDateTime &dtstamp);
+    void setCreatedToDtStamp(const Incidence::Ptr &incidence, const KDateTime &dtstamp) Q_DECL_OVERRIDE;
 
 private:
     //@cond PRIVATE
