@@ -119,7 +119,7 @@ public:
     /**
       Returns true if a timezone shift should be used; false otherwise.
     */
-    virtual bool useTimeZoneShift();
+    virtual bool useTimeZoneShift() const;
 
     /**
       Sets the created and dtstamp.
@@ -178,7 +178,7 @@ public:
       @copydoc
       Compat::useTimeZoneShift()
     */
-    bool useTimeZoneShift() Q_DECL_OVERRIDE;
+    bool useTimeZoneShift() const Q_DECL_OVERRIDE;
 
     /**
       @copydoc
@@ -329,7 +329,7 @@ public:
       @copydoc
       Compat::useTimeZoneShift()
     */
-    bool useTimeZoneShift() Q_DECL_OVERRIDE;
+    bool useTimeZoneShift() const Q_DECL_OVERRIDE;
 
 private:
     //@cond PRIVATE

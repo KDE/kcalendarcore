@@ -147,7 +147,7 @@ int Compat::fixPriority(int priority)
     return priority;
 }
 
-bool Compat::useTimeZoneShift()
+bool Compat::useTimeZoneShift() const
 {
     return true;
 }
@@ -201,7 +201,7 @@ int CompatDecorator::fixPriority(int priority)
     return d->compat->fixPriority(priority);
 }
 
-bool CompatDecorator::useTimeZoneShift()
+bool CompatDecorator::useTimeZoneShift() const
 {
     return d->compat->useTimeZoneShift();
 }
@@ -388,7 +388,7 @@ Compat32PrereleaseVersions::~Compat32PrereleaseVersions()
 {
 }
 
-bool Compat32PrereleaseVersions::useTimeZoneShift()
+bool Compat32PrereleaseVersions::useTimeZoneShift() const
 {
     return false;
 }
