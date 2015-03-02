@@ -32,7 +32,7 @@
   @author Reinhold Kainhofer \<reinhold@kainhofer.com\>
 */
 
-#include "compat.h"
+#include "compat_p.h"
 #include "incidence.h"
 
 #include "kcalcore_debug.h"

@@ -36,7 +36,7 @@
 
 #include <config-kcalcore.h>
 #include "icalformat_p.h"
-#include "compat.h"
+#include "compat_p.h"
 #include "event.h"
 #include "freebusy.h"
 #include "icalformat.h"

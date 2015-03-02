@@ -92,7 +92,6 @@ ecm_generate_headers(KCalCore_CamelCase_HEADERS
   CalFormat
   CalStorage
   Calendar
-  Compat
   CustomProperties
   Duration
   Event
