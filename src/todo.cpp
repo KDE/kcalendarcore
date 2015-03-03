@@ -210,34 +210,6 @@ bool Todo::hasStartDate() const
     return IncidenceBase::dtStart().isValid();
 }
 
-void Todo::setHasStartDate(bool has)
-{
-    if (mReadOnly) {
-        return;
-    }
-
-    update();
-    if (recurs() && !has) {
-        if (!comments().filter(QLatin1String("NoStartDate")).count()) {
-            addComment(QLatin1String("NoStartDate"));   //TODO: --> custom flag?
-        }
-    } else {
-        QString s(QLatin1String("NoStartDate"));
-        removeComment(s);
-    }
-
-    if (!has) {
-        if (dtStart().isValid() && d->mDtDue.isValid()) {
-            // If dtstart is invalid then recurrence is calculated against dtdue, so don't clear it.
-            d->mDtRecurrence = KDateTime();
-        }
-        setDtStart(KDateTime());
-    }
-
-    setFieldDirty(FieldDtStart);
-    updated();
-}
-
 KDateTime Todo::dtStart() const
 {
     return dtStart(/*first=*/false);

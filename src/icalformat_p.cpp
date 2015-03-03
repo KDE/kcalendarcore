@@ -1187,10 +1187,8 @@ Todo::Ptr ICalFormatImpl::readTodo(icalcomponent *vtodo, ICalTimeZones *tzlist)
 
         case ICAL_DTSTART_PROPERTY:
             // Flag that todo has start date. Value is read in by readIncidence().
-            if (todo->comments().filter(QStringLiteral("NoStartDate")).count()) {
+            if (!todo->comments().filter(QStringLiteral("NoStartDate")).isEmpty()) {
                 todo->setDtStart(KDateTime());
-            } else {
-                todo->setHasStartDate(true);
             }
             break;
         case ICAL_X_PROPERTY: {

@@ -130,13 +130,6 @@ public:
     bool hasStartDate() const;
 
     /**
-      Sets if the todo has a start datetime.
-      @param hasStartDate true if todo has a start datetime, otherwise false.
-      @deprecated Use setDtStart( KDateTime() )
-    */
-    KCALCORE_DEPRECATED void setHasStartDate(bool hasStartDate);
-
-    /**
       @copydoc IncidenceBase::dtStart()
     */
     KDateTime dtStart() const Q_DECL_OVERRIDE;
