@@ -480,8 +480,9 @@ Alarm::List MemoryCalendar::alarmsTo(const KDateTime &to) const
     return alarms(KDateTime(QDate(1900, 1, 1)), to);
 }
 
-Alarm::List MemoryCalendar::alarms(const KDateTime &from, const KDateTime &to) const
+Alarm::List MemoryCalendar::alarms(const KDateTime &from, const KDateTime &to, bool excludeBlockedAlarms) const
 {
+    Q_UNUSED(excludeBlockedAlarms);
     Alarm::List alarmList;
     QHashIterator<QString, Incidence::Ptr>ie(d->mIncidences[Incidence::TypeEvent]);
     Event::Ptr e;

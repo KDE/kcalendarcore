@@ -1292,10 +1292,11 @@ public:
 
       @param from is the starting timestamp.
       @param to is the ending timestamp.
+      @param exludeBlockedAlarms if true, alarms belonging to blocked collections aren't returned.
 
       @return the list of Alarms for the for the specified time range.
     */
-    virtual Alarm::List alarms(const KDateTime &from, const KDateTime &to) const = 0;
+    virtual Alarm::List alarms(const KDateTime &from, const KDateTime &to, bool excludeBlockedAlarms = false) const = 0;
 
     // Observer Specific Methods //
 

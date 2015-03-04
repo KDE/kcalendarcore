@@ -298,7 +298,7 @@ public:
     /**
       @copydoc Calendar::alarms()
     */
-    Alarm::List alarms(const KDateTime &from, const KDateTime &to) const Q_DECL_OVERRIDE;
+    Alarm::List alarms(const KDateTime &from, const KDateTime &to, bool excludeBlockedAlarms = false) const Q_DECL_OVERRIDE;
 
     /**
       Return a list of Alarms that occur before the specified timestamp.
