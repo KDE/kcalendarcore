@@ -122,9 +122,10 @@ void TodoTest::testAssign()
 void TodoTest::testSetCompleted()
 {
 
-    Todo todo1, todo2;
+    Todo todo1, todo2, todo3;
     todo1.setSummary("Todo Summary");
     todo2.setSummary("Todo Summary");
+    todo3.setSummary("Todo Summary");
     KDateTime today = KDateTime::currentUtcDateTime();
 
     // due yesterday
@@ -137,9 +138,13 @@ void TodoTest::testSetCompleted()
 
     todo2.setCompleted(true);
 
+    todo3.setStatus(Incidence::StatusCompleted);
+
     QVERIFY(originalDueDate != todo1.dtDue());
     QVERIFY(!todo1.isCompleted());
     QVERIFY(todo2.isCompleted());
+    QCOMPARE(todo2.status(), Incidence::StatusCompleted);
+    QVERIFY(todo3.isCompleted());
 }
 
 void TodoTest::testStatus()

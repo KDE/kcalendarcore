@@ -230,7 +230,7 @@ KDateTime Todo::dtStart(bool first) const
 
 bool Todo::isCompleted() const
 {
-    return d->mPercentComplete == 100;
+    return d->mPercentComplete == 100 || status() == StatusCompleted;
 }
 
 void Todo::setCompleted(bool completed)
@@ -238,11 +238,13 @@ void Todo::setCompleted(bool completed)
     update();
     if (completed) {
         d->mPercentComplete = 100;
+        setStatus(StatusCompleted);
     } else {
         d->mPercentComplete = 0;
         d->mCompleted = KDateTime();
     }
     setFieldDirty(FieldCompleted);
+    setFieldDirty(FieldStatus);
     updated();
 }
 
