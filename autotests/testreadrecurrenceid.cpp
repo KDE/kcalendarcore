@@ -21,6 +21,7 @@
 
 #include "memorycalendar.h"
 #include "icalformat.h"
+#include "icaltimezones.h"
 #include "exceptions.h"
 
 #include <qtest.h>
@@ -57,11 +58,14 @@ void TestReadRecurrenceId::testReadSingleExceptionWithThisAndFuture()
 
 void TestReadRecurrenceId::testReadWriteSingleExceptionWithThisAndFuture()
 {
-    KCalCore::MemoryCalendar::Ptr cal(new KCalCore::MemoryCalendar("UTC"));
+    KCalCore::MemoryCalendar::Ptr cal(new KCalCore::MemoryCalendar(KDateTime::UTC));
     KCalCore::ICalFormat format;
     KCalCore::Incidence::Ptr inc(new KCalCore::Event);
-    inc->setDtStart(KDateTime::currentUtcDateTime());
-    inc->setRecurrenceId(KDateTime::currentUtcDateTime());
+    KCalCore::ICalTimeZoneSource tzsource;
+    KDateTime::Spec spec(tzsource.standardZone(QLatin1String("Europe/Berlin")));
+    KDateTime startDate = KDateTime(QDate(2015,1,2), QTime(3,4,5), spec);
+    inc->setDtStart(startDate);
+    inc->setRecurrenceId(startDate);
     inc->setThisAndFuture(true);
     cal->addIncidence(inc);
     const QString result = format.toString(cal, QString());
@@ -71,6 +75,7 @@ void TestReadRecurrenceId::testReadWriteSingleExceptionWithThisAndFuture()
     QVERIFY(i);
     QVERIFY(i->hasRecurrenceId());
     QVERIFY(i->thisAndFuture());
+    QCOMPARE(i->recurrenceId(), startDate);
 }
 
 void TestReadRecurrenceId::testReadExceptionWithMainEvent()
