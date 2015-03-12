@@ -224,6 +224,7 @@ void TestOccurrenceIterator::testWithExceptionThisAndFuture()
 //     qDebug() << "summary: " << rIt.incidence()->summary();
 //     qDebug() << "start: " << rIt.incidence()->dtStart().toString();
 //     qDebug();
+        QCOMPARE(rIt.recurrenceId(), start.addDays(occurrence - 1));
         if (occurrence == 1) {
             QCOMPARE(rIt.occurrenceStartDate(), start);
             QCOMPARE(rIt.incidence()->summary(), event1->summary());

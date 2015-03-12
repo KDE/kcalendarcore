@@ -60,13 +60,14 @@ public:
         {
         }
 
-        Occurrence(const Incidence::Ptr &i, const KDateTime &d)
-            : incidence(i), date(d)
+        Occurrence(const Incidence::Ptr &i, const KDateTime &recurrenceId, const KDateTime &startDate)
+            : incidence(i), recurrenceId(recurrenceId), startDate(startDate)
         {
         }
 
         Incidence::Ptr incidence;
-        KDateTime date;
+        KDateTime recurrenceId;
+        KDateTime startDate;
     };
     QList<Occurrence> occurrenceList;
     QListIterator<Occurrence> occurrenceIt;
@@ -115,23 +116,25 @@ public:
                 }
                 const bool isAllDay = inc->allDay();
                 const DateTimeList occurrences = inc->recurrence()->timesInInterval(start, end);
-                foreach (KDateTime occurrenceDate, occurrences) {   //krazy:exclude=foreach
                 Incidence::Ptr incidence(inc), lastInc(inc);
                 qint64 offset(0), lastOffset(0);
+                KDateTime occurrenceStartDate;
+                foreach(KDateTime recurrenceId, occurrences) {    //krazy:exclude=foreach
                     //timesInInterval generates always date-times,
                     //which is not what we want for all-day events
-                    occurrenceDate.setDateOnly(isAllDay);
+                    recurrenceId.setDateOnly(isAllDay);
+                    occurrenceStartDate = recurrenceId;
 
                     bool resetIncidence = false;
-                    if (recurrenceIds.contains(occurrenceDate)) {
+                    if (recurrenceIds.contains(recurrenceId)) {
                         // TODO: exclude exceptions where the start/end is not within
                         // (so the occurrence of the recurrence is omitted, but no exception is added)
-                        if (recurrenceIds.value(occurrenceDate)->status() == Incidence::StatusCanceled) {
+                        if (recurrenceIds.value(recurrenceId)->status() == Incidence::StatusCanceled) {
                             continue;
                         }
 
-                        incidence = recurrenceIds.value(occurrenceDate);
-                        occurrenceDate = incidence->dtStart();
+                        incidence = recurrenceIds.value(recurrenceId);
+                        occurrenceStartDate = incidence->dtStart();
                         resetIncidence = !incidence->thisAndFuture();
                         offset = incidence->recurrenceId().secsTo(incidence->dtStart());
                         if (incidence->thisAndFuture()) {
@@ -139,18 +142,20 @@ public:
                             lastOffset = offset;
                         }
                     } else if (inc != incidence) {   //thisAndFuture exception is active
-                        occurrenceDate = occurrenceDate.addSecs(offset);
+                        occurrenceStartDate = occurrenceStartDate.addSecs(offset);
                     }
-                    if (!occurrenceIsHidden(calendar, incidence, occurrenceDate)) {
-                        occurrenceList << Private::Occurrence(incidence, occurrenceDate);
+
+                    if (!occurrenceIsHidden(calendar, incidence, occurrenceStartDate)) {
+                        occurrenceList << Private::Occurrence(incidence, recurrenceId , occurrenceStartDate);
                     }
+
                     if (resetIncidence) {
                         incidence = lastInc;
                         offset = lastOffset;
                     }
                 }
             } else {
-                occurrenceList << Private::Occurrence(inc, inc->dtStart());
+                occurrenceList << Private::Occurrence(inc, KDateTime(), inc->dtStart());
             }
         }
         occurrenceIt = QListIterator<Private::Occurrence>(occurrenceList);
@@ -245,5 +250,10 @@ Incidence::Ptr OccurrenceIterator::incidence() const
 
 KDateTime OccurrenceIterator::occurrenceStartDate() const
 {
-    return d->current.date;
+    return d->current.startDate;
+}
+
+KDateTime OccurrenceIterator::recurrenceId() const
+{
+    return d->current.recurrenceId;
 }
