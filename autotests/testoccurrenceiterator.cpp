@@ -178,11 +178,15 @@ void TestOccurrenceIterator::testWithExceptionThisAndFuture()
     KDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), KDateTime::UTC);
     KDateTime end(QDate(2013, 03, 10), QTime(11, 0, 0), KDateTime::UTC);
 
-    KDateTime recurrenceId(QDate(2013, 03, 11), QTime(10, 0, 0), KDateTime::UTC);
-    KDateTime exceptionStart(QDate(2013, 03, 11), QTime(12, 0, 0), KDateTime::UTC);
-    KDateTime exceptionEnd(QDate(2013, 03, 11), QTime(13, 0, 0), KDateTime::UTC);
+    KDateTime recurrenceId1(QDate(2013, 03, 11), QTime(10, 0, 0), KDateTime::UTC);
+    KDateTime exceptionStart1(QDate(2013, 03, 11), QTime(12, 0, 0), KDateTime::UTC);
+    KDateTime exceptionEnd1(QDate(2013, 03, 11), QTime(13, 0, 0), KDateTime::UTC);
 
-    KDateTime actualEnd(QDate(2013, 03, 12), QTime(11, 0, 0), KDateTime::UTC);
+    KDateTime recurrenceId2(QDate(2013, 03, 13), QTime(10, 0, 0), KDateTime::UTC);
+    KDateTime exceptionStart2(QDate(2013, 03, 13), QTime(14, 0, 0), KDateTime::UTC);
+    KDateTime exceptionEnd2(QDate(2013, 03, 13), QTime(15, 0, 0), KDateTime::UTC);
+
+    KDateTime actualEnd(QDate(2013, 03, 14), QTime(11, 0, 0), KDateTime::UTC);
 
     KCalCore::Event::Ptr event1(new KCalCore::Event());
     event1->setUid("event1");
@@ -192,14 +196,22 @@ void TestOccurrenceIterator::testWithExceptionThisAndFuture()
     event1->recurrence()->setDaily(1);
     calendar.addEvent(event1);
 
-    KCalCore::Event::Ptr exception(new KCalCore::Event());
-    exception->setUid(event1->uid());
-    exception->setSummary("exception");
-    exception->setRecurrenceId(recurrenceId);
-    exception->setThisAndFuture(true);
-    exception->setDtStart(exceptionStart);
-    exception->setDtEnd(exceptionEnd);
-    calendar.addEvent(exception);
+    KCalCore::Event::Ptr exception1(new KCalCore::Event());
+    exception1->setUid(event1->uid());
+    exception1->setSummary("exception1");
+    exception1->setRecurrenceId(recurrenceId1);
+    exception1->setThisAndFuture(true);
+    exception1->setDtStart(exceptionStart1);
+    exception1->setDtEnd(exceptionEnd1);
+    calendar.addEvent(exception1);
+
+    KCalCore::Event::Ptr exception2(new KCalCore::Event());
+    exception2->setUid(event1->uid());
+    exception2->setSummary("exception2");
+    exception2->setRecurrenceId(recurrenceId2);
+    exception2->setDtStart(exceptionStart2);
+    exception2->setDtEnd(exceptionEnd2);
+    calendar.addEvent(exception2);
 
     int occurrence = 0;
     KCalCore::OccurrenceIterator rIt(calendar, start, actualEnd);
@@ -217,15 +229,23 @@ void TestOccurrenceIterator::testWithExceptionThisAndFuture()
             QCOMPARE(rIt.incidence()->summary(), event1->summary());
         }
         if (occurrence == 2) {
-            QCOMPARE(rIt.occurrenceStartDate(), exceptionStart);
-            QCOMPARE(rIt.incidence()->summary(), exception->summary());
+            QCOMPARE(rIt.occurrenceStartDate(), exceptionStart1);
+            QCOMPARE(rIt.incidence()->summary(), exception1->summary());
         }
         if (occurrence == 3) {
-            QCOMPARE(rIt.occurrenceStartDate(), exceptionStart.addDays(1));
-            QCOMPARE(rIt.incidence()->summary(), exception->summary());
+            QCOMPARE(rIt.occurrenceStartDate(), exceptionStart1.addDays(1));
+            QCOMPARE(rIt.incidence()->summary(), exception1->summary());
+        }
+        if (occurrence == 4) {
+            QCOMPARE(rIt.occurrenceStartDate(), exceptionStart2);
+            QCOMPARE(rIt.incidence()->summary(), exception2->summary());
+        }
+        if (occurrence == 5) {
+            QCOMPARE(rIt.occurrenceStartDate(), exceptionStart1.addDays(3));
+            QCOMPARE(rIt.incidence()->summary(), exception1->summary());
         }
     }
-    QCOMPARE(occurrence, 3);
+    QCOMPARE(occurrence, 5);
 }
 
 void TestOccurrenceIterator::testSubDailyRecurrences()

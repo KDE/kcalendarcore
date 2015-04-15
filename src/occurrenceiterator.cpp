@@ -115,9 +115,9 @@ public:
                 }
                 const bool isAllDay = inc->allDay();
                 const DateTimeList occurrences = inc->recurrence()->timesInInterval(start, end);
-                Incidence::Ptr incidence(inc);
-                qint64 offset(0);
                 foreach (KDateTime occurrenceDate, occurrences) {   //krazy:exclude=foreach
+                Incidence::Ptr incidence(inc), lastInc(inc);
+                qint64 offset(0), lastOffset(0);
                     //timesInInterval generates always date-times,
                     //which is not what we want for all-day events
                     occurrenceDate.setDateOnly(isAllDay);
@@ -134,6 +134,10 @@ public:
                         occurrenceDate = incidence->dtStart();
                         resetIncidence = !incidence->thisAndFuture();
                         offset = incidence->recurrenceId().secsTo(incidence->dtStart());
+                        if (incidence->thisAndFuture()) {
+                            lastInc = incidence;
+                            lastOffset = offset;
+                        }
                     } else if (inc != incidence) {   //thisAndFuture exception is active
                         occurrenceDate = occurrenceDate.addSecs(offset);
                     }
@@ -141,8 +145,8 @@ public:
                         occurrenceList << Private::Occurrence(incidence, occurrenceDate);
                     }
                     if (resetIncidence) {
-                        incidence = inc;
-                        offset = 0;
+                        incidence = lastInc;
+                        offset = lastOffset;
                     }
                 }
             } else {
