@@ -879,7 +879,7 @@ private:
 //@cond PRIVATE
 inline uint qHash(const QSharedPointer<KCalCore::Incidence> &key)
 {
-    return qHash<KCalCore::Incidence>(key.data());
+    return qHash(key.data());
 }
 //@endcond
 

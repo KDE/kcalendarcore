@@ -31,6 +31,7 @@
 
 #include <QtCore/QList>
 #include <QtCore/QtAlgorithms>
+#include <QtCore/QDataStream>
 
 namespace KCalCore
 {
@@ -306,5 +307,11 @@ int SortableList<T>::removeSorted(const T &value, int start)
 }
 
 } // namespace KCalCore
+
+template<typename T>
+QDataStream& operator<<(QDataStream &stream, const KCalCore::SortableList<T> &list)
+{
+    return operator<<(stream, static_cast<QList<T>>(list));
+}
 
 #endif

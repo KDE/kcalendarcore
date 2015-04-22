@@ -150,7 +150,7 @@ void TestOccurrenceIterator::testAllDayEvents()
 {
     KCalCore::MemoryCalendar calendar(KDateTime::UTC);
 
-    KDateTime start(QDate(2013, 03, 10), KDateTime::UTC);
+    KDateTime start(QDate(2013, 03, 10), KDateTime::Spec(KDateTime::UTC));
     KDateTime actualEnd(QDate(2013, 03, 13), QTime(11, 0, 0), KDateTime::UTC);
 
     KCalCore::Event::Ptr event(new KCalCore::Event());

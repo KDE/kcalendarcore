@@ -22,6 +22,7 @@
   Boston, MA 02110-1301, USA.
 */
 #include "recurrence.h"
+#include "sortablelist.h"
 
 #include "kcalcore_debug.h"
 
