@@ -112,6 +112,8 @@ public:
     {
     }
 
+    ~ToComponentVisitor();
+
     bool visit(const Event::Ptr &e) Q_DECL_OVERRIDE
     {
         mComponent = mImpl->writeEvent(e, mTzList, mTzUsedList);
@@ -145,6 +147,10 @@ private:
     ICalTimeZones *mTzList;
     ICalTimeZones *mTzUsedList;
 };
+
+ToComponentVisitor::~ToComponentVisitor()
+{
+}
 
 class ICalFormatImpl::Private
 {
