@@ -39,25 +39,25 @@ Visitor::~Visitor()
 {
 }
 
-bool Visitor::visit(Event::Ptr event)
+bool Visitor::visit(const Event::Ptr &event)
 {
     Q_UNUSED(event);
     return false;
 }
 
-bool Visitor::visit(Todo::Ptr todo)
+bool Visitor::visit(const Todo::Ptr &todo)
 {
     Q_UNUSED(todo);
     return false;
 }
 
-bool Visitor::visit(Journal::Ptr journal)
+bool Visitor::visit(const Journal::Ptr &journal)
 {
     Q_UNUSED(journal);
     return false;
 }
 
-bool Visitor::visit(FreeBusy::Ptr freebusy)
+bool Visitor::visit(const FreeBusy::Ptr &freebusy)
 {
     Q_UNUSED(freebusy);
     return false;

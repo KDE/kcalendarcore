@@ -52,28 +52,28 @@ public:
       IncidenceBase::Visitor to perform actions on an Event object.
       @param event is a pointer to a valid Event object.
     */
-    virtual bool visit(Event::Ptr event);
+    virtual bool visit(const Event::Ptr &event);
 
     /**
       Reimplement this function in your concrete subclass of
       IncidenceBase::Visitor to perform actions on a Todo object.
       @param todo is a pointer to a valid Todo object.
     */
-    virtual bool visit(Todo::Ptr todo);
+    virtual bool visit(const Todo::Ptr &todo);
 
     /**
       Reimplement this function in your concrete subclass of
       IncidenceBase::Visitor to perform actions on an Journal object.
       @param journal is a pointer to a valid Journal object.
     */
-    virtual bool visit(Journal::Ptr journal);
+    virtual bool visit(const Journal::Ptr &journal);
 
     /**
       Reimplement this function in your concrete subclass of
       IncidenceBase::Visitor to perform actions on a FreeBusy object.
       @param freebusy is a pointer to a valid FreeBusy object.
     */
-    virtual bool visit(FreeBusy::Ptr freebusy);
+    virtual bool visit(const FreeBusy::Ptr &freebusy);
 
 protected:
     /**
