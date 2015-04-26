@@ -1070,7 +1070,7 @@ void Calendar::removeRelations(const Incidence::Ptr &incidence)
 
     const QString uid = incidence->uid();
 
-    foreach (Incidence::Ptr i, d->mIncidenceRelations[uid]) {
+    foreach (const Incidence::Ptr &i, d->mIncidenceRelations[uid]) {
         if (!d->mOrphanUids.contains(i->uid())) {
             d->mOrphans.insert(uid, i);
             d->mOrphanUids.insert(i->uid(), i);
@@ -1118,7 +1118,7 @@ void Calendar::removeRelations(const Incidence::Ptr &incidence)
             // Remove all to get access to the remaining entries
             QList<Incidence::Ptr> l = d->mOrphans.values(*uidit);
             d->mOrphans.remove(*uidit);
-            foreach (Incidence::Ptr i, l) {
+            foreach (const Incidence::Ptr &i, l) {
                 if (i != incidence) {
                     tempList.append(i);
                 }
