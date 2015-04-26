@@ -112,22 +112,22 @@ public:
     {
     }
 
-    bool visit(Event::Ptr e)
+    bool visit(Event::Ptr e) Q_DECL_OVERRIDE
     {
         mComponent = mImpl->writeEvent(e, mTzList, mTzUsedList);
         return true;
     }
-    bool visit(Todo::Ptr t)
+    bool visit(Todo::Ptr t) Q_DECL_OVERRIDE
     {
         mComponent = mImpl->writeTodo(t, mTzList, mTzUsedList);
         return true;
     }
-    bool visit(Journal::Ptr j)
+    bool visit(Journal::Ptr j) Q_DECL_OVERRIDE
     {
         mComponent = mImpl->writeJournal(j, mTzList, mTzUsedList);
         return true;
     }
-    bool visit(FreeBusy::Ptr fb)
+    bool visit(FreeBusy::Ptr fb) Q_DECL_OVERRIDE
     {
         mComponent = mImpl->writeFreeBusy(fb, mMethod);
         return true;

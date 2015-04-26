@@ -153,19 +153,19 @@ class AddVisitor : public Visitor
 public:
     AddVisitor(T *r) : mResource(r) {}
 
-    bool visit(Event::Ptr e)
+    bool visit(Event::Ptr e) Q_DECL_OVERRIDE
     {
         return mResource->addEvent(e);
     }
-    bool visit(Todo::Ptr t)
+    bool visit(Todo::Ptr t) Q_DECL_OVERRIDE
     {
         return mResource->addTodo(t);
     }
-    bool visit(Journal::Ptr j)
+    bool visit(Journal::Ptr j) Q_DECL_OVERRIDE
     {
         return mResource->addJournal(j);
     }
-    bool visit(FreeBusy::Ptr)
+    bool visit(FreeBusy::Ptr) Q_DECL_OVERRIDE
     {
         return false;
     }
@@ -185,22 +185,22 @@ class DeleteVisitor : public Visitor
 public:
     DeleteVisitor(T *r) : mResource(r) {}
 
-    bool visit(Event::Ptr e)
+    bool visit(Event::Ptr e) Q_DECL_OVERRIDE
     {
         mResource->deleteEvent(e);
         return true;
     }
-    bool visit(Todo::Ptr t)
+    bool visit(Todo::Ptr t) Q_DECL_OVERRIDE
     {
         mResource->deleteTodo(t);
         return true;
     }
-    bool visit(Journal::Ptr j)
+    bool visit(Journal::Ptr j) Q_DECL_OVERRIDE
     {
         mResource->deleteJournal(j);
         return true;
     }
-    bool visit(FreeBusy::Ptr)
+    bool visit(FreeBusy::Ptr) Q_DECL_OVERRIDE
     {
         return false;
     }
