@@ -1029,6 +1029,7 @@ void Calendar::setupRelations(const Incidence::Ptr &forincidence)
     // First, go over the list of orphans and see if this is their parent
     Incidence::List l = values(d->mOrphans, uid);
     d->mOrphans.remove(uid);
+    d->mIncidenceRelations[uid].reserve(l.count());
     for (int i = 0, end = l.count();  i < end;  ++i) {
         d->mIncidenceRelations[uid].append(l[i]);
         d->mOrphanUids.remove(l[i]->uid());
@@ -1350,6 +1351,7 @@ Incidence::List Calendar::mergeIncidenceList(const Event::List &events,
         const Journal::List &journals)
 {
     Incidence::List incidences;
+    incidences.reserve(events.count() + todos.count() + journals.count());
 
     int i, end;
     for (i = 0, end = events.count();  i < end;  ++i) {

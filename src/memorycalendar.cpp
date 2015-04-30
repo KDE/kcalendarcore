@@ -346,6 +346,7 @@ Todo::List MemoryCalendar::rawTodos(TodoSortField sortField,
                                     SortDirection sortDirection) const
 {
     Todo::List todoList;
+    todoList.reserve(d->mIncidences[Incidence::TypeTodo].count());
     QHashIterator<QString, Incidence::Ptr>i(d->mIncidences[Incidence::TypeTodo]);
     while (i.hasNext()) {
         i.next();
@@ -362,6 +363,7 @@ Todo::List MemoryCalendar::deletedTodos(TodoSortField sortField,
     }
 
     Todo::List todoList;
+    todoList.reserve(d->mDeletedIncidences[Incidence::TypeTodo].count());
     QHashIterator<QString, Incidence::Ptr >i(d->mDeletedIncidences[Incidence::TypeTodo]);
     while (i.hasNext()) {
         i.next();
@@ -705,6 +707,7 @@ Event::List MemoryCalendar::rawEvents(EventSortField sortField,
                                       SortDirection sortDirection) const
 {
     Event::List eventList;
+    eventList.reserve(d->mIncidences[Incidence::TypeEvent].count());
     QHashIterator<QString, Incidence::Ptr> i(d->mIncidences[Incidence::TypeEvent]);
     while (i.hasNext()) {
         i.next();
@@ -721,6 +724,7 @@ Event::List MemoryCalendar::deletedEvents(EventSortField sortField,
     }
 
     Event::List eventList;
+    eventList.reserve(d->mDeletedIncidences[Incidence::TypeEvent].count());
     QHashIterator<QString, Incidence::Ptr>i(d->mDeletedIncidences[Incidence::TypeEvent]);
     while (i.hasNext()) {
         i.next();
@@ -793,6 +797,7 @@ Journal::List MemoryCalendar::deletedJournals(JournalSortField sortField,
     }
 
     Journal::List journalList;
+    journalList.reserve(d->mDeletedIncidences[Incidence::TypeJournal].count());
     QHashIterator<QString, Incidence::Ptr>i(d->mDeletedIncidences[Incidence::TypeJournal]);
     while (i.hasNext()) {
         i.next();

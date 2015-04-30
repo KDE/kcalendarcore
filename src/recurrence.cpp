@@ -121,11 +121,13 @@ Recurrence::Recurrence(const Recurrence &r)
       d(new KCalCore::Recurrence::Private(*r.d))
 {
     int i, end;
+    d->mRRules.reserve(r.d->mRRules.count());
     for (i = 0, end = r.d->mRRules.count();  i < end;  ++i) {
         RecurrenceRule *rule = new RecurrenceRule(*r.d->mRRules[i]);
         d->mRRules.append(rule);
         rule->addObserver(this);
     }
+    d->mExRules.reserve(r.d->mExRules.count());
     for (i = 0, end = r.d->mExRules.count();  i < end;  ++i) {
         RecurrenceRule *rule = new RecurrenceRule(*r.d->mExRules[i]);
         d->mExRules.append(rule);

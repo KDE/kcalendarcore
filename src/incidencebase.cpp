@@ -113,6 +113,7 @@ void IncidenceBase::Private::init(const Private &other)
 
     mAttendees.clear();
     Attendee::List::ConstIterator it;
+    mAttendees.reserve(other.mAttendees.count());
     for (it = other.mAttendees.constBegin(); it != other.mAttendees.constEnd(); ++it) {
         mAttendees.append(Attendee::Ptr(new Attendee(*(*it))));
     }
@@ -732,6 +733,7 @@ QDataStream &KCalCore::operator>>(QDataStream &in, const KCalCore::IncidenceBase
        >> i->d->mUrl;
 
     i->d->mAttendees.clear();
+    i->d->mAttendees.reserve(attendeeCount);
     for (int it = 0; it < attendeeCount; it++) {
         Attendee::Ptr attendee = Attendee::Ptr(new Attendee(QString(), QString()));
         in >> attendee;

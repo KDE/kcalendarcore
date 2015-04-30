@@ -127,13 +127,15 @@ public:
         // Alarms and Attachments are stored in ListBase<...>, which is a QValueList<...*>.
         // We need to really duplicate the objects stored therein, otherwise deleting
         // i will also delete all attachments from this object (setAutoDelete...)
-        foreach (Alarm::Ptr alarm, src.d->mAlarms) {
+        mAlarms.reserve(src.d->mAlarms.count());
+        foreach (const Alarm::Ptr &alarm, src.d->mAlarms) {
             Alarm::Ptr b(new Alarm(*alarm.data()));
             b->setParent(dest);
             mAlarms.append(b);
         }
 
-        foreach (Attachment::Ptr attachment, src.d->mAttachments) {
+        mAttachments.reserve(src.d->mAttachments.count());
+        foreach (const Attachment::Ptr &attachment, src.d->mAttachments) {
             Attachment::Ptr a(new Attachment(*attachment));
             mAttachments.append(a);
         }
@@ -1158,12 +1160,14 @@ void Incidence::deserialize(QDataStream &in)
     d->mAttachments.clear();
     d->mAlarms.clear();
 
+    d->mAttachments.reserve(attachmentCount);
     for (int i = 0; i < attachmentCount; ++i) {
         Attachment::Ptr attachment = Attachment::Ptr(new Attachment(QString()));
         in >> attachment;
         d->mAttachments.append(attachment);
     }
 
+    d->mAlarms.reserve(alarmCount);
     for (int i = 0; i < alarmCount; ++i) {
         Alarm::Ptr alarm = Alarm::Ptr(new Alarm(this));
         in >> alarm;
