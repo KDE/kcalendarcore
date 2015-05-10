@@ -88,9 +88,9 @@ void ICalFormatTest::testCharsets()
     QVERIFY(calendar2->incidences().count() == 1);
 
     // qDebug() << format.toString( event.staticCast<Incidence>() );
-    // qDebug() << format.toString( calendar2->incidences().first() );
+    // qDebug() << format.toString( calendar2->incidences().at(0) );
 
-    Event::Ptr loadedEvent = calendar2->incidences().first().staticCast<Event>();
+    Event::Ptr loadedEvent = calendar2->incidences().at(0).staticCast<Event>();
     QVERIFY(loadedEvent->summary().toUtf8() ==
             QByteArray(QString(utf_umlaut).toLatin1().constData()));
     QVERIFY(*loadedEvent == *event);
@@ -99,7 +99,7 @@ void ICalFormatTest::testCharsets()
     MemoryCalendar::Ptr calendar3(new MemoryCalendar("UTC"));
     format.fromRawString(calendar3, bytesFromFile);
     QVERIFY(calendar3->incidences().count() == 1);
-    QVERIFY(*calendar3->incidences().first() == *event);
+    QVERIFY(*calendar3->incidences().at(0) == *event);
 
     unlink("hommer.ics");
 }

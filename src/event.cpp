@@ -284,7 +284,7 @@ KDateTime Event::dateTime(DateTimeRole role) const
         if (alarms().isEmpty()) {
             return KDateTime();
         } else {
-            Alarm::Ptr alarm = alarms().first();
+            Alarm::Ptr alarm = alarms().at(0);
             return alarm->hasStartOffset() ? dtStart() : dtEnd();
         }
         break;
