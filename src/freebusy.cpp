@@ -234,6 +234,7 @@ Period::List FreeBusy::busyPeriods() const
 {
     Period::List res;
 
+    res.reserve(d->mBusyPeriods.count());
     foreach (const FreeBusyPeriod &p, d->mBusyPeriods) {
         res << p;
     }
@@ -254,6 +255,7 @@ void FreeBusy::sortList()
 
 void FreeBusy::addPeriods(const Period::List &list)
 {
+    d->mBusyPeriods.reserve(d->mBusyPeriods.count() + list.count());
     foreach (const Period &p, list) {
         d->mBusyPeriods << FreeBusyPeriod(p);
     }
@@ -290,6 +292,7 @@ void FreeBusy::merge(FreeBusy::Ptr freeBusy)
 
     Period::List periods = freeBusy->busyPeriods();
     Period::List::ConstIterator it;
+    d->mBusyPeriods.reserve(d->mBusyPeriods.count() + periods.count());
     for (it = periods.constBegin(); it != periods.constEnd(); ++it) {
         d->mBusyPeriods.append(FreeBusyPeriod((*it).start(), (*it).end()));
     }
