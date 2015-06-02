@@ -280,7 +280,7 @@ void FreeBusy::addPeriod(const KDateTime &start, const Duration &duration)
     sortList();
 }
 
-void FreeBusy::merge(FreeBusy::Ptr freeBusy)
+void FreeBusy::merge(const FreeBusy::Ptr &freeBusy)
 {
     if (freeBusy->dtStart() < dtStart()) {
         setDtStart(freeBusy->dtStart());

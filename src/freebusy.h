@@ -212,7 +212,7 @@ public:
 
       @param freebusy is a pointer to a valid FreeBusy object.
     */
-    void merge(FreeBusy::Ptr freebusy);
+    void merge(const FreeBusy::Ptr &freebusy);
 
     /**
       @copydoc
