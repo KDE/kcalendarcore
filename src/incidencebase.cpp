@@ -315,11 +315,14 @@ void IncidenceBase::setDtStart(const KDateTime &dtStart)
         qCWarning(KCALCORE_LOG) << "Invalid dtStart";
     }
 
-    update();
-    d->mDtStart = dtStart;
-    d->mAllDay = dtStart.isDateOnly();
-    d->mDirtyFields.insert(FieldDtStart);
-    updated();
+    
+    if (d->mDtStart != dtStart || d->mAllDay != dtStart.isDateOnly()) {
+        update();
+        d->mDtStart = dtStart;
+        d->mAllDay = dtStart.isDateOnly();
+        d->mDirtyFields.insert(FieldDtStart);
+        updated();
+    }
 }
 
 KDateTime IncidenceBase::dtStart() const

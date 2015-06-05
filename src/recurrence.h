@@ -432,11 +432,15 @@ public:
     void addMonthlyPos(short pos, const QBitArray &days);
     void addMonthlyPos(short pos, ushort day);
 
+    void setMonthlyPos(const QList<RecurrenceRule::WDayPos> &monthlyDays);
+
     /** Adds a date (e.g. the 15th of each month) to the monthly day
      *  recurrence list.
      * @param day the date in the month to recur.
      */
     void addMonthlyDate(short day);
+
+    void setMonthlyDate(const QList<int> &monthlyDays);
 
     /** Returns list of day positions in months. */
     QList<RecurrenceRule::WDayPos> monthPositions() const;
@@ -477,6 +481,8 @@ public:
      */
     void addYearlyDay(int day);
 
+    void setYearlyDay(const QList<int> &days);
+
     /** Adds date within a yearly recurrence. The month(s) for the recurrence
      *  can be specified with addYearlyMonth(), otherwise the month of the
      *  start date is used.
@@ -487,12 +493,16 @@ public:
      */
     void addYearlyDate(int date);
 
+    void setYearlyDate(const QList<int> &dates);
+
     /** Adds month in yearly recurrence. You can specify specific day numbers
      *  within the months (by calling addYearlyDate()) or specific day positions
      *  within the month (by calling addYearlyPos).
      * @param _rNum the month in which the event shall recur.
      */
     void addYearlyMonth(short _rNum);
+
+    void setYearlyMonth(const QList< int > &months);
 
     /** Adds position within month/year within a yearly recurrence. If months
      *  are specified (via addYearlyMonth()), the parameters are understood as
@@ -511,6 +521,8 @@ public:
      *   2nd Monday and Wednesday of the year.
      */
     void addYearlyPos(short pos, const QBitArray &days);
+
+    void setYearlyPos(QList<RecurrenceRule::WDayPos> & days);
 
     /** Returns the day numbers within a yearly recurrence.
      * @return the days of the year for the event. E.g. if the list contains

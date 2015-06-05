@@ -239,3 +239,26 @@ void EventTest::testDurationDtEnd()
     }
 
 }
+
+void EventTest::testDtEndChange()
+{
+    QDate dt = QDate::currentDate();
+    Event event1;
+    event1.setDtStart(KDateTime(dt));
+    event1.setDtEnd(KDateTime(dt).addDays(1));
+    event1.resetDirtyFields();
+
+    event1.setDtEnd(KDateTime(dt).addDays(1));
+    QVERIFY(event1.dirtyFields().empty());
+
+    event1.setDtEnd(KDateTime(dt).addDays(2));
+    QCOMPARE(event1.dirtyFields(), QSet<IncidenceBase::Field>() << IncidenceBase::FieldDtEnd);
+    event1.resetDirtyFields();
+
+    event1.setDtEnd(KDateTime());
+    QCOMPARE(event1.dirtyFields(), QSet<IncidenceBase::Field>() << IncidenceBase::FieldDtEnd);
+    event1.resetDirtyFields();
+
+    event1.setDtEnd(KDateTime(dt).addDays(2));
+    QCOMPARE(event1.dirtyFields(), QSet<IncidenceBase::Field>() << IncidenceBase::FieldDtEnd);
+}

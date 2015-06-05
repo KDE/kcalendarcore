@@ -476,8 +476,21 @@ void Recurrence::setEndDateTime(const KDateTime &dateTime)
     if (!rrule) {
         return;
     }
-    rrule->setEndDt(dateTime);
-    updated();
+
+    // If the recurrence rule has a duration, and we're trying to set an invalid end date,
+    // we have to skip setting it to avoid setting the field dirty.
+    // The end date is already invalid since the duration is set and end date/duration
+    // are mutually exclusive.
+    // We can't use inequality check below, because endDt() also returns a valid date
+    // for a duration (it is calculated from the duration).
+    if (rrule->duration() > 0 && !dateTime.isValid()) {
+        return;
+    }
+
+    if (dateTime != rrule->endDt()) {
+        rrule->setEndDt(dateTime);
+        updated();
+    }
 }
 
 int Recurrence::duration() const
@@ -508,8 +521,11 @@ void Recurrence::setDuration(int duration)
     if (!rrule) {
         return;
     }
-    rrule->setDuration(duration);
-    updated();
+
+    if (duration != rrule->duration()) {
+        rrule->setDuration(duration);
+        updated();
+    }
 }
 
 void Recurrence::shiftTimes(const KDateTime::Spec &oldSpec, const KDateTime::Spec &newSpec)
@@ -694,6 +710,11 @@ RecurrenceRule *Recurrence::setNewRecurrenceType(RecurrenceRule::PeriodType type
         return 0;
     }
 
+    // Ignore the call if nothing has change
+    if (defaultRRuleConst() && defaultRRuleConst()->recurrenceType() == type && frequency() == freq) {
+        return Q_NULLPTR;
+    }
+
     qDeleteAll(d->mRRules);
     d->mRRules.clear();
     updated();
@@ -801,8 +822,27 @@ void Recurrence::addMonthlyPos(short pos, ushort day)
     RecurrenceRule::WDayPos p(pos, day);
     if (!positions.contains(p)) {
         positions.append(p);
-        rrule->setByDays(positions);
-        updated();
+        setMonthlyPos(positions);
+    }
+}
+
+void Recurrence::setMonthlyPos(const QList<RecurrenceRule::WDayPos> &monthlyDays)
+{
+    if (d->mRecurReadOnly) {
+        return;
+    }
+
+    RecurrenceRule *rrule = defaultRRule(true);
+    if (!rrule) {
+        return;
+    }
+
+    //TODO: sort lists
+    // the position inside the list has no meaning, so sort the list before testing if it changed
+
+    if (monthlyDays != rrule->byDays()) {
+       rrule->setByDays(monthlyDays);
+       updated();
     }
 }
 
@@ -820,8 +860,30 @@ void Recurrence::addMonthlyDate(short day)
     QList<int> monthDays = rrule->byMonthDays();
     if (!monthDays.contains(day)) {
         monthDays.append(day);
-        rrule->setByMonthDays(monthDays);
-        updated();
+        setMonthlyDate(monthDays);
+    }
+}
+
+void Recurrence::setMonthlyDate(const QList< int > &monthlyDays)
+{
+    if (d->mRecurReadOnly) {
+        return;
+    }
+
+    RecurrenceRule *rrule = defaultRRule(true);
+    if (!rrule) {
+        return;
+    }
+
+    SortableList<int> mD(monthlyDays);
+    SortableList<int> rbD(rrule->byMonthDays());
+
+    mD.sortUnique();
+    rbD.sortUnique();
+
+    if (mD != rbD) {
+       rrule->setByMonthDays(monthlyDays);
+       updated();
     }
 }
 
@@ -843,6 +905,24 @@ void Recurrence::addYearlyDay(int day)
     QList<int> days = rrule->byYearDays();
     if (!days.contains(day)) {
         days << day;
+        setYearlyDay(days);
+    }
+}
+
+void Recurrence::setYearlyDay(const QList<int> &days)
+{
+    RecurrenceRule *rrule = defaultRRule(false);   // It must already exist!
+    if (!rrule) {
+        return;
+    }
+
+    SortableList<int> d(days);
+    SortableList<int> bYD(rrule->byYearDays());
+
+    d.sortUnique();
+    bYD.sortUnique();
+
+    if (d != bYD) {
         rrule->setByYearDays(days);
         updated();
     }
@@ -854,10 +934,20 @@ void Recurrence::addYearlyDate(int day)
     addMonthlyDate(day);
 }
 
+void Recurrence::setYearlyDate(const QList<int> &dates)
+{
+    setMonthlyDate(dates);
+}
+
 // day part of date within year, given as position (n-th weekday)
 void Recurrence::addYearlyPos(short pos, const QBitArray &days)
 {
     addMonthlyPos(pos, days);
+}
+
+void Recurrence::setYearlyPos(QList<RecurrenceRule::WDayPos> &days)
+{
+    setMonthlyPos(days);
 }
 
 // month part of date within year
@@ -875,6 +965,28 @@ void Recurrence::addYearlyMonth(short month)
     QList<int> months = rrule->byMonths();
     if (!months.contains(month)) {
         months << month;
+        setYearlyMonth(months);
+    }
+}
+
+void Recurrence::setYearlyMonth(const QList<int> &months)
+{
+    if (d->mRecurReadOnly) {
+        return;
+    }
+
+    RecurrenceRule *rrule = defaultRRule(false);
+    if (!rrule) {
+        return;
+    }
+
+    SortableList<int> m(months);
+    SortableList<int> bM(rrule->byMonths());
+
+    m.sortUnique();
+    bM.sortUnique();
+
+    if (m != bM) {
         rrule->setByMonths(months);
         updated();
     }
@@ -1331,9 +1443,13 @@ void Recurrence::setExDates(const DateList &exdates)
         return;
     }
 
-    d->mExDates = exdates;
-    d->mExDates.sortUnique();
-    updated();
+    DateList l = exdates;
+    l.sortUnique();
+
+    if (d->mExDates != l) {
+        d->mExDates = l;
+        updated();
+    }
 }
 
 void Recurrence::addExDate(const QDate &exdate)

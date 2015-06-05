@@ -137,13 +137,14 @@ void Event::setDtEnd(const KDateTime &dtEnd)
         return;
     }
 
-    update();
-
-    d->mDtEnd = dtEnd;
-    d->mMultiDayValid = false;
-    setHasDuration(!dtEnd.isValid());
-    setFieldDirty(FieldDtEnd);
-    updated();
+    if (d->mDtEnd != dtEnd || hasDuration() == dtEnd.isValid()) {
+        update();
+        d->mDtEnd = dtEnd;
+        d->mMultiDayValid = false;
+        setHasDuration(!dtEnd.isValid());
+        setFieldDirty(FieldDtEnd);
+        updated();
+    }
 }
 
 KDateTime Event::dtEnd() const

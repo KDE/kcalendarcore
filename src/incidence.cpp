@@ -396,10 +396,10 @@ int Incidence::revision() const
 
 void Incidence::setDtStart(const KDateTime &dt)
 {
-    if (d->mRecurrence) {
+    IncidenceBase::setDtStart(dt);
+    if (d->mRecurrence && dirtyFields().contains(FieldDtStart)) {
         d->mRecurrence->setStartDateTime(dt);
     }
-    IncidenceBase::setDtStart(dt);
 }
 
 void Incidence::shiftTimes(const KDateTime::Spec &oldSpec,
@@ -455,11 +455,13 @@ void Incidence::setSummary(const QString &summary, bool isRich)
     if (mReadOnly) {
         return;
     }
-    update();
-    d->mSummary = summary;
-    d->mSummaryIsRich = isRich;
-    setFieldDirty(FieldSummary);
-    updated();
+    if (d->mSummary != summary || d->mSummaryIsRich != isRich) {
+        update();
+        d->mSummary = summary;
+        d->mSummaryIsRich = isRich;
+        setFieldDirty(FieldSummary);
+        updated();
+    }
 }
 
 void Incidence::setSummary(const QString &summary)
@@ -933,11 +935,13 @@ void Incidence::setLocation(const QString &location, bool isRich)
         return;
     }
 
-    update();
-    d->mLocation = location;
-    d->mLocationIsRich = isRich;
-    setFieldDirty(FieldLocation);
-    updated();
+    if (d->mLocation != location || d->mLocationIsRich !=  isRich) {
+        update();
+        d->mLocation = location;
+        d->mLocationIsRich = isRich;
+        setFieldDirty(FieldLocation);
+        updated();
+    }
 }
 
 void Incidence::setLocation(const QString &location)

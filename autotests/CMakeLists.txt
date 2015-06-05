@@ -25,6 +25,7 @@ macro_unit_tests(
   testcustomproperties
   testduration
   testevent
+  testincidence
   testexception
   testfilestorage
   testfreebusy

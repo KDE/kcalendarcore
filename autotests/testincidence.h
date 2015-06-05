@@ -1,7 +1,7 @@
 /*
   This file is part of the kcalcore library.
 
-  Copyright (c) 2006-2008 Allen Winter <winter@kde.org>
+  Copyright (C) 2015 Sandro Knauß <knauss@kolabsys.com>
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Library General Public
@@ -19,27 +19,28 @@
   Boston, MA 02110-1301, USA.
 */
 
-#ifndef TESTEVENT_H
-#define TESTEVENT_H
+#ifndef TESTINCIDENCE_H
+#define TESTINCIDENCE_H
 
 #include <QtCore/QObject>
 
-class EventTest : public QObject
+class IncidenceTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
-    void testSetRoles_data();
-    void testSetRoles();
-    void testValidity();
-    void testCompare();
-    void testClone();
-    void testCopy();
-    void testCopyIncidence();
-    void testAssign();
-    void testSerializer_data();
-    void testSerializer();
-    void testDurationDtEnd();
-    void testDtEndChange();
+    void testDtStartChange();
+    void testSummaryChange();
+    void testLocationChange();
+
+    void testRecurrenceTypeChange();
+    void testRecurrenceEndTimeChange();
+    void testRecurrenceEndTimeDurationChange();
+    void testRecurrenceDurationChange();
+    void testRecurrenceExDatesChange();
+    void testRecurrenceMonthlyPos();
+    void testRecurrenceMonthlyDate();
+    void testRecurrenceYearlyDay();
+    void testRecurrenceYearlyMonth();
 };
 
 #endif

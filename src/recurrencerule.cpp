@@ -991,7 +991,9 @@ void RecurrenceRule::setEndDt(const KDateTime &dateTime)
         return;
     }
     d->mDateEnd = dateTime;
-    d->mDuration = 0; // set to 0 because there is an end date/time
+    if (d->mDateEnd.isValid()) {
+        d->mDuration = 0; // set to 0 because there is an end date/time
+    }
     d->setDirty();
 }
 
