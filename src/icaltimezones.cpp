@@ -582,7 +582,6 @@ bool ICalTimeZoneParser::parsePhase(icalcomponent *c, bool daylight, ICalTimeZon
     }
 
     // Convert DTSTART to QDateTime, and from local time to UTC
-    const QDateTime localStart = toQDateTime(dtstart); // local time
     dtstart.second -= prevOffset;
     dtstart = icaltime_convert_to_zone(dtstart, icaltimezone_get_utc_timezone());
     const QDateTime utcStart = toQDateTime(icaltime_normalize(dtstart)); // UTC
@@ -627,21 +626,16 @@ bool ICalTimeZoneParser::parsePhase(icalcomponent *c, bool daylight, ICalTimeZon
                 ICalFormat icf;
                 ICalFormatImpl impl(&icf);
                 impl.readRecurrence(icalproperty_get_rrule(p), &r);
-                r.setStartDt(localStart);
-                // The end date time specified in an RRULE should be in UTC.
-                // Convert to local time to avoid timesInInterval() getting things wrong.
-                if (r.duration() == 0) {
-                    QDateTime end(r.endDt());
-                    if (end.timeSpec() == Qt::UTC) {
-                        end.setTimeSpec(Qt::LocalTime);
-                        r.setEndDt(end.addSecs(prevOffset));
-                    }
+                r.setStartDt(utcStart);
+                // The end date time specified in an RRULE must be in UTC.
+                // We can not guarantee correctness if this is not the case.
+                if (r.duration() == 0 && r.endDt().timeSpec() != Qt::UTC) {
+                  qCWarning(KCALCORE_LOG) << "UNTIL in RRULE must be specified in UTC";
+                  break;
                 }
-                const auto dts = r.timesInInterval(localStart, maxTime);
+                const auto dts = r.timesInInterval(utcStart, maxTime);
                 for (int i = 0, end = dts.count(); i < end; ++i) {
-                    QDateTime utc = dts[i];
-                    utc.setTimeSpec(Qt::UTC);
-                    phase.transitions += utc.addSecs(-prevOffset);
+                    phase.transitions += dts[i];
                 }
                 break;
             }
