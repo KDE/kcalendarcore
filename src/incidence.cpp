@@ -966,11 +966,13 @@ bool Incidence::locationIsRich() const
 
 void Incidence::setSchedulingID(const QString &sid, const QString &uid)
 {
-    d->mSchedulingID = sid;
     if (!uid.isEmpty()) {
         setUid(uid);
     }
-    setFieldDirty(FieldSchedulingId);
+    if (sid != d->mSchedulingID) {
+        d->mSchedulingID = sid;
+        setFieldDirty(FieldSchedulingId);
+    }
 }
 
 QString Incidence::schedulingID() const

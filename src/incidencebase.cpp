@@ -227,10 +227,12 @@ bool IncidenceBase::accept(Visitor &v, const IncidenceBase::Ptr &incidence)
 
 void IncidenceBase::setUid(const QString &uid)
 {
-    update();
-    d->mUid = uid;
-    d->mDirtyFields.insert(FieldUid);
-    updated();
+    if (d->mUid != uid) {
+        update();
+        d->mUid = uid;
+        d->mDirtyFields.insert(FieldUid);
+        updated();
+    }
 }
 
 QString IncidenceBase::uid() const
