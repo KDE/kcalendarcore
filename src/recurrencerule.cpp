@@ -1221,6 +1221,7 @@ void RecurrenceRule::Private::buildConstraints()
                 mConstraints[c].setElement( list[0] ); \
             } \
         } else { \
+            tmp.reserve(mConstraints.count() * iend); \
             for ( c = 0, cend = mConstraints.count();  c < cend;  ++c ) { \
                 for ( i = 0;  i < iend;  ++i ) { \
                     con = mConstraints[c]; \
@@ -1244,6 +1245,7 @@ void RecurrenceRule::Private::buildConstraints()
 
     if (!mByDays.isEmpty()) {
         mNoByRules = false;
+        tmp.reserve(mConstraints.count() * mByDays.count());
         for (c = 0, cend = mConstraints.count();  c < cend;  ++c) {
             for (i = 0, iend = mByDays.count();  i < iend;  ++i) {
                 con = mConstraints[c];

@@ -951,6 +951,7 @@ ICalTimeZone ICalTimeZoneSource::parse(icalcomponent *vtimezone)
         const int tcount = times.count();
         if (tcount) {
             phases += phase;
+            transitions.reserve(tcount);
             for (int t = 0;  t < tcount;  ++t) {
                 transitions += KTimeZone::Transition(times[t], phase);
             }
