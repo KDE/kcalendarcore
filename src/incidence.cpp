@@ -1178,8 +1178,9 @@ void Incidence::deserialize(QDataStream &in)
     d->mSecrecy = static_cast<Incidence::Secrecy>(secrecy);
 
     d->mRelatedToUid.clear();
-    foreach (int key, relatedToUid.keys()) { //krazy:exclude=foreach
-        d->mRelatedToUid.insert(static_cast<Incidence::RelType>(key), relatedToUid.value(key));
-    }
 
+    auto it = relatedToUid.cbegin(), end = relatedToUid.cend();
+    for (; it != end; ++it) {
+        d->mRelatedToUid.insert(static_cast<Incidence::RelType>(it.key()), it.value());
+    }
 }
