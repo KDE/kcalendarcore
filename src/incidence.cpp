@@ -736,7 +736,7 @@ Attachment::List Incidence::attachments() const
 Attachment::List Incidence::attachments(const QString &mime) const
 {
     Attachment::List attachments;
-    foreach (Attachment::Ptr attachment, d->mAttachments) {
+    foreach (const Attachment::Ptr &attachment, d->mAttachments) {
         if (attachment->mimeType() == mime) {
             attachments.append(attachment);
         }
@@ -915,7 +915,7 @@ void Incidence::clearAlarms()
 
 bool Incidence::hasEnabledAlarms() const
 {
-    foreach (Alarm::Ptr alarm, d->mAlarms) {
+    foreach (const Alarm::Ptr &alarm, d->mAlarms) {
         if (alarm->enabled()) {
             return true;
         }

@@ -155,8 +155,8 @@ void MemoryCalendarTest::testRelationsCrash()
     // This doesn't makes sense so i commented it. when you load a calendar the second time
     // it reuses what it can, so oldTodo == newTodo
 
-    /*  foreach ( Todo::Ptr  oldTodo, oldTodos ) {
-        foreach ( Todo::Ptr newTodo, newTodos ) {
+    /*  foreach (const Todo::Ptr &oldTodo, oldTodos ) {
+        foreach (const Todo::Ptr &newTodo, newTodos ) {
           QVERIFY( oldTodo != newTodo );
 
           // Make sure that none of the new todos point to an old, deleted todo
