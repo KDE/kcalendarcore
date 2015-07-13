@@ -70,7 +70,11 @@ ecm_configure_package_config_file(
 remove_definitions(-DQT_NO_CAST_FROM_ASCII -DQT_NO_CAST_TO_ASCII)
 ########### Targets ###########
 add_subdirectory(src)
-add_subdirectory(autotests)
+
+if(BUILD_TESTING)
+    add_subdirectory(autotests)
+endif()
+
 add_subdirectory(cmake)
 
 ########### Install Files ###########
