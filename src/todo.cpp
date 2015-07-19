@@ -462,7 +462,7 @@ bool Todo::Private::recurTodo(Todo *todo)
 }
 //@endcond
 
-bool Todo::accept(Visitor &v, IncidenceBase::Ptr incidence)
+bool Todo::accept(Visitor &v, const IncidenceBase::Ptr &incidence)
 {
     return v.visit(incidence.staticCast<Todo>());
 }

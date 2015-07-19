@@ -218,7 +218,7 @@ bool IncidenceBase::equals(const IncidenceBase &i2) const
     return a && b && c && d && e && f && g;
 }
 
-bool IncidenceBase::accept(Visitor &v, IncidenceBase::Ptr incidence)
+bool IncidenceBase::accept(Visitor &v, const IncidenceBase::Ptr &incidence)
 {
     Q_UNUSED(v);
     Q_UNUSED(incidence);

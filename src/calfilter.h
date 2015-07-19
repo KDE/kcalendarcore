@@ -143,7 +143,7 @@ public:
       @param incidence is the Incidence to filter.
       @return true if the Incidence passes the criteria; false otherwise.
     */
-    bool filterIncidence(Incidence::Ptr incidence) const;
+    bool filterIncidence(const Incidence::Ptr &incidence) const;
 
     /**
       Enables or disables the filter.

@@ -256,7 +256,7 @@ void Event::setAllDay(bool allday)
     }
 }
 
-bool Event::accept(Visitor &v, IncidenceBase::Ptr incidence)
+bool Event::accept(Visitor &v, const IncidenceBase::Ptr &incidence)
 {
     return v.visit(incidence.staticCast<Event>());
 }

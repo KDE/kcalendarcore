@@ -335,7 +335,7 @@ bool FreeBusy::equals(const IncidenceBase &freeBusy) const
     }
 }
 
-bool FreeBusy::accept(Visitor &v, IncidenceBase::Ptr incidence)
+bool FreeBusy::accept(Visitor &v, const IncidenceBase::Ptr &incidence)
 {
     return v.visit(incidence.staticCast<FreeBusy>());
 }

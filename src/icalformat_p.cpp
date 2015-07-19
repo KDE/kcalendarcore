@@ -161,8 +161,8 @@ public:
     {
         delete mCompat;
     }
-    void writeIncidenceBase(icalcomponent *parent, IncidenceBase::Ptr);
-    void readIncidenceBase(icalcomponent *parent, IncidenceBase::Ptr);
+    void writeIncidenceBase(icalcomponent *parent, const IncidenceBase::Ptr &);
+    void readIncidenceBase(icalcomponent *parent, const IncidenceBase::Ptr &);
     void writeCustomProperties(icalcomponent *parent, CustomProperties *);
     void readCustomProperties(icalcomponent *parent, CustomProperties *);
 
@@ -681,7 +681,7 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent,
 
 //@cond PRIVATE
 void ICalFormatImpl::Private::writeIncidenceBase(icalcomponent *parent,
-        IncidenceBase::Ptr incidenceBase)
+        const IncidenceBase::Ptr &incidenceBase)
 {
     // organizer stuff
     if (!incidenceBase->organizer()->isEmpty()) {
@@ -1673,7 +1673,7 @@ Attachment::Ptr ICalFormatImpl::readAttachment(icalproperty *attach)
 }
 
 void ICalFormatImpl::readIncidence(icalcomponent *parent,
-                                   Incidence::Ptr incidence,
+                                   const Incidence::Ptr &incidence,
                                    ICalTimeZones *tzlist)
 {
     d->readIncidenceBase(parent, incidence);
@@ -1954,7 +1954,7 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent,
 
 //@cond PRIVATE
 void ICalFormatImpl::Private::readIncidenceBase(icalcomponent *parent,
-        IncidenceBase::Ptr incidenceBase)
+                                                const IncidenceBase::Ptr &incidenceBase)
 {
     icalproperty *p = icalcomponent_get_first_property(parent, ICAL_ANY_PROPERTY);
     bool uidProcessed = false;
@@ -2062,7 +2062,7 @@ void ICalFormatImpl::Private::readCustomProperties(icalcomponent *parent,
 }
 //@endcond
 
-void ICalFormatImpl::readRecurrenceRule(icalproperty *rrule, Incidence::Ptr incidence)
+void ICalFormatImpl::readRecurrenceRule(icalproperty *rrule, const Incidence::Ptr &incidence)
 {
     Recurrence *recur = incidence->recurrence();
 
@@ -2075,7 +2075,7 @@ void ICalFormatImpl::readRecurrenceRule(icalproperty *rrule, Incidence::Ptr inci
     recur->addRRule(recurrule);
 }
 
-void ICalFormatImpl::readExceptionRule(icalproperty *rrule, Incidence::Ptr incidence)
+void ICalFormatImpl::readExceptionRule(icalproperty *rrule, const Incidence::Ptr &incidence)
 {
     struct icalrecurrencetype r = icalproperty_get_exrule(rrule);
     // dumpIcalRecurrence(r);
@@ -2188,7 +2188,7 @@ void ICalFormatImpl::readRecurrence(const struct icalrecurrencetype &r, Recurren
 }
 
 void ICalFormatImpl::readAlarm(icalcomponent *alarm,
-                               Incidence::Ptr incidence,
+                               const Incidence::Ptr &incidence,
                                ICalTimeZones *tzlist)
 {
     Alarm::Ptr ialarm = incidence->newAlarm();
@@ -2544,7 +2544,7 @@ KDateTime ICalFormatImpl::readICalDateTime(icalproperty *p,
     return utc ? result.toUtc() : result;
 }
 
-QDate ICalFormatImpl::readICalDate(icaltimetype t)
+QDate ICalFormatImpl::readICalDate(const icaltimetype &t)
 {
     return QDate(t.year, t.month, t.day);
 }
@@ -2660,7 +2660,7 @@ icaldurationtype ICalFormatImpl::writeICalDuration(const Duration &duration)
     return d;
 }
 
-Duration ICalFormatImpl::readICalDuration(icaldurationtype d)
+Duration ICalFormatImpl::readICalDuration(const icaldurationtype &d)
 {
     int days = d.weeks * 7;
     days += d.days;

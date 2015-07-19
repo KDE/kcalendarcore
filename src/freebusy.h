@@ -261,7 +261,7 @@ private:
      @copydoc
      IncidenceBase::accept()
     */
-    bool accept(Visitor &v, IncidenceBase::Ptr incidence) Q_DECL_OVERRIDE;
+    bool accept(Visitor &v, const IncidenceBase::Ptr &incidence) Q_DECL_OVERRIDE;
 
     /**
       Disabled, otherwise could be dangerous if you subclass FreeBusy.

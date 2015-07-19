@@ -133,7 +133,7 @@ void CalFilter::apply(Journal::List *journalList) const
     }
 }
 
-bool CalFilter::filterIncidence(Incidence::Ptr incidence) const
+bool CalFilter::filterIncidence(const Incidence::Ptr &incidence) const
 {
     if (!d->mEnabled) {
         return true;

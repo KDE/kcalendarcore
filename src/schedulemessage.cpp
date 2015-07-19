@@ -42,7 +42,7 @@ public:
 };
 //@endcond
 
-ScheduleMessage::ScheduleMessage(IncidenceBase::Ptr incidence,
+ScheduleMessage::ScheduleMessage(const IncidenceBase::Ptr &incidence,
                                  iTIPMethod method,
                                  ScheduleMessage::Status status)
     : d(new KCalCore::ScheduleMessage::Private)

@@ -78,7 +78,7 @@ public:
       @param method an iTIPMethod.
       @param status a Status.
     */
-    ScheduleMessage(IncidenceBase::Ptr incidence, iTIPMethod method, Status status);
+    ScheduleMessage(const IncidenceBase::Ptr &incidence, iTIPMethod method, Status status);
 
     /**
       Destructor.

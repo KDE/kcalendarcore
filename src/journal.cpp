@@ -70,7 +70,7 @@ bool Journal::equals(const IncidenceBase &journal) const
     return Incidence::equals(journal);
 }
 
-bool Journal::accept(Visitor &v, IncidenceBase::Ptr incidence)
+bool Journal::accept(Visitor &v, const IncidenceBase::Ptr &incidence)
 {
     return v.visit(incidence.staticCast<Journal>());
 }

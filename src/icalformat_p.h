@@ -149,13 +149,13 @@ public:
     Attendee::Ptr readAttendee(icalproperty *attendee);
     Person::Ptr readOrganizer(icalproperty *organizer);
     Attachment::Ptr readAttachment(icalproperty *attach);
-    void readIncidence(icalcomponent *parent, Incidence::Ptr incidence,
+    void readIncidence(icalcomponent *parent, const Incidence::Ptr &incidence,
                        ICalTimeZones *tzlist);
-    void readRecurrenceRule(icalproperty *rrule, Incidence::Ptr event);
-    void readExceptionRule(icalproperty *rrule, Incidence::Ptr incidence);
+    void readRecurrenceRule(icalproperty *rrule, const Incidence::Ptr &event);
+    void readExceptionRule(icalproperty *rrule, const Incidence::Ptr &incidence);
     void readRecurrence(const struct icalrecurrencetype &r,
                         RecurrenceRule *recur);
-    void readAlarm(icalcomponent *alarm, Incidence::Ptr incidence,
+    void readAlarm(icalcomponent *alarm, const Incidence::Ptr &incidence,
                    ICalTimeZones *tzlist);
 
     /**
@@ -165,7 +165,7 @@ public:
 
     static icaltimetype writeICalDate(const QDate &);
 
-    static QDate readICalDate(icaltimetype);
+    static QDate readICalDate(const icaltimetype &);
 
     static icaltimetype writeICalDateTime(const KDateTime &);
 
@@ -246,7 +246,7 @@ public:
 
     static icaldurationtype writeICalDuration(const Duration &duration);
 
-    static Duration readICalDuration(icaldurationtype d);
+    static Duration readICalDuration(const icaldurationtype &d);
 
     static icaldatetimeperiodtype writeICalDatePeriod(const QDate &date);
 

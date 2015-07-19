@@ -188,7 +188,7 @@ public:
     typedef QList<Constraint> List;
 
     Constraint() {}
-    explicit Constraint(KDateTime::Spec, int wkst = 1);
+    explicit Constraint(const KDateTime::Spec &, int wkst = 1);
     Constraint(const KDateTime &dt, RecurrenceRule::PeriodType type, int wkst);
     void clear();
     void setYear(int n)
@@ -283,7 +283,7 @@ private:
     mutable KDateTime cachedDt;
 };
 
-Constraint::Constraint(KDateTime::Spec spec, int wkst)
+Constraint::Constraint(const KDateTime::Spec &spec, int wkst)
     : weekstart(wkst),
       timespec(spec)
 {
