@@ -25,6 +25,7 @@
 
 #include <QtCore/QStringList>
 #include <QtCore/QTime>
+#include <QtCore/QVector>
 
 using namespace KCalCore;
 
@@ -185,7 +186,7 @@ bool RecurrenceRule::WDayPos::operator!=(const RecurrenceRule::WDayPos &pos2) co
 class Constraint
 {
 public:
-    typedef QList<Constraint> List;
+    typedef QVector<Constraint> List;
 
     Constraint() {}
     explicit Constraint(const KDateTime::Spec &, int wkst = 1);
