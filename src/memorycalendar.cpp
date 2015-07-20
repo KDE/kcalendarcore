@@ -38,6 +38,29 @@
 #include <QDate>
 #include <KDateTime>
 
+template <typename K, typename V>
+static QVector<V> values(const QMultiHash<K, V> &c)
+{
+    QVector<V> v;
+    v.reserve(c.size());
+    for (typename QMultiHash<K, V>::const_iterator it = c.begin(), end = c.end(); it != end; ++it) {
+        v.push_back(it.value());
+    }
+    return v;
+}
+
+template <typename K, typename V>
+static  QVector<V> values(const QMultiHash<K, V> &c, const K &x)
+{
+    QVector<V> v;
+    typename QMultiHash<K, V>::const_iterator it = c.find(x);
+    while (it != c.end() && it.key() == x) {
+        v.push_back(it.value());
+        ++it;
+    }
+    return v;
+}
+
 using namespace KCalCore;
 
 /**
@@ -175,9 +198,8 @@ bool MemoryCalendar::deleteIncidence(const Incidence::Ptr &incidence)
 bool MemoryCalendar::deleteIncidenceInstances(const Incidence::Ptr &incidence)
 {
     const Incidence::IncidenceType type = incidence->type();
-    QList<Incidence::Ptr> values = d->mIncidences[type].values(incidence->uid());
-    QList<Incidence::Ptr>::const_iterator it;
-    for (it = values.constBegin(); it != values.constEnd(); ++it) {
+    Incidence::List values = ::values(d->mIncidences[type], incidence->uid());
+    for (auto it = values.constBegin(); it != values.constEnd(); ++it) {
         Incidence::Ptr i = *it;
         if (i->hasRecurrenceId()) {
             qCDebug(KCALCORE_LOG) << "deleting child"
@@ -209,9 +231,8 @@ Incidence::Ptr MemoryCalendar::Private::incidence(const QString &uid,
         const Incidence::IncidenceType type,
         const KDateTime &recurrenceId) const
 {
-    QList<Incidence::Ptr> values = mIncidences[type].values(uid);
-    QList<Incidence::Ptr>::const_iterator it;
-    for (it = values.constBegin(); it != values.constEnd(); ++it) {
+    Incidence::List values = ::values(mIncidences[type], uid);
+    for (auto it = values.constBegin(); it != values.constEnd(); ++it) {
         Incidence::Ptr i = *it;
         if (recurrenceId.isNull()) {
             if (!i->hasRecurrenceId()) {
@@ -235,9 +256,8 @@ MemoryCalendar::Private::deletedIncidence(const QString &uid,
         return Incidence::Ptr();
     }
 
-    QList<Incidence::Ptr> values = mDeletedIncidences[type].values(uid);
-    QList<Incidence::Ptr>::const_iterator it;
-    for (it = values.constBegin(); it != values.constEnd(); ++it) {
+    Incidence::List values = ::values(mDeletedIncidences[type], uid);
+    for (auto it = values.constBegin(); it != values.constEnd(); ++it) {
         Incidence::Ptr i = *it;
         if (recurrenceId.isNull()) {
             if (!i->hasRecurrenceId()) {
@@ -378,9 +398,8 @@ Todo::List MemoryCalendar::todoInstances(const Incidence::Ptr &todo,
 {
     Todo::List list;
 
-    QList<Incidence::Ptr > values = d->mIncidences[Incidence::TypeTodo].values(todo->uid());
-    QList<Incidence::Ptr>::const_iterator it;
-    for (it = values.constBegin(); it != values.constEnd(); ++it) {
+    Incidence::List values = ::values(d->mIncidences[Incidence::TypeTodo], todo->uid());
+    for (auto it = values.constBegin(); it != values.constEnd(); ++it) {
         Todo::Ptr t = (*it).staticCast<Todo>();
         if (t->hasRecurrenceId()) {
             list.append(t);
@@ -739,9 +758,8 @@ Event::List MemoryCalendar::eventInstances(const Incidence::Ptr &event,
 {
     Event::List list;
 
-    QList<Incidence::Ptr> values = d->mIncidences[Incidence::TypeEvent].values(event->uid());
-    QList<Incidence::Ptr>::const_iterator it;
-    for (it = values.constBegin(); it != values.constEnd(); ++it) {
+    Incidence::List values = ::values(d->mIncidences[Incidence::TypeEvent], event->uid());
+    for (auto it = values.constBegin(); it != values.constEnd(); ++it) {
         Event::Ptr ev = (*it).staticCast<Event>();
         if (ev->hasRecurrenceId()) {
             list.append(ev);
@@ -812,9 +830,8 @@ Journal::List MemoryCalendar::journalInstances(const Incidence::Ptr &journal,
 {
     Journal::List list;
 
-    QList<Incidence::Ptr> values = d->mIncidences[Incidence::TypeJournal].values(journal->uid());
-    QList<Incidence::Ptr>::const_iterator it;
-    for (it = values.constBegin(); it != values.constEnd(); ++it) {
+    Incidence::List values = ::values(d->mIncidences[Incidence::TypeJournal], journal->uid());
+    for (auto it = values.constBegin(); it != values.constEnd(); ++it) {
         Journal::Ptr j = (*it).staticCast<Journal>();
         if (j->hasRecurrenceId()) {
             list.append(j);
