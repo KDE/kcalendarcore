@@ -172,10 +172,15 @@ bool MemoryCalendar::deleteIncidence(const Incidence::Ptr &incidence)
     removeRelations(incidence);
     const Incidence::IncidenceType type = incidence->type();
     const QString uid = incidence->uid();
-    if (d->mIncidences[type].remove(uid, incidence)) {
+    if (d->mIncidences[type].contains(uid, incidence)) {
+        // Notify while the incidence is still available,
+        // this is necessary so korganizer still has time to query for exceptions
+        notifyIncidenceAboutToBeDeleted(incidence);
+
+        d->mIncidences[type].remove(uid, incidence);
         d->mIncidencesByIdentifier.remove(incidence->instanceIdentifier());
         setModified(true);
-        notifyIncidenceDeleted(incidence);
+        notifyIncidenceDeletedOld(incidence);
         if (deletionTracking()) {
             d->mDeletedIncidences[type].insert(uid, incidence);
         }
@@ -188,6 +193,7 @@ bool MemoryCalendar::deleteIncidence(const Incidence::Ptr &incidence)
         if (!incidence->hasRecurrenceId()) {
             deleteIncidenceInstances(incidence);
         }
+        notifyIncidenceDeleted(incidence);
         return true;
     } else {
         qCWarning(KCALCORE_LOG) << incidence->typeStr() << " not found. uid=" << uid;
@@ -220,7 +226,7 @@ void MemoryCalendar::Private::deleteAllIncidences(const Incidence::IncidenceType
     QHashIterator<QString, Incidence::Ptr>i(mIncidences[incidenceType]);
     while (i.hasNext()) {
         i.next();
-        q->notifyIncidenceDeleted(i.value());
+        q->notifyIncidenceAboutToBeDeleted(i.value());
         i.value()->unRegisterObserver(q);
     }
     mIncidences[incidenceType].clear();

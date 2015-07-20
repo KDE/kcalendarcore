@@ -1182,9 +1182,20 @@ void Calendar::CalendarObserver::calendarIncidenceChanged(const Incidence::Ptr &
     Q_UNUSED(incidence);
 }
 
+void Calendar::CalendarObserver::calendarIncidenceAboutToBeDeleted(const Incidence::Ptr &incidence)
+{
+    Q_UNUSED(incidence);
+}
+
 void Calendar::CalendarObserver::calendarIncidenceDeleted(const Incidence::Ptr &incidence)
 {
     Q_UNUSED(incidence);
+}
+
+void Calendar::CalendarObserver::calendarIncidenceDeleted(const Incidence::Ptr &incidence, const Calendar *calendar)
+{
+    Q_UNUSED(incidence);
+    Q_UNUSED(calendar);
 }
 
 void
@@ -1300,7 +1311,7 @@ void Calendar::notifyIncidenceChanged(const Incidence::Ptr &incidence)
     }
 }
 
-void Calendar::notifyIncidenceDeleted(const Incidence::Ptr &incidence)
+void Calendar::notifyIncidenceAboutToBeDeleted(const Incidence::Ptr &incidence)
 {
     if (!incidence) {
         return;
@@ -1311,7 +1322,37 @@ void Calendar::notifyIncidenceDeleted(const Incidence::Ptr &incidence)
     }
 
     foreach (CalendarObserver *observer, d->mObservers) {
+        observer->calendarIncidenceAboutToBeDeleted(incidence);
+    }
+}
+
+void Calendar::notifyIncidenceDeletedOld(const Incidence::Ptr &incidence)
+{
+    if (!incidence) {
+        return;
+    }
+
+    if (!d->mObserversEnabled) {
+        return;
+    }
+
+    foreach(CalendarObserver *observer, d->mObservers) {
         observer->calendarIncidenceDeleted(incidence);
+    }
+}
+
+void Calendar::notifyIncidenceDeleted(const Incidence::Ptr &incidence)
+{
+    if (!incidence) {
+        return;
+    }
+
+    if (!d->mObserversEnabled) {
+        return;
+    }
+
+    foreach(CalendarObserver *observer, d->mObservers) {
+        observer->calendarIncidenceDeleted(incidence, this);
     }
 }
 
