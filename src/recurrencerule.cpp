@@ -32,7 +32,7 @@ using namespace KCalCore;
 // Maximum number of intervals to process
 const int LOOP_LIMIT = 10000;
 
-static QString dumpTime(const KDateTime &dt);     // for debugging
+// static QString dumpTime(const KDateTime &dt);     // for debugging
 
 /*=========================================================================
 =                                                                         =
