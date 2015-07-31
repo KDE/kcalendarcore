@@ -658,7 +658,7 @@ protected:
       @copydoc
       CustomProperties::customPropertyUpdated()
     */
-    virtual void customPropertyUpdated();
+    void customPropertyUpdated() Q_DECL_OVERRIDE;
 
     /**
       @copydoc
