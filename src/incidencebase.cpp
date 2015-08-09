@@ -54,7 +54,7 @@ using namespace KCalCore;
   @internal
 */
 //@cond PRIVATE
-class KCalCore::IncidenceBase::Private
+class Q_DECL_HIDDEN KCalCore::IncidenceBase::Private
 {
 public:
     Private()

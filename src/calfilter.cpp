@@ -42,7 +42,7 @@ using namespace KCalCore;
   @internal
 */
 //@cond PRIVATE
-class KCalCore::CalFilter::Private
+class Q_DECL_HIDDEN KCalCore::CalFilter::Private
 {
 public:
     Private()

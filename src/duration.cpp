@@ -42,7 +42,7 @@ using namespace KCalCore;
   @internal
 */
 //@cond PRIVATE
-class KCalCore::Duration::Private
+class Q_DECL_HIDDEN KCalCore::Duration::Private
 {
 public:
     int seconds() const

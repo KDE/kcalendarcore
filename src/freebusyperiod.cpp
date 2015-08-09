@@ -35,7 +35,7 @@
 using namespace KCalCore;
 
 //@cond PRIVATE
-class KCalCore::FreeBusyPeriod::Private
+class Q_DECL_HIDDEN KCalCore::FreeBusyPeriod::Private
 {
 public:
     Private():

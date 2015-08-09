@@ -39,7 +39,7 @@
 using namespace KCalCore;
 
 //@cond PRIVATE
-class KCalCore::Period::Private
+class Q_DECL_HIDDEN KCalCore::Period::Private
 {
 public:
     Private() : mHasDuration(false), mDailyDuration(false)  {}

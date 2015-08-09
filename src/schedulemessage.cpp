@@ -28,7 +28,7 @@
 using namespace KCalCore;
 
 //@cond PRIVATE
-class KCalCore::ScheduleMessage::Private
+class Q_DECL_HIDDEN KCalCore::ScheduleMessage::Private
 {
 public:
     Private() {}

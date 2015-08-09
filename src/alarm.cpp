@@ -43,7 +43,7 @@ using namespace KCalCore;
   @internal
 */
 //@cond PRIVATE
-class KCalCore::Alarm::Private
+class Q_DECL_HIDDEN KCalCore::Alarm::Private
 {
 public:
     Private()

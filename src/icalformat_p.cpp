@@ -152,7 +152,7 @@ ToComponentVisitor::~ToComponentVisitor()
 {
 }
 
-class ICalFormatImpl::Private
+class Q_DECL_HIDDEN ICalFormatImpl::Private
 {
 public:
     Private(ICalFormatImpl *impl, ICalFormat *parent)

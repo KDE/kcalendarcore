@@ -709,7 +709,7 @@ bool Constraint::readDateTime(const KDateTime &dt, RecurrenceRule::PeriodType ty
  **************************************************************************/
 
 //@cond PRIVATE
-class KCalCore::RecurrenceRule::Private
+class Q_DECL_HIDDEN KCalCore::RecurrenceRule::Private
 {
 public:
     Private(RecurrenceRule *parent)

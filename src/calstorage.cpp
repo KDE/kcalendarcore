@@ -38,7 +38,7 @@ using namespace KCalCore;
   @internal
 */
 //@cond PRIVATE
-class KCalCore::CalStorage::Private
+class Q_DECL_HIDDEN KCalCore::CalStorage::Private
 {
 public:
     Private(const Calendar::Ptr &cal)

@@ -42,7 +42,7 @@ using namespace KCalCore;
   @internal
 */
 //@cond PRIVATE
-class KCalCore::Attendee::Private
+class Q_DECL_HIDDEN KCalCore::Attendee::Private
 {
 public:
     void setCuType(CuType cuType);

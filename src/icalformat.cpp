@@ -51,7 +51,7 @@ extern "C" {
 using namespace KCalCore;
 
 //@cond PRIVATE
-class KCalCore::ICalFormat::Private
+class Q_DECL_HIDDEN KCalCore::ICalFormat::Private
 {
 public:
     Private(ICalFormat *parent)

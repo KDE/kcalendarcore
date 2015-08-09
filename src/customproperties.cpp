@@ -39,7 +39,7 @@ using namespace KCalCore;
 //@cond PRIVATE
 static bool checkName(const QByteArray &name);
 
-class CustomProperties::Private
+class Q_DECL_HIDDEN CustomProperties::Private
 {
 public:
     bool operator==(const Private &other) const;

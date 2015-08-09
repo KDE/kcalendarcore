@@ -47,7 +47,7 @@ using namespace KCalCore;
   @internal
 */
 //@cond PRIVATE
-class KCalCore::CalFormat::Private
+class Q_DECL_HIDDEN KCalCore::CalFormat::Private
 {
 public:
     Private() : mException(0) {}

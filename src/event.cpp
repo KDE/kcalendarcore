@@ -43,7 +43,7 @@ using namespace KCalCore;
   @internal
 */
 //@cond PRIVATE
-class KCalCore::Event::Private
+class Q_DECL_HIDDEN KCalCore::Event::Private
 {
 public:
     Private()

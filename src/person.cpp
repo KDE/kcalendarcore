@@ -44,7 +44,7 @@ using namespace KCalCore;
   @internal
 */
 //@cond PRIVATE
-class KCalCore::Person::Private
+class Q_DECL_HIDDEN KCalCore::Person::Private
 {
 public:
     Private() : mCount(0) {}

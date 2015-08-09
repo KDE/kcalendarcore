@@ -42,7 +42,7 @@ using namespace KCalCore;
   @internal
 */
 //@cond PRIVATE
-class KCalCore::OccurrenceIterator::Private
+class Q_DECL_HIDDEN KCalCore::OccurrenceIterator::Private
 {
 public:
     Private(OccurrenceIterator *qq)

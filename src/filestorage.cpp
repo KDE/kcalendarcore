@@ -42,7 +42,7 @@ using namespace KCalCore;
   Private class that helps to provide binary compatibility between releases.
 */
 //@cond PRIVATE
-class KCalCore::FileStorage::Private
+class Q_DECL_HIDDEN KCalCore::FileStorage::Private
 {
 public:
     Private(const QString &fileName, CalFormat *format)

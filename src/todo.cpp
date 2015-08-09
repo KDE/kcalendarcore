@@ -46,7 +46,7 @@ using namespace KCalCore;
   @internal
 */
 //@cond PRIVATE
-class KCalCore::Todo::Private
+class Q_DECL_HIDDEN KCalCore::Todo::Private
 {
 public:
     Private()

@@ -32,7 +32,7 @@
 using namespace KCalCore;
 
 //@cond PRIVATE
-class KCalCore::Recurrence::Private
+class Q_DECL_HIDDEN KCalCore::Recurrence::Private
 {
 public:
     Private()

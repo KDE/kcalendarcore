@@ -39,7 +39,7 @@ using namespace KCalCore;
   @internal
 */
 //@cond PRIVATE
-class KCalCore::Attachment::Private
+class Q_DECL_HIDDEN KCalCore::Attachment::Private
 {
 public:
     Private(const QString &mime, bool binary)

@@ -63,7 +63,7 @@ QStringList Exception::arguments() const
   @internal
 */
 //@cond PRIVATE
-class KCalCore::Exception::Private
+class Q_DECL_HIDDEN KCalCore::Exception::Private
 {
 };
 //@endcond

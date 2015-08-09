@@ -68,7 +68,7 @@ using namespace KCalCore;
   @internal
 */
 //@cond PRIVATE
-class KCalCore::MemoryCalendar::Private
+class Q_DECL_HIDDEN KCalCore::MemoryCalendar::Private
 {
 public:
     Private(MemoryCalendar *qq)

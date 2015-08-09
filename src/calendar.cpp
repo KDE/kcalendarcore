@@ -55,7 +55,7 @@ using namespace KCalCore;
   @internal
 */
 //@cond PRIVATE
-class KCalCore::Calendar::Private
+class Q_DECL_HIDDEN KCalCore::Calendar::Private
 {
 public:
     Private()

@@ -41,7 +41,7 @@
 using namespace KCalCore;
 
 //@cond PRIVATE
-class KCalCore::FreeBusy::Private
+class Q_DECL_HIDDEN KCalCore::FreeBusy::Private
 {
 private:
     FreeBusy *q;
