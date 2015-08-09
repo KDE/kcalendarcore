@@ -33,6 +33,7 @@ void EventTest::testSetRoles_data()
 {
     QTest::addColumn<KDateTime>("originalDtStart");
     QTest::addColumn<KDateTime>("originalDtEnd");
+    QTest::addColumn<bool>("allDayEvent");
 
     QTest::addColumn<KCalCore::Incidence::DateTimeRole>("setRole");
     QTest::addColumn<KDateTime>("dateTimeToSet");
@@ -42,7 +43,7 @@ void EventTest::testSetRoles_data()
     const KDateTime todayDate(QDate::currentDate());   // all day event
     const KDateTime todayDateTime = KDateTime::currentUtcDateTime();
 
-    QTest::newRow("dnd 0 duration") << todayDate << todayDate << KCalCore::Incidence::RoleDnD
+    QTest::newRow("dnd 0 duration") << todayDate << todayDate << true << KCalCore::Incidence::RoleDnD
                                     << todayDateTime << todayDateTime << todayDateTime.addSecs(3600);
 }
 
@@ -50,6 +51,7 @@ void EventTest::testSetRoles()
 {
     QFETCH(KDateTime, originalDtStart);
     QFETCH(KDateTime, originalDtEnd);
+    QFETCH(bool, allDayEvent);
     QFETCH(KCalCore::Incidence::DateTimeRole, setRole);
 
     QFETCH(KDateTime, dateTimeToSet);
@@ -59,7 +61,7 @@ void EventTest::testSetRoles()
     Event::Ptr event = Event::Ptr(new Event());
     event->setDtStart(originalDtStart);
     event->setDtEnd(originalDtEnd);
-    event->setAllDay(originalDtStart.isDateOnly());
+    event->setAllDay(allDayEvent);
 
     event->setDateTime(dateTimeToSet, setRole);
     QCOMPARE(event->dtStart(), expectedDtStart);

@@ -142,12 +142,7 @@ QString dumpTime(const KDateTime &dt, const KDateTime::Spec &viewSpec)
     }
     KDateTime vdt = viewSpec.isValid() ? dt.toTimeSpec(viewSpec) : dt;
     QString format;
-#ifdef FLOAT_IS_DATE_ONLY
-    if (vdt.isDateOnly()) {
-        format = QStringLiteral("%Y-%m-%d");
-    } else
-#endif
-        format = QStringLiteral("%Y-%m-%dT%H:%M:%S");
+    format = QStringLiteral("%Y-%m-%dT%H:%M:%S");
     if (vdt.isSecondOccurrence()) {
         format += QStringLiteral(" %Z");
     }
