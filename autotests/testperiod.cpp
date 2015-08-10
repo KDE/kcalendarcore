@@ -95,11 +95,11 @@ void PeriodTest::testDataStreamOut()
     // There is no way to serialize KDateTime as of KDE4.5
     // and the to/fromString methods do not perform a perfect reconstruction
     // of a datetime
-    QVERIFY(begin.compare(p1.start()) == KDateTime::Equal);
+    QVERIFY(begin == p1.start());
 
     KDateTime end;
     in_stream >> end;
-    QVERIFY(end.compare(p1.end()) == KDateTime::Equal);
+    QVERIFY(end == p1.end());
 
     bool dailyduration;
     in_stream >> dailyduration;
