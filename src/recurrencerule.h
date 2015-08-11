@@ -87,8 +87,6 @@ public:
         friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalCore::RecurrenceRule::WDayPos &);
     };
 
-    // Q_DECLARE_TYPEINFO(RecurrenceRule::WDayPos, Q_MOVABLE_TYPE) TODO_KDE5
-
     RecurrenceRule();
     RecurrenceRule(const RecurrenceRule &r);
     ~RecurrenceRule();
@@ -346,5 +344,7 @@ KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalCore::Recurr
 KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalCore::RecurrenceRule::WDayPos &);
 
 }
+
+Q_DECLARE_TYPEINFO(KCalCore::RecurrenceRule::WDayPos, Q_MOVABLE_TYPE);
 
 #endif
