@@ -34,6 +34,7 @@
 #include "kcalcore_export.h"
 
 #include <QDataStream>
+#include <QHash>
 #include <QMetaType>
 
 class KDateTime;
