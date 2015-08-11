@@ -2363,13 +2363,13 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
                             realEndDate = startDate;
                             realStartDate = endDate;
                         }
-                        tz = QString::fromUtf8("%1;%2;false;%3").
+                        tz = QStringLiteral("%1;%2;false;%3").
                              arg(strRealEndDate).
                              arg(QString::number(utcOffset)).
                              arg(realEndDate.toString());
                         tzList.append(tz);
 
-                        tz = QString::fromUtf8("%1;%2;true;%3").
+                        tz = QStringLiteral("%1;%2;true;%3").
                              arg(strRealStartDate).
                              arg(QString::number(utcOffsetDst)).
                              arg(realStartDate.toString());
