@@ -335,6 +335,11 @@ KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalCore::Durati
  */
 KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalCore::Duration &);
 
+inline uint qHash(const Duration &duration, uint seed = 0)
+{
+    return qHash(qMakePair(duration.isDaily(), duration.asSeconds()), seed);
+}
+
 }
 
 Q_DECLARE_METATYPE(KCalCore::Duration)
