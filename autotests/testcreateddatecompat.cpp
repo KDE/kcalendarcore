@@ -23,7 +23,7 @@
 #include <qtest.h>
 //"X-KDE-ICAL-IMPLEMENTATION-VERSION:1.0\n"
 
-const char *icalFile32 =
+const char *const icalFile32 =
     "BEGIN:VCALENDAR\n"
     "PRODID:-//K Desktop Environment//NONSGML libkcal 3.2//EN\n"
     "VERSION:2.0\n"
@@ -39,7 +39,7 @@ const char *icalFile32 =
     "END:VEVENT\n"
     "END:VCALENDAR\n";
 
-const char *icalFile33 =
+const char *const icalFile33 =
     "BEGIN:VCALENDAR\n"
     "PRODID:-//K Desktop Environment//NONSGML libkcal 3.2//EN\n"
     "VERSION:2.0\n"
