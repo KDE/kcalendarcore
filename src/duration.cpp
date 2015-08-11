@@ -213,6 +213,11 @@ int Duration::value() const
     return d->mDuration;
 }
 
+bool Duration::isNull() const
+{
+    return d->mDuration == 0;
+}
+
 QDataStream &KCalCore::operator<<(QDataStream &out, const KCalCore::Duration &duration)
 {
     out << duration.d->mDuration << duration.d->mDaily;

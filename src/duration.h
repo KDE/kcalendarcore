@@ -311,6 +311,11 @@ public:
     */
     int value() const;
 
+    /**
+      Returns true if the duration is 0 seconds.
+    */
+    bool isNull() const;
+
 private:
     //@cond PRIVATE
     class Private;
@@ -334,6 +339,11 @@ KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalCore::Durati
  * @since 4.12
  */
 KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalCore::Duration &);
+
+inline uint qHash(const Duration &duration, uint seed = 0)
+{
+    return qHash(qMakePair(duration.isDaily(), duration.asSeconds()), seed);
+}
 
 }
 
