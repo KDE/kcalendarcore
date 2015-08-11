@@ -194,15 +194,6 @@ protected:
     void populate(VObject *vcal, bool deleted = false, const QString &notebook = QString());
 
     /**
-      Takes a number 0 - 6 and returns the two letter string of that day,
-      i.e. MO, TU, WE, etc.
-
-      @param day number of the day to get a two letter name for. Range @c 0 - @c 6
-      @see numFromDay().
-    */
-    const char *dayFromNum(int day);
-
-    /**
       Converts a two letter representation of the day (i.e. MO, TU, WE, etc) and
       returns a number 0-6 corresponding to that ordinal day of the week.
       @param day is the QString containing the two letter day representation.

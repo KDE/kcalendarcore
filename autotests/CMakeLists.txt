@@ -6,6 +6,8 @@ find_package(Qt5Test ${QT_REQUIRED_VERSION} CONFIG REQUIRED)
 # needed by loadcalendar
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/cal DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
+remove_definitions(-DQT_NO_CAST_FROM_ASCII)
+
 macro(macro_unit_tests)
   foreach(_testname ${ARGN})
     add_executable(${_testname} ${_testname}.cpp)
