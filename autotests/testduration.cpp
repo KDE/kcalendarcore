@@ -103,3 +103,12 @@ void DurationTest::testSerializer()
     stream2 >> duration2; // deserialize
     QVERIFY(duration == duration2);
 }
+
+void DurationTest::testIsNull()
+{
+    Duration d;
+    QVERIFY(d.isNull());
+
+    Duration d2(7, Duration::Days);
+    QVERIFY(!d2.isNull());
+}

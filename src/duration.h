@@ -311,6 +311,11 @@ public:
     */
     int value() const;
 
+    /**
+      Returns true if the duration is 0 seconds.
+    */
+    bool isNull() const;
+
 private:
     //@cond PRIVATE
     class Private;
