@@ -173,9 +173,9 @@ void ICalTimeZonesTest::general()
     ICalTimeZone itz = src.parse(icaltz);
     QVERIFY(itz.isValid());
 
-    QCOMPARE(tz.name(), QString::fromLatin1("Test-Dummy-Western"));
+    QCOMPARE(tz.name(), QStringLiteral("Test-Dummy-Western"));
     QCOMPARE(tz.url(), QByteArray("http://tz.reference.net/dummies/western"));
-    QCOMPARE(tz.city(), QString::fromLatin1("Zedland/Tryburgh"));
+    QCOMPARE(tz.city(), QStringLiteral("Zedland/Tryburgh"));
     QCOMPARE(tz.lastModified(), QDateTime(QDate(1987, 1, 1), QTime(0, 0, 0), Qt::UTC));
     QCOMPARE(tz.vtimezone(), QByteArray(VTZ_Western));
 
@@ -200,9 +200,9 @@ void ICalTimeZonesTest::general()
     ICalTimeZone itz2 = src.parse(icaltz);
     QVERIFY(itz2.isValid());
 
-    QCOMPARE(tz2.name(), QString::fromLatin1("Test-Dummy-Other"));
+    QCOMPARE(tz2.name(), QStringLiteral("Test-Dummy-Other"));
     QCOMPARE(tz2.url(), QByteArray("http://tz.reference.net/dummies/other"));
-    QCOMPARE(tz2.city(), QString::fromLatin1("Wyland/Tryburgh"));
+    QCOMPARE(tz2.city(), QStringLiteral("Wyland/Tryburgh"));
     QVERIFY(tz2.lastModified().isNull());
     QCOMPARE(tz2.vtimezone(), QByteArray(VTZ_other));
 

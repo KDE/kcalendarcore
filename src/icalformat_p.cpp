@@ -95,7 +95,7 @@ static QString quoteForParam(const QString &text)
     if (tmp.contains(QLatin1Char(';')) || tmp.contains(QLatin1Char(':')) || tmp.contains(QLatin1Char(','))) {
         return tmp; // libical quotes in this case already, see icalparameter_as_ical_string()
     }
-    return QString::fromLatin1("\"") + tmp + QString::fromLatin1("\"");
+    return QStringLiteral("\"") + tmp + QStringLiteral("\"");
 }
 
 const int gSecondsPerMinute = 60;
