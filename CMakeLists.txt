@@ -24,26 +24,6 @@ ecm_setup_version(${KCALENDARCORE_LIB_VERSION} VARIABLE_PREFIX KCALCORE
                         SOVERSION 5
 )
 
-############### Build Options ###############
-
-# The following macros can be defined to alter how KCalCore is built.
-# For example, cmake -DKCALCORE_FOR_MEEGO=true
-
-# KCALCORE_FOR_MEEGO - builds KCalCore with some special features for the MeeGo platform.
-option(KCALCORE_FOR_MEEGO "Build KCalCore especially for the MeeGo." FALSE)
-
-# KCALCORE_FOR_SYMBIAN - builds KCalCore with some special features for the Symbian platform.
-option(KCALCORE_FOR_SYMBIAN "Build KCalCore especially for the Symbian." FALSE)
-
-# add C++ macro definitions for options passed to CMake
-if(KCALCORE_FOR_MEEGO)
-  add_definitions(-DKCALCORE_FOR_MEEGO)
-endif()
-
-if(KCALCORE_FOR_SYMBIAN)
-  add_definitions(-DKCALCORE_FOR_SYMBIAN)
-endif()
-
 ########### Find packages ###########
 find_package(KF5KDELibs4Support ${KF5_VERSION} CONFIG REQUIRED)
 

@@ -95,10 +95,6 @@ public:
 
 VCalFormat::VCalFormat() : d(new KCalCore::VCalFormat::Private)
 {
-#if defined(KCALCORE_FOR_SYMBIAN)
-    d->mManuallyWrittenExtensionFields << VCRecurrenceIdProp;
-    d->mManuallyWrittenExtensionFields << EPOCAgendaEntryTypeProp;
-#endif
     d->mManuallyWrittenExtensionFields << KPilotIdProp;
     d->mManuallyWrittenExtensionFields << KPilotStatusProp;
 }
@@ -644,15 +640,6 @@ VObject *VCalFormat::eventToVTodo(const Todo::Ptr &anEvent)
         addPropValue(vtodo, KPilotStatusProp,
                      anEvent->nonKDECustomProperty(KPilotStatusProp).toUtf8());
     }
-#if defined(KCALCORE_FOR_SYMBIAN)
-    if (anEvent->nonKDECustomProperty(EPOCAgendaEntryTypeProp).isEmpty()) {
-        // Propagate braindeath by setting this property also so that
-        // S60 is happy
-        addPropValue(vtodo, EPOCAgendaEntryTypeProp, "TODO");
-    }
-
-    writeCustomProperties(vtodo, anEvent);
-#endif
 
     return vtodo;
 }
@@ -668,18 +655,12 @@ VObject *VCalFormat::eventToVEvent(const Event::Ptr &anEvent)
     tmpStr = kDateTimeToISO(anEvent->dtStart(), !anEvent->allDay());
     addPropValue(vevent, VCDTstartProp, tmpStr.toUtf8());
 
-#if !defined(KCALCORE_FOR_MEEGO)
     // events that have time associated but take up no time should
     // not have both DTSTART and DTEND.
     if (anEvent->dtStart() != anEvent->dtEnd()) {
         tmpStr = kDateTimeToISO(anEvent->dtEnd(), !anEvent->allDay());
         addPropValue(vevent, VCDTendProp, tmpStr.toUtf8());
     }
-#else
-    // N900 and s60-phones need enddate
-    tmpStr = kDateTimeToISO(anEvent->dtEnd(), !anEvent->allDay());
-    addPropValue(vevent, VCDTendProp, tmpStr.toUtf8());
-#endif
 
     // creation date
     tmpStr = kDateTimeToISO(anEvent->created());
@@ -809,12 +790,7 @@ VObject *VCalFormat::eventToVEvent(const Event::Ptr &anEvent)
         } else if (recur->duration() == -1) {
             tmpStr += QLatin1String("#0"); // defined as repeat forever
         } else {
-#if !defined(KCALCORE_FOR_MEEGO)
             tmpStr += kDateTimeToISO(recur->endDateTime(), false);
-#else
-            tmpStr +=
-                kDateTimeToISO(recur->endDateTime().toTimeSpec(d->mCalendar->timeSpec()), false);
-#endif
         }
         // Only write out the rrule if we have a valid recurrence (i.e. a known
         // type in thee switch above)
@@ -1005,24 +981,6 @@ VObject *VCalFormat::eventToVEvent(const Event::Ptr &anEvent)
                      anEvent->nonKDECustomProperty(KPilotStatusProp).toUtf8());
     }
 
-#if defined(KCALCORE_FOR_SYMBIAN)
-    if (anEvent->nonKDECustomProperty(EPOCAgendaEntryTypeProp).isEmpty()) {
-        // Propagate braindeath by setting this property also so that
-        // S60 is happy
-        if (anEvent->allDay()) {
-            addPropValue(vevent, EPOCAgendaEntryTypeProp, "EVENT");
-        } else {
-            addPropValue(vevent, EPOCAgendaEntryTypeProp, "APPOINTMENT");
-        }
-    }
-
-    if (anEvent->hasRecurrenceId()) {
-        tmpStr = kDateTimeToISO(anEvent->recurrenceId(), true);
-        addPropValue(vevent, VCRecurrenceIdProp, tmpStr.toUtf8());
-    }
-    writeCustomProperties(vevent, anEvent);
-#endif
-
     return vevent;
 }
 
@@ -1168,10 +1126,6 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
         if (anEvent->dtDue().time().hour() == 0 &&
                 anEvent->dtDue().time().minute() == 0 &&
                 anEvent->dtDue().time().second() == 0) {
-#if defined(KCALCORE_FOR_MEEGO)
-            QDate dueDate = anEvent->dtDue().date();
-            anEvent->setDtDue(KDateTime(dueDate, KDateTime::ClockTime));
-#endif
             anEvent->setAllDay(true);
         }
     } else {
@@ -1185,10 +1139,6 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
         if (anEvent->dtStart().time().hour() == 0 &&
                 anEvent->dtStart().time().minute() == 0 &&
                 anEvent->dtStart().time().second() == 0) {
-#if defined(KCALCORE_FOR_MEEGO)
-            QDate startDate = anEvent->dtStart().date();
-            anEvent->setDtStart(KDateTime(startDate, KDateTime::ClockTime));
-#endif
             anEvent->setAllDay(true);
         }
     } else {
@@ -1536,15 +1486,6 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
         deleteStr(s);
     }
 
-#if defined(KCALCORE_FOR_SYMBIAN)
-    // recurrence id
-    vo = isAPropertyOf(vevent, VCRecurrenceIdProp);
-    if (vo) {
-        anEvent->setRecurrenceId(ISOToKDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo)))));
-        deleteStr(s);
-    }
-#endif
-
     // revision
     // again NSCAL doesn't give us much to work with, so we improvise...
     anEvent->setRevision(0);
@@ -1635,10 +1576,6 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
         if (anEvent->dtStart().time().hour() == 0 &&
                 anEvent->dtStart().time().minute() == 0 &&
                 anEvent->dtStart().time().second() == 0) {
-#if defined(KCALCORE_FOR_MEEGO)
-            QDate startDate = anEvent->dtStart().date();
-            anEvent->setDtStart(KDateTime(startDate, KDateTime::ClockTime));
-#endif
             anEvent->setAllDay(true);
         }
     }
@@ -1651,20 +1588,9 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
         if (anEvent->dtEnd().time().hour() == 0 &&
                 anEvent->dtEnd().time().minute() == 0 &&
                 anEvent->dtEnd().time().second() == 0) {
-#if defined(KCALCORE_FOR_MEEGO)
-            QDate endDate = anEvent->dtEnd().date();
-            anEvent->setDtEnd(KDateTime(endDate, KDateTime::ClockTime));
-#endif
             anEvent->setAllDay(true);
         }
     }
-#if defined(KCALCORE_FOR_MEEGO)
-    if (anEvent->allDay()) {
-        if (anEvent->dtEnd() == anEvent->dtStart()) {
-            anEvent->setDtEnd(anEvent->dtEnd().addDays(1));
-        }
-    }
-#endif
 
     // at this point, there should be at least a start or end time.
     // fix up for events that take up no time but have a time associated
@@ -2140,11 +2066,7 @@ QString VCalFormat::kDateTimeToISO(const KDateTime &dt, bool zulu)
     if (zulu) {
         tmpDT = dt.toUtc().dateTime();
     } else {
-#if !defined(KCALCORE_FOR_MEEGO)
         tmpDT = dt.toTimeSpec(d->mCalendar->timeSpec()).dateTime();
-#else
-        tmpDT = dt.dateTime();
-#endif
     }
     tmpStr.sprintf("%.2d%.2d%.2dT%.2d%.2d%.2d",
                    tmpDT.date().year(), tmpDT.date().month(),

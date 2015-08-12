@@ -254,13 +254,6 @@ extern "C" {
 #define ICMethodProp                            "X-METHOD"
 #define ICRequestStatusProp                     "X-REQUEST-STATUS"
 
-#if defined(KCALCORE_FOR_SYMBIAN)
-    /* S60 et al specify the visible object type as follows */
-#define EPOCAgendaEntryTypeProp                 "X-EPOCAGENDAENTRYTYPE"
-    /* recurrence-id vcal extension */
-#define VCRecurrenceIdProp                      "X-RECURRENCE-ID"
-#endif
-
     typedef struct VObject VObject;
 
     typedef union ValueItem {

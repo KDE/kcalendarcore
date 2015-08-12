@@ -309,12 +309,8 @@ icalcomponent *ICalFormatImpl::writeEvent(const Event::Ptr &event,
         icaltimetype end;
         KDateTime dt = event->dtEnd();
         if (event->allDay()) {
-#if !defined(KCALCORE_FOR_MEEGO)
             // +1 day because end date is non-inclusive.
             end = writeICalDate(dt.date().addDays(1));
-#else
-            end = writeICalDate(dt.date());
-#endif
             icalcomponent_add_property(vevent, icalproperty_new_dtend(end));
         } else {
             if (dt != event->dtStart()) {
