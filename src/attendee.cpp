@@ -97,21 +97,21 @@ QString KCalCore::Attendee::Private::cuTypeStr() const
 {
     switch (mCuType) {
     case Attendee::Individual:
-        return QLatin1String("INDIVIDUAL");
+        return QStringLiteral("INDIVIDUAL");
     case Attendee::Group:
-        return QLatin1String("GROUP");
+        return QStringLiteral("GROUP");
     case Attendee::Resource:
-        return QLatin1String("RESOURCE");
+        return QStringLiteral("RESOURCE");
     case Attendee::Room:
-        return QLatin1String("ROOM");
+        return QStringLiteral("ROOM");
     case Attendee::Unknown:
         if (sCuType.isEmpty()) {
-            return QLatin1String("UNKNOWN");
+            return QStringLiteral("UNKNOWN");
         } else {
             return sCuType;
         }
     }
-    return QLatin1String("UNKNOWN");
+    return QStringLiteral("UNKNOWN");
 }
 
 Attendee::Attendee(const QString &name, const QString &email, bool rsvp,
