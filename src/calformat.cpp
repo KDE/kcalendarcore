@@ -134,7 +134,7 @@ QString CalFormat::createUniqueId()
     int hashTime = QTime::currentTime().hour() +
                    QTime::currentTime().minute() + QTime::currentTime().second() +
                    QTime::currentTime().msec();
-    QString uidStr = QString("%1-%2.%3").
+    QString uidStr = QStringLiteral("%1-%2.%3").
                      arg(Private::mApplication).
                      arg(KRandom::random()).
                      arg(hashTime);
