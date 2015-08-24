@@ -14,7 +14,6 @@ set(libversit_SRCS
 
 set(kcalcore_LIB_SRCS
   ${libversit_SRCS}
-  kcalcore_debug.cpp
   alarm.cpp
   attachment.cpp
   attendee.cpp
@@ -49,6 +48,7 @@ set(kcalcore_LIB_SRCS
   vcalformat.cpp
   visitor.cpp
 )
+ecm_qt_declare_logging_category(kcalcore_LIB_SRCS HEADER kcalcore_debug.h IDENTIFIER KCALCORE_LOG CATEGORY_NAME log_kcalcore)
 
 add_library(KF5CalendarCore ${kcalcore_LIB_SRCS})
 
