@@ -2503,7 +2503,7 @@ KDateTime ICalFormatImpl::readICalDateTime(icalproperty *p,
         }
         icalparameter *param =
             p ? icalproperty_get_first_parameter(p, ICAL_TZID_PARAMETER) : 0;
-        const char *tzid = param ? icalparameter_get_tzid(param) : 0;
+        QByteArray tzid = param ? QByteArray(icalparameter_get_tzid(param)) : QByteArray();
 
         // A workaround for a bug in libical (https://github.com/libical/libical/issues/185)
         // If a recurrenceId has both tzid and range, both parameters end up in the tzid.
@@ -2513,7 +2513,7 @@ KDateTime ICalFormatImpl::readICalDateTime(icalproperty *p,
             tzid = parts.first().toAscii();
         }
 
-        if (!tzid) {
+        if (tzid.isNull()) {
             timeSpec = KDateTime::ClockTime;
         } else {
             QString tzidStr = QString::fromUtf8(tzid);
