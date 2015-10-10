@@ -359,9 +359,9 @@ VObject *VCalFormat::eventToVTodo(const Todo::Ptr &anEvent)
 
     // attendees
     if (anEvent->attendeeCount() > 0) {
-        Attendee::List::ConstIterator it;
         Attendee::Ptr curAttendee;
-        for (it = anEvent->attendees().constBegin(); it != anEvent->attendees().constEnd();
+        auto attendees = anEvent->attendees();
+        for (auto it = attendees.constBegin(); it != attendees.constEnd();
                 ++it) {
             curAttendee = *it;
             if (!curAttendee->email().isEmpty() && !curAttendee->name().isEmpty()) {
@@ -602,8 +602,8 @@ VObject *VCalFormat::eventToVTodo(const Todo::Ptr &anEvent)
     }
 
     // alarm stuff
-    Alarm::List::ConstIterator it;
-    for (it = anEvent->alarms().constBegin(); it != anEvent->alarms().constEnd(); ++it) {
+    auto alarms = anEvent->alarms();
+    for (auto it = alarms.constBegin(); it != alarms.constEnd(); ++it) {
         Alarm::Ptr alarm = *it;
         if (alarm->enabled()) {
             VObject *a;
@@ -687,9 +687,8 @@ VObject *VCalFormat::eventToVEvent(const Event::Ptr &anEvent)
 
     // TODO: Put this functionality into Attendee class
     if (anEvent->attendeeCount() > 0) {
-        Attendee::List::ConstIterator it;
-        for (it = anEvent->attendees().constBegin(); it != anEvent->attendees().constEnd();
-                ++it) {
+        auto attendees = anEvent->attendees();
+        for (auto it = attendees.constBegin(); it != attendees.constEnd(); ++it) {
             Attendee::Ptr curAttendee = *it;
             if (!curAttendee->email().isEmpty() && !curAttendee->name().isEmpty()) {
                 tmpStr = QStringLiteral("MAILTO:") + curAttendee->name() + QStringLiteral(" <") + curAttendee->email() + QLatin1Char('>');
@@ -928,8 +927,8 @@ VObject *VCalFormat::eventToVEvent(const Event::Ptr &anEvent)
     }
 
     // alarm stuff
-    Alarm::List::ConstIterator it2;
-    for (it2 = anEvent->alarms().constBegin(); it2 != anEvent->alarms().constEnd(); ++it2) {
+    auto alarms = anEvent->alarms();
+    for (auto it2 = alarms.constBegin(); it2 != alarms.constEnd(); ++it2) {
         Alarm::Ptr alarm = *it2;
         if (alarm->enabled()) {
             VObject *a;

@@ -237,14 +237,16 @@ bool Incidence::equals(const IncidenceBase &incidence) const
     // If they weren't the same type IncidenceBase::equals would had returned false already
     const Incidence *i2 = static_cast<const Incidence *>(&incidence);
 
-    if (alarms().count() != i2->alarms().count()) {
+    const auto alarmList = alarms();
+    const auto otherAlarmsList = i2->alarms();
+    if (alarmList.count() != otherAlarmsList.count()) {
         return false;
     }
 
-    Alarm::List::ConstIterator a1 = alarms().constBegin();
-    Alarm::List::ConstIterator a1end = alarms().constEnd();
-    Alarm::List::ConstIterator a2 = i2->alarms().constBegin();
-    Alarm::List::ConstIterator a2end = i2->alarms().constEnd();
+    Alarm::List::ConstIterator a1 = alarmList.constBegin();
+    Alarm::List::ConstIterator a1end = alarmList.constEnd();
+    Alarm::List::ConstIterator a2 = otherAlarmsList.constBegin();
+    Alarm::List::ConstIterator a2end = otherAlarmsList.constEnd();
     for (; a1 != a1end && a2 != a2end; ++a1, ++a2) {
         if (**a1 == **a2) {
             continue;
@@ -253,14 +255,16 @@ bool Incidence::equals(const IncidenceBase &incidence) const
         }
     }
 
-    if (attachments().count() != i2->attachments().count()) {
+    const auto attachmentList = attachments();
+    const auto otherAttachmentList = i2->attachments();
+    if (attachmentList.count() != otherAttachmentList.count()) {
         return false;
     }
 
-    Attachment::List::ConstIterator att1 = attachments().constBegin();
-    const Attachment::List::ConstIterator att1end = attachments().constEnd();
-    Attachment::List::ConstIterator att2 = i2->attachments().constBegin();
-    const Attachment::List::ConstIterator att2end = i2->attachments().constEnd();
+    Attachment::List::ConstIterator att1 = attachmentList.constBegin();
+    const Attachment::List::ConstIterator att1end = attachmentList.constEnd();
+    Attachment::List::ConstIterator att2 = otherAttachmentList.constBegin();
+    const Attachment::List::ConstIterator att2end = otherAttachmentList.constEnd();
     for (; att1 != att1end && att2 != att2end; ++att1, ++att2) {
         if (**att1 == **att2) {
             continue;

@@ -661,10 +661,9 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent,
     }
 
     // alarms
-    Alarm::List::ConstIterator alarmIt;
-    for (alarmIt = incidence->alarms().constBegin();
-            alarmIt != incidence->alarms().constEnd(); ++alarmIt) {
-        icalcomponent_add_component(parent, writeAlarm(*alarmIt));
+    auto alarms = incidence->alarms();
+    for (auto it = alarms.cbegin(), end = alarms.cend(); it != end; ++it) {
+        icalcomponent_add_component(parent, writeAlarm(*it));
     }
 
     // duration
@@ -692,9 +691,9 @@ void ICalFormatImpl::Private::writeIncidenceBase(icalcomponent *parent,
 
     // attendees
     if (incidenceBase->attendeeCount() > 0) {
-        Attendee::List::ConstIterator it;
-        for (it = incidenceBase->attendees().constBegin();
-                it != incidenceBase->attendees().constEnd(); ++it) {
+        auto attendees = incidenceBase->attendees();
+        for (auto it = attendees.constBegin();
+                it != attendees.constEnd(); ++it) {
             icalproperty *p = mImpl->writeAttendee(*it);
             if (p) {
                 icalcomponent_add_property(parent, p);
