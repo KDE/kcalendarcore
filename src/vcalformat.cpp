@@ -2240,7 +2240,7 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
             // standard from tz
             // starting date for now 01011900
             KDateTime dt = KDateTime(QDateTime(QDate(1900, 1, 1), QTime(0, 0, 0)));
-            tz = QStringLiteral("STD;%1;false;%2").arg(QString::number(utcOffset)).arg(dt.toString());
+            tz = QStringLiteral("STD;%1;false;%2").arg(QString::number(utcOffset), dt.toString());
             tzList.append(tz);
 
             // go through all the daylight tags
@@ -2285,15 +2285,11 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
                             realStartDate = endDate;
                         }
                         tz = QStringLiteral("%1;%2;false;%3").
-                             arg(strRealEndDate).
-                             arg(QString::number(utcOffset)).
-                             arg(realEndDate.toString());
+                             arg(strRealEndDate, QString::number(utcOffset), realEndDate.toString());
                         tzList.append(tz);
 
                         tz = QStringLiteral("%1;%2;true;%3").
-                             arg(strRealStartDate).
-                             arg(QString::number(utcOffsetDst)).
-                             arg(realStartDate.toString());
+                             arg(strRealStartDate, QString::number(utcOffsetDst), realStartDate.toString());
                         tzList.append(tz);
                     } else {
                         qCDebug(KCALCORE_LOG) << "unable to parse dst" << argl[1];
