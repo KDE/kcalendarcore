@@ -1175,7 +1175,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
             // Immediately after the type is the frequency
             int index = tmpStr.indexOf(QLatin1Char(' '));
             int last = tmpStr.lastIndexOf(QLatin1Char(' ')) + 1;   // find last entry
-            int rFreq = tmpStr.mid(typelen, (index - 1)).toInt();
+            int rFreq = tmpStr.midRef(typelen, (index - 1)).toInt();
             ++index; // advance to beginning of stuff after freq
 
             // Read the type-specific settings
@@ -1311,7 +1311,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
             if (tmpStr.mid(index, 1) == QLatin1String("#")) {
                 // Nr of occurrences
                 index++;
-                int rDuration = tmpStr.mid(index, tmpStr.length() - index).toInt();
+                int rDuration = tmpStr.midRef(index, tmpStr.length() - index).toInt();
                 if (rDuration > 0) {
                     anEvent->recurrence()->setDuration(rDuration);
                 }
@@ -1633,7 +1633,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
             // Immediately after the type is the frequency
             int index = tmpStr.indexOf(QLatin1Char(' '));
             int last = tmpStr.lastIndexOf(QLatin1Char(' ')) + 1;   // find last entry
-            int rFreq = tmpStr.mid(typelen, (index - 1)).toInt();
+            int rFreq = tmpStr.midRef(typelen, (index - 1)).toInt();
             ++index; // advance to beginning of stuff after freq
 
             // Read the type-specific settings
@@ -1769,7 +1769,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
             if (tmpStr.mid(index, 1) == QLatin1String("#")) {
                 // Nr of occurrences
                 index++;
-                int rDuration = tmpStr.mid(index, tmpStr.length() - index).toInt();
+                int rDuration = tmpStr.midRef(index, tmpStr.length() - index).toInt();
                 if (rDuration > 0) {
                     anEvent->recurrence()->setDuration(rDuration);
                 }
@@ -2085,12 +2085,12 @@ KDateTime VCalFormat::ISOToKDateTime(const QString &dtStr)
     int year, month, day, hour, minute, second;
 
     tmpStr = dtStr;
-    year = tmpStr.left(4).toInt();
-    month = tmpStr.mid(4, 2).toInt();
-    day = tmpStr.mid(6, 2).toInt();
-    hour = tmpStr.mid(9, 2).toInt();
-    minute = tmpStr.mid(11, 2).toInt();
-    second = tmpStr.mid(13, 2).toInt();
+    year = tmpStr.leftRef(4).toInt();
+    month = tmpStr.midRef(4, 2).toInt();
+    day = tmpStr.midRef(6, 2).toInt();
+    hour = tmpStr.midRef(9, 2).toInt();
+    minute = tmpStr.midRef(11, 2).toInt();
+    second = tmpStr.midRef(13, 2).toInt();
     tmpDate.setYMD(year, month, day);
     tmpTime.setHMS(hour, minute, second);
 
@@ -2110,9 +2110,9 @@ QDate VCalFormat::ISOToQDate(const QString &dateStr)
 {
     int year, month, day;
 
-    year = dateStr.left(4).toInt();
-    month = dateStr.mid(4, 2).toInt();
-    day = dateStr.mid(6, 2).toInt();
+    year = dateStr.leftRef(4).toInt();
+    month = dateStr.midRef(4, 2).toInt();
+    day = dateStr.midRef(6, 2).toInt();
 
     return QDate(year, month, day);
 }
@@ -2152,7 +2152,7 @@ bool VCalFormat::parseTZOffsetISO8601(const QString &s, int &result)
         return false;
     }
 
-    v = str.mid(ofs, 2).toInt(&ok) * 60;
+    v = str.midRef(ofs, 2).toInt(&ok) * 60;
     if (!ok) {
         return false;
     }
@@ -2166,7 +2166,7 @@ bool VCalFormat::parseTZOffsetISO8601(const QString &s, int &result)
             if (str.size() < (ofs + 2)) {
                 return false;
             }
-            v += str.mid(ofs, 2).toInt(&ok);
+            v += str.midRef(ofs, 2).toInt(&ok);
             if (!ok) {
                 return false;
             }
