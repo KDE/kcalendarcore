@@ -587,7 +587,7 @@ VObject *VCalFormat::eventToVTodo(const Todo::Ptr &anEvent)
     for (its = tmpStrList.constBegin(); its != tmpStrList.constEnd(); ++its) {
         catStr = *its;
         if (catStr[0] == QLatin1Char(' ')) {
-            tmpStr += catStr.mid(1);
+            tmpStr += catStr.midRef(1);
         } else {
             tmpStr += catStr;
         }
@@ -897,7 +897,7 @@ VObject *VCalFormat::eventToVEvent(const Event::Ptr &anEvent)
             ++it) {
         catStr = *it;
         if (catStr[0] == QLatin1Char(' ')) {
-            tmpStr += catStr.mid(1);
+            tmpStr += catStr.midRef(1);
         } else {
             tmpStr += catStr;
         }
