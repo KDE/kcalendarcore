@@ -135,7 +135,7 @@ bool ICalTimeZones::add(const ICalTimeZone &zone)
     if (!zone.isValid()) {
         return false;
     }
-    if (d->zones.find(zone.name()) != d->zones.end()) {
+    if (d->zones.constFind(zone.name()) != d->zones.cend()) {
         return false;    // name already exists
     }
 
