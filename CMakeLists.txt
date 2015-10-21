@@ -17,7 +17,7 @@ include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings)
 include(ECMQtDeclareLoggingCategory)
 
-set(KF5_VERSION "5.12.0")
+set(KF5_VERSION "5.14.0")
 set(KCALENDARCORE_LIB_VERSION "4.82.0")
 ecm_setup_version(${KCALENDARCORE_LIB_VERSION} VARIABLE_PREFIX KCALCORE
                         VERSION_HEADER "${KCalCore_BINARY_DIR}/kcalcore_version.h"
