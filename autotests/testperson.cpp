@@ -33,15 +33,15 @@ using namespace KCalCore;
 
 void PersonTest::testValidity()
 {
-    Person person("fred", "fred@flintstone.com");
+    Person person(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com"));
     QVERIFY(person.name() == "fred");
 }
 
 void PersonTest::testCompare()
 {
-    Person person1("fred", "fred@flintstone.com");
-    Person person2("wilma", "wilma@flintstone.com");
-    Person::Ptr person3 = Person::fromFullName("fred <fred@flintstone.com>");
+    Person person1(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com"));
+    Person person2(QStringLiteral("wilma"), QStringLiteral("wilma@flintstone.com"));
+    Person::Ptr person3 = Person::fromFullName(QStringLiteral("fred <fred@flintstone.com>"));
     Person person1copy(person1);   // test copy constructor
     Person person1assign = person1; // test operator=
 
@@ -57,12 +57,12 @@ void PersonTest::testCompare()
 
 void PersonTest::testStringify()
 {
-    Person person1("fred", "fred@flintstone.com");
-    Person person2("wilma", "wilma@flintstone.com");
+    Person person1(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com"));
+    Person person2(QStringLiteral("wilma"), QStringLiteral("wilma@flintstone.com"));
     QVERIFY(person1.fullName() == "fred <fred@flintstone.com>");
     QVERIFY(person2.fullName() == "wilma <wilma@flintstone.com>");
 
-    person1.setName("");
+    person1.setName(QLatin1String(""));
     QVERIFY(person1.fullName() == "fred@flintstone.com");
     person1.setEmail(QString());
     QVERIFY(person1.fullName().isEmpty());
@@ -70,7 +70,7 @@ void PersonTest::testStringify()
 
 void PersonTest::testDataStreamIn()
 {
-    Person::Ptr person1(new Person("fred", "fred@flintstone.com"));
+    Person::Ptr person1(new Person(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com")));
     int initial_count = person1->count();
 
     QByteArray byteArray;
@@ -95,7 +95,7 @@ void PersonTest::testDataStreamIn()
 
 void PersonTest::testDataStreamOut()
 {
-    Person::Ptr person1(new Person("fred", "fred@flintstone.com"));
+    Person::Ptr person1(new Person(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com")));
 
     QByteArray byteArray;
     QDataStream out_stream(&byteArray, QIODevice::WriteOnly);

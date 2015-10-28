@@ -32,9 +32,9 @@ using namespace KCalCore;
 void CalFilterTest::testValidity()
 {
     CalFilter f;
-    f.setName("testfilter");
+    f.setName(QStringLiteral("testfilter"));
     QVERIFY(f.name() == "testfilter");
-    CalFilter g("fredfilter");
+    CalFilter g(QStringLiteral("fredfilter"));
     QVERIFY(g.name() == "fredfilter");
     CalFilter f1, f2;
     QVERIFY(f1 == f2);
@@ -44,7 +44,7 @@ void CalFilterTest::testCats()
 {
     CalFilter f1, f2;
     QStringList cats;
-    cats << "a" << "b" << "c";
+    cats << QStringLiteral("a") << QStringLiteral("b") << QStringLiteral("c");
     f1.setCategoryList(cats);
     f2.setCategoryList(cats);
     QVERIFY(f1.categoryList() == f2.categoryList());

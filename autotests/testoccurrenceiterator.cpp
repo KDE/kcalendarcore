@@ -38,8 +38,8 @@ void TestOccurrenceIterator::testIterationWithExceptions()
     KDateTime actualEnd(QDate(2013, 03, 12), QTime(11, 0, 0), KDateTime::UTC);
 
     KCalCore::Event::Ptr event1(new KCalCore::Event());
-    event1->setUid("event1");
-    event1->setSummary("event1");
+    event1->setUid(QStringLiteral("event1"));
+    event1->setSummary(QStringLiteral("event1"));
     event1->setDtStart(start);
     event1->setDtEnd(end);
     event1->recurrence()->setDaily(1);
@@ -47,7 +47,7 @@ void TestOccurrenceIterator::testIterationWithExceptions()
 
     KCalCore::Event::Ptr exception(new KCalCore::Event());
     exception->setUid(event1->uid());
-    exception->setSummary("exception");
+    exception->setSummary(QStringLiteral("exception"));
     exception->setRecurrenceId(recurrenceId);
     exception->setDtStart(exceptionStart);
     exception->setDtEnd(exceptionEnd);
@@ -90,14 +90,14 @@ void TestOccurrenceIterator::testEventsAndTodos()
     KDateTime actualEnd(QDate(2013, 03, 13), QTime(11, 0, 0), KDateTime::UTC);
 
     KCalCore::Event::Ptr event(new KCalCore::Event());
-    event->setUid("event");
+    event->setUid(QStringLiteral("event"));
     event->setDtStart(start);
     event->recurrence()->setDaily(1);
     event->recurrence()->setDuration(2);
     calendar.addEvent(event);
 
     KCalCore::Todo::Ptr todo(new KCalCore::Todo());
-    todo->setUid("todo");
+    todo->setUid(QStringLiteral("todo"));
     todo->setDtStart(start);
     todo->recurrence()->setDaily(1);
     todo->recurrence()->setDuration(2);
@@ -132,7 +132,7 @@ void TestOccurrenceIterator::testFilterCompletedTodos()
     KDateTime actualEnd(QDate(2013, 03, 13), QTime(11, 0, 0), KDateTime::UTC);
 
     KCalCore::Todo::Ptr todo(new KCalCore::Todo());
-    todo->setUid("todo");
+    todo->setUid(QStringLiteral("todo"));
     todo->setDtDue(start);
     todo->setDtStart(start);
     todo->recurrence()->setDaily(1);
@@ -154,7 +154,7 @@ void TestOccurrenceIterator::testAllDayEvents()
     KDateTime actualEnd(QDate(2013, 03, 13), QTime(11, 0, 0), KDateTime::UTC);
 
     KCalCore::Event::Ptr event(new KCalCore::Event());
-    event->setUid("event");
+    event->setUid(QStringLiteral("event"));
     event->setDtStart(start);
     event->recurrence()->setDaily(1);
     event->recurrence()->setDuration(2);
@@ -189,8 +189,8 @@ void TestOccurrenceIterator::testWithExceptionThisAndFuture()
     KDateTime actualEnd(QDate(2013, 03, 14), QTime(11, 0, 0), KDateTime::UTC);
 
     KCalCore::Event::Ptr event1(new KCalCore::Event());
-    event1->setUid("event1");
-    event1->setSummary("event1");
+    event1->setUid(QStringLiteral("event1"));
+    event1->setSummary(QStringLiteral("event1"));
     event1->setDtStart(start);
     event1->setDtEnd(end);
     event1->recurrence()->setDaily(1);
@@ -198,7 +198,7 @@ void TestOccurrenceIterator::testWithExceptionThisAndFuture()
 
     KCalCore::Event::Ptr exception1(new KCalCore::Event());
     exception1->setUid(event1->uid());
-    exception1->setSummary("exception1");
+    exception1->setSummary(QStringLiteral("exception1"));
     exception1->setRecurrenceId(recurrenceId1);
     exception1->setThisAndFuture(true);
     exception1->setDtStart(exceptionStart1);
@@ -207,7 +207,7 @@ void TestOccurrenceIterator::testWithExceptionThisAndFuture()
 
     KCalCore::Event::Ptr exception2(new KCalCore::Event());
     exception2->setUid(event1->uid());
-    exception2->setSummary("exception2");
+    exception2->setSummary(QStringLiteral("exception2"));
     exception2->setRecurrenceId(recurrenceId2);
     exception2->setDtStart(exceptionStart2);
     exception2->setDtEnd(exceptionEnd2);
@@ -257,7 +257,7 @@ void TestOccurrenceIterator::testSubDailyRecurrences()
     KDateTime actualEnd(QDate(2013, 03, 10), QTime(13, 0, 0), KDateTime::UTC);
 
     KCalCore::Event::Ptr event(new KCalCore::Event());
-    event->setUid("event");
+    event->setUid(QStringLiteral("event"));
     event->setDtStart(start);
     event->recurrence()->setHourly(1);
     event->recurrence()->setDuration(2);
@@ -284,7 +284,7 @@ void TestOccurrenceIterator::testJournals()
     const KDateTime tomorrow = today.addDays(1);
 
     KCalCore::Journal::Ptr journal(new KCalCore::Journal());
-    journal->setUid("journal");
+    journal->setUid(QStringLiteral("journal"));
     journal->setDtStart(today);
     calendar.addJournal(journal);
 

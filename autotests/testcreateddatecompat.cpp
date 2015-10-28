@@ -61,7 +61,7 @@ void CreatedDateCompatTest::testCompat32()
     KCalCore::MemoryCalendar::Ptr cal(new KCalCore::MemoryCalendar(KDateTime::UTC));
     KCalCore::ICalFormat format;
     format.fromRawString(cal, QByteArray(icalFile32));
-    KCalCore::Event::Ptr event = cal->event("uid");
+    KCalCore::Event::Ptr event = cal->event(QStringLiteral("uid"));
     QVERIFY(event);
     QCOMPARE(event->created(),
              KDateTime(QDate(2003, 12, 13), QTime(20, 47, 53), KDateTime::UTC));
@@ -72,7 +72,7 @@ void CreatedDateCompatTest::testCompat33()
     KCalCore::MemoryCalendar::Ptr cal(new KCalCore::MemoryCalendar(KDateTime::UTC));
     KCalCore::ICalFormat format;
     format.fromRawString(cal, QByteArray(icalFile33));
-    KCalCore::Event::Ptr event = cal->event("uid");
+    KCalCore::Event::Ptr event = cal->event(QStringLiteral("uid"));
     QVERIFY(event);
     QCOMPARE(event->created(),
              KDateTime(QDate(2003, 12, 13), QTime(20, 41, 52), KDateTime::UTC));

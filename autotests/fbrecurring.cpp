@@ -38,7 +38,7 @@ int main()
     MemoryCalendar::Ptr cal(new MemoryCalendar(QStringLiteral("UTC")));
 
     Event::Ptr event1 = Event::Ptr(new Event);
-    event1->setSummary("A");
+    event1->setSummary(QStringLiteral("A"));
     event1->setDtStart(KDateTime(QDate(2006, 1, 1), QTime(12, 0, 0)));
     //event1->setDuration( 60 * 60 );
     event1->setDtEnd(KDateTime(QDate(2006, 1, 1), QTime(13, 0, 0)));
@@ -50,7 +50,7 @@ int main()
     cal->addEvent(event1);
 
     Event::Ptr event2 = Event::Ptr(new Event);
-    event2->setSummary("B");
+    event2->setSummary(QStringLiteral("B"));
     event2->setDtStart(KDateTime(QDate(2006, 1, 1), QTime(13, 0, 0)));
     //event2->setDuration( 60 * 60 );
     event2->setDtEnd(KDateTime(QDate(2006, 1, 1), QTime(14, 0, 0)));

@@ -36,7 +36,7 @@ using namespace KCalCore;
 int main(int argc, char **argv)
 {
     QCommandLineParser parser;
-    parser.addOption(QCommandLineOption(QStringList() << "verbose" , i18n("Verbose output")));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose") , i18n("Verbose output")));
 
     KAboutData about(QStringLiteral("testincidence"),
                      i18n("Test Incidence"), QStringLiteral("0.1"));
@@ -46,17 +46,17 @@ int main(int argc, char **argv)
 
     QCoreApplication app(argc, argv);
     QCoreApplication::setApplicationName(QStringLiteral("testincidence"));
-    QCoreApplication::setApplicationVersion("0.1");
+    QCoreApplication::setApplicationVersion(QStringLiteral("0.1"));
     parser.process(app);
     about.processCommandLine(&parser);
     // KComponentData componentData(&about);   // needed by KConfig used by KSaveFile TODO: still needed ?
 
-    const bool verbose = parser.isSet("verbose");
+    const bool verbose = parser.isSet(QStringLiteral("verbose"));
 
     ICalFormat f;
 
     Event::Ptr event1 = Event::Ptr(new Event);
-    event1->setSummary("Test Event");
+    event1->setSummary(QStringLiteral("Test Event"));
     event1->recurrence()->setDaily(2);
     event1->recurrence()->setDuration(3);
 
@@ -65,7 +65,7 @@ int main(int argc, char **argv)
         qDebug() << "EVENT1 START:" << eventString1 << "EVENT1 END";
     }
 
-    event1->setSchedulingID("foo");
+    event1->setSchedulingID(QStringLiteral("foo"));
     Incidence::Ptr event2 = Incidence::Ptr(event1->clone());
 
     Q_ASSERT(event1->uid() == event2->uid());
@@ -83,7 +83,7 @@ int main(int argc, char **argv)
     }
 
     Todo::Ptr todo1 = Todo::Ptr(new Todo);
-    todo1->setSummary("Test todo");
+    todo1->setSummary(QStringLiteral("Test todo"));
     QString todoString1 = f.toString(todo1.staticCast<Incidence>());
     if (verbose) {
         qDebug() << "todo1 START:" << todoString1 << "todo1 END";

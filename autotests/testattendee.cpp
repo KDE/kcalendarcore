@@ -32,45 +32,45 @@ using namespace KCalCore;
 
 void AttendeeTest::testValidity()
 {
-    Attendee attendee("fred", "fred@flintstone.com");
+    Attendee attendee(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com"));
     attendee.setRole(Attendee::Chair);
     QVERIFY(attendee.role() == Attendee::Chair);
 }
 
 void AttendeeTest::testType()
 {
-    Attendee attendee("fred", "fred@flintstone.com");
+    Attendee attendee(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com"));
     QCOMPARE(attendee.cuType(), Attendee::Individual);
     QCOMPARE(attendee.cuTypeStr(), QLatin1String("INDIVIDUAL"));
 
     attendee.setCuType(attendee.cuTypeStr());
     QCOMPARE(attendee.cuType(), Attendee::Individual);
 
-    attendee.setCuType(QLatin1String("INVALID"));
+    attendee.setCuType(QStringLiteral("INVALID"));
     QCOMPARE(attendee.cuType(), Attendee::Unknown);
     QCOMPARE(attendee.cuTypeStr(), QLatin1String("UNKNOWN"));
 
-    attendee.setCuType(QLatin1String("group"));
+    attendee.setCuType(QStringLiteral("group"));
     QCOMPARE(attendee.cuType(), Attendee::Group);
     QCOMPARE(attendee.cuTypeStr(), QLatin1String("GROUP"));
 
-    attendee.setCuType(QLatin1String("resource"));
+    attendee.setCuType(QStringLiteral("resource"));
     QCOMPARE(attendee.cuType(), Attendee::Resource);
     QCOMPARE(attendee.cuTypeStr(), QLatin1String("RESOURCE"));
 
-    attendee.setCuType(QLatin1String("ROOM"));
+    attendee.setCuType(QStringLiteral("ROOM"));
     QCOMPARE(attendee.cuType(), Attendee::Room);
     QCOMPARE(attendee.cuTypeStr(), QLatin1String("ROOM"));
 
-    attendee.setCuType(QLatin1String("UNKNOWN"));
+    attendee.setCuType(QStringLiteral("UNKNOWN"));
     QCOMPARE(attendee.cuType(), Attendee::Unknown);
     QCOMPARE(attendee.cuTypeStr(), QLatin1String("UNKNOWN"));
 
-    attendee.setCuType(QLatin1String("X-test"));
+    attendee.setCuType(QStringLiteral("X-test"));
     QCOMPARE(attendee.cuType(), Attendee::Unknown);
     QCOMPARE(attendee.cuTypeStr(), QLatin1String("X-TEST"));
 
-    attendee.setCuType(QLatin1String("IANA-TEST"));
+    attendee.setCuType(QStringLiteral("IANA-TEST"));
     QCOMPARE(attendee.cuType(), Attendee::Unknown);
     QCOMPARE(attendee.cuTypeStr(), QLatin1String("IANA-TEST"));
 
@@ -92,8 +92,8 @@ void AttendeeTest::testType()
 
 void AttendeeTest::testCompare()
 {
-    Attendee attendee1("fred", "fred@flintstone.com");
-    Attendee attendee2("wilma", "wilma@flintstone.com");
+    Attendee attendee1(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com"));
+    Attendee attendee2(QStringLiteral("wilma"), QStringLiteral("wilma@flintstone.com"));
     attendee1.setRole(Attendee::ReqParticipant);
     attendee2.setRole(Attendee::Chair);
     QVERIFY(!(attendee1 == attendee2));
@@ -104,7 +104,7 @@ void AttendeeTest::testCompare()
 
 void AttendeeTest::testCompareType()
 {
-    Attendee attendee1("fred", "fred@flintstone.com");
+    Attendee attendee1(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com"));
     attendee1.setCuType(Attendee::Resource);
     Attendee attendee2 = attendee1;
 
@@ -117,7 +117,7 @@ void AttendeeTest::testCompareType()
 
 void AttendeeTest::testAssign()
 {
-    Attendee attendee1("fred", "fred@flintstone.com");
+    Attendee attendee1(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com"));
     Attendee attendee2 = attendee1;
     QVERIFY(attendee1 == attendee2);
 
@@ -130,15 +130,15 @@ void AttendeeTest::testAssign()
 
 void AttendeeTest::testDataStreamOut()
 {
-    Attendee::Ptr attendee1(new Attendee("fred", "fred@flintstone.com"));
+    Attendee::Ptr attendee1(new Attendee(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com")));
     attendee1->setRSVP(true);
     attendee1->setRole(Attendee::Chair);
-    attendee1->setUid("Shooby Doo Bop");
-    attendee1->setDelegate("I AM THE Delegate");
-    attendee1->setDelegator("AND I AM THE Delegator");
-    attendee1->setCuType(QLatin1String("X-SPECIAL"));
-    attendee1->setCustomProperty("name", "value");
-    attendee1->setCustomProperty("foo", "bar");
+    attendee1->setUid(QStringLiteral("Shooby Doo Bop"));
+    attendee1->setDelegate(QStringLiteral("I AM THE Delegate"));
+    attendee1->setDelegator(QStringLiteral("AND I AM THE Delegator"));
+    attendee1->setCuType(QStringLiteral("X-SPECIAL"));
+    attendee1->setCustomProperty("name", QStringLiteral("value"));
+    attendee1->setCustomProperty("foo", QStringLiteral("bar"));
 
     QByteArray byteArray;
     QDataStream out_stream(&byteArray, QIODevice::WriteOnly);
@@ -188,15 +188,15 @@ void AttendeeTest::testDataStreamOut()
 
 void AttendeeTest::testDataStreamIn()
 {
-    Attendee::Ptr attendee1(new Attendee("fred", "fred@flintstone.com"));
+    Attendee::Ptr attendee1(new Attendee(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com")));
     attendee1->setRSVP(true);
     attendee1->setRole(Attendee::Chair);
-    attendee1->setCuType(QLatin1String("IANA-FOO"));
-    attendee1->setUid("Shooby Doo Bop");
-    attendee1->setDelegate("I AM THE Delegate");
-    attendee1->setDelegator("AND I AM THE Delegator");
-    attendee1->setCustomProperty("name", "value");
-    attendee1->setCustomProperty("foo", "bar");
+    attendee1->setCuType(QStringLiteral("IANA-FOO"));
+    attendee1->setUid(QStringLiteral("Shooby Doo Bop"));
+    attendee1->setDelegate(QStringLiteral("I AM THE Delegate"));
+    attendee1->setDelegator(QStringLiteral("AND I AM THE Delegator"));
+    attendee1->setCustomProperty("name", QStringLiteral("value"));
+    attendee1->setCustomProperty("foo", QStringLiteral("bar"));
 
     QByteArray byteArray;
     QDataStream out_stream(&byteArray, QIODevice::WriteOnly);

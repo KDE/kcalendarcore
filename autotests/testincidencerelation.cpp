@@ -39,13 +39,13 @@ void IncidenceRelationTest::testRelations()
     // \- todo2
 
     Todo::Ptr todo1 = Todo::Ptr(new Todo());
-    todo1->setSummary("todo");
+    todo1->setSummary(QStringLiteral("todo"));
 
     Todo::Ptr todo2 = Todo::Ptr(new Todo());
-    todo2->setSummary("sub-todo");
+    todo2->setSummary(QStringLiteral("sub-todo"));
 
     Todo::Ptr todo3 = Todo::Ptr(new Todo());
-    todo3->setSummary("sub-sub-todo");
+    todo3->setSummary(QStringLiteral("sub-sub-todo"));
 
     todo3->setRelatedTo(todo2->uid());
     todo2->setRelatedTo(todo1->uid());

@@ -43,12 +43,12 @@ void AlarmTest::testCompare()
     alarm1.setType(Alarm::Email);
     alarm2.setType(Alarm::Email);
 
-    alarm1.setMailAddress(Person::Ptr(new Person("name", "email@foo.com")));
-    alarm2.setMailAddress(Person::Ptr(new Person("name", "email@foo.com")));
+    alarm1.setMailAddress(Person::Ptr(new Person(QStringLiteral("name"), QStringLiteral("email@foo.com"))));
+    alarm2.setMailAddress(Person::Ptr(new Person(QStringLiteral("name"), QStringLiteral("email@foo.com"))));
 
     QVERIFY(alarm1 == alarm2);
 
-    alarm2.setMailAddress(Person::Ptr(new Person("name", "email@foo.pt")));
+    alarm2.setMailAddress(Person::Ptr(new Person(QStringLiteral("name"), QStringLiteral("email@foo.pt"))));
     QVERIFY(alarm1 != alarm2);
 
     alarm2.setType(Alarm::Display);
@@ -78,19 +78,19 @@ void AlarmTest::testSerializer_data()
     a3->setType(Alarm::Display);
     a4->setType(Alarm::Audio);
 
-    a3->setDisplayAlarm("foo");
-    a3->setText("foo bar");
-    a4->setAudioFile("file.mp3");
-    a2->setProgramFile("/usr/bin/foo");
-    a2->setProgramArguments("--play");
+    a3->setDisplayAlarm(QStringLiteral("foo"));
+    a3->setText(QStringLiteral("foo bar"));
+    a4->setAudioFile(QStringLiteral("file.mp3"));
+    a2->setProgramFile(QStringLiteral("/usr/bin/foo"));
+    a2->setProgramArguments(QStringLiteral("--play"));
 
-    a1->setMailSubject("empty subject");
+    a1->setMailSubject(QStringLiteral("empty subject"));
 
     Person::List persons;
-    persons << Person::Ptr(new Person("a", "a@a.pt")) << Person::Ptr(new Person("b", "b@b.pt"));
+    persons << Person::Ptr(new Person(QStringLiteral("a"), QStringLiteral("a@a.pt"))) << Person::Ptr(new Person(QStringLiteral("b"), QStringLiteral("b@b.pt")));
     a1->setMailAddresses(persons);
-    a1->setMailAttachment("foo attachment");
-    a1->setMailText("mail body");
+    a1->setMailAttachment(QStringLiteral("foo attachment"));
+    a1->setMailText(QStringLiteral("mail body"));
 
     a1->setTime(KDateTime(QDate(2006, 8, 3), QTime(8, 0, 0), KDateTime::UTC));
     a2->setStartOffset(Duration(7, Duration::Days));

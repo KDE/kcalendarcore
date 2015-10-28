@@ -36,7 +36,7 @@ void TimesInIntervalTest::test()
     event->setDtStart(currentDate);
     event->setDtEnd(currentDate.addDays(1));
     event->setAllDay(true);
-    event->setSummary("Event1 Summary");
+    event->setSummary(QStringLiteral("Event1 Summary"));
 
     event->recurrence()->setDaily(1);
 
@@ -92,7 +92,7 @@ void TimesInIntervalTest::testSubDailyRecurrenceIntervalInclusive()
     const KDateTime end(QDate(2013, 03, 10), QTime(11, 0, 0), KDateTime::UTC);
 
     KCalCore::Event::Ptr event(new KCalCore::Event());
-    event->setUid("event");
+    event->setUid(QStringLiteral("event"));
     event->setDtStart(start);
     event->recurrence()->setHourly(1);
     event->recurrence()->setDuration(2);
@@ -116,7 +116,7 @@ void TimesInIntervalTest::testSubDailyRecurrence2()
     const KDateTime end(QDate(2013, 03, 10), QTime(13, 4, 5), KDateTime::UTC);
 
     KCalCore::Event::Ptr event(new KCalCore::Event());
-    event->setUid("event");
+    event->setUid(QStringLiteral("event"));
     event->setDtStart(start);
     event->recurrence()->setHourly(1);
     event->recurrence()->setDuration(2);
@@ -139,7 +139,7 @@ void TimesInIntervalTest::testSubDailyRecurrenceIntervalLimits()
     const KDateTime end(QDate(2013, 03, 10), QTime(12, 2, 3), KDateTime::UTC);
 
     KCalCore::Event::Ptr event(new KCalCore::Event());
-    event->setUid("event");
+    event->setUid(QStringLiteral("event"));
     event->setDtStart(start);
     event->recurrence()->setHourly(1);
     event->recurrence()->setDuration(3);

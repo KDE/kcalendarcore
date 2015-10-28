@@ -62,7 +62,7 @@ void TestReadRecurrenceId::testReadWriteSingleExceptionWithThisAndFuture()
     KCalCore::ICalFormat format;
     KCalCore::Incidence::Ptr inc(new KCalCore::Event);
     KCalCore::ICalTimeZoneSource tzsource;
-    KDateTime::Spec spec(tzsource.standardZone(QLatin1String("Europe/Berlin")));
+    KDateTime::Spec spec(tzsource.standardZone(QStringLiteral("Europe/Berlin")));
     KDateTime startDate = KDateTime(QDate(2015,1,2), QTime(3,4,5), spec);
     inc->setDtStart(startDate);
     inc->setRecurrenceId(startDate);

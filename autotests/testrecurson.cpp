@@ -39,9 +39,9 @@ using namespace KCalCore;
 int main(int argc, char **argv)
 {
     QCommandLineParser parser;
-    parser.addOption(QCommandLineOption(QStringList() << "verbose" , i18n("Verbose output")));
-    parser.addPositionalArgument("input", i18n("Name of input file"));
-    parser.addPositionalArgument("output", i18n("optional name of output file for the recurrence dates"));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose") , i18n("Verbose output")));
+    parser.addPositionalArgument(QStringLiteral("input"), i18n("Name of input file"));
+    parser.addPositionalArgument(QStringLiteral("output"), i18n("optional name of output file for the recurrence dates"));
 
     KAboutData about(QStringLiteral("testrecurson"),
                      i18n("Tests all dates from 2002 to 2010 to test if the event recurs on each individual date. "
@@ -53,7 +53,7 @@ int main(int argc, char **argv)
 
     QCoreApplication app(argc, argv);
     QCoreApplication::setApplicationName(QStringLiteral("testrecurson"));
-    QCoreApplication::setApplicationVersion("0.1");
+    QCoreApplication::setApplicationVersion(QStringLiteral("0.1"));
     parser.process(app);
     about.processCommandLine(&parser);
 

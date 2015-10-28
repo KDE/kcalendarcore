@@ -29,7 +29,7 @@ using namespace KCalCore;
 
 void AttachmentTest::testValidity()
 {
-    Attachment attachment(QString("http://www.kde.org"));
+    Attachment attachment(QStringLiteral("http://www.kde.org"));
     QCOMPARE(attachment.uri(), QStringLiteral("http://www.kde.org"));
     QCOMPARE(attachment.data(), QByteArray());
     QVERIFY(attachment.decodedData().isEmpty());
@@ -58,10 +58,10 @@ void AttachmentTest::testValidity()
     attachment4.setData(ethel);
     QCOMPARE(ethel, attachment4.data());
 
-    Attachment attachment5(QString("http://www.kde.org"));
-    Attachment attachment6(QString("http://www.kde.org"));
+    Attachment attachment5(QStringLiteral("http://www.kde.org"));
+    Attachment attachment6(QStringLiteral("http://www.kde.org"));
     QVERIFY(attachment5 == attachment6);
-    attachment5.setUri("http://bugs.kde.org");
+    attachment5.setUri(QStringLiteral("http://bugs.kde.org"));
     QVERIFY(attachment5 != attachment6);
     attachment5.setDecodedData("123456");
     attachment6.setDecodedData("123456");
@@ -74,7 +74,7 @@ void AttachmentTest::testSerializer_data()
 {
     QTest::addColumn<KCalCore::Attachment::Ptr>("attachment");
 
-    Attachment::Ptr nonInline = Attachment::Ptr(new Attachment(QString("http://www.kde.org")));
+    Attachment::Ptr nonInline = Attachment::Ptr(new Attachment(QStringLiteral("http://www.kde.org")));
     Attachment::Ptr inlineAttachment = Attachment::Ptr(new Attachment(QByteArray("foo"), QByteArray("image/nonsense")));
 
     QTest::newRow("inline") << inlineAttachment;
@@ -89,7 +89,7 @@ void AttachmentTest::testSerializer()
     QDataStream stream(&array, QIODevice::WriteOnly);
     stream << attachment; // Serialize
 
-    Attachment::Ptr attachment2 = Attachment::Ptr(new Attachment(QString("foo")));
+    Attachment::Ptr attachment2 = Attachment::Ptr(new Attachment(QStringLiteral("foo")));
     QVERIFY(*attachment != *attachment2);
     QDataStream stream2(&array, QIODevice::ReadOnly);
     stream2 >> attachment2; // deserialize

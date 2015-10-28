@@ -42,9 +42,9 @@ static QString dumpTime(const KDateTime &dt, const KDateTime::Spec &viewSpec);
 int main(int argc, char **argv)
 {
     QCommandLineParser parser;
-    parser.addOption(QCommandLineOption(QStringList() << "verbose" , i18n("Verbose output")));
-    parser.addPositionalArgument("input", i18n("Name of input file"));
-    parser.addPositionalArgument("output", i18n("optional name of output file for the recurrence dates"));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose") , i18n("Verbose output")));
+    parser.addPositionalArgument(QStringLiteral("input"), i18n("Name of input file"));
+    parser.addPositionalArgument(QStringLiteral("output"), i18n("optional name of output file for the recurrence dates"));
 
     KAboutData about(QStringLiteral("testrecurrencenew"),
                      i18n("Load recurrence rules with the new class and print out debug messages"),
@@ -55,7 +55,7 @@ int main(int argc, char **argv)
 
     QCoreApplication app(argc, argv);
     QCoreApplication::setApplicationName(QStringLiteral("testrecurrencenew"));
-    QCoreApplication::setApplicationVersion("0.1");
+    QCoreApplication::setApplicationVersion(QStringLiteral("0.1"));
     parser.process(app);
     about.processCommandLine(&parser);
 

@@ -43,9 +43,9 @@ int main(int argc, char **argv)
     qt_qhash_seed.fetchAndStoreRelaxed(0); // Disable QHash randomness
 
     QCommandLineParser parser;
-    parser.addOption(QCommandLineOption(QStringList() << "verbose" , i18n("Verbose output")));
-    parser.addPositionalArgument("source", i18n("Source file to copy."));
-    parser.addPositionalArgument("destination", i18n("Destination directory."));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose") , i18n("Verbose output")));
+    parser.addPositionalArgument(QStringLiteral("source"), i18n("Source file to copy."));
+    parser.addPositionalArgument(QStringLiteral("destination"), i18n("Destination directory."));
 
     KAboutData about(QStringLiteral("readandwrite"),
                      i18n("Read and Write Calendar"), QStringLiteral("0.1"));
@@ -55,7 +55,7 @@ int main(int argc, char **argv)
 
     QCoreApplication app(argc, argv);
     QCoreApplication::setApplicationName(QStringLiteral("readandwrite"));
-    QCoreApplication::setApplicationVersion("0.1");
+    QCoreApplication::setApplicationVersion(QStringLiteral("0.1"));
     parser.process(app);
     about.processCommandLine(&parser);
     // KComponentData componentData(&about);   // needed by KConfig used by KSaveFile TODO: still needed ?

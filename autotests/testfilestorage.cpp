@@ -46,21 +46,21 @@ void FileStorageTest::testSave()
     QDate dt = QDate::currentDate();
 
     Event::Ptr event1 = Event::Ptr(new Event());
-    event1->setUid("1");
+    event1->setUid(QStringLiteral("1"));
     event1->setDtStart(KDateTime(dt));
     event1->setDtEnd(KDateTime(dt).addDays(1));
-    event1->setSummary("Event1 Summary");
-    event1->setDescription("This is a description of the first event");
-    event1->setLocation("the place");
+    event1->setSummary(QStringLiteral("Event1 Summary"));
+    event1->setDescription(QStringLiteral("This is a description of the first event"));
+    event1->setLocation(QStringLiteral("the place"));
     cal->addEvent(event1);
 
     Event::Ptr event2 = Event::Ptr(new Event());
-    event2->setUid("2");
+    event2->setUid(QStringLiteral("2"));
     event2->setDtStart(KDateTime(dt).addDays(1));
     event2->setDtEnd(KDateTime(dt).addDays(2));
-    event2->setSummary("Event2 Summary");
-    event2->setDescription("This is a description of the second event");
-    event2->setLocation("the other place");
+    event2->setSummary(QStringLiteral("Event2 Summary"));
+    event2->setDescription(QStringLiteral("This is a description of the second event"));
+    event2->setLocation(QStringLiteral("the other place"));
     cal->addEvent(event2);
 
     QVERIFY(fs.open());
@@ -78,21 +78,21 @@ void FileStorageTest::testSaveLoadSave()
     QDate dt = QDate::currentDate();
 
     Event::Ptr event1 = Event::Ptr(new Event());
-    event1->setUid("1");
+    event1->setUid(QStringLiteral("1"));
     event1->setDtStart(KDateTime(dt));
     event1->setDtEnd(KDateTime(dt).addDays(1));
-    event1->setSummary("Event1 Summary");
-    event1->setDescription("This is a description of the first event");
-    event1->setLocation("the place");
+    event1->setSummary(QStringLiteral("Event1 Summary"));
+    event1->setDescription(QStringLiteral("This is a description of the first event"));
+    event1->setLocation(QStringLiteral("the place"));
     cal->addEvent(event1);
 
     Event::Ptr event2 = Event::Ptr(new Event());
-    event2->setUid("2");
+    event2->setUid(QStringLiteral("2"));
     event2->setDtStart(KDateTime(dt).addDays(1));
     event2->setDtEnd(KDateTime(dt).addDays(2));
-    event2->setSummary("Event2 Summary");
-    event2->setDescription("This is a description of the second event");
-    event2->setLocation("the other place");
+    event2->setSummary(QStringLiteral("Event2 Summary"));
+    event2->setDescription(QStringLiteral("This is a description of the second event"));
+    event2->setLocation(QStringLiteral("the other place"));
     cal->addEvent(event2);
 
     QVERIFY(fs.open());
@@ -100,7 +100,7 @@ void FileStorageTest::testSaveLoadSave()
     QVERIFY(fs.close());
     QVERIFY(fs.open());
     QVERIFY(fs.load());
-    Event::Ptr e = fs.calendar()->incidence("1").staticCast<Event>();
+    Event::Ptr e = fs.calendar()->incidence(QStringLiteral("1")).staticCast<Event>();
     QVERIFY(e != 0);
     QVERIFY(fs.close());
     unlink("fred.ics");
@@ -114,7 +114,7 @@ void FileStorageTest::testSaveLoadSave()
 void FileStorageTest::testSpecialChars()
 {
     const QDate currentDate = QDate::currentDate();
-    const QString uid("12345");
+    const QString uid(QStringLiteral("12345"));
 
     Event::Ptr event = Event::Ptr(new Event());
     event->setUid(uid);

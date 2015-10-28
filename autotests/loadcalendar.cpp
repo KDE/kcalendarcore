@@ -35,7 +35,7 @@ using namespace KCalCore;
 int main(int argc, char **argv)
 {
     QCommandLineParser parser;
-    parser.addOption(QCommandLineOption(QStringList() << "verbose" , i18n("Verbose output")));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose") , i18n("Verbose output")));
 
     KAboutData about(QStringLiteral("testcalendar"),
                      i18n("Test Calendar"), QStringLiteral("0.1"));
@@ -45,12 +45,12 @@ int main(int argc, char **argv)
 
     QCoreApplication app(argc, argv);
     QCoreApplication::setApplicationName(QStringLiteral("testincidence"));
-    QCoreApplication::setApplicationVersion("0.1");
+    QCoreApplication::setApplicationVersion(QStringLiteral("0.1"));
     parser.process(app);
     about.processCommandLine(&parser);
 
     MemoryCalendar::Ptr cal(new MemoryCalendar(KDateTime::UTC));
-    FileStorage store(cal, "cal");
+    FileStorage store(cal, QStringLiteral("cal"));
     store.load();
 
     Todo::List todoList;
@@ -68,7 +68,7 @@ int main(int argc, char **argv)
     QString result = (*todoList.begin())->customProperty(QByteArray("karm"),
                      QByteArray("totalTaskTime"));
     qDebug() << result;
-    if (result != QString("a,b")) {
+    if (result != QStringLiteral("a,b")) {
         qDebug() << "The string a,b was expected, but given was" << result;
         return 1;
     } else {

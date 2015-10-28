@@ -34,8 +34,8 @@ void FreeBusyPeriodTest::testValidity()
     const KDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), KDateTime::UTC);
     FreeBusyPeriod p1(p1DateTime, Duration(60));
 
-    QString summary = "I can haz summary?";
-    QString location = "The Moon";
+    QString summary = QStringLiteral("I can haz summary?");
+    QString location = QStringLiteral("The Moon");
     p1.setSummary(summary);
     p1.setLocation(location);
 
@@ -53,8 +53,8 @@ void FreeBusyPeriodTest::testAssign()
     FreeBusyPeriod p1(p1DateTime, Duration(60));
     FreeBusyPeriod p2;
 
-    QString summary = "I can haz summary?";
-    QString location = "The Moon";
+    QString summary = QStringLiteral("I can haz summary?");
+    QString location = QStringLiteral("The Moon");
     p1.setSummary(summary);
     p1.setLocation(location);
 
@@ -72,8 +72,8 @@ void FreeBusyPeriodTest::testDataStreamOut()
     const KDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), KDateTime::UTC);
     FreeBusyPeriod p1(p1DateTime, Duration(60));
 
-    p1.setSummary("I can haz summary?");
-    p1.setLocation("The Moon");
+    p1.setSummary(QStringLiteral("I can haz summary?"));
+    p1.setLocation(QStringLiteral("The Moon"));
 
     QByteArray byteArray;
     QDataStream out_stream(&byteArray, QIODevice::WriteOnly);
@@ -101,8 +101,8 @@ void FreeBusyPeriodTest::testDataStreamIn()
     const KDateTime p1DateTime(QDate(2006, 8, 30));
     const Duration duration(24 * 60 * 60) ;
     FreeBusyPeriod p1(p1DateTime, duration);
-    p1.setSummary("I can haz summary?");
-    p1.setLocation("The Moon");
+    p1.setSummary(QStringLiteral("I can haz summary?"));
+    p1.setLocation(QStringLiteral("The Moon"));
 
     QByteArray byteArray;
     QDataStream out_stream(&byteArray, QIODevice::WriteOnly);

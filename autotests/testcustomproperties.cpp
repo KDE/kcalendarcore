@@ -37,22 +37,22 @@ void CustomPropertiesTest::testValidity()
 
     QByteArray name("X-KDE-KORG-TEXT");
     QCOMPARE(cp.customPropertyName(app, key), name);
-    cp.setCustomProperty(app, key, "rich");
+    cp.setCustomProperty(app, key, QStringLiteral("rich"));
     QCOMPARE(cp.customProperty(app, key), QString("rich"));
     QCOMPARE(cp.nonKDECustomProperty(name), QString("rich"));
 
     cp.removeCustomProperty(app, key);
-    cp.setCustomProperty(app, key, "foo");
-    cp.setCustomProperty(app, key, "rich");
+    cp.setCustomProperty(app, key, QStringLiteral("foo"));
+    cp.setCustomProperty(app, key, QStringLiteral("rich"));
     QCOMPARE(cp.customProperty(app, key), QString("rich"));
 
     key = "X-TEXT";
-    cp.setNonKDECustomProperty(key, "rich");
+    cp.setNonKDECustomProperty(key, QStringLiteral("rich"));
     QCOMPARE(cp.nonKDECustomProperty(key), QString("rich"));
 
     cp.removeNonKDECustomProperty(key);
-    cp.setNonKDECustomProperty(key, "foo");
-    cp.setNonKDECustomProperty(key, "rich");
+    cp.setNonKDECustomProperty(key, QStringLiteral("foo"));
+    cp.setNonKDECustomProperty(key, QStringLiteral("rich"));
     QCOMPARE(cp.nonKDECustomProperty(key), QString("rich"));
 }
 
@@ -63,7 +63,7 @@ void CustomPropertiesTest::testCompare()
     QByteArray app("KORG");
     QByteArray key("TEXT");
 
-    cp1.setCustomProperty(app, key, "rich");
+    cp1.setCustomProperty(app, key, QStringLiteral("rich"));
     cp2 = cp1;
     QVERIFY(cp1 == cp2);
 
@@ -81,7 +81,7 @@ void CustomPropertiesTest::testCompare()
     QVERIFY(cp4.customProperty(app, QByteArray()).isEmpty());
 
     key = "X-TEXT";
-    cp1.setNonKDECustomProperty(key, "rich");
+    cp1.setNonKDECustomProperty(key, QStringLiteral("rich"));
     cp2 = cp1;
     QVERIFY(cp1 == cp2);
 
@@ -101,11 +101,11 @@ void CustomPropertiesTest::testCompare()
 void CustomPropertiesTest::testMapValidity()
 {
     QMap<QByteArray, QString> cpmap;
-    cpmap.insert("X-key1", QString("val1"));
-    cpmap.insert("X-key2", QString("val2"));
-    cpmap.insert("X-key3", QString("val3"));
-    cpmap.insert("X-key4", QString("val4"));
-    cpmap.insert("X-key5", QString("val5"));
+    cpmap.insert("X-key1", QStringLiteral("val1"));
+    cpmap.insert("X-key2", QStringLiteral("val2"));
+    cpmap.insert("X-key3", QStringLiteral("val3"));
+    cpmap.insert("X-key4", QStringLiteral("val4"));
+    cpmap.insert("X-key5", QStringLiteral("val5"));
 
     CustomProperties cp;
     cp.setCustomProperties(cpmap);
@@ -116,11 +116,11 @@ void CustomPropertiesTest::testMapValidity()
 void CustomPropertiesTest::testMapCompare()
 {
     QMap<QByteArray, QString> cpmap;
-    cpmap.insert("X-key1", QString("val1"));
-    cpmap.insert("X-key2", QString("val2"));
-    cpmap.insert("X-key3", QString("val3"));
-    cpmap.insert("X-key4", QString("val4"));
-    cpmap.insert("X-key5", QString("val5"));
+    cpmap.insert("X-key1", QStringLiteral("val1"));
+    cpmap.insert("X-key2", QStringLiteral("val2"));
+    cpmap.insert("X-key3", QStringLiteral("val3"));
+    cpmap.insert("X-key4", QStringLiteral("val4"));
+    cpmap.insert("X-key5", QStringLiteral("val5"));
 
     CustomProperties cp1, cp2;
     cp1.setCustomProperties(cpmap);
@@ -159,11 +159,11 @@ void CustomPropertiesTest::testEmpty()
 void CustomPropertiesTest::testDataStreamIn()
 {
     QMap<QByteArray, QString> cpmap;
-    cpmap.insert("X-key1", QString("val1"));
-    cpmap.insert("X-key2", QString("val2"));
-    cpmap.insert("X-key3", QString("val3"));
-    cpmap.insert("X-key4", QString("val4"));
-    cpmap.insert("X-key5", QString("val5"));
+    cpmap.insert("X-key1", QStringLiteral("val1"));
+    cpmap.insert("X-key2", QStringLiteral("val2"));
+    cpmap.insert("X-key3", QStringLiteral("val3"));
+    cpmap.insert("X-key4", QStringLiteral("val4"));
+    cpmap.insert("X-key5", QStringLiteral("val5"));
 
     CustomProperties cp;
     cp.setCustomProperties(cpmap);
@@ -184,8 +184,8 @@ void CustomPropertiesTest::testDataStreamIn()
 void CustomPropertiesTest::testVolatile()
 {
     QMap<QByteArray, QString> cpmap;
-    cpmap.insert("X-key1", QString("val1"));
-    cpmap.insert("X-KDE-VOLATILE-FOO", QString("val2"));
+    cpmap.insert("X-key1", QStringLiteral("val1"));
+    cpmap.insert("X-KDE-VOLATILE-FOO", QStringLiteral("val2"));
 
     CustomProperties cp;
     cp.setCustomProperties(cpmap);
@@ -193,7 +193,7 @@ void CustomPropertiesTest::testVolatile()
     QCOMPARE(cp.customProperties().count(), 2);
 
     QMap<QByteArray, QString> cpmap2;
-    cpmap2.insert("X-key1", QString("val1"));
+    cpmap2.insert("X-key1", QStringLiteral("val1"));
     CustomProperties cp2;
     cp2.setCustomProperties(cpmap2);
     QCOMPARE(cp, cp2);
@@ -201,7 +201,7 @@ void CustomPropertiesTest::testVolatile()
     cp.removeCustomProperty("VOLATILE", "FOO");
     QCOMPARE(cp.customProperties().count(), 1);
 
-    cp.setCustomProperty("VOLATILE", "FOO", "BAR");
+    cp.setCustomProperty("VOLATILE", "FOO", QStringLiteral("BAR"));
     QCOMPARE(cp.customProperties().count(), 2);
 
     QByteArray byteArray;
@@ -218,11 +218,11 @@ void CustomPropertiesTest::testVolatile()
 void CustomPropertiesTest::testDataStreamOut()
 {
     QMap<QByteArray, QString> cpmap;
-    cpmap.insert("X-key1", QString("val1"));
-    cpmap.insert("X-key2", QString("val2"));
-    cpmap.insert("X-key3", QString("val3"));
-    cpmap.insert("X-key4", QString("val4"));
-    cpmap.insert("X-key5", QString("val5"));
+    cpmap.insert("X-key1", QStringLiteral("val1"));
+    cpmap.insert("X-key2", QStringLiteral("val2"));
+    cpmap.insert("X-key3", QStringLiteral("val3"));
+    cpmap.insert("X-key4", QStringLiteral("val4"));
+    cpmap.insert("X-key5", QStringLiteral("val5"));
 
     CustomProperties cp, cp2;
     cp.setCustomProperties(cpmap);

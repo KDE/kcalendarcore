@@ -29,7 +29,7 @@ void TestRecurrenceException::testCreateTodoException()
     const KDateTime recurrenceId(KDateTime(dtstart).addDays(1));
 
     KCalCore::Todo::Ptr todo(new KCalCore::Todo());
-    todo->setUid("todo");
+    todo->setUid(QStringLiteral("todo"));
     todo->setDtStart(dtstart);
     todo->setDtDue(dtdue);
     todo->recurrence()->setDaily(1);

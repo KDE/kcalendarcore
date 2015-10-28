@@ -33,7 +33,7 @@ int main(int, char **)
 
 // std::cout << "Hello World!" << std::endl;
     Event::Ptr ev = Event::Ptr(new Event);
-    ev->setSummary("Griazi");
+    ev->setSummary(QStringLiteral("Griazi"));
     ICalFormat iformat;
     QString icalstr = iformat.toICalString(ev);
     qDebug() << icalstr;

@@ -34,9 +34,9 @@ void TodoTest::testValidity()
     Todo *todo = new Todo();
     todo->setDtStart(KDateTime(dt));
     todo->setDtDue(KDateTime(dt).addDays(1));
-    todo->setSummary("To-do1 Summary");
-    todo->setDescription("This is a description of the first to-do");
-    todo->setLocation("the place");
+    todo->setSummary(QStringLiteral("To-do1 Summary"));
+    todo->setDescription(QStringLiteral("This is a description of the first to-do"));
+    todo->setLocation(QStringLiteral("the place"));
     todo->setPercentComplete(5);
     //KDE5: QVERIFY( todo->typeStr() == i18n( "to-do" ) );
     QVERIFY(todo->summary() == "To-do1 Summary");
@@ -50,17 +50,17 @@ void TodoTest::testCompare()
     Todo todo1;
     todo1.setDtStart(KDateTime(dt));
     todo1.setDtDue(KDateTime(dt).addDays(1));
-    todo1.setSummary("To-do1 Summary");
-    todo1.setDescription("This is a description of the first to-do");
-    todo1.setLocation("the place");
+    todo1.setSummary(QStringLiteral("To-do1 Summary"));
+    todo1.setDescription(QStringLiteral("This is a description of the first to-do"));
+    todo1.setLocation(QStringLiteral("the place"));
     todo1.setCompleted(true);
 
     Todo todo2;
     todo2.setDtStart(KDateTime(dt).addDays(1));
     todo2.setDtDue(KDateTime(dt).addDays(2));
-    todo2.setSummary("To-do2 Summary");
-    todo2.setDescription("This is a description of the second to-do");
-    todo2.setLocation("the other place");
+    todo2.setSummary(QStringLiteral("To-do2 Summary"));
+    todo2.setDescription(QStringLiteral("This is a description of the second to-do"));
+    todo2.setLocation(QStringLiteral("the other place"));
     todo2.setCompleted(false);
 
     QVERIFY(!(todo1 == todo2));
@@ -75,9 +75,9 @@ void TodoTest::testClone()
     Todo todo1;
     todo1.setDtStart(KDateTime(dt));
     todo1.setDtDue(KDateTime(dt).addDays(1));
-    todo1.setSummary("Todo1 Summary");
-    todo1.setDescription("This is a description of the first todo");
-    todo1.setLocation("the place");
+    todo1.setSummary(QStringLiteral("Todo1 Summary"));
+    todo1.setDescription(QStringLiteral("This is a description of the first todo"));
+    todo1.setLocation(QStringLiteral("the place"));
 
     Todo *todo2 = todo1.clone();
     QVERIFY(todo1.summary() == todo2->summary());
@@ -93,9 +93,9 @@ void TodoTest::testCopyIncidence()
     QDate dt = QDate::currentDate();
     Event event;
     event.setDtStart(KDateTime(dt));
-    event.setSummary(QLatin1String("Event1 Summary"));
-    event.setDescription(QLatin1String("This is a description of the first event"));
-    event.setLocation(QLatin1String("the place"));
+    event.setSummary(QStringLiteral("Event1 Summary"));
+    event.setDescription(QStringLiteral("This is a description of the first event"));
+    event.setLocation(QStringLiteral("the place"));
 
     Todo todo(event);
     QCOMPARE(todo.uid(), event.uid());
@@ -111,9 +111,9 @@ void TodoTest::testAssign()
     Todo todo1;
     todo1.setDtStart(KDateTime(dt));
     todo1.setDtDue(KDateTime(dt).addDays(1));
-    todo1.setSummary("Todo1 Summary");
-    todo1.setDescription("This is a description of the first todo");
-    todo1.setLocation("the place");
+    todo1.setSummary(QStringLiteral("Todo1 Summary"));
+    todo1.setDescription(QStringLiteral("This is a description of the first todo"));
+    todo1.setLocation(QStringLiteral("the place"));
 
     Todo todo2 = todo1;
     QVERIFY(todo1 == todo2);
@@ -123,9 +123,9 @@ void TodoTest::testSetCompleted()
 {
 
     Todo todo1, todo2, todo3;
-    todo1.setSummary("Todo Summary");
-    todo2.setSummary("Todo Summary");
-    todo3.setSummary("Todo Summary");
+    todo1.setSummary(QStringLiteral("Todo Summary"));
+    todo2.setSummary(QStringLiteral("Todo Summary"));
+    todo3.setSummary(QStringLiteral("Todo Summary"));
     KDateTime today = KDateTime::currentUtcDateTime();
 
     // due yesterday
@@ -182,56 +182,56 @@ void TodoTest::testSerializer_data()
     Todo::Ptr todo5 = Todo::Ptr(new Todo());
     Todo::Ptr todo6 = Todo::Ptr(new Todo());
 
-    todo1->setSummary("Summary", false);
-    todo1->setDescription("description", false);
+    todo1->setSummary(QStringLiteral("Summary"), false);
+    todo1->setDescription(QStringLiteral("description"), false);
     todo1->setCreated(yesterday);
     todo1->setRevision(50);
     todo1->setDtDue(yesterday);
     todo1->setDtStart(today);
     todo1->setPercentComplete(50);
-    todo1->setLocation("<b>location</b>", false);
+    todo1->setLocation(QStringLiteral("<b>location</b>"), false);
 
-    todo2->setDescription("<b>description</b>", true);
-    todo2->setSummary("<b>Summary2</b>", true);
-    todo2->setLocation("<b>location</b>", true);
+    todo2->setDescription(QStringLiteral("<b>description</b>"), true);
+    todo2->setSummary(QStringLiteral("<b>Summary2</b>"), true);
+    todo2->setLocation(QStringLiteral("<b>location</b>"), true);
     todo2->setDtDue(yesterday);
     todo2->setPercentComplete(100);
 
     todo3->setDtStart(today);
     todo3->setPercentComplete(100);
-    todo3->setCategories(QStringList() << "a" << "b" << "c" << "d");
-    todo3->setResources(QStringList() << "a" << "b" << "c" << "d");
+    todo3->setCategories(QStringList() << QStringLiteral("a") << QStringLiteral("b") << QStringLiteral("c") << QStringLiteral("d"));
+    todo3->setResources(QStringList() << QStringLiteral("a") << QStringLiteral("b") << QStringLiteral("c") << QStringLiteral("d"));
     todo3->setPriority(5);
 
     QVERIFY(!todo4->dirtyFields().contains(IncidenceBase::FieldRecurrence));
     todo4->recurrence()->setDaily(1);
     QVERIFY(todo4->dirtyFields().contains(IncidenceBase::FieldRecurrence));
 
-    Attachment::Ptr attachment = Attachment::Ptr(new Attachment(QString("http://www.kde.org")));
+    Attachment::Ptr attachment = Attachment::Ptr(new Attachment(QStringLiteral("http://www.kde.org")));
     todo4->addAttachment(attachment);
 
     todo5->recurrence()->setDaily(1);
     todo5->setCompleted(today);
     todo5->setStatus(Incidence::StatusDraft);
     todo5->setSecrecy(Incidence::SecrecyPrivate);
-    todo5->setRelatedTo("uid1", Incidence::RelTypeParent);
+    todo5->setRelatedTo(QStringLiteral("uid1"), Incidence::RelTypeParent);
     todo5->setHasGeo(true);
     todo5->setGeoLatitude(40);
     todo5->setGeoLongitude(40);
-    todo5->setOrganizer("organizer@mail.com");
+    todo5->setOrganizer(QStringLiteral("organizer@mail.com"));
 
     todo6->recurrence()->setDaily(1);
     todo6->setCompleted(today);
     todo6->setRecurrenceId(yesterday);
     todo6->setStatus(Incidence::StatusDraft);
     todo6->setSecrecy(Incidence::SecrecyPrivate);
-    todo6->setRelatedTo("uid1", Incidence::RelTypeParent);
+    todo6->setRelatedTo(QStringLiteral("uid1"), Incidence::RelTypeParent);
     todo6->setHasGeo(true);
     todo6->setGeoLatitude(40);
     todo6->setGeoLongitude(40);
-    todo6->setUid("uid22");
+    todo6->setUid(QStringLiteral("uid22"));
     todo6->setLastModified(today);
-    todo6->addContact("addContact");
+    todo6->addContact(QStringLiteral("addContact"));
 
     // Remaining properties tested in testevent.cpp
 

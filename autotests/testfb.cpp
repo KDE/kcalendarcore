@@ -31,7 +31,7 @@ using namespace KCalCore;
 int main(int, char **)
 {
     const QString fbString =
-        "BEGIN:VCALENDAR\n"
+        QStringLiteral("BEGIN:VCALENDAR\n"
         "PRODID:-//proko2//freebusy 1.0//EN\n"
         "METHOD:PUBLISH\n"
         "VERSION:2.0\n"
@@ -48,7 +48,7 @@ int main(int, char **)
         " SUMMARY=RW1wbG95ZWUgbWVldGluZw==;X-LOCATION=Um9vb\n"
         " SAyMTM=:20080131T170000Z/20080131T174500Z\n"
         "END:VFREEBUSY\n"
-        "END:VCALENDAR\n";
+        "END:VCALENDAR\n");
 
     ICalFormat format;
     FreeBusy::Ptr fb = format.parseFreeBusy(fbString);

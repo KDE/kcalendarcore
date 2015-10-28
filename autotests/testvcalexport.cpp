@@ -40,9 +40,9 @@ using namespace KCalCore;
 int main(int argc, char **argv)
 {
     QCommandLineParser parser;
-    parser.addOption(QCommandLineOption(QStringList() << "verbose" , i18n("Verbose output")));
-    parser.addPositionalArgument("input", i18n("Name of input file"));
-    parser.addPositionalArgument("output", i18n("Name of output file"));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose") , i18n("Verbose output")));
+    parser.addPositionalArgument(QStringLiteral("input"), i18n("Name of input file"));
+    parser.addPositionalArgument(QStringLiteral("output"), i18n("Name of output file"));
 
     KAboutData about(QStringLiteral("testvcalexport"),
                      i18n("Part of LibKCal's test suite. Checks if export "
@@ -54,7 +54,7 @@ int main(int argc, char **argv)
 
     QCoreApplication app(argc, argv);
     QCoreApplication::setApplicationName(QStringLiteral("testvcalexport"));
-    QCoreApplication::setApplicationVersion("0.1");
+    QCoreApplication::setApplicationVersion(QStringLiteral("0.1"));
     parser.process(app);
     about.processCommandLine(&parser);
 

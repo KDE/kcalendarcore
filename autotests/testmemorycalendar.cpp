@@ -49,25 +49,25 @@ void MemoryCalendarTest::testEvents()
     QDate dt = QDate::currentDate();
 
     Event::Ptr event1 = Event::Ptr(new Event());
-    event1->setUid("1");
+    event1->setUid(QStringLiteral("1"));
     event1->setDtStart(KDateTime(dt));
     event1->setDtEnd(KDateTime(dt).addDays(1));
-    event1->setSummary("Event1 Summary");
-    event1->setDescription("This is a description of the first event");
-    event1->setLocation("the place");
+    event1->setSummary(QStringLiteral("Event1 Summary"));
+    event1->setDescription(QStringLiteral("This is a description of the first event"));
+    event1->setLocation(QStringLiteral("the place"));
 
     Event::Ptr event2 = Event::Ptr(new Event());
-    event2->setUid("2");
+    event2->setUid(QStringLiteral("2"));
     event2->setDtStart(KDateTime(dt).addDays(1));
     event2->setDtEnd(KDateTime(dt).addDays(2));
-    event2->setSummary("Event2 Summary");
-    event2->setDescription("This is a description of the second event");
-    event2->setLocation("the other place");
+    event2->setSummary(QStringLiteral("Event2 Summary"));
+    event2->setDescription(QStringLiteral("This is a description of the second event"));
+    event2->setLocation(QStringLiteral("the other place"));
 
     QVERIFY(cal->addEvent(event1));
     QVERIFY(cal->addEvent(event2));
 
-    FileStorage store(cal, "foo.ics");
+    FileStorage store(cal, QStringLiteral("foo.ics"));
     QVERIFY(store.save());
     cal->close();
     unlink("foo.ics");
@@ -80,49 +80,49 @@ void MemoryCalendarTest::testIncidences()
     QDate dt = QDate::currentDate();
 
     Event::Ptr event1 = Event::Ptr(new Event());
-    event1->setUid("1");
+    event1->setUid(QStringLiteral("1"));
     event1->setDtStart(KDateTime(dt));
     event1->setDtEnd(KDateTime(dt).addDays(1));
-    event1->setSummary("Event1 Summary");
-    event1->setDescription("This is a description of the first event");
-    event1->setLocation("the place");
+    event1->setSummary(QStringLiteral("Event1 Summary"));
+    event1->setDescription(QStringLiteral("This is a description of the first event"));
+    event1->setLocation(QStringLiteral("the place"));
 
     Event::Ptr event2 = Event::Ptr(new Event());
-    event2->setUid("2");
+    event2->setUid(QStringLiteral("2"));
     event2->setDtStart(KDateTime(dt).addDays(1));
     event2->setDtEnd(KDateTime(dt).addDays(2));
-    event2->setSummary("Event2 Summary");
-    event2->setDescription("This is a description of the second event");
-    event2->setLocation("the other place");
+    event2->setSummary(QStringLiteral("Event2 Summary"));
+    event2->setDescription(QStringLiteral("This is a description of the second event"));
+    event2->setLocation(QStringLiteral("the other place"));
 
     QVERIFY(cal->addEvent(event1));
     QVERIFY(cal->addEvent(event2));
 
     Todo::Ptr todo1 = Todo::Ptr(new Todo());
-    todo1->setUid("3");
+    todo1->setUid(QStringLiteral("3"));
     todo1->setDtStart(KDateTime(dt).addDays(1));
     todo1->setDtDue(KDateTime(dt).addDays(2));
-    todo1->setSummary("Todo1 Summary");
-    todo1->setDescription("This is a description of a todo");
-    todo1->setLocation("this place");
+    todo1->setSummary(QStringLiteral("Todo1 Summary"));
+    todo1->setDescription(QStringLiteral("This is a description of a todo"));
+    todo1->setLocation(QStringLiteral("this place"));
 
     Todo::Ptr todo2 = Todo::Ptr(new Todo());
-    todo2->setUid("4");
+    todo2->setUid(QStringLiteral("4"));
     todo2->setDtStart(KDateTime(dt).addDays(1));
     todo2->setAllDay(true);
-    todo2->setSummary("<qt><h1>Todo2 Summary</h1></qt>", true);
-    todo2->setDescription("This is a description of a todo");
-    todo2->setLocation("<html><a href=\"http://www.fred.com\">this place</a></html>", true);
+    todo2->setSummary(QStringLiteral("<qt><h1>Todo2 Summary</h1></qt>"), true);
+    todo2->setDescription(QStringLiteral("This is a description of a todo"));
+    todo2->setLocation(QStringLiteral("<html><a href=\"http://www.fred.com\">this place</a></html>"), true);
 
     QVERIFY(cal->addTodo(todo1));
     QVERIFY(cal->addTodo(todo2));
 
-    FileStorage store(cal, "foo.ics");
+    FileStorage store(cal, QStringLiteral("foo.ics"));
     QVERIFY(store.save());
     cal->close();
 
     QVERIFY(store.load());
-    Todo::Ptr todo = cal->incidence("4").staticCast<Todo>();
+    Todo::Ptr todo = cal->incidence(QStringLiteral("4")).staticCast<Todo>();
     QVERIFY(todo->uid() == "4");
     QVERIFY(todo->summaryIsRich());
     QVERIFY(todo->locationIsRich());
@@ -180,10 +180,10 @@ void MemoryCalendarTest::testRecurrenceExceptions()
     KDateTime start(dt);
 
     Event::Ptr event1 = Event::Ptr(new Event());
-    event1->setUid("1");
+    event1->setUid(QStringLiteral("1"));
     event1->setDtStart(start);
     event1->setDtEnd(start.addDays(1));
-    event1->setSummary("Event1 Summary");
+    event1->setSummary(QStringLiteral("Event1 Summary"));
     event1->recurrence()->setDaily(1);
     event1->recurrence()->setDuration(3);
     QVERIFY(cal->addEvent(event1));
@@ -192,7 +192,7 @@ void MemoryCalendarTest::testRecurrenceExceptions()
     Event::Ptr exception1 = cal->createException(event1, recurrenceId).staticCast<Event>();
     QCOMPARE(exception1->recurrenceId(), recurrenceId);
     QCOMPARE(exception1->uid(), event1->uid());
-    exception1->setSummary("exception");
+    exception1->setSummary(QStringLiteral("exception"));
 
     QVERIFY(exception1);
     QVERIFY(cal->addEvent(exception1));
@@ -220,11 +220,11 @@ void MemoryCalendarTest::testChangeRecurId()
 
     // Add main event
     Event::Ptr event1 = Event::Ptr(new Event());
-    const QString uid = "1";
+    const QString uid = QStringLiteral("1");
     event1->setUid(uid);
     event1->setDtStart(start);
     event1->setDtEnd(start.addDays(1));
-    event1->setSummary("Event1 Summary");
+    event1->setSummary(QStringLiteral("Event1 Summary"));
     event1->recurrence()->setDaily(1);
     event1->recurrence()->setDuration(3);
     QVERIFY(cal->addEvent(event1));
@@ -234,7 +234,7 @@ void MemoryCalendarTest::testChangeRecurId()
     Event::Ptr exception1 = cal->createException(event1, recurrenceId).staticCast<Event>();
     QCOMPARE(exception1->recurrenceId(), recurrenceId);
     QCOMPARE(exception1->uid(), event1->uid());
-    exception1->setSummary("exception");
+    exception1->setSummary(QStringLiteral("exception"));
     QVERIFY(exception1);
     QVERIFY(cal->addEvent(exception1));
 

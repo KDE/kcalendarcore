@@ -72,9 +72,9 @@ void EventTest::testValidity()
     Event *event = new Event();
     event->setDtStart(KDateTime(dt));
     event->setDtEnd(KDateTime(dt).addDays(1));
-    event->setSummary("Event1 Summary");
-    event->setDescription("This is a description of the first event");
-    event->setLocation("the place");
+    event->setSummary(QStringLiteral("Event1 Summary"));
+    event->setDescription(QStringLiteral("This is a description of the first event"));
+    event->setLocation(QStringLiteral("the place"));
     //KDE5: QVERIFY( event->typeStr() == i18n( "event" ) );
     QVERIFY(event->summary() == "Event1 Summary");
     QVERIFY(event->location() == "the place");
@@ -87,16 +87,16 @@ void EventTest::testCompare()
     Event event1;
     event1.setDtStart(KDateTime(dt));
     event1.setDtEnd(KDateTime(dt).addDays(1));
-    event1.setSummary("Event1 Summary");
-    event1.setDescription("This is a description of the first event");
-    event1.setLocation("the place");
+    event1.setSummary(QStringLiteral("Event1 Summary"));
+    event1.setDescription(QStringLiteral("This is a description of the first event"));
+    event1.setLocation(QStringLiteral("the place"));
 
     Event event2;
     event2.setDtStart(KDateTime(dt).addDays(1));
     event2.setDtEnd(KDateTime(dt).addDays(2));
-    event2.setSummary("Event2 Summary");
-    event2.setDescription("This is a description of the second event");
-    event2.setLocation("the other place");
+    event2.setSummary(QStringLiteral("Event2 Summary"));
+    event2.setDescription(QStringLiteral("This is a description of the second event"));
+    event2.setLocation(QStringLiteral("the other place"));
 
     QVERIFY(!(event1 == event2));
     QVERIFY(event1.dtEnd() == event2.dtStart());
@@ -109,9 +109,9 @@ void EventTest::testClone()
     Event event1;
     event1.setDtStart(KDateTime(dt));
     event1.setDtEnd(KDateTime(dt).addDays(1));
-    event1.setSummary("Event1 Summary");
-    event1.setDescription("This is a description of the first event");
-    event1.setLocation("the place");
+    event1.setSummary(QStringLiteral("Event1 Summary"));
+    event1.setDescription(QStringLiteral("This is a description of the first event"));
+    event1.setLocation(QStringLiteral("the place"));
 
     Event *event2 = event1.clone();
     QVERIFY(event1.summary() == event2->summary());
@@ -127,9 +127,9 @@ void EventTest::testCopy()
     Event event1;
     event1.setDtStart(KDateTime(dt));
     event1.setDtEnd(KDateTime(dt).addDays(1));
-    event1.setSummary("Event1 Summary");
-    event1.setDescription("This is a description of the first event");
-    event1.setLocation("the place");
+    event1.setSummary(QStringLiteral("Event1 Summary"));
+    event1.setDescription(QStringLiteral("This is a description of the first event"));
+    event1.setLocation(QStringLiteral("the place"));
     event1.setTransparency(Event::Transparent);
 
     Event event2 = event1;
@@ -145,9 +145,9 @@ void EventTest::testCopyIncidence()
     QDate dt = QDate::currentDate();
     Todo todo;
     todo.setDtStart(KDateTime(dt));
-    todo.setSummary(QLatin1String("Event1 Summary"));
-    todo.setDescription(QLatin1String("This is a description of the first event"));
-    todo.setLocation(QLatin1String("the place"));
+    todo.setSummary(QStringLiteral("Event1 Summary"));
+    todo.setDescription(QStringLiteral("This is a description of the first event"));
+    todo.setLocation(QStringLiteral("the place"));
 
     Event event(todo);
     QCOMPARE(event.uid(), todo.uid());
@@ -163,9 +163,9 @@ void EventTest::testAssign()
     Event event1;
     event1.setDtStart(KDateTime(dt));
     event1.setDtEnd(KDateTime(dt).addDays(1));
-    event1.setSummary("Event1 Summary");
-    event1.setDescription("This is a description of the first event");
-    event1.setLocation("the place");
+    event1.setSummary(QStringLiteral("Event1 Summary"));
+    event1.setDescription(QStringLiteral("This is a description of the first event"));
+    event1.setLocation(QStringLiteral("the place"));
     event1.setTransparency(Event::Transparent);
 
     Event event2 = event1;
@@ -179,22 +179,22 @@ void EventTest::testSerializer_data()
     KDateTime yesterday = today.addDays(-1);
 
     Event::Ptr event1 = Event::Ptr(new Event());
-    Attendee::Ptr attendee1(new Attendee("fred", "fred@flintstone.com"));
+    Attendee::Ptr attendee1(new Attendee(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com")));
     event1->addAttendee(attendee1);
     event1->setDtStart(yesterday);
     event1->setDtEnd(today);
 
     Event::Ptr event2 = Event::Ptr(new Event());
-    Attendee::Ptr attendee2(new Attendee("fred", "fred@flintstone.com"));
+    Attendee::Ptr attendee2(new Attendee(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com")));
     event2->addAttendee(attendee2);
     event2->setDtStart(yesterday);
     event2->setDtEnd(today);
     event2->setAllDay(true);
 
-    event2->addComment("comment1");
-    event2->setUrl(QUrl("http://someurl"));
+    event2->addComment(QStringLiteral("comment1"));
+    event2->setUrl(QUrl(QStringLiteral("http://someurl")));
 
-    event2->setCustomProperty("app", "key", "value");
+    event2->setCustomProperty("app", "key", QStringLiteral("value"));
 
     // Remaining properties tested in testtodo.cpp
 
