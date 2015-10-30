@@ -273,7 +273,6 @@ public:
     bool matches(const QDate &dt, RecurrenceRule::PeriodType type) const;
     bool matches(const KDateTime &dt, RecurrenceRule::PeriodType type) const;
     bool merge(const Constraint &interval);
-    bool isConsistent() const;
     bool isConsistent(RecurrenceRule::PeriodType period) const;
     bool increase(RecurrenceRule::PeriodType type, int freq);
     KDateTime intervalDateTime(RecurrenceRule::PeriodType type) const;
