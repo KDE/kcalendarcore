@@ -57,24 +57,6 @@ public:
           mHasLocationRadius(false),
           mLocationRadius(0)
     {}
-    Private(const Private &other)
-        : mParent(other.mParent),
-          mType(other.mType),
-          mDescription(other.mDescription),
-          mFile(other.mFile),
-          mMailSubject(other.mMailSubject),
-          mMailAttachFiles(other.mMailAttachFiles),
-          mMailAddresses(other.mMailAddresses),
-          mAlarmTime(other.mAlarmTime),
-          mAlarmSnoozeTime(other.mAlarmSnoozeTime),
-          mAlarmRepeatCount(other.mAlarmRepeatCount),
-          mOffset(other.mOffset),
-          mEndOffset(other.mEndOffset),
-          mHasTime(other.mHasTime),
-          mAlarmEnabled(other.mAlarmEnabled),
-          mHasLocationRadius(other.mHasLocationRadius),
-          mLocationRadius(other.mLocationRadius)
-    {}
 
     Incidence *mParent;  // the incidence which this alarm belongs to
 
