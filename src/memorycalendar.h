@@ -46,6 +46,7 @@ class CalFormat;
 */
 class KCALCORE_EXPORT MemoryCalendar : public Calendar
 {
+    Q_OBJECT
 public:
 
     /**

@@ -44,6 +44,7 @@ class Calendar;
 */
 class KCALCORE_EXPORT FileStorage : public CalStorage
 {
+    Q_OBJECT
 public:
 
     /**
