@@ -55,7 +55,7 @@ macro_unit_tests(
   testrecurson
   testtostring
   testvcalexport
-
+  testcalendarobserver
 )
 
 set_target_properties(testmemorycalendar PROPERTIES COMPILE_FLAGS -DICALTESTDATADIR="\\"${CMAKE_CURRENT_SOURCE_DIR}/data/\\"" )
