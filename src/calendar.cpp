@@ -1198,8 +1198,7 @@ void Calendar::CalendarObserver::calendarIncidenceDeleted(const Incidence::Ptr &
     Q_UNUSED(calendar);
 }
 
-void
-Calendar::CalendarObserver::calendarIncidenceAdditionCanceled(const Incidence::Ptr &incidence)
+void Calendar::CalendarObserver::calendarIncidenceAdditionCanceled(const Incidence::Ptr &incidence)
 {
     Q_UNUSED(incidence);
 }
