@@ -145,6 +145,8 @@ void TodoTest::testSetCompleted()
     QVERIFY(todo2.isCompleted());
     QCOMPARE(todo2.status(), Incidence::StatusCompleted);
     QVERIFY(todo3.isCompleted());
+    todo2.setCompleted(false);
+    QVERIFY(!todo2.isCompleted());
 }
 
 void TodoTest::testStatus()

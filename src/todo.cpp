@@ -242,6 +242,7 @@ void Todo::setCompleted(bool completed)
     } else {
         d->mPercentComplete = 0;
         d->mCompleted = KDateTime();
+        setStatus(StatusNone);
     }
     setFieldDirty(FieldCompleted);
     setFieldDirty(FieldStatus);
