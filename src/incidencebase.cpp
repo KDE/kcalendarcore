@@ -315,7 +315,6 @@ void IncidenceBase::setDtStart(const KDateTime &dtStart)
         qCWarning(KCALCORE_LOG) << "Invalid dtStart";
     }
 
-    
     if (d->mDtStart != dtStart || d->mAllDay != dtStart.isDateOnly()) {
         update();
         d->mDtStart = dtStart;

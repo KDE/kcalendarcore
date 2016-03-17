@@ -502,7 +502,7 @@ ICalTimeZoneData::ICalTimeZoneData(const KTimeZoneData &rhs,
         // distinct combination of phase after and UTC offset before the transition.
         icaldatetimeperiodtype dtperiod;
         dtperiod.period = icalperiodtype_null_period();
-        for (; ;) {
+        for (;;) {
             int i = 0;
             for (;  i < trcount && transitionsDone[i];  ++i) {
                 ;

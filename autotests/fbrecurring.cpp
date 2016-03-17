@@ -64,7 +64,7 @@ int main()
     KDateTime start = KDateTime(QDate(2006, 1, 2), QTime(0, 0, 0));
     KDateTime end = KDateTime(QDate(2006, 1, 3), QTime(0, 0, 0));
 
-    FreeBusy::Ptr freebusy = FreeBusy::Ptr(new FreeBusy(cal->rawEvents(start.date(), end.date()), start, end)) ;
+    FreeBusy::Ptr freebusy = FreeBusy::Ptr(new FreeBusy(cal->rawEvents(start.date(), end.date()), start, end));
     QString result = f.createScheduleMessage(freebusy, iTIPPublish);
     cout << result.toLocal8Bit().data() << endl;
 

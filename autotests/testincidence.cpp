@@ -41,7 +41,7 @@ void IncidenceTest::testDtStartChange()
     inc.setDtStart(KDateTime(dt));
     QVERIFY(inc.dirtyFields().empty());
 
-    inc.setDtStart(KDateTime(dt,t));
+    inc.setDtStart(KDateTime(dt, t));
     QCOMPARE(inc.dirtyFields(), QSet<IncidenceBase::Field>() << IncidenceBase::FieldDtStart << IncidenceBase::FieldRecurrence);
     QCOMPARE(inc.recurrence()->startDateTime().time(), t);
     inc.resetDirtyFields();
@@ -95,7 +95,6 @@ void IncidenceTest::testLocationChange()
     inc.setLocation(QLatin1String("there"), true);
     QCOMPARE(inc.dirtyFields(), QSet<IncidenceBase::Field>() << IncidenceBase::FieldLocation);
 }
-
 
 void IncidenceTest::testRecurrenceTypeChange()
 {
@@ -223,9 +222,9 @@ void IncidenceTest::testRecurrenceMonthlyDate()
 void IncidenceTest::testRecurrenceMonthlyPos()
 {
     QDate dt = QDate::currentDate();
-    RecurrenceRule::WDayPos pos1(1,2);
-    RecurrenceRule::WDayPos pos2(3,4);
-    RecurrenceRule::WDayPos pos3(1,2);
+    RecurrenceRule::WDayPos pos1(1, 2);
+    RecurrenceRule::WDayPos pos2(3, 4);
+    RecurrenceRule::WDayPos pos3(1, 2);
     Event inc;
     inc.setDtStart(KDateTime(dt));
     KCalCore::Recurrence *r = inc.recurrence();

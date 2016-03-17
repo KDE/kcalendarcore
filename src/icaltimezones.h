@@ -175,7 +175,7 @@ private:
  * @author David Jarvie <djarvie@kde.org>
  */
 class KCALCORE_EXPORT ICalTimeZone : public KTimeZone //krazy:exclude=dpointer
-    //(no d-pointer for KTimeZone derived classes)
+//(no d-pointer for KTimeZone derived classes)
 {
 public:
     /**

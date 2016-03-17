@@ -537,7 +537,7 @@ QList<KDateTime> Constraint::dateTimes(RecurrenceRule::PeriodType type) const
                 dend = date.daysInMonth();
             }
             uint d = dstart;
-            for (QDate dt(year, m, dstart); ; dt = dt.addDays(1)) {
+            for (QDate dt(year, m, dstart);; dt = dt.addDays(1)) {
                 appendDateTime(dt, tm, result);
                 if (++d > dend) {
                     break;

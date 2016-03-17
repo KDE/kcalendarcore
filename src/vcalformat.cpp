@@ -78,7 +78,8 @@ void removeAllVCal(QVector< QSharedPointer<K> > &c, const QSharedPointer<K> &x)
 static QString dayFromNum(int day)
 {
     static const QStringList days = { QStringLiteral("MO "), QStringLiteral("TU "), QStringLiteral("WE "),
-                                      QStringLiteral("TH "), QStringLiteral("FR "), QStringLiteral("SA "), QStringLiteral("SU ") };
+                                      QStringLiteral("TH "), QStringLiteral("FR "), QStringLiteral("SA "), QStringLiteral("SU ")
+                                    };
 
     return days[day];
 }
@@ -367,7 +368,7 @@ VObject *VCalFormat::eventToVTodo(const Todo::Ptr &anEvent)
             if (!curAttendee->email().isEmpty() && !curAttendee->name().isEmpty()) {
                 tmpStr = QStringLiteral("MAILTO:") + curAttendee->name() + QStringLiteral(" <") + curAttendee->email() + QLatin1Char('>');
             } else if (curAttendee->name().isEmpty() && curAttendee->email().isEmpty()) {
-                tmpStr =QStringLiteral( "MAILTO: ");
+                tmpStr = QStringLiteral("MAILTO: ");
                 qCDebug(KCALCORE_LOG) << "warning! this Event has an attendee w/o name or email!";
             } else if (curAttendee->name().isEmpty()) {
                 tmpStr = QStringLiteral("MAILTO: ") + curAttendee->email();

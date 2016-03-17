@@ -83,7 +83,7 @@ void AttachmentTest::testSerializer_data()
 
 void AttachmentTest::testSerializer()
 {
-    QFETCH(KCalCore::Attachment::Ptr , attachment);
+    QFETCH(KCalCore::Attachment::Ptr, attachment);
 
     QByteArray array;
     QDataStream stream(&array, QIODevice::WriteOnly);

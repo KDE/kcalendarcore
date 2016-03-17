@@ -36,7 +36,7 @@ using namespace KCalCore;
 int main(int argc, char **argv)
 {
     QCommandLineParser parser;
-    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose") , i18n("Verbose output")));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), i18n("Verbose output")));
 
     KAboutData about(QStringLiteral("testincidence"),
                      i18n("Test Incidence"), QStringLiteral("0.1"));

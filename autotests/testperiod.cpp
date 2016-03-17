@@ -114,7 +114,7 @@ void PeriodTest::testDataStreamOut()
 void PeriodTest::testDataStreamIn()
 {
     const KDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), KDateTime::UTC);
-    const Duration duration(24 * 60 * 60) ;
+    const Duration duration(24 * 60 * 60);
     Period p1(p1DateTime, duration);
 
     QByteArray byteArray;

@@ -153,20 +153,16 @@ class AddVisitor : public Visitor
 public:
     AddVisitor(T *r) : mResource(r) {}
 
-    bool visit(const Event::Ptr &e) Q_DECL_OVERRIDE
-    {
+    bool visit(const Event::Ptr &e) Q_DECL_OVERRIDE {
         return mResource->addEvent(e);
     }
-    bool visit(const Todo::Ptr &t) Q_DECL_OVERRIDE
-    {
+    bool visit(const Todo::Ptr &t) Q_DECL_OVERRIDE {
         return mResource->addTodo(t);
     }
-    bool visit(const Journal::Ptr &j) Q_DECL_OVERRIDE
-    {
+    bool visit(const Journal::Ptr &j) Q_DECL_OVERRIDE {
         return mResource->addJournal(j);
     }
-    bool visit(const FreeBusy::Ptr &) Q_DECL_OVERRIDE
-    {
+    bool visit(const FreeBusy::Ptr &) Q_DECL_OVERRIDE {
         return false;
     }
 
@@ -185,23 +181,19 @@ class DeleteVisitor : public Visitor
 public:
     DeleteVisitor(T *r) : mResource(r) {}
 
-    bool visit(const Event::Ptr &e) Q_DECL_OVERRIDE
-    {
+    bool visit(const Event::Ptr &e) Q_DECL_OVERRIDE {
         mResource->deleteEvent(e);
         return true;
     }
-    bool visit(const Todo::Ptr &t) Q_DECL_OVERRIDE
-    {
+    bool visit(const Todo::Ptr &t) Q_DECL_OVERRIDE {
         mResource->deleteTodo(t);
         return true;
     }
-    bool visit(const Journal::Ptr &j) Q_DECL_OVERRIDE
-    {
+    bool visit(const Journal::Ptr &j) Q_DECL_OVERRIDE {
         mResource->deleteJournal(j);
         return true;
     }
-    bool visit(const FreeBusy::Ptr &) Q_DECL_OVERRIDE
-    {
+    bool visit(const FreeBusy::Ptr &) Q_DECL_OVERRIDE {
         return false;
     }
 
@@ -1335,7 +1327,7 @@ void Calendar::notifyIncidenceDeletedOld(const Incidence::Ptr &incidence)
         return;
     }
 
-    foreach(CalendarObserver *observer, d->mObservers) {
+    foreach (CalendarObserver *observer, d->mObservers) {
         observer->calendarIncidenceDeleted(incidence);
     }
 }
@@ -1350,7 +1342,7 @@ void Calendar::notifyIncidenceDeleted(const Incidence::Ptr &incidence)
         return;
     }
 
-    foreach(CalendarObserver *observer, d->mObservers) {
+    foreach (CalendarObserver *observer, d->mObservers) {
         observer->calendarIncidenceDeleted(incidence, this);
     }
 }

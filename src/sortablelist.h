@@ -49,7 +49,7 @@ void qSortUnique(QList<T> &list)
         if (*it == *prev) {
             // Found two equal values. Search for any further equal values and remove
             // them all together for efficiency.
-            while (++it != list.end() && *it == *prev) ;
+            while (++it != list.end() && *it == *prev);
             prev = it = list.erase(prev + 1, it);
             if (it == list.end()) {
                 break;
@@ -309,7 +309,7 @@ int SortableList<T>::removeSorted(const T &value, int start)
 } // namespace KCalCore
 
 template<typename T>
-QDataStream& operator<<(QDataStream &stream, const KCalCore::SortableList<T> &list)
+QDataStream &operator<<(QDataStream &stream, const KCalCore::SortableList<T> &list)
 {
     return operator<<(stream, static_cast<QList<T>>(list));
 }

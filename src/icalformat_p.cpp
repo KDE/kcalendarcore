@@ -114,23 +114,19 @@ public:
 
     ~ToComponentVisitor();
 
-    bool visit(const Event::Ptr &e) Q_DECL_OVERRIDE
-    {
+    bool visit(const Event::Ptr &e) Q_DECL_OVERRIDE {
         mComponent = mImpl->writeEvent(e, mTzList, mTzUsedList);
         return true;
     }
-     bool visit(const Todo::Ptr &t) Q_DECL_OVERRIDE
-    {
+    bool visit(const Todo::Ptr &t) Q_DECL_OVERRIDE {
         mComponent = mImpl->writeTodo(t, mTzList, mTzUsedList);
         return true;
     }
-    bool visit(const Journal::Ptr &j) Q_DECL_OVERRIDE
-    {
+    bool visit(const Journal::Ptr &j) Q_DECL_OVERRIDE {
         mComponent = mImpl->writeJournal(j, mTzList, mTzUsedList);
         return true;
     }
-    bool visit(const FreeBusy::Ptr &fb) Q_DECL_OVERRIDE
-    {
+    bool visit(const FreeBusy::Ptr &fb) Q_DECL_OVERRIDE {
         mComponent = mImpl->writeFreeBusy(fb, mMethod);
         return true;
     }
@@ -389,24 +385,24 @@ icalcomponent *ICalFormatImpl::writeFreeBusy(const FreeBusy::Ptr &freebusy,
 
         icalparameter_fbtype fbType;
         switch (fbPeriod.type()) {
-          case FreeBusyPeriod::Free:
-              fbType = ICAL_FBTYPE_FREE;
-              break;
-          case FreeBusyPeriod::Busy:
-              fbType = ICAL_FBTYPE_BUSY;
-              break;
-          case FreeBusyPeriod::BusyTentative:
-              fbType = ICAL_FBTYPE_BUSYTENTATIVE;
-              break;
-          case FreeBusyPeriod::BusyUnavailable:
-              fbType = ICAL_FBTYPE_BUSYUNAVAILABLE;
-              break;
-          case FreeBusyPeriod::Unknown:
-              fbType = ICAL_FBTYPE_X;
-              break;
-          default:
-              fbType = ICAL_FBTYPE_NONE;
-              break;
+        case FreeBusyPeriod::Free:
+            fbType = ICAL_FBTYPE_FREE;
+            break;
+        case FreeBusyPeriod::Busy:
+            fbType = ICAL_FBTYPE_BUSY;
+            break;
+        case FreeBusyPeriod::BusyTentative:
+            fbType = ICAL_FBTYPE_BUSYTENTATIVE;
+            break;
+        case FreeBusyPeriod::BusyUnavailable:
+            fbType = ICAL_FBTYPE_BUSYUNAVAILABLE;
+            break;
+        case FreeBusyPeriod::Unknown:
+            fbType = ICAL_FBTYPE_X;
+            break;
+        default:
+            fbType = ICAL_FBTYPE_NONE;
+            break;
         }
         icalproperty_set_parameter(property, icalparameter_new_fbtype(fbType));
 
@@ -1949,7 +1945,7 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent,
 
 //@cond PRIVATE
 void ICalFormatImpl::Private::readIncidenceBase(icalcomponent *parent,
-                                                const IncidenceBase::Ptr &incidenceBase)
+        const IncidenceBase::Ptr &incidenceBase)
 {
     icalproperty *p = icalcomponent_get_first_property(parent, ICAL_ANY_PROPERTY);
     bool uidProcessed = false;

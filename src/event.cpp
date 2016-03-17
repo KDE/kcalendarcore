@@ -206,7 +206,7 @@ bool Event::isMultiDay(const KDateTime::Spec &spec) const
     // End date is non inclusive
     // If we have an incidence that duration is one day and ends with a start of a new day
     // than it is not a multiday event
-    if (multi && end.time() != QTime(0,0,0)) {
+    if (multi && end.time() != QTime(0, 0, 0)) {
         multi = start.daysTo(end) > 1;
     }
 

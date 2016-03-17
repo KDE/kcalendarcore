@@ -39,7 +39,7 @@ class Q_DECL_HIDDEN KCalCore::FreeBusyPeriod::Private
 {
 public:
     Private():
-       mType(Unknown)
+        mType(Unknown)
     {}
 
     QString mSummary;
@@ -118,7 +118,6 @@ void FreeBusyPeriod::setType(FreeBusyPeriod::FreeBusyType type)
 {
     d->mType = type;
 }
-
 
 QDataStream &KCalCore::operator<<(QDataStream &stream, const KCalCore::FreeBusyPeriod &period)
 {

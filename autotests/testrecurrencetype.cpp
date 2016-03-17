@@ -41,7 +41,7 @@ static QString dumpTime(const KDateTime &dt, const KDateTime::Spec &viewSpec);
 int main(int argc, char **argv)
 {
     QCommandLineParser parser;
-    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose") , i18n("Verbose output")));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), i18n("Verbose output")));
     parser.addPositionalArgument(QStringLiteral("input"), i18n("Name of input file"));
     parser.addPositionalArgument(QStringLiteral("output"), i18n("optional name of output file for the recurrence dates"));
 

@@ -99,7 +99,7 @@ void FreeBusyPeriodTest::testDataStreamOut()
 void FreeBusyPeriodTest::testDataStreamIn()
 {
     const KDateTime p1DateTime(QDate(2006, 8, 30));
-    const Duration duration(24 * 60 * 60) ;
+    const Duration duration(24 * 60 * 60);
     FreeBusyPeriod p1(p1DateTime, duration);
     p1.setSummary(QStringLiteral("I can haz summary?"));
     p1.setLocation(QStringLiteral("The Moon"));

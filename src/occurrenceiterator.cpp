@@ -146,7 +146,7 @@ public:
                     }
 
                     if (!occurrenceIsHidden(calendar, incidence, occurrenceStartDate)) {
-                        occurrenceList << Private::Occurrence(incidence, recurrenceId , occurrenceStartDate);
+                        occurrenceList << Private::Occurrence(incidence, recurrenceId, occurrenceStartDate);
                     }
 
                     if (resetIncidence) {

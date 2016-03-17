@@ -841,8 +841,8 @@ void Recurrence::setMonthlyPos(const QList<RecurrenceRule::WDayPos> &monthlyDays
     // the position inside the list has no meaning, so sort the list before testing if it changed
 
     if (monthlyDays != rrule->byDays()) {
-       rrule->setByDays(monthlyDays);
-       updated();
+        rrule->setByDays(monthlyDays);
+        updated();
     }
 }
 
@@ -882,8 +882,8 @@ void Recurrence::setMonthlyDate(const QList< int > &monthlyDays)
     rbD.sortUnique();
 
     if (mD != rbD) {
-       rrule->setByMonthDays(monthlyDays);
-       updated();
+        rrule->setByMonthDays(monthlyDays);
+        updated();
     }
 }
 

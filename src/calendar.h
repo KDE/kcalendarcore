@@ -1353,7 +1353,7 @@ public:
           @param incidence is a pointer to the Incidence that was removed.
           @param calendar is a pointer to the calendar where the incidence was part of,
                           because the incidence was deleted, there is now way to determine the calendar
-	  @since 4.83.0
+        @since 4.83.0
         */
         virtual void calendarIncidenceDeleted(const Incidence::Ptr &incidence, const Calendar *calendar);
 

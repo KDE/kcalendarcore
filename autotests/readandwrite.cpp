@@ -43,7 +43,7 @@ int main(int argc, char **argv)
     qt_qhash_seed.fetchAndStoreRelaxed(0); // Disable QHash randomness
 
     QCommandLineParser parser;
-    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose") , i18n("Verbose output")));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), i18n("Verbose output")));
     parser.addPositionalArgument(QStringLiteral("source"), i18n("Source file to copy."));
     parser.addPositionalArgument(QStringLiteral("destination"), i18n("Destination directory."));
 
