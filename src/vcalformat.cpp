@@ -96,8 +96,6 @@ public:
 
 VCalFormat::VCalFormat() : d(new KCalCore::VCalFormat::Private)
 {
-    d->mManuallyWrittenExtensionFields << KPilotIdProp;
-    d->mManuallyWrittenExtensionFields << KPilotStatusProp;
 }
 
 VCalFormat::~VCalFormat()
@@ -634,14 +632,6 @@ VObject *VCalFormat::eventToVTodo(const Todo::Ptr &anEvent)
         }
     }
 
-    QString pilotId = anEvent->nonKDECustomProperty(KPilotIdProp);
-    if (!pilotId.isEmpty()) {
-        // pilot sync stuff
-        addPropValue(vtodo, KPilotIdProp, pilotId.toUtf8());
-        addPropValue(vtodo, KPilotStatusProp,
-                     anEvent->nonKDECustomProperty(KPilotStatusProp).toUtf8());
-    }
-
     return vtodo;
 }
 
@@ -971,14 +961,6 @@ VObject *VCalFormat::eventToVEvent(const Event::Ptr &anEvent)
     // related event
     if (!anEvent->relatedTo().isEmpty()) {
         addPropValue(vevent, VCRelatedToProp, anEvent->relatedTo().toUtf8());
-    }
-
-    QString pilotId = anEvent->nonKDECustomProperty(KPilotIdProp);
-    if (!pilotId.isEmpty()) {
-        // pilot sync stuff
-        addPropValue(vevent, KPilotIdProp, pilotId.toUtf8());
-        addPropValue(vevent, KPilotStatusProp,
-                     anEvent->nonKDECustomProperty(KPilotStatusProp).toUtf8());
     }
 
     return vevent;
@@ -1444,20 +1426,6 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
         deleteStr(s);
         QStringList tmpStrList = categories.split(QLatin1Char(';'));
         anEvent->setCategories(tmpStrList);
-    }
-
-    /* PILOT SYNC STUFF */
-    if ((vo = isAPropertyOf(vtodo, KPilotIdProp))) {
-        anEvent->setNonKDECustomProperty(
-            KPilotIdProp, QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo))));
-        deleteStr(s);
-        if ((vo = isAPropertyOf(vtodo, KPilotStatusProp))) {
-            anEvent->setNonKDECustomProperty(
-                KPilotStatusProp, QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo))));
-            deleteStr(s);
-        } else {
-            anEvent->setNonKDECustomProperty(KPilotStatusProp, QString::number(int(SYNCMOD)));
-        }
     }
 
     return anEvent;
@@ -1993,20 +1961,6 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
         d->mEventsRelate.append(anEvent);
     }
 
-    /* PILOT SYNC STUFF */
-    if ((vo = isAPropertyOf(vevent, KPilotIdProp))) {
-        anEvent->setNonKDECustomProperty(
-            KPilotIdProp, QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo))));
-        deleteStr(s);
-        if ((vo = isAPropertyOf(vevent, KPilotStatusProp))) {
-            anEvent->setNonKDECustomProperty(
-                KPilotStatusProp, QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo))));
-            deleteStr(s);
-        } else {
-            anEvent->setNonKDECustomProperty(KPilotStatusProp, QString::number(int(SYNCMOD)));
-        }
-    }
-
     /* Rest of the custom properties */
     readCustomProperties(vevent, anEvent);
 
@@ -2326,20 +2280,6 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
 
         // now, check to see that the object is an event or todo.
         if (strcmp(vObjectName(curVO), VCEventProp) == 0) {
-
-            if ((curVOProp = isAPropertyOf(curVO, KPilotStatusProp)) != nullptr) {
-                char *s;
-                s = fakeCString(vObjectUStringZValue(curVOProp));
-                // check to see if event was deleted by the kpilot conduit
-                if (s) {
-                    if (atoi(s) == SYNCDEL) {
-                        deleteStr(s);
-                        qCDebug(KCALCORE_LOG) << "skipping pilot-deleted event";
-                        goto SKIP;
-                    }
-                    deleteStr(s);
-                }
-            }
 
             if (!isAPropertyOf(curVO, VCDTstartProp) &&
                     !isAPropertyOf(curVO, VCDTendProp)) {

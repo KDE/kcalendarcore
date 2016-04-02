@@ -245,10 +245,6 @@ extern "C" {
 #define VCX509Prop                              "X509"
 #define VCXRuleProp                             "XRULE"
 
-    /* extensions for KOrganizer / KPilot */
-#define KPilotIdProp                            "X-PILOTID"
-#define KPilotStatusProp                        "X-PILOTSTAT"
-
     /* extensions for iMIP / iTIP */
 #define ICOrganizerProp                         "X-ORGANIZER"
 #define ICMethodProp                            "X-METHOD"

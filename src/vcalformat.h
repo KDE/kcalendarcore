@@ -229,15 +229,6 @@ protected:
     void virtual_hook(int id, void *data) Q_DECL_OVERRIDE;
 
 private:
-    /**
-      The Pilot synchronization states.
-    */
-    enum PilotState {
-        SYNCNONE = 0,
-        SYNCMOD = 1,
-        SYNCDEL = 3
-    };
-
     //@cond PRIVATE
     Q_DISABLE_COPY(VCalFormat)
     class Private;
