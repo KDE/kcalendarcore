@@ -107,15 +107,11 @@ public:
       Timezones are instead solely interpreted by using system-timezones.
 
       @param string is a utf8 QByteArray containing the data to be parsed.
-      @param tzlist is a collection of timezones used for the parsed date-times.
-      This collection may be empty or pre-populated. If it is empty, it is populated
-      automatically from the systemtimezones and thus acts as a cache. The tzlist may be 0
-      if the timezone should be read everytime from the system.
 
       @return non-zero pointer if the parsing was successful; 0 otherwise.
       @see fromString(const QString &), fromRawString()
     */
-    Incidence::Ptr readIncidence(const QByteArray &string, ICalTimeZones *tzlist);
+    Incidence::Ptr readIncidence(const QByteArray &string);
 
     /**
       Parses a string and fills a RecurrenceRule object with the information.

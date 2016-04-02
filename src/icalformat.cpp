@@ -147,8 +147,10 @@ bool ICalFormat::fromString(const Calendar::Ptr &cal, const QString &string,
     return fromRawString(cal, string.toUtf8(), deleted, notebook);
 }
 
-Incidence::Ptr ICalFormat::readIncidence(const QByteArray &string, ICalTimeZones *tzlist)
+Incidence::Ptr ICalFormat::readIncidence(const QByteArray &string)
 {
+    static ICalTimeZones *tzCache = new ICalTimeZones(); // populated on demand further down the call chain
+
     icalcomponent *calendar;
 
     // Let's defend const correctness until the very gates of hell^Wlibical
@@ -161,11 +163,11 @@ Incidence::Ptr ICalFormat::readIncidence(const QByteArray &string, ICalTimeZones
 
     Incidence::Ptr incidence;
     if (icalcomponent_isa(calendar) == ICAL_VCALENDAR_COMPONENT) {
-        incidence = d->mImpl->readOneIncidence(calendar, tzlist);
+        incidence = d->mImpl->readOneIncidence(calendar, tzCache);
     } else if (icalcomponent_isa(calendar) == ICAL_XROOT_COMPONENT) {
         icalcomponent *comp = icalcomponent_get_first_component(calendar, ICAL_VCALENDAR_COMPONENT);
         if (comp) {
-            incidence = d->mImpl->readOneIncidence(comp, tzlist);
+            incidence = d->mImpl->readOneIncidence(comp, tzCache);
         }
     }
 
