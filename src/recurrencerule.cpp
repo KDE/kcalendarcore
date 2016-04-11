@@ -626,7 +626,8 @@ void Constraint::appendDateTime(const QDate &date, const QTime &time,
                                 QList<KDateTime> &list) const
 {
     KDateTime dt(date, time, timespec);
-    if (dt.isValid()) {
+    // We should simply test dt.isValid() here, but a bug in KDateTime (<= 5.21) requires the following line:
+    if ((dt.timeSpec() == KDateTime::Spec::ClockTime() && dt.date().isValid() && dt.time().isValid()) || dt.isValid()) {
         if (secondOccurrence) {
             dt.setSecondOccurrence(true);
         }
