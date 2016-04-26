@@ -17,8 +17,10 @@ include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 include(ECMQtDeclareLoggingCategory)
 
+set(PIM_VERSION "5.2.40")
+
 set(KF5_VERSION "5.19.0")
-set(KCALENDARCORE_LIB_VERSION "5.2.40")
+set(KCALENDARCORE_LIB_VERSION ${PIM_VERSION})
 ecm_setup_version(${KCALENDARCORE_LIB_VERSION} VARIABLE_PREFIX KCALCORE
                         VERSION_HEADER "${KCalCore_BINARY_DIR}/kcalcore_version.h"
                         PACKAGE_VERSION_FILE "${KCalCore_BINARY_DIR}/KF5CalendarCoreConfigVersion.cmake"
