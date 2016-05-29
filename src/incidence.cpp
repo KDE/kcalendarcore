@@ -52,16 +52,16 @@ class Q_DECL_HIDDEN KCalCore::Incidence::Private
 {
 public:
     Private()
-        : mRevision(0),
+        : mGeoLatitude(INVALID_LATLON),
+          mGeoLongitude(INVALID_LATLON),
+          mRecurrence(0),
+          mRevision(0),
+          mPriority(0),
+          mStatus(StatusNone),
+          mSecrecy(SecrecyPublic),
           mDescriptionIsRich(false),
           mSummaryIsRich(false),
           mLocationIsRich(false),
-          mRecurrence(0),
-          mStatus(StatusNone),
-          mSecrecy(SecrecyPublic),
-          mPriority(0),
-          mGeoLatitude(INVALID_LATLON),
-          mGeoLongitude(INVALID_LATLON),
           mHasGeo(false),
           mThisAndFuture(false),
           mLocalOnly(false)
@@ -70,26 +70,26 @@ public:
 
     Private(const Private &p)
         : mCreated(p.mCreated),
-          mRevision(p.mRevision),
           mDescription(p.mDescription),
-          mDescriptionIsRich(p.mDescriptionIsRich),
           mSummary(p.mSummary),
-          mSummaryIsRich(p.mSummaryIsRich),
           mLocation(p.mLocation),
-          mLocationIsRich(p.mLocationIsRich),
           mCategories(p.mCategories),
-          mRecurrence(0),
           mResources(p.mResources),
-          mStatus(p.mStatus),
           mStatusString(p.mStatusString),
-          mSecrecy(p.mSecrecy),
-          mPriority(p.mPriority),
           mSchedulingID(p.mSchedulingID),
           mRelatedToUid(p.mRelatedToUid),
+          mRecurrenceId(p.mRecurrenceId),
           mGeoLatitude(p.mGeoLatitude),
           mGeoLongitude(p.mGeoLongitude),
+          mRecurrence(0),
+          mRevision(p.mRevision),
+          mPriority(p.mPriority),
+          mStatus(p.mStatus),
+          mSecrecy(p.mSecrecy),
+          mDescriptionIsRich(p.mDescriptionIsRich),
+          mSummaryIsRich(p.mSummaryIsRich),
+          mLocationIsRich(p.mLocationIsRich),
           mHasGeo(p.mHasGeo),
-          mRecurrenceId(p.mRecurrenceId),
           mThisAndFuture(p.mThisAndFuture),
           mLocalOnly(false)
     {
@@ -149,31 +149,30 @@ public:
     }
 
     KDateTime mCreated;                 // creation datetime
-    int mRevision;                      // revision number
-
     QString mDescription;               // description string
-    bool mDescriptionIsRich;            // description string is richtext.
     QString mSummary;                   // summary string
-    bool mSummaryIsRich;                // summary string is richtext.
     QString mLocation;                  // location string
-    bool mLocationIsRich;               // location string is richtext.
     QStringList mCategories;            // category list
-    mutable Recurrence *mRecurrence;    // recurrence
     Attachment::List mAttachments;      // attachments list
     Alarm::List mAlarms;                // alarms list
     QStringList mResources;             // resources list (not calendar resources)
-    Status mStatus;                     // status
     QString mStatusString;              // status string, for custom status
-    Secrecy mSecrecy;                   // secrecy
-    int mPriority;                      // priority: 1 = highest, 2 = less, etc.
     QString mSchedulingID;              // ID for scheduling mails
-
     QMap<RelType, QString> mRelatedToUid; // incidence uid this is related to, for each relType
-    float mGeoLatitude;                 // Specifies latitude in decimal degrees
-    float mGeoLongitude;                // Specifies longitude in decimal degrees
-    bool mHasGeo;                       // if incidence has geo data
     QHash<Attachment::Ptr, QString> mTempFiles; // Temporary files for writing attachments to.
     KDateTime mRecurrenceId;            // recurrenceId
+
+    float mGeoLatitude;                 // Specifies latitude in decimal degrees
+    float mGeoLongitude;                // Specifies longitude in decimal degrees
+    mutable Recurrence *mRecurrence;    // recurrence
+    int mRevision;                      // revision number
+    int mPriority;                      // priority: 1 = highest, 2 = less, etc.
+    Status mStatus;                     // status
+    Secrecy mSecrecy;                   // secrecy
+    bool mDescriptionIsRich;            // description string is richtext.
+    bool mSummaryIsRich;                // summary string is richtext.
+    bool mLocationIsRich;               // location string is richtext.
+    bool mHasGeo;                       // if incidence has geo data
     bool mThisAndFuture;
     bool mLocalOnly;                    // allow changes that won't go to the server
 };
