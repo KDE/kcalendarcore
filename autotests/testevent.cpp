@@ -76,8 +76,8 @@ void EventTest::testValidity()
     event->setDescription(QStringLiteral("This is a description of the first event"));
     event->setLocation(QStringLiteral("the place"));
     //KDE5: QVERIFY( event->typeStr() == i18n( "event" ) );
-    QVERIFY(event->summary() == "Event1 Summary");
-    QVERIFY(event->location() == "the place");
+    QVERIFY(event->summary() == QLatin1String("Event1 Summary"));
+    QVERIFY(event->location() == QLatin1String("the place"));
     QVERIFY(event->type() == Incidence::TypeEvent);
 }
 
@@ -100,7 +100,7 @@ void EventTest::testCompare()
 
     QVERIFY(!(event1 == event2));
     QVERIFY(event1.dtEnd() == event2.dtStart());
-    QVERIFY(event2.summary() == "Event2 Summary");
+    QVERIFY(event2.summary() == QLatin1String("Event2 Summary"));
 }
 
 void EventTest::testClone()

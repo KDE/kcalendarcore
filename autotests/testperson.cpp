@@ -34,7 +34,7 @@ using namespace KCalCore;
 void PersonTest::testValidity()
 {
     Person person(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com"));
-    QVERIFY(person.name() == "fred");
+    QVERIFY(person.name() == QLatin1String("fred"));
 }
 
 void PersonTest::testCompare()
@@ -49,21 +49,21 @@ void PersonTest::testCompare()
     QVERIFY(person1 == *person3.data());
     QVERIFY(person1 == person1copy);
     QVERIFY(person1 == person1assign);
-    QVERIFY(person1.name() == "fred");
-    QVERIFY(person2.email() == "wilma@flintstone.com");
-    QVERIFY(person3->name() == "fred");
-    QVERIFY(person3->email() == "fred@flintstone.com");
+    QVERIFY(person1.name() == QLatin1String("fred"));
+    QVERIFY(person2.email() == QLatin1String("wilma@flintstone.com"));
+    QVERIFY(person3->name() == QLatin1String("fred"));
+    QVERIFY(person3->email() == QLatin1String("fred@flintstone.com"));
 }
 
 void PersonTest::testStringify()
 {
     Person person1(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com"));
     Person person2(QStringLiteral("wilma"), QStringLiteral("wilma@flintstone.com"));
-    QVERIFY(person1.fullName() == "fred <fred@flintstone.com>");
-    QVERIFY(person2.fullName() == "wilma <wilma@flintstone.com>");
+    QVERIFY(person1.fullName() == QLatin1String("fred <fred@flintstone.com>"));
+    QVERIFY(person2.fullName() == QLatin1String("wilma <wilma@flintstone.com>"));
 
     person1.setName(QLatin1String(""));
-    QVERIFY(person1.fullName() == "fred@flintstone.com");
+    QVERIFY(person1.fullName() == QLatin1String("fred@flintstone.com"));
     person1.setEmail(QString());
     QVERIFY(person1.fullName().isEmpty());
 }
@@ -84,10 +84,10 @@ void PersonTest::testDataStreamIn()
     int count;
 
     in_stream >> name;
-    QVERIFY(name == "fred");
+    QVERIFY(name == QLatin1String("fred"));
 
     in_stream >> email;
-    QVERIFY(email == "fred@flintstone.com");
+    QVERIFY(email == QLatin1String("fred@flintstone.com"));
 
     in_stream >> count;
     QVERIFY(count == initial_count);

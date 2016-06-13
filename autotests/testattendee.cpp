@@ -99,7 +99,7 @@ void AttendeeTest::testCompare()
     QVERIFY(!(attendee1 == attendee2));
     attendee2.setRole(Attendee::ReqParticipant);
     QVERIFY(!(attendee1 == attendee2));
-    QVERIFY(attendee1.name() == "fred");
+    QVERIFY(attendee1.name() == QLatin1String("fred"));
 }
 
 void AttendeeTest::testCompareType()

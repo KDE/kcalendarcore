@@ -123,7 +123,7 @@ void MemoryCalendarTest::testIncidences()
 
     QVERIFY(store.load());
     Todo::Ptr todo = cal->incidence(QStringLiteral("4")).staticCast<Todo>();
-    QVERIFY(todo->uid() == "4");
+    QVERIFY(todo->uid() == QLatin1String("4"));
     QVERIFY(todo->summaryIsRich());
     QVERIFY(todo->locationIsRich());
     cal->close();
@@ -136,12 +136,12 @@ void MemoryCalendarTest::testRelationsCrash()
     // the incidences had special relations.
     // This test tests that scenario, and will crash if it fails.
     MemoryCalendar::Ptr cal(new MemoryCalendar(KDateTime::UTC));
-    FileStorage store1(cal, ICALTESTDATADIR "test_relations.ics");
+    FileStorage store1(cal, QLatin1Literal(ICALTESTDATADIR) + QLatin1String("test_relations.ics"));
     QVERIFY(store1.load());
     const Todo::List oldTodos = cal->todos();
     qDebug() << "Loaded " << oldTodos.count() << " todos into oldTodos.";
 
-    FileStorage store2(cal, ICALTESTDATADIR "test_relations.ics");
+    FileStorage store2(cal, QLatin1String(ICALTESTDATADIR) + QLatin1String("test_relations.ics"));
     QVERIFY(store2.load());
     const Todo::List newTodos = cal->todos();
     qDebug() << "Loaded " << newTodos.count() << " into newTodos.";
@@ -264,7 +264,7 @@ void MemoryCalendarTest::testChangeRecurId()
     QVERIFY(main);
     QVERIFY(exception);
     QVERIFY(exception->recurrenceId() == newRecId);
-    QVERIFY(exception->summary() == "exception");
+    QVERIFY(exception->summary() == QLatin1String("exception"));
     QVERIFY(main->summary() == event1->summary());
 }
 

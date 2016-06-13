@@ -30,7 +30,7 @@ QTEST_MAIN(TestReadRecurrenceId)
 void TestReadRecurrenceId::testReadSingleException()
 {
     KCalCore::ICalFormat format;
-    QFile file(ICALTESTDATADIR "test_recurrenceid_single.ics");
+    QFile file(QLatin1String(ICALTESTDATADIR) + QLatin1String("test_recurrenceid_single.ics"));
     QVERIFY(file.open(QIODevice::ReadOnly));
 //   qDebug() << file.readAll();
 
@@ -48,7 +48,7 @@ void TestReadRecurrenceId::testReadSingleException()
 void TestReadRecurrenceId::testReadSingleExceptionWithThisAndFuture()
 {
     KCalCore::ICalFormat format;
-    QFile file(ICALTESTDATADIR "test_recurrenceid_thisandfuture.ics");
+    QFile file(QLatin1String(ICALTESTDATADIR) + QLatin1String("test_recurrenceid_thisandfuture.ics"));
     QVERIFY(file.open(QIODevice::ReadOnly));
     KCalCore::Incidence::Ptr i = format.fromString(QString::fromUtf8(file.readAll()));
     QVERIFY(i);
@@ -82,7 +82,7 @@ void TestReadRecurrenceId::testReadExceptionWithMainEvent()
 {
     KCalCore::MemoryCalendar::Ptr calendar(new KCalCore::MemoryCalendar(KDateTime::UTC));
     KCalCore::ICalFormat format;
-    QFile file(ICALTESTDATADIR "test_recurrenceid.ics");
+    QFile file(QLatin1String(ICALTESTDATADIR) + QLatin1String("test_recurrenceid.ics"));
     QVERIFY(file.open(QIODevice::ReadOnly));
     format.fromString(calendar, QString::fromUtf8(file.readAll()));
     QCOMPARE(calendar->rawEvents().size(), 2);

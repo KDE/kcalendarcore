@@ -35,8 +35,8 @@ void JournalTest::testValidity()
     journal->setDescription(QStringLiteral("This is a description of my journal"));
     journal->setLocation(QStringLiteral("the place"));
     //KDE5: QVERIFY( journal->typeStr() == i18n( "journal" ) );
-    QVERIFY(journal->summary() == "Journal Summary");
-    QVERIFY(journal->location() == "the place");
+    QVERIFY(journal->summary() == QLatin1String("Journal Summary"));
+    QVERIFY(journal->location() == QLatin1String("the place"));
 }
 
 void JournalTest::testCompare()
@@ -55,7 +55,7 @@ void JournalTest::testCompare()
     journal2.setLocation(QStringLiteral("the other place"));
 
     QVERIFY(!(journal1 == journal2));
-    QVERIFY(journal2.summary() == "Journal2 Summary");
+    QVERIFY(journal2.summary() == QLatin1String("Journal2 Summary"));
 }
 
 void JournalTest::testClone()

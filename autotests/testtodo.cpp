@@ -39,8 +39,8 @@ void TodoTest::testValidity()
     todo->setLocation(QStringLiteral("the place"));
     todo->setPercentComplete(5);
     //KDE5: QVERIFY( todo->typeStr() == i18n( "to-do" ) );
-    QVERIFY(todo->summary() == "To-do1 Summary");
-    QVERIFY(todo->location() == "the place");
+    QVERIFY(todo->summary() == QLatin1String("To-do1 Summary"));
+    QVERIFY(todo->location() == QLatin1String("the place"));
     QVERIFY(todo->percentComplete() == 5);
 }
 
@@ -65,7 +65,7 @@ void TodoTest::testCompare()
 
     QVERIFY(!(todo1 == todo2));
     QVERIFY(todo1.dtDue() == todo2.dtStart());
-    QVERIFY(todo2.summary() == "To-do2 Summary");
+    QVERIFY(todo2.summary() == QLatin1String("To-do2 Summary"));
     QVERIFY(!(todo1.isCompleted() == todo2.isCompleted()));
 }
 

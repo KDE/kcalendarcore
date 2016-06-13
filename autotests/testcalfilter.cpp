@@ -33,9 +33,9 @@ void CalFilterTest::testValidity()
 {
     CalFilter f;
     f.setName(QStringLiteral("testfilter"));
-    QVERIFY(f.name() == "testfilter");
+    QVERIFY(f.name() == QLatin1String("testfilter"));
     CalFilter g(QStringLiteral("fredfilter"));
-    QVERIFY(g.name() == "fredfilter");
+    QVERIFY(g.name() == QLatin1String("fredfilter"));
     CalFilter f1, f2;
     QVERIFY(f1 == f2);
 }

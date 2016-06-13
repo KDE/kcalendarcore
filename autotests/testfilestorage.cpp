@@ -121,7 +121,7 @@ void FileStorageTest::testSpecialChars()
     event->setDtStart(KDateTime(currentDate));
     event->setDtEnd(KDateTime(currentDate.addDays(1)));
 
-    const QChar latin1_umlaut[] = { 0xFC, '\0' };
+    const QChar latin1_umlaut[] = { 0xFC, QLatin1Char('\0') };
 
     event->setSummary(QString(latin1_umlaut));
 
@@ -156,7 +156,7 @@ void FileStorageTest::testSpecialChars()
     QVERIFY(file.open(QIODevice::ReadOnly | QIODevice::Text));
 
     const QByteArray bytesFromFile = file.readAll();
-    const QChar utf_umlaut[] = { 0xC3, 0XBC, '\0' };
+    const QChar utf_umlaut[] = { 0xC3, 0XBC, QLatin1Char('\0') };
 
     QVERIFY(bytesFromFile.contains(QString(utf_umlaut).toLatin1().constData()));
     QVERIFY(!bytesFromFile.contains(QString(latin1_umlaut).toLatin1().constData()));
