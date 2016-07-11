@@ -40,6 +40,8 @@ private Q_SLOTS:
     void testSerializer();
     void testDurationDtEnd();
     void testDtEndChange();
+    void testIsMultiDay_data();
+    void testIsMultiDay();
 };
 
 #endif

@@ -262,3 +262,37 @@ void EventTest::testDtEndChange()
     event1.setDtEnd(KDateTime(dt).addDays(2));
     QCOMPARE(event1.dirtyFields(), QSet<IncidenceBase::Field>() << IncidenceBase::FieldDtEnd);
 }
+
+void EventTest::testIsMultiDay_data()
+{
+    QTest::addColumn<KDateTime>("start");
+    QTest::addColumn<KDateTime>("end");
+    QTest::addColumn<bool>("isMultiDay");
+
+    QTest::newRow("event0") << KDateTime(QDate(2016, 7, 9), QTime(12, 0, 0)) << KDateTime(QDate(2016, 7, 9), QTime(13, 0, 0)) << false;
+
+    QTest::newRow("event1") << KDateTime(QDate(2016, 7, 9), QTime(12, 0, 0)) << KDateTime(QDate(2016, 7, 10), QTime(0, 0, 0)) << false;
+
+    QTest::newRow("event2") << KDateTime(QDate(2016, 7, 9), QTime(12, 0, 0)) << KDateTime(QDate(2016, 7, 10), QTime(12, 0, 0)) << true;
+
+    QTest::newRow("event3") << KDateTime(QDate(2016, 12, 31), QTime(0, 0, 0)) << KDateTime(QDate(2017, 1, 1), QTime(0, 0, 0)) << false;
+
+    QTest::newRow("event4") << KDateTime(QDate(2016, 12, 31), QTime(0, 0, 1)) << KDateTime(QDate(2017, 1, 1), QTime(0, 0, 1)) << true;
+
+    QTest::newRow("event5") << KDateTime(QDate(2016, 12, 31), QTime(12, 0, 0)) << KDateTime(QDate(2017, 1, 1), QTime(12, 0, 0)) << true;
+
+    QTest::newRow("event6") << KDateTime(QDate(2016, 12, 24), QTime(12, 0, 0)) << KDateTime(QDate(2017, 1, 1), QTime(0, 0, 0)) << true;
+}
+
+void EventTest::testIsMultiDay()
+{
+    QFETCH(KDateTime, start);
+    QFETCH(KDateTime, end);
+    QFETCH(bool, isMultiDay);
+
+    Event event;
+    event.setDtStart(start);
+    event.setDtEnd(end);
+
+    QCOMPARE(event.isMultiDay(), isMultiDay);
+}
