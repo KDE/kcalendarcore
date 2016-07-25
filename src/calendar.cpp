@@ -1021,10 +1021,13 @@ void Calendar::setupRelations(const Incidence::Ptr &forincidence)
     // First, go over the list of orphans and see if this is their parent
     Incidence::List l = values(d->mOrphans, uid);
     d->mOrphans.remove(uid);
-    d->mIncidenceRelations[uid].reserve(l.count());
-    for (int i = 0, end = l.count();  i < end;  ++i) {
-        d->mIncidenceRelations[uid].append(l[i]);
-        d->mOrphanUids.remove(l[i]->uid());
+    if (!l.isEmpty()) {
+        Incidence::List &relations = d->mIncidenceRelations[uid];
+        relations.reserve(relations.count() + l.count());
+        for (int i = 0, end = l.count();  i < end;  ++i) {
+            relations.append(l[i]);
+            d->mOrphanUids.remove(l[i]->uid());
+        }
     }
 
     // Now see about this incidences parent
@@ -1075,10 +1078,10 @@ void Calendar::removeRelations(const Incidence::Ptr &incidence)
 
     // If this incidence is related to something else, tell that about it
     if (!parentUid.isEmpty()) {
-        d->mIncidenceRelations[parentUid].erase(
-            std::remove(d->mIncidenceRelations[parentUid].begin(),
-                        d->mIncidenceRelations[parentUid].end(), incidence),
-            d->mIncidenceRelations[parentUid].end());
+        Incidence::List &relations = d->mIncidenceRelations[parentUid];
+        relations.erase(
+            std::remove(relations.begin(), relations.end(), incidence),
+            relations.end());
     }
 
     // Remove this one from the orphans list
