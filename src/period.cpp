@@ -165,7 +165,7 @@ QDataStream &KCalCore::operator>>(QDataStream &stream, KCalCore::Period &period)
     return stream;
 }
 
-uint qHash(const KCalCore::Period &key)
+uint KCalCore::qHash(const KCalCore::Period &key)
 {
     if (key.hasDuration()) {
         return qHash(key.duration());

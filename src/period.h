@@ -214,16 +214,17 @@ KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalCore::Per
 
 /** Read a Period object into @p period from @p stream, in binary format. */
 KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalCore::Period &period);
-}
 
 /**
   Return a hash value for a Period argument.
   @param key is a Period.
 */
 KCALCORE_EXPORT uint qHash(const KCalCore::Period &key);
+}
 
 //@cond PRIVATE
 Q_DECLARE_METATYPE(KCalCore::Period)
+Q_DECLARE_TYPEINFO(KCalCore::Period, Q_MOVABLE_TYPE);
 //@endcond
 
 #endif
