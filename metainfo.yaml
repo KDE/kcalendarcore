@@ -1,4 +1,4 @@
-maintainer: Sandro Knauß <sknauss@kde.org>
+maintainer: knauss
 description: The KDE calendar access library 
 tier: 3
 type: functional
@@ -12,3 +12,7 @@ libraries:
    cmake: "KF5::CalendarCore"
 cmakename: KF5CalendarCore
 
+public_lib: true
+group: kdepim
+platforms:
+    - name: Linux
