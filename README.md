@@ -1,4 +1,4 @@
-# KCalCore
+# KCalCore #
 
 This library provides access to and handling of calendar data.
 It supports the standard formats iCalendar and vCalendar and the
