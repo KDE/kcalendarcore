@@ -18,7 +18,7 @@ include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 include(ECMQtDeclareLoggingCategory)
 
-set(PIM_VERSION "5.3.0")
+set(PIM_VERSION "5.3.1")
 
 set(KCALENDARCORE_LIB_VERSION ${PIM_VERSION})
 ecm_setup_version(${KCALENDARCORE_LIB_VERSION} VARIABLE_PREFIX KCALCORE
