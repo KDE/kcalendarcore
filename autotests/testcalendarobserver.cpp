@@ -46,7 +46,7 @@ public:
     {
     }
     Calendar *mCal;
-signals:
+Q_SIGNALS:
     void incidenceAdded(const KCalCore::Incidence::Ptr &incidence);
     void incidenceChanged(const KCalCore::Incidence::Ptr &incidence);
     void incidenceAboutToBeDeleted(const KCalCore::Incidence::Ptr &incidence);
