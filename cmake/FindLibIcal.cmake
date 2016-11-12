@@ -59,6 +59,7 @@ if(LibIcal_INCLUDE_DIRS AND LibIcal_LIBRARIES)
     ${CMAKE_BINARY_DIR}
     ${FIND_LibIcal_VERSION_SOURCE_FILE}
     CMAKE_FLAGS "${FIND_LibIcal_VERSION_ADD_INCLUDES}"
+    COMPILE_OUTPUT_VARIABLE FIND_LibIcal_Compile_Output
     RUN_OUTPUT_VARIABLE LibIcal_VERSION)
   endif()
 
@@ -78,7 +79,11 @@ if(LibIcal_INCLUDE_DIRS AND LibIcal_LIBRARIES)
 
   else()
     if(NOT CMAKE_CROSSCOMPILING)
-        message(FATAL_ERROR "Unable to compile or run the libical version detection program.")
+      if (NOT COMPILE_RESULT)
+        message(FATAL_ERROR "Unable to compile the libical version detection program: ${FIND_LibIcal_Compile_Output}")
+      else()
+        message(FATAL_ERROR "Unable to run the libical version detection program: it returned ${RUN_RESULT}.")
+      endif()
     endif()
   endif()
 
