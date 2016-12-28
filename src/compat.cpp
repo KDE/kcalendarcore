@@ -52,7 +52,7 @@ Compat *CompatFactory::createCompat(const QString &productId,
     int outl9 = productId.indexOf(QStringLiteral("Outlook 9.0"));
 
     if (korg >= 0) {
-        int versionStart = productId.indexOf(QStringLiteral(" "), korg);
+        int versionStart = productId.indexOf(QLatin1Char(' '), korg);
         if (versionStart >= 0) {
             int versionStop = productId.indexOf(QRegExp(QStringLiteral("[ /]")), versionStart + 1);
             if (versionStop >= 0) {
