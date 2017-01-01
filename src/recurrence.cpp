@@ -202,7 +202,7 @@ RecurrenceRule *Recurrence::defaultRRule(bool create) const
 {
     if (d->mRRules.isEmpty()) {
         if (!create || d->mRecurReadOnly) {
-            return 0;
+            return Q_NULLPTR;
         }
         RecurrenceRule *rrule = new RecurrenceRule();
         rrule->setStartDt(startDateTime());
@@ -215,7 +215,7 @@ RecurrenceRule *Recurrence::defaultRRule(bool create) const
 
 RecurrenceRule *Recurrence::defaultRRuleConst() const
 {
-    return d->mRRules.isEmpty() ? 0 : d->mRRules[0];
+    return d->mRRules.isEmpty() ? Q_NULLPTR : d->mRRules[0];
 }
 
 void Recurrence::updated()
@@ -707,7 +707,7 @@ QList<RecurrenceRule::WDayPos> Recurrence::yearPositions() const
 RecurrenceRule *Recurrence::setNewRecurrenceType(RecurrenceRule::PeriodType type, int freq)
 {
     if (d->mRecurReadOnly || freq <= 0) {
-        return 0;
+        return Q_NULLPTR;
     }
 
     // Ignore the call if nothing has change
@@ -720,7 +720,7 @@ RecurrenceRule *Recurrence::setNewRecurrenceType(RecurrenceRule::PeriodType type
     updated();
     RecurrenceRule *rrule = defaultRRule(true);
     if (!rrule) {
-        return 0;
+        return Q_NULLPTR;
     }
     rrule->setRecurrenceType(type);
     rrule->setFrequency(freq);

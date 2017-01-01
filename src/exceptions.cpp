@@ -39,7 +39,7 @@
 using namespace KCalCore;
 
 Exception::Exception(const ErrorCode code, const QStringList &arguments)
-    : mCode(code), mArguments(arguments), d(0)
+    : mCode(code), mArguments(arguments), d(Q_NULLPTR)
 {
     Q_UNUSED(d);
 }

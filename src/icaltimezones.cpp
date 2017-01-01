@@ -80,7 +80,7 @@ static icaltimetype writeLocalICalDateTime(const QDateTime &utc, int offset)
     t.minute = local.time().minute();
     t.second = local.time().second();
     t.is_date = 0;
-    t.zone = 0;
+    t.zone = Q_NULLPTR;
     t.is_utc = 0;
     return t;
 }
@@ -236,7 +236,7 @@ ICalTimeZoneBackend::ICalTimeZoneBackend(ICalTimeZoneSource *source,
 {}
 
 ICalTimeZoneBackend::ICalTimeZoneBackend(const KTimeZone &tz, const QDate &earliest)
-    : KTimeZoneBackend(0, tz.name(), tz.countryCode(), tz.latitude(), tz.longitude(), tz.comment())
+    : KTimeZoneBackend(Q_NULLPTR, tz.name(), tz.countryCode(), tz.latitude(), tz.longitude(), tz.comment())
 {
     Q_UNUSED(earliest);
 }
@@ -280,7 +280,7 @@ ICalTimeZone::ICalTimeZone(ICalTimeZoneSource *source, const QString &name,
 }
 
 ICalTimeZone::ICalTimeZone(const KTimeZone &tz, const QDate &earliest)
-    : KTimeZone(new ICalTimeZoneBackend(0, tz.name(), tz.countryCode(),
+    : KTimeZone(new ICalTimeZoneBackend(Q_NULLPTR, tz.name(), tz.countryCode(),
                                         tz.latitude(), tz.longitude(),
                                         tz.comment()))
 {
@@ -325,7 +325,7 @@ QByteArray ICalTimeZone::vtimezone() const
 icaltimezone *ICalTimeZone::icalTimezone() const
 {
     const ICalTimeZoneData *dat = static_cast<const ICalTimeZoneData *>(data());
-    return dat ? dat->icalTimezone() : 0;
+    return dat ? dat->icalTimezone() : Q_NULLPTR;
 }
 
 bool ICalTimeZone::update(const ICalTimeZone &other)
@@ -334,7 +334,7 @@ bool ICalTimeZone::update(const ICalTimeZone &other)
         return false;
     }
 
-    KTimeZoneData *otherData = other.data() ? other.data()->clone() : 0;
+    KTimeZoneData *otherData = other.data() ? other.data()->clone() : Q_NULLPTR;
     setData(otherData, other.source());
     return true;
 }
@@ -360,7 +360,7 @@ void ICalTimeZone::virtual_hook(int id, void *data)
 class ICalTimeZoneDataPrivate
 {
 public:
-    ICalTimeZoneDataPrivate() : icalComponent(0) {}
+    ICalTimeZoneDataPrivate() : icalComponent(Q_NULLPTR) {}
 
     ~ICalTimeZoneDataPrivate()
     {
@@ -421,7 +421,7 @@ ICalTimeZoneData::ICalTimeZoneData(const KTimeZoneData &rhs,
         // Try to fetch a system time zone in preference, on the grounds
         // that system time zones are more likely to be up to date than
         // built-in libical ones.
-        icalcomponent *c = 0;
+        icalcomponent *c = Q_NULLPTR;
         const KTimeZone ktz = KSystemTimeZones::readZone(tz.name());
         if (ktz.isValid()) {
             if (ktz.data(true)) {
@@ -758,13 +758,13 @@ icaltimezone *ICalTimeZoneData::icalTimezone() const
 {
     icaltimezone *icaltz = icaltimezone_new();
     if (!icaltz) {
-        return 0;
+        return Q_NULLPTR;
     }
     icalcomponent *c = icalcomponent_new_clone(d->component());
     if (!icaltimezone_set_component(icaltz, c)) {
         icalcomponent_free(c);
         icaltimezone_free(icaltz, 1);
-        return 0;
+        return Q_NULLPTR;
     }
     return icaltz;
 }
@@ -801,7 +801,7 @@ QByteArray ICalTimeZoneSourcePrivate::icalTzidPrefix;
 
 ICalTimeZoneSource::ICalTimeZoneSource()
     : KTimeZoneSource(false),
-      d(0)
+      d(Q_NULLPTR)
 {
     Q_UNUSED(d);
 }

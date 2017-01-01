@@ -50,7 +50,7 @@ using namespace KCalCore;
 class Q_DECL_HIDDEN KCalCore::CalFormat::Private
 {
 public:
-    Private() : mException(0) {}
+    Private() : mException(Q_NULLPTR) {}
     ~Private()
     {
         delete mException;
@@ -80,7 +80,7 @@ CalFormat::~CalFormat()
 void CalFormat::clearException()
 {
     delete d->mException;
-    d->mException = 0;
+    d->mException = Q_NULLPTR;
 }
 
 void CalFormat::setException(Exception *exception)

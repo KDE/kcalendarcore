@@ -47,7 +47,7 @@ class Q_DECL_HIDDEN KCalCore::Alarm::Private
 {
 public:
     Private()
-        : mParent(0),
+        : mParent(Q_NULLPTR),
           mType(Alarm::Invalid),
           mAlarmSnoozeTime(5),
           mAlarmRepeatCount(0),

@@ -404,7 +404,7 @@ bool ICalFormat::fromString(RecurrenceRule *recurrence, const QString &rrule)
 QString ICalFormat::createScheduleMessage(const IncidenceBase::Ptr &incidence,
         iTIPMethod method)
 {
-    icalcomponent *message = 0;
+    icalcomponent *message = Q_NULLPTR;
 
     if (incidence->type() == Incidence::TypeEvent ||
             incidence->type() == Incidence::TypeTodo) {
@@ -440,7 +440,7 @@ QString ICalFormat::createScheduleMessage(const IncidenceBase::Ptr &incidence,
         }
     }
 
-    if (message == 0) {
+    if (message == Q_NULLPTR) {
         message = d->mImpl->createScheduleComponent(incidence, method);
     }
 
@@ -465,7 +465,7 @@ FreeBusy::Ptr ICalFormat::parseFreeBusy(const QString &str)
 
     icalcomponent *c;
     for (c = icalcomponent_get_first_component(message, ICAL_VFREEBUSY_COMPONENT);
-            c != 0; c = icalcomponent_get_next_component(message, ICAL_VFREEBUSY_COMPONENT)) {
+            c != Q_NULLPTR; c = icalcomponent_get_next_component(message, ICAL_VFREEBUSY_COMPONENT)) {
         FreeBusy::Ptr fb = d->mImpl->readFreeBusy(c);
 
         if (freeBusy) {
@@ -599,7 +599,7 @@ ScheduleMessage::Ptr ICalFormat::parseScheduleMessage(const Calendar::Ptr &cal,
 
     Incidence::Ptr existingIncidence = cal->incidence(incidence->uid());
 
-    icalcomponent *calendarComponent = 0;
+    icalcomponent *calendarComponent = Q_NULLPTR;
     if (existingIncidence) {
         calendarComponent = d->mImpl->createCalendarComponent(cal);
 

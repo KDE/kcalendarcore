@@ -72,7 +72,7 @@ class Q_DECL_HIDDEN KCalCore::MemoryCalendar::Private
 {
 public:
     Private(MemoryCalendar *qq)
-        : q(qq), mFormat(0)
+        : q(qq), mFormat(Q_NULLPTR)
     {
     }
     ~Private()
