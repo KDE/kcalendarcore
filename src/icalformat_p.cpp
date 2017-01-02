@@ -106,9 +106,9 @@ const int gSecondsPerWeek   = gSecondsPerDay    * 7;
 class ToComponentVisitor : public Visitor
 {
 public:
-    ToComponentVisitor(ICalFormatImpl *impl, iTIPMethod m, ICalTimeZones *tzList = Q_NULLPTR,
-                       ICalTimeZones *tzUsedList = Q_NULLPTR)
-        : mImpl(impl), mComponent(Q_NULLPTR), mMethod(m), mTzList(tzList), mTzUsedList(tzUsedList)
+    ToComponentVisitor(ICalFormatImpl *impl, iTIPMethod m, ICalTimeZones *tzList = nullptr,
+                       ICalTimeZones *tzUsedList = nullptr)
+        : mImpl(impl), mComponent(nullptr), mMethod(m), mTzList(tzList), mTzUsedList(tzUsedList)
     {
     }
 
@@ -200,7 +200,7 @@ icalcomponent *ICalFormatImpl::writeIncidence(const IncidenceBase::Ptr &incidenc
     if (incidence->accept(v, incidence)) {
         return v.component();
     } else {
-        return Q_NULLPTR;
+        return nullptr;
     }
 }
 
@@ -752,7 +752,7 @@ void ICalFormatImpl::Private::writeCustomProperties(icalcomponent *parent,
 icalproperty *ICalFormatImpl::writeOrganizer(const Person::Ptr &organizer)
 {
     if (organizer->email().isEmpty()) {
-        return Q_NULLPTR;
+        return nullptr;
     }
 
     icalproperty *p = icalproperty_new_organizer(QByteArray(QByteArray("MAILTO:") + organizer->email().toUtf8()));
@@ -796,7 +796,7 @@ icalproperty *ICalFormatImpl::writeLocation(const QString &location, bool isRich
 icalproperty *ICalFormatImpl::writeAttendee(const Attendee::Ptr &attendee)
 {
     if (attendee->email().isEmpty()) {
-        return Q_NULLPTR;
+        return nullptr;
     }
 
     icalproperty *p =
@@ -905,7 +905,7 @@ icalproperty *ICalFormatImpl::writeAttachment(const Attachment::Ptr &att)
         attach = icalattach_new_from_url(att->uri().toUtf8().data());
     } else {
 #ifdef USE_ICAL_0_46
-        attach = icalattach_new_from_data((const char *)att->data().constData(), Q_NULLPTR, Q_NULLPTR);
+        attach = icalattach_new_from_data((const char *)att->data().constData(), nullptr, nullptr);
 #else
         attach = icalattach_new_from_data((unsigned char *)att->data().constData(), 0, 0);
 #endif
@@ -1084,7 +1084,7 @@ icalcomponent *ICalFormatImpl::writeAlarm(const Alarm::Ptr &alarm)
     icalcomponent *a = icalcomponent_new(ICAL_VALARM_COMPONENT);
 
     icalproperty_action action;
-    icalattach *attach = Q_NULLPTR;
+    icalattach *attach = nullptr;
 
     switch (alarm->type()) {
     case Alarm::Procedure:
@@ -1434,7 +1434,7 @@ Attendee::Ptr ICalFormatImpl::readAttendee(icalproperty *attendee)
         return Attendee::Ptr();
     }
 
-    icalparameter *p = Q_NULLPTR;
+    icalparameter *p = nullptr;
 
     QString email = QString::fromUtf8(icalproperty_get_attendee(attendee));
     if (email.startsWith(QStringLiteral("mailto:"), Qt::CaseInsensitive)) {
@@ -2117,7 +2117,7 @@ void ICalFormatImpl::readRecurrence(const struct icalrecurrencetype &r, Recurren
     // Duration & End Date
     if (!icaltime_is_null_time(r.until)) {
         icaltimetype t = r.until;
-        recur->setEndDt(readICalUtcDateTime(Q_NULLPTR, t));
+        recur->setEndDt(readICalUtcDateTime(nullptr, t));
     } else {
         if (r.count == 0) {
             recur->setDuration(-1);
@@ -2358,7 +2358,7 @@ icaltimetype ICalFormatImpl::writeICalDate(const QDate &date)
 
     t.is_date = 1;
     t.is_utc = 0;
-    t.zone = Q_NULLPTR;
+    t.zone = nullptr;
 
     return t;
 }
@@ -2378,7 +2378,7 @@ icaltimetype ICalFormatImpl::writeICalDateTime(const KDateTime &datetime)
         t.minute = datetime.time().minute();
         t.second = datetime.time().second();
     }
-    t.zone = Q_NULLPTR;   // zone is NOT set
+    t.zone = nullptr;   // zone is NOT set
     t.is_utc = datetime.isUtc() ? 1 : 0;
 
     // _dumpIcaltime( t );
@@ -2446,7 +2446,7 @@ icalproperty *ICalFormatImpl::writeICalDateTimeProperty(const icalproperty_kind 
             p = icalproperty_new_rdate(tp);
             break;
         default:
-            return Q_NULLPTR;
+            return nullptr;
         }
     }
     }
@@ -2493,7 +2493,7 @@ KDateTime ICalFormatImpl::readICalDateTime(icalproperty *p,
             utc = true;   // should be UTC, but it isn't
         }
         icalparameter *param =
-            p ? icalproperty_get_first_parameter(p, ICAL_TZID_PARAMETER) : Q_NULLPTR;
+            p ? icalproperty_get_first_parameter(p, ICAL_TZID_PARAMETER) : nullptr;
         QByteArray tzid = param ? QByteArray(icalparameter_get_tzid(param)) : QByteArray();
 
         // A workaround for a bug in libical (https://github.com/libical/libical/issues/185)
@@ -2714,7 +2714,7 @@ icalcomponent *ICalFormatImpl::createCalendarComponent(const Calendar::Ptr &cal)
     }
     */
     // Custom properties
-    if (cal != Q_NULLPTR) {
+    if (cal != nullptr) {
         d->writeCustomProperties(calendar, cal.data());
     }
 
@@ -3103,8 +3103,8 @@ icalcomponent *ICalFormatImpl::createScheduleComponent(const IncidenceBase::Ptr 
     if (icalmethod == ICAL_METHOD_REPLY) {
         struct icalreqstattype rst;
         rst.code = ICAL_2_0_SUCCESS_STATUS;
-        rst.desc = Q_NULLPTR;
-        rst.debug = Q_NULLPTR;
+        rst.desc = nullptr;
+        rst.debug = nullptr;
         icalcomponent_add_property(inc, icalproperty_new_requeststatus(rst));
     }
     icalcomponent_add_component(message, inc);

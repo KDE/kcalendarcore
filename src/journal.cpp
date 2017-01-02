@@ -36,7 +36,7 @@
 
 using namespace KCalCore;
 
-Journal::Journal() : d(Q_NULLPTR)
+Journal::Journal() : d(nullptr)
 {
 }
 

@@ -58,7 +58,7 @@ class Q_DECL_HIDDEN KCalCore::IncidenceBase::Private
 {
 public:
     Private()
-        : mOrganizer(Q_NULLPTR),
+        : mOrganizer(nullptr),
           mUpdateGroupLevel(0),
           mUpdatedPending(false),
           mAllDay(true),

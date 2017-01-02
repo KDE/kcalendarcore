@@ -60,8 +60,8 @@ public:
 #endif
     static QDate getNthWeek(int year, int weeknumber, short weekstart = 1);
     static int weekNumbersInYear(int year, short weekstart = 1);
-    static int getWeekNumber(const QDate &date, short weekstart, int *year = Q_NULLPTR);
-    static int getWeekNumberNeg(const QDate &date, short weekstart, int *year = Q_NULLPTR);
+    static int getWeekNumber(const QDate &date, short weekstart, int *year = nullptr);
+    static int getWeekNumberNeg(const QDate &date, short weekstart, int *year = nullptr);
     // Convert to QDate, allowing for day < 0.
     // month and day must be non-zero.
     static QDate getDate(int year, int month, int day)

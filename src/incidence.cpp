@@ -54,7 +54,7 @@ public:
     Private()
         : mGeoLatitude(INVALID_LATLON),
           mGeoLongitude(INVALID_LATLON),
-          mRecurrence(Q_NULLPTR),
+          mRecurrence(nullptr),
           mRevision(0),
           mPriority(0),
           mStatus(StatusNone),
@@ -81,7 +81,7 @@ public:
           mRecurrenceId(p.mRecurrenceId),
           mGeoLatitude(p.mGeoLatitude),
           mGeoLongitude(p.mGeoLongitude),
-          mRecurrence(Q_NULLPTR),
+          mRecurrence(nullptr),
           mRevision(p.mRevision),
           mPriority(p.mPriority),
           mStatus(p.mStatus),
@@ -100,7 +100,7 @@ public:
         mAlarms.clear();
         mAttachments.clear();
         delete mRecurrence;
-        mRecurrence = Q_NULLPTR;
+        mRecurrence = nullptr;
     }
 
     void init(Incidence *dest, const Incidence &src)
@@ -144,7 +144,7 @@ public:
             mRecurrence = new Recurrence(*(src.d->mRecurrence));
             mRecurrence->addObserver(dest);
         } else {
-            mRecurrence = Q_NULLPTR;
+            mRecurrence = nullptr;
         }
     }
 
@@ -199,7 +199,7 @@ Incidence::~Incidence()
     // Alarm has a raw incidence pointer, so we must set it to 0
     // so Alarm doesn't use it after Incidence is destroyed
     foreach (const Alarm::Ptr &alarm, d->mAlarms) {
-        alarm->setParent(Q_NULLPTR);
+        alarm->setParent(nullptr);
     }
     clearTempFiles();
     delete d->mRecurrence;
@@ -272,12 +272,12 @@ bool Incidence::equals(const IncidenceBase &incidence) const
         }
     }
 
-    bool recurrenceEqual = (d->mRecurrence == Q_NULLPTR && i2->d->mRecurrence == Q_NULLPTR);
+    bool recurrenceEqual = (d->mRecurrence == nullptr && i2->d->mRecurrence == nullptr);
     if (!recurrenceEqual) {
         recurrence(); // create if doesn't exist
         i2->recurrence(); // create if doesn't exist
-        recurrenceEqual = d->mRecurrence != Q_NULLPTR &&
-                          i2->d->mRecurrence != Q_NULLPTR &&
+        recurrenceEqual = d->mRecurrence != nullptr &&
+                          i2->d->mRecurrence != nullptr &&
                           *d->mRecurrence == *i2->d->mRecurrence;
     }
 
@@ -569,7 +569,7 @@ Recurrence *Incidence::recurrence() const
 void Incidence::clearRecurrence()
 {
     delete d->mRecurrence;
-    d->mRecurrence = Q_NULLPTR;
+    d->mRecurrence = nullptr;
 }
 
 ushort Incidence::recurrenceType() const

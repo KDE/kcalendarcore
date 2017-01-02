@@ -111,7 +111,7 @@ bool VCalFormat::load(const Calendar::Ptr &calendar, const QString &fileName)
 
     clearException();
 
-    VObject *vcal = Q_NULLPTR;
+    VObject *vcal = nullptr;
 
     // this is not necessarily only 1 vcal.  Could be many vcals, or include
     // a vcard...
@@ -305,7 +305,7 @@ QString VCalFormat::toString(const Calendar::Ptr &calendar,
         }
     }
 
-    char *buf = writeMemVObject(Q_NULLPTR, Q_NULLPTR, vcal);
+    char *buf = writeMemVObject(nullptr, nullptr, vcal);
 
     QString result(QString::fromUtf8(buf));
 
@@ -564,7 +564,7 @@ VObject *VCalFormat::eventToVTodo(const Todo::Ptr &anEvent)
     }
 
     // secrecy
-    const char *text = Q_NULLPTR;
+    const char *text = nullptr;
     switch (anEvent->secrecy()) {
     case Incidence::SecrecyPublic:
         text = "PUBLIC";
@@ -874,7 +874,7 @@ VObject *VCalFormat::eventToVEvent(const Event::Ptr &anEvent)
 //  addPropValue( vevent, VCStatusProp, anEvent->statusStr().toUtf8() );
 
     // secrecy
-    const char *text = Q_NULLPTR;
+    const char *text = nullptr;
     switch (anEvent->secrecy()) {
     case Incidence::SecrecyPublic:
         text = "PUBLIC";
@@ -993,7 +993,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
     Todo::Ptr anEvent(new Todo);
 
     // creation date
-    if ((vo = isAPropertyOf(vtodo, VCDCreatedProp)) != Q_NULLPTR) {
+    if ((vo = isAPropertyOf(vtodo, VCDCreatedProp)) != nullptr) {
         anEvent->setCreated(ISOToKDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo)))));
         deleteStr(s);
     }
@@ -1008,7 +1008,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
     }
 
     // last modification date
-    if ((vo = isAPropertyOf(vtodo, VCLastModifiedProp)) != Q_NULLPTR) {
+    if ((vo = isAPropertyOf(vtodo, VCLastModifiedProp)) != nullptr) {
         anEvent->setLastModified(ISOToKDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo)))));
         deleteStr(s);
     } else {
@@ -1017,7 +1017,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
 
     // organizer
     // if our extension property for the event's ORGANIZER exists, add it.
-    if ((vo = isAPropertyOf(vtodo, ICOrganizerProp)) != Q_NULLPTR) {
+    if ((vo = isAPropertyOf(vtodo, ICOrganizerProp)) != nullptr) {
         anEvent->setOrganizer(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo))));
         deleteStr(s);
     } else {
@@ -1055,11 +1055,11 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
             }
 
             // is there an RSVP property?
-            if ((vp = isAPropertyOf(vo, VCRSVPProp)) != Q_NULLPTR) {
+            if ((vp = isAPropertyOf(vo, VCRSVPProp)) != nullptr) {
                 a->setRSVP(vObjectStringZValue(vp));
             }
             // is there a status property?
-            if ((vp = isAPropertyOf(vo, VCStatusProp)) != Q_NULLPTR) {
+            if ((vp = isAPropertyOf(vo, VCStatusProp)) != nullptr) {
                 a->setStatus(readStatus(vObjectStringZValue(vp)));
             }
             // add the attendee
@@ -1068,7 +1068,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
     }
 
     // description for todo
-    if ((vo = isAPropertyOf(vtodo, VCDescriptionProp)) != Q_NULLPTR) {
+    if ((vo = isAPropertyOf(vtodo, VCDescriptionProp)) != nullptr) {
         s = fakeCString(vObjectUStringZValue(vo));
         anEvent->setDescription(QString::fromUtf8(s), Qt::mightBeRichText(QString::fromUtf8(s)));
         deleteStr(s);
@@ -1082,7 +1082,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
     }
 
     // location
-    if ((vo = isAPropertyOf(vtodo, VCLocationProp)) != Q_NULLPTR) {
+    if ((vo = isAPropertyOf(vtodo, VCLocationProp)) != nullptr) {
         s = fakeCString(vObjectUStringZValue(vo));
         anEvent->setLocation(QString::fromUtf8(s), Qt::mightBeRichText(QString::fromUtf8(s)));
         deleteStr(s);
@@ -1090,7 +1090,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
 
     // completed
     // was: status
-    if ((vo = isAPropertyOf(vtodo, VCStatusProp)) != Q_NULLPTR) {
+    if ((vo = isAPropertyOf(vtodo, VCStatusProp)) != nullptr) {
         s = fakeCString(vObjectUStringZValue(vo));
         if (s && strcmp(s, "COMPLETED") == 0) {
             anEvent->setCompleted(true);
@@ -1103,7 +1103,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
     }
 
     // completion date
-    if ((vo = isAPropertyOf(vtodo, VCCompletedProp)) != Q_NULLPTR) {
+    if ((vo = isAPropertyOf(vtodo, VCCompletedProp)) != nullptr) {
         anEvent->setCompleted(ISOToKDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo)))));
         deleteStr(s);
     }
@@ -1120,7 +1120,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
     anEvent->setAllDay(false);
 
     // due date
-    if ((vo = isAPropertyOf(vtodo, VCDueProp)) != Q_NULLPTR) {
+    if ((vo = isAPropertyOf(vtodo, VCDueProp)) != nullptr) {
         anEvent->setDtDue(ISOToKDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo)))));
         deleteStr(s);
         if (anEvent->dtDue().time().hour() == 0 &&
@@ -1133,7 +1133,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
     }
 
     // start time
-    if ((vo = isAPropertyOf(vtodo, VCDTstartProp)) != Q_NULLPTR) {
+    if ((vo = isAPropertyOf(vtodo, VCDTstartProp)) != nullptr) {
         anEvent->setDtStart(ISOToKDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo)))));
         deleteStr(s);
         if (anEvent->dtStart().time().hour() == 0 &&
@@ -1146,7 +1146,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
     }
 
     // repeat stuff
-    if ((vo = isAPropertyOf(vtodo, VCRRuleProp)) != Q_NULLPTR) {
+    if ((vo = isAPropertyOf(vtodo, VCRRuleProp)) != nullptr) {
         QString tmpStr = (QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo))));
         deleteStr(s);
         tmpStr = tmpStr.simplified();
@@ -1326,7 +1326,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
     } // repeats
 
     // recurrence exceptions
-    if ((vo = isAPropertyOf(vtodo, VCExpDateProp)) != Q_NULLPTR) {
+    if ((vo = isAPropertyOf(vtodo, VCExpDateProp)) != nullptr) {
         s = fakeCString(vObjectUStringZValue(vo));
         QStringList exDates = QString::fromUtf8(s).split(QLatin1Char(','));
         QStringList::ConstIterator it;
@@ -1418,7 +1418,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
     }
 
     // related todo
-    if ((vo = isAPropertyOf(vtodo, VCRelatedToProp)) != Q_NULLPTR) {
+    if ((vo = isAPropertyOf(vtodo, VCRelatedToProp)) != nullptr) {
         anEvent->setRelatedTo(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo))));
         deleteStr(s);
         d->mTodosRelate.append(anEvent);
@@ -1426,7 +1426,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
 
     // secrecy
     Incidence::Secrecy secrecy = Incidence::SecrecyPublic;
-    if ((vo = isAPropertyOf(vtodo, VCClassProp)) != Q_NULLPTR) {
+    if ((vo = isAPropertyOf(vtodo, VCClassProp)) != nullptr) {
         s = fakeCString(vObjectUStringZValue(vo));
         if (s && strcmp(s, "PRIVATE") == 0) {
             secrecy = Incidence::SecrecyPrivate;
@@ -1438,7 +1438,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
     anEvent->setSecrecy(secrecy);
 
     // categories
-    if ((vo = isAPropertyOf(vtodo, VCCategoriesProp)) != Q_NULLPTR) {
+    if ((vo = isAPropertyOf(vtodo, VCCategoriesProp)) != nullptr) {
         s = fakeCString(vObjectUStringZValue(vo));
         QString categories = QString::fromUtf8(s);
         deleteStr(s);
@@ -1472,7 +1472,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
     Event::Ptr anEvent(new Event);
 
     // creation date
-    if ((vo = isAPropertyOf(vevent, VCDCreatedProp)) != Q_NULLPTR) {
+    if ((vo = isAPropertyOf(vevent, VCDCreatedProp)) != nullptr) {
         anEvent->setCreated(ISOToKDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo)))));
         deleteStr(s);
     }
@@ -1489,7 +1489,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
     // revision
     // again NSCAL doesn't give us much to work with, so we improvise...
     anEvent->setRevision(0);
-    if ((vo = isAPropertyOf(vevent, VCSequenceProp)) != Q_NULLPTR) {
+    if ((vo = isAPropertyOf(vevent, VCSequenceProp)) != nullptr) {
         s = fakeCString(vObjectUStringZValue(vo));
         if (s) {
             anEvent->setRevision(atoi(s));
@@ -1498,7 +1498,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
     }
 
     // last modification date
-    if ((vo = isAPropertyOf(vevent, VCLastModifiedProp)) != Q_NULLPTR) {
+    if ((vo = isAPropertyOf(vevent, VCLastModifiedProp)) != nullptr) {
         anEvent->setLastModified(ISOToKDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo)))));
         deleteStr(s);
     } else {
@@ -1507,7 +1507,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
 
     // organizer
     // if our extension property for the event's ORGANIZER exists, add it.
-    if ((vo = isAPropertyOf(vevent, ICOrganizerProp)) != Q_NULLPTR) {
+    if ((vo = isAPropertyOf(vevent, ICOrganizerProp)) != nullptr) {
         // FIXME:  Also use the full name, not just the email address
         anEvent->setOrganizer(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo))));
         deleteStr(s);
@@ -1545,11 +1545,11 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
             }
 
             // is there an RSVP property?
-            if ((vp = isAPropertyOf(vo, VCRSVPProp)) != Q_NULLPTR) {
+            if ((vp = isAPropertyOf(vo, VCRSVPProp)) != nullptr) {
                 a->setRSVP(vObjectStringZValue(vp));
             }
             // is there a status property?
-            if ((vp = isAPropertyOf(vo, VCStatusProp)) != Q_NULLPTR) {
+            if ((vp = isAPropertyOf(vo, VCStatusProp)) != nullptr) {
                 a->setStatus(readStatus(vObjectStringZValue(vp)));
             }
             // add the attendee
@@ -1569,7 +1569,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
     anEvent->setAllDay(false);
 
     // start time
-    if ((vo = isAPropertyOf(vevent, VCDTstartProp)) != Q_NULLPTR) {
+    if ((vo = isAPropertyOf(vevent, VCDTstartProp)) != nullptr) {
         anEvent->setDtStart(ISOToKDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo)))));
         deleteStr(s);
 
@@ -1581,7 +1581,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
     }
 
     // stop time
-    if ((vo = isAPropertyOf(vevent, VCDTendProp)) != Q_NULLPTR) {
+    if ((vo = isAPropertyOf(vevent, VCDTendProp)) != nullptr) {
         anEvent->setDtEnd(ISOToKDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo)))));
         deleteStr(s);
 
@@ -1604,7 +1604,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
     ///////////////////////////////////////////////////////////////////////////
 
     // repeat stuff
-    if ((vo = isAPropertyOf(vevent, VCRRuleProp)) != Q_NULLPTR) {
+    if ((vo = isAPropertyOf(vevent, VCRRuleProp)) != nullptr) {
         QString tmpStr = (QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo))));
         deleteStr(s);
         tmpStr = tmpStr.simplified();
@@ -1786,7 +1786,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
     } // repeats
 
     // recurrence exceptions
-    if ((vo = isAPropertyOf(vevent, VCExpDateProp)) != Q_NULLPTR) {
+    if ((vo = isAPropertyOf(vevent, VCExpDateProp)) != nullptr) {
         s = fakeCString(vObjectUStringZValue(vo));
         QStringList exDates = QString::fromUtf8(s).split(QLatin1Char(','));
         QStringList::ConstIterator it;
@@ -1811,7 +1811,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
     }
 
     // description
-    if ((vo = isAPropertyOf(vevent, VCDescriptionProp)) != Q_NULLPTR) {
+    if ((vo = isAPropertyOf(vevent, VCDescriptionProp)) != nullptr) {
         s = fakeCString(vObjectUStringZValue(vo));
         bool isRich = Qt::mightBeRichText(QString::fromUtf8(s));
         if (!anEvent->description().isEmpty()) {
@@ -1824,7 +1824,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
     }
 
     // location
-    if ((vo = isAPropertyOf(vevent, VCLocationProp)) != Q_NULLPTR) {
+    if ((vo = isAPropertyOf(vevent, VCLocationProp)) != nullptr) {
         s = fakeCString(vObjectUStringZValue(vo));
         anEvent->setLocation(QString::fromUtf8(s), Qt::mightBeRichText(QString::fromUtf8(s)));
         deleteStr(s);
@@ -1852,7 +1852,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
 
     // secrecy
     Incidence::Secrecy secrecy = Incidence::SecrecyPublic;
-    if ((vo = isAPropertyOf(vevent, VCClassProp)) != Q_NULLPTR) {
+    if ((vo = isAPropertyOf(vevent, VCClassProp)) != nullptr) {
         s = fakeCString(vObjectUStringZValue(vo));
         if (s && strcmp(s, "PRIVATE") == 0) {
             secrecy = Incidence::SecrecyPrivate;
@@ -1864,7 +1864,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
     anEvent->setSecrecy(secrecy);
 
     // categories
-    if ((vo = isAPropertyOf(vevent, VCCategoriesProp)) != Q_NULLPTR) {
+    if ((vo = isAPropertyOf(vevent, VCCategoriesProp)) != nullptr) {
         s = fakeCString(vObjectUStringZValue(vo));
         QString categories = QString::fromUtf8(s);
         deleteStr(s);
@@ -1884,7 +1884,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
     }
 
     // resources
-    if ((vo = isAPropertyOf(vevent, VCResourcesProp)) != Q_NULLPTR) {
+    if ((vo = isAPropertyOf(vevent, VCResourcesProp)) != nullptr) {
         QString resources = (QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo))));
         deleteStr(s);
         QStringList tmpStrList = resources.split(QLatin1Char(';'));
@@ -1977,7 +1977,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
     }
 
     // transparency
-    if ((vo = isAPropertyOf(vevent, VCTranspProp)) != Q_NULLPTR) {
+    if ((vo = isAPropertyOf(vevent, VCTranspProp)) != nullptr) {
         s = fakeCString(vObjectUStringZValue(vo));
         if (s) {
             int i = atoi(s);
@@ -1987,7 +1987,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
     }
 
     // related event
-    if ((vo = isAPropertyOf(vevent, VCRelatedToProp)) != Q_NULLPTR) {
+    if ((vo = isAPropertyOf(vevent, VCRelatedToProp)) != nullptr) {
         anEvent->setRelatedTo(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo))));
         deleteStr(s);
         d->mEventsRelate.append(anEvent);
@@ -2192,15 +2192,15 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
     bool hasTimeZone = false; //The calendar came with a TZ and not UTC
     KDateTime::Spec previousSpec; //If we add a new TZ we should leave the spec as it was before
 
-    if ((curVO = isAPropertyOf(vcal, ICMethodProp)) != Q_NULLPTR) {
-        char *methodType = Q_NULLPTR;
+    if ((curVO = isAPropertyOf(vcal, ICMethodProp)) != nullptr) {
+        char *methodType = nullptr;
         methodType = fakeCString(vObjectUStringZValue(curVO));
         // qCDebug(KCALCORE_LOG) << "This calendar is an iTIP transaction of type '" << methodType << "'";
         deleteStr(methodType);
     }
 
     // warn the user that we might have trouble reading non-known calendar.
-    if ((curVO = isAPropertyOf(vcal, VCProdIdProp)) != Q_NULLPTR) {
+    if ((curVO = isAPropertyOf(vcal, VCProdIdProp)) != nullptr) {
         char *s = fakeCString(vObjectUStringZValue(curVO));
         if (!s || strcmp(productId().toUtf8(), s) != 0) {
             qCDebug(KCALCORE_LOG) << "This vCalendar file was not created by KOrganizer or"
@@ -2211,7 +2211,7 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
     }
 
     // warn the user we might have trouble reading this unknown version.
-    if ((curVO = isAPropertyOf(vcal, VCVersionProp)) != Q_NULLPTR) {
+    if ((curVO = isAPropertyOf(vcal, VCVersionProp)) != nullptr) {
         char *s = fakeCString(vObjectUStringZValue(curVO));
         if (!s || strcmp(_VCAL_VERSION, s) != 0) {
             qCDebug(KCALCORE_LOG) << "This vCalendar file has version" << s
@@ -2221,7 +2221,7 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
     }
 
     // set the time zone (this is a property of the view, so just discard!)
-    if ((curVO = isAPropertyOf(vcal, VCTimeZoneProp)) != Q_NULLPTR) {
+    if ((curVO = isAPropertyOf(vcal, VCTimeZoneProp)) != nullptr) {
         char *s = fakeCString(vObjectUStringZValue(curVO));
         QString ts = QString::fromUtf8(s);
         QString name = QStringLiteral("VCAL") + ts;
@@ -2327,7 +2327,7 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
         // now, check to see that the object is an event or todo.
         if (strcmp(vObjectName(curVO), VCEventProp) == 0) {
 
-            if ((curVOProp = isAPropertyOf(curVO, KPilotStatusProp)) != Q_NULLPTR) {
+            if ((curVOProp = isAPropertyOf(curVO, KPilotStatusProp)) != nullptr) {
                 char *s;
                 s = fakeCString(vObjectUStringZValue(curVOProp));
                 // check to see if event was deleted by the kpilot conduit

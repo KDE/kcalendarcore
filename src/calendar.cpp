@@ -79,7 +79,7 @@ public:
     ~Private()
     {
         delete mTimeZones;
-        mTimeZones = Q_NULLPTR;
+        mTimeZones = nullptr;
         if (mFilter != mDefaultFilter) {
             delete mFilter;
         }
@@ -326,7 +326,7 @@ void Calendar::setTimeZones(ICalTimeZones *zones)
 
     if (d->mTimeZones && (d->mTimeZones != zones)) {
         delete d->mTimeZones;
-        d->mTimeZones = Q_NULLPTR;
+        d->mTimeZones = nullptr;
     }
     d->mTimeZones = zones;
 }

@@ -46,7 +46,7 @@ using namespace KCalCore;
 Compat *CompatFactory::createCompat(const QString &productId,
                                     const QString &implementationVersion)
 {
-    Compat *compat = Q_NULLPTR;
+    Compat *compat = nullptr;
 
     int korg = productId.indexOf(QStringLiteral("KOrganizer"));
     int outl9 = productId.indexOf(QStringLiteral("Outlook 9.0"));
@@ -100,7 +100,7 @@ Compat *CompatFactory::createCompat(const QString &productId,
     return compat;
 }
 
-Compat::Compat() : d(Q_NULLPTR)
+Compat::Compat() : d(nullptr)
 {
 }
 
@@ -212,7 +212,7 @@ void CompatDecorator::setCreatedToDtStamp(const Incidence::Ptr &incidence,
     d->compat->setCreatedToDtStamp(incidence, dtstamp);
 }
 
-CompatPre35::CompatPre35() : d(Q_NULLPTR)
+CompatPre35::CompatPre35() : d(nullptr)
 {
 }
 
@@ -236,7 +236,7 @@ void CompatPre35::fixRecurrence(const Incidence::Ptr &incidence)
     Compat::fixRecurrence(incidence);
 }
 
-CompatPre34::CompatPre34() : d(Q_NULLPTR)
+CompatPre34::CompatPre34() : d(nullptr)
 {
 }
 
@@ -254,7 +254,7 @@ int CompatPre34::fixPriority(int priority)
     }
 }
 
-CompatPre32::CompatPre32() : d(Q_NULLPTR)
+CompatPre32::CompatPre32() : d(nullptr)
 {
 }
 
@@ -272,7 +272,7 @@ void CompatPre32::fixRecurrence(const Incidence::Ptr &incidence)
     CompatPre35::fixRecurrence(incidence);
 }
 
-CompatPre31::CompatPre31() : d(Q_NULLPTR)
+CompatPre31::CompatPre31() : d(nullptr)
 {
 }
 
@@ -290,7 +290,7 @@ void CompatPre31::fixRecurrence(const Incidence::Ptr &incidence)
     CompatPre32::fixRecurrence(incidence);
 
     Recurrence *recur = incidence->recurrence();
-    RecurrenceRule *r = Q_NULLPTR;
+    RecurrenceRule *r = nullptr;
     if (recur) {
         r = recur->defaultRRule();
     }
@@ -352,7 +352,7 @@ void CompatPre31::fixRecurrence(const Incidence::Ptr &incidence)
     }
 }
 
-CompatOutlook9::CompatOutlook9() : d(Q_NULLPTR)
+CompatOutlook9::CompatOutlook9() : d(nullptr)
 {
 }
 
@@ -380,7 +380,7 @@ void CompatOutlook9::fixAlarms(const Incidence::Ptr &incidence)
     }
 }
 
-Compat32PrereleaseVersions::Compat32PrereleaseVersions() : d(Q_NULLPTR)
+Compat32PrereleaseVersions::Compat32PrereleaseVersions() : d(nullptr)
 {
 }
 
@@ -395,7 +395,7 @@ bool Compat32PrereleaseVersions::useTimeZoneShift() const
 
 CompatPre410::CompatPre410(Compat *decoratedCompat)
     : CompatDecorator(decoratedCompat)
-    , d(Q_NULLPTR)
+    , d(nullptr)
 {
 }
 
