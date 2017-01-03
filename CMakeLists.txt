@@ -1,6 +1,7 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.0)
+set(PIM_VERSION "5.4.40")
 
-project(KCalCore)
+project(KCalCore VERSION ${PIM_VERSION})
 
 # ECM setup
 set(KF5_VERSION "5.28.0")
@@ -20,10 +21,9 @@ include(ECMQtDeclareLoggingCategory)
 include(ECMCoverageOption)
 
 
-set(PIM_VERSION "5.4.40")
 
 set(KCALENDARCORE_LIB_VERSION ${PIM_VERSION})
-ecm_setup_version(${KCALENDARCORE_LIB_VERSION} VARIABLE_PREFIX KCALCORE
+ecm_setup_version(PROJECT VARIABLE_PREFIX KCALCORE
                         VERSION_HEADER "${KCalCore_BINARY_DIR}/kcalcore_version.h"
                         PACKAGE_VERSION_FILE "${KCalCore_BINARY_DIR}/KF5CalendarCoreConfigVersion.cmake"
                         SOVERSION 5
