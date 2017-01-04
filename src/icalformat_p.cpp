@@ -2043,7 +2043,7 @@ void ICalFormatImpl::Private::readCustomProperties(icalcomponent *parent,
             }
             parameters = parametervalues.join(QLatin1Char(';'));
         } else {
-            value = value.append(QStringLiteral(",")).append(nvalue);
+            value = value.append(QLatin1Char(',')).append(nvalue);
         }
         p = icalcomponent_get_next_property(parent, ICAL_X_PROPERTY);
     }
