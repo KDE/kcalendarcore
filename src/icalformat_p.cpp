@@ -585,7 +585,7 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent,
     }
 
     // categories
-    QString categories = incidence->categories().join(QStringLiteral(","));
+    QString categories = incidence->categories().join(QLatin1Char(','));
     if (!categories.isEmpty()) {
         icalcomponent_add_property(
             parent, icalproperty_new_categories(categories.toUtf8()));
@@ -2041,7 +2041,7 @@ void ICalFormatImpl::Private::readCustomProperties(icalcomponent *parent,
                 const char *c = icalparameter_as_ical_string(param);
                 parametervalues.push_back(QLatin1String(c));
             }
-            parameters = parametervalues.join(QStringLiteral(";"));
+            parameters = parametervalues.join(QLatin1Char(';'));
         } else {
             value = value.append(QStringLiteral(",")).append(nvalue);
         }

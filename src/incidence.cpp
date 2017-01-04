@@ -530,7 +530,7 @@ QStringList Incidence::categories() const
 
 QString Incidence::categoriesStr() const
 {
-    return d->mCategories.join(QStringLiteral(","));
+    return d->mCategories.join(QLatin1Char(','));
 }
 
 void Incidence::setRelatedTo(const QString &relatedToUid, RelType relType)

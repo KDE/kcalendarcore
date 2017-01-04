@@ -1088,12 +1088,12 @@ ICalTimeZone ICalTimeZoneSource::parse(const QString &name, const QStringList &t
     for (QStringList::ConstIterator it = tzList.begin(); it != tzList.end(); ++it) {
         QString value = *it;
         daylight = false;
-        const QString tzName = value.mid(0, value.indexOf(QStringLiteral(";")));
-        value = value.mid((value.indexOf(QStringLiteral(";")) + 1));
-        const QString tzOffset = value.mid(0, value.indexOf(QStringLiteral(";")));
-        value = value.mid((value.indexOf(QStringLiteral(";")) + 1));
-        const QString tzDaylight = value.mid(0, value.indexOf(QStringLiteral(";")));
-        const KDateTime tzDate = KDateTime::fromString(value.mid((value.lastIndexOf(QStringLiteral(";")) + 1)));
+        const QString tzName = value.mid(0, value.indexOf(QLatin1Char(';')));
+        value = value.mid((value.indexOf(QLatin1Char(';')) + 1));
+        const QString tzOffset = value.mid(0, value.indexOf(QLatin1Char(';')));
+        value = value.mid((value.indexOf(QLatin1Char(';')) + 1));
+        const QString tzDaylight = value.mid(0, value.indexOf(QLatin1Char(';')));
+        const KDateTime tzDate = KDateTime::fromString(value.mid((value.lastIndexOf(QLatin1Char(';')) + 1)));
         if (tzDaylight == QLatin1String("true")) {
             daylight = true;
         }

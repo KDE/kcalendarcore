@@ -62,7 +62,7 @@ Compat *CompatFactory::createCompat(const QString &productId,
                 int versionNum = version.section(QLatin1Char('.'), 0, 0).toInt() * 10000 +
                                  version.section(QLatin1Char('.'), 1, 1).toInt() * 100 +
                                  version.section(QLatin1Char('.'), 2, 2).toInt();
-                int releaseStop = productId.indexOf(QStringLiteral("/"), versionStop);
+                int releaseStop = productId.indexOf(QLatin1Char('/'), versionStop);
                 QString release;
                 if (releaseStop > versionStop) {
                     release = productId.mid(versionStop + 1, releaseStop - versionStop - 1);
