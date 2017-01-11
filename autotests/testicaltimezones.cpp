@@ -605,7 +605,7 @@ icalcomponent *loadCALENDAR(const char *vcal)
         }
         icalcomponent_free(calendar);
     }
-    return 0;
+    return nullptr;
 }
 
 icalcomponent *loadVTIMEZONE(const char *vtz)
@@ -617,5 +617,5 @@ icalcomponent *loadVTIMEZONE(const char *vtz)
         }
         icalcomponent_free(vtimezone);
     }
-    return 0;
+    return nullptr;
 }

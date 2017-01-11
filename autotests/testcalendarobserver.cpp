@@ -40,7 +40,7 @@ class SimpleObserver : public QObject, public Calendar::CalendarObserver
 {
     Q_OBJECT
 public:
-    SimpleObserver(Calendar *cal, QObject *parent = 0)
+    SimpleObserver(Calendar *cal, QObject *parent = nullptr)
         : QObject(parent)
         , mCal(cal)
     {

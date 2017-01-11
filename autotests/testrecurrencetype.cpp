@@ -67,7 +67,7 @@ int main(int argc, char **argv)
     QString input = parsedArgs[0];
     qDebug() << "Input file:" << input;
 
-    QTextStream *outstream = 0;
+    QTextStream *outstream = nullptr;
     QString fn;
     if (parsedArgs.count() > 1) {
         fn = parsedArgs[1];

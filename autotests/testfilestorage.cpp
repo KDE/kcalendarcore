@@ -101,7 +101,7 @@ void FileStorageTest::testSaveLoadSave()
     QVERIFY(fs.open());
     QVERIFY(fs.load());
     Event::Ptr e = fs.calendar()->incidence(QStringLiteral("1")).staticCast<Event>();
-    QVERIFY(e != 0);
+    QVERIFY(e != nullptr);
     QVERIFY(fs.close());
     unlink("fred.ics");
 

@@ -57,7 +57,7 @@ void AlarmTest::testCompare()
 
 void AlarmTest::testAssignment()
 {
-    Alarm alarm1(0);
+    Alarm alarm1(nullptr);
     alarm1.setType(Alarm::Display);
     Alarm alarm2 = alarm1;
     QVERIFY(alarm1 == alarm2);
@@ -68,10 +68,10 @@ void AlarmTest::testAssignment()
 void AlarmTest::testSerializer_data()
 {
     QTest::addColumn<KCalCore::Alarm::Ptr>("alarm");
-    Alarm::Ptr a1 = Alarm::Ptr(new Alarm(0));
-    Alarm::Ptr a2 = Alarm::Ptr(new Alarm(0));
-    Alarm::Ptr a3 = Alarm::Ptr(new Alarm(0));
-    Alarm::Ptr a4 = Alarm::Ptr(new Alarm(0));
+    Alarm::Ptr a1 = Alarm::Ptr(new Alarm(nullptr));
+    Alarm::Ptr a2 = Alarm::Ptr(new Alarm(nullptr));
+    Alarm::Ptr a3 = Alarm::Ptr(new Alarm(nullptr));
+    Alarm::Ptr a4 = Alarm::Ptr(new Alarm(nullptr));
 
     a1->setType(Alarm::Email);
     a2->setType(Alarm::Procedure);
@@ -117,7 +117,7 @@ void AlarmTest::testSerializer()
     QDataStream stream(&array, QIODevice::WriteOnly);
     stream << alarm; // Serialize
 
-    Alarm::Ptr alarm2 = Alarm::Ptr(new Alarm(0));
+    Alarm::Ptr alarm2 = Alarm::Ptr(new Alarm(nullptr));
     //QVERIFY(*alarm != *alarm2);
     QDataStream stream2(&array, QIODevice::ReadOnly);
     stream2 >> alarm2; // deserialize
