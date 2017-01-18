@@ -167,9 +167,7 @@ void Recurrence::addObserver(RecurrenceObserver *observer)
 
 void Recurrence::removeObserver(RecurrenceObserver *observer)
 {
-    if (d->mObservers.contains(observer)) {
-        d->mObservers.removeAll(observer);
-    }
+    d->mObservers.removeAll(observer);
 }
 
 KDateTime Recurrence::startDateTime() const

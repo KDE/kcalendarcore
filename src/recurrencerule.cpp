@@ -941,9 +941,7 @@ void RecurrenceRule::addObserver(RuleObserver *observer)
 
 void RecurrenceRule::removeObserver(RuleObserver *observer)
 {
-    if (d->mObservers.contains(observer)) {
-        d->mObservers.removeAll(observer);
-    }
+    d->mObservers.removeAll(observer);
 }
 
 void RecurrenceRule::setRecurrenceType(PeriodType period)
