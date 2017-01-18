@@ -757,8 +757,9 @@ void Incidence::clearAttachments()
 
 QString Incidence::writeAttachmentToTempFile(const Attachment::Ptr &attachment) const
 {
-    if (d->mTempFiles.contains(attachment)) {
-        return d->mTempFiles.value(attachment);
+    const QString attachementPath = d->mTempFiles.value(attachment);
+    if (!attachementPath.isEmpty()) {
+        return attachementPath;
     }
     QTemporaryFile file;
 
