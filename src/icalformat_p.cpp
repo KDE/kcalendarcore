@@ -734,8 +734,8 @@ void ICalFormatImpl::Private::writeCustomProperties(icalcomponent *parent,
         // Minimalist parameter handler: extract icalparameter's out of
         // the given input text (not really parsing as such)
         if (!parameters.isEmpty()) {
-            QStringList sl = parameters.split(QLatin1Char(';'));
-            foreach (const QString &parameter, sl) {
+            const QStringList sl = parameters.split(QLatin1Char(';'));
+            for (const QString &parameter : sl) {
                 icalparameter *param = icalparameter_new_from_string(parameter.toUtf8());
                 if (param) {
                     icalproperty_add_parameter(p, param);
@@ -1823,7 +1823,8 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent,
             // We can't change that -- in order to retain backwards compatibility.
             text = icalproperty_get_categories(p);
             const QString val = QString::fromUtf8(text);
-            foreach (const QString &cat, val.split(QLatin1Char(','), QString::SkipEmptyParts)) {
+            const QStringList lstVal = val.split(QLatin1Char(','), QString::SkipEmptyParts);
+            for (const QString &cat : lstVal) {
                 // ensure no duplicates
                 if (!categories.contains(cat)) {
                     categories.append(cat);
@@ -1847,8 +1848,8 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent,
                     const icalparameter *param =
                         icalproperty_get_first_parameter(p, ICAL_TZID_PARAMETER);
                     QString tzid = QString::fromAscii(icalparameter_get_tzid(param));
-                    QStringList parts = tzid.toLower().split(QLatin1Char(';'));
-                    foreach (const QString &part, parts) {
+                    const QStringList parts = tzid.toLower().split(QLatin1Char(';'));
+                    for (const QString &part : parts) {
                         if (part == QLatin1String("range=thisandfuture")) {
                             incidence->setThisAndFuture(true);
                             break;

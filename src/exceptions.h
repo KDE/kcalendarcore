@@ -114,13 +114,6 @@ protected:
 
     /** Arguments to pass to i18n(). */
     QStringList mArguments;
-
-private:
-    //@cond PRIVATE
-    Q_DISABLE_COPY(Exception)
-    class Private;
-    Private *const d;
-    //@endcond
 };
 
 } // namespace

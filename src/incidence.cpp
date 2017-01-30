@@ -34,6 +34,7 @@
 
 #include "incidence.h"
 #include "calformat.h"
+#include "helper_p.h"
 
 #include <QTemporaryFile>
 #include <QMimeDatabase>
@@ -128,14 +129,14 @@ public:
         // We need to really duplicate the objects stored therein, otherwise deleting
         // i will also delete all attachments from this object (setAutoDelete...)
         mAlarms.reserve(src.d->mAlarms.count());
-        foreach (const Alarm::Ptr &alarm, src.d->mAlarms) {
+       for (const Alarm::Ptr &alarm : qAsConst(src.d->mAlarms)) {
             Alarm::Ptr b(new Alarm(*alarm.data()));
             b->setParent(dest);
             mAlarms.append(b);
         }
 
         mAttachments.reserve(src.d->mAttachments.count());
-        foreach (const Attachment::Ptr &attachment, src.d->mAttachments) {
+        for (const Attachment::Ptr &attachment : qAsConst(src.d->mAttachments)) {
             Attachment::Ptr a(new Attachment(*attachment));
             mAttachments.append(a);
         }
@@ -198,7 +199,7 @@ Incidence::~Incidence()
 {
     // Alarm has a raw incidence pointer, so we must set it to 0
     // so Alarm doesn't use it after Incidence is destroyed
-    foreach (const Alarm::Ptr &alarm, d->mAlarms) {
+    for (const Alarm::Ptr &alarm : qAsConst(d->mAlarms)) {
         alarm->setParent(nullptr);
     }
     clearTempFiles();
@@ -629,8 +630,8 @@ QList<KDateTime> Incidence::startDateTimesForDate(const QDate &date,
     KDateTime tmp;
     while (tmpday <= date) {
         if (recurrence()->recursOn(tmpday, timeSpec)) {
-            QList<QTime> times = recurrence()->recurTimesOn(tmpday, timeSpec);
-            foreach (const QTime &time, times) {
+            const QList<QTime> times = recurrence()->recurTimesOn(tmpday, timeSpec);
+            for (const QTime &time : times) {
                 tmp = KDateTime(tmpday, time, start.timeSpec());
                 if (endDateForStart(tmp) >= kdate) {
                     result << tmp;
@@ -669,8 +670,8 @@ QList<KDateTime> Incidence::startDateTimesForDateTime(const KDateTime &datetime)
     while (tmpday <= datetime.date()) {
         if (recurrence()->recursOn(tmpday, datetime.timeSpec())) {
             // Get the times during the day (in start date's time zone) when recurrences happen
-            QList<QTime> times = recurrence()->recurTimesOn(tmpday, start.timeSpec());
-            foreach (const QTime &time, times) {
+            const QList<QTime> times = recurrence()->recurTimesOn(tmpday, start.timeSpec());
+            for (const QTime &time : times) {
                 tmp = KDateTime(tmpday, time, start.timeSpec());
                 if (!(tmp > datetime || endDateForStart(tmp) < datetime)) {
                     result << tmp;
@@ -741,7 +742,7 @@ Attachment::List Incidence::attachments() const
 Attachment::List Incidence::attachments(const QString &mime) const
 {
     Attachment::List attachments;
-    foreach (const Attachment::Ptr &attachment, d->mAttachments) {
+    for (const Attachment::Ptr &attachment : qAsConst(d->mAttachments)) {
         if (attachment->mimeType() == mime) {
             attachments.append(attachment);
         }
@@ -921,7 +922,7 @@ void Incidence::clearAlarms()
 
 bool Incidence::hasEnabledAlarms() const
 {
-    foreach (const Alarm::Ptr &alarm, d->mAlarms) {
+    for (const Alarm::Ptr &alarm : qAsConst(d->mAlarms)) {
         if (alarm->enabled()) {
             return true;
         }
@@ -1139,11 +1140,11 @@ void Incidence::serialize(QDataStream &out)
         out << d->mRecurrence;
     }
 
-    foreach (const Attachment::Ptr &attachment, d->mAttachments) {
+    for (const Attachment::Ptr &attachment : qAsConst(d->mAttachments)) {
         out << attachment;
     }
 
-    foreach (const Alarm::Ptr &alarm, d->mAlarms) {
+    for (const Alarm::Ptr &alarm : qAsConst(d->mAlarms)) {
         out << alarm;
     }
 }

@@ -32,6 +32,7 @@
 */
 #include "freebusy.h"
 #include "visitor.h"
+#include "helper_p.h"
 
 #include "icalformat.h"
 
@@ -235,7 +236,7 @@ Period::List FreeBusy::busyPeriods() const
     Period::List res;
 
     res.reserve(d->mBusyPeriods.count());
-    foreach (const FreeBusyPeriod &p, d->mBusyPeriods) {
+    for (const FreeBusyPeriod &p : qAsConst(d->mBusyPeriods)) {
         res << p;
     }
 
@@ -256,7 +257,7 @@ void FreeBusy::sortList()
 void FreeBusy::addPeriods(const Period::List &list)
 {
     d->mBusyPeriods.reserve(d->mBusyPeriods.count() + list.count());
-    foreach (const Period &p, list) {
+    for (const Period &p : qAsConst(list)) {
         d->mBusyPeriods << FreeBusyPeriod(p);
     }
     sortList();
@@ -306,7 +307,7 @@ void FreeBusy::shiftTimes(const KDateTime::Spec &oldSpec,
         IncidenceBase::shiftTimes(oldSpec, newSpec);
         d->mDtEnd = d->mDtEnd.toTimeSpec(oldSpec);
         d->mDtEnd.setTimeSpec(newSpec);
-        foreach (FreeBusyPeriod p, d->mBusyPeriods) {   //krazy:exclude=foreach
+        for (FreeBusyPeriod p : qAsConst(d->mBusyPeriods)) {
             p.shiftTimes(oldSpec, newSpec);
         }
     }

@@ -37,6 +37,7 @@
 #include "incidencebase.h"
 #include "calformat.h"
 #include "visitor.h"
+#include "helper_p.h"
 
 #include <QTime>
 #include "kcalcore_debug.h"
@@ -112,9 +113,8 @@ void IncidenceBase::Private::init(const Private &other)
     mContacts = other.mContacts;
 
     mAttendees.clear();
-    Attendee::List::ConstIterator it;
     mAttendees.reserve(other.mAttendees.count());
-    for (it = other.mAttendees.constBegin(); it != other.mAttendees.constEnd(); ++it) {
+    for (Attendee::List::ConstIterator it = other.mAttendees.constBegin(), end = other.mAttendees.constEnd(); it != end; ++it) {
         mAttendees.append(Attendee::Ptr(new Attendee(*(*it))));
     }
     mUrl = other.mUrl;
@@ -601,7 +601,7 @@ void IncidenceBase::update()
     if (!d->mUpdateGroupLevel) {
         d->mUpdatedPending = true;
         KDateTime rid = recurrenceId();
-        foreach (IncidenceObserver *o, d->mObservers) {
+        for (IncidenceObserver *o : qAsConst(d->mObservers)) {
             o->incidenceUpdate(uid(), rid);
         }
     }
@@ -613,7 +613,7 @@ void IncidenceBase::updated()
         d->mUpdatedPending = true;
     } else {
         const KDateTime rid = recurrenceId();
-        foreach (IncidenceObserver *o, d->mObservers) {
+        for (IncidenceObserver *o : qAsConst(d->mObservers)) {
             o->incidenceUpdated(uid(), rid);
         }
     }
@@ -696,7 +696,7 @@ QDataStream &KCalCore::operator<<(QDataStream &out, const KCalCore::IncidenceBas
         << i->d->mAllDay << i->d->mHasDuration << i->d->mComments << i->d->mContacts
         << i->d->mAttendees.count() << i->d->mUrl;
 
-    foreach (const Attendee::Ptr &attendee, i->d->mAttendees) {
+    for (const Attendee::Ptr &attendee : qAsConst(i->d->mAttendees)) {
         out << attendee;
     }
 

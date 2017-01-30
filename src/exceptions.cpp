@@ -39,9 +39,8 @@
 using namespace KCalCore;
 
 Exception::Exception(const ErrorCode code, const QStringList &arguments)
-    : mCode(code), mArguments(arguments), d(nullptr)
+    : mCode(code), mArguments(arguments)
 {
-    Q_UNUSED(d);
 }
 
 Exception::~Exception()
@@ -58,12 +57,3 @@ QStringList Exception::arguments() const
     return mArguments;
 }
 
-/**
-  Private class that helps to provide binary compatibility between releases.
-  @internal
-*/
-//@cond PRIVATE
-class Q_DECL_HIDDEN KCalCore::Exception::Private
-{
-};
-//@endcond
