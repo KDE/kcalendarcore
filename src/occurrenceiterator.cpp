@@ -103,7 +103,7 @@ public:
 
     void setupIterator(const Calendar &calendar, const Incidence::List &incidences)
     {
-        foreach (const Incidence::Ptr &inc, incidences) {
+        for (const Incidence::Ptr &inc : qAsConst(incidences)) {
             if (inc->hasRecurrenceId()) {
                 continue;
             }
@@ -120,7 +120,7 @@ public:
                 Incidence::Ptr incidence(inc), lastInc(inc);
                 qint64 offset(0), lastOffset(0);
                 KDateTime occurrenceStartDate;
-                foreach(KDateTime recurrenceId, occurrences) {    //krazy:exclude=foreach
+                for(KDateTime recurrenceId : qAsConst(occurrences)) {
                     //timesInInterval generates always date-times,
                     //which is not what we want for all-day events
                     recurrenceId.setDateOnly(isAllDay);
@@ -200,7 +200,7 @@ OccurrenceIterator::OccurrenceIterator(const Calendar &calendar,
 
     Journal::List journals;
     const Journal::List allJournals = calendar.rawJournals();
-    foreach (const KCalCore::Journal::Ptr &journal, allJournals) {
+    for (const KCalCore::Journal::Ptr &journal : allJournals) {
         const QDate journalStart = journal->dtStart().toTimeSpec(start.timeSpec()).date();
         if (journal->dtStart().isValid() &&
                 journalStart >= start.date() &&

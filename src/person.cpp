@@ -154,7 +154,7 @@ void Person::setEmail(const QString &email)
 
 bool Person::isValidEmail(const QString &email)
 {
-    int pos = email.lastIndexOf(QLatin1Char('@'));
+    const int pos = email.lastIndexOf(QLatin1Char('@'));
     return (pos > 0) && (email.lastIndexOf(QLatin1Char('.')) > pos) && ((email.length() - pos) > 4);
 }
 

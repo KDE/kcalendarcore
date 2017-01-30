@@ -23,6 +23,7 @@
 */
 #include "recurrence.h"
 #include "sortablelist.h"
+#include "helper_p.h"
 
 #include "kcalcore_debug.h"
 
@@ -1522,11 +1523,11 @@ KCALCORE_EXPORT QDataStream &KCalCore::operator<<(QDataStream &out, KCalCore::Re
         << r->d->mAllDay << r->d->mRecurReadOnly << r->d->mExDates
         << r->d->mExRules.count() << r->d->mRRules.count();
 
-    foreach (RecurrenceRule *rule, r->d->mExRules) {
+    for (RecurrenceRule *rule : qAsConst(r->d->mExRules)) {
         out << rule;
     }
 
-    foreach (RecurrenceRule *rule, r->d->mRRules) {
+    for (RecurrenceRule *rule : qAsConst(r->d->mRRules)) {
         out << rule;
     }
 
