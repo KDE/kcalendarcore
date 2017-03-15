@@ -925,7 +925,7 @@ static struct PreDefProp *lookupPropInfo(const char *str)
             return (struct PreDefProp *)&propNames[i];
         }
 
-    return nullptr;
+    return 0;
 }
 
 const char *lookupProp_(const char *str)
