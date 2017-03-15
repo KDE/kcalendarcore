@@ -36,11 +36,9 @@
 
 using namespace KCalCore;
 
-extern Q_CORE_EXPORT QBasicAtomicInt qt_qhash_seed; // from qhash.cpp
-
 int main(int argc, char **argv)
 {
-    qt_qhash_seed.fetchAndStoreRelaxed(0); // Disable QHash randomness
+    qSetGlobalQHashSeed(0); // Disable QHash randomness
 
     QCommandLineParser parser;
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), i18n("Verbose output")));
@@ -58,7 +56,6 @@ int main(int argc, char **argv)
     QCoreApplication::setApplicationVersion(QStringLiteral("0.1"));
     parser.process(app);
     about.processCommandLine(&parser);
-    // KComponentData componentData(&about);   // needed by KConfig used by KSaveFile TODO: still needed ?
 
     const QStringList parsedArgs = parser.positionalArguments();
     if (parsedArgs.count() != 2) {
