@@ -1641,11 +1641,9 @@ Attachment::Ptr ICalFormatImpl::readAttachment(icalproperty *attach)
             QString xvalue = QString::fromUtf8(icalparameter_get_xvalue(p));
             if (xname == QLatin1String("X-CONTENT-DISPOSITION")) {
                 attachment->setShowInline(xvalue.toLower() == QLatin1String("inline"));
-            }
-            if (xname == QLatin1String("X-LABEL")) {
+            } else if (xname == QLatin1String("X-LABEL")) {
                 attachment->setLabel(xvalue);
-            }
-            if (xname == QLatin1String("X-KONTACT-TYPE")) {
+            } else if (xname == QLatin1String("X-KONTACT-TYPE")) {
                 attachment->setLocal(xvalue.toLower() == QLatin1String("local"));
             }
             p = icalproperty_get_next_parameter(attach, ICAL_X_PARAMETER);
