@@ -32,7 +32,7 @@
 */
 #include "freebusy.h"
 #include "visitor.h"
-#include "helper_p.h"
+
 
 #include "icalformat.h"
 

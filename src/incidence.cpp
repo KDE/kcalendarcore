@@ -34,7 +34,7 @@
 
 #include "incidence.h"
 #include "calformat.h"
-#include "helper_p.h"
+
 
 #include <QTemporaryFile>
 #include <QMimeDatabase>

@@ -23,7 +23,7 @@
 */
 #include "recurrence.h"
 #include "sortablelist.h"
-#include "helper_p.h"
+
 
 #include "kcalcore_debug.h"
 
