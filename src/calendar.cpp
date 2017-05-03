@@ -603,25 +603,25 @@ Event::List Calendar::sortEvents(const Event::List &eventList,
 
     case EventSortStartDate:
         if (sortDirection == SortDirectionAscending) {
-            qSort(eventListSorted.begin(), eventListSorted.end(), Events::startDateLessThan);
+            std::sort(eventListSorted.begin(), eventListSorted.end(), Events::startDateLessThan);
         } else {
-            qSort(eventListSorted.begin(), eventListSorted.end(), Events::startDateMoreThan);
+            std::sort(eventListSorted.begin(), eventListSorted.end(), Events::startDateMoreThan);
         }
         break;
 
     case EventSortEndDate:
         if (sortDirection == SortDirectionAscending) {
-            qSort(eventListSorted.begin(), eventListSorted.end(), Events::endDateLessThan);
+            std::sort(eventListSorted.begin(), eventListSorted.end(), Events::endDateLessThan);
         } else {
-            qSort(eventListSorted.begin(), eventListSorted.end(), Events::endDateMoreThan);
+            std::sort(eventListSorted.begin(), eventListSorted.end(), Events::endDateMoreThan);
         }
         break;
 
     case EventSortSummary:
         if (sortDirection == SortDirectionAscending) {
-            qSort(eventListSorted.begin(), eventListSorted.end(), Events::summaryLessThan);
+            std::sort(eventListSorted.begin(), eventListSorted.end(), Events::summaryLessThan);
         } else {
-            qSort(eventListSorted.begin(), eventListSorted.end(), Events::summaryMoreThan);
+            std::sort(eventListSorted.begin(), eventListSorted.end(), Events::summaryMoreThan);
         }
         break;
     }
@@ -885,49 +885,49 @@ Todo::List Calendar::sortTodos(const Todo::List &todoList,
 
     case TodoSortStartDate:
         if (sortDirection == SortDirectionAscending) {
-            qSort(todoListSorted.begin(), todoListSorted.end(), Todos::startDateLessThan);
+            std::sort(todoListSorted.begin(), todoListSorted.end(), Todos::startDateLessThan);
         } else {
-            qSort(todoListSorted.begin(), todoListSorted.end(), Todos::startDateMoreThan);
+            std::sort(todoListSorted.begin(), todoListSorted.end(), Todos::startDateMoreThan);
         }
         break;
 
     case TodoSortDueDate:
         if (sortDirection == SortDirectionAscending) {
-            qSort(todoListSorted.begin(), todoListSorted.end(), Todos::dueDateLessThan);
+            std::sort(todoListSorted.begin(), todoListSorted.end(), Todos::dueDateLessThan);
         } else {
-            qSort(todoListSorted.begin(), todoListSorted.end(), Todos::dueDateMoreThan);
+            std::sort(todoListSorted.begin(), todoListSorted.end(), Todos::dueDateMoreThan);
         }
         break;
 
     case TodoSortPriority:
         if (sortDirection == SortDirectionAscending) {
-            qSort(todoListSorted.begin(), todoListSorted.end(), Todos::priorityLessThan);
+            std::sort(todoListSorted.begin(), todoListSorted.end(), Todos::priorityLessThan);
         } else {
-            qSort(todoListSorted.begin(), todoListSorted.end(), Todos::priorityMoreThan);
+            std::sort(todoListSorted.begin(), todoListSorted.end(), Todos::priorityMoreThan);
         }
         break;
 
     case TodoSortPercentComplete:
         if (sortDirection == SortDirectionAscending) {
-            qSort(todoListSorted.begin(), todoListSorted.end(), Todos::percentLessThan);
+            std::sort(todoListSorted.begin(), todoListSorted.end(), Todos::percentLessThan);
         } else {
-            qSort(todoListSorted.begin(), todoListSorted.end(), Todos::percentMoreThan);
+            std::sort(todoListSorted.begin(), todoListSorted.end(), Todos::percentMoreThan);
         }
         break;
 
     case TodoSortSummary:
         if (sortDirection == SortDirectionAscending) {
-            qSort(todoListSorted.begin(), todoListSorted.end(), Todos::summaryLessThan);
+            std::sort(todoListSorted.begin(), todoListSorted.end(), Todos::summaryLessThan);
         } else {
-            qSort(todoListSorted.begin(), todoListSorted.end(), Todos::summaryMoreThan);
+            std::sort(todoListSorted.begin(), todoListSorted.end(), Todos::summaryMoreThan);
         }
         break;
 
     case TodoSortCreated:
         if (sortDirection == SortDirectionAscending) {
-            qSort(todoListSorted.begin(), todoListSorted.end(), Todos::createdLessThan);
+            std::sort(todoListSorted.begin(), todoListSorted.end(), Todos::createdLessThan);
         } else {
-            qSort(todoListSorted.begin(), todoListSorted.end(), Todos::createdMoreThan);
+            std::sort(todoListSorted.begin(), todoListSorted.end(), Todos::createdMoreThan);
         }
         break;
     }
@@ -975,17 +975,17 @@ Journal::List Calendar::sortJournals(const Journal::List &journalList,
 
     case JournalSortDate:
         if (sortDirection == SortDirectionAscending) {
-            qSort(journalListSorted.begin(), journalListSorted.end(), Journals::dateLessThan);
+            std::sort(journalListSorted.begin(), journalListSorted.end(), Journals::dateLessThan);
         } else {
-            qSort(journalListSorted.begin(), journalListSorted.end(), Journals::dateMoreThan);
+            std::sort(journalListSorted.begin(), journalListSorted.end(), Journals::dateMoreThan);
         }
         break;
 
     case JournalSortSummary:
         if (sortDirection == SortDirectionAscending) {
-            qSort(journalListSorted.begin(), journalListSorted.end(), Journals::summaryLessThan);
+            std::sort(journalListSorted.begin(), journalListSorted.end(), Journals::summaryLessThan);
         } else {
-            qSort(journalListSorted.begin(), journalListSorted.end(), Journals::summaryMoreThan);
+            std::sort(journalListSorted.begin(), journalListSorted.end(), Journals::summaryMoreThan);
         }
         break;
     }
