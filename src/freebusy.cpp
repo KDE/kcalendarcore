@@ -250,7 +250,7 @@ FreeBusyPeriod::List FreeBusy::fullBusyPeriods() const
 
 void FreeBusy::sortList()
 {
-    qSort(d->mBusyPeriods);
+    std::sort(d->mBusyPeriods.begin(), d->mBusyPeriods.end());
     return;
 }
 

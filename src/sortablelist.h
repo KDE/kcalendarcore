@@ -43,7 +43,7 @@ void qSortUnique(QList<T> &list)
     if (list.count() <= 1) {
         return;
     }
-    qSort(list);
+    std::sort(list.begin(), list.end());
     typename QList<T>::iterator prev = list.begin();
     for (typename QList<T>::iterator it = prev + 1;  it != list.end();  ++it) {
         if (*it == *prev) {

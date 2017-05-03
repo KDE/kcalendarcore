@@ -966,7 +966,7 @@ ICalTimeZone ICalTimeZoneSource::parse(icalcomponent *vtimezone)
     data->setPhases(phases, prevOffset);
     // Remove any "duplicate" transitions, i.e. those where two consecutive
     // transitions have the same phase.
-    qSort(transitions);
+    std::sort(transitions.begin(), transitions.end());
     for (int t = 1, tend = transitions.count();  t < tend;) {
         if (transitions[t].phase() == transitions[t - 1].phase()) {
             transitions.removeAt(t);
@@ -1043,7 +1043,7 @@ ICalTimeZone ICalTimeZoneSource::parse(MSTimeZone *tz)
     ICalTimeZoneSourcePrivate::parseTransitions(
         tz->DaylightDate, daylightPhase, prevOffset, transitions);
 
-    qSort(transitions);
+    std::sort(transitions.begin(), transitions.end());
     kdata.setTransitions(transitions);
 
     ICalTimeZoneData *idata = new ICalTimeZoneData(kdata, KTimeZone(name), QDate());
@@ -1106,7 +1106,7 @@ ICalTimeZone ICalTimeZoneSource::parse(const QString &name, const QStringList &t
     }
 
     kdata.setPhases(phases, 0);
-    qSort(transitions);
+    std::sort(transitions.begin(), transitions.end());
     kdata.setTransitions(transitions);
 
     ICalTimeZoneData *idata = new ICalTimeZoneData(kdata, KTimeZone(name), QDate());
