@@ -2046,7 +2046,7 @@ KDateTime VCalFormat::ISOToKDateTime(const QString &dtStr)
     hour = tmpStr.midRef(9, 2).toInt();
     minute = tmpStr.midRef(11, 2).toInt();
     second = tmpStr.midRef(13, 2).toInt();
-    tmpDate.setYMD(year, month, day);
+    tmpDate.setDate(year, month, day);
     tmpTime.setHMS(hour, minute, second);
 
     if (tmpDate.isValid() && tmpTime.isValid()) {

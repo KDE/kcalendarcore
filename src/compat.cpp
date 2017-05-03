@@ -313,11 +313,11 @@ void CompatPre31::fixRecurrence(const Incidence::Ptr &incidence)
             }
             case RecurrenceRule::rMonthly: {
                 int month = end.month() - 1 + tmp;
-                end.setYMD(end.year() + month / 12, month % 12 + 1, 31);
+                end.setDate(end.year() + month / 12, month % 12 + 1, 31);
                 break;
             }
             case RecurrenceRule::rYearly: {
-                end.setYMD(end.year() + tmp, 12, 31);
+                end.setDate(end.year() + tmp, 12, 31);
                 break;
             }
             default:

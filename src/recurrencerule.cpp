@@ -437,11 +437,11 @@ KDateTime Constraint::intervalDateTime(RecurrenceRule::PeriodType type) const
         subdaily = false;
         break;
     case RecurrenceRule::rMonthly:
-        d.setYMD(year, month, 1);
+        d.setDate(year, month, 1);
         subdaily = false;
         break;
     case RecurrenceRule::rYearly:
-        d.setYMD(year, 1, 1);
+        d.setDate(year, 1, 1);
         subdaily = false;
         break;
     default:

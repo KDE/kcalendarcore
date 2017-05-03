@@ -1845,7 +1845,7 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent,
                     // This results in invalid tzid's like: "Europe/Berlin;RANGE=THISANDFUTURE"
                     const icalparameter *param =
                         icalproperty_get_first_parameter(p, ICAL_TZID_PARAMETER);
-                    QString tzid = QString::fromAscii(icalparameter_get_tzid(param));
+                    QString tzid = QString::fromLatin1(icalparameter_get_tzid(param));
                     const QStringList parts = tzid.toLower().split(QLatin1Char(';'));
                     for (const QString &part : parts) {
                         if (part == QLatin1String("range=thisandfuture")) {
@@ -2498,9 +2498,9 @@ KDateTime ICalFormatImpl::readICalDateTime(icalproperty *p,
         // A workaround for a bug in libical (https://github.com/libical/libical/issues/185)
         // If a recurrenceId has both tzid and range, both parameters end up in the tzid.
         // This results in invalid tzid's like: "Europe/Berlin;RANGE=THISANDFUTURE"
-        QStringList parts = QString::fromAscii(tzid).split(QLatin1Char(';'));
+        QStringList parts = QString::fromLatin1(tzid).split(QLatin1Char(';'));
         if (parts.count() > 1) {
-            tzid = parts.first().toAscii();
+            tzid = parts.first().toLatin1();
         }
 
         if (tzid.isNull()) {
