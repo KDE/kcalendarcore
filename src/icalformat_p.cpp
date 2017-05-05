@@ -361,11 +361,11 @@ icalcomponent *ICalFormatImpl::writeFreeBusy(const FreeBusy::Ptr &freebusy,
 #ifdef USE_ICAL_1_0
     Q_UNUSED(method);
     icalcomponent_add_property(
-        vfreebusy, icalproperty_new_uid(freebusy->uid().toUtf8()));
+        vfreebusy, icalproperty_new_uid(freebusy->uid().toUtf8().constData()));
 #else
     if (method == iTIPRequest) {
         icalcomponent_add_property(
-            vfreebusy, icalproperty_new_uid(freebusy->uid().toUtf8()));
+            vfreebusy, icalproperty_new_uid(freebusy->uid().toUtf8().constData()));
     }
 #endif
 
@@ -408,12 +408,12 @@ icalcomponent *ICalFormatImpl::writeFreeBusy(const FreeBusy::Ptr &freebusy,
 
         if (!fbPeriod.summary().isEmpty()) {
             icalparameter *param = icalparameter_new_x("X-SUMMARY");
-            icalparameter_set_xvalue(param, KCodecs::base64Encode(fbPeriod.summary().toUtf8()));
+            icalparameter_set_xvalue(param, KCodecs::base64Encode(fbPeriod.summary().toUtf8()).constData());
             icalproperty_set_parameter(property, param);
         }
         if (!fbPeriod.location().isEmpty()) {
             icalparameter *param = icalparameter_new_x("X-LOCATION");
-            icalparameter_set_xvalue(param, KCodecs::base64Encode(fbPeriod.location().toUtf8()));
+            icalparameter_set_xvalue(param, KCodecs::base64Encode(fbPeriod.location().toUtf8()).constData());
             icalproperty_set_parameter(property, param);
         }
 
@@ -474,7 +474,7 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent,
     // one is stored on X-REALID above
     if (!incidence->schedulingID().isEmpty()) {
         icalcomponent_add_property(
-            parent, icalproperty_new_uid(incidence->schedulingID().toUtf8()));
+            parent, icalproperty_new_uid(incidence->schedulingID().toUtf8().constData()));
     }
 
     // revision
@@ -540,7 +540,7 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent,
         break;
     case Incidence::StatusX: {
         icalproperty *p = icalproperty_new_status(ICAL_STATUS_X);
-        icalvalue_set_x(icalproperty_get_value(p), incidence->customStatus().toUtf8());
+        icalvalue_set_x(icalproperty_get_value(p), incidence->customStatus().toUtf8().constData());
         icalcomponent_add_property(parent, p);
         break;
     }
@@ -588,13 +588,13 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent,
     QString categories = incidence->categories().join(QLatin1Char(','));
     if (!categories.isEmpty()) {
         icalcomponent_add_property(
-            parent, icalproperty_new_categories(categories.toUtf8()));
+            parent, icalproperty_new_categories(categories.toUtf8().constData()));
     }
 
     // related event
     if (!incidence->relatedTo().isEmpty()) {
         icalcomponent_add_property(
-            parent, icalproperty_new_relatedto(incidence->relatedTo().toUtf8()));
+            parent, icalproperty_new_relatedto(incidence->relatedTo().toUtf8().constData()));
     }
 
     // recurrenceid
@@ -700,19 +700,19 @@ void ICalFormatImpl::Private::writeIncidenceBase(icalcomponent *parent,
     //contacts
     QStringList contacts = incidenceBase->contacts();
     for (QStringList::const_iterator it = contacts.constBegin(); it != contacts.constEnd(); ++it) {
-        icalcomponent_add_property(parent, icalproperty_new_contact((*it).toUtf8()));
+        icalcomponent_add_property(parent, icalproperty_new_contact((*it).toUtf8().constData()));
     }
 
     // comments
     QStringList comments = incidenceBase->comments();
     for (QStringList::const_iterator it = comments.constBegin(); it != comments.constEnd(); ++it) {
-        icalcomponent_add_property(parent, icalproperty_new_comment((*it).toUtf8()));
+        icalcomponent_add_property(parent, icalproperty_new_comment((*it).toUtf8().constData()));
     }
 
     // url
     const QUrl url = incidenceBase->url();
     if (url.isValid()) {
-        icalcomponent_add_property(parent, icalproperty_new_url(url.toString().toUtf8()));
+        icalcomponent_add_property(parent, icalproperty_new_url(url.toString().toUtf8().constData()));
     }
 
     // custom properties
@@ -728,7 +728,7 @@ void ICalFormatImpl::Private::writeCustomProperties(icalcomponent *parent,
             // We don't write these properties to disk to disk
             continue;
         }
-        icalproperty *p = icalproperty_new_x(c.value().toUtf8());
+        icalproperty *p = icalproperty_new_x(c.value().toUtf8().constData());
         QString parameters = properties->nonKDECustomPropertyParameters(c.key());
 
         // Minimalist parameter handler: extract icalparameter's out of
@@ -736,14 +736,14 @@ void ICalFormatImpl::Private::writeCustomProperties(icalcomponent *parent,
         if (!parameters.isEmpty()) {
             const QStringList sl = parameters.split(QLatin1Char(';'));
             for (const QString &parameter : sl) {
-                icalparameter *param = icalparameter_new_from_string(parameter.toUtf8());
+                icalparameter *param = icalparameter_new_from_string(parameter.toUtf8().constData());
                 if (param) {
                     icalproperty_add_parameter(p, param);
                 }
             }
         }
 
-        icalproperty_set_x_name(p, c.key());
+        icalproperty_set_x_name(p, c.key().constData());
         icalcomponent_add_property(parent, p);
     }
 }
@@ -755,11 +755,11 @@ icalproperty *ICalFormatImpl::writeOrganizer(const Person::Ptr &organizer)
         return nullptr;
     }
 
-    icalproperty *p = icalproperty_new_organizer(QByteArray(QByteArray("MAILTO:") + organizer->email().toUtf8()));
+    icalproperty *p = icalproperty_new_organizer(QByteArray(QByteArray("MAILTO:") + organizer->email().toUtf8()).constData());
 
     if (!organizer->name().isEmpty()) {
         icalproperty_add_parameter(
-            p, icalparameter_new_cn(quoteForParam(organizer->name()).toUtf8()));
+            p, icalparameter_new_cn(quoteForParam(organizer->name()).toUtf8().constData()));
     }
     // TODO: Write dir, sent-by and language
 
@@ -768,7 +768,7 @@ icalproperty *ICalFormatImpl::writeOrganizer(const Person::Ptr &organizer)
 
 icalproperty *ICalFormatImpl::writeDescription(const QString &description, bool isRich)
 {
-    icalproperty *p = icalproperty_new_description(description.toUtf8());
+    icalproperty *p = icalproperty_new_description(description.toUtf8().constData());
     if (isRich) {
         icalproperty_add_parameter(p, icalparameter_new_from_string("X-KDE-TEXTFORMAT=HTML"));
     }
@@ -777,7 +777,7 @@ icalproperty *ICalFormatImpl::writeDescription(const QString &description, bool 
 
 icalproperty *ICalFormatImpl::writeSummary(const QString &summary, bool isRich)
 {
-    icalproperty *p = icalproperty_new_summary(summary.toUtf8());
+    icalproperty *p = icalproperty_new_summary(summary.toUtf8().constData());
     if (isRich) {
         icalproperty_add_parameter(p, icalparameter_new_from_string("X-KDE-TEXTFORMAT=HTML"));
     }
@@ -786,7 +786,7 @@ icalproperty *ICalFormatImpl::writeSummary(const QString &summary, bool isRich)
 
 icalproperty *ICalFormatImpl::writeLocation(const QString &location, bool isRich)
 {
-    icalproperty *p = icalproperty_new_location(location.toUtf8());
+    icalproperty *p = icalproperty_new_location(location.toUtf8().constData());
     if (isRich) {
         icalproperty_add_parameter(p, icalparameter_new_from_string("X-KDE-TEXTFORMAT=HTML"));
     }
@@ -800,11 +800,11 @@ icalproperty *ICalFormatImpl::writeAttendee(const Attendee::Ptr &attendee)
     }
 
     icalproperty *p =
-        icalproperty_new_attendee(QByteArray(QByteArray("mailto:") + attendee->email().toUtf8()));
+        icalproperty_new_attendee(QByteArray(QByteArray("mailto:") + attendee->email().toUtf8()).constData());
 
     if (!attendee->name().isEmpty()) {
         icalproperty_add_parameter(
-            p, icalparameter_new_cn(quoteForParam(attendee->name()).toUtf8()));
+            p, icalparameter_new_cn(quoteForParam(attendee->name()).toUtf8().constData()));
     }
 
     icalproperty_add_parameter(
@@ -877,7 +877,7 @@ icalproperty *ICalFormatImpl::writeAttendee(const Attendee::Ptr &attendee)
     icalproperty_add_parameter(p, icalparameter_new_cutype(cutype));
 
     if (!attendee->uid().isEmpty()) {
-        icalparameter *icalparameter_uid = icalparameter_new_x(attendee->uid().toUtf8());
+        icalparameter *icalparameter_uid = icalparameter_new_x(attendee->uid().toUtf8().constData());
 
         icalparameter_set_xname(icalparameter_uid, "X-UID");
         icalproperty_add_parameter(p, icalparameter_uid);
@@ -885,13 +885,13 @@ icalproperty *ICalFormatImpl::writeAttendee(const Attendee::Ptr &attendee)
 
     if (!attendee->delegate().isEmpty()) {
         icalparameter *icalparameter_delegate =
-            icalparameter_new_delegatedto(attendee->delegate().toUtf8());
+            icalparameter_new_delegatedto(attendee->delegate().toUtf8().constData());
         icalproperty_add_parameter(p, icalparameter_delegate);
     }
 
     if (!attendee->delegator().isEmpty()) {
         icalparameter *icalparameter_delegator =
-            icalparameter_new_delegatedfrom(attendee->delegator().toUtf8());
+            icalparameter_new_delegatedfrom(attendee->delegator().toUtf8().constData());
         icalproperty_add_parameter(p, icalparameter_delegator);
     }
 
@@ -931,7 +931,7 @@ icalproperty *ICalFormatImpl::writeAttachment(const Attachment::Ptr &att)
     }
 
     if (!att->label().isEmpty()) {
-        icalparameter *icalparameter_label = icalparameter_new_x(att->label().toUtf8());
+        icalparameter *icalparameter_label = icalparameter_new_x(att->label().toUtf8().constData());
         icalparameter_set_xname(icalparameter_label, "X-LABEL");
         icalproperty_add_parameter(p, icalparameter_label);
     }
@@ -1094,7 +1094,7 @@ icalcomponent *ICalFormatImpl::writeAlarm(const Alarm::Ptr &alarm)
         icalcomponent_add_property(a, icalproperty_new_attach(attach));
         if (!alarm->programArguments().isEmpty()) {
             icalcomponent_add_property(
-                a, icalproperty_new_description(alarm->programArguments().toUtf8()));
+                a, icalproperty_new_description(alarm->programArguments().toUtf8().constData()));
         }
         break;
     case Alarm::Audio:
@@ -1111,18 +1111,18 @@ icalcomponent *ICalFormatImpl::writeAlarm(const Alarm::Ptr &alarm)
         for (Person::List::ConstIterator ad = addresses.constBegin();
                 ad != addresses.constEnd();  ++ad) {
             if (!(*ad)->email().isEmpty()) {
-                icalproperty *p = icalproperty_new_attendee(QByteArray(QByteArray("MAILTO:") + (*ad)->email().toUtf8()));
+                icalproperty *p = icalproperty_new_attendee(QByteArray(QByteArray("MAILTO:") + (*ad)->email().toUtf8()).constData());
                 if (!(*ad)->name().isEmpty()) {
                     icalproperty_add_parameter(
-                        p, icalparameter_new_cn(quoteForParam((*ad)->name()).toUtf8()));
+                        p, icalparameter_new_cn(quoteForParam((*ad)->name()).toUtf8().constData()));
                 }
                 icalcomponent_add_property(a, p);
             }
         }
         icalcomponent_add_property(
-            a, icalproperty_new_summary(alarm->mailSubject().toUtf8()));
+            a, icalproperty_new_summary(alarm->mailSubject().toUtf8().constData()));
         icalcomponent_add_property(
-            a, icalproperty_new_description(alarm->mailText().toUtf8()));
+            a, icalproperty_new_description(alarm->mailText().toUtf8().constData()));
         QStringList attachments = alarm->mailAttachments();
         if (attachments.count() > 0) {
             for (QStringList::const_iterator at = attachments.constBegin();
@@ -1136,7 +1136,7 @@ icalcomponent *ICalFormatImpl::writeAlarm(const Alarm::Ptr &alarm)
     case Alarm::Display:
         action = ICAL_ACTION_DISPLAY;
         icalcomponent_add_property(
-            a, icalproperty_new_description(alarm->text().toUtf8()));
+            a, icalproperty_new_description(alarm->text().toUtf8().constData()));
         break;
     case Alarm::Invalid:
     default:
@@ -1178,8 +1178,8 @@ icalcomponent *ICalFormatImpl::writeAlarm(const Alarm::Ptr &alarm)
     // Custom properties
     const QMap<QByteArray, QString> custom = alarm->customProperties();
     for (QMap<QByteArray, QString>::ConstIterator c = custom.begin();  c != custom.end();  ++c) {
-        icalproperty *p = icalproperty_new_x(c.value().toUtf8());
-        icalproperty_set_x_name(p, c.key());
+        icalproperty *p = icalproperty_new_x(c.value().toUtf8().constData());
+        icalproperty_set_x_name(p, c.key().constData());
         icalcomponent_add_property(a, p);
     }
 
@@ -2470,7 +2470,7 @@ icalproperty *ICalFormatImpl::writeICalDateTimeProperty(const icalproperty_kind 
             }
         }
         icalproperty_add_parameter(
-            p, icalparameter_new_tzid(ktz.name().toUtf8()));
+            p, icalparameter_new_tzid(ktz.name().toUtf8().constData()));
     }
     return p;
 }
@@ -2681,7 +2681,7 @@ icalcomponent *ICalFormatImpl::createCalendarComponent(const Calendar::Ptr &cal)
     icalproperty *p;
 
     // Product Identifier
-    p = icalproperty_new_prodid(CalFormat::productId().toUtf8());
+    p = icalproperty_new_prodid(CalFormat::productId().toUtf8().constData());
     icalcomponent_add_property(calendar, p);
 
     // iCalendar version (2.0)

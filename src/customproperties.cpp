@@ -233,7 +233,7 @@ bool checkName(const QByteArray &name)
 {
     // Check that the property name starts with 'X-' and contains
     // only the permitted characters
-    const char *n = name;
+    const char *n = name.constData();
     int len = name.length();
     if (len < 2 ||  n[0] != 'X' || n[1] != '-') {
         return false;

@@ -435,7 +435,7 @@ ICalTimeZoneData::ICalTimeZoneData(const KTimeZoneData &rhs,
         }
         if (!c) {
             // Try to fetch a built-in libical time zone.
-            icaltimezone *itz = icaltimezone_get_builtin_timezone(tz.name().toUtf8());
+            icaltimezone *itz = icaltimezone_get_builtin_timezone(tz.name().toUtf8().constData());
             c = icalcomponent_new_clone(icaltimezone_get_component(itz));
         }
         if (c) {
@@ -448,11 +448,11 @@ ICalTimeZoneData::ICalTimeZoneData(const KTimeZoneData &rhs,
                 const char *tzid = icalvalue_get_text(value);
                 const QByteArray icalprefix = ICalTimeZoneSource::icalTzidPrefix();
                 const int len = icalprefix.size();
-                if (!strncmp(icalprefix, tzid, len)) {
+                if (!strncmp(icalprefix.constData(), tzid, len)) {
                     const char *s = strchr(tzid + len, '/');      // find third '/'
                     if (s) {
                         const QByteArray tzidShort(s + 1);   // deep copy (needed by icalvalue_set_text())
-                        icalvalue_set_text(value, tzidShort);
+                        icalvalue_set_text(value, tzidShort.constData());
 
                         // Remove the X-LIC-LOCATION property, which is only used by libical
                         prop = icalcomponent_get_first_property(c, ICAL_X_PROPERTY);
@@ -469,7 +469,7 @@ ICalTimeZoneData::ICalTimeZoneData(const KTimeZoneData &rhs,
     } else {
         // Write the time zone data into an iCal component
         icalcomponent *tzcomp = icalcomponent_new(ICAL_VTIMEZONE_COMPONENT);
-        icalcomponent_add_property(tzcomp, icalproperty_new_tzid(tz.name().toUtf8()));
+        icalcomponent_add_property(tzcomp, icalproperty_new_tzid(tz.name().toUtf8().constData()));
 //    icalcomponent_add_property(tzcomp, icalproperty_new_location( tz.name().toUtf8() ));
 
         // Compile an ordered list of transitions so that we can know the phases
@@ -533,11 +533,11 @@ ICalTimeZoneData::ICalTimeZoneData(const KTimeZoneData &rhs,
             for (int a = 0, aend = abbrevs.count();  a < aend;  ++a) {
                 icalcomponent_add_property(phaseComp,
                                            icalproperty_new_tzname(
-                                               static_cast<const char *>(abbrevs[a])));
+                                               static_cast<const char *>(abbrevs[a].constData())));
             }
             if (!phase.comment().isEmpty()) {
                 icalcomponent_add_property(phaseComp,
-                                           icalproperty_new_comment(phase.comment().toUtf8()));
+                                           icalproperty_new_comment(phase.comment().toUtf8().constData()));
             }
             icalcomponent_add_property(phaseComp,
                                        icalproperty_new_tzoffsetfrom(preOffset));
@@ -1360,10 +1360,10 @@ ICalTimeZone ICalTimeZoneSource::standardZone(const QString &zone, bool icalBuil
     // Try to fetch a built-in libical time zone.
     // First try to look it up as a geographical location (e.g. Europe/London)
     const QByteArray zoneName = zone.toUtf8();
-    icaltimezone *icaltz = icaltimezone_get_builtin_timezone(zoneName);
+    icaltimezone *icaltz = icaltimezone_get_builtin_timezone(zoneName.constData());
     if (!icaltz) {
         // This will find it if it includes the libical prefix
-        icaltz = icaltimezone_get_builtin_timezone_from_tzid(zoneName);
+        icaltz = icaltimezone_get_builtin_timezone_from_tzid(zoneName.constData());
         if (!icaltz) {
             return ICalTimeZone();
         }

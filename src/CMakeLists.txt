@@ -1,5 +1,3 @@
-# FIXME: Make it build with this flag
-remove_definitions(-DQT_NO_CAST_FROM_BYTEARRAY)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-kcalcore.h.cmake
     ${CMAKE_CURRENT_BINARY_DIR}/config-kcalcore.h

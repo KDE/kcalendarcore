@@ -270,7 +270,7 @@ KDateTime::Spec Calendar::Private::timeZoneIdSpec(const QString &timeZoneId,
     ICalTimeZone tz = mTimeZones->zone(timeZoneId);
     if (!tz.isValid()) {
         ICalTimeZoneSource tzsrc;
-        tz = tzsrc.parse(icaltimezone_get_builtin_timezone(timeZoneId.toLatin1()));
+        tz = tzsrc.parse(icaltimezone_get_builtin_timezone(timeZoneId.toLatin1().constData()));
         if (view) {
             mBuiltInViewTimeZone = tz;
         } else {

@@ -388,7 +388,7 @@ bool ICalFormat::fromString(RecurrenceRule *recurrence, const QString &rrule)
     }
     bool success = true;
     icalerror_clear_errno();
-    struct icalrecurrencetype recur = icalrecurrencetype_from_string(rrule.toLatin1());
+    struct icalrecurrencetype recur = icalrecurrencetype_from_string(rrule.toLatin1().constData());
     if (icalerrno != ICAL_NO_ERROR) {
         qCDebug(KCALCORE_LOG) << "Recurrence parsing error:" << icalerror_strerror(icalerrno);
         success = false;
@@ -455,7 +455,7 @@ FreeBusy::Ptr ICalFormat::parseFreeBusy(const QString &str)
     clearException();
 
     icalcomponent *message;
-    message = icalparser_parse_string(str.toUtf8());
+    message = icalparser_parse_string(str.toUtf8().constData());
 
     if (!message) {
         return FreeBusy::Ptr();
@@ -497,7 +497,7 @@ ScheduleMessage::Ptr ICalFormat::parseScheduleMessage(const Calendar::Ptr &cal,
     }
 
     icalcomponent *message;
-    message = icalparser_parse_string(messageText.toUtf8());
+    message = icalparser_parse_string(messageText.toUtf8().constData());
 
     if (!message) {
         setException(
