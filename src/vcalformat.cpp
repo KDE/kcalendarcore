@@ -140,7 +140,6 @@ bool VCalFormat::save(const Calendar::Ptr &calendar, const QString &fileName)
 
     ICalTimeZones *tzlist = d->mCalendar->timeZones();
 
-    QString tmpStr;
     VObject *vcal, *vo;
 
     vcal = newVObject(VCCalProp);

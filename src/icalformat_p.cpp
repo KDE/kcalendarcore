@@ -207,7 +207,6 @@ icalcomponent *ICalFormatImpl::writeIncidence(const IncidenceBase::Ptr &incidenc
 icalcomponent *ICalFormatImpl::writeTodo(const Todo::Ptr &todo, ICalTimeZones *tzlist,
         ICalTimeZones *tzUsedList)
 {
-    QString tmpStr;
     QStringList tmpStrList;
 
     icalcomponent *vtodo = icalcomponent_new(ICAL_VTODO_COMPONENT);

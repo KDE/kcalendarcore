@@ -1341,7 +1341,6 @@ bool RecurrenceRule::Private::buildCache() const
     // Build the list of all occurrences of this event (we need that to determine
     // the end date!)
     Constraint interval(getNextValidDateInterval(mDateStart, mPeriod));
-    QDateTime next;
 
     DateTimeList dts = datesForInterval(interval, mPeriod);
     // Only use dates after the event has started (start date is only included
