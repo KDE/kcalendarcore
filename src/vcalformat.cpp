@@ -2141,7 +2141,7 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
     // lists. It turns vevents into Events and then inserts them.
 
     VObjectIterator i;
-    VObject *curVO, *curVOProp;
+    VObject *curVO;
     Event::Ptr anEvent;
     bool hasTimeZone = false; //The calendar came with a TZ and not UTC
     KDateTime::Spec previousSpec; //If we add a new TZ we should leave the spec as it was before
