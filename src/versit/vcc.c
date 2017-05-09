@@ -2861,10 +2861,6 @@ VObject *Parse_MIME_FromFileName(const char *fname)
 }
 
 /****************************************************************************/
-void YYDebug(const char *s)
-{
-    Parse_Debug(s);
-}
 
 static MimeErrorHandler mimeErrorHandler;
 
@@ -2888,4 +2884,3 @@ static void mime_error_(const char *s)
         mimeErrorHandler(s);
     }
 }
-
