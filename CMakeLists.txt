@@ -42,6 +42,14 @@ set_package_properties(LibIcal PROPERTIES
                                TYPE REQUIRED
 )
 
+find_package(BISON REQUIRED)
+set_package_properties(BISON PROPERTIES
+                             DESCRIPTION "general-purpose parser generator"
+                             URL "http://www.gnu.org/software/bison"
+                             PURPOSE "Required for the Versit parser"
+                             TYPE REQUIRED
+)
+
 include(ConfigureChecks.cmake)
 
 

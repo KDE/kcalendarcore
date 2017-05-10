@@ -5,9 +5,14 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-kcalcore.h.cmake
 
 ########### next target ###############
 
+bison_target(VersitParser
+  ${CMAKE_CURRENT_SOURCE_DIR}/versit/vcc.y
+  ${CMAKE_CURRENT_BINARY_DIR}/vcc-parser.c
+)
+
 set(libversit_SRCS
-  ${CMAKE_CURRENT_SOURCE_DIR}/versit/vcc.c
   ${CMAKE_CURRENT_SOURCE_DIR}/versit/vobject.c
+  ${CMAKE_CURRENT_BINARY_DIR}/vcc-parser.c
 )
 
 set(kcalcore_LIB_SRCS
