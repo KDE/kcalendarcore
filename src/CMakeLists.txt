@@ -12,7 +12,7 @@ bison_target(VersitParser
 
 set(libversit_SRCS
   ${CMAKE_CURRENT_SOURCE_DIR}/versit/vobject.c
-  ${CMAKE_CURRENT_BINARY_DIR}/vcc-parser.c
+  ${BISON_VersitParser_OUTPUTS}
 )
 
 set(kcalcore_LIB_SRCS
