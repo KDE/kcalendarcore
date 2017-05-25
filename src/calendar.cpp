@@ -1112,9 +1112,9 @@ void Calendar::removeRelations(const Incidence::Ptr &incidence)
                 uidit != relatedToUids.constEnd(); ++uidit) {
             Incidence::List tempList;
             // Remove all to get access to the remaining entries
-            Incidence::List l = values(d->mOrphans, *uidit);
+            const Incidence::List l = values(d->mOrphans, *uidit);
             d->mOrphans.remove(*uidit);
-            foreach (const Incidence::Ptr &i, l) {
+            for (const Incidence::Ptr &i : l) {
                 if (i != incidence) {
                     tempList.append(i);
                 }
