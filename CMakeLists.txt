@@ -32,7 +32,7 @@ ecm_setup_version(PROJECT VARIABLE_PREFIX KCALCORE
 )
 
 ########### Find packages ###########
-find_package(KF5KDELibs4Support ${KF5_VERSION} CONFIG REQUIRED)
+find_package(KF5 ${KF5_VERSION} REQUIRED Config KDELibs4Support)
 
 set(LibIcal_MIN_VERSION "0.42")
 find_package(LibIcal ${LibIcal_MIN_VERSION})

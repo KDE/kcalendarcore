@@ -11,7 +11,7 @@ macro(macro_unit_tests)
     add_executable(${_testname} ${_testname}.cpp)
     add_test(${_testname} ${_testname})
     ecm_mark_as_test(${_testname})
-    target_link_libraries(${_testname} KF5CalendarCore Qt5::Test)
+    target_link_libraries(${_testname} KF5::ConfigCore KF5CalendarCore Qt5::Test)
   endforeach()
 endmacro()
 
