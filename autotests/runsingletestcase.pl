@@ -38,8 +38,8 @@ if ( @ARGV != 4 ) {
 
 $app = quotemeta $ARGV[0];
 $id = quotemeta $ARGV[1];
-$file = $ARGV[2];               # no quotemeta here, as the regexp does what's
-$file =~ /^(.*)\.[^\.]*$/;      # necessary to the filenames
+$file_orig = $ARGV[2];
+$file = quotemeta $file_orig;
 $outfile = quotemeta $ARGV[3];  # necessary to avoid creating files in the $file directory
 
 $MAXERRLINES=25;
@@ -59,13 +59,14 @@ if ( system( $testcmd ) != 0 ) {
   exit 1;
 }
 
-checkfile( $file, $outfile );
+checkfile( $file, $file_orig, $outfile );
 
 exit 0;
 
 sub checkfile()
 {
   my $file = shift;
+  my $file_orig = shift;
   my $outfile = shift;
 
   $cmd = 'diff -u -w -B -I "^DTSTAMP:[0-9ZT]*" -I "^LAST-MODIFIED:[0-9ZT]*" -I "^CREATED:[0-9ZT]*" -I "^DCREATED:[0-9ZT]*" -I "^X-KDE-KCALCORE-ENABLED:" -I "^X-KDE-ICAL-IMPLEMENTATION-VERSION:" -I "^PRODID:.*" -I "X-UID=[0-9]*" '."$file.$id.ref $outfile";
@@ -104,8 +105,8 @@ sub checkfile()
     print ERRLOG "Command: $testcmd\n";
     print ERRLOG $errorstr;
 
-    if ( -e "$file.$id.fixme" ) {
-      if ( !open( FIXME, "$file.$id.fixme" ) ) {
+    if ( -e "$file_orig.$id.fixme" ) {
+      if ( !open( FIXME, "$file_orig.$id.fixme" ) ) {
         print STDERR "Unable to open $file.fixme\n";
         exit 1;
       }
