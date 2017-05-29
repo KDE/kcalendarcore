@@ -113,23 +113,23 @@ public:
 
     icalcomponent *writeIncidence(const IncidenceBase::Ptr &incidence,
                                   iTIPMethod method = iTIPRequest,
-                                  ICalTimeZones *tzList = 0,
-                                  ICalTimeZones *tzUsedList = 0);
+                                  ICalTimeZones *tzList = nullptr,
+                                  ICalTimeZones *tzUsedList = nullptr);
 
-    icalcomponent *writeTodo(const Todo::Ptr &todo, ICalTimeZones *tzlist = 0,
-                             ICalTimeZones *tzUsedList = 0);
+    icalcomponent *writeTodo(const Todo::Ptr &todo, ICalTimeZones *tzlist = nullptr,
+                             ICalTimeZones *tzUsedList = nullptr);
 
-    icalcomponent *writeEvent(const Event::Ptr &event, ICalTimeZones *tzlist = 0,
-                              ICalTimeZones *tzUsedList = 0);
+    icalcomponent *writeEvent(const Event::Ptr &event, ICalTimeZones *tzlist = nullptr,
+                              ICalTimeZones *tzUsedList = nullptr);
 
-    icalcomponent *writeJournal(const Journal::Ptr &journal, ICalTimeZones *tzlist = 0,
-                                ICalTimeZones *tzUsedList = 0);
+    icalcomponent *writeJournal(const Journal::Ptr &journal, ICalTimeZones *tzlist = nullptr,
+                                ICalTimeZones *tzUsedList = nullptr);
 
     icalcomponent *writeFreeBusy(const FreeBusy::Ptr &freebusy,
                                  iTIPMethod method = iTIPPublish);
 
     void writeIncidence(icalcomponent *parent, const Incidence::Ptr &incidence,
-                        ICalTimeZones *tzlist = 0, ICalTimeZones *tzUsedList = 0);
+                        ICalTimeZones *tzlist = nullptr, ICalTimeZones *tzUsedList = nullptr);
 
     icalproperty *writeDescription(const QString &description, bool isRich = false);
     icalproperty *writeSummary(const QString &summary, bool isRich = false);
@@ -188,8 +188,8 @@ public:
     */
     static icalproperty *writeICalDateTimeProperty(const icalproperty_kind kind,
             const KDateTime &dt,
-            ICalTimeZones *tzlist = 0,
-            ICalTimeZones *tzUsedList = 0);
+            ICalTimeZones *tzlist = nullptr,
+            ICalTimeZones *tzUsedList = nullptr);
 
     /**
       Converts a date/time from ICal format.
@@ -216,7 +216,7 @@ public:
       @return date/time, or invalid if @p t is not UTC
     */
     static KDateTime readICalUtcDateTime(icalproperty *p, icaltimetype &t,
-                                         ICalTimeZones *tzlist = 0)
+                                         ICalTimeZones *tzlist = nullptr)
     //TODO: KDE5, move this implementation to icalformat_p.cpp
     {
         return readICalDateTime(p, t, tzlist, true);
