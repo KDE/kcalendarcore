@@ -88,16 +88,6 @@ void removeAllICal(QVector< QSharedPointer<K> > &c, const QSharedPointer<K> &x)
     c.remove(c.indexOf(x));
 }
 
-static QString quoteForParam(const QString &text)
-{
-    QString tmp = text;
-    tmp.remove(QLatin1Char('"'));
-    if (tmp.contains(QLatin1Char(';')) || tmp.contains(QLatin1Char(':')) || tmp.contains(QLatin1Char(','))) {
-        return tmp; // libical quotes in this case already, see icalparameter_as_ical_string()
-    }
-    return QStringLiteral("\"") + tmp + QStringLiteral("\"");
-}
-
 const int gSecondsPerMinute = 60;
 const int gSecondsPerHour   = gSecondsPerMinute * 60;
 const int gSecondsPerDay    = gSecondsPerHour   * 24;
@@ -758,7 +748,7 @@ icalproperty *ICalFormatImpl::writeOrganizer(const Person::Ptr &organizer)
 
     if (!organizer->name().isEmpty()) {
         icalproperty_add_parameter(
-            p, icalparameter_new_cn(quoteForParam(organizer->name()).toUtf8().constData()));
+            p, icalparameter_new_cn(organizer->name().toUtf8().constData()));
     }
     // TODO: Write dir, sent-by and language
 
@@ -803,7 +793,7 @@ icalproperty *ICalFormatImpl::writeAttendee(const Attendee::Ptr &attendee)
 
     if (!attendee->name().isEmpty()) {
         icalproperty_add_parameter(
-            p, icalparameter_new_cn(quoteForParam(attendee->name()).toUtf8().constData()));
+            p, icalparameter_new_cn(attendee->name().toUtf8().constData()));
     }
 
     icalproperty_add_parameter(
@@ -1113,7 +1103,7 @@ icalcomponent *ICalFormatImpl::writeAlarm(const Alarm::Ptr &alarm)
                 icalproperty *p = icalproperty_new_attendee(QByteArray(QByteArray("MAILTO:") + (*ad)->email().toUtf8()).constData());
                 if (!(*ad)->name().isEmpty()) {
                     icalproperty_add_parameter(
-                        p, icalparameter_new_cn(quoteForParam((*ad)->name()).toUtf8().constData()));
+                        p, icalparameter_new_cn((*ad)->name().toUtf8().constData()));
                 }
                 icalcomponent_add_property(a, p);
             }
