@@ -114,19 +114,19 @@ public:
 
     ~ToComponentVisitor();
 
-    bool visit(const Event::Ptr &e) Q_DECL_OVERRIDE {
+    bool visit(const Event::Ptr &e) override {
         mComponent = mImpl->writeEvent(e, mTzList, mTzUsedList);
         return true;
     }
-    bool visit(const Todo::Ptr &t) Q_DECL_OVERRIDE {
+    bool visit(const Todo::Ptr &t) override {
         mComponent = mImpl->writeTodo(t, mTzList, mTzUsedList);
         return true;
     }
-    bool visit(const Journal::Ptr &j) Q_DECL_OVERRIDE {
+    bool visit(const Journal::Ptr &j) override {
         mComponent = mImpl->writeJournal(j, mTzList, mTzUsedList);
         return true;
     }
-    bool visit(const FreeBusy::Ptr &fb) Q_DECL_OVERRIDE {
+    bool visit(const FreeBusy::Ptr &fb) override {
         mComponent = mImpl->writeFreeBusy(fb, mMethod);
         return true;
     }

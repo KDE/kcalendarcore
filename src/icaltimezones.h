@@ -332,14 +332,14 @@ public:
      *
      * @return new copy
      */
-    KTimeZoneBackend *clone() const Q_DECL_OVERRIDE;
+    KTimeZoneBackend *clone() const override;
 
     /**
      * Returns the class name of the data represented by this instance.
      *
      * @return "ICalTimeZone"
      */
-    QByteArray type() const Q_DECL_OVERRIDE;
+    QByteArray type() const override;
 
     /**
      * Implements ICalTimeZone::hasTransitions().
@@ -349,7 +349,7 @@ public:
      * @param caller calling ICalTimeZone object
      * @return @c true
      */
-    bool hasTransitions(const KTimeZone *caller) const Q_DECL_OVERRIDE;
+    bool hasTransitions(const KTimeZone *caller) const override;
 
 protected:
     /**
@@ -611,7 +611,7 @@ public:
      *
      * @return copy of this instance
      */
-    KTimeZoneData *clone() const Q_DECL_OVERRIDE;
+    KTimeZoneData *clone() const override;
 
     /**
      * Returns the name of the city for this time zone, if any. There is no fixed
@@ -656,7 +656,7 @@ public:
      *
      * @return @c true
      */
-    bool hasTransitions() const Q_DECL_OVERRIDE;
+    bool hasTransitions() const override;
 
 protected:
     /**

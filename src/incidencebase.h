@@ -697,13 +697,13 @@ protected:
       @copydoc
       CustomProperties::customPropertyUpdate()
     */
-    void customPropertyUpdate() Q_DECL_OVERRIDE;
+    void customPropertyUpdate() override;
 
     /**
       @copydoc
       CustomProperties::customPropertyUpdated()
     */
-    void customPropertyUpdated() Q_DECL_OVERRIDE;
+    void customPropertyUpdated() override;
 
     /**
       Constructs an IncidenceBase as a copy of another IncidenceBase object.

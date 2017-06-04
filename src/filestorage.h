@@ -106,22 +106,22 @@ public:
     /**
       @copydoc CalStorage::open()
     */
-    bool open() Q_DECL_OVERRIDE;
+    bool open() override;
 
     /**
       @copydoc CalStorage::load()
     */
-    bool load() Q_DECL_OVERRIDE;
+    bool load() override;
 
     /**
       @copydoc CalStorage::save()
     */
-    bool save() Q_DECL_OVERRIDE;
+    bool save() override;
 
     /**
       @copydoc CalStorage::close()
     */
-    bool close() Q_DECL_OVERRIDE;
+    bool close() override;
 
 private:
     //@cond PRIVATE

@@ -1392,7 +1392,7 @@ protected:
       @param uid is the UID for the Incidence that has been updated.
       @param recurrenceId is possible recurrenceid of incidence.
     */
-    void incidenceUpdated(const QString &uid, const KDateTime &recurrenceId) Q_DECL_OVERRIDE;
+    void incidenceUpdated(const QString &uid, const KDateTime &recurrenceId) override;
 
     /**
       Let Calendar subclasses set the time specification.
@@ -1443,7 +1443,7 @@ protected:
       @copydoc
       CustomProperties::customPropertyUpdated()
     */
-    void customPropertyUpdated() Q_DECL_OVERRIDE;
+    void customPropertyUpdated() override;
 
     /**
       Let Calendar subclasses notify that they enabled an Observer.

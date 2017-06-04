@@ -650,7 +650,7 @@ public:
     */
     void removeObserver(RecurrenceObserver *observer);
 
-    void recurrenceChanged(RecurrenceRule *) Q_DECL_OVERRIDE;
+    void recurrenceChanged(RecurrenceRule *) override;
 
 protected:
     RecurrenceRule *setNewRecurrenceType(RecurrenceRule::PeriodType type, int freq);

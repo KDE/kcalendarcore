@@ -53,21 +53,21 @@ Q_SIGNALS:
     void incidenceDeletedDeprecated(const KCalCore::Incidence::Ptr &incidence);
     void incidenceDeleted(const KCalCore::Incidence::Ptr &incidence, const Calendar *calendar);
 protected:
-    void calendarIncidenceAdded(const KCalCore::Incidence::Ptr &incidence) Q_DECL_OVERRIDE {
+    void calendarIncidenceAdded(const KCalCore::Incidence::Ptr &incidence) override {
         Q_EMIT incidenceAdded(incidence);
     }
-    void calendarIncidenceChanged(const KCalCore::Incidence::Ptr &incidence) Q_DECL_OVERRIDE {
+    void calendarIncidenceChanged(const KCalCore::Incidence::Ptr &incidence) override {
         Q_EMIT incidenceChanged(incidence);
     }
-    void calendarIncidenceAboutToBeDeleted(const KCalCore::Incidence::Ptr &incidence) Q_DECL_OVERRIDE {
+    void calendarIncidenceAboutToBeDeleted(const KCalCore::Incidence::Ptr &incidence) override {
         QVERIFY(mCal->incidences().contains(incidence));
         Q_EMIT incidenceAboutToBeDeleted(incidence);
     }
-    void calendarIncidenceDeleted(const KCalCore::Incidence::Ptr &incidence) Q_DECL_OVERRIDE {
+    void calendarIncidenceDeleted(const KCalCore::Incidence::Ptr &incidence) override {
         QVERIFY(!mCal->incidences().contains(incidence));
         Q_EMIT incidenceDeletedDeprecated(incidence);
     }
-    void calendarIncidenceDeleted(const KCalCore::Incidence::Ptr &incidence, const Calendar *calendar) Q_DECL_OVERRIDE {
+    void calendarIncidenceDeleted(const KCalCore::Incidence::Ptr &incidence, const Calendar *calendar) override {
         QCOMPARE(calendar, mCal);
         QVERIFY(!calendar->incidences().contains(incidence));
         Q_EMIT incidenceDeleted(incidence, calendar);

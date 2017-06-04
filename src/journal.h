@@ -68,49 +68,49 @@ public:
       @copydoc
       IncidenceBase::type()
     */
-    IncidenceType type() const Q_DECL_OVERRIDE;
+    IncidenceType type() const override;
 
     /**
       @copydoc
       IncidenceBase::typeStr()
     */
-    QByteArray typeStr() const Q_DECL_OVERRIDE;
+    QByteArray typeStr() const override;
 
     /**
       Returns an exact copy of this journal. The returned object is owned
       by the caller.
     */
-    Journal *clone() const Q_DECL_OVERRIDE;
+    Journal *clone() const override;
 
     /**
       @copydoc
       IncidenceBase::dateTime(DateTimeRole)const
     */
-    KDateTime dateTime(DateTimeRole role) const Q_DECL_OVERRIDE;
+    KDateTime dateTime(DateTimeRole role) const override;
 
     /**
       @copydoc
       IncidenceBase::setDateTime(const KDateTime &, DateTimeRole )
     */
-    void setDateTime(const KDateTime &dateTime, DateTimeRole role) Q_DECL_OVERRIDE;
+    void setDateTime(const KDateTime &dateTime, DateTimeRole role) override;
 
     /**
        @copydoc
        IncidenceBase::mimeType()
     */
-    QLatin1String mimeType() const Q_DECL_OVERRIDE;
+    QLatin1String mimeType() const override;
 
     /**
        @copydoc
        Incidence::iconName()
     */
-    QLatin1String iconName(const KDateTime &recurrenceId = KDateTime()) const Q_DECL_OVERRIDE;
+    QLatin1String iconName(const KDateTime &recurrenceId = KDateTime()) const override;
 
     /**
        @copydoc
        Incidence::supportsGroupwareCommunication()
     */
-    bool supportsGroupwareCommunication() const Q_DECL_OVERRIDE;
+    bool supportsGroupwareCommunication() const override;
 
     /**
        Returns the Akonadi specific sub MIME type of a KCalCore::Journal.
@@ -123,26 +123,26 @@ protected:
 
       @param journal is the journal to compare.
     */
-    bool equals(const IncidenceBase &journal) const Q_DECL_OVERRIDE;
+    bool equals(const IncidenceBase &journal) const override;
 
     /**
       @copydoc
       IncidenceBase::assign()
     */
-    IncidenceBase &assign(const IncidenceBase &other) Q_DECL_OVERRIDE;
+    IncidenceBase &assign(const IncidenceBase &other) override;
 
     /**
       @copydoc
       IncidenceBase::virtual_hook()
     */
-    void virtual_hook(VirtualHook id, void *data) Q_DECL_OVERRIDE;
+    void virtual_hook(VirtualHook id, void *data) override;
 
 private:
     /**
       @copydoc
       IncidenceBase::accept(Visitor &, const IncidenceBase::Ptr &)
     */
-    bool accept(Visitor &v, const IncidenceBase::Ptr &incidence) Q_DECL_OVERRIDE;
+    bool accept(Visitor &v, const IncidenceBase::Ptr &incidence) override;
 
     /**
       Disabled, otherwise could be dangerous if you subclass Journal.

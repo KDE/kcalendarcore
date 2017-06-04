@@ -84,34 +84,34 @@ public:
       @copydoc
       CalFormat::load()
     */
-    bool load(const Calendar::Ptr &calendar, const QString &fileName) Q_DECL_OVERRIDE;
+    bool load(const Calendar::Ptr &calendar, const QString &fileName) override;
 
     /**
       @copydoc
       CalFormat::save()
     */
-    bool save(const Calendar::Ptr &calendar, const QString &fileName) Q_DECL_OVERRIDE;
+    bool save(const Calendar::Ptr &calendar, const QString &fileName) override;
 
     /**
       @copydoc
       CalFormat::fromString()
     */
     bool fromString(const Calendar::Ptr &calendar, const QString &string,
-                    bool deleted = false, const QString &notebook = QString()) Q_DECL_OVERRIDE;
+                    bool deleted = false, const QString &notebook = QString()) override;
 
     /**
       @copydoc
       CalFormat::toString()
     */
     QString toString(const Calendar::Ptr &calendar, const QString &notebook = QString(),
-                     bool deleted = false) Q_DECL_OVERRIDE;
+                     bool deleted = false) override;
 
     /**
       @copydoc
       CalFormat::fromRawString()
     */
     bool fromRawString(const Calendar::Ptr &calendar, const QByteArray &string,
-                       bool deleted = false, const QString &notebook = QString()) Q_DECL_OVERRIDE;
+                       bool deleted = false, const QString &notebook = QString()) override;
 
 protected:
     /**
@@ -226,7 +226,7 @@ protected:
       @copydoc
       IncidenceBase::virtual_hook()
     */
-    void virtual_hook(int id, void *data) Q_DECL_OVERRIDE;
+    void virtual_hook(int id, void *data) override;
 
 private:
     //@cond PRIVATE

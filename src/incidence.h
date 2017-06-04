@@ -149,12 +149,12 @@ public:
       @param readonly If true, the incidence is set to readonly, if false the
                       incidence is set to readwrite.
     */
-    void setReadOnly(bool readonly) Q_DECL_OVERRIDE;
+    void setReadOnly(bool readonly) override;
 
     /**
       @copydoc IncidenceBase::setLastModified().
     */
-    void setLastModified(const KDateTime &lm) Q_DECL_OVERRIDE;
+    void setLastModified(const KDateTime &lm) override;
 
     /**
       Set localOnly state of incidence.
@@ -177,7 +177,7 @@ public:
     /**
       @copydoc IncidenceBase::setAllDay().
     */
-    void setAllDay(bool allDay) Q_DECL_OVERRIDE;
+    void setAllDay(bool allDay) override;
 
     /**
       Recreate incidence. The incidence is made a new unique incidence, but already stored
@@ -220,13 +220,13 @@ public:
       @param dt is the starting date/time.
       @see IncidenceBase::dtStart().
     */
-    void setDtStart(const KDateTime &dt) Q_DECL_OVERRIDE;
+    void setDtStart(const KDateTime &dt) override;
 
     /**
       @copydoc IncidenceBase::shiftTimes()
     */
     void shiftTimes(const KDateTime::Spec &oldSpec,
-                    const KDateTime::Spec &newSpec) Q_DECL_OVERRIDE;
+                    const KDateTime::Spec &newSpec) override;
 
     /**
       Sets the incidence description.
@@ -703,7 +703,7 @@ public:
       @return incidences recurrenceId value
       @see setRecurrenceId().
     */
-    KDateTime recurrenceId() const Q_DECL_OVERRIDE;
+    KDateTime recurrenceId() const override;
 
     /**
       Set to true if the exception also applies to all future occurrences.
@@ -808,7 +808,7 @@ public:
 
       @param recurrence is a pointer to a valid Recurrence object.
     */
-    void recurrenceUpdated(Recurrence *recurrence) Q_DECL_OVERRIDE;
+    void recurrenceUpdated(Recurrence *recurrence) override;
 
     /**
       Returns the name of the icon that best represents this incidence.
@@ -849,12 +849,12 @@ protected:
       @param incidence is the Incidence to compare against.
       @return true if the incidences are equal; false otherwise.
     */
-    bool equals(const IncidenceBase &incidence) const Q_DECL_OVERRIDE;
+    bool equals(const IncidenceBase &incidence) const override;
 
     /**
       @copydoc IncidenceBase::assign()
     */
-    IncidenceBase &assign(const IncidenceBase &other) Q_DECL_OVERRIDE;
+    IncidenceBase &assign(const IncidenceBase &other) override;
 
     void serialize(QDataStream &out);
     void deserialize(QDataStream &in);

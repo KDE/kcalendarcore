@@ -82,18 +82,18 @@ public:
     /**
       @copydoc IncidenceBase::type()
     */
-    IncidenceType type() const Q_DECL_OVERRIDE;
+    IncidenceType type() const override;
 
     /**
       @copydoc IncidenceBase::typeStr()
     */
-    QByteArray typeStr() const Q_DECL_OVERRIDE;
+    QByteArray typeStr() const override;
 
     /**
       Returns an exact copy of this todo. The returned object is owned by the caller.
       @return A pointer to a Todo containing an exact copy of this object.
     */
-    Todo *clone() const Q_DECL_OVERRIDE;
+    Todo *clone() const override;
 
     /**
       Sets due date and time.
@@ -132,7 +132,7 @@ public:
     /**
       @copydoc IncidenceBase::dtStart()
     */
-    KDateTime dtStart() const Q_DECL_OVERRIDE;
+    KDateTime dtStart() const override;
 
     /**
       Returns the start datetime of the todo.
@@ -244,12 +244,12 @@ public:
       @copydoc IncidenceBase::shiftTimes()
     */
     void shiftTimes(const KDateTime::Spec &oldSpec,
-                    const KDateTime::Spec &newSpec) Q_DECL_OVERRIDE;
+                    const KDateTime::Spec &newSpec) override;
 
     /**
       @copydoc IncidenceBase::setAllDay().
     */
-    void setAllDay(bool allDay) Q_DECL_OVERRIDE;
+    void setAllDay(bool allDay) override;
 
     /**
       Sets the due date/time of the current occurrence if recurrent.
@@ -273,7 +273,7 @@ public:
       @param timeSpec is the
     */
     bool recursOn(const QDate &date,
-                  const KDateTime::Spec &timeSpec) const Q_DECL_OVERRIDE;
+                  const KDateTime::Spec &timeSpec) const override;
 
     /**
       Returns true if this todo is overdue (e.g. due date is lower than today
@@ -285,28 +285,28 @@ public:
     /**
       @copydoc IncidenceBase::dateTime()
     */
-    KDateTime dateTime(DateTimeRole role) const Q_DECL_OVERRIDE;
+    KDateTime dateTime(DateTimeRole role) const override;
 
     /**
       @copydoc IncidenceBase::setDateTime()
     */
-    void setDateTime(const KDateTime &dateTime, DateTimeRole role) Q_DECL_OVERRIDE;
+    void setDateTime(const KDateTime &dateTime, DateTimeRole role) override;
 
     /**
        @copydoc IncidenceBase::mimeType()
     */
-    QLatin1String mimeType() const Q_DECL_OVERRIDE;
+    QLatin1String mimeType() const override;
 
     /**
        @copydoc Incidence::iconName()
     */
-    QLatin1String iconName(const KDateTime &recurrenceId = KDateTime()) const Q_DECL_OVERRIDE;
+    QLatin1String iconName(const KDateTime &recurrenceId = KDateTime()) const override;
 
     /**
        @copydoc
        Incidence::supportsGroupwareCommunication()
     */
-    bool supportsGroupwareCommunication() const Q_DECL_OVERRIDE;
+    bool supportsGroupwareCommunication() const override;
 
     /**
        Returns the Akonadi specific sub MIME type of a KCalCore::Todo.
@@ -318,23 +318,23 @@ protected:
       Compare this with @p todo for equality.
       @param todo is the to-do to compare.
     */
-    bool equals(const IncidenceBase &todo) const Q_DECL_OVERRIDE;
+    bool equals(const IncidenceBase &todo) const override;
 
     /**
       @copydoc IncidenceBase::assign()
     */
-    IncidenceBase &assign(const IncidenceBase &other) Q_DECL_OVERRIDE;
+    IncidenceBase &assign(const IncidenceBase &other) override;
 
     /**
       @copydoc IncidenceBase::virtual_hook()
     */
-    void virtual_hook(VirtualHook id, void *data) Q_DECL_OVERRIDE;
+    void virtual_hook(VirtualHook id, void *data) override;
 
 private:
     /**
       @copydoc IncidenceBase::accept()
     */
-    bool accept(Visitor &v, const IncidenceBase::Ptr &incidence) Q_DECL_OVERRIDE;
+    bool accept(Visitor &v, const IncidenceBase::Ptr &incidence) override;
 
     /**
       Disabled, otherwise could be dangerous if you subclass Todo.
