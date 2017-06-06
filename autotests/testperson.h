@@ -22,7 +22,7 @@
 #ifndef TESTPERSON_H
 #define TESTPERSON_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class PersonTest : public QObject
 {

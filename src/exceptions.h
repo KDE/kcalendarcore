@@ -38,8 +38,8 @@
 
 #include "kcalcore_export.h"
 
-#include <QtCore/QString>
-#include <QtCore/QStringList>
+#include <QString>
+#include <QStringList>
 
 namespace KCalCore
 {

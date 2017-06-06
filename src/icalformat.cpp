@@ -38,7 +38,7 @@
 #include <QSaveFile>
 #include <kbackup.h>
 
-#include <QtCore/QFile>
+#include <QFile>
 
 extern "C" {
 #include <libical/ical.h>

@@ -31,8 +31,8 @@
 
 #include "kcalcore_export.h"
 
-#include <QtCore/QMap>
-#include <QtCore/QString>
+#include <QMap>
+#include <QString>
 
 namespace KCalCore
 {

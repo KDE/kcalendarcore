@@ -63,8 +63,8 @@
 
 #include <KDateTime>
 
-#include <QtCore/QSet>
-#include <QtCore/QUrl>
+#include <QSet>
+#include <QUrl>
 #include <QDataStream>
 
 class QUrl;

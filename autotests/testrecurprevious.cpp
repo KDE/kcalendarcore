@@ -32,10 +32,10 @@
 #include <ksystemtimezone.h>
 #include <KLocalizedString>
 
-#include <QtCore/QFile>
-#include <QtCore/QTextStream>
-#include <QtCore/QCoreApplication>
-#include <QtCore/QCommandLineParser>
+#include <QFile>
+#include <QTextStream>
+#include <QCoreApplication>
+#include <QCommandLineParser>
 
 using namespace KCalCore;
 

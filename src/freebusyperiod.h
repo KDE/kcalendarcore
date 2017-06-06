@@ -35,7 +35,7 @@
 #include "kcalcore_export.h"
 #include "period.h"
 
-#include <QtCore/QMetaType>
+#include <QMetaType>
 
 namespace KCalCore
 {

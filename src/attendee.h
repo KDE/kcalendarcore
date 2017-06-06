@@ -29,7 +29,7 @@
 #ifndef KCALCORE_ATTENDEE_H
 #define KCALCORE_ATTENDEE_H
 
-#include <QtCore/QMetaType>
+#include <QMetaType>
 
 #include "kcalcore_export.h"
 #include "customproperties.h"

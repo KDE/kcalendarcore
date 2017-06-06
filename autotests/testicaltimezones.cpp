@@ -23,8 +23,8 @@
 
 #include <QTemporaryFile>
 
-#include <QtCore/QDateTime>
-#include <QtCore/QTextStream>
+#include <QDateTime>
+#include <QTextStream>
 
 #include <stdlib.h>
 

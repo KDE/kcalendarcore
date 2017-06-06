@@ -37,7 +37,7 @@
 #include "incidencebase.h"
 #include "period.h"
 
-#include <QtCore/QMetaType>
+#include <QMetaType>
 
 namespace KCalCore
 {

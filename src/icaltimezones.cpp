@@ -30,9 +30,9 @@
 #include <KDateTime>
 #include <KSystemTimeZone>
 
-#include <QtCore/QDateTime>
-#include <QtCore/QFile>
-#include <QtCore/QTextStream>
+#include <QDateTime>
+#include <QFile>
+#include <QTextStream>
 
 extern "C" {
 #include <libical/ical.h>

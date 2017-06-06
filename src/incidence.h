@@ -37,7 +37,7 @@
 #include "incidencebase.h"
 #include "recurrence.h"
 
-#include <QtCore/QMetaType>
+#include <QMetaType>
 
 //@cond PRIVATE
 // Value used to signal invalid/unset latitude or longitude.

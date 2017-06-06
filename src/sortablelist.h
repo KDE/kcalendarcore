@@ -29,9 +29,9 @@
 #ifndef KCALCORE_SORTABLELIST_H
 #define KCALCORE_SORTABLELIST_H
 
-#include <QtCore/QList>
-#include <QtCore/QtAlgorithms>
-#include <QtCore/QDataStream>
+#include <QList>
+#include <QtAlgorithms>
+#include <QDataStream>
 
 namespace KCalCore
 {

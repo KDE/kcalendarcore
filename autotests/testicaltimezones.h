@@ -22,7 +22,7 @@
 #ifndef TESTICALTIMEZONES_H
 #define TESTICALTIMEZONES_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class ICalTimeZonesTest : public QObject
 {

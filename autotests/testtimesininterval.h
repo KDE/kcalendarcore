@@ -23,7 +23,7 @@
 #ifndef TESTTIMESININTERVAL_H
 #define TESTTIMESININTERVAL_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class TimesInIntervalTest : public QObject
 {

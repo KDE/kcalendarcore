@@ -38,9 +38,9 @@
 
 #include <KDateTime>
 
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-#include <QtCore/QVector>
+#include <QString>
+#include <QStringList>
+#include <QVector>
 #include <QDataStream>
 #include <QMetaType>
 

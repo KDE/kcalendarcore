@@ -21,7 +21,7 @@
 class testcreateddatecompat
 {
 };
-#include <QtCore/QObject>
+#include <QObject>
 
 class CreatedDateCompatTest : public QObject
 {

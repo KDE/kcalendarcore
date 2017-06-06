@@ -17,7 +17,7 @@
 
 #ifndef TESTREADRECURRENCEID_H
 #define TESTREADRECURRENCEID_H
-#include <QtCore/QObject>
+#include <QObject>
 
 class TestReadRecurrenceId: public QObject
 {

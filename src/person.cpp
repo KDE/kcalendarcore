@@ -34,8 +34,8 @@
 */
 
 #include "person.h"
-#include <QtCore/QRegExp>
-#include <QtCore/QDataStream>
+#include <QRegExp>
+#include <QDataStream>
 
 using namespace KCalCore;
 

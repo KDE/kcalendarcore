@@ -27,8 +27,8 @@
 
 #include "kcalcore_debug.h"
 
-#include <QtCore/QBitArray>
-#include <QtCore/QTime>
+#include <QBitArray>
+#include <QTime>
 
 using namespace KCalCore;
 

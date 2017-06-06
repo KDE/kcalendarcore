@@ -22,7 +22,7 @@
 #ifndef TESTPERIOD_H
 #define TESTPERIOD_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class PeriodTest : public QObject
 {

@@ -32,7 +32,7 @@
 #include "kcalcore_export.h"
 #include "calendar.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 namespace KCalCore
 {

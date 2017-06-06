@@ -30,10 +30,10 @@
 #include <qdebug.h>
 #include <klocalizedstring.h>
 
-#include <QtCore/QFile>
-#include <QtCore/QFileInfo>
-#include <QtCore/QCoreApplication>
-#include <QtCore/QCommandLineParser>
+#include <QFile>
+#include <QFileInfo>
+#include <QCoreApplication>
+#include <QCommandLineParser>
 
 using namespace KCalCore;
 

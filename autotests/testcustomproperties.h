@@ -24,7 +24,7 @@
 #ifndef TESTCUSTOMPROPERTIES_H
 #define TESTCUSTOMPROPERTIES_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class CustomPropertiesTest : public QObject
 {

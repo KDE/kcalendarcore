@@ -22,7 +22,7 @@
 #ifndef TESTEXCEPTION_H
 #define TESTEXCEPTION_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class ExceptionTest : public QObject
 {

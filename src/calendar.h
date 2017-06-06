@@ -55,7 +55,7 @@ This API needs serious cleaning up:
 #include "journal.h"
 #include "todo.h"
 
-#include <QtCore/QObject>
+#include <QObject>
 
 namespace KCalCore
 {

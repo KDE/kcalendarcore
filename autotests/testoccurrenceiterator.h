@@ -17,7 +17,7 @@
 
 #ifndef TESTOCCURRENCEITERATOR_H
 #define TESTOCCURRENCEITERATOR_H
-#include <QtCore/QObject>
+#include <QObject>
 
 class TestOccurrenceIterator: public QObject
 {

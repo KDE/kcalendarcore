@@ -22,7 +22,7 @@
 #ifndef TESTALARM_H
 #define TESTALARM_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class AlarmTest : public QObject
 {

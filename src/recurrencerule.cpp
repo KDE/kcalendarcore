@@ -23,9 +23,9 @@
 
 #include "kcalcore_debug.h"
 
-#include <QtCore/QStringList>
-#include <QtCore/QTime>
-#include <QtCore/QVector>
+#include <QStringList>
+#include <QTime>
+#include <QVector>
 
 using namespace KCalCore;
 

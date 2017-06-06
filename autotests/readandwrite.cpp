@@ -30,9 +30,9 @@
 #include <kcomponentdata.h>
 #include <kcmdlineargs.h>
 
-#include <QtCore/QFileInfo>
-#include <QtCore/QCoreApplication>
-#include <QtCore/QCommandLineParser>
+#include <QFileInfo>
+#include <QCoreApplication>
+#include <QCommandLineParser>
 
 using namespace KCalCore;
 

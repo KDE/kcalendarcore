@@ -43,7 +43,7 @@
 #include "kcalcore_debug.h"
 #include <QUrl>
 
-#include <QtCore/QStringList>
+#include <QStringList>
 
 #define KCALCORE_MAGIC_NUMBER 0xCA1C012E
 #define KCALCORE_SERIALIZATION_VERSION 1

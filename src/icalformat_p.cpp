@@ -50,7 +50,7 @@
 #include <KCodecs>
 #include "kcalcore_debug.h"
 
-#include <QtCore/QFile>
+#include <QFile>
 
 using namespace KCalCore;
 

@@ -25,7 +25,7 @@
 
 #include <KTimeZone>
 
-#include <QtCore/QMap>
+#include <QMap>
 
 #ifndef ICALCOMPONENT_H
 typedef struct icalcomponent_impl icalcomponent;

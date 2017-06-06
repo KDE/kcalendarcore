@@ -27,8 +27,8 @@
 #include <kcomponentdata.h>
 #include <qdebug.h>
 
-#include <QtCore/QCoreApplication>
-#include <QtCore/QCommandLineParser>
+#include <QCoreApplication>
+#include <QCommandLineParser>
 
 using namespace KCalCore;
 

@@ -37,9 +37,9 @@
 
 #include "kcalcore_debug.h"
 
-#include <QtCore/QRegExp>
-#include <QtCore/QString>
-#include <QtCore/QDate>
+#include <QRegExp>
+#include <QString>
+#include <QDate>
 
 using namespace KCalCore;
 

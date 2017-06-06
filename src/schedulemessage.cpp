@@ -23,7 +23,7 @@
 #include "schedulemessage.h"
 #include "incidencebase.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 using namespace KCalCore;
 

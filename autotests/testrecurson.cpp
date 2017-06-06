@@ -29,10 +29,10 @@
 #include <qdebug.h>
 
 #include <QDate>
-#include <QtCore/QFile>
-#include <QtCore/QTextStream>
-#include <QtCore/QCoreApplication>
-#include <QtCore/QCommandLineParser>
+#include <QFile>
+#include <QTextStream>
+#include <QCoreApplication>
+#include <QCommandLineParser>
 
 using namespace KCalCore;
 

@@ -22,7 +22,7 @@
 #ifndef TESTRECURTODO_H
 #define TESTRECURTODO_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class RecurTodoTest : public QObject
 {

@@ -34,7 +34,7 @@
 
 #include "incidence.h"
 
-#include <QtCore/QtGlobal> // for Q_DISABLE_COPY()
+#include <QtGlobal> // for Q_DISABLE_COPY()
 
 class QDate;
 class QString;

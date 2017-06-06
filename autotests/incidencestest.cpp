@@ -28,8 +28,8 @@
 #include <qdebug.h>
 #include <KLocalizedString>
 
-#include <QtCore/QCoreApplication>
-#include <QtCore/QCommandLineParser>
+#include <QCoreApplication>
+#include <QCommandLineParser>
 
 using namespace KCalCore;
 

@@ -36,9 +36,9 @@
 
 #include <KDateTime>
 
-#include <QtCore/QDataStream>
-#include <QtCore/QMetaType>
-#include <QtCore/QVector>
+#include <QDataStream>
+#include <QMetaType>
+#include <QVector>
 
 namespace KCalCore
 {

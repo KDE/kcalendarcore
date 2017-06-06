@@ -21,7 +21,7 @@
 #ifndef FILESTORAGETEST_H
 #define FILESTORAGETEST_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class FileStorageTest : public QObject
 {

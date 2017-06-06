@@ -23,7 +23,7 @@
 #ifndef TESTFREEBUSYPERIOD_H
 #define TESTFREEBUSYPERIOD_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class FreeBusyPeriodTest : public QObject
 {

@@ -46,8 +46,8 @@
 #include <KCodecs>
 #include "kcalcore_debug.h"
 
-#include <QtCore/QBitArray>
-#include <QtCore/QFile>
+#include <QBitArray>
+#include <QFile>
 #include <QTextDocument> // for .toHtmlEscaped() and Qt::mightBeRichText()
 
 using namespace KCalCore;

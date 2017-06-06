@@ -34,7 +34,7 @@
 
 #include <KDateTime>
 
-#include <QtCore/QHash>
+#include <QHash>
 
 using namespace KCalCore;
 
