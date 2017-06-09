@@ -26,7 +26,6 @@
 
 #include <qdebug.h>
 
-#include <unistd.h>
 
 #include <qtest.h>
 #include <qsignalspy.h>
