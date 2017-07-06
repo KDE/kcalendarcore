@@ -944,7 +944,7 @@ void Recurrence::addYearlyPos(short pos, const QBitArray &days)
     addMonthlyPos(pos, days);
 }
 
-void Recurrence::setYearlyPos(QList<RecurrenceRule::WDayPos> &days)
+void Recurrence::setYearlyPos(const QList<RecurrenceRule::WDayPos> &days)
 {
     setMonthlyPos(days);
 }

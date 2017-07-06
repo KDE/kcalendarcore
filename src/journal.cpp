@@ -51,7 +51,7 @@ Incidence::IncidenceType Journal::type() const
 
 QByteArray Journal::typeStr() const
 {
-    return "Journal";
+    return QByteArrayLiteral("Journal");
 }
 
 Journal *Journal::clone() const

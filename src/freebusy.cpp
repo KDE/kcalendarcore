@@ -212,7 +212,7 @@ IncidenceBase::IncidenceType FreeBusy::type() const
 
 QByteArray FreeBusy::typeStr() const
 {
-    return "FreeBusy";
+    return QByteArrayLiteral("FreeBusy");
 }
 
 void FreeBusy::setDtStart(const KDateTime &start)

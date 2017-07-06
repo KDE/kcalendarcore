@@ -143,7 +143,7 @@ Incidence::IncidenceType Todo::type() const
 
 QByteArray Todo::typeStr() const
 {
-    return "Todo";
+    return QByteArrayLiteral("Todo");
 }
 void Todo::setDtDue(const KDateTime &dtDue, bool first)
 {

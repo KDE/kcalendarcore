@@ -122,7 +122,7 @@ Incidence::IncidenceType Event::type() const
 
 QByteArray Event::typeStr() const
 {
-    return "Event";
+    return QByteArrayLiteral("Event");
 }
 
 void Event::setDtStart(const KDateTime &dt)

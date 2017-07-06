@@ -522,7 +522,7 @@ public:
      */
     void addYearlyPos(short pos, const QBitArray &days);
 
-    void setYearlyPos(QList<RecurrenceRule::WDayPos> &days);
+    void setYearlyPos(const QList<RecurrenceRule::WDayPos> &days);
 
     /** Returns the day numbers within a yearly recurrence.
      * @return the days of the year for the event. E.g. if the list contains
