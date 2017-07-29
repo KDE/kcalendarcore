@@ -163,7 +163,7 @@ public:
      * @param result if non-null, *result is updated to true if successful,
      * or false if there is no recurrence or its end date cannot be determined.
      */
-    KDateTime endDt(bool *result = 0) const;
+    KDateTime endDt(bool *result = nullptr) const;
 
     /** Sets the date and time of the last recurrence.
      * @param endDateTime the ending date/time after which to stop recurring. */

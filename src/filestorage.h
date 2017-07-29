@@ -65,7 +65,7 @@ public:
     */
     explicit FileStorage(const Calendar::Ptr &calendar,
                          const QString &fileName = QString(),
-                         KCalCore::CalFormat *format = 0);
+                         KCalCore::CalFormat *format = nullptr);
 
     /**
       Destructor.

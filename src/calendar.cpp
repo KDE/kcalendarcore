@@ -1112,9 +1112,9 @@ void Calendar::removeRelations(const Incidence::Ptr &incidence)
                 uidit != relatedToUids.constEnd(); ++uidit) {
             Incidence::List tempList;
             // Remove all to get access to the remaining entries
-            Incidence::List l = values(d->mOrphans, *uidit);
+            const Incidence::List l = values(d->mOrphans, *uidit);
             d->mOrphans.remove(*uidit);
-            foreach (const Incidence::Ptr &i, l) {
+            for (const Incidence::Ptr &i : l) {
                 if (i != incidence) {
                     tempList.append(i);
                 }
@@ -1229,7 +1229,7 @@ void Calendar::setModified(bool modified)
 {
     if (modified != d->mModified || d->mNewObserver) {
         d->mNewObserver = false;
-        foreach (CalendarObserver *observer, d->mObservers) {
+        for (CalendarObserver *observer : qAsConst(d->mObservers)) {
             observer->calendarModified(modified, this);
         }
         d->mModified = modified;
@@ -1285,7 +1285,7 @@ void Calendar::notifyIncidenceAdded(const Incidence::Ptr &incidence)
         return;
     }
 
-    foreach (CalendarObserver *observer, d->mObservers) {
+    for (CalendarObserver *observer : qAsConst(d->mObservers)) {
         observer->calendarIncidenceAdded(incidence);
     }
 }
@@ -1300,7 +1300,7 @@ void Calendar::notifyIncidenceChanged(const Incidence::Ptr &incidence)
         return;
     }
 
-    foreach (CalendarObserver *observer, d->mObservers) {
+    for (CalendarObserver *observer : qAsConst(d->mObservers)) {
         observer->calendarIncidenceChanged(incidence);
     }
 }
@@ -1315,7 +1315,7 @@ void Calendar::notifyIncidenceAboutToBeDeleted(const Incidence::Ptr &incidence)
         return;
     }
 
-    foreach (CalendarObserver *observer, d->mObservers) {
+    for (CalendarObserver *observer : qAsConst(d->mObservers)) {
         observer->calendarIncidenceAboutToBeDeleted(incidence);
     }
 }
@@ -1330,7 +1330,7 @@ void Calendar::notifyIncidenceDeletedOld(const Incidence::Ptr &incidence)
         return;
     }
 
-    foreach (CalendarObserver *observer, d->mObservers) {
+    for (CalendarObserver *observer : qAsConst(d->mObservers)) {
         observer->calendarIncidenceDeleted(incidence);
     }
 }
@@ -1345,7 +1345,7 @@ void Calendar::notifyIncidenceDeleted(const Incidence::Ptr &incidence)
         return;
     }
 
-    foreach (CalendarObserver *observer, d->mObservers) {
+    for (CalendarObserver *observer : qAsConst(d->mObservers)) {
         observer->calendarIncidenceDeleted(incidence, this);
     }
 }
@@ -1360,7 +1360,7 @@ void Calendar::notifyIncidenceAdditionCanceled(const Incidence::Ptr &incidence)
         return;
     }
 
-    foreach (CalendarObserver *observer, d->mObservers) {
+    for (CalendarObserver *observer : qAsConst(d->mObservers)) {
         observer->calendarIncidenceAdditionCanceled(incidence);
     }
 }

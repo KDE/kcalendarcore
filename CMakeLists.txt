@@ -4,7 +4,7 @@ set(PIM_VERSION "5.5.40")
 project(KCalCore VERSION ${PIM_VERSION})
 
 # ECM setup
-set(KF5_VERSION "5.32.0")
+set(KF5_VERSION "5.34.0")
 find_package(ECM ${KF5_VERSION} CONFIG REQUIRED)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${KCalCore_SOURCE_DIR}/cmake)
 
@@ -32,7 +32,7 @@ ecm_setup_version(PROJECT VARIABLE_PREFIX KCALCORE
 )
 
 ########### Find packages ###########
-find_package(KF5KDELibs4Support ${KF5_VERSION} CONFIG REQUIRED)
+find_package(KF5 ${KF5_VERSION} REQUIRED Config KDELibs4Support)
 
 set(LibIcal_MIN_VERSION "0.42")
 find_package(LibIcal ${LibIcal_MIN_VERSION})
@@ -40,6 +40,14 @@ set_package_properties(LibIcal PROPERTIES
                                DESCRIPTION "The libical library"
                                URL "http://sourceforge.net/projects/freeassociation"
                                TYPE REQUIRED
+)
+
+find_package(BISON REQUIRED)
+set_package_properties(BISON PROPERTIES
+                             DESCRIPTION "general-purpose parser generator"
+                             URL "http://www.gnu.org/software/bison"
+                             PURPOSE "Required for the Versit parser"
+                             TYPE REQUIRED
 )
 
 include(ConfigureChecks.cmake)

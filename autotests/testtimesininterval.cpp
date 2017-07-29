@@ -102,7 +102,7 @@ void TimesInIntervalTest::testSubDailyRecurrenceIntervalInclusive()
 
     const DateTimeList timesInInterval = event->recurrence()->timesInInterval(start, end);
 //   qDebug() << "timesInInterval " << timesInInterval;
-    foreach (const KDateTime &dt, timesInInterval) {
+    for (const KDateTime &dt : timesInInterval) {
 //     qDebug() << dt;
         QCOMPARE(expectedEventOccurrences.removeAll(dt), 1);
     }
@@ -126,7 +126,7 @@ void TimesInIntervalTest::testSubDailyRecurrence2()
 
     const DateTimeList timesInInterval = event->recurrence()->timesInInterval(start.addSecs(-20), end.addSecs(20));
 //   qDebug() << "timesInInterval " << timesInInterval;
-    foreach (const KDateTime &dt, timesInInterval) {
+    for (const KDateTime &dt : timesInInterval) {
 //     qDebug() << dt;
         QCOMPARE(expectedEventOccurrences.removeAll(dt), 1);
     }
@@ -149,7 +149,7 @@ void TimesInIntervalTest::testSubDailyRecurrenceIntervalLimits()
 
     const DateTimeList timesInInterval = event->recurrence()->timesInInterval(start.addSecs(1), end.addSecs(-1));
 //   qDebug() << "timesInInterval " << timesInInterval;
-    foreach (const KDateTime &dt, timesInInterval) {
+    for (const KDateTime &dt : timesInInterval) {
 //     qDebug() << dt;
         QCOMPARE(expectedEventOccurrences.removeAll(dt), 1);
     }
