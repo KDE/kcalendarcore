@@ -1526,7 +1526,8 @@ bool RecurrenceRule::recursOn(const QDate &qd, const KDateTime::Spec &timeSpec) 
             return dts[i] <= end;
         }
         interval.increase(recurrenceType(), frequency());
-    } while (interval.intervalDateTime(recurrenceType()) < end);
+    } while (interval.intervalDateTime(recurrenceType()).isValid() &&
+             interval.intervalDateTime(recurrenceType()) < end);
 
     return false;
 }
@@ -2003,7 +2004,7 @@ DateTimeList RecurrenceRule::Private::datesForInterval(const Constraint &interva
        -) Loop through all missing fields => For each add the resulting
     */
     DateTimeList lst;
-    for (int i = 0, iend = mConstraints.count();  i < iend;  ++i) {
+    for (int i = 0, iend = mConstraints.count(); i < iend; ++i) {
         Constraint merged(interval);
         if (merged.merge(mConstraints[i])) {
             // If the information is incomplete, we can't use this constraint
