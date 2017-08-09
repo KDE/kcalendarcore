@@ -22,7 +22,6 @@ include(ECMCoverageOption)
 
 
 set(QT_REQUIRED_VERSION "5.7.0") 
-find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED Test)
 
 set(KCALENDARCORE_LIB_VERSION ${PIM_VERSION})
 ecm_setup_version(PROJECT VARIABLE_PREFIX KCALCORE
@@ -71,6 +70,7 @@ add_definitions(-DQT_USE_QSTRINGBUILDER)
 add_subdirectory(src)
 
 if(BUILD_TESTING)
+    find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED Test)
     add_subdirectory(autotests)
 endif()
 
