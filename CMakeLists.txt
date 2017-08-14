@@ -21,7 +21,7 @@ include(ECMQtDeclareLoggingCategory)
 include(ECMCoverageOption)
 
 
-set(QT_REQUIRED_VERSION "5.7.0") 
+set(QT_REQUIRED_VERSION "5.8.0") 
 
 set(KCALENDARCORE_LIB_VERSION ${PIM_VERSION})
 ecm_setup_version(PROJECT VARIABLE_PREFIX KCALCORE
