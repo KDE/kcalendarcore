@@ -9,7 +9,7 @@ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/cal DESTINATION ${CMAKE_CURRENT_BINARY_DIR
 macro(macro_unit_tests)
   foreach(_testname ${ARGN})
     add_executable(${_testname} ${_testname}.cpp)
-    add_test(${_testname} ${_testname})
+    add_test(NAME ${_testname} COMMAND ${_testname})
     ecm_mark_as_test(${_testname})
     target_link_libraries(${_testname} KF5::ConfigCore KF5CalendarCore Qt5::Test)
   endforeach()
