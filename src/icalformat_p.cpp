@@ -1122,10 +1122,10 @@ icalcomponent *ICalFormatImpl::writeAlarm(const Alarm::Ptr &alarm)
             a, icalproperty_new_summary(alarm->mailSubject().toUtf8().constData()));
         icalcomponent_add_property(
             a, icalproperty_new_description(alarm->mailText().toUtf8().constData()));
-        QStringList attachments = alarm->mailAttachments();
-        if (attachments.count() > 0) {
-            for (QStringList::const_iterator at = attachments.constBegin();
-                    at != attachments.constEnd();  ++at) {
+        const QStringList attachments = alarm->mailAttachments();
+        if (!attachments.isEmpty()) {
+            for (QStringList::const_iterator at = attachments.constBegin(), end = attachments.constEnd();
+                    at != end;  ++at) {
                 attach = icalattach_new_from_url(QFile::encodeName(*at).data());
                 icalcomponent_add_property(a, icalproperty_new_attach(attach));
             }

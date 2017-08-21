@@ -1726,7 +1726,7 @@ KDateTime RecurrenceRule::getNextDate(const KDateTime &preDate) const
     int loop = 0;
     do {
         DateTimeList dts = d->datesForInterval(interval, recurrenceType());
-        if (dts.count() > 0) {
+        if (!dts.isEmpty()) {
             KDateTime ret(dts[0]);
             if (d->mDuration >= 0 && ret > end) {
                 return KDateTime();
