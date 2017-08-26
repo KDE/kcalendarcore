@@ -99,8 +99,8 @@ public:
     bool mObserversEnabled;
     QList<CalendarObserver *> mObservers;
 
-    CalFilter *mDefaultFilter;
-    CalFilter *mFilter;
+    CalFilter *mDefaultFilter = nullptr;
+    CalFilter *mFilter = nullptr;
 
     // These lists are used to put together related To-dos
     QMultiHash<QString, Incidence::Ptr> mOrphans;
