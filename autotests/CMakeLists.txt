@@ -1,6 +1,6 @@
 include(ECMMarkAsTest)
 
-set(QT_REQUIRED_VERSION "5.6.0")
+set(QT_REQUIRED_VERSION "5.6.1")
 find_package(Qt5Test ${QT_REQUIRED_VERSION} CONFIG REQUIRED)
 
 # needed by loadcalendar
