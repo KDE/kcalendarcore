@@ -70,7 +70,7 @@ int main(int argc, char **argv)
     QString input = parsedArgs[0];
     qDebug() << "Input file:" << input;
 
-    QTextStream *outstream;
+    QTextStream *outstream = nullptr;
     outstream = nullptr;
     QString fn(QLatin1String(""));
     if (parsedArgs.count() > 1) {

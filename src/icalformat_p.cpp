@@ -137,11 +137,11 @@ public:
     }
 
 private:
-    ICalFormatImpl *mImpl;
-    icalcomponent *mComponent;
+    ICalFormatImpl *mImpl = nullptr;
+    icalcomponent *mComponent = nullptr;
     iTIPMethod mMethod;
-    ICalTimeZones *mTzList;
-    ICalTimeZones *mTzUsedList;
+    ICalTimeZones *mTzList = nullptr;
+    ICalTimeZones *mTzUsedList = nullptr;
 };
 
 ToComponentVisitor::~ToComponentVisitor()
@@ -162,12 +162,12 @@ public:
     void writeCustomProperties(icalcomponent *parent, CustomProperties *);
     void readCustomProperties(icalcomponent *parent, CustomProperties *);
 
-    ICalFormatImpl *mImpl;
-    ICalFormat *mParent;
+    ICalFormatImpl *mImpl = nullptr;
+    ICalFormat *mParent = nullptr;
     QString mLoadedProductId;         // PRODID string loaded from calendar file
     Event::List mEventsRelate;        // events with relations
     Todo::List  mTodosRelate;         // todos with relations
-    Compat *mCompat;
+    Compat *mCompat = nullptr;
 };
 //@endcond
 
@@ -207,8 +207,6 @@ icalcomponent *ICalFormatImpl::writeIncidence(const IncidenceBase::Ptr &incidenc
 icalcomponent *ICalFormatImpl::writeTodo(const Todo::Ptr &todo, ICalTimeZones *tzlist,
         ICalTimeZones *tzUsedList)
 {
-    QStringList tmpStrList;
-
     icalcomponent *vtodo = icalcomponent_new(ICAL_VTODO_COMPONENT);
 
     writeIncidence(vtodo, todo.staticCast<Incidence>(), tzlist, tzUsedList);
@@ -283,7 +281,7 @@ icalcomponent *ICalFormatImpl::writeEvent(const Event::Ptr &event,
     writeIncidence(vevent, event.staticCast<Incidence>(), tzlist, tzUsedList);
 
     // start time
-    icalproperty *prop;
+    icalproperty *prop = nullptr;
     icaltimetype start;
 
     KDateTime dt = event->dtStart();
@@ -431,7 +429,7 @@ icalcomponent *ICalFormatImpl::writeJournal(const Journal::Ptr &journal,
     writeIncidence(vjournal, journal.staticCast<Incidence>(), tzlist, tzUsedList);
 
     // start time
-    icalproperty *prop;
+    icalproperty *prop = nullptr;
     KDateTime dt = journal->dtStart();
     if (dt.isValid()) {
         icaltimetype start;
@@ -2008,7 +2006,7 @@ void ICalFormatImpl::Private::readCustomProperties(icalcomponent *parent,
     QByteArray property;
     QString value, parameters;
     icalproperty *p = icalcomponent_get_first_property(parent, ICAL_X_PROPERTY);
-    icalparameter *param;
+    icalparameter *param = nullptr;
 
     while (p) {
         QString nvalue = QString::fromUtf8(icalproperty_get_x(p));
@@ -2677,10 +2675,9 @@ icalcomponent *ICalFormatImpl::createCalendarComponent(const Calendar::Ptr &cal)
     // Root component
     calendar = icalcomponent_new(ICAL_VCALENDAR_COMPONENT);
 
-    icalproperty *p;
 
     // Product Identifier
-    p = icalproperty_new_prodid(CalFormat::productId().toUtf8().constData());
+    icalproperty *p = icalproperty_new_prodid(CalFormat::productId().toUtf8().constData());
     icalcomponent_add_property(calendar, p);
 
     // iCalendar version (2.0)
@@ -2725,8 +2722,7 @@ Incidence::Ptr ICalFormatImpl::readOneIncidence(icalcomponent *calendar, ICalTim
         qCWarning(KCALCORE_LOG) << "Populate called with empty calendar";
         return Incidence::Ptr();
     }
-    icalcomponent *c;
-    c = icalcomponent_get_first_component(calendar, ICAL_VEVENT_COMPONENT);
+    icalcomponent *c = icalcomponent_get_first_component(calendar, ICAL_VEVENT_COMPONENT);
     if (c) {
         return readEvent(c, tzlist);
     }
@@ -2762,9 +2758,7 @@ bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar,
 
 // TODO: check for METHOD
 
-    icalproperty *p;
-
-    p = icalcomponent_get_first_property(calendar, ICAL_X_PROPERTY);
+    icalproperty *p = icalcomponent_get_first_property(calendar, ICAL_X_PROPERTY);
     QString implementationVersion;
 
     while (p) {
@@ -2835,9 +2829,7 @@ bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar,
     d->mTodosRelate.clear();
     // TODO: make sure that only actually added events go to this lists.
 
-    icalcomponent *c;
-
-    c = icalcomponent_get_first_component(calendar, ICAL_VTODO_COMPONENT);
+    icalcomponent *c = icalcomponent_get_first_component(calendar, ICAL_VTODO_COMPONENT);
     while (c) {
         Todo::Ptr todo = readTodo(c, tzlist);
         if (todo) {
@@ -2949,8 +2941,7 @@ QString ICalFormatImpl::extractErrorProperty(icalcomponent *c)
 {
     QString errorMessage;
 
-    icalproperty *error;
-    error = icalcomponent_get_first_property(c, ICAL_XLICERROR_PROPERTY);
+    icalproperty *error = icalcomponent_get_first_property(c, ICAL_XLICERROR_PROPERTY);
     while (error) {
         errorMessage += QLatin1String(icalproperty_get_xlicerror(error));
         errorMessage += QLatin1Char('\n');

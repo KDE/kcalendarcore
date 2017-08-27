@@ -58,7 +58,7 @@ public:
     static QString mApplication; // Name of application, for creating unique ID strings
     static QString mProductId;   // PRODID string to write to calendar files
     QString mLoadedProductId;    // PRODID string loaded from calendar file
-    Exception *mException;
+    Exception *mException = nullptr;
 };
 
 QString CalFormat::Private::mApplication = QStringLiteral("libkcal");

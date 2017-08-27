@@ -967,9 +967,9 @@ VObject *VCalFormat::eventToVEvent(const Event::Ptr &anEvent)
 
 Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
 {
-    VObject *vo;
+    VObject *vo = nullptr;
     VObjectIterator voi;
-    char *s;
+    char *s = nullptr;
 
     Todo::Ptr anEvent(new Todo);
 
@@ -1327,10 +1327,8 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
     // alarm stuff
     if ((vo = isAPropertyOf(vtodo, VCDAlarmProp))) {
         Alarm::Ptr alarm;
-        VObject *a;
-        VObject *b;
-        a = isAPropertyOf(vo, VCRunTimeProp);
-        b = isAPropertyOf(vo, VCDisplayStringProp);
+        VObject *a = isAPropertyOf(vo, VCRunTimeProp);
+        VObject *b = isAPropertyOf(vo, VCDisplayStringProp);
 
         if (a || b) {
             alarm = anEvent->newAlarm();
@@ -1375,10 +1373,8 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
 
     if ((vo = isAPropertyOf(vtodo, VCPAlarmProp))) {
         Alarm::Ptr alarm;
-        VObject *a;
-        VObject *b;
-        a = isAPropertyOf(vo, VCRunTimeProp);
-        b = isAPropertyOf(vo, VCProcedureNameProp);
+        VObject *a = isAPropertyOf(vo, VCRunTimeProp);
+        VObject *b = isAPropertyOf(vo, VCProcedureNameProp);
 
         if (a || b) {
             alarm = anEvent->newAlarm();
@@ -1432,9 +1428,9 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
 
 Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
 {
-    VObject *vo;
+    VObject *vo = nullptr;
     VObjectIterator voi;
-    char *s;
+    char *s = nullptr;
 
     Event::Ptr anEvent(new Event);
 
@@ -1490,7 +1486,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
         vo = nextVObject(&voi);
         if (strcmp(vObjectName(vo), VCAttendeeProp) == 0) {
             Attendee::Ptr a;
-            VObject *vp;
+            VObject *vp = nullptr;
             s = fakeCString(vObjectUStringZValue(vo));
             QString tmpStr = QString::fromUtf8(s);
             deleteStr(s);
@@ -1861,10 +1857,8 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
     // alarm stuff
     if ((vo = isAPropertyOf(vevent, VCDAlarmProp))) {
         Alarm::Ptr alarm;
-        VObject *a;
-        VObject *b;
-        a = isAPropertyOf(vo, VCRunTimeProp);
-        b = isAPropertyOf(vo, VCDisplayStringProp);
+        VObject *a = isAPropertyOf(vo, VCRunTimeProp);
+        VObject *b = isAPropertyOf(vo, VCDisplayStringProp);
 
         if (a || b) {
             alarm = anEvent->newAlarm();

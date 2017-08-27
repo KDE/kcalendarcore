@@ -62,7 +62,7 @@ public:
     {
         delete mImpl;
     }
-    ICalFormatImpl *mImpl;
+    ICalFormatImpl *mImpl = nullptr;
     KDateTime::Spec mTimeSpec;
 };
 //@endcond
@@ -151,10 +151,10 @@ Incidence::Ptr ICalFormat::readIncidence(const QByteArray &string)
 {
     static ICalTimeZones *tzCache = new ICalTimeZones(); // populated on demand further down the call chain
 
-    icalcomponent *calendar;
+
 
     // Let's defend const correctness until the very gates of hell^Wlibical
-    calendar = icalcomponent_new_from_string(const_cast<char *>(string.constData()));
+    icalcomponent *calendar = icalcomponent_new_from_string(const_cast<char *>(string.constData()));
     if (!calendar) {
         qCritical() << "parse error from icalcomponent_new_from_string. string=" << QString::fromLatin1(string);
         setException(new Exception(Exception::ParseErrorIcal));
@@ -344,11 +344,10 @@ QString ICalFormat::toString(const Incidence::Ptr &incidence)
 
 QByteArray ICalFormat::toRawString(const Incidence::Ptr &incidence)
 {
-    icalcomponent *component;
     ICalTimeZones tzlist;
     ICalTimeZones tzUsedList;
 
-    component = d->mImpl->writeIncidence(incidence, iTIPRequest, &tzlist, &tzUsedList);
+    icalcomponent *component = d->mImpl->writeIncidence(incidence, iTIPRequest, &tzlist, &tzUsedList);
 
     QByteArray text = icalcomponent_as_ical_string(component);
 
@@ -374,8 +373,7 @@ QByteArray ICalFormat::toRawString(const Incidence::Ptr &incidence)
 
 QString ICalFormat::toString(RecurrenceRule *recurrence)
 {
-    icalproperty *property;
-    property = icalproperty_new_rrule(d->mImpl->writeRecurrenceRule(recurrence));
+    icalproperty *property = icalproperty_new_rrule(d->mImpl->writeRecurrenceRule(recurrence));
     QString text = QString::fromUtf8(icalproperty_as_ical_string(property));
     icalproperty_free(property);
     return text;
@@ -454,8 +452,7 @@ FreeBusy::Ptr ICalFormat::parseFreeBusy(const QString &str)
 {
     clearException();
 
-    icalcomponent *message;
-    message = icalparser_parse_string(str.toUtf8().constData());
+    icalcomponent *message = icalparser_parse_string(str.toUtf8().constData());
 
     if (!message) {
         return FreeBusy::Ptr();
@@ -463,7 +460,7 @@ FreeBusy::Ptr ICalFormat::parseFreeBusy(const QString &str)
 
     FreeBusy::Ptr freeBusy;
 
-    icalcomponent *c;
+    icalcomponent *c = nullptr;
     for (c = icalcomponent_get_first_component(message, ICAL_VFREEBUSY_COMPONENT);
             c != nullptr; c = icalcomponent_get_next_component(message, ICAL_VFREEBUSY_COMPONENT)) {
         FreeBusy::Ptr fb = d->mImpl->readFreeBusy(c);
@@ -496,8 +493,7 @@ ScheduleMessage::Ptr ICalFormat::parseScheduleMessage(const Calendar::Ptr &cal,
         return ScheduleMessage::Ptr();
     }
 
-    icalcomponent *message;
-    message = icalparser_parse_string(messageText.toUtf8().constData());
+    icalcomponent *message = icalparser_parse_string(messageText.toUtf8().constData());
 
     if (!message) {
         setException(
@@ -520,10 +516,9 @@ ScheduleMessage::Ptr ICalFormat::parseScheduleMessage(const Calendar::Ptr &cal,
     ICalTimeZoneSource tzs;
     tzs.parse(message, tzlist);
 
-    icalcomponent *c;
 
     IncidenceBase::Ptr incidence;
-    c = icalcomponent_get_first_component(message, ICAL_VEVENT_COMPONENT);
+    icalcomponent *c = icalcomponent_get_first_component(message, ICAL_VEVENT_COMPONENT);
     if (c) {
         incidence = d->mImpl->readEvent(c, &tzlist).staticCast<IncidenceBase>();
     }
