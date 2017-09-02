@@ -77,7 +77,7 @@ public:
       @param other is the incidence to copy.
       @since 4.14
     */
-    Event(const Incidence &other);
+    Event(const Incidence &other); //krazy:exclude=explicit (copy ctor)
 
     /**
       Destroys the event.

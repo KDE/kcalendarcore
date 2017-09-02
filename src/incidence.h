@@ -41,7 +41,7 @@
 
 //@cond PRIVATE
 // Value used to signal invalid/unset latitude or longitude.
-#define INVALID_LATLON 255.0
+#define INVALID_LATLON 255.0 //krazy:exclude=defines (part of the API)
 //@endcond
 
 namespace KCalCore

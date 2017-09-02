@@ -72,7 +72,7 @@ public:
       @param other is the incidence to copy.
       @since 4.14
      */
-    Todo(const Incidence &other);
+    Todo(const Incidence &other); //krazy:exclude=explicit (copy ctor)
 
     /**
       Destroys a to-do.
