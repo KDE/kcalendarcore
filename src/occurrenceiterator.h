@@ -88,7 +88,7 @@ public:
      * Returns the recurrence Id.
      *
      * This is the date where the occurrence starts without exceptions,
-     * this id is used to identify one exact occurence.
+     * this id is used to identify one exact occurrence.
      */
     KDateTime recurrenceId() const;
 
@@ -103,4 +103,3 @@ private:
 } //namespace
 
 #endif
-

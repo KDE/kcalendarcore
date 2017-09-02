@@ -32,7 +32,7 @@ private Q_SLOTS:
     void testSaveLoadSave();
 
     /** Saves an incidence with éèü chars, then reads the file into a second incidence
-        and compares both incidences. The comparison should yeld true.
+        and compares both incidences. The comparison should yield true.
     */
     void testSpecialChars();
 };
