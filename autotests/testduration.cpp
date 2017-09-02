@@ -22,9 +22,9 @@
 #include "testduration.h"
 #include "duration.h"
 
-#include <kdatetime.h>
+#include <KDateTime>
 
-#include <qtest.h>
+#include <QTest>
 QTEST_MAIN(DurationTest)
 
 using namespace KCalCore;

@@ -23,12 +23,11 @@
 #include "filestorage.h"
 #include "memorycalendar.h"
 
-#include <kaboutdata.h>
-#include <kcmdlineargs.h>
-#include <kcomponentdata.h>
-#include <qdebug.h>
-#include <ksystemtimezone.h>
+#include <KAboutData>
+#include <KLocalizedString>
+#include <KSystemTimeZone>
 
+#include <QDebug>
 #include <QFile>
 #include <QTextStream>
 #include <QCoreApplication>

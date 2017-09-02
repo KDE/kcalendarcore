@@ -22,13 +22,12 @@
 #include "testcalendarobserver.h"
 #include "filestorage.h"
 #include "calendar.h"
-#include <memorycalendar.h>
+#include "memorycalendar.h"
 
-#include <qdebug.h>
+#include <QDebug>
+#include <QSignalSpy>
 
-
-#include <qtest.h>
-#include <qsignalspy.h>
+#include <QTest>
 QTEST_MAIN(CalendarObserverTest)
 
 using namespace KCalCore;

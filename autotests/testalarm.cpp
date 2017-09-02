@@ -19,11 +19,10 @@
 */
 
 #include "testalarm.h"
-
 #include "event.h"
 #include "alarm.h"
 
-#include <qtest.h>
+#include <QTest>
 QTEST_MAIN(AlarmTest)
 
 using namespace KCalCore;
@@ -87,7 +86,8 @@ void AlarmTest::testSerializer_data()
     a1->setMailSubject(QStringLiteral("empty subject"));
 
     Person::List persons;
-    persons << Person::Ptr(new Person(QStringLiteral("a"), QStringLiteral("a@a.pt"))) << Person::Ptr(new Person(QStringLiteral("b"), QStringLiteral("b@b.pt")));
+    persons << Person::Ptr(new Person(QStringLiteral("a"), QStringLiteral("a@a.pt")))
+            << Person::Ptr(new Person(QStringLiteral("b"), QStringLiteral("b@b.pt")));
     a1->setMailAddresses(persons);
     a1->setMailAttachment(QStringLiteral("foo attachment"));
     a1->setMailText(QStringLiteral("mail body"));
@@ -123,4 +123,3 @@ void AlarmTest::testSerializer()
     stream2 >> alarm2; // deserialize
     QVERIFY(*alarm == *alarm2);
 }
-

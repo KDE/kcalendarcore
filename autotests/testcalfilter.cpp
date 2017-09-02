@@ -22,9 +22,7 @@
 #include "testcalfilter.h"
 #include "calfilter.h"
 
-#include <QStringList>
-
-#include <qtest.h>
+#include <QTest>
 QTEST_MAIN(CalFilterTest)
 
 using namespace KCalCore;

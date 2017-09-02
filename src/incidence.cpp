@@ -35,7 +35,6 @@
 #include "incidence.h"
 #include "calformat.h"
 
-
 #include <QTemporaryFile>
 #include <QMimeDatabase>
 #include <QTextDocument> // for .toHtmlEscaped() and Qt::mightBeRichText()

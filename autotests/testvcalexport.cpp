@@ -24,13 +24,10 @@
 #include "memorycalendar.h"
 #include "vcalformat.h"
 
-#include <kaboutdata.h>
-#include <kcmdlineargs.h>
-#include <kcomponentdata.h>
-#include <qdebug.h>
-#include <klocalizedstring.h>
+#include <KAboutData>
+#include <KLocalizedString>
 
-#include <QFile>
+#include <QDebug>
 #include <QFileInfo>
 #include <QCoreApplication>
 #include <QCommandLineParser>

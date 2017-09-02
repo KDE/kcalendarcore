@@ -21,7 +21,7 @@
 #include "testfreebusy.h"
 #include "freebusy.h"
 
-#include <qtest.h>
+#include <QTest>
 QTEST_MAIN(FreeBusyTest)
 
 using namespace KCalCore;
@@ -80,7 +80,6 @@ void FreeBusyTest::testAddSort()
 
     QVERIFY(fb1.busyPeriods().last().end() ==
             KDateTime(QDate(2007, 10, 27), QTime(8, 0, 0), KDateTime::UTC));
-
 }
 
 void FreeBusyTest::testAssign()

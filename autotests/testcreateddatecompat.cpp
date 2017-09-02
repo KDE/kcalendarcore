@@ -18,9 +18,10 @@
 #include "testcreateddatecompat.h"
 #include "icalformat.h"
 #include "memorycalendar.h"
+
 #include <iostream>
 
-#include <qtest.h>
+#include <QTest>
 //"X-KDE-ICAL-IMPLEMENTATION-VERSION:1.0\n"
 
 const char *const icalFile32 =

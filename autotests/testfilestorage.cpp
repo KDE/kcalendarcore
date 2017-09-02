@@ -24,7 +24,7 @@
 
 #include <unistd.h>
 
-#include <qtest.h>
+#include <QTest>
 QTEST_MAIN(FileStorageTest)
 
 using namespace KCalCore;

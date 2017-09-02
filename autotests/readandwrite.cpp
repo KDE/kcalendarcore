@@ -25,11 +25,10 @@
 #include "vcalformat.h"
 #include <config-kcalcore.h>
 
-#include <kaboutdata.h>
-#include <qdebug.h>
-#include <kcomponentdata.h>
-#include <kcmdlineargs.h>
+#include <KAboutData>
+#include <KLocalizedString>
 
+#include <QDebug>
 #include <QFileInfo>
 #include <QCoreApplication>
 #include <QCommandLineParser>

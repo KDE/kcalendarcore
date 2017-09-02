@@ -23,11 +23,10 @@
 #include "event.h"
 #include "todo.h"
 
-#include <kaboutdata.h>
-#include <kcomponentdata.h>
-#include <qdebug.h>
+#include <KAboutData>
 #include <KLocalizedString>
 
+#include <QDebug>
 #include <QCoreApplication>
 #include <QCommandLineParser>
 

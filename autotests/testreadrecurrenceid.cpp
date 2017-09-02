@@ -16,15 +16,14 @@
  */
 
 #include "testreadrecurrenceid.h"
-
-#include <qdebug.h>
-
 #include "memorycalendar.h"
 #include "icalformat.h"
 #include "icaltimezones.h"
 #include "exceptions.h"
 
-#include <qtest.h>
+#include <QDebug>
+
+#include <QTest>
 QTEST_MAIN(TestReadRecurrenceId)
 
 void TestReadRecurrenceId::testReadSingleException()
@@ -87,4 +86,3 @@ void TestReadRecurrenceId::testReadExceptionWithMainEvent()
     format.fromString(calendar, QString::fromUtf8(file.readAll()));
     QCOMPARE(calendar->rawEvents().size(), 2);
 }
-

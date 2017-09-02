@@ -20,21 +20,20 @@
 */
 
 #include "testicaltimezones.h"
+#include "icaltimezones.h"
 
 #include <QTemporaryFile>
 
 #include <QDateTime>
 #include <QTextStream>
-
 #include <stdlib.h>
 
-#include <qtest.h>
+#include <QTest>
 QTEST_MAIN(ICalTimeZonesTest)
 
 extern "C" {
 #include <libical/ical.h>
 }
-#include "icaltimezones.h"
 using namespace KCalCore;
 
 static icalcomponent *loadCALENDAR(const char *vcal);
@@ -44,17 +43,17 @@ static icalcomponent *loadVTIMEZONE(const char *vtz);
 #define QDTLocal(y,mo,d,h,mi,s)  QDateTime(QDate(y,mo,d), QTime(h,mi,s), Qt::LocalTime)
 
 static QDateTime start(QDate(1967, 10, 29), QTime(6, 0, 0), Qt::UTC);
-static QDateTime daylight87(QDate(1987, 4, 5),   QTime(7, 0, 0), Qt::UTC);
+static QDateTime daylight87(QDate(1987, 4, 5), QTime(7, 0, 0), Qt::UTC);
 static QDateTime standardOct87(QDate(1987, 10, 25), QTime(6, 0, 0), Qt::UTC);
-static QDateTime daylight88(QDate(1988, 4, 3),   QTime(7, 0, 0), Qt::UTC);
-static QDateTime daylight97(QDate(1997, 4, 6),   QTime(7, 0, 0), Qt::UTC);
+static QDateTime daylight88(QDate(1988, 4, 3), QTime(7, 0, 0), Qt::UTC);
+static QDateTime daylight97(QDate(1997, 4, 6), QTime(7, 0, 0), Qt::UTC);
 static QDateTime standardOct97(QDate(1997, 10, 26), QTime(6, 0, 0), Qt::UTC);
-static QDateTime spring98(QDate(1998, 5, 5),   QTime(7, 0, 0), Qt::UTC);
+static QDateTime spring98(QDate(1998, 5, 5), QTime(7, 0, 0), Qt::UTC);
 static QDateTime standardOct98(QDate(1998, 10, 25), QTime(6, 0, 0), Qt::UTC);
-static QDateTime daylight99(QDate(1999, 4, 25),  QTime(7, 0, 0), Qt::UTC);
+static QDateTime daylight99(QDate(1999, 4, 25), QTime(7, 0, 0), Qt::UTC);
 static QDateTime standardOct99(QDate(1999, 10, 31), QTime(6, 0, 0), Qt::UTC);
-static QDateTime daylight00(QDate(2000, 4, 30),  QTime(7, 0, 0), Qt::UTC);
-static QDateTime spring01(QDate(2001, 5, 1),   QTime(7, 0, 0), Qt::UTC);
+static QDateTime daylight00(QDate(2000, 4, 30), QTime(7, 0, 0), Qt::UTC);
+static QDateTime spring01(QDate(2001, 5, 1), QTime(7, 0, 0), Qt::UTC);
 
 // First daylight savings time has an end date, takes a break for a year,
 // and is then replaced by another

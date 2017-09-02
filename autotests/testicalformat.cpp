@@ -26,12 +26,10 @@
 #include "memorycalendar.h"
 
 #include <QDebug>
-#include <kdatetime.h>
-
-#include <qtest.h>
 
 #include <unistd.h>
 
+#include <QTest>
 QTEST_MAIN(ICalFormatTest)
 
 using namespace KCalCore;

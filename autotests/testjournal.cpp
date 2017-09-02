@@ -21,7 +21,7 @@
 #include "testjournal.h"
 #include "journal.h"
 
-#include <qtest.h>
+#include <QTest>
 QTEST_MAIN(JournalTest)
 
 using namespace KCalCore;

@@ -19,7 +19,7 @@
   Boston, MA 02110-1301, USA.
 */
 #include "testincidence.h"
-#include "../event.h"
+#include "event.h"
 
 #include <qtest_kde.h>
 
@@ -42,22 +42,30 @@ void IncidenceTest::testDtStartChange()
     QVERIFY(inc.dirtyFields().empty());
 
     inc.setDtStart(KDateTime(dt, t));
-    QCOMPARE(inc.dirtyFields(), QSet<IncidenceBase::Field>() << IncidenceBase::FieldDtStart << IncidenceBase::FieldRecurrence);
+    QCOMPARE(inc.dirtyFields(),
+             QSet<IncidenceBase::Field>()
+             << IncidenceBase::FieldDtStart << IncidenceBase::FieldRecurrence);
     QCOMPARE(inc.recurrence()->startDateTime().time(), t);
     inc.resetDirtyFields();
 
     inc.setDtStart(KDateTime(dt).addDays(1));
-    QCOMPARE(inc.dirtyFields(), QSet<IncidenceBase::Field>() << IncidenceBase::FieldDtStart << IncidenceBase::FieldRecurrence);
+    QCOMPARE(inc.dirtyFields(),
+             QSet<IncidenceBase::Field>()
+             << IncidenceBase::FieldDtStart << IncidenceBase::FieldRecurrence);
     QCOMPARE(inc.recurrence()->startDateTime(), KDateTime(dt).addDays(1));
     inc.resetDirtyFields();
 
     inc.setDtStart(KDateTime());
-    QCOMPARE(inc.dirtyFields(), QSet<IncidenceBase::Field>() << IncidenceBase::FieldDtStart << IncidenceBase::FieldRecurrence);
+    QCOMPARE(inc.dirtyFields(),
+             QSet<IncidenceBase::Field>()
+             << IncidenceBase::FieldDtStart << IncidenceBase::FieldRecurrence);
     QCOMPARE(inc.recurrence()->startDateTime(), KDateTime());
     inc.resetDirtyFields();
 
     inc.setDtStart(KDateTime(dt).addDays(1));
-    QCOMPARE(inc.dirtyFields(), QSet<IncidenceBase::Field>() << IncidenceBase::FieldDtStart << IncidenceBase::FieldRecurrence);
+    QCOMPARE(inc.dirtyFields(),
+             QSet<IncidenceBase::Field>()
+             << IncidenceBase::FieldDtStart << IncidenceBase::FieldRecurrence);
     QCOMPARE(inc.recurrence()->startDateTime(), KDateTime(dt).addDays(1));
 }
 
@@ -80,7 +88,6 @@ void IncidenceTest::testSummaryChange()
 
 void IncidenceTest::testLocationChange()
 {
-
     Event inc;
     inc.setLocation(QLatin1String("here"), false);
     inc.resetDirtyFields();

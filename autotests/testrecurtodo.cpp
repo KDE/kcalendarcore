@@ -20,8 +20,8 @@
 */
 #include "testrecurtodo.h"
 #include "todo.h"
-#include <qdebug.h>
-#include <qtest.h>
+
+#include <QTest>
 QTEST_MAIN(RecurTodoTest)
 
 using namespace KCalCore;
@@ -169,7 +169,6 @@ void RecurTodoTest::testRecurTodo_data()
     QTest::newRow("valid dtstart") << today << invalid;
     QTest::newRow("valid dtstart and dtdue") << today << tomorrow;
     QTest::newRow("valid dtdue") << invalid << today;
-
 }
 
 void RecurTodoTest::testRecurTodo()

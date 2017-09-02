@@ -23,7 +23,7 @@
 #include "event.h"
 #include "attachment.h"
 
-#include <qtest.h>
+#include <QTest>
 QTEST_MAIN(TodoTest)
 
 using namespace KCalCore;
@@ -121,7 +121,6 @@ void TodoTest::testAssign()
 
 void TodoTest::testSetCompleted()
 {
-
     Todo todo1, todo2, todo3;
     todo1.setSummary(QStringLiteral("Todo Summary"));
     todo2.setSummary(QStringLiteral("Todo Summary"));
@@ -201,8 +200,12 @@ void TodoTest::testSerializer_data()
 
     todo3->setDtStart(today);
     todo3->setPercentComplete(100);
-    todo3->setCategories(QStringList() << QStringLiteral("a") << QStringLiteral("b") << QStringLiteral("c") << QStringLiteral("d"));
-    todo3->setResources(QStringList() << QStringLiteral("a") << QStringLiteral("b") << QStringLiteral("c") << QStringLiteral("d"));
+    todo3->setCategories(QStringList()
+                         << QStringLiteral("a") << QStringLiteral("b")
+                         << QStringLiteral("c") << QStringLiteral("d"));
+    todo3->setResources(QStringList()
+                        << QStringLiteral("a") << QStringLiteral("b")
+                        << QStringLiteral("c") << QStringLiteral("d"));
     todo3->setPriority(5);
 
     QVERIFY(!todo4->dirtyFields().contains(IncidenceBase::FieldRecurrence));

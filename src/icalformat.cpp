@@ -33,11 +33,11 @@
 #include "icaltimezones.h"
 #include "freebusy.h"
 #include "memorycalendar.h"
-
 #include "kcalcore_debug.h"
-#include <QSaveFile>
-#include <kbackup.h>
 
+#include <KBackup>
+
+#include <QSaveFile>
 #include <QFile>
 
 extern "C" {
@@ -150,8 +150,6 @@ bool ICalFormat::fromString(const Calendar::Ptr &cal, const QString &string,
 Incidence::Ptr ICalFormat::readIncidence(const QByteArray &string)
 {
     static ICalTimeZones *tzCache = new ICalTimeZones(); // populated on demand further down the call chain
-
-
 
     // Let's defend const correctness until the very gates of hell^Wlibical
     icalcomponent *calendar = icalcomponent_new_from_string(const_cast<char *>(string.constData()));
@@ -430,7 +428,6 @@ QString ICalFormat::createScheduleMessage(const IncidenceBase::Ptr &incidence,
             if (hasSchedulingId) {
                 // We have a separation of scheduling ID and UID
                 i->setSchedulingID(QString(), i->schedulingID());
-
             }
 
             // Build the message with the cloned incidence
@@ -515,7 +512,6 @@ ScheduleMessage::Ptr ICalFormat::parseScheduleMessage(const Calendar::Ptr &cal,
     ICalTimeZones tzlist;
     ICalTimeZoneSource tzs;
     tzs.parse(message, tzlist);
-
 
     IncidenceBase::Ptr incidence;
     icalcomponent *c = icalcomponent_get_first_component(message, ICAL_VEVENT_COMPONENT);

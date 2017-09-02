@@ -24,9 +24,9 @@
 #include "testperson.h"
 #include "person.h"
 
-#include <qdebug.h>
+#include <QDebug>
 
-#include <qtest.h>
+#include <QTest>
 QTEST_MAIN(PersonTest)
 
 using namespace KCalCore;
@@ -111,4 +111,3 @@ void PersonTest::testDataStreamOut()
     QVERIFY(person2->email() == person1->email());
     QVERIFY(person2->count() == person1->count());
 }
-

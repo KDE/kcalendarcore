@@ -21,12 +21,11 @@
 */
 
 #include "testfreebusyperiod.h"
-
 #include "freebusyperiod.h"
 
-#include <qtest.h>
-
+#include <QTest>
 QTEST_MAIN(FreeBusyPeriodTest)
+
 using namespace KCalCore;
 
 void FreeBusyPeriodTest::testValidity()

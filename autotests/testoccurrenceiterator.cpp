@@ -20,8 +20,9 @@
 #include "memorycalendar.h"
 #include "calfilter.h"
 
-#include <qtest.h>
-#include <qdebug.h>
+#include <QDebug>
+
+#include <QTest>
 QTEST_MAIN(TestOccurrenceIterator)
 
 void TestOccurrenceIterator::testIterationWithExceptions()
@@ -137,8 +138,9 @@ void TestOccurrenceIterator::testFilterCompletedTodos()
     todo->setDtStart(start);
     todo->recurrence()->setDaily(1);
     todo->recurrence()->setDuration(2);
-    //Yes, recurring todos are weird... setting this says that all occurrences until this one have been completed, and thus should be skipped.
-    //that's what kontact did, so it's what we test now.
+    // Yes, recurring todos are weird... setting this says that all occurrences
+    // until this one have been completed, and thus should be skipped.
+    // that's what kontact did, so it's what we test now.
     todo->setDtRecurrence(start.addDays(2));
     calendar.addTodo(todo);
 
@@ -272,7 +274,6 @@ void TestOccurrenceIterator::testSubDailyRecurrences()
         QCOMPARE(expectedEventOccurrences.removeAll(rIt.occurrenceStartDate()), 1);
     }
     QCOMPARE(expectedEventOccurrences.size(), 0);
-
 }
 
 void TestOccurrenceIterator::testJournals()

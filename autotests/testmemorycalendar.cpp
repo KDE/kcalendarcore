@@ -23,11 +23,11 @@
 #include "filestorage.h"
 #include "memorycalendar.h"
 
-#include <qdebug.h>
+#include <QDebug>
 
 #include <unistd.h>
 
-#include <qtest.h>
+#include <QTest>
 QTEST_MAIN(MemoryCalendarTest)
 
 using namespace KCalCore;
@@ -267,4 +267,3 @@ void MemoryCalendarTest::testChangeRecurId()
     QVERIFY(exception->summary() == QLatin1String("exception"));
     QVERIFY(main->summary() == event1->summary());
 }
-

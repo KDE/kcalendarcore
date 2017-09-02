@@ -24,9 +24,9 @@
 #include "testperiod.h"
 #include "period.h"
 
-#include <ksystemtimezone.h>
+#include <KSystemTimeZone>
 
-#include <qtest.h>
+#include <QTest>
 QTEST_MAIN(PeriodTest)
 
 using namespace KCalCore;
@@ -75,7 +75,6 @@ void PeriodTest::testCompare()
     QVERIFY(p1assign == p1);
     QVERIFY(p3copy == p3);
     QVERIFY(p3assign == p3);
-
 }
 
 void PeriodTest::testDataStreamOut()
@@ -130,4 +129,3 @@ void PeriodTest::testDataStreamIn()
 
     QVERIFY(p1 == p2);
 }
-

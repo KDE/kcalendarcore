@@ -22,7 +22,7 @@
 #include "event.h"
 #include "icalformat.h"
 
-#include <qdebug.h>
+#include <QDebug>
 
 #include <iostream>
 
@@ -30,7 +30,6 @@ using namespace KCalCore;
 
 int main(int, char **)
 {
-
 // std::cout << "Hello World!" << std::endl;
     Event::Ptr ev = Event::Ptr(new Event);
     ev->setSummary(QStringLiteral("Griazi"));

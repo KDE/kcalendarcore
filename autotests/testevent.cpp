@@ -22,7 +22,7 @@
 #include "event.h"
 #include "todo.h"
 
-#include <qtest.h>
+#include <QTest>
 QTEST_MAIN(EventTest)
 
 Q_DECLARE_METATYPE(KCalCore::Incidence::DateTimeRole)
@@ -237,7 +237,6 @@ void EventTest::testDurationDtEnd()
         QCOMPARE(event.hasDuration(), true);
         QCOMPARE(event.hasEndDate(), false);
     }
-
 }
 
 void EventTest::testDtEndChange()
@@ -269,19 +268,26 @@ void EventTest::testIsMultiDay_data()
     QTest::addColumn<KDateTime>("end");
     QTest::addColumn<bool>("isMultiDay");
 
-    QTest::newRow("event0") << KDateTime(QDate(2016, 7, 9), QTime(12, 0, 0)) << KDateTime(QDate(2016, 7, 9), QTime(13, 0, 0)) << false;
+    QTest::newRow("event0") << KDateTime(QDate(2016, 7, 9), QTime(12, 0, 0))
+                            << KDateTime(QDate(2016, 7, 9), QTime(13, 0, 0)) << false;
 
-    QTest::newRow("event1") << KDateTime(QDate(2016, 7, 9), QTime(12, 0, 0)) << KDateTime(QDate(2016, 7, 10), QTime(0, 0, 0)) << false;
+    QTest::newRow("event1") << KDateTime(QDate(2016, 7, 9), QTime(12, 0, 0))
+                            << KDateTime(QDate(2016, 7, 10), QTime(0, 0, 0)) << false;
 
-    QTest::newRow("event2") << KDateTime(QDate(2016, 7, 9), QTime(12, 0, 0)) << KDateTime(QDate(2016, 7, 10), QTime(12, 0, 0)) << true;
+    QTest::newRow("event2") << KDateTime(QDate(2016, 7, 9), QTime(12, 0, 0))
+                            << KDateTime(QDate(2016, 7, 10), QTime(12, 0, 0)) << true;
 
-    QTest::newRow("event3") << KDateTime(QDate(2016, 12, 31), QTime(0, 0, 0)) << KDateTime(QDate(2017, 1, 1), QTime(0, 0, 0)) << false;
+    QTest::newRow("event3") << KDateTime(QDate(2016, 12, 31), QTime(0, 0, 0))
+                            << KDateTime(QDate(2017, 1, 1), QTime(0, 0, 0)) << false;
 
-    QTest::newRow("event4") << KDateTime(QDate(2016, 12, 31), QTime(0, 0, 1)) << KDateTime(QDate(2017, 1, 1), QTime(0, 0, 1)) << true;
+    QTest::newRow("event4") << KDateTime(QDate(2016, 12, 31), QTime(0, 0, 1))
+                            << KDateTime(QDate(2017, 1, 1), QTime(0, 0, 1)) << true;
 
-    QTest::newRow("event5") << KDateTime(QDate(2016, 12, 31), QTime(12, 0, 0)) << KDateTime(QDate(2017, 1, 1), QTime(12, 0, 0)) << true;
+    QTest::newRow("event5") << KDateTime(QDate(2016, 12, 31), QTime(12, 0, 0))
+                            << KDateTime(QDate(2017, 1, 1), QTime(12, 0, 0)) << true;
 
-    QTest::newRow("event6") << KDateTime(QDate(2016, 12, 24), QTime(12, 0, 0)) << KDateTime(QDate(2017, 1, 1), QTime(0, 0, 0)) << true;
+    QTest::newRow("event6") << KDateTime(QDate(2016, 12, 24), QTime(12, 0, 0))
+                            << KDateTime(QDate(2017, 1, 1), QTime(0, 0, 0)) << true;
 }
 
 void EventTest::testIsMultiDay()

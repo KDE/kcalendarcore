@@ -22,9 +22,9 @@
 #include "testtimesininterval.h"
 #include "event.h"
 
-#include <qdebug.h>
+#include <QDebug>
 
-#include <qtest.h>
+#include <QTest>
 QTEST_MAIN(TimesInIntervalTest)
 
 using namespace KCalCore;

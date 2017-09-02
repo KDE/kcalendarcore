@@ -22,7 +22,7 @@
 #include "event.h"
 #include "attachment.h"
 
-#include <qtest.h>
+#include <QTest>
 QTEST_MAIN(AttachmentTest)
 
 using namespace KCalCore;
