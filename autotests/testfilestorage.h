@@ -18,8 +18,8 @@
   Boston, MA 02110-1301, USA.
 */
 
-#ifndef FILESTORAGETEST_H
-#define FILESTORAGETEST_H
+#ifndef TESTFILESTORAGE_H
+#define TESTFILESTORAGE_H
 
 #include <QObject>
 
