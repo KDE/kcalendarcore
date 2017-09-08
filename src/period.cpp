@@ -51,8 +51,8 @@ public:
     {}
     KDateTime mStart;    // period starting date/time
     KDateTime mEnd;      // period ending date/time
-    bool mHasDuration;   // does period have a duration?
-    bool mDailyDuration; // duration is defined as number of days, not seconds
+    bool mHasDuration = false;   // does period have a duration?
+    bool mDailyDuration = false; // duration is defined as number of days, not seconds
 };
 //@endcond
 

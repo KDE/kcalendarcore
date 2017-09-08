@@ -50,7 +50,7 @@ public:
         return mDaily ? mDuration * 86400 : mDuration;
     }
     int mDuration; // number of seconds or days in the duration
-    bool mDaily;   // specified in terms of days rather than seconds
+    bool mDaily = false;   // specified in terms of days rather than seconds
 };
 //@endcond
 

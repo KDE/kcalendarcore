@@ -50,7 +50,6 @@ class Q_DECL_HIDDEN KCalCore::Todo::Private
 {
 public:
     Private()
-        : mPercentComplete(0)
     {}
     Private(const KCalCore::Todo::Private &other)
     {
@@ -63,7 +62,7 @@ public:
     // ALSO the first occurrence of a recurring to-do
     KDateTime mDtRecurrence; // next occurrence (for recurring to-dos)
     KDateTime mCompleted;    // to-do completion date (if it has been completed)
-    int mPercentComplete;    // to-do percent complete [0,100]
+    int mPercentComplete = 0;    // to-do percent complete [0,100]
 
     /**
       Returns true if the todo got a new date, else false will be returned.

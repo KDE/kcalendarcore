@@ -60,8 +60,8 @@ public:
 
     KDateTime mDtEnd;
     Transparency mTransparency;
-    bool mMultiDayValid;
-    bool mMultiDay;
+    bool mMultiDayValid = false;
+    bool mMultiDay = false;
 };
 //@endcond
 

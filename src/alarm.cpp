@@ -58,7 +58,7 @@ public:
           mLocationRadius(0)
     {}
 
-    Incidence *mParent;  // the incidence which this alarm belongs to
+    Incidence *mParent = nullptr;  // the incidence which this alarm belongs to
 
     Type mType;          // type of alarm
     QString mDescription;// text to display/email body/procedure arguments

@@ -87,9 +87,9 @@ public:
     QString mUid;                // incidence unique id
     Duration mDuration;          // incidence duration
     int mUpdateGroupLevel;       // if non-zero, suppresses update() calls
-    bool mUpdatedPending;        // true if an update has occurred since startUpdates()
-    bool mAllDay;                // true if the incidence is all-day
-    bool mHasDuration;           // true if the incidence has a duration
+    bool mUpdatedPending = false;        // true if an update has occurred since startUpdates()
+    bool mAllDay = false;                // true if the incidence is all-day
+    bool mHasDuration = false;           // true if the incidence has a duration
     Attendee::List mAttendees;   // list of incidence attendees
     QStringList mComments;       // list of incidence comments
     QStringList mContacts;       // list of incidence contacts

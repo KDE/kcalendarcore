@@ -169,12 +169,12 @@ public:
     int mPriority;                      // priority: 1 = highest, 2 = less, etc.
     Status mStatus;                     // status
     Secrecy mSecrecy;                   // secrecy
-    bool mDescriptionIsRich;            // description string is richtext.
-    bool mSummaryIsRich;                // summary string is richtext.
-    bool mLocationIsRich;               // location string is richtext.
-    bool mHasGeo;                       // if incidence has geo data
-    bool mThisAndFuture;
-    bool mLocalOnly;                    // allow changes that won't go to the server
+    bool mDescriptionIsRich = false;            // description string is richtext.
+    bool mSummaryIsRich = false;                // summary string is richtext.
+    bool mLocationIsRich = false;               // location string is richtext.
+    bool mHasGeo = false;                       // if incidence has geo data
+    bool mThisAndFuture = false;
+    bool mLocalOnly = false;                    // allow changes that won't go to the server
 };
 //@endcond
 

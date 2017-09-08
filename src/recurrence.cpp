@@ -69,8 +69,8 @@ public:
     // Cache the type of the recurrence with the old system (e.g. MonthlyPos)
     mutable ushort mCachedType;
 
-    bool mAllDay;                // the recurrence has no time, just a date
-    bool mRecurReadOnly;
+    bool mAllDay = false;                // the recurrence has no time, just a date
+    bool mRecurReadOnly = false;
 };
 
 bool Recurrence::Private::operator==(const Recurrence::Private &p) const

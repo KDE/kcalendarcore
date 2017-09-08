@@ -46,16 +46,13 @@ class Q_DECL_HIDDEN KCalCore::CalFilter::Private
 {
 public:
     Private()
-        : mCriteria(0),
-          mCompletedTimeSpan(0),
-          mEnabled(true)
     {}
     QString mName;   // filter name
     QStringList mCategoryList;
     QStringList mEmailList;
-    int mCriteria;
-    int mCompletedTimeSpan;
-    bool mEnabled;
+    int mCriteria = 0;
+    int mCompletedTimeSpan = 0;
+    bool mEnabled = true;
 
 };
 //@endcond

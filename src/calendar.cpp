@@ -89,14 +89,14 @@ public:
 
     QString mProductId;
     Person::Ptr mOwner;
-    ICalTimeZones *mTimeZones; // collection of time zones used in this calendar
+    ICalTimeZones *mTimeZones = nullptr; // collection of time zones used in this calendar
     ICalTimeZone mBuiltInTimeZone;   // cached time zone lookup
     ICalTimeZone mBuiltInViewTimeZone;   // cached viewing time zone lookup
     KDateTime::Spec mTimeSpec;
     mutable KDateTime::Spec mViewTimeSpec;
-    bool mModified;
-    bool mNewObserver;
-    bool mObserversEnabled;
+    bool mModified = false;
+    bool mNewObserver = false;
+    bool mObserversEnabled = false;
     QList<CalendarObserver *> mObservers;
 
     CalFilter *mDefaultFilter = nullptr;
@@ -107,14 +107,14 @@ public:
     QMultiHash<QString, Incidence::Ptr> mOrphanUids;
 
     // Lists for associating incidences to notebooks
-    QMultiHash<QString, Incidence::Ptr >mNotebookIncidences;
-    QHash<QString, QString>mUidToNotebook;
-    QHash<QString, bool>mNotebooks; // name to visibility
-    QHash<Incidence::Ptr, bool>mIncidenceVisibility; // incidence -> visibility
+    QMultiHash<QString, Incidence::Ptr > mNotebookIncidences;
+    QHash<QString, QString> mUidToNotebook;
+    QHash<QString, bool> mNotebooks; // name to visibility
+    QHash<Incidence::Ptr, bool> mIncidenceVisibility; // incidence -> visibility
     QString mDefaultNotebook; // uid of default notebook
     QMap<QString, Incidence::List > mIncidenceRelations;
-    bool batchAddingInProgress;
-    bool mDeletionTracking;
+    bool batchAddingInProgress = false;
+    bool mDeletionTracking = false;
 };
 
 /**
