@@ -38,6 +38,7 @@ public:
         KConfigGroup group(&conf, QLatin1String("TimeZones"));
         group.writeEntry("ZoneinfoDir", "/usr/share/zoneinfo");
         group.writeEntry("LocalZone", "Europe/Vienna");
+        group.writeEntry("Zonetab", "/usr/share/zoneinfo/zone.tab");
 #endif
     }
 };

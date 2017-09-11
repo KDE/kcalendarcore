@@ -22,6 +22,7 @@
 
 #include "filestorage.h"
 #include "memorycalendar.h"
+#include "setuptzinfo.h"
 
 #include <KConfig>
 #include <KConfigGroup>
@@ -40,15 +41,7 @@ using namespace KCalCore;
 
 int main(int argc, char **argv)
 {
-    // workaround KSystemTimeZones failing on Linux on the CI without a fully functional KTimeZone daemon
-    // this can be removed as soon as we moved entirely to QTimeZone
-    QStandardPaths::setTestModeEnabled(true);
-    {
-        KConfig config(QLatin1String("ktimezonedrc"));
-        KConfigGroup group(&config, "TimeZones");
-        group.writeEntry("ZoneinfoDir", "/usr/share/zoneinfo");
-        group.writeEntry("Zonetab", "/usr/share/zoneinfo/zone.tab");
-    }
+    const SetupTzinfo setup;
 
     QCommandLineParser parser;
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), QStringLiteral("Verbose output")));
