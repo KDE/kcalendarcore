@@ -23,11 +23,14 @@
 #include "filestorage.h"
 #include "memorycalendar.h"
 
+#include <KConfig>
+#include <KConfigGroup>
 #include <KSystemTimeZones>
 
 #include <QDebug>
 #include <QDate>
 #include <QFile>
+#include <QStandardPaths>
 #include <QTextStream>
 #include <QCoreApplication>
 #include <QCommandLineParser>
@@ -36,6 +39,16 @@ using namespace KCalCore;
 
 int main(int argc, char **argv)
 {
+    // workaround KSystemTimeZones failing on Linux on the CI without a fully functional KTimeZone daemon
+    // this can be removed as soon as we moved entirely to QTimeZone
+    QStandardPaths::setTestModeEnabled(true);
+    {
+        KConfig config(QLatin1String("ktimezonedrc"));
+        KConfigGroup group(&config, "TimeZones");
+        group.writeEntry("ZoneinfoDir", "/usr/share/zoneinfo");
+        group.writeEntry("Zonetab", "/usr/share/zoneinfo/zone.tab");
+    }
+
     QCommandLineParser parser;
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), QStringLiteral("Verbose output")));
     parser.addPositionalArgument(QStringLiteral("input"), QStringLiteral("Name of input file"));
