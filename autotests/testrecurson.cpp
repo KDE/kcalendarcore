@@ -23,8 +23,6 @@
 #include "filestorage.h"
 #include "memorycalendar.h"
 
-#include <KAboutData>
-#include <KLocalizedString>
 #include <KSystemTimeZones>
 
 #include <QDebug>
@@ -39,23 +37,14 @@ using namespace KCalCore;
 int main(int argc, char **argv)
 {
     QCommandLineParser parser;
-    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), i18n("Verbose output")));
-    parser.addPositionalArgument(QStringLiteral("input"), i18n("Name of input file"));
-    parser.addPositionalArgument(QStringLiteral("output"), i18n("optional name of output file for the recurrence dates"));
-
-    KAboutData about(QStringLiteral("testrecurson"),
-                     i18n("Tests all dates from 2002 to 2010 to test if the event recurs on each individual date. "
-                          "This is meant to test the Recurrence::recursOn method for errors."),
-                     QStringLiteral("0.1"));
-
-    about.setupCommandLine(&parser);
-    KAboutData::setApplicationData(about);
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), QStringLiteral("Verbose output")));
+    parser.addPositionalArgument(QStringLiteral("input"), QStringLiteral("Name of input file"));
+    parser.addPositionalArgument(QStringLiteral("output"), QStringLiteral("optional name of output file for the recurrence dates"));
 
     QCoreApplication app(argc, argv);
     QCoreApplication::setApplicationName(QStringLiteral("testrecurson"));
     QCoreApplication::setApplicationVersion(QStringLiteral("0.1"));
     parser.process(app);
-    about.processCommandLine(&parser);
 
     const QStringList parsedArgs = parser.positionalArguments();
 
@@ -85,6 +74,7 @@ int main(int argc, char **argv)
     }
     QString tz = cal->nonKDECustomProperty("X-LibKCal-Testsuite-OutTZ");
     const KDateTime::Spec spec = tz.isEmpty() ? cal->timeSpec() : KSystemTimeZones::zone(tz);
+    qDebug() << spec.type() << spec.timeZone().name() << tz;
 
     Incidence::List inc = cal->incidences();
 

@@ -49,7 +49,7 @@ $outfile = "$outfile.$id.out";
 if ( $^O eq "MSWin32" || $^O eq "msys" ) {
   $testcmd = "$app $file $outfile 2> nul";
 } else {
-  $testcmd = "$app $file $outfile 2> /dev/null";
+  $testcmd = "$app $file $outfile";
 }
 
 #print "CMD $testcmd\n";
