@@ -22,6 +22,7 @@
 #include "testmemorycalendar.h"
 #include "filestorage.h"
 #include "memorycalendar.h"
+#include "utils.h"
 
 #include <QDebug>
 
@@ -188,7 +189,7 @@ void MemoryCalendarTest::testRecurrenceExceptions()
     event1->recurrence()->setDuration(3);
     QVERIFY(cal->addEvent(event1));
 
-    const QDateTime recurrenceId = event1->dtStart().addDays(1).dateTime();
+    const QDateTime recurrenceId = k2q(event1->dtStart().addDays(1));
     Event::Ptr exception1 = cal->createException(event1, recurrenceId).staticCast<Event>();
     QCOMPARE(exception1->recurrenceId(), recurrenceId);
     QCOMPARE(exception1->uid(), event1->uid());
@@ -230,7 +231,7 @@ void MemoryCalendarTest::testChangeRecurId()
     QVERIFY(cal->addEvent(event1));
 
     // Add exception event:
-    const QDateTime recurrenceId = event1->dtStart().addDays(1).dateTime();
+    const QDateTime recurrenceId = k2q(event1->dtStart().addDays(1));
     Event::Ptr exception1 = cal->createException(event1, recurrenceId).staticCast<Event>();
     QCOMPARE(exception1->recurrenceId(), recurrenceId);
     QCOMPARE(exception1->uid(), event1->uid());
@@ -242,7 +243,7 @@ void MemoryCalendarTest::testChangeRecurId()
     Incidence::Ptr foo = cal->instance(oldIdentifier);
     QVERIFY(foo && foo->hasRecurrenceId());
     // Now change the recurring id!
-    exception1->setRecurrenceId(start.addDays(2).dateTime());
+    exception1->setRecurrenceId(k2q(start.addDays(2)));
     const QString newIdentifier = exception1->instanceIdentifier();
     QVERIFY(oldIdentifier != newIdentifier);
 
@@ -256,7 +257,7 @@ void MemoryCalendarTest::testChangeRecurId()
     Incidence::List incidences = cal->incidences();
     QVERIFY(incidences.count() == 2);
 
-    QDateTime newRecId = start.addDays(2).dateTime();
+    QDateTime newRecId = k2q(start.addDays(2));
     Incidence::Ptr main      = cal->incidence(uid);
     Incidence::Ptr exception = cal->incidence(uid, newRecId);
     Incidence::Ptr noException = cal->incidence(uid, recurrenceId);

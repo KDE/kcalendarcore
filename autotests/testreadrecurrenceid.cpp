@@ -20,6 +20,7 @@
 #include "icalformat.h"
 #include "icaltimezones.h"
 #include "exceptions.h"
+#include "utils.h"
 
 #include <QDebug>
 
@@ -64,7 +65,7 @@ void TestReadRecurrenceId::testReadWriteSingleExceptionWithThisAndFuture()
     KDateTime::Spec spec(tzsource.standardZone(QStringLiteral("Europe/Berlin")));
     KDateTime startDate = KDateTime(QDate(2015, 1, 2), QTime(3, 4, 5), spec);
     inc->setDtStart(startDate);
-    inc->setRecurrenceId(startDate.dateTime());
+    inc->setRecurrenceId(KCalCore::k2q(startDate));
     inc->setThisAndFuture(true);
     cal->addIncidence(inc);
     const QString result = format.toString(cal, QString());
@@ -74,7 +75,7 @@ void TestReadRecurrenceId::testReadWriteSingleExceptionWithThisAndFuture()
     QVERIFY(i);
     QVERIFY(i->hasRecurrenceId());
     QVERIFY(i->thisAndFuture());
-    QCOMPARE(i->recurrenceId(), startDate.dateTime());
+    QCOMPARE(i->recurrenceId(), KCalCore::k2q(startDate));
 }
 
 void TestReadRecurrenceId::testReadExceptionWithMainEvent()

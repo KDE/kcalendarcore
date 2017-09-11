@@ -22,6 +22,7 @@
 #include "todo.h"
 #include "event.h"
 #include "attachment.h"
+#include "utils.h"
 
 #include <QTest>
 QTEST_MAIN(TodoTest)
@@ -227,7 +228,7 @@ void TodoTest::testSerializer_data()
 
     todo6->recurrence()->setDaily(1);
     todo6->setCompleted(today);
-    todo6->setRecurrenceId(yesterday.dateTime());
+    todo6->setRecurrenceId(k2q(yesterday));
     todo6->setStatus(Incidence::StatusDraft);
     todo6->setSecrecy(Incidence::SecrecyPrivate);
     todo6->setRelatedTo(QStringLiteral("uid1"), Incidence::RelTypeParent);

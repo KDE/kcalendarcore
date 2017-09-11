@@ -90,3 +90,13 @@ QTimeZone KCalCore::specToZone(const KDateTime::Spec &spec)
 
     return QTimeZone::systemTimeZone();
 }
+
+QDateTime KCalCore::k2q(const KDateTime &kdt)
+{
+    return QDateTime(kdt.date(), kdt.time(), specToZone(kdt.timeSpec()));
+}
+
+KDateTime KCalCore::q2k(const QDateTime &qdt)
+{
+    return KDateTime(qdt.date(), qdt.time(), zoneToSpec(qdt.timeZone()));
+}

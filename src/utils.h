@@ -22,7 +22,7 @@
 #ifndef KCALCORE_UTILS_H_
 #define KCALCORE_UTILS_H_
 
-#include <kcalcore_export.h>
+#include "kcalcore_export.h"
 
 #include <QDateTime>
 #include <KDateTime>
@@ -40,6 +40,10 @@ KCALCORE_EXPORT KDateTime::Spec zoneToSpec(const QTimeZone &zone);
 
 /** Convert a QTimeZone to a KDateTime::Spec */
 KCALCORE_EXPORT QTimeZone specToZone(const KDateTime::Spec &spec);
+
+/** Convert KDateTime to QDateTime, correctly preserves timespec */
+KCALCORE_EXPORT QDateTime k2q(const KDateTime &kdt);
+KCALCORE_EXPORT KDateTime q2k(const QDateTime &qdt);
 
 }
 

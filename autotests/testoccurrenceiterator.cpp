@@ -19,6 +19,7 @@
 #include "occurrenceiterator.h"
 #include "memorycalendar.h"
 #include "calfilter.h"
+#include "utils.h"
 
 #include <QDebug>
 
@@ -226,7 +227,7 @@ void TestOccurrenceIterator::testWithExceptionThisAndFuture()
 //     qDebug() << "summary: " << rIt.incidence()->summary();
 //     qDebug() << "start: " << rIt.incidence()->dtStart().toString();
 //     qDebug();
-        QCOMPARE(rIt.recurrenceId(), start.addDays(occurrence - 1).dateTime());
+        QCOMPARE(rIt.recurrenceId(), KCalCore::k2q(start.addDays(occurrence - 1)));
         if (occurrence == 1) {
             QCOMPARE(rIt.occurrenceStartDate(), start);
             QCOMPARE(rIt.incidence()->summary(), event1->summary());

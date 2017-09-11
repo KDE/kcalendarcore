@@ -671,17 +671,17 @@ Incidence::Ptr Calendar::createException(const Incidence::Ptr &incidence,
 
     newInc->setRecurrenceId(recurrenceId);
     newInc->setThisAndFuture(thisAndFuture);
-    newInc->setDtStart(KDateTime(recurrenceId));
+    newInc->setDtStart(q2k(recurrenceId));
 
     // Calculate and set the new end of the incidence
     KDateTime end = incidence->dateTime(IncidenceBase::RoleEnd);
 
     if (end.isValid()) {
         if (incidence->dtStart().isDateOnly()) {
-            int offset = incidence->dtStart().daysTo(KDateTime(recurrenceId));
+            int offset = incidence->dtStart().daysTo(q2k(recurrenceId));
             end = end.addDays(offset);
         } else {
-            qint64 offset = incidence->dtStart().secsTo(KDateTime(recurrenceId));
+            qint64 offset = incidence->dtStart().secsTo(q2k(recurrenceId));
             end = end.addSecs(offset);
         }
         newInc->setDateTime(end, IncidenceBase::RoleEnd);

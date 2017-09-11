@@ -121,13 +121,13 @@ public:
                 qint64 offset(0), lastOffset(0);
                 KDateTime occurrenceStartDate;
                 for(const auto &rId : qAsConst(occurrences)) {
-                    QDateTime recurrenceId = rId.dateTime();
+                    QDateTime recurrenceId = k2q(rId);
                     //timesInInterval generates always date-times,
                     //which is not what we want for all-day events
                     if (isAllDay) {
                         recurrenceId = applySpec(recurrenceId, rId.timeSpec(), isAllDay);
                     }
-                    occurrenceStartDate = KDateTime(recurrenceId);
+                    occurrenceStartDate = q2k(recurrenceId);
                     if (isAllDay) {
                         occurrenceStartDate.setDateOnly(true);
                     }
@@ -143,7 +143,7 @@ public:
                         incidence = recurrenceIds.value(recurrenceId);
                         occurrenceStartDate = incidence->dtStart();
                         resetIncidence = !incidence->thisAndFuture();
-                        offset = incidence->recurrenceId().secsTo(incidence->dtStart().dateTime());
+                        offset = incidence->recurrenceId().secsTo(k2q(incidence->dtStart()));
                         if (incidence->thisAndFuture()) {
                             lastInc = incidence;
                             lastOffset = offset;

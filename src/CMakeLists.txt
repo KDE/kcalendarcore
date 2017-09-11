@@ -118,6 +118,7 @@ ecm_generate_headers(KCalCore_CamelCase_HEADERS
   SortableList
   Sorting
   Todo
+  Utils
   VCalFormat
   Visitor
 
