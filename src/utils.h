@@ -35,7 +35,12 @@ namespace KCalCore {
  */
 KCALCORE_EXPORT QDateTime applySpec(const QDateTime &dt, const KDateTime::Spec &spec, bool isAllDay);
 
-}
+/** Convert a QTimeZone to a KDateTime::Spec */
+KCALCORE_EXPORT KDateTime::Spec zoneToSpec(const QTimeZone &zone);
 
+/** Convert a QTimeZone to a KDateTime::Spec */
+KCALCORE_EXPORT QTimeZone specToZone(const KDateTime::Spec &spec);
+
+}
 
 #endif

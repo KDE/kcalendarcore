@@ -23,6 +23,7 @@
 
 #include <QTimeZone>
 #include <KTimeZone>
+#include <KSystemTimeZones>
 
 #include <QDebug>
 
@@ -63,4 +64,29 @@ QDateTime KCalCore::applySpec(const QDateTime &dt, const KDateTime::Spec &spec, 
 
     Q_UNREACHABLE();
     return {};
+}
+
+KDateTime::Spec KCalCore::zoneToSpec(const QTimeZone& zone)
+{
+    if (zone == QTimeZone::utc())
+        return KDateTime::UTC;
+    if (zone == QTimeZone::systemTimeZone())
+        return KDateTime::LocalZone;
+    auto tz = KSystemTimeZones::zone(QString::fromLatin1(zone.id()));
+    return tz;
+}
+
+QTimeZone KCalCore::specToZone(const KDateTime::Spec &spec)
+{
+    switch (spec.type()) {
+        case KDateTime::LocalZone:
+        case KDateTime::ClockTime:
+            return QTimeZone::systemTimeZone();
+        case KDateTime::UTC:
+            return QTimeZone::utc();
+        default:
+            return QTimeZone(spec.timeZone().name().toUtf8());
+    }
+
+    return QTimeZone::systemTimeZone();
 }
