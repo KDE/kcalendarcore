@@ -600,7 +600,7 @@ void IncidenceBase::update()
 {
     if (!d->mUpdateGroupLevel) {
         d->mUpdatedPending = true;
-        KDateTime rid = recurrenceId();
+        const auto rid = recurrenceId();
         for (IncidenceObserver *o : qAsConst(d->mObservers)) {
             o->incidenceUpdate(uid(), rid);
         }
@@ -612,7 +612,7 @@ void IncidenceBase::updated()
     if (d->mUpdateGroupLevel) {
         d->mUpdatedPending = true;
     } else {
-        const KDateTime rid = recurrenceId();
+        const auto rid = recurrenceId();
         for (IncidenceObserver *o : qAsConst(d->mObservers)) {
             o->incidenceUpdated(uid(), rid);
         }
@@ -645,9 +645,9 @@ void IncidenceBase::customPropertyUpdated()
     updated();
 }
 
-KDateTime IncidenceBase::recurrenceId() const
+QDateTime IncidenceBase::recurrenceId() const
 {
-    return KDateTime();
+    return QDateTime();
 }
 
 void IncidenceBase::resetDirtyFields()

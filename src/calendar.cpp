@@ -39,6 +39,7 @@
 #include "icaltimezones.h"
 #include "sorting.h"
 #include "visitor.h"
+#include "utils.h"
 
 #include "kcalcore_debug.h"
 
@@ -654,7 +655,7 @@ bool Calendar::deleteIncidence(const Incidence::Ptr &incidence)
 }
 
 Incidence::Ptr Calendar::createException(const Incidence::Ptr &incidence,
-        const KDateTime &recurrenceId,
+        const QDateTime &recurrenceId,
         bool thisAndFuture)
 {
     Q_ASSERT(recurrenceId.isValid());
@@ -670,17 +671,17 @@ Incidence::Ptr Calendar::createException(const Incidence::Ptr &incidence,
 
     newInc->setRecurrenceId(recurrenceId);
     newInc->setThisAndFuture(thisAndFuture);
-    newInc->setDtStart(recurrenceId);
+    newInc->setDtStart(KDateTime(recurrenceId));
 
     // Calculate and set the new end of the incidence
     KDateTime end = incidence->dateTime(IncidenceBase::RoleEnd);
 
     if (end.isValid()) {
         if (incidence->dtStart().isDateOnly()) {
-            int offset = incidence->dtStart().daysTo(recurrenceId);
+            int offset = incidence->dtStart().daysTo(KDateTime(recurrenceId));
             end = end.addDays(offset);
         } else {
-            qint64 offset = incidence->dtStart().secsTo(recurrenceId);
+            qint64 offset = incidence->dtStart().secsTo(KDateTime(recurrenceId));
             end = end.addSecs(offset);
         }
         newInc->setDateTime(end, IncidenceBase::RoleEnd);
@@ -766,7 +767,7 @@ Incidence::Ptr Calendar::dissociateOccurrence(const Incidence::Ptr &incidence,
 }
 
 Incidence::Ptr Calendar::incidence(const QString &uid,
-                                   const KDateTime &recurrenceId) const
+                                   const QDateTime &recurrenceId) const
 {
     Incidence::Ptr i = event(uid, recurrenceId);
     if (i) {
@@ -782,7 +783,7 @@ Incidence::Ptr Calendar::incidence(const QString &uid,
     return i;
 }
 
-Incidence::Ptr Calendar::deleted(const QString &uid, const KDateTime &recurrenceId) const
+Incidence::Ptr Calendar::deleted(const QString &uid, const QDateTime &recurrenceId) const
 {
     Incidence::Ptr i = deletedEvent(uid, recurrenceId);
     if (i) {
@@ -1214,7 +1215,7 @@ bool Calendar::reload()
     return true;
 }
 
-void Calendar::incidenceUpdated(const QString &uid, const KDateTime &recurrenceId)
+void Calendar::incidenceUpdated(const QString &uid, const QDateTime &recurrenceId)
 {
 
     Incidence::Ptr inc = incidence(uid, recurrenceId);

@@ -48,6 +48,7 @@ set(kcalcore_LIB_SRCS
   schedulemessage.cpp
   sorting.cpp
   todo.cpp
+  utils.cpp
   vcalformat.cpp
   visitor.cpp
 )

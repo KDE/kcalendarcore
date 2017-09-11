@@ -696,14 +696,14 @@ public:
       @param recurrenceId is the incidence recurrenceId to set
       @see recurrenceId().
     */
-    void setRecurrenceId(const KDateTime &recurrenceId);
+    void setRecurrenceId(const QDateTime &recurrenceId);
 
     /**
       Returns the incidence recurrenceId.
       @return incidences recurrenceId value
       @see setRecurrenceId().
     */
-    KDateTime recurrenceId() const override;
+    QDateTime recurrenceId() const override;
 
     /**
       Set to true if the exception also applies to all future occurrences.

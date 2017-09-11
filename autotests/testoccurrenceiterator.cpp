@@ -32,7 +32,7 @@ void TestOccurrenceIterator::testIterationWithExceptions()
     KDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), KDateTime::UTC);
     KDateTime end(QDate(2013, 03, 10), QTime(11, 0, 0), KDateTime::UTC);
 
-    KDateTime recurrenceId(QDate(2013, 03, 11), QTime(10, 0, 0), KDateTime::UTC);
+    QDateTime recurrenceId(QDate(2013, 03, 11), QTime(10, 0, 0), Qt::UTC);
     KDateTime exceptionStart(QDate(2013, 03, 11), QTime(12, 0, 0), KDateTime::UTC);
     KDateTime exceptionEnd(QDate(2013, 03, 11), QTime(13, 0, 0), KDateTime::UTC);
 
@@ -180,11 +180,11 @@ void TestOccurrenceIterator::testWithExceptionThisAndFuture()
     KDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), KDateTime::UTC);
     KDateTime end(QDate(2013, 03, 10), QTime(11, 0, 0), KDateTime::UTC);
 
-    KDateTime recurrenceId1(QDate(2013, 03, 11), QTime(10, 0, 0), KDateTime::UTC);
+    QDateTime recurrenceId1(QDate(2013, 03, 11), QTime(10, 0, 0), Qt::UTC);
     KDateTime exceptionStart1(QDate(2013, 03, 11), QTime(12, 0, 0), KDateTime::UTC);
     KDateTime exceptionEnd1(QDate(2013, 03, 11), QTime(13, 0, 0), KDateTime::UTC);
 
-    KDateTime recurrenceId2(QDate(2013, 03, 13), QTime(10, 0, 0), KDateTime::UTC);
+    QDateTime recurrenceId2(QDate(2013, 03, 13), QTime(10, 0, 0), Qt::UTC);
     KDateTime exceptionStart2(QDate(2013, 03, 13), QTime(14, 0, 0), KDateTime::UTC);
     KDateTime exceptionEnd2(QDate(2013, 03, 13), QTime(15, 0, 0), KDateTime::UTC);
 
@@ -226,7 +226,7 @@ void TestOccurrenceIterator::testWithExceptionThisAndFuture()
 //     qDebug() << "summary: " << rIt.incidence()->summary();
 //     qDebug() << "start: " << rIt.incidence()->dtStart().toString();
 //     qDebug();
-        QCOMPARE(rIt.recurrenceId(), start.addDays(occurrence - 1));
+        QCOMPARE(rIt.recurrenceId(), start.addDays(occurrence - 1).dateTime());
         if (occurrence == 1) {
             QCOMPARE(rIt.occurrenceStartDate(), start);
             QCOMPARE(rIt.incidence()->summary(), event1->summary());

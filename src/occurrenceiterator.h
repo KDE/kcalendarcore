@@ -90,7 +90,7 @@ public:
      * This is the date where the occurrence starts without exceptions,
      * this id is used to identify one exact occurrence.
      */
-    KDateTime recurrenceId() const;
+    QDateTime recurrenceId() const;
 
 private:
     Q_DISABLE_COPY(OccurrenceIterator)

@@ -597,7 +597,7 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent,
     // recurrenceid
     if (incidence->hasRecurrenceId()) {
         icalproperty *p = writeICalDateTimeProperty(
-                              ICAL_RECURRENCEID_PROPERTY, incidence->recurrenceId(), tzlist, tzUsedList);
+                              ICAL_RECURRENCEID_PROPERTY, KDateTime(incidence->recurrenceId()), tzlist, tzUsedList);
         if (incidence->thisAndFuture()) {
             icalproperty_add_parameter(
                 p, icalparameter_new_range(ICAL_RANGE_THISANDFUTURE));
@@ -1831,7 +1831,7 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent,
         case ICAL_RECURRENCEID_PROPERTY:  // recurrenceId
             kdt = readICalDateTimeProperty(p, tzlist);
             if (kdt.isValid()) {
-                incidence->setRecurrenceId(kdt);
+                incidence->setRecurrenceId(kdt.dateTime());
                 const icalparameter *param =
                     icalproperty_get_first_parameter(p, ICAL_RANGE_PARAMETER);
                 if (param && icalparameter_get_range(param) == ICAL_RANGE_THISANDFUTURE) {

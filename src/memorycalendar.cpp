@@ -117,10 +117,10 @@ public:
 
     Incidence::Ptr incidence(const QString &uid,
                              const IncidenceBase::IncidenceType type,
-                             const KDateTime &recurrenceId = KDateTime()) const;
+                             const QDateTime &recurrenceId = {}) const;
 
     Incidence::Ptr deletedIncidence(const QString &uid,
-                                    const KDateTime &recurrenceId,
+                                    const QDateTime &recurrenceId,
                                     const IncidenceBase::IncidenceType type) const;
 
     void deleteAllIncidences(const IncidenceBase::IncidenceType type);
@@ -235,7 +235,7 @@ void MemoryCalendar::Private::deleteAllIncidences(const Incidence::IncidenceType
 
 Incidence::Ptr MemoryCalendar::Private::incidence(const QString &uid,
         const Incidence::IncidenceType type,
-        const KDateTime &recurrenceId) const
+        const QDateTime &recurrenceId) const
 {
     Incidence::List values = ::values(mIncidences[type], uid);
     for (auto it = values.constBegin(); it != values.constEnd(); ++it) {
@@ -255,7 +255,7 @@ Incidence::Ptr MemoryCalendar::Private::incidence(const QString &uid,
 
 Incidence::Ptr
 MemoryCalendar::Private::deletedIncidence(const QString &uid,
-        const KDateTime &recurrenceId,
+    const QDateTime &recurrenceId,
         const IncidenceBase::IncidenceType type) const
 {
     if (!q->deletionTracking()) {
@@ -331,12 +331,12 @@ bool MemoryCalendar::deleteEventInstances(const Event::Ptr &event)
 }
 
 Event::Ptr MemoryCalendar::event(const QString &uid,
-                                 const KDateTime &recurrenceId) const
+                                 const QDateTime &recurrenceId) const
 {
     return d->incidence(uid, Incidence::TypeEvent, recurrenceId).staticCast<Event>();
 }
 
-Event::Ptr MemoryCalendar::deletedEvent(const QString &uid, const KDateTime &recurrenceId) const
+Event::Ptr MemoryCalendar::deletedEvent(const QString &uid, const QDateTime &recurrenceId) const
 {
     return d->deletedIncidence(uid, recurrenceId, Incidence::TypeEvent).staticCast<Event>();
 }
@@ -357,13 +357,13 @@ bool MemoryCalendar::deleteTodoInstances(const Todo::Ptr &todo)
 }
 
 Todo::Ptr MemoryCalendar::todo(const QString &uid,
-                               const KDateTime &recurrenceId) const
+                               const QDateTime &recurrenceId) const
 {
     return d->incidence(uid, Incidence::TypeTodo, recurrenceId).staticCast<Todo>();
 }
 
 Todo::Ptr MemoryCalendar::deletedTodo(const QString &uid,
-                                      const KDateTime &recurrenceId) const
+                                      const QDateTime &recurrenceId) const
 {
     return d->deletedIncidence(uid, recurrenceId, Incidence::TypeTodo).staticCast<Todo>();
 }
@@ -542,7 +542,7 @@ Alarm::List MemoryCalendar::alarms(const KDateTime &from, const KDateTime &to, b
     return alarmList;
 }
 
-void MemoryCalendar::incidenceUpdate(const QString &uid, const KDateTime &recurrenceId)
+void MemoryCalendar::incidenceUpdate(const QString &uid, const QDateTime &recurrenceId)
 {
     Incidence::Ptr inc = incidence(uid, recurrenceId);
 
@@ -562,7 +562,7 @@ void MemoryCalendar::incidenceUpdate(const QString &uid, const KDateTime &recurr
     }
 }
 
-void MemoryCalendar::incidenceUpdated(const QString &uid, const KDateTime &recurrenceId)
+void MemoryCalendar::incidenceUpdated(const QString &uid, const QDateTime &recurrenceId)
 {
     Incidence::Ptr inc = incidence(uid, recurrenceId);
 
@@ -790,13 +790,12 @@ bool MemoryCalendar::deleteJournalInstances(const Journal::Ptr &journal)
 }
 
 Journal::Ptr MemoryCalendar::journal(const QString &uid,
-                                     const KDateTime &recurrenceId) const
+                                     const QDateTime &recurrenceId) const
 {
     return d->incidence(uid, Incidence::TypeJournal, recurrenceId).staticCast<Journal>();
 }
 
-Journal::Ptr MemoryCalendar::deletedJournal(const QString &uid,
-        const KDateTime &recurrenceId) const
+Journal::Ptr MemoryCalendar::deletedJournal(const QString &uid, const QDateTime &recurrenceId) const
 {
     return d->deletedIncidence(uid, recurrenceId, Incidence::TypeJournal).staticCast<Journal>();
 }

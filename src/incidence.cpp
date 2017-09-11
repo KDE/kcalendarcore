@@ -40,6 +40,7 @@
 #include <QTextDocument> // for .toHtmlEscaped() and Qt::mightBeRichText()
 #include <QStringList>
 #include <QTime>
+#include <QTimeZone>
 
 using namespace KCalCore;
 
@@ -160,7 +161,7 @@ public:
     QString mSchedulingID;              // ID for scheduling mails
     QMap<RelType, QString> mRelatedToUid; // incidence uid this is related to, for each relType
     QHash<Attachment::Ptr, QString> mTempFiles; // Temporary files for writing attachments to.
-    KDateTime mRecurrenceId;            // recurrenceId
+    QDateTime mRecurrenceId;            // recurrenceId
 
     float mGeoLatitude;                 // Specifies latitude in decimal degrees
     float mGeoLongitude;                // Specifies longitude in decimal degrees
@@ -303,7 +304,7 @@ bool Incidence::equals(const IncidenceBase &incidence) const
 QString Incidence::instanceIdentifier() const
 {
     if (hasRecurrenceId()) {
-        return uid() + recurrenceId().toString();
+        return uid() + recurrenceId().toString(Qt::ISODate);
     }
     return uid();
 }
@@ -1044,10 +1045,10 @@ void Incidence::setGeoLongitude(float geolongitude)
 
 bool Incidence::hasRecurrenceId() const
 {
-    return d->mRecurrenceId.isValid();
+    return (allDay() && d->mRecurrenceId.date().isValid()) || d->mRecurrenceId.isValid();
 }
 
-KDateTime Incidence::recurrenceId() const
+QDateTime Incidence::recurrenceId() const
 {
     return d->mRecurrenceId;
 }
@@ -1062,7 +1063,7 @@ bool Incidence::thisAndFuture() const
     return d->mThisAndFuture;
 }
 
-void Incidence::setRecurrenceId(const KDateTime &recurrenceId)
+void Incidence::setRecurrenceId(const QDateTime &recurrenceId)
 {
     if (!mReadOnly) {
         update();
@@ -1126,12 +1127,73 @@ QStringList Incidence::mimeTypes()
            << KCalCore::Journal::journalMimeType();
 }
 
+namespace {
+
+// To remain backwards compatible we need to (de)serialize QDateTime the way KDateTime
+// was (de)serialized
+void serializeQDateTimeAsKDateTime(QDataStream &out, const QDateTime &dt)
+{
+    out << dt.date() << dt.time();
+    switch (dt.timeSpec()) {
+    case Qt::UTC:
+        out << static_cast<quint8>('u');
+        break;
+    case Qt::OffsetFromUTC:
+        out << static_cast<quint8>('o') << dt.offsetFromUtc();
+        break;
+    case Qt::TimeZone:
+        out << static_cast<quint8>('z') << (dt.timeZone().isValid() ? QString::fromUtf8(dt.timeZone().id()) : QString());
+        break;
+    case Qt::LocalTime:
+        out << static_cast<quint8>('c');
+        break;
+    }
+    const bool isDateOnly = dt.date().isValid() && !dt.time().isValid();
+    out << quint8(isDateOnly ? 0x01 : 0x00);
+}
+
+void deserializeKDateTimeAsQDateTime(QDataStream &in, QDateTime &dt)
+{
+    QDate date;
+    QTime time;
+    quint8 ts, flags;
+
+    in >> date >> time >> ts;
+    switch (static_cast<uchar>(ts)) {
+    case 'u':
+        dt = QDateTime(date, time, Qt::UTC);
+        break;
+    case 'o': {
+        int offset;
+        in >> offset;
+        dt = QDateTime(date, time, Qt::OffsetFromUTC, offset);
+        break;
+    }
+    case 'z': {
+        QString tzid;
+        in >> tzid;
+        dt = QDateTime(date, time, QTimeZone(tzid.toUtf8()));
+        break;
+    }
+    case 'c':
+        dt = QDateTime(date, time, Qt::LocalTime);
+        break;
+    }
+
+    // unused, we don't have a special handling for date-only QDateTime
+    in >> flags;
+}
+
+}
+
 void Incidence::serialize(QDataStream &out)
 {
     out << d->mCreated << d->mRevision << d->mDescription << d->mDescriptionIsRich << d->mSummary
         << d->mSummaryIsRich << d->mLocation << d->mLocationIsRich << d->mCategories
         << d->mResources << d->mStatusString << d->mPriority << d->mSchedulingID
-        << d->mGeoLatitude << d->mGeoLongitude << d->mHasGeo << d->mRecurrenceId << d->mThisAndFuture
+        << d->mGeoLatitude << d->mGeoLongitude << d->mHasGeo;
+    serializeQDateTimeAsKDateTime(out, d->mRecurrenceId);
+    out << d->mThisAndFuture
         << d->mLocalOnly << d->mStatus << d->mSecrecy << (d->mRecurrence ? true : false)
         << d->mAttachments.count() << d->mAlarms.count() << d->mRelatedToUid;
 
@@ -1157,7 +1219,9 @@ void Incidence::deserialize(QDataStream &in)
     in >> d->mCreated >> d->mRevision >> d->mDescription >> d->mDescriptionIsRich >> d->mSummary
        >> d->mSummaryIsRich >> d->mLocation >> d->mLocationIsRich >> d->mCategories
        >> d->mResources >> d->mStatusString >> d->mPriority >> d->mSchedulingID
-       >> d->mGeoLatitude >> d->mGeoLongitude >> d->mHasGeo >> d->mRecurrenceId >> d->mThisAndFuture
+       >> d->mGeoLatitude >> d->mGeoLongitude >> d->mHasGeo;
+    deserializeKDateTimeAsQDateTime(in, d->mRecurrenceId);
+    in >> d->mThisAndFuture
        >> d->mLocalOnly >> status >> secrecy >> hasRecurrence >> attachmentCount >> alarmCount
        >> relatedToUid;
 

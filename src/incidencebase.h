@@ -212,7 +212,7 @@ public:
           @param uid is the string containing the incidence @ref uid.
           @param recurrenceId is possible recurrenceid of incidence.
         */
-        virtual void incidenceUpdate(const QString &uid, const KDateTime &recurrenceId) = 0;
+        virtual void incidenceUpdate(const QString &uid, const QDateTime &recurrenceId) = 0;
 
         /**
           The IncidenceObserver interface.
@@ -220,7 +220,7 @@ public:
           @param uid is the string containing the incidence @ref uid.
           @param recurrenceId is possible recurrenceid of incidence.
         */
-        virtual void incidenceUpdated(const QString &uid, const KDateTime &recurrenceId) = 0;
+        virtual void incidenceUpdated(const QString &uid, const QDateTime &recurrenceId) = 0;
     };
 
     /**
@@ -654,7 +654,7 @@ public:
       @return incidences recurrenceId value
       @see setRecurrenceId().
     */
-    virtual KDateTime recurrenceId() const;
+    virtual QDateTime recurrenceId() const;
 
     /**
        Returns a QSet with all Fields that were changed since the incidence was created

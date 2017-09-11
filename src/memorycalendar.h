@@ -151,15 +151,12 @@ public:
     /**
       @copydoc Calendar::event()
     */
-    Event::Ptr event(
-        const QString &uid,
-        const KDateTime &recurrenceId = KDateTime()) const override;
+    Event::Ptr event(const QString &uid, const QDateTime &recurrenceId = {}) const override;
 
     /**
       @copydoc Calendar::deletedEvent()
     */
-    Event::Ptr deletedEvent(
-        const QString &uid, const KDateTime &recurrenceId = KDateTime()) const override;
+    Event::Ptr deletedEvent(const QString &uid, const QDateTime &recurrenceId = {}) const override;
 
     /**
       @copydoc Calendar::deletedEvents(EventSortField, SortDirection)const
@@ -216,13 +213,12 @@ public:
     /**
       @copydoc Calendar::todo()
     */
-    Todo::Ptr todo(const QString &uid,
-                   const KDateTime &recurrenceId = KDateTime()) const override;
+    Todo::Ptr todo(const QString &uid, const QDateTime &recurrenceId = {}) const override;
 
     /**
       @copydoc Calendar::deletedTodo()
     */
-    Todo::Ptr deletedTodo(const QString &uid, const KDateTime &recurrenceId = KDateTime()) const override;
+    Todo::Ptr deletedTodo(const QString &uid, const QDateTime &recurrenceId = {}) const override;
 
     /**
       @copydoc Calendar::deletedTodos(TodoSortField, SortDirection)const
@@ -270,14 +266,12 @@ public:
     /**
       @copydoc Calendar::journal()
     */
-    Journal::Ptr journal(const QString &uid,
-                         const KDateTime &recurrenceId = KDateTime()) const override;
+    Journal::Ptr journal(const QString &uid, const QDateTime &recurrenceId = {}) const override;
 
     /**
       @copydoc Calendar::deletedJournal()
     */
-    Journal::Ptr deletedJournal(const QString &uid,
-                                const KDateTime &recurrenceId = KDateTime()) const override;
+    Journal::Ptr deletedJournal(const QString &uid, const QDateTime &recurrenceId = {}) const override;
 
     /**
       @copydoc Calendar::deletedJournals(JournalSortField, SortDirection)const
@@ -312,12 +306,12 @@ public:
     /**
       @copydoc Calendar::incidenceUpdate(const QString &,const KDateTime &)
     */
-    void incidenceUpdate(const QString &uid, const KDateTime &recurrenceId) override;
+    void incidenceUpdate(const QString &uid, const QDateTime &recurrenceId) override;
 
     /**
       @copydoc Calendar::incidenceUpdated(const QString &,const KDateTime &)
     */
-    void incidenceUpdated(const QString &uid, const KDateTime &recurrenceId) override;
+    void incidenceUpdated(const QString &uid, const QDateTime &recurrenceId) override;
 
     using QObject::event;   // prevent warning about hidden virtual method
 

@@ -56,6 +56,7 @@ This API needs serious cleaning up:
 #include "todo.h"
 
 #include <QObject>
+#include <QDateTime>
 
 namespace KCalCore
 {
@@ -536,7 +537,7 @@ public:
       A null pointer is returned if no such Incidence exists.
     */
     Incidence::Ptr incidence(const QString &uid,
-                             const KDateTime &recurrenceId = KDateTime()) const;
+                             const QDateTime &recurrenceId = {}) const;
 
     /**
       Returns the deleted Incidence associated with the given unique identifier.
@@ -547,7 +548,7 @@ public:
       @return a pointer to the Incidence.
       A null pointer is returned if no such Incidence exists.
     */
-    Incidence::Ptr deleted(const QString &uid, const KDateTime &recurrenceId = KDateTime()) const;
+    Incidence::Ptr deleted(const QString &uid, const QDateTime &recurrenceId = {}) const;
 
     /**
       Delete all incidences that are instances of recurring incidence @p incidence.
@@ -636,7 +637,7 @@ public:
       @since 4.11
     */
     static Incidence::Ptr createException(const Incidence::Ptr &incidence,
-                                          const KDateTime &recurrenceId,
+                                          const QDateTime &recurrenceId,
                                           bool thisAndFuture = false);
 
     // Event Specific Methods //
@@ -807,7 +808,7 @@ public:
       A null pointer is returned if no such Event exists.
     */
     virtual Event::Ptr event(const QString &uid,
-                             const KDateTime &recurrenceId = KDateTime()) const = 0;
+                             const QDateTime &recurrenceId = {}) const = 0;
 
     /**
       Returns the deleted Event associated with the given unique identifier.
@@ -822,7 +823,7 @@ public:
       @see deletionTracking()
     */
     virtual Event::Ptr deletedEvent(const QString &uid,
-                                    const KDateTime &recurrenceId = KDateTime()) const = 0;
+                                    const QDateTime &recurrenceId = {}) const = 0;
 
     /**
       Returns a sorted, unfiltered list of all deleted Events for this Calendar.
@@ -982,7 +983,7 @@ public:
       A null pointer is returned if no such Todo exists.
     */
     virtual Todo::Ptr todo(const QString &uid,
-                           const KDateTime &recurrenceId = KDateTime()) const = 0;
+                           const QDateTime &recurrenceId = {}) const = 0;
 
     /**
       Returns the deleted Todo associated with the given unique identifier.
@@ -997,7 +998,7 @@ public:
       @see deletionTracking()
     */
     virtual Todo::Ptr deletedTodo(const QString &uid,
-                                  const KDateTime &recurrenceId = KDateTime()) const = 0;
+                                  const QDateTime &recurrenceId = {}) const = 0;
 
     /**
       Returns a sorted, unfiltered list of all deleted Todos for this Calendar.
@@ -1124,7 +1125,7 @@ public:
       A null pointer is returned if no such Journal exists.
     */
     virtual Journal::Ptr journal(const QString &uid,
-                                 const KDateTime &recurrenceId = KDateTime()) const = 0;
+                                 const QDateTime &recurrenceId = {}) const = 0;
 
     /**
       Returns the deleted Journal associated with the given unique identifier.
@@ -1139,7 +1140,7 @@ public:
       @see deletionTracking()
     */
     virtual Journal::Ptr deletedJournal(const QString &uid,
-                                        const KDateTime &recurrenceId = KDateTime()) const = 0;
+                                        const QDateTime &recurrenceId = {}) const = 0;
 
     /**
       Returns a sorted, unfiltered list of all deleted Journals for this Calendar.
@@ -1332,7 +1333,7 @@ protected:
       @param uid is the UID for the Incidence that has been updated.
       @param recurrenceId is possible recurrenceid of incidence.
     */
-    void incidenceUpdated(const QString &uid, const KDateTime &recurrenceId) override;
+    void incidenceUpdated(const QString &uid, const QDateTime &recurrenceId) override;
 
     /**
       Let Calendar subclasses set the time specification.
