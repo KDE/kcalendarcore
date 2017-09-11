@@ -87,10 +87,6 @@ int main(int argc, char **argv)
         qDebug() << "DAMN";
         return 1;
     }
-    QString tz = cal->nonKDECustomProperty("X-LibKCal-Testsuite-OutTZ");
-    if (!tz.isEmpty()) {
-        cal->setViewTimeZoneId(tz);
-    }
 
     FileStorage outstore(cal, output);
     if (!outstore.save()) {

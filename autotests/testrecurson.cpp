@@ -25,6 +25,7 @@
 
 #include <KAboutData>
 #include <KLocalizedString>
+#include <KSystemTimeZones>
 
 #include <QDebug>
 #include <QDate>
@@ -83,9 +84,7 @@ int main(int argc, char **argv)
         return 1;
     }
     QString tz = cal->nonKDECustomProperty("X-LibKCal-Testsuite-OutTZ");
-    if (!tz.isEmpty()) {
-        cal->setViewTimeZoneId(tz);
-    }
+    const KDateTime::Spec spec = tz.isEmpty() ? cal->timeSpec() : KSystemTimeZones::zone(tz);
 
     Incidence::List inc = cal->incidences();
 
@@ -101,7 +100,7 @@ int main(int argc, char **argv)
             // Output to file for testing purposes
             int nr = 0;
             while (dt.year() <= 2020 && nr <= 500) {
-                if (incidence->recursOn(dt, cal->viewTimeSpec())) {
+                if (incidence->recursOn(dt, spec)) {
                     (*outstream) << dt.toString(Qt::ISODate) << endl;
                     nr++;
                 }
@@ -110,7 +109,7 @@ int main(int argc, char **argv)
         } else {
             dt = QDate(2005, 1, 1);
             while (dt.year() < 2007) {
-                if (incidence->recursOn(dt, cal->viewTimeSpec())) {
+                if (incidence->recursOn(dt, spec)) {
                     qDebug() << dt.toString(Qt::ISODate);
                 }
                 dt = dt.addDays(1);

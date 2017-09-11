@@ -144,8 +144,6 @@ public:
       modifying incidences in the Calendar. The time specification does
       not alter existing incidences.
 
-      The constructor also calls setViewTimeSpec(@p timeSpec).
-
       @param timeSpec time specification
     */
     explicit Calendar(const KDateTime::Spec &timeSpec);
@@ -155,8 +153,6 @@ public:
       The time zone ID is used as the default for creating or modifying
       incidences in the Calendar. The time zone does not alter existing
       incidences.
-
-      The constructor also calls setViewTimeZoneId(@p timeZoneId).
 
       @param timeZoneId is a string containing a time zone ID, which is
       assumed to be valid.  If no time zone is found, the viewing time
@@ -208,8 +204,6 @@ public:
       Sets the default time specification (time zone, etc.) used for creating
       or modifying incidences in the Calendar.
 
-      The method also calls setViewTimeSpec(@p timeSpec).
-
       @param timeSpec time specification
     */
     void setTimeSpec(const KDateTime::Spec &timeSpec);
@@ -225,8 +219,6 @@ public:
     /**
       Sets the time zone ID used for creating or modifying incidences in the
       Calendar. This method has no effect on existing incidences.
-
-      The method also calls setViewTimeZoneId(@p timeZoneId).
 
       @param timeZoneId is a string containing a time zone ID, which is
       assumed to be valid. The time zone ID is used to set the time zone
@@ -245,58 +237,6 @@ public:
               creation/modification time specification is not a time zone.
     */
     QString timeZoneId() const;
-
-    /**
-      Notes the time specification which the client application intends to
-      use for viewing the incidences in this calendar. This is simply a
-      convenience method which makes a note of the new time zone so that
-      it can be read back by viewTimeSpec(). The client application must
-      convert date/time values to the desired time zone itself.
-
-      The time specification is not used in any way by the Calendar or its
-      incidences; it is solely for use by the client application.
-
-      @param timeSpec time specification
-
-      @see viewTimeSpec()
-    */
-    void setViewTimeSpec(const KDateTime::Spec &timeSpec) const;
-
-    /**
-      Notes the time zone Id which the client application intends to use for
-      viewing the incidences in this calendar. This is simply a convenience
-      method which makes a note of the new time zone so that it can be read
-      back by viewTimeId(). The client application must convert date/time
-      values to the desired time zone itself.
-
-      The Id is not used in any way by the Calendar or its incidences.
-      It is solely for use by the client application.
-
-      @param timeZoneId is a string containing a time zone ID, which is
-      assumed to be valid. The time zone ID is used to set the time zone
-      for viewing Incidence date/times. If no time zone is found, the
-      viewing time specification is set to local clock time.
-      @e Example: "Europe/Berlin"
-
-      @see viewTimeZoneId()
-    */
-    void setViewTimeZoneId(const QString &timeZoneId) const;
-
-    /**
-      Returns the time specification used for viewing the incidences in
-      this calendar. This simply returns the time specification last
-      set by setViewTimeSpec().
-      @see setViewTimeSpec().
-    */
-    KDateTime::Spec viewTimeSpec() const;
-
-    /**
-      Returns the time zone Id used for viewing the incidences in this
-      calendar. This simply returns the time specification last set by
-      setViewTimeSpec().
-      @see setViewTimeZoneId().
-    */
-    QString viewTimeZoneId() const;
 
     /**
       Shifts the times of all incidences so that they appear at the same clock

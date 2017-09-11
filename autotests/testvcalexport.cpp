@@ -76,10 +76,6 @@ int main(int argc, char **argv)
     if (!instore.load()) {
         return 1;
     }
-    QString tz = cal->nonKDECustomProperty("X-LibKCal-Testsuite-OutTZ");
-    if (!tz.isEmpty()) {
-        cal->setViewTimeZoneId(tz);
-    }
 
     FileStorage outstore(cal, output, new VCalFormat);
     if (!outstore.save()) {
