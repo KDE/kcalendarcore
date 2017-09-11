@@ -128,13 +128,13 @@ public:
 };
 //@endcond
 
-MemoryCalendar::MemoryCalendar(const KDateTime::Spec &timeSpec)
-    : Calendar(timeSpec),
+MemoryCalendar::MemoryCalendar(const QTimeZone &timeZone)
+    : Calendar(timeZone),
       d(new KCalCore::MemoryCalendar::Private(this))
 {
 }
 
-MemoryCalendar::MemoryCalendar(const QString &timeZoneId)
+MemoryCalendar::MemoryCalendar(const QByteArray &timeZoneId)
     : Calendar(timeZoneId),
       d(new KCalCore::MemoryCalendar::Private(this))
 {

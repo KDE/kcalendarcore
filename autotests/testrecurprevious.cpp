@@ -33,6 +33,7 @@
 #include <QTextStream>
 #include <QCoreApplication>
 #include <QCommandLineParser>
+#include <QTimeZone>
 
 using namespace KCalCore;
 
@@ -80,7 +81,7 @@ int main(int argc, char **argv)
         outstream = new QTextStream(&outfile);
     }
 
-    MemoryCalendar::Ptr cal(new MemoryCalendar(KDateTime::UTC));
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
 
     KDateTime::Spec viewSpec;
     FileStorage store(cal, input);

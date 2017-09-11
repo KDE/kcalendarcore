@@ -29,23 +29,24 @@
 #include <unistd.h>
 
 #include <QTest>
+#include <QTimeZone>
 QTEST_MAIN(MemoryCalendarTest)
 
 using namespace KCalCore;
 
 void MemoryCalendarTest::testValidity()
 {
-    MemoryCalendar::Ptr cal(new MemoryCalendar(KDateTime::UTC));
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
     cal->setProductId(QStringLiteral("fredware calendar"));
     QVERIFY(cal->productId() == QLatin1String("fredware calendar"));
-    QVERIFY(cal->timeZoneId() == QLatin1String("UTC"));
+    QVERIFY(cal->timeZoneId() == QByteArrayLiteral("UTC"));
     QVERIFY(cal->timeSpec() == KDateTime::UTC);
     cal->close();
 }
 
 void MemoryCalendarTest::testEvents()
 {
-    MemoryCalendar::Ptr cal(new MemoryCalendar(KDateTime::UTC));
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
     cal->setProductId(QStringLiteral("fredware calendar"));
     QDate dt = QDate::currentDate();
 
@@ -76,7 +77,7 @@ void MemoryCalendarTest::testEvents()
 
 void MemoryCalendarTest::testIncidences()
 {
-    MemoryCalendar::Ptr cal(new MemoryCalendar(KDateTime::UTC));
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
     cal->setProductId(QStringLiteral("fredware calendar"));
     QDate dt = QDate::currentDate();
 
@@ -136,7 +137,7 @@ void MemoryCalendarTest::testRelationsCrash()
     // Before, there was a crash that occurred only when reloading a calendar in which
     // the incidences had special relations.
     // This test tests that scenario, and will crash if it fails.
-    MemoryCalendar::Ptr cal(new MemoryCalendar(KDateTime::UTC));
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
     FileStorage store1(cal, QLatin1Literal(ICALTESTDATADIR) + QLatin1String("test_relations.ics"));
     QVERIFY(store1.load());
     const Todo::List oldTodos = cal->todos();
@@ -175,7 +176,7 @@ void MemoryCalendarTest::testRelationsCrash()
 
 void MemoryCalendarTest::testRecurrenceExceptions()
 {
-    MemoryCalendar::Ptr cal(new MemoryCalendar(KDateTime::UTC));
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
     cal->setProductId(QStringLiteral("fredware calendar"));
     QDate dt = QDate::currentDate();
     KDateTime start(dt);
@@ -216,7 +217,7 @@ void MemoryCalendarTest::testChangeRecurId()
 {
     // When we change the recurring id, internal hashtables should be updated.
 
-    MemoryCalendar::Ptr cal(new MemoryCalendar(KDateTime::UTC));
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
     KDateTime start(QDate::currentDate());
 
     // Add main event

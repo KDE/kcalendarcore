@@ -57,12 +57,12 @@ public:
     /**
       @copydoc Calendar::Calendar(const KDateTime::Spec &)
     */
-    explicit MemoryCalendar(const KDateTime::Spec &timeSpec);
+    explicit MemoryCalendar(const QTimeZone &timeZone);
 
     /**
       @copydoc Calendar::Calendar(const QString &)
     */
-    explicit MemoryCalendar(const QString &timeZoneId);
+    explicit MemoryCalendar(const QByteArray &timeZoneId);
 
     /**
       @copydoc Calendar::~Calendar()

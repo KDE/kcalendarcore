@@ -26,8 +26,9 @@
 
 #include <QDebug>
 #include <QSignalSpy>
-
 #include <QTest>
+#include <QTimeZone>
+
 QTEST_MAIN(CalendarObserverTest)
 
 using namespace KCalCore;
@@ -75,7 +76,7 @@ protected:
 void CalendarObserverTest::testAdd()
 {
     qRegisterMetaType<KCalCore::Incidence::Ptr>();
-    MemoryCalendar::Ptr cal(new MemoryCalendar(KDateTime::UTC));
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
     SimpleObserver ob(cal.data());
     QSignalSpy spy(&ob, &SimpleObserver::incidenceAdded);
     cal->registerObserver(&ob);
@@ -91,7 +92,7 @@ void CalendarObserverTest::testAdd()
 void CalendarObserverTest::testChange()
 {
     qRegisterMetaType<KCalCore::Incidence::Ptr>();
-    MemoryCalendar::Ptr cal(new MemoryCalendar(KDateTime::UTC));
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
     SimpleObserver ob(cal.data());
     QSignalSpy spy(&ob, &SimpleObserver::incidenceChanged);
     cal->registerObserver(&ob);
@@ -110,7 +111,7 @@ void CalendarObserverTest::testDelete()
 {
     qRegisterMetaType<KCalCore::Incidence::Ptr>();
     qRegisterMetaType<const Calendar *>();
-    MemoryCalendar::Ptr cal(new MemoryCalendar(KDateTime::UTC));
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
     SimpleObserver ob(cal.data());
     QSignalSpy spy1(&ob, &SimpleObserver::incidenceAboutToBeDeleted);
     QSignalSpy spy2(&ob, &SimpleObserver::incidenceDeleted);

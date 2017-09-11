@@ -208,23 +208,23 @@ public:
     FreeBusy::Ptr parseFreeBusy(const QString &string);
 
     /**
-      Sets the iCalendar time specification (time zone, etc.).
-      @param timeSpec is the time specification to set.
-      @see timeSpec().
+      Sets the iCalendar time zone.
+      @param timeZone is the time zone to set.
+      @see timeZone().
     */
-    void setTimeSpec(const KDateTime::Spec &timeSpec);
+    void setTimeZone(const QTimeZone &timeZone);
 
     /**
-      Returns the iCalendar time specification.
-      @see setTimeSpec().
+      Returns the iCalendar time zone.
+      @see setTimeZone().
     */
-    KDateTime::Spec timeSpec() const;
+    QTimeZone timeZone() const;
 
     /**
       Returns the timezone id string used by the iCalendar; an empty string
       if the iCalendar does not have a timezone.
     */
-    QString timeZoneId() const;
+    QByteArray timeZoneId() const;
 
 protected:
     /**

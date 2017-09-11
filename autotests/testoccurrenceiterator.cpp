@@ -22,13 +22,14 @@
 #include "utils.h"
 
 #include <QDebug>
-
 #include <QTest>
+#include <QTimeZone>
+
 QTEST_MAIN(TestOccurrenceIterator)
 
 void TestOccurrenceIterator::testIterationWithExceptions()
 {
-    KCalCore::MemoryCalendar calendar(KDateTime::UTC);
+    KCalCore::MemoryCalendar calendar(QTimeZone::utc());
 
     KDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), KDateTime::UTC);
     KDateTime end(QDate(2013, 03, 10), QTime(11, 0, 0), KDateTime::UTC);
@@ -84,7 +85,7 @@ void TestOccurrenceIterator::testIterationWithExceptions()
 
 void TestOccurrenceIterator::testEventsAndTodos()
 {
-    KCalCore::MemoryCalendar calendar(KDateTime::UTC);
+    KCalCore::MemoryCalendar calendar(QTimeZone::utc());
 
     KDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), KDateTime::UTC);
     KDateTime end(QDate(2013, 03, 10), QTime(11, 0, 0), KDateTime::UTC);
@@ -125,7 +126,7 @@ void TestOccurrenceIterator::testEventsAndTodos()
 
 void TestOccurrenceIterator::testFilterCompletedTodos()
 {
-    KCalCore::MemoryCalendar calendar(KDateTime::UTC);
+    KCalCore::MemoryCalendar calendar(QTimeZone::utc());
     calendar.filter()->setCriteria(KCalCore::CalFilter::HideCompletedTodos);
 
     KDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), KDateTime::UTC);
@@ -151,7 +152,7 @@ void TestOccurrenceIterator::testFilterCompletedTodos()
 
 void TestOccurrenceIterator::testAllDayEvents()
 {
-    KCalCore::MemoryCalendar calendar(KDateTime::UTC);
+    KCalCore::MemoryCalendar calendar(QTimeZone::utc());
 
     KDateTime start(QDate(2013, 03, 10), KDateTime::Spec(KDateTime::UTC));
     KDateTime actualEnd(QDate(2013, 03, 13), QTime(11, 0, 0), KDateTime::UTC);
@@ -176,7 +177,7 @@ void TestOccurrenceIterator::testAllDayEvents()
 
 void TestOccurrenceIterator::testWithExceptionThisAndFuture()
 {
-    KCalCore::MemoryCalendar calendar(KDateTime::UTC);
+    KCalCore::MemoryCalendar calendar(QTimeZone::utc());
 
     KDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), KDateTime::UTC);
     KDateTime end(QDate(2013, 03, 10), QTime(11, 0, 0), KDateTime::UTC);
@@ -254,7 +255,7 @@ void TestOccurrenceIterator::testWithExceptionThisAndFuture()
 
 void TestOccurrenceIterator::testSubDailyRecurrences()
 {
-    KCalCore::MemoryCalendar calendar(KDateTime::UTC);
+    KCalCore::MemoryCalendar calendar(QTimeZone::utc());
 
     KDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), KDateTime::UTC);
     KDateTime actualEnd(QDate(2013, 03, 10), QTime(13, 0, 0), KDateTime::UTC);
@@ -279,7 +280,7 @@ void TestOccurrenceIterator::testSubDailyRecurrences()
 
 void TestOccurrenceIterator::testJournals()
 {
-    KCalCore::MemoryCalendar calendar(KDateTime::UTC);
+    KCalCore::MemoryCalendar calendar(QTimeZone::utc());
 
     const KDateTime today = KDateTime::currentDateTime(KDateTime::UTC);
     const KDateTime yesterday = today.addDays(-1);

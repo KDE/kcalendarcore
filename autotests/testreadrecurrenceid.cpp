@@ -23,6 +23,7 @@
 #include "utils.h"
 
 #include <QDebug>
+#include <QTimeZone>
 
 #include <QTest>
 QTEST_MAIN(TestReadRecurrenceId)
@@ -58,7 +59,7 @@ void TestReadRecurrenceId::testReadSingleExceptionWithThisAndFuture()
 
 void TestReadRecurrenceId::testReadWriteSingleExceptionWithThisAndFuture()
 {
-    KCalCore::MemoryCalendar::Ptr cal(new KCalCore::MemoryCalendar(KDateTime::UTC));
+    KCalCore::MemoryCalendar::Ptr cal(new KCalCore::MemoryCalendar(QTimeZone::utc()));
     KCalCore::ICalFormat format;
     KCalCore::Incidence::Ptr inc(new KCalCore::Event);
     KCalCore::ICalTimeZoneSource tzsource;
@@ -80,7 +81,7 @@ void TestReadRecurrenceId::testReadWriteSingleExceptionWithThisAndFuture()
 
 void TestReadRecurrenceId::testReadExceptionWithMainEvent()
 {
-    KCalCore::MemoryCalendar::Ptr calendar(new KCalCore::MemoryCalendar(KDateTime::UTC));
+    KCalCore::MemoryCalendar::Ptr calendar(new KCalCore::MemoryCalendar(QTimeZone::utc()));
     KCalCore::ICalFormat format;
     QFile file(QLatin1String(ICALTESTDATADIR) + QLatin1String("test_recurrenceid.ics"));
     QVERIFY(file.open(QIODevice::ReadOnly));

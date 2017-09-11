@@ -25,13 +25,14 @@
 #include <unistd.h>
 
 #include <QTest>
+#include <QTimeZone>
 QTEST_MAIN(FileStorageTest)
 
 using namespace KCalCore;
 
 void FileStorageTest::testValidity()
 {
-    MemoryCalendar::Ptr cal(new MemoryCalendar(KDateTime::UTC));
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
     FileStorage fs(cal, QStringLiteral("fred.ics"));
     QCOMPARE(fs.fileName(), QStringLiteral("fred.ics"));
     QCOMPARE(fs.calendar().data(), cal.data());
@@ -40,7 +41,7 @@ void FileStorageTest::testValidity()
 
 void FileStorageTest::testSave()
 {
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QStringLiteral("UTC")));
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
     FileStorage fs(cal, QStringLiteral("fred.ics"));
 
     QDate dt = QDate::currentDate();
@@ -72,7 +73,7 @@ void FileStorageTest::testSave()
 
 void FileStorageTest::testSaveLoadSave()
 {
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QStringLiteral("UTC")));
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
     FileStorage fs(cal, QStringLiteral("fred.ics"));
 
     QDate dt = QDate::currentDate();
@@ -126,7 +127,7 @@ void FileStorageTest::testSpecialChars()
     event->setSummary(QString(latin1_umlaut));
 
     // Save to file:
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QStringLiteral("UTC")));
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
     FileStorage fs(cal, QStringLiteral("bart.ics"));
     cal->addEvent(event);
 
@@ -135,7 +136,7 @@ void FileStorageTest::testSpecialChars()
     QVERIFY(fs.close());
 
     // Load again:
-    MemoryCalendar::Ptr otherCalendar(new MemoryCalendar(QStringLiteral("UTC")));
+    MemoryCalendar::Ptr otherCalendar(new MemoryCalendar(QTimeZone::utc()));
     FileStorage otherFs(otherCalendar, QStringLiteral("bart.ics"));
     QVERIFY(otherFs.open());
     QVERIFY(otherFs.load());

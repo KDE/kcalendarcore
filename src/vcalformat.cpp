@@ -49,6 +49,7 @@
 #include <QBitArray>
 #include <QFile>
 #include <QTextDocument> // for .toHtmlEscaped() and Qt::mightBeRichText()
+#include <QTimeZone>
 
 using namespace KCalCore;
 
@@ -123,7 +124,7 @@ bool VCalFormat::load(const Calendar::Ptr &calendar, const QString &fileName)
     // any other top-level calendar stuff should be added/initialized here
 
     // put all vobjects into their proper places
-    QString savedTimeZoneId = d->mCalendar->timeZoneId();
+    auto savedTimeZoneId = d->mCalendar->timeZoneId();
     populate(vcal, false, fileName);
     d->mCalendar->setTimeZoneId(savedTimeZoneId);
 
@@ -223,7 +224,7 @@ bool VCalFormat::fromRawString(const Calendar::Ptr &calendar, const QByteArray &
     initPropIterator(&i, vcal);
 
     // put all vobjects into their proper places
-    QString savedTimeZoneId = d->mCalendar->timeZoneId();
+    auto savedTimeZoneId = d->mCalendar->timeZoneId();
     populate(vcal, deleted, notebook);
     d->mCalendar->setTimeZoneId(savedTimeZoneId);
 
@@ -2137,7 +2138,7 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
     VObject *curVO;
     Event::Ptr anEvent;
     bool hasTimeZone = false; //The calendar came with a TZ and not UTC
-    KDateTime::Spec previousSpec; //If we add a new TZ we should leave the spec as it was before
+    QTimeZone previousZone; //If we add a new TZ we should leave the spec as it was before
 
     if ((curVO = isAPropertyOf(vcal, ICMethodProp)) != nullptr) {
         char *methodType = nullptr;
@@ -2250,8 +2251,8 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
             if (!zone.isValid()) {
                 qCDebug(KCALCORE_LOG) << "zone is not valid, parsing error" << tzList;
             } else {
-                previousSpec = d->mCalendar->timeSpec();
-                d->mCalendar->setTimeZoneId(name);
+                previousZone = d->mCalendar->timeZone();
+                d->mCalendar->setTimeZoneId(name.toUtf8());
                 hasTimeZone = true;
             }
         } else {
@@ -2388,7 +2389,7 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
 
     //Now lets put the TZ back as it was if we have changed it.
     if (hasTimeZone) {
-        d->mCalendar->setTimeSpec(previousSpec);
+        d->mCalendar->setTimeZone(previousZone);
     }
 
 }

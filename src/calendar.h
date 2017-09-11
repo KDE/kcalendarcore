@@ -58,6 +58,8 @@ This API needs serious cleaning up:
 #include <QObject>
 #include <QDateTime>
 
+class QTimeZone;
+
 namespace KCalCore
 {
 
@@ -140,14 +142,14 @@ public:
     typedef QSharedPointer<Calendar> Ptr;
 
     /**
-      Constructs a calendar with a specified time zone @p timeZoneid.
-      The time specification is used as the default for creating or
-      modifying incidences in the Calendar. The time specification does
+      Constructs a calendar with a specified time zone @p timeZone.
+      The time zone is used as the default for creating or
+      modifying incidences in the Calendar. The time zone does
       not alter existing incidences.
 
-      @param timeSpec time specification
+      @param timeZone time specification
     */
-    explicit Calendar(const KDateTime::Spec &timeSpec);
+    explicit Calendar(const QTimeZone &timeZone);
 
     /**
       Construct Calendar object using a time zone ID.
@@ -157,10 +159,10 @@ public:
 
       @param timeZoneId is a string containing a time zone ID, which is
       assumed to be valid.  If no time zone is found, the viewing time
-      specification is set to local clock time.
+      specification is set to local time zone.
       @e Example: "Europe/Berlin"
     */
-    explicit Calendar(const QString &timeZoneId);
+    explicit Calendar(const QByteArray &timeZoneId);
 
     /**
       Destroys the calendar.
@@ -202,20 +204,21 @@ public:
     Person::Ptr owner() const;
 
     /**
-      Sets the default time specification (time zone, etc.) used for creating
+      Sets the default time specification zone used for creating
       or modifying incidences in the Calendar.
 
-      @param timeSpec time specification
+      @param timeZone The time zone
     */
-    void setTimeSpec(const KDateTime::Spec &timeSpec);
+    void setTimeZone(const QTimeZone &timeZone);
 
     /**
-       Get the time specification (time zone etc.) used for creating or
+       Get the time zone used for creating or
        modifying incidences in the Calendar.
 
        @return time specification
     */
-    KDateTime::Spec timeSpec() const;
+    QTimeZone timeZone() const;
+    KDateTime::Spec timeSpec() const; // ### transitional, remove once all uses are ported
 
     /**
       Sets the time zone ID used for creating or modifying incidences in the
@@ -224,11 +227,11 @@ public:
       @param timeZoneId is a string containing a time zone ID, which is
       assumed to be valid. The time zone ID is used to set the time zone
       for viewing Incidence date/times. If no time zone is found, the
-      viewing time specification is set to local clock time.
+      viewing time specification is set to local time zone.
       @e Example: "Europe/Berlin"
       @see setTimeSpec()
     */
-    void setTimeZoneId(const QString &timeZoneId);
+    void setTimeZoneId(const QByteArray &timeZoneId);
 
     /**
       Returns the time zone ID used for creating or modifying incidences in
@@ -237,7 +240,7 @@ public:
       @return the string containing the time zone ID, or empty string if the
               creation/modification time specification is not a time zone.
     */
-    QString timeZoneId() const;
+    QByteArray timeZoneId() const;
 
     /**
       Shifts the times of all incidences so that they appear at the same clock
@@ -1340,7 +1343,7 @@ protected:
       @param timeSpec is the time specification (time zone, etc.) for
                       viewing Incidence dates.\n
     */
-    virtual void doSetTimeSpec(const KDateTime::Spec &timeSpec);
+    virtual void doSetTimeZone(const QTimeZone &timeZone);
 
     /**
       Let Calendar subclasses notify that they inserted an Incidence.

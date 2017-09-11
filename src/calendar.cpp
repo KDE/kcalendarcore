@@ -43,6 +43,9 @@
 
 #include "kcalcore_debug.h"
 
+#include <KSystemTimeZones>
+#include <QTimeZone>
+
 extern "C" {
 #include <icaltimezone.h>
 }
@@ -86,13 +89,13 @@ public:
         }
         delete mDefaultFilter;
     }
-    KDateTime::Spec timeZoneIdSpec(const QString &timeZoneId);
+    QTimeZone timeZoneIdSpec(const QByteArray &timeZoneId);
 
     QString mProductId;
     Person::Ptr mOwner;
     ICalTimeZones *mTimeZones = nullptr; // collection of time zones used in this calendar
     ICalTimeZone mBuiltInTimeZone;   // cached time zone lookup
-    KDateTime::Spec mTimeSpec;
+    QTimeZone mTimeZone;
     bool mModified = false;
     bool mNewObserver = false;
     bool mObserversEnabled = false;
@@ -201,13 +204,13 @@ private:
 };
 //@endcond
 
-Calendar::Calendar(const KDateTime::Spec &timeSpec)
+Calendar::Calendar(const QTimeZone &timeZone)
     : d(new KCalCore::Calendar::Private)
 {
-    d->mTimeSpec = timeSpec;
+    d->mTimeZone = timeZone;
 }
 
-Calendar::Calendar(const QString &timeZoneId)
+Calendar::Calendar(const QByteArray &timeZoneId)
     : d(new KCalCore::Calendar::Private)
 {
     setTimeZoneId(timeZoneId);
@@ -230,51 +233,48 @@ void Calendar::setOwner(const Person::Ptr &owner)
     setModified(true);
 }
 
-void Calendar::setTimeSpec(const KDateTime::Spec &timeSpec)
+void Calendar::setTimeZone(const QTimeZone &timeZone)
 {
-    d->mTimeSpec = timeSpec;
+    d->mTimeZone = timeZone;
     d->mBuiltInTimeZone = ICalTimeZone();
 
-    doSetTimeSpec(d->mTimeSpec);
+    doSetTimeZone(d->mTimeZone);
+}
+
+QTimeZone Calendar::timeZone() const
+{
+    return d->mTimeZone;
 }
 
 KDateTime::Spec Calendar::timeSpec() const
 {
-    return d->mTimeSpec;
+    return zoneToSpec(d->mTimeZone);
 }
 
-void Calendar::setTimeZoneId(const QString &timeZoneId)
+void Calendar::setTimeZoneId(const QByteArray &timeZoneId)
 {
-    d->mTimeSpec = d->timeZoneIdSpec(timeZoneId);
+    d->mTimeZone = d->timeZoneIdSpec(timeZoneId);
 
-    doSetTimeSpec(d->mTimeSpec);
+    doSetTimeZone(d->mTimeZone);
 }
 
 //@cond PRIVATE
-KDateTime::Spec Calendar::Private::timeZoneIdSpec(const QString &timeZoneId)
+QTimeZone Calendar::Private::timeZoneIdSpec(const QByteArray &timeZoneId)
 {
     mBuiltInTimeZone = ICalTimeZone();
-    if (timeZoneId == QLatin1String("UTC")) {
-        return KDateTime::UTC;
+    if (timeZoneId == QByteArrayLiteral("UTC")) {
+        return QTimeZone::utc();
     }
-    ICalTimeZone tz = mTimeZones->zone(timeZoneId);
-    if (!tz.isValid()) {
-        ICalTimeZoneSource tzsrc;
-        tz = tzsrc.parse(icaltimezone_get_builtin_timezone(timeZoneId.toLatin1().constData()));
-        mBuiltInTimeZone = tz;
-    }
-    if (tz.isValid()) {
+    auto tz = QTimeZone(timeZoneId);
+    if (tz.isValid())
         return tz;
-    } else {
-        return KDateTime::ClockTime;
-    }
+    return QTimeZone::systemTimeZone();
 }
 //@endcond
 
-QString Calendar::timeZoneId() const
+QByteArray Calendar::timeZoneId() const
 {
-    KTimeZone tz = d->mTimeSpec.timeZone();
-    return tz.isValid() ? tz.name() : QString();
+    return d->mTimeZone.id();
 }
 
 ICalTimeZones *Calendar::timeZones() const
@@ -297,7 +297,7 @@ void Calendar::setTimeZones(ICalTimeZones *zones)
 
 void Calendar::shiftTimes(const KDateTime::Spec &oldSpec, const KDateTime::Spec &newSpec)
 {
-    setTimeSpec(newSpec);
+    setTimeZone(specToZone(newSpec));
 
     int i, end;
     Event::List ev = events();
@@ -1234,9 +1234,9 @@ void Calendar::incidenceUpdated(const QString &uid, const QDateTime &recurrenceI
     setModified(true);
 }
 
-void Calendar::doSetTimeSpec(const KDateTime::Spec &timeSpec)
+void Calendar::doSetTimeZone(const QTimeZone &timeZone)
 {
-    Q_UNUSED(timeSpec);
+    Q_UNUSED(timeZone);
 }
 
 void Calendar::notifyIncidenceAdded(const Incidence::Ptr &incidence)

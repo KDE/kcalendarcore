@@ -27,6 +27,7 @@
 #include <iostream>
 
 #include <QDate>
+#include <QTimeZone>
 
 using namespace KCalCore;
 using namespace std;
@@ -35,7 +36,7 @@ int main()
 {
     ICalFormat f;
 
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QStringLiteral("UTC")));
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
 
     Event::Ptr event1 = Event::Ptr(new Event);
     event1->setSummary(QStringLiteral("A"));

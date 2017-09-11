@@ -22,6 +22,8 @@
 #include <iostream>
 
 #include <QTest>
+#include <QTimeZone>
+
 //"X-KDE-ICAL-IMPLEMENTATION-VERSION:1.0\n"
 
 const char *const icalFile32 =
@@ -59,7 +61,7 @@ const char *const icalFile33 =
 
 void CreatedDateCompatTest::testCompat32()
 {
-    KCalCore::MemoryCalendar::Ptr cal(new KCalCore::MemoryCalendar(KDateTime::UTC));
+    KCalCore::MemoryCalendar::Ptr cal(new KCalCore::MemoryCalendar(QTimeZone::utc()));
     KCalCore::ICalFormat format;
     format.fromRawString(cal, QByteArray(icalFile32));
     KCalCore::Event::Ptr event = cal->event(QStringLiteral("uid"));
@@ -70,7 +72,7 @@ void CreatedDateCompatTest::testCompat32()
 
 void CreatedDateCompatTest::testCompat33()
 {
-    KCalCore::MemoryCalendar::Ptr cal(new KCalCore::MemoryCalendar(KDateTime::UTC));
+    KCalCore::MemoryCalendar::Ptr cal(new KCalCore::MemoryCalendar(QTimeZone::utc()));
     KCalCore::ICalFormat format;
     format.fromRawString(cal, QByteArray(icalFile33));
     KCalCore::Event::Ptr event = cal->event(QStringLiteral("uid"));
