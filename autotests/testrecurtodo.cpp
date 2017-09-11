@@ -108,20 +108,19 @@ void RecurTodoTest::testNonAllDay()
     QVERIFY(todo->recurs());
     QVERIFY(todo->percentComplete() == 0);
 
-    const bool equal =
-        todo->dtDue() == KDateTime(currentDate, currentTime, todo->dtStart().timeSpec()).addDays(1);
-
+    const bool equal = todo->dtStart() == KDateTime(currentDate,
+                       currentTime,
+                       todo->dtStart().timeSpec()).addDays(1);
     if (!equal) {
-        qWarning() << "Test Failed. "
-                   << "dtDue = " << todo->dtDue().toString()
-                   << "OriginalDtDue:" << originalDtDue.toString()
-                   << "KDateTime:" << KDateTime(currentDate, currentTime, todo->dtDue().timeSpec()).addDays(1).toString();
+        qDebug() << "Test Failed. dtDue = " << todo->dtDue().toString() << "OriginalDtDue:" << originalDtDue.toString()
+                 <<  "KDateTime:"
+                 << KDateTime(currentDate, currentTime, todo->dtDue().timeSpec()).addDays(1).toString();
     }
 
     QVERIFY(equal);
 
     todo->setCompleted(KDateTime::currentUtcDateTime());
-    QVERIFY(todo->dtDue() == KDateTime(currentDate, currentTime, todo->dtStart().timeSpec()).addDays(2));
+    QVERIFY(todo->dtStart() == KDateTime(currentDate, currentTime, todo->dtStart().timeSpec()).addDays(2));
     QVERIFY(todo->dtDue(true /*first ocurrence*/) == KDateTime(treeDaysAgo, currentTime));
 }
 
