@@ -40,7 +40,7 @@ void MemoryCalendarTest::testValidity()
     cal->setProductId(QStringLiteral("fredware calendar"));
     QVERIFY(cal->productId() == QLatin1String("fredware calendar"));
     QVERIFY(cal->timeZoneId() == QByteArrayLiteral("UTC"));
-    QVERIFY(cal->timeSpec() == KDateTime::UTC);
+    QVERIFY(cal->timeZone() == QTimeZone::utc());
     cal->close();
 }
 

@@ -217,7 +217,6 @@ public:
        @return time specification
     */
     QTimeZone timeZone() const;
-    KDateTime::Spec timeSpec() const; // ### transitional, remove once all uses are ported
 
     /**
       Sets the time zone ID used for creating or modifying incidences in the

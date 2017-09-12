@@ -246,11 +246,6 @@ QTimeZone Calendar::timeZone() const
     return d->mTimeZone;
 }
 
-KDateTime::Spec Calendar::timeSpec() const
-{
-    return zoneToSpec(d->mTimeZone);
-}
-
 void Calendar::setTimeZoneId(const QByteArray &timeZoneId)
 {
     d->mTimeZone = d->timeZoneIdSpec(timeZoneId);

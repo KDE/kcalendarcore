@@ -23,10 +23,10 @@
 #include "filestorage.h"
 #include "memorycalendar.h"
 #include "setuptzinfo.h"
+#include "utils.h"
 
 #include <KConfig>
 #include <KConfigGroup>
-#include <KSystemTimeZones>
 
 #include <QDebug>
 #include <QDate>
@@ -80,8 +80,7 @@ int main(int argc, char **argv)
         return 1;
     }
     QString tz = cal->nonKDECustomProperty("X-LibKCal-Testsuite-OutTZ");
-    const KDateTime::Spec spec = tz.isEmpty() ? cal->timeSpec() : KSystemTimeZones::zone(tz);
-    qDebug() << spec.type() << spec.timeZone().name() << tz;
+    const auto zone = tz.isEmpty() ? cal->timeZone() : QTimeZone(tz.toUtf8());
 
     Incidence::List inc = cal->incidences();
 
@@ -97,7 +96,7 @@ int main(int argc, char **argv)
             // Output to file for testing purposes
             int nr = 0;
             while (dt.year() <= 2020 && nr <= 500) {
-                if (incidence->recursOn(dt, spec)) {
+                if (incidence->recursOn(dt, KCalCore::zoneToSpec(zone))) {
                     (*outstream) << dt.toString(Qt::ISODate) << endl;
                     nr++;
                 }
@@ -106,7 +105,7 @@ int main(int argc, char **argv)
         } else {
             dt = QDate(2005, 1, 1);
             while (dt.year() < 2007) {
-                if (incidence->recursOn(dt, spec)) {
+                if (incidence->recursOn(dt, KCalCore::zoneToSpec(zone))) {
                     qDebug() << dt.toString(Qt::ISODate);
                 }
                 dt = dt.addDays(1);

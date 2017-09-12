@@ -420,7 +420,6 @@ Todo::List MemoryCalendar::rawTodosForDate(const QDate &date) const
     Todo::List todoList;
     Todo::Ptr t;
 
-    KDateTime::Spec ts = timeSpec();
     const QString dateStr = date.toString();
     QMultiHash<QString, IncidenceBase::Ptr >::const_iterator it =
         d->mIncidencesForDate[Incidence::TypeTodo].constFind(dateStr);
@@ -436,7 +435,7 @@ Todo::List MemoryCalendar::rawTodosForDate(const QDate &date) const
         i.next();
         t = i.value().staticCast<Todo>();
         if (t->recurs()) {
-            if (t->recursOn(date, ts)) {
+            if (t->recursOn(date, zoneToSpec(timeZone()))) {
                 todoList.append(t);
             }
         }

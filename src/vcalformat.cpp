@@ -40,6 +40,7 @@
 #include "exceptions.h"
 #include "icaltimezones.h"
 #include "todo.h"
+#include "utils.h"
 #include "versit/vcc.h"
 #include "versit/vobject.h"
 
@@ -2014,7 +2015,7 @@ QString VCalFormat::kDateTimeToISO(const KDateTime &dt, bool zulu)
     if (zulu) {
         tmpDT = dt.toUtc().dateTime();
     } else {
-        tmpDT = dt.toTimeSpec(d->mCalendar->timeSpec()).dateTime();
+        tmpDT = dt.toTimeSpec(zoneToSpec(d->mCalendar->timeZone())).dateTime();
     }
     tmpStr.sprintf("%.2d%.2d%.2dT%.2d%.2d%.2d",
                    tmpDT.date().year(), tmpDT.date().month(),
@@ -2048,7 +2049,7 @@ KDateTime VCalFormat::ISOToKDateTime(const QString &dtStr)
         if (dtStr.at(dtStr.length() - 1) == QLatin1Char('Z')) {
             return KDateTime(tmpDate, tmpTime, KDateTime::UTC);
         } else {
-            return KDateTime(tmpDate, tmpTime, d->mCalendar->timeSpec());
+            return KDateTime(tmpDate, tmpTime, zoneToSpec(d->mCalendar->timeZone()));
         }
     } else {
         return KDateTime();
@@ -2290,9 +2291,9 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
                     //in the Calendar. I know it sounds braindead but oh well
                     int utcOffSet = anEvent->dtStart().utcOffset();
                     KDateTime dtStart(anEvent->dtStart().dateTime().addSecs(utcOffSet),
-                                      d->mCalendar->timeSpec());
+                                      zoneToSpec(d->mCalendar->timeZone()));
                     KDateTime dtEnd(anEvent->dtEnd().dateTime().addSecs(utcOffSet),
-                                    d->mCalendar->timeSpec());
+                                    zoneToSpec(d->mCalendar->timeZone()));
                     anEvent->setDtStart(dtStart);
                     anEvent->setDtEnd(dtEnd);
                 }
@@ -2331,11 +2332,11 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
                     //in the Calendar. I know it sounds braindead but oh well
                     int utcOffSet = aTodo->dtStart().utcOffset();
                     KDateTime dtStart(aTodo->dtStart().dateTime().addSecs(utcOffSet),
-                                      d->mCalendar->timeSpec());
+                                      zoneToSpec(d->mCalendar->timeZone()));
                     aTodo->setDtStart(dtStart);
                     if (aTodo->hasDueDate()) {
                         KDateTime dtDue(aTodo->dtDue().dateTime().addSecs(utcOffSet),
-                                        d->mCalendar->timeSpec());
+                                        zoneToSpec(d->mCalendar->timeZone()));
                         aTodo->setDtDue(dtDue);
                     }
                 }
