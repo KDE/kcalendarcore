@@ -33,8 +33,9 @@
  */
 
 #include "memorycalendar.h"
-
 #include "kcalcore_debug.h"
+#include "utils.h"
+
 #include <QDate>
 #include <KDateTime>
 
@@ -446,15 +447,15 @@ Todo::List MemoryCalendar::rawTodosForDate(const QDate &date) const
 
 Todo::List MemoryCalendar::rawTodos(const QDate &start,
                                     const QDate &end,
-                                    const KDateTime::Spec &timespec,
+                                    const QTimeZone &timeZone,
                                     bool inclusive) const
 {
     Q_UNUSED(inclusive);   // use only exact dtDue/dtStart, not dtStart and dtEnd
 
     Todo::List todoList;
-    KDateTime::Spec ts = timespec.isValid() ? timespec : timeSpec();
-    KDateTime st(start, ts);
-    KDateTime nd(end, ts);
+    const auto ts = timeZone.isValid() ? timeZone : this->timeZone();
+    QDateTime st(start, QTime(0, 0, 0), ts);
+    QDateTime nd(end, QTime(23, 59, 59, 999), ts);
 
     // Get todos
     QHashIterator<QString, Incidence::Ptr >i(d->mIncidences[Incidence::TypeTodo]);
@@ -466,8 +467,8 @@ Todo::List MemoryCalendar::rawTodos(const QDate &start,
             continue;
         }
 
-        KDateTime rStart = todo->hasDueDate() ? todo->dtDue() :
-                           todo->hasStartDate() ? todo->dtStart() : KDateTime();
+        QDateTime rStart = todo->hasDueDate() ? k2q(todo->dtDue()) :
+                           todo->hasStartDate() ? k2q(todo->dtStart()) : QDateTime();
         if (!rStart.isValid()) {
             continue;
         }
@@ -485,7 +486,7 @@ Todo::List MemoryCalendar::rawTodos(const QDate &start,
                 break;
             case 0: // end date given
             default: // count given
-                KDateTime rEnd(todo->recurrence()->endDate(), ts);
+                QDateTime rEnd(todo->recurrence()->endDate(), QTime(23, 59, 59, 999), ts);
                 if (!rEnd.isValid()) {
                     continue;
                 }
@@ -596,7 +597,7 @@ void MemoryCalendar::incidenceUpdated(const QString &uid, const QDateTime &recur
 }
 
 Event::List MemoryCalendar::rawEventsForDate(const QDate &date,
-        const KDateTime::Spec &timespec,
+        const QTimeZone &timeZone,
         EventSortField sortField,
         SortDirection sortDirection) const
 {
@@ -614,8 +615,7 @@ Event::List MemoryCalendar::rawEventsForDate(const QDate &date,
     QMultiHash<QString, IncidenceBase::Ptr >::const_iterator it =
         d->mIncidencesForDate[Incidence::TypeEvent].constFind(dateStr);
     // Iterate over all non-recurring, single-day events that start on this date
-    KDateTime::Spec ts = timespec.isValid() ? timespec : timeSpec();
-    KDateTime kdt(date, ts);
+    const auto ts = timeZone.isValid() ? timeZone : this->timeZone();
     while (it != d->mIncidencesForDate[Incidence::TypeEvent].constEnd() && it.key() == dateStr) {
         ev = it.value().staticCast<Event>();
         KDateTime end(ev->dtEnd().toTimeSpec(ev->dtStart()));
@@ -624,7 +624,7 @@ Event::List MemoryCalendar::rawEventsForDate(const QDate &date,
         } else {
             end = end.addSecs(-1);
         }
-        if (end >= kdt) {
+        if (end.date() >= date) {
             eventList.append(ev);
         }
         ++it;
@@ -639,13 +639,13 @@ Event::List MemoryCalendar::rawEventsForDate(const QDate &date,
             if (ev->isMultiDay()) {
                 int extraDays = ev->dtStart().date().daysTo(ev->dtEnd().date());
                 for (int i = 0; i <= extraDays; ++i) {
-                    if (ev->recursOn(date.addDays(-i), ts)) {
+                    if (ev->recursOn(date.addDays(-i), zoneToSpec(ts))) {
                         eventList.append(ev);
                         break;
                     }
                 }
             } else {
-                if (ev->recursOn(date, ts)) {
+                if (ev->recursOn(date, zoneToSpec(ts))) {
                     eventList.append(ev);
                 }
             }
@@ -663,14 +663,14 @@ Event::List MemoryCalendar::rawEventsForDate(const QDate &date,
 
 Event::List MemoryCalendar::rawEvents(const QDate &start,
                                       const QDate &end,
-                                      const KDateTime::Spec &timespec,
+                                      const QTimeZone &timeZone,
                                       bool inclusive) const
 {
     Event::List eventList;
-    KDateTime::Spec ts = timespec.isValid() ? timespec : timeSpec();
-    KDateTime st(start, ts);
-    KDateTime nd(end, ts);
-    KDateTime yesterStart = st.addDays(-1);
+    const auto ts = timeZone.isValid() ? timeZone : this->timeZone();
+    QDateTime st(start, QTime(0, 0, 0), ts);
+    QDateTime nd(end, QTime(23, 59, 59, 999), ts);
+    QDateTime yesterStart = st.addDays(-1);
 
     // Get non-recurring events
     QHashIterator<QString, Incidence::Ptr>i(d->mIncidences[Incidence::TypeEvent]);
@@ -678,7 +678,7 @@ Event::List MemoryCalendar::rawEvents(const QDate &start,
     while (i.hasNext()) {
         i.next();
         event = i.value().staticCast<Event>();
-        KDateTime rStart = event->dtStart();
+        QDateTime rStart = k2q(event->dtStart());
         if (nd < rStart) {
             continue;
         }
@@ -687,7 +687,7 @@ Event::List MemoryCalendar::rawEvents(const QDate &start,
         }
 
         if (!event->recurs()) {   // non-recurring events
-            KDateTime rEnd = event->dtEnd();
+            QDateTime rEnd = k2q(event->dtEnd());
             if (rEnd < st) {
                 continue;
             }
@@ -703,7 +703,7 @@ Event::List MemoryCalendar::rawEvents(const QDate &start,
                 break;
             case 0: // end date given
             default: // count given
-                KDateTime rEnd(event->recurrence()->endDate(), ts);
+                QDateTime rEnd(event->recurrence()->endDate(), QTime(23, 59, 59, 999), ts);
                 if (!rEnd.isValid()) {
                     continue;
                 }
@@ -723,9 +723,9 @@ Event::List MemoryCalendar::rawEvents(const QDate &start,
     return eventList;
 }
 
-Event::List MemoryCalendar::rawEventsForDate(const KDateTime &kdt) const
+Event::List MemoryCalendar::rawEventsForDate(const QDateTime &kdt) const
 {
-    return rawEventsForDate(kdt.date(), kdt.timeSpec());
+    return rawEventsForDate(kdt.date(), kdt.timeZone());
 }
 
 Event::List MemoryCalendar::rawEvents(EventSortField sortField,

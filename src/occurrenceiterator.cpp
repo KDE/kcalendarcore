@@ -190,12 +190,12 @@ OccurrenceIterator::OccurrenceIterator(const Calendar &calendar,
     d->start = start;
     d->end = end;
 
-    Event::List events = calendar.rawEvents(start.date(), end.date(), start.timeSpec());
+    Event::List events = calendar.rawEvents(start.date(), end.date(), specToZone(start.timeSpec()));
     if (calendar.filter()) {
         calendar.filter()->apply(&events);
     }
 
-    Todo::List todos = calendar.rawTodos(start.date(), end.date(), start.timeSpec());
+    Todo::List todos = calendar.rawTodos(start.date(), end.date(), specToZone(start.timeSpec()));
     if (calendar.filter()) {
         calendar.filter()->apply(&todos);
     }

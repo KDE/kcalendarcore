@@ -202,7 +202,7 @@ void MemoryCalendarTest::testRecurrenceExceptions()
     QCOMPARE(cal->event(event1->uid()), event1);
     QCOMPARE(cal->event(event1->uid(), recurrenceId), exception1);
 
-    const Event::List incidences = cal->rawEvents(start.date(), start.addDays(3).date(), start.timeSpec());
+    const Event::List incidences = cal->rawEvents(start.date(), start.addDays(3).date(), specToZone(start.timeSpec()));
     //Contains incidence and exception
     QCOMPARE(incidences.size(), 2);
 

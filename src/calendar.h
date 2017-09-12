@@ -57,8 +57,7 @@ This API needs serious cleaning up:
 
 #include <QObject>
 #include <QDateTime>
-
-class QTimeZone;
+#include <QTimeZone>
 
 namespace KCalCore
 {
@@ -229,7 +228,7 @@ public:
       for viewing Incidence date/times. If no time zone is found, the
       viewing time specification is set to local time zone.
       @e Example: "Europe/Berlin"
-      @see setTimeSpec()
+      @see setTimeZone()
     */
     void setTimeZoneId(const QByteArray &timeZoneId);
 
@@ -701,19 +700,19 @@ public:
     /**
       Returns a filtered list of all Events which occur on the given timestamp.
 
-      @param dt request filtered Event list for this KDateTime only.
+      @param dt request filtered Event list for this QDateTime only.
 
       @return the list of filtered Events occurring on the specified timestamp.
     */
-    Event::List events(const KDateTime &dt) const;
+    Event::List events(const QDateTime &dt) const;
 
     /**
       Returns a filtered list of all Events occurring within a date range.
 
       @param start is the starting date.
       @param end is the ending date.
-      @param timeSpec time zone etc. to interpret @p start and @p end,
-                      or the calendar's default time spec if none is specified
+      @param timeZone time zone to interpret @p start and @p end,
+                      or the calendar's default time zone if none is specified
       @param inclusive if true only Events which are completely included
       within the date range are returned.
 
@@ -721,7 +720,7 @@ public:
       date range.
     */
     Event::List events(const QDate &start, const QDate &end,
-                       const KDateTime::Spec &timeSpec = KDateTime::Spec(),
+                       const QTimeZone &timeZone = {},
                        bool inclusive = false) const;
 
     /**
@@ -730,15 +729,15 @@ public:
       @a sortDirection.
 
       @param date request filtered Event list for this QDate only.
-      @param timeSpec time zone etc. to interpret @p start and @p end,
-                      or the calendar's default time spec if none is specified
+      @param timeZone time zone to interpret @p start and @p end,
+                      or the calendar's default time zone if none is specified
       @param sortField specifies the EventSortField.
       @param sortDirection specifies the SortDirection.
 
       @return the list of sorted, filtered Events occurring on @a date.
     */
     Event::List events(const QDate &date,
-                       const KDateTime::Spec &timeSpec = KDateTime::Spec(),
+                       const QTimeZone &timeZone = {},
                        EventSortField sortField = EventSortUnsorted,
                        SortDirection sortDirection = SortDirectionAscending) const;
 
@@ -758,20 +757,20 @@ public:
       Returns an unfiltered list of all Events which occur on the given
       timestamp.
 
-      @param dt request unfiltered Event list for this KDateTime only.
+      @param dt request unfiltered Event list for this QDateTime only.
 
       @return the list of unfiltered Events occurring on the specified
       timestamp.
     */
-    virtual Event::List rawEventsForDate(const KDateTime &dt) const = 0;
+    virtual Event::List rawEventsForDate(const QDateTime &dt) const = 0;
 
     /**
       Returns an unfiltered list of all Events occurring within a date range.
 
       @param start is the starting date
       @param end is the ending date
-      @param timeSpec time zone etc. to interpret @p start and @p end,
-                      or the calendar's default time spec if none is specified
+      @param timeZone time zone to interpret @p start and @p end,
+                      or the calendar's default time zone if none is specified
       @param inclusive if true only Events which are completely included
       within the date range are returned.
 
@@ -779,7 +778,7 @@ public:
       date range.
     */
     virtual Event::List rawEvents(const QDate &start, const QDate &end,
-                                  const KDateTime::Spec &timeSpec = KDateTime::Spec(),
+                                  const QTimeZone &timeZone = {},
                                   bool inclusive = false) const = 0;
 
     /**
@@ -788,8 +787,8 @@ public:
       @a sortDirection.
 
       @param date request unfiltered Event list for this QDate only
-      @param timeSpec time zone etc. to interpret @p date,
-                      or the calendar's default time spec if none is specified
+      @param timeZone time zone to interpret @p date,
+                      or the calendar's default time zone if none is specified
       @param sortField specifies the EventSortField
       @param sortDirection specifies the SortDirection
 
@@ -797,7 +796,7 @@ public:
     */
     virtual Event::List rawEventsForDate(
         const QDate &date,
-        const KDateTime::Spec &timeSpec = KDateTime::Spec(),
+        const QTimeZone &timeZone = {},
         EventSortField sortField = EventSortUnsorted,
         SortDirection sortDirection = SortDirectionAscending) const = 0;
 
@@ -926,8 +925,8 @@ public:
 
       @param start is the starting date
       @param end is the ending date
-      @param timespec time zone etc. to interpret @p start and @p end,
-                      or the calendar's default time spec if none is specified
+      @param timeZone time zone to interpret @p start and @p end,
+                      or the calendar's default time zone if none is specified
       @param inclusive if true only Todos which are completely included
       within the date range are returned.
 
@@ -935,7 +934,7 @@ public:
       date range.
     */
     virtual Todo::List todos(const QDate &start, const QDate &end,
-                             const KDateTime::Spec &timespec = KDateTime::Spec(),
+                             const QTimeZone &timeZone = {},
                              bool inclusive = false) const;
 
     /**
@@ -964,8 +963,8 @@ public:
 
       @param start is the starting date
       @param end is the ending date
-      @param timespec time zone etc. to interpret @p start and @p end,
-                      or the calendar's default time spec if none is specified
+      @param timeZone time zone to interpret @p start and @p end,
+                      or the calendar's default time zone if none is specified
       @param inclusive if true only Todos which are completely included
       within the date range are returned.
 
@@ -973,7 +972,7 @@ public:
       date range.
     */
     virtual Todo::List rawTodos(const QDate &start, const QDate &end,
-                                const KDateTime::Spec &timespec = KDateTime::Spec(),
+                                const QTimeZone &timeZone = {},
                                 bool inclusive = false) const = 0;
 
     /**
@@ -1340,7 +1339,7 @@ protected:
 
     /**
       Let Calendar subclasses set the time specification.
-      @param timeSpec is the time specification (time zone, etc.) for
+      @param timeZone is the time specification (time zone, etc.) for
                       viewing Incidence dates.\n
     */
     virtual void doSetTimeZone(const QTimeZone &timeZone);

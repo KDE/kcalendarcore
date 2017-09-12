@@ -595,16 +595,16 @@ Event::List Calendar::sortEvents(const Event::List &eventList,
 }
 
 Event::List Calendar::events(const QDate &date,
-                             const KDateTime::Spec &timeSpec,
+                             const QTimeZone &timeZone,
                              EventSortField sortField,
                              SortDirection sortDirection) const
 {
-    Event::List el = rawEventsForDate(date, timeSpec, sortField, sortDirection);
+    Event::List el = rawEventsForDate(date, timeZone, sortField, sortDirection);
     d->mFilter->apply(&el);
     return el;
 }
 
-Event::List Calendar::events(const KDateTime &dt) const
+Event::List Calendar::events(const QDateTime &dt) const
 {
     Event::List el = rawEventsForDate(dt);
     d->mFilter->apply(&el);
@@ -612,10 +612,10 @@ Event::List Calendar::events(const KDateTime &dt) const
 }
 
 Event::List Calendar::events(const QDate &start, const QDate &end,
-                             const KDateTime::Spec &timeSpec,
+                             const QTimeZone &timeZone,
                              bool inclusive) const
 {
-    Event::List el = rawEvents(start, end, timeSpec, inclusive);
+    Event::List el = rawEvents(start, end, timeZone, inclusive);
     d->mFilter->apply(&el);
     return el;
 }
@@ -915,9 +915,9 @@ Todo::List Calendar::todos(const QDate &date) const
 }
 
 Todo::List Calendar::todos(const QDate &start, const QDate &end,
-                           const KDateTime::Spec &timespec, bool inclusive) const
+                           const QTimeZone &timeZone, bool inclusive) const
 {
-    Todo::List tl = rawTodos(start, end, timespec, inclusive);
+    Todo::List tl = rawTodos(start, end, timeZone, inclusive);
     d->mFilter->apply(&tl);
     return tl;
 }

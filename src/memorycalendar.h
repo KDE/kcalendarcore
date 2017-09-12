@@ -55,7 +55,7 @@ public:
     typedef QSharedPointer<MemoryCalendar> Ptr;
 
     /**
-      @copydoc Calendar::Calendar(const KDateTime::Spec &)
+      @copydoc Calendar::Calendar(const QTimeZone &)
     */
     explicit MemoryCalendar(const QTimeZone &timeZone);
 
@@ -114,32 +114,32 @@ public:
         SortDirection sortDirection = SortDirectionAscending) const override;
 
     /**
-      @copydoc Calendar::rawEvents(const QDate &, const QDate &, const KDateTime::Spec &, bool)const
+      @copydoc Calendar::rawEvents(const QDate &, const QDate &, const QTimeZone &, bool)const
     */
     Event::List rawEvents(const QDate &start, const QDate &end,
-                          const KDateTime::Spec &timeSpec = KDateTime::Spec(),
+                          const QTimeZone &timeZone = {},
                           bool inclusive = false) const override;
 
     /**
       Returns an unfiltered list of all Events which occur on the given date.
 
       @param date request unfiltered Event list for this QDate only.
-      @param timeSpec time zone etc. to interpret @p date, or the calendar's
-                      default time spec if none is specified
+      @param timeZone time zone to interpret @p date, or the calendar's
+                      default time zone if none is specified
       @param sortField specifies the EventSortField.
       @param sortDirection specifies the SortDirection.
 
       @return the list of unfiltered Events occurring on the specified QDate.
     */
     Event::List rawEventsForDate(
-        const QDate &date, const KDateTime::Spec &timeSpec = KDateTime::Spec(),
+        const QDate &date, const QTimeZone &timeZone = {},
         EventSortField sortField = EventSortUnsorted,
         SortDirection sortDirection = SortDirectionAscending) const override;
 
     /**
-      @copydoc Calendar::rawEventsForDate(const KDateTime &)const
+      @copydoc Calendar::rawEventsForDate(const QDateTime &)const
     */
-    Event::List rawEventsForDate(const KDateTime &dt) const override;
+    Event::List rawEventsForDate(const QDateTime &dt) const override;
 
     /**
      * Returns an incidence by identifier.
@@ -198,11 +198,11 @@ public:
         SortDirection sortDirection = SortDirectionAscending) const override;
 
     /**
-       @copydoc Calendar::rawTodos(const QDate &, const QDate &, const KDateTime::Spec &, bool)const
+       @copydoc Calendar::rawTodos(const QDate &, const QDate &, const QTimeZone &, bool)const
     */
     Todo::List rawTodos(
         const QDate &start, const QDate &end,
-        const KDateTime::Spec &timespec = KDateTime::Spec(),
+        const QTimeZone &timeZone = {},
         bool inclusive = false) const override;
 
     /**
@@ -304,12 +304,12 @@ public:
     Alarm::List alarmsTo(const KDateTime &to) const;
 
     /**
-      @copydoc Calendar::incidenceUpdate(const QString &,const KDateTime &)
+      @copydoc Calendar::incidenceUpdate(const QString &,const QDateTime &)
     */
     void incidenceUpdate(const QString &uid, const QDateTime &recurrenceId) override;
 
     /**
-      @copydoc Calendar::incidenceUpdated(const QString &,const KDateTime &)
+      @copydoc Calendar::incidenceUpdated(const QString &,const QDateTime &)
     */
     void incidenceUpdated(const QString &uid, const QDateTime &recurrenceId) override;
 
