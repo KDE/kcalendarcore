@@ -52,8 +52,8 @@ public:
      * between @param start and @param end (inclusive)
      */
     explicit OccurrenceIterator(const Calendar &calendar,
-                                const KDateTime &start = KDateTime(),
-                                const KDateTime &end = KDateTime());
+                                const QDateTime &start = QDateTime(),
+                                const QDateTime &end = QDateTime());
 
     /**
      * Creates iterator that iterates over all occurrences
@@ -61,8 +61,8 @@ public:
      */
     OccurrenceIterator(const Calendar &calendar,
                        const KCalCore::Incidence::Ptr &incidence,
-                       const KDateTime &start = KDateTime(),
-                       const KDateTime &end = KDateTime());
+                       const QDateTime &start = QDateTime(),
+                       const QDateTime &end = QDateTime());
     ~OccurrenceIterator();
     bool hasNext() const;
 
@@ -82,7 +82,7 @@ public:
      * This is either the occurrence date, or the start date of an exception
      * which overrides that occurrence.
      */
-    KDateTime occurrenceStartDate() const;
+    QDateTime occurrenceStartDate() const;
 
     /**
      * Returns the recurrence Id.
