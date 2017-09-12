@@ -1498,7 +1498,8 @@ bool RecurrenceRule::recursOn(const QDate &qd, const QTimeZone &timeZone) const
             break;
         }
         intervalm.increase(recurrenceType(), frequency());
-    } while (intervalm.intervalDateTime(recurrenceType()) < end);
+    } while (intervalm.intervalDateTime(recurrenceType()).isValid() &&
+             intervalm.intervalDateTime(recurrenceType()) < end);
     if (!match) {
         return false;
     }

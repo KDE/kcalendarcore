@@ -26,7 +26,10 @@
 #include "utils.h"
 
 #include <KConfig>
-#include <KConfigGroup>
+#include <KConfigGroup
+#include <QTimeZone>
+#include <KSystemTimeZones>
+#include <KTimeZone>
 
 #include <QDebug>
 #include <QDate>
@@ -44,6 +47,9 @@ int main(int argc, char **argv)
     qputenv("TZ", "GMT");
 
     const SetupTzinfo setup;
+
+    qDebug() << "QTimeZone:" << QTimeZone::systemTimeZone().id();
+    qDebug() << "KTimeZone:" << KSystemTimeZones::local().name();
 
     QCommandLineParser parser;
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), QStringLiteral("Verbose output")));
