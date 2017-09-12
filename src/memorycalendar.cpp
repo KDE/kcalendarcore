@@ -502,12 +502,12 @@ Todo::List MemoryCalendar::rawTodos(const QDate &start,
     return todoList;
 }
 
-Alarm::List MemoryCalendar::alarmsTo(const KDateTime &to) const
+Alarm::List MemoryCalendar::alarmsTo(const QDateTime &to) const
 {
-    return alarms(KDateTime(QDate(1900, 1, 1)), to);
+    return alarms(QDateTime(QDate(1900, 1, 1), QTime(0, 0, 0)), to);
 }
 
-Alarm::List MemoryCalendar::alarms(const KDateTime &from, const KDateTime &to, bool excludeBlockedAlarms) const
+Alarm::List MemoryCalendar::alarms(const QDateTime &from, const QDateTime &to, bool excludeBlockedAlarms) const
 {
     Q_UNUSED(excludeBlockedAlarms);
     Alarm::List alarmList;

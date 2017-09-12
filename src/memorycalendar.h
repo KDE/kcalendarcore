@@ -293,15 +293,15 @@ public:
     /**
       @copydoc Calendar::alarms()
     */
-    Alarm::List alarms(const KDateTime &from, const KDateTime &to, bool excludeBlockedAlarms = false) const override;
+    Alarm::List alarms(const QDateTime &from, const QDateTime &to, bool excludeBlockedAlarms = false) const override;
 
     /**
       Return a list of Alarms that occur before the specified timestamp.
 
       @param to is the ending timestamp.
-      @return the list of Alarms occurring before the specified KDateTime.
+      @return the list of Alarms occurring before the specified QDateTime.
     */
-    Alarm::List alarmsTo(const KDateTime &to) const;
+    Alarm::List alarmsTo(const QDateTime &to) const;
 
     /**
       @copydoc Calendar::incidenceUpdate(const QString &,const QDateTime &)

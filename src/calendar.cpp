@@ -1304,14 +1304,14 @@ void Calendar::setObserversEnabled(bool enabled)
 }
 
 void Calendar::appendAlarms(Alarm::List &alarms, const Incidence::Ptr &incidence,
-                            const KDateTime &from, const KDateTime &to) const
+                            const QDateTime &from, const QDateTime &to) const
 {
-    KDateTime preTime = from.addSecs(-1);
+    QDateTime preTime = from.addSecs(-1);
 
     Alarm::List alarmlist = incidence->alarms();
     for (int i = 0, iend = alarmlist.count();  i < iend;  ++i) {
         if (alarmlist[i]->enabled()) {
-            KDateTime dt = alarmlist[i]->nextRepetition(preTime);
+            QDateTime dt = k2q(alarmlist[i]->nextRepetition(q2k(preTime)));
             if (dt.isValid() && dt <= to) {
                 qCDebug(KCALCORE_LOG) << incidence->summary() << "':" << dt.toString();
                 alarms.append(alarmlist[i]);
@@ -1322,13 +1322,13 @@ void Calendar::appendAlarms(Alarm::List &alarms, const Incidence::Ptr &incidence
 
 void Calendar::appendRecurringAlarms(Alarm::List &alarms,
                                      const Incidence::Ptr &incidence,
-                                     const KDateTime &from,
-                                     const KDateTime &to) const
+                                     const QDateTime &from,
+                                     const QDateTime &to) const
 {
     KDateTime dt;
     bool endOffsetValid = false;
     Duration endOffset(0);
-    Duration period(from, to);
+    Duration period(q2k(from), q2k(to));
 
     Alarm::List alarmlist = incidence->alarms();
     for (int i = 0, iend = alarmlist.count();  i < iend;  ++i) {
@@ -1336,8 +1336,8 @@ void Calendar::appendRecurringAlarms(Alarm::List &alarms,
         if (a->enabled()) {
             if (a->hasTime()) {
                 // The alarm time is defined as an absolute date/time
-                dt = a->nextRepetition(from.addSecs(-1));
-                if (!dt.isValid() || dt > to) {
+                dt = a->nextRepetition(q2k(from.addSecs(-1)));
+                if (!dt.isValid() || dt > q2k(to)) {
                     continue;
                 }
             } else {
@@ -1361,12 +1361,12 @@ void Calendar::appendRecurringAlarms(Alarm::List &alarms,
                     offset.end(a->hasEndOffset() ? incidence->dateTime(Incidence::RoleAlarmEndOffset) :
                                incidence->dtStart());
 //        KDateTime alarmStart = incidence->dtStart().addSecs( offset );
-                if (alarmStart > to) {
+                if (alarmStart > q2k(to)) {
                     continue;
                 }
                 KDateTime baseStart = incidence->dtStart();
-                if (from > alarmStart) {
-                    alarmStart = from;   // don't look earlier than the earliest alarm
+                if (q2k(from) > alarmStart) {
+                    alarmStart = q2k(from);   // don't look earlier than the earliest alarm
                     baseStart = (-offset).end((-endOffset).end(alarmStart));
                 }
 
@@ -1374,7 +1374,7 @@ void Calendar::appendRecurringAlarms(Alarm::List &alarms,
                 // Treate the two offsets separately in case one is daily and the other not.
                 dt = incidence->recurrence()->getNextDateTime(baseStart.addSecs(-1));
                 if (!dt.isValid() ||
-                        (dt = endOffset.end(offset.end(dt))) > to) {      // adjust 'dt' to get the alarm time
+                        (dt = endOffset.end(offset.end(dt))) > q2k(to)) {      // adjust 'dt' to get the alarm time
                     // The next recurrence is too late.
                     if (!a->repeatCount()) {
                         continue;
@@ -1397,7 +1397,7 @@ void Calendar::appendRecurringAlarms(Alarm::List &alarms,
                         if (a->snoozeTime().isDaily()) {
                             Duration toFromDuration(dt, base);
                             int toFrom = toFromDuration.asDays();
-                            if (a->snoozeTime().end(from) <= to ||
+                            if (a->snoozeTime().end(q2k(from)) <= q2k(to) ||
                                     (toFromDuration.isDaily() && toFrom % snooze == 0) ||
                                     (toFrom / snooze + 1) * snooze <= toFrom + period.asDays()) {
                                 found = true;

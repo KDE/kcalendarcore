@@ -1213,11 +1213,11 @@ public:
 
       @param from is the starting timestamp.
       @param to is the ending timestamp.
-      @param exludeBlockedAlarms if true, alarms belonging to blocked collections aren't returned.
+      @param excludeBlockedAlarms if true, alarms belonging to blocked collections aren't returned.
 
       @return the list of Alarms for the for the specified time range.
     */
-    virtual Alarm::List alarms(const KDateTime &from, const KDateTime &to, bool excludeBlockedAlarms = false) const = 0;
+    virtual Alarm::List alarms(const QDateTime &from, const QDateTime &to, bool excludeBlockedAlarms = false) const = 0;
 
     // Observer Specific Methods //
 
@@ -1384,7 +1384,7 @@ protected:
       @param to is the upper range of the next Alarm repitition.
     */
     void appendAlarms(Alarm::List &alarms, const Incidence::Ptr &incidence,
-                      const KDateTime &from, const KDateTime &to) const;
+                      const QDateTime &from, const QDateTime &to) const;
 
     /**
       Appends alarms of recurring events in interval to list of alarms.
@@ -1396,7 +1396,7 @@ protected:
       @param to is the upper range of the next Alarm repitition.
     */
     void appendRecurringAlarms(Alarm::List &alarms, const Incidence::Ptr &incidence,
-                               const KDateTime &from, const KDateTime &to) const;
+                               const QDateTime &from, const QDateTime &to) const;
 
     /**
       Enables or disabled deletion tracking.
