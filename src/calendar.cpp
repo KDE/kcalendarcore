@@ -1372,7 +1372,7 @@ void Calendar::appendRecurringAlarms(Alarm::List &alarms,
 
                 // Adjust the 'alarmStart' date/time and find the next recurrence at or after it.
                 // Treate the two offsets separately in case one is daily and the other not.
-                dt = incidence->recurrence()->getNextDateTime(baseStart.addSecs(-1));
+                dt = q2k(incidence->recurrence()->getNextDateTime(k2q(baseStart.addSecs(-1))));
                 if (!dt.isValid() ||
                         (dt = endOffset.end(offset.end(dt))) > q2k(to)) {      // adjust 'dt' to get the alarm time
                     // The next recurrence is too late.
@@ -1385,7 +1385,7 @@ void Calendar::appendRecurringAlarms(Alarm::List &alarms,
                     bool found = false;
                     Duration alarmDuration = a->duration();
                     for (KDateTime base = baseStart;
-                            (dt = incidence->recurrence()->getPreviousDateTime(base)).isValid();
+                            (dt = q2k(incidence->recurrence()->getPreviousDateTime(k2q(base)))).isValid();
                             base = dt) {
                         if (a->duration().end(dt) < base) {
                             break;  // this recurrence's last repetition is too early, so give up

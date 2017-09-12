@@ -70,6 +70,8 @@ QDateTime KCalCore::applySpec(const QDateTime &dt, const KDateTime::Spec &spec, 
 
 KDateTime::Spec KCalCore::zoneToSpec(const QTimeZone& zone)
 {
+    if (!zone.isValid())
+        return KDateTime::Invalid;
     if (zone == QTimeZone::utc())
         return KDateTime::UTC;
     if (zone == QTimeZone::systemTimeZone())
@@ -78,16 +80,89 @@ KDateTime::Spec KCalCore::zoneToSpec(const QTimeZone& zone)
     return tz;
 }
 
+namespace {
+
+QTimeZone resolveCustomTZ(const KTimeZone &ktz)
+{
+    int standardUtcOffset = 0;
+    bool matched = false;
+    const auto phases = ktz.phases();
+    for (const auto &phase : phases) {
+        if (!phase.isDst()) {
+            standardUtcOffset = phase.utcOffset();
+            matched = true;
+            break;
+        }
+    }
+    if (!matched) {
+        standardUtcOffset = ktz.currentOffset(Qt::UTC);
+    }
+
+    const auto candidates = QTimeZone::availableTimeZoneIds(standardUtcOffset);
+    QMap<int, QTimeZone> matchedCandidates;
+    for (const auto &tzid : candidates) {
+        const QTimeZone candidate(tzid);
+        // This would be a fallback
+        if (candidate.hasTransitions() != ktz.hasTransitions()) {
+            matchedCandidates.insert(0, candidate);
+            continue;
+        }
+
+        // Without transitions, we can't do any more precise matching, so just
+        // accept this candidate and be done with it
+        if (!candidate.hasTransitions() && !ktz.hasTransitions()) {
+            return candidate;
+        }
+
+        // Calculate how many transitions this candidate shares with the ktz.
+        // The candidate with the most matching transitions will win.
+        const auto transitions = ktz.transitions(QDateTime(), QDateTime::currentDateTimeUtc());
+        int matchedTransitions = 0;
+        for (auto it = transitions.rbegin(), end = transitions.rend(); it != end; ++it) {
+            const auto &transition = *it;
+            const QTimeZone::OffsetDataList candidateTransitions = candidate.transitions(transition.time(), transition.time());
+            if (candidateTransitions.isEmpty()) {
+                continue;
+            }
+            const auto candidateTransition = candidateTransitions[0];
+            const auto abvs = transition.phase().abbreviations();
+            for (const auto &abv : abvs) {
+                if (candidateTransition.abbreviation == QString::fromUtf8(abv)) {
+                    ++matchedTransitions;
+                    break;
+                }
+            }
+        }
+        matchedCandidates.insert(matchedTransitions, candidate); 
+    }
+
+    if (!matchedCandidates.isEmpty()) {
+        return matchedCandidates.value(matchedCandidates.lastKey());
+    }
+
+    return {};
+}
+
+}
+
 QTimeZone KCalCore::specToZone(const KDateTime::Spec &spec)
 {
     switch (spec.type()) {
+        case KDateTime::Invalid:
+            return QTimeZone();
         case KDateTime::LocalZone:
         case KDateTime::ClockTime:
             return QTimeZone::systemTimeZone();
         case KDateTime::UTC:
             return QTimeZone::utc();
-        default:
-            return QTimeZone(spec.timeZone().name().toUtf8());
+        default: {
+            auto tz = QTimeZone(spec.timeZone().name().toUtf8());
+            if (!tz.isValid()) {
+                tz = resolveCustomTZ(spec.timeZone());
+                qDebug() << "Resolved" << spec.timeZone().name() << "to" << tz.id();
+            }
+            return tz;
+        }
     }
 
     return QTimeZone::systemTimeZone();
@@ -95,12 +170,23 @@ QTimeZone KCalCore::specToZone(const KDateTime::Spec &spec)
 
 QDateTime KCalCore::k2q(const KDateTime &kdt)
 {
-    return QDateTime(kdt.date(), kdt.time(), specToZone(kdt.timeSpec()));
+    if (kdt.isValid()) {
+        return QDateTime(kdt.date(), kdt.time(), specToZone(kdt.timeSpec()));
+    } else {
+        return QDateTime();
+    }
 }
 
-KDateTime KCalCore::q2k(const QDateTime &qdt)
+KDateTime KCalCore::q2k(const QDateTime &qdt, bool allDay)
 {
-    return KDateTime(qdt.date(), qdt.time(), zoneToSpec(qdt.timeZone()));
+    if (qdt.isValid()) {
+        KDateTime kdt(qdt.date(), qdt.time(), zoneToSpec(qdt.timeZone()));
+        kdt.setDateOnly(allDay && qdt.time() == QTime(0, 0, 0));
+        return kdt;
+    } else {
+        return KDateTime();
+    }
+}
 
 // To remain backwards compatible we need to (de)serialize QDateTime the way KDateTime
 // was (de)serialized

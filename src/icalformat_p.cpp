@@ -627,11 +627,10 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent,
             parent, icalproperty_new_exdate(writeICalDate(*exIt)));
     }
 
-    DateTimeList dateTimeList = incidence->recurrence()->exDateTimes();
-    DateTimeList::ConstIterator extIt;
-    for (extIt = dateTimeList.constBegin(); extIt != dateTimeList.constEnd(); ++extIt) {
+    auto dateTimeList = incidence->recurrence()->exDateTimes();
+    for (auto extIt = dateTimeList.constBegin(); extIt != dateTimeList.constEnd(); ++extIt) {
         icalcomponent_add_property(
-            parent, writeICalDateTimeProperty(ICAL_EXDATE_PROPERTY, *extIt, tzlist, tzUsedList));
+            parent, writeICalDateTimeProperty(ICAL_EXDATE_PROPERTY, q2k(*extIt), tzlist, tzUsedList));
     }
 
     dateList = incidence->recurrence()->rDates();
@@ -641,10 +640,9 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent,
             parent, icalproperty_new_rdate(writeICalDatePeriod(*rdIt)));
     }
     dateTimeList = incidence->recurrence()->rDateTimes();
-    DateTimeList::ConstIterator rdtIt;
-    for (rdtIt = dateTimeList.constBegin(); rdtIt != dateTimeList.constEnd(); ++rdtIt) {
+    for (auto rdtIt = dateTimeList.constBegin(); rdtIt != dateTimeList.constEnd(); ++rdtIt) {
         icalcomponent_add_property(
-            parent, writeICalDateTimeProperty(ICAL_RDATE_PROPERTY, *rdtIt, tzlist, tzUsedList));
+            parent, writeICalDateTimeProperty(ICAL_RDATE_PROPERTY, q2k(*rdtIt), tzlist, tzUsedList));
     }
 
     // attachments
@@ -1064,7 +1062,7 @@ icalrecurrencetype ICalFormatImpl::writeRecurrenceRule(RecurrenceRule *recur)
         if (recur->allDay()) {
             r.until = writeICalDate(recur->endDt().date());
         } else {
-            r.until = writeICalUtcDateTime(recur->endDt());
+            r.until = writeICalUtcDateTime(q2k(recur->endDt()));
         }
     }
 
@@ -1865,7 +1863,7 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent,
                 if (kdt.isDateOnly()) {
                     incidence->recurrence()->addRDate(kdt.date());
                 } else {
-                    incidence->recurrence()->addRDateTime(kdt);
+                    incidence->recurrence()->addRDateTime(k2q(kdt));
                 }
             } else {
                 // TODO: RDates as period are not yet implemented!
@@ -1881,7 +1879,7 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent,
             if (kdt.isDateOnly()) {
                 incidence->recurrence()->addExDate(kdt.date());
             } else {
-                incidence->recurrence()->addExDateTime(kdt);
+                incidence->recurrence()->addExDateTime(k2q(kdt));
             }
             break;
 
@@ -2058,7 +2056,7 @@ void ICalFormatImpl::readRecurrenceRule(icalproperty *rrule, const Incidence::Pt
     // dumpIcalRecurrence(r);
 
     RecurrenceRule *recurrule = new RecurrenceRule(/*incidence*/);
-    recurrule->setStartDt(incidence->dtStart());
+    recurrule->setStartDt(k2q(incidence->dtStart()));
     readRecurrence(r, recurrule);
     recur->addRRule(recurrule);
 }
@@ -2069,7 +2067,7 @@ void ICalFormatImpl::readExceptionRule(icalproperty *rrule, const Incidence::Ptr
     // dumpIcalRecurrence(r);
 
     RecurrenceRule *recurrule = new RecurrenceRule(/*incidence*/);
-    recurrule->setStartDt(incidence->dtStart());
+    recurrule->setStartDt(k2q(incidence->dtStart()));
     readRecurrence(r, recurrule);
 
     Recurrence *recur = incidence->recurrence();
@@ -2114,7 +2112,7 @@ void ICalFormatImpl::readRecurrence(const struct icalrecurrencetype &r, Recurren
     // Duration & End Date
     if (!icaltime_is_null_time(r.until)) {
         icaltimetype t = r.until;
-        recur->setEndDt(readICalUtcDateTime(nullptr, t));
+        recur->setEndDt(k2q(readICalUtcDateTime(nullptr, t)));
     } else {
         if (r.count == 0) {
             recur->setDuration(-1);

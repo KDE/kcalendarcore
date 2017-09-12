@@ -541,7 +541,7 @@ KDateTime Alarm::nextTime(const KDateTime &preTime, bool ignoreRepetitions) cons
         if (d->mAlarmRepeatCount && !ignoreRepetitions) {
             // The alarm has repetitions, so check whether repetitions of previous
             // recurrences happen after given time.
-            KDateTime prevRecurrence = d->mParent->recurrence()->getPreviousDateTime(preTime);
+            KDateTime prevRecurrence = KCalCore::q2k(d->mParent->recurrence()->getPreviousDateTime(KCalCore::k2q(preTime)));
             if (prevRecurrence.isValid()) {
                 KDateTime prevLastRepeat = alarmOffset.end(duration().end(prevRecurrence));
                 // qCDebug(KCALCORE_LOG) << "prevRecurrence" << prevRecurrence;
@@ -555,7 +555,7 @@ KDateTime Alarm::nextTime(const KDateTime &preTime, bool ignoreRepetitions) cons
             }
         }
         // Check the next recurrence now.
-        KDateTime nextRecurrence = d->mParent->recurrence()->getNextDateTime(preTime);
+        KDateTime nextRecurrence = KCalCore::q2k(d->mParent->recurrence()->getNextDateTime(KCalCore::k2q(preTime)));
         if (nextRecurrence.isValid()) {
             KDateTime nextAlarm = alarmOffset.end(nextRecurrence);
             /*

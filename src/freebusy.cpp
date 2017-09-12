@@ -161,7 +161,7 @@ void FreeBusy::Private::init(const Event::List &eventList,
                     //        a different time than the original event.
                     extraDays = event->dtStart().daysTo(event->dtEnd());
                     for (x = 0; x <= extraDays; ++x) {
-                        if (event->recursOn(day.addDays(-x), start.timeSpec())) {
+                        if (event->recursOn(day.addDays(-x), specToZone(start.timeSpec()))) {
                             tmpStart.setDate(day.addDays(-x));
                             tmpStart.setTime(event->dtStart().time());
                             tmpEnd = event->duration().end(tmpStart);
@@ -171,7 +171,7 @@ void FreeBusy::Private::init(const Event::List &eventList,
                         }
                     }
                 } else {
-                    if (event->recursOn(day, start.timeSpec())) {
+                    if (event->recursOn(day, specToZone(start.timeSpec()))) {
                         tmpStart.setTime(event->dtStart().time());
                         tmpEnd.setTime(event->dtEnd().time());
 

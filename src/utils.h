@@ -24,6 +24,8 @@
 
 #include "kcalcore_export.h"
 
+#include "sortablelist.h"
+
 #include <QDateTime>
 #include <KDateTime>
 
@@ -35,7 +37,7 @@ namespace KCalCore {
 /**
  * Applies KDateTime::Spec to given QDateTime and returns a modified QDateTime
  */
-KCALCORE_EXPORT QDateTime applySpec(const QDateTime &dt, const KDateTime::Spec &spec, bool isAllDay);
+QDateTime applySpec(const QDateTime &dt, const KDateTime::Spec &spec, bool isAllDay);
 
 /**
  * Helpers to retain backwards compatibility of binary serialization.
@@ -57,7 +59,7 @@ KCALCORE_EXPORT QTimeZone specToZone(const KDateTime::Spec &spec);
 
 /** Convert KDateTime to QDateTime, correctly preserves timespec */
 KCALCORE_EXPORT QDateTime k2q(const KDateTime &kdt);
-KCALCORE_EXPORT KDateTime q2k(const QDateTime &qdt);
+KCALCORE_EXPORT KDateTime q2k(const QDateTime &qdt, bool isAllDay = false);
 
 }
 

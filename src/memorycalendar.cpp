@@ -435,7 +435,7 @@ Todo::List MemoryCalendar::rawTodosForDate(const QDate &date) const
         i.next();
         t = i.value().staticCast<Todo>();
         if (t->recurs()) {
-            if (t->recursOn(date, zoneToSpec(timeZone()))) {
+            if (t->recursOn(date, timeZone())) {
                 todoList.append(t);
             }
         }
@@ -638,13 +638,13 @@ Event::List MemoryCalendar::rawEventsForDate(const QDate &date,
             if (ev->isMultiDay()) {
                 int extraDays = ev->dtStart().date().daysTo(ev->dtEnd().date());
                 for (int i = 0; i <= extraDays; ++i) {
-                    if (ev->recursOn(date.addDays(-i), zoneToSpec(ts))) {
+                    if (ev->recursOn(date.addDays(-i), ts)) {
                         eventList.append(ev);
                         break;
                     }
                 }
             } else {
-                if (ev->recursOn(date, zoneToSpec(ts))) {
+                if (ev->recursOn(date, ts)) {
                     eventList.append(ev);
                 }
             }

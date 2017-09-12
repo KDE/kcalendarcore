@@ -447,7 +447,7 @@ public:
     /**
       @copydoc Recurrence::recursOn()
     */
-    virtual bool recursOn(const QDate &date, const KDateTime::Spec &timeSpec) const;
+    virtual bool recursOn(const QDate &date, const QTimeZone &timeZone) const;
 
     /**
       @copydoc Recurrence::recursAt()

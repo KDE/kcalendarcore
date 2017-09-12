@@ -20,6 +20,7 @@
 */
 #include "testrecurtodo.h"
 #include "todo.h"
+#include "utils.h"
 
 #include <QTest>
 QTEST_MAIN(RecurTodoTest)
@@ -239,9 +240,9 @@ void RecurTodoTest::testRecurrenceBasedOnDtStart()
     todo->recurrence()->setDaily(1);
     todo->recurrence()->setDuration(3);
 
-    QCOMPARE(todo->recurrence()->getNextDateTime(dtstart), KDateTime(dtstart).addDays(1));
-    QCOMPARE(todo->recurrence()->getNextDateTime(KDateTime(dtstart).addDays(1)), KDateTime(dtstart).addDays(2));
-    QCOMPARE(todo->recurrence()->getNextDateTime(KDateTime(dtstart).addDays(2)), KDateTime());
+    QCOMPARE(todo->recurrence()->getNextDateTime(k2q(dtstart)), k2q(dtstart).addDays(1));
+    QCOMPARE(todo->recurrence()->getNextDateTime(k2q(dtstart).addDays(1)), k2q(dtstart).addDays(2));
+    QCOMPARE(todo->recurrence()->getNextDateTime(k2q(dtstart).addDays(2)), QDateTime());
 }
 
 //For backwards compatibility only
@@ -255,7 +256,7 @@ void RecurTodoTest::testRecurrenceBasedOnDue()
     todo->recurrence()->setDaily(1);
     todo->recurrence()->setDuration(3);
 
-    QCOMPARE(todo->recurrence()->getNextDateTime(dtdue), KDateTime(dtdue).addDays(1));
-    QCOMPARE(todo->recurrence()->getNextDateTime(KDateTime(dtdue).addDays(1)), KDateTime(dtdue).addDays(2));
-    QCOMPARE(todo->recurrence()->getNextDateTime(KDateTime(dtdue).addDays(2)), KDateTime());
+    QCOMPARE(todo->recurrence()->getNextDateTime(k2q(dtdue)), k2q(dtdue).addDays(1));
+    QCOMPARE(todo->recurrence()->getNextDateTime(k2q(dtdue).addDays(1)), k2q(dtdue).addDays(2));
+    QCOMPARE(todo->recurrence()->getNextDateTime(k2q(dtdue).addDays(2)), QDateTime());
 }

@@ -20,6 +20,8 @@
 */
 #include "testincidence.h"
 #include "event.h"
+#include "utils.h"
+#include "setuptzinfo.h"
 
 #include <qtest_kde.h>
 
@@ -28,6 +30,11 @@ QTEST_KDEMAIN(IncidenceTest, NoGUI)
 Q_DECLARE_METATYPE(KCalCore::Incidence::DateTimeRole)
 
 using namespace KCalCore;
+
+void IncidenceTest::initTestCase()
+{
+    SetupTzinfo setup;
+}
 
 void IncidenceTest::testDtStartChange()
 {
@@ -52,21 +59,21 @@ void IncidenceTest::testDtStartChange()
     QCOMPARE(inc.dirtyFields(),
              QSet<IncidenceBase::Field>()
              << IncidenceBase::FieldDtStart << IncidenceBase::FieldRecurrence);
-    QCOMPARE(inc.recurrence()->startDateTime(), KDateTime(dt).addDays(1));
+    QCOMPARE(q2k(inc.recurrence()->startDateTime(), true), KDateTime(dt).addDays(1));
     inc.resetDirtyFields();
 
     inc.setDtStart(KDateTime());
     QCOMPARE(inc.dirtyFields(),
              QSet<IncidenceBase::Field>()
              << IncidenceBase::FieldDtStart << IncidenceBase::FieldRecurrence);
-    QCOMPARE(inc.recurrence()->startDateTime(), KDateTime());
+    QCOMPARE(q2k(inc.recurrence()->startDateTime(), true), KDateTime());
     inc.resetDirtyFields();
 
     inc.setDtStart(KDateTime(dt).addDays(1));
     QCOMPARE(inc.dirtyFields(),
              QSet<IncidenceBase::Field>()
              << IncidenceBase::FieldDtStart << IncidenceBase::FieldRecurrence);
-    QCOMPARE(inc.recurrence()->startDateTime(), KDateTime(dt).addDays(1));
+    QCOMPARE(q2k(inc.recurrence()->startDateTime(), true), KDateTime(dt).addDays(1));
 }
 
 void IncidenceTest::testSummaryChange()
@@ -130,13 +137,13 @@ void IncidenceTest::testRecurrenceEndTimeChange()
     inc.setDtStart(KDateTime(dt));
     KCalCore::Recurrence *r = inc.recurrence();
     r->setDaily(1);
-    r->setEndDateTime(KDateTime(dt).addDays(1));
+    r->setEndDateTime(QDateTime(dt, {}).addDays(1));
     inc.resetDirtyFields();
 
-    r->setEndDateTime(KDateTime(dt).addDays(1));
+    r->setEndDateTime(QDateTime(dt, {}).addDays(1));
     QVERIFY(inc.dirtyFields().empty());
 
-    r->setEndDateTime(KDateTime(dt).addDays(2));
+    r->setEndDateTime(QDateTime(dt, {}).addDays(2));
     QCOMPARE(inc.dirtyFields(), QSet<IncidenceBase::Field>() << IncidenceBase::FieldRecurrence);
 }
 
@@ -157,21 +164,21 @@ void IncidenceTest::testRecurrenceEndTimeDurationChange()
 
     // duration is set and set enddate to inValid
     r->setDuration(5);
-    r->setEndDateTime(KDateTime());
+    r->setEndDateTime(QDateTime());
     QVERIFY(inc.dirtyFields().empty());
 
     // now set valid enddate -> set duration to 0 by sideeffect
-    r->setEndDateTime(KDateTime(dt).addDays(1));
+    r->setEndDateTime(QDateTime(dt, {}).addDays(1));
     QCOMPARE(inc.dirtyFields(), QSet<IncidenceBase::Field>() << IncidenceBase::FieldRecurrence);
     QCOMPARE(r->duration(), 0);
-    QCOMPARE(r->endDateTime(), KDateTime(dt).addDays(1));
+    QCOMPARE(r->endDateTime(), QDateTime(dt, {}).addDays(1));
 
     // with valid endDate, now setDuration and aftward set invalid endDate
-    r->setEndDateTime(KDateTime(dt).addDays(1));
+    r->setEndDateTime(QDateTime(dt, {}).addDays(1));
     r->setDuration(5);
     inc.resetDirtyFields();
 
-    r->setEndDateTime(KDateTime());
+    r->setEndDateTime(QDateTime());
     QVERIFY(inc.dirtyFields().empty());
     QCOMPARE(r->endDate(), dt.addDays(4));
     QCOMPARE(r->duration(), 5);

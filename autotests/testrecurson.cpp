@@ -41,6 +41,8 @@ using namespace KCalCore;
 
 int main(int argc, char **argv)
 {
+    qputenv("TZ", "GMT");
+
     const SetupTzinfo setup;
 
     QCommandLineParser parser;
@@ -80,7 +82,7 @@ int main(int argc, char **argv)
         return 1;
     }
     QString tz = cal->nonKDECustomProperty("X-LibKCal-Testsuite-OutTZ");
-    const auto zone = tz.isEmpty() ? cal->timeZone() : QTimeZone(tz.toUtf8());
+    const auto viewZone = tz.isEmpty() ? cal->timeZone() : QTimeZone(tz.toUtf8());
 
     Incidence::List inc = cal->incidences();
 
@@ -96,7 +98,7 @@ int main(int argc, char **argv)
             // Output to file for testing purposes
             int nr = 0;
             while (dt.year() <= 2020 && nr <= 500) {
-                if (incidence->recursOn(dt, KCalCore::zoneToSpec(zone))) {
+                if (incidence->recursOn(dt, viewZone)) {
                     (*outstream) << dt.toString(Qt::ISODate) << endl;
                     nr++;
                 }
@@ -105,7 +107,7 @@ int main(int argc, char **argv)
         } else {
             dt = QDate(2005, 1, 1);
             while (dt.year() < 2007) {
-                if (incidence->recursOn(dt, KCalCore::zoneToSpec(zone))) {
+                if (incidence->recursOn(dt, viewZone)) {
                     qDebug() << dt.toString(Qt::ISODate);
                 }
                 dt = dt.addDays(1);

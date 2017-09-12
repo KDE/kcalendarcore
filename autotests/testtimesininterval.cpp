@@ -21,6 +21,7 @@
 */
 #include "testtimesininterval.h"
 #include "event.h"
+#include "utils.h"
 
 #include <QDebug>
 
@@ -54,14 +55,14 @@ void TimesInIntervalTest::test()
 
     start.setTime(QTime(0, 0, 0));
     end.setTime(QTime(23, 59, 59));
-    DateTimeList dateList = event->recurrence()->timesInInterval(start, end);
+    auto dateList = event->recurrence()->timesInInterval(k2q(start), k2q(end));
     QVERIFY(dateList.count() == numDaysInInterval + 1);
 
     //------------------------------------------------------------------------------------------------
     // start == end == first day of the recurrence, should only return 1 occurrence
     end = start;
     end.setTime(QTime(23, 59, 59));
-    dateList = event->recurrence()->timesInInterval(start, end);
+    dateList = event->recurrence()->timesInInterval(k2q(start), k2q(end));
     QVERIFY(dateList.count() == 1);
 
     //------------------------------------------------------------------------------------------------
@@ -69,7 +70,7 @@ void TimesInIntervalTest::test()
     const int recurrenceDuration = 3;
     event->recurrence()->setDuration(recurrenceDuration);
     end = start.addDays(100);
-    dateList = event->recurrence()->timesInInterval(start, end);
+    dateList = event->recurrence()->timesInInterval(k2q(start), k2q(end));
     QVERIFY(dateList.count() == recurrenceDuration);
     //------------------------------------------------------------------------------------------------
     // Test daily recurrence that only lasts X days, and give start == end == last day of
@@ -79,7 +80,7 @@ void TimesInIntervalTest::test()
     start.setTime(QTime(0, 0, 0));
     end.setTime(QTime(23, 59, 59));
 
-    dateList = event->recurrence()->timesInInterval(start, end);
+    dateList = event->recurrence()->timesInInterval(k2q(start), k2q(end));
     QVERIFY(dateList.count() == 1);
 
     //------------------------------------------------------------------------------------------------
@@ -97,12 +98,12 @@ void TimesInIntervalTest::testSubDailyRecurrenceIntervalInclusive()
     event->recurrence()->setHourly(1);
     event->recurrence()->setDuration(2);
 
-    QList<KDateTime> expectedEventOccurrences;
-    expectedEventOccurrences << start << start.addSecs(60 * 60);
+    QList<QDateTime> expectedEventOccurrences;
+    expectedEventOccurrences << k2q(start) << k2q(start).addSecs(60 * 60);
 
-    const DateTimeList timesInInterval = event->recurrence()->timesInInterval(start, end);
+    const auto timesInInterval = event->recurrence()->timesInInterval(k2q(start), k2q(end));
 //   qDebug() << "timesInInterval " << timesInInterval;
-    for (const KDateTime &dt : timesInInterval) {
+    for (const auto &dt : timesInInterval) {
 //     qDebug() << dt;
         QCOMPARE(expectedEventOccurrences.removeAll(dt), 1);
     }
@@ -121,12 +122,12 @@ void TimesInIntervalTest::testSubDailyRecurrence2()
     event->recurrence()->setHourly(1);
     event->recurrence()->setDuration(2);
 
-    QList<KDateTime> expectedEventOccurrences;
-    expectedEventOccurrences << start << start.addSecs(60 * 60);
+    QList<QDateTime> expectedEventOccurrences;
+    expectedEventOccurrences << k2q(start) << k2q(start).addSecs(60 * 60);
 
-    const DateTimeList timesInInterval = event->recurrence()->timesInInterval(start.addSecs(-20), end.addSecs(20));
+    const auto timesInInterval = event->recurrence()->timesInInterval(k2q(start).addSecs(-20), k2q(end).addSecs(20));
 //   qDebug() << "timesInInterval " << timesInInterval;
-    for (const KDateTime &dt : timesInInterval) {
+    for (const auto &dt : timesInInterval) {
 //     qDebug() << dt;
         QCOMPARE(expectedEventOccurrences.removeAll(dt), 1);
     }
@@ -144,12 +145,12 @@ void TimesInIntervalTest::testSubDailyRecurrenceIntervalLimits()
     event->recurrence()->setHourly(1);
     event->recurrence()->setDuration(3);
 
-    QList<KDateTime> expectedEventOccurrences;
-    expectedEventOccurrences << start.addSecs(60 * 60);
+    QList<QDateTime> expectedEventOccurrences;
+    expectedEventOccurrences << k2q(start).addSecs(60 * 60);
 
-    const DateTimeList timesInInterval = event->recurrence()->timesInInterval(start.addSecs(1), end.addSecs(-1));
+    const auto timesInInterval = event->recurrence()->timesInInterval(k2q(start).addSecs(1), k2q(end).addSecs(-1));
 //   qDebug() << "timesInInterval " << timesInInterval;
-    for (const KDateTime &dt : timesInInterval) {
+    for (const auto &dt : timesInInterval) {
 //     qDebug() << dt;
         QCOMPARE(expectedEventOccurrences.removeAll(dt), 1);
     }

@@ -34,6 +34,7 @@
 
 #include "incidence.h"
 #include "calformat.h"
+#include "utils.h"
 
 #include <QTemporaryFile>
 #include <QMimeDatabase>
@@ -398,7 +399,7 @@ void Incidence::setDtStart(const KDateTime &dt)
 {
     IncidenceBase::setDtStart(dt);
     if (d->mRecurrence && dirtyFields().contains(FieldDtStart)) {
-        d->mRecurrence->setStartDateTime(dt);
+        d->mRecurrence->setStartDateTime(k2q(dt), allDay());
     }
 }
 
@@ -557,7 +558,7 @@ Recurrence *Incidence::recurrence() const
 {
     if (!d->mRecurrence) {
         d->mRecurrence = new Recurrence();
-        d->mRecurrence->setStartDateTime(dateTime(RoleRecurrenceStart));
+        d->mRecurrence->setStartDateTime(k2q(dateTime(RoleRecurrenceStart)), allDay());
         d->mRecurrence->setAllDay(allDay());
         d->mRecurrence->setRecurReadOnly(mReadOnly);
         d->mRecurrence->addObserver(const_cast<KCalCore::Incidence *>(this));
@@ -590,15 +591,14 @@ bool Incidence::recurs() const
     }
 }
 
-bool Incidence::recursOn(const QDate &date,
-                         const KDateTime::Spec &timeSpec) const
+bool Incidence::recursOn(const QDate &date, const QTimeZone &timeZone) const
 {
-    return d->mRecurrence && d->mRecurrence->recursOn(date, timeSpec);
+    return d->mRecurrence && d->mRecurrence->recursOn(date, timeZone);
 }
 
 bool Incidence::recursAt(const KDateTime &qdt) const
 {
-    return d->mRecurrence && d->mRecurrence->recursAt(qdt);
+    return d->mRecurrence && d->mRecurrence->recursAt(k2q(qdt));
 }
 
 QList<KDateTime> Incidence::startDateTimesForDate(const QDate &date,
@@ -628,8 +628,8 @@ QList<KDateTime> Incidence::startDateTimesForDate(const QDate &date,
     QDate tmpday(date.addDays(-days - 1));
     KDateTime tmp;
     while (tmpday <= date) {
-        if (recurrence()->recursOn(tmpday, timeSpec)) {
-            const QList<QTime> times = recurrence()->recurTimesOn(tmpday, timeSpec);
+        if (recurrence()->recursOn(tmpday, specToZone(timeSpec))) {
+            const QList<QTime> times = recurrence()->recurTimesOn(tmpday, specToZone(timeSpec));
             for (const QTime &time : times) {
                 tmp = KDateTime(tmpday, time, start.timeSpec());
                 if (endDateForStart(tmp) >= kdate) {
@@ -667,9 +667,9 @@ QList<KDateTime> Incidence::startDateTimesForDateTime(const KDateTime &datetime)
     QDate tmpday(datetime.date().addDays(-days - 1));
     KDateTime tmp;
     while (tmpday <= datetime.date()) {
-        if (recurrence()->recursOn(tmpday, datetime.timeSpec())) {
+        if (recurrence()->recursOn(tmpday, specToZone(datetime.timeSpec()))) {
             // Get the times during the day (in start date's time zone) when recurrences happen
-            const QList<QTime> times = recurrence()->recurTimesOn(tmpday, start.timeSpec());
+            const QList<QTime> times = recurrence()->recurTimesOn(tmpday, specToZone(start.timeSpec()));
             for (const QTime &time : times) {
                 tmp = KDateTime(tmpday, time, start.timeSpec());
                 if (!(tmp > datetime || endDateForStart(tmp) < datetime)) {
@@ -1124,65 +1124,6 @@ QStringList Incidence::mimeTypes()
            << KCalCore::Event::eventMimeType()
            << KCalCore::Todo::todoMimeType()
            << KCalCore::Journal::journalMimeType();
-}
-
-namespace {
-
-// To remain backwards compatible we need to (de)serialize QDateTime the way KDateTime
-// was (de)serialized
-void serializeQDateTimeAsKDateTime(QDataStream &out, const QDateTime &dt)
-{
-    out << dt.date() << dt.time();
-    switch (dt.timeSpec()) {
-    case Qt::UTC:
-        out << static_cast<quint8>('u');
-        break;
-    case Qt::OffsetFromUTC:
-        out << static_cast<quint8>('o') << dt.offsetFromUtc();
-        break;
-    case Qt::TimeZone:
-        out << static_cast<quint8>('z') << (dt.timeZone().isValid() ? QString::fromUtf8(dt.timeZone().id()) : QString());
-        break;
-    case Qt::LocalTime:
-        out << static_cast<quint8>('c');
-        break;
-    }
-    const bool isDateOnly = dt.date().isValid() && !dt.time().isValid();
-    out << quint8(isDateOnly ? 0x01 : 0x00);
-}
-
-void deserializeKDateTimeAsQDateTime(QDataStream &in, QDateTime &dt)
-{
-    QDate date;
-    QTime time;
-    quint8 ts, flags;
-
-    in >> date >> time >> ts;
-    switch (static_cast<uchar>(ts)) {
-    case 'u':
-        dt = QDateTime(date, time, Qt::UTC);
-        break;
-    case 'o': {
-        int offset;
-        in >> offset;
-        dt = QDateTime(date, time, Qt::OffsetFromUTC, offset);
-        break;
-    }
-    case 'z': {
-        QString tzid;
-        in >> tzid;
-        dt = QDateTime(date, time, QTimeZone(tzid.toUtf8()));
-        break;
-    }
-    case 'c':
-        dt = QDateTime(date, time, Qt::LocalTime);
-        break;
-    }
-
-    // unused, we don't have a special handling for date-only QDateTime
-    in >> flags;
-}
-
 }
 
 void Incidence::serialize(QDataStream &out)

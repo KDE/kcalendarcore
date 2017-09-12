@@ -22,6 +22,7 @@
 
 #include "filestorage.h"
 #include "memorycalendar.h"
+#include "utils.h"
 
 #include <KAboutData>
 #include <KLocalizedString>
@@ -111,7 +112,7 @@ int main(int argc, char **argv)
             // Output to file for testing purposes
             while (dt.isValid() && i < 500) {
                 ++i;
-                dt = incidence->recurrence()->getNextDateTime(dt);
+                dt = q2k(incidence->recurrence()->getNextDateTime(k2q(dt)));
                 if (dt.isValid()) {
                     (*outstream) << dumpTime(dt, viewSpec) << endl;
                 }
@@ -122,7 +123,7 @@ int main(int argc, char **argv)
             while (dt.isValid() && i < 10) {
                 ++i;
                 qDebug() << "-------------------------------------------";
-                dt = incidence->recurrence()->getNextDateTime(dt);
+                dt = q2k(incidence->recurrence()->getNextDateTime(k2q(dt)));
                 if (dt.isValid()) {
                     qDebug() << " *~*~*~*~ Next date is:" << dumpTime(dt, viewSpec);
                 }

@@ -43,6 +43,7 @@
 #include "utils.h"
 #include "versit/vcc.h"
 #include "versit/vobject.h"
+#include "utils.h"
 
 #include <KCodecs>
 #include "kcalcore_debug.h"
@@ -463,7 +464,7 @@ VObject *VCalFormat::eventToVTodo(const Todo::Ptr &anEvent)
         } else if (recur->duration() == -1) {
             tmpStr += QLatin1String("#0"); // defined as repeat forever
         } else {
-            tmpStr += kDateTimeToISO(recur->endDateTime(), false);
+            tmpStr += kDateTimeToISO(q2k(recur->endDateTime()), false);
         }
         // Only write out the rrule if we have a valid recurrence (i.e. a known
         // type in thee switch above)
@@ -487,12 +488,11 @@ VObject *VCalFormat::eventToVTodo(const Todo::Ptr &anEvent)
         addPropValue(vtodo, VCExpDateProp, tmpStr2.toUtf8().constData());
     }
     // exceptions datetimes to recurrence
-    DateTimeList dateTimeList = recur->exDateTimes();
-    DateTimeList::ConstIterator idt;
+    auto dateTimeList = recur->exDateTimes();
     tmpStr2.clear();
 
-    for (idt = dateTimeList.constBegin(); idt != dateTimeList.constEnd(); ++idt) {
-        tmpStr = kDateTimeToISO(*idt) + QLatin1Char(';');
+    for (auto idt = dateTimeList.constBegin(); idt != dateTimeList.constEnd(); ++idt) {
+        tmpStr = kDateTimeToISO(q2k(*idt)) + QLatin1Char(';');
         tmpStr2 += tmpStr;
     }
     if (!tmpStr2.isEmpty()) {
@@ -781,7 +781,7 @@ VObject *VCalFormat::eventToVEvent(const Event::Ptr &anEvent)
         } else if (recur->duration() == -1) {
             tmpStr += QLatin1String("#0"); // defined as repeat forever
         } else {
-            tmpStr += kDateTimeToISO(recur->endDateTime(), false);
+            tmpStr += kDateTimeToISO(q2k(recur->endDateTime()), false);
         }
         // Only write out the rrule if we have a valid recurrence (i.e. a known
         // type in thee switch above)
@@ -805,12 +805,11 @@ VObject *VCalFormat::eventToVEvent(const Event::Ptr &anEvent)
         addPropValue(vevent, VCExpDateProp, tmpStr2.toUtf8().constData());
     }
     // exceptions datetimes to recurrence
-    DateTimeList dateTimeList = recur->exDateTimes();
-    DateTimeList::ConstIterator idt;
+    auto dateTimeList = recur->exDateTimes();
     tmpStr2.clear();
 
-    for (idt = dateTimeList.constBegin(); idt != dateTimeList.constEnd(); ++idt) {
-        tmpStr = kDateTimeToISO(*idt) + QLatin1Char(';');
+    for (auto idt = dateTimeList.constBegin(); idt != dateTimeList.constEnd(); ++idt) {
+        tmpStr = kDateTimeToISO(q2k(*idt)) + QLatin1Char(';');
         tmpStr2 += tmpStr;
     }
     if (!tmpStr2.isEmpty()) {
@@ -1301,7 +1300,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
                 }
             } else if (tmpStr.indexOf(QLatin1Char('T'), index) != -1) {
                 KDateTime rEndDate = ISOToKDateTime(tmpStr.mid(index, tmpStr.length() - index));
-                anEvent->recurrence()->setEndDateTime(rEndDate);
+                anEvent->recurrence()->setEndDateTime(k2q(rEndDate));
             }
         } else {
             qCDebug(KCALCORE_LOG) << "we don't understand this type of recurrence!";
@@ -1320,7 +1319,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
                     exDate.time().second() == 0) {
                 anEvent->recurrence()->addExDate(ISOToQDate(*it));
             } else {
-                anEvent->recurrence()->addExDateTime(exDate);
+                anEvent->recurrence()->addExDateTime(k2q(exDate));
             }
         }
         deleteStr(s);
@@ -1741,7 +1740,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
                 }
             } else if (tmpStr.indexOf(QLatin1Char('T'), index) != -1) {
                 KDateTime rEndDate = ISOToKDateTime(tmpStr.mid(index, tmpStr.length() - index));
-                anEvent->recurrence()->setEndDateTime(rEndDate);
+                anEvent->recurrence()->setEndDateTime(k2q(rEndDate));
             }
 // anEvent->recurrence()->dump();
 
@@ -1762,7 +1761,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
                     exDate.time().second() == 0) {
                 anEvent->recurrence()->addExDate(ISOToQDate(*it));
             } else {
-                anEvent->recurrence()->addExDateTime(exDate);
+                anEvent->recurrence()->addExDateTime(k2q(exDate));
             }
         }
         deleteStr(s);

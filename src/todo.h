@@ -269,10 +269,9 @@ public:
       the recur start and today.
 
       @param date is the date to check.
-      @param timeSpec is the
+      @param timeZone is the time zone
     */
-    bool recursOn(const QDate &date,
-                  const KDateTime::Spec &timeSpec) const override;
+    bool recursOn(const QDate &date, const QTimeZone &timeZone) const override;
 
     /**
       Returns true if this todo is overdue (e.g. due date is lower than today

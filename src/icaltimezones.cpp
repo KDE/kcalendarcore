@@ -25,6 +25,7 @@
 #include "icalformat_p.h"
 #include "recurrence.h"
 #include "recurrencerule.h"
+#include "utils.h"
 
 #include "kcalcore_debug.h"
 #include <KDateTime>
@@ -1304,19 +1305,19 @@ QList<QDateTime> ICalTimeZoneSourcePrivate::parsePhase(icalcomponent *c,
                 ICalFormat icf;
                 ICalFormatImpl impl(&icf);
                 impl.readRecurrence(icalproperty_get_rrule(p), &r);
-                r.setStartDt(klocalStart);
+                r.setStartDt(k2q(klocalStart));
                 // The end date time specified in an RRULE should be in UTC.
                 // Convert to local time to avoid timesInInterval() getting things wrong.
                 if (r.duration() == 0) {
                     KDateTime end(r.endDt());
                     if (end.timeSpec() == KDateTime::Spec::UTC()) {
                         end.setTimeSpec(KDateTime::Spec::ClockTime());
-                        r.setEndDt(end.addSecs(prevOffset));
+                        r.setEndDt(k2q(end.addSecs(prevOffset)));
                     }
                 }
-                const DateTimeList dts = r.timesInInterval(klocalStart, maxTime);
+                const auto dts = r.timesInInterval(k2q(klocalStart), k2q(maxTime));
                 for (int i = 0, end = dts.count();  i < end;  ++i) {
-                    QDateTime utc = dts[i].dateTime();
+                    QDateTime utc = dts[i];
                     utc.setTimeSpec(Qt::UTC);
                     transitions += utc.addSecs(-prevOffset);
                 }

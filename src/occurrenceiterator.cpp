@@ -116,17 +116,13 @@ public:
                         recurrenceIds.insert(applySpec(exception->recurrenceId(), incidenceRecStart.timeSpec(), isAllDay), exception);
                     }
                 }
-                const DateTimeList occurrences = inc->recurrence()->timesInInterval(start, end);
+                const auto occurrences = inc->recurrence()->timesInInterval(k2q(start), k2q(end));
                 Incidence::Ptr incidence(inc), lastInc(inc);
                 qint64 offset(0), lastOffset(0);
                 KDateTime occurrenceStartDate;
-                for(const auto &rId : qAsConst(occurrences)) {
-                    QDateTime recurrenceId = k2q(rId);
+                for(auto recurrenceId : qAsConst(occurrences)) {
                     //timesInInterval generates always date-times,
                     //which is not what we want for all-day events
-                    if (isAllDay) {
-                        recurrenceId = applySpec(recurrenceId, rId.timeSpec(), isAllDay);
-                    }
                     occurrenceStartDate = q2k(recurrenceId);
                     if (isAllDay) {
                         occurrenceStartDate.setDateOnly(true);

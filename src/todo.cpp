@@ -35,6 +35,7 @@
 #include "visitor.h"
 #include "recurrence.h"
 #include "utils.h"
+
 #include "kcalcore_debug.h"
 
 #include <QTime>
@@ -164,7 +165,7 @@ void Todo::setDtDue(const KDateTime &dtDue, bool first)
         d->mDtDue = dtDue;
     }
 
-    if (recurs() && dtDue.isValid() && (!dtStart().isValid() || dtDue < recurrence()->startDateTime())) {
+    if (recurs() && dtDue.isValid() && (!dtStart().isValid() || dtDue < q2k(recurrence()->startDateTime()))) {
         qCDebug(KCALCORE_LOG) << "To-do recurrences are now calculated against DTSTART. Fixing legacy to-do.";
         setDtStart(dtDue);
     }
@@ -379,13 +380,13 @@ KDateTime Todo::dtRecurrence() const
     return d->mDtRecurrence.isValid() ? d->mDtRecurrence : d->mDtDue;
 }
 
-bool Todo::recursOn(const QDate &date, const KDateTime::Spec &timeSpec) const
+bool Todo::recursOn(const QDate &date, const QTimeZone &timeZone) const
 {
     QDate today = QDate::currentDate();
     return
-        Incidence::recursOn(date, timeSpec) &&
+        Incidence::recursOn(date, timeZone) &&
         !(date < today && d->mDtRecurrence.date() < today &&
-          d->mDtRecurrence > recurrence()->startDateTime());
+          d->mDtRecurrence > q2k(recurrence()->startDateTime()));
 }
 
 bool Todo::isOverdue() const
@@ -415,8 +416,8 @@ bool Todo::Private::recurTodo(Todo *todo)
 {
     if (todo && todo->recurs()) {
         Recurrence *r = todo->recurrence();
-        const KDateTime recurrenceEndDateTime = r->endDateTime();
-        KDateTime nextOccurrenceDateTime = r->getNextDateTime(todo->dtStart());
+        const KDateTime recurrenceEndDateTime = q2k(r->endDateTime());
+        KDateTime nextOccurrenceDateTime = q2k(r->getNextDateTime(k2q(todo->dtStart())));
 
         if ((r->duration() == -1 ||
                 (nextOccurrenceDateTime.isValid() && recurrenceEndDateTime.isValid() &&
@@ -440,7 +441,7 @@ bool Todo::Private::recurTodo(Todo *todo)
                         (nextOccurrenceDateTime > recurrenceEndDateTime && r->duration() != -1)) {
                     return false;
                 }
-                nextOccurrenceDateTime = r->getNextDateTime(nextOccurrenceDateTime);
+                nextOccurrenceDateTime = q2k(r->getNextDateTime(k2q(nextOccurrenceDateTime)));
             }
 
             todo->setDtRecurrence(nextOccurrenceDateTime);
