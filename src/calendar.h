@@ -603,27 +603,6 @@ public:
     virtual bool endChange(const Incidence::Ptr &incidence);
 
     /**
-      Dissociate an Incidence from a recurring Incidence.
-      By default, only one single Incidence for the specified @a date
-      will be dissociated and returned.  If @a single is false, then
-      the recurrence will be split at @a date, the old Incidence will
-      have its recurrence ending at @a date and the new Incidence
-      will have all recurrences past the @a date.
-
-      @param incidence is a pointer to a recurring Incidence.
-      @param date is the QDate within the recurring Incidence on which
-      the dissociation will be performed.
-      @param spec is the spec in which the @a date is formulated.
-      @param single is a flag meaning that a new Incidence should be created
-      from the recurring Incidences after @a date.
-
-      @return a pointer to a new recurring Incidence if @a single is false.
-      @deprecated Use createException()
-    */
-    KCALCORE_DEPRECATED Incidence::Ptr dissociateOccurrence(
-        const Incidence::Ptr &incidence, const QDate &date,
-        const KDateTime::Spec &spec, bool single = true);
-    /**
       Creates an exception for an occurrence from a recurring Incidence.
 
       The returned exception is not automatically inserted into the calendar.
