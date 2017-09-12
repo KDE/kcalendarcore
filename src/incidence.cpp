@@ -150,7 +150,7 @@ public:
         }
     }
 
-    KDateTime mCreated;                 // creation datetime
+    QDateTime mCreated;                 // creation datetime
     QString mDescription;               // description string
     QString mSummary;                   // summary string
     QString mLocation;                  // location string
@@ -312,7 +312,7 @@ QString Incidence::instanceIdentifier() const
 
 void Incidence::recreate()
 {
-    const KDateTime nowUTC = KDateTime::currentUtcDateTime();
+    const QDateTime nowUTC = QDateTime::currentDateTimeUtc();
     setCreated(nowUTC);
 
     setSchedulingID(QString(), CalFormat::createUniqueId());
@@ -320,7 +320,7 @@ void Incidence::recreate()
     setLastModified(nowUTC);
 }
 
-void Incidence::setLastModified(const KDateTime &lm)
+void Incidence::setLastModified(const QDateTime &lm)
 {
     if (!d->mLocalOnly) {
         IncidenceBase::setLastModified(lm);
@@ -359,20 +359,23 @@ void Incidence::setAllDay(bool allDay)
     IncidenceBase::setAllDay(allDay);
 }
 
-void Incidence::setCreated(const KDateTime &created)
+void Incidence::setCreated(const QDateTime &created)
 {
     if (mReadOnly || d->mLocalOnly) {
         return;
     }
 
-    d->mCreated = created.toUtc();
+    d->mCreated = created.toUTC();
+    const auto ct = d->mCreated.time();
+    // Remove milliseconds
+    d->mCreated.setTime(QTime(ct.hour(), ct.minute(), ct.second()));
     setFieldDirty(FieldCreated);
 
 // FIXME: Shouldn't we call updated for the creation date, too?
 //  updated();
 }
 
-KDateTime Incidence::created() const
+QDateTime Incidence::created() const
 {
     return d->mCreated;
 }
@@ -1128,7 +1131,8 @@ QStringList Incidence::mimeTypes()
 
 void Incidence::serialize(QDataStream &out)
 {
-    out << d->mCreated << d->mRevision << d->mDescription << d->mDescriptionIsRich << d->mSummary
+    serializeQDateTimeAsKDateTime(out, d->mCreated);
+    out << d->mRevision << d->mDescription << d->mDescriptionIsRich << d->mSummary
         << d->mSummaryIsRich << d->mLocation << d->mLocationIsRich << d->mCategories
         << d->mResources << d->mStatusString << d->mPriority << d->mSchedulingID
         << d->mGeoLatitude << d->mGeoLongitude << d->mHasGeo;
@@ -1156,7 +1160,8 @@ void Incidence::deserialize(QDataStream &in)
     bool hasRecurrence;
     int attachmentCount, alarmCount;
     QMap<int, QString> relatedToUid;
-    in >> d->mCreated >> d->mRevision >> d->mDescription >> d->mDescriptionIsRich >> d->mSummary
+    deserializeKDateTimeAsQDateTime(in, d->mCreated);
+    in >> d->mRevision >> d->mDescription >> d->mDescriptionIsRich >> d->mSummary
        >> d->mSummaryIsRich >> d->mLocation >> d->mLocationIsRich >> d->mCategories
        >> d->mResources >> d->mStatusString >> d->mPriority >> d->mSchedulingID
        >> d->mGeoLatitude >> d->mGeoLongitude >> d->mHasGeo;

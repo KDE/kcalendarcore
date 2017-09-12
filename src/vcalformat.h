@@ -160,6 +160,7 @@ protected:
       @param zulu if true, then shift the date to UTC.
     */
     QString kDateTimeToISO(const KDateTime &date, bool zulu = true);
+    QString qDateTimeToISO(const QDateTime &date, bool zulu = true);
 
     /**
       Takes a string in YYYYMMDDTHHMMSS format and returns a valid KDateTime.
@@ -167,6 +168,7 @@ protected:
       is invalid, then KDateTime() is returned.
     */
     KDateTime ISOToKDateTime(const QString &dtStr);
+    QDateTime ISOToQDateTime(const QString &dtStr);
 
     /**
       Takes a string in the YYYYMMDD format and returns a valid QDate.

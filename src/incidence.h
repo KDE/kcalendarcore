@@ -154,7 +154,7 @@ public:
     /**
       @copydoc IncidenceBase::setLastModified().
     */
-    void setLastModified(const KDateTime &lm) override;
+    void setLastModified(const QDateTime &lm) override;
 
     /**
       Set localOnly state of incidence.
@@ -192,13 +192,13 @@ public:
       @param dt is the creation date/time.
       @see created().
     */
-    void setCreated(const KDateTime &dt);
+    void setCreated(const QDateTime &dt);
 
     /**
       Returns the incidence creation date/time.
       @see setCreated().
     */
-    KDateTime created() const;
+    QDateTime created() const;
 
     /**
       Sets the number of revisions this incidence has seen.

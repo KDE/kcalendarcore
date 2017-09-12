@@ -186,7 +186,7 @@ void TodoTest::testSerializer_data()
 
     todo1->setSummary(QStringLiteral("Summary"), false);
     todo1->setDescription(QStringLiteral("description"), false);
-    todo1->setCreated(yesterday);
+    todo1->setCreated(k2q(yesterday));
     todo1->setRevision(50);
     todo1->setDtDue(yesterday);
     todo1->setDtStart(today);
@@ -236,7 +236,7 @@ void TodoTest::testSerializer_data()
     todo6->setGeoLatitude(40);
     todo6->setGeoLongitude(40);
     todo6->setUid(QStringLiteral("uid22"));
-    todo6->setLastModified(today);
+    todo6->setLastModified(k2q(today));
     todo6->addContact(QStringLiteral("addContact"));
 
     // Remaining properties tested in testevent.cpp

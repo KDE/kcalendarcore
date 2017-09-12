@@ -465,7 +465,7 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent,
     // creation date in storage
     icalcomponent_add_property(
         parent, writeICalDateTimeProperty(
-            ICAL_CREATED_PROPERTY, incidence->created()));
+            ICAL_CREATED_PROPERTY, q2k(incidence->created())));
 
     // unique id
     // If the scheduling ID is different from the real UID, the real
@@ -485,7 +485,7 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent,
     if (incidence->lastModified().isValid()) {
         icalcomponent_add_property(
             parent, writeICalDateTimeProperty(
-                ICAL_LASTMODIFIED_PROPERTY, incidence->lastModified()));
+                ICAL_LASTMODIFIED_PROPERTY, q2k(incidence->lastModified())));
     }
 
     // description
@@ -679,7 +679,7 @@ void ICalFormatImpl::Private::writeIncidenceBase(icalcomponent *parent,
     }
 
     icalcomponent_add_property(
-        parent, icalproperty_new_dtstamp(writeICalUtcDateTime(incidenceBase->lastModified())));
+        parent, icalproperty_new_dtstamp(writeICalUtcDateTime(q2k(incidenceBase->lastModified()))));
 
     // attendees
     if (incidenceBase->attendeeCount() > 0) {
@@ -1677,7 +1677,7 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent,
         icalproperty_kind kind = icalproperty_isa(p);
         switch (kind) {
         case ICAL_CREATED_PROPERTY:
-            incidence->setCreated(readICalDateTimeProperty(p, tzlist));
+            incidence->setCreated(k2q(readICalDateTimeProperty(p, tzlist)));
             break;
 
         case ICAL_DTSTAMP_PROPERTY:
@@ -1690,7 +1690,7 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent,
             break;
 
         case ICAL_LASTMODIFIED_PROPERTY:  // last modification UTC date/time
-            incidence->setLastModified(readICalDateTimeProperty(p, tzlist));
+            incidence->setLastModified(k2q(readICalDateTimeProperty(p, tzlist)));
             break;
 
         case ICAL_DTSTART_PROPERTY:  // start date and time

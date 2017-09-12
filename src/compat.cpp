@@ -407,6 +407,6 @@ CompatPre410::~CompatPre410()
 void CompatPre410::setCreatedToDtStamp(const Incidence::Ptr &incidence, const QDateTime &dtstamp)
 {
     if (dtstamp.isValid()) {
-        incidence->setCreated(q2k(dtstamp));
+        incidence->setCreated(dtstamp);
     }
 }

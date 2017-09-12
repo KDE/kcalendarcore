@@ -312,17 +312,17 @@ public:
       Sets the time the incidence was last modified to @p lm.
       It is stored as a UTC date/time.
 
-      @param lm is the KDateTime when the incidence was last modified.
+      @param lm is the QDateTime when the incidence was last modified.
 
       @see lastModified()
     */
-    virtual void setLastModified(const KDateTime &lm);
+    virtual void setLastModified(const QDateTime &lm);
 
     /**
       Returns the time the incidence was last modified.
       @see setLastModified()
     */
-    KDateTime lastModified() const;
+    QDateTime lastModified() const;
 
     /**
       Sets the organizer for the incidence.

@@ -81,7 +81,7 @@ public:
 
     void init(const Private &other);
 
-    KDateTime mLastModified;     // incidence last modified date
+    QDateTime mLastModified;     // incidence last modified date
     KDateTime mDtStart;          // incidence start time
     Person::Ptr mOrganizer;           // incidence person (owner)
     QString mUid;                // incidence unique id
@@ -240,7 +240,7 @@ QString IncidenceBase::uid() const
     return d->mUid;
 }
 
-void IncidenceBase::setLastModified(const KDateTime &lm)
+void IncidenceBase::setLastModified(const QDateTime &lm)
 {
     // DON'T! updated() because we call this from
     // Calendar::updateEvent().
@@ -248,7 +248,7 @@ void IncidenceBase::setLastModified(const KDateTime &lm)
     d->mDirtyFields.insert(FieldLastModified);
 
     // Convert to UTC and remove milliseconds part.
-    KDateTime current = lm.toUtc();
+    QDateTime current = lm.toUTC();
     QTime t = current.time();
     t.setHMS(t.hour(), t.minute(), t.second(), 0);
     current.setTime(t);
@@ -256,7 +256,7 @@ void IncidenceBase::setLastModified(const KDateTime &lm)
     d->mLastModified = current;
 }
 
-KDateTime IncidenceBase::lastModified() const
+QDateTime IncidenceBase::lastModified() const
 {
     return d->mLastModified;
 }
@@ -691,7 +691,8 @@ QDataStream &KCalCore::operator<<(QDataStream &out, const KCalCore::IncidenceBas
     out << static_cast<qint32>(i->type());
 
     out << *(static_cast<CustomProperties *>(i.data()));
-    out << i->d->mLastModified << i->d->mDtStart << i->organizer() << i->d->mUid << i->d->mDuration
+    serializeQDateTimeAsKDateTime(out, i->d->mLastModified);
+    out << i->d->mDtStart << i->organizer() << i->d->mUid << i->d->mDuration
         << i->d->mAllDay << i->d->mHasDuration << i->d->mComments << i->d->mContacts
         << i->d->mAttendees.count() << i->d->mUrl;
 
@@ -731,7 +732,8 @@ QDataStream &KCalCore::operator>>(QDataStream &in, const KCalCore::IncidenceBase
     in >> type;
 
     in >> *(static_cast<CustomProperties *>(i.data()));
-    in >> i->d->mLastModified >> i->d->mDtStart >> i->d->mOrganizer >> i->d->mUid >> i->d->mDuration
+    deserializeKDateTimeAsQDateTime(in, i->d->mLastModified);
+    in >> i->d->mDtStart >> i->d->mOrganizer >> i->d->mUid >> i->d->mDuration
        >> i->d->mAllDay >> i->d->mHasDuration >> i->d->mComments >> i->d->mContacts >> attendeeCount
        >> i->d->mUrl;
 

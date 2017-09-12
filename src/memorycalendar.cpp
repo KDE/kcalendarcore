@@ -578,7 +578,7 @@ void MemoryCalendar::incidenceUpdated(const QString &uid, const QDateTime &recur
 
         d->mIncidenceBeingUpdated = QString();
 
-        inc->setLastModified(KDateTime::currentUtcDateTime());
+        inc->setLastModified(QDateTime::currentDateTimeUtc());
         // we should probably update the revision number here,
         // or internally in the Event itself when certain things change.
         // need to verify with ical documentation.

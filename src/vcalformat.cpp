@@ -336,7 +336,7 @@ VObject *VCalFormat::eventToVTodo(const Todo::Ptr &anEvent)
     }
 
     // creation date
-    tmpStr = kDateTimeToISO(anEvent->created());
+    tmpStr = qDateTimeToISO(anEvent->created());
     addPropValue(vtodo, VCDCreatedProp, tmpStr.toUtf8().constData());
 
     // unique id
@@ -348,7 +348,7 @@ VObject *VCalFormat::eventToVTodo(const Todo::Ptr &anEvent)
     addPropValue(vtodo, VCSequenceProp, tmpStr.toUtf8().constData());
 
     // last modification date
-    tmpStr = kDateTimeToISO(anEvent->lastModified());
+    tmpStr = qDateTimeToISO(anEvent->lastModified());
     addPropValue(vtodo, VCLastModifiedProp, tmpStr.toUtf8().constData());
 
     // organizer stuff
@@ -655,7 +655,7 @@ VObject *VCalFormat::eventToVEvent(const Event::Ptr &anEvent)
     }
 
     // creation date
-    tmpStr = kDateTimeToISO(anEvent->created());
+    tmpStr = qDateTimeToISO(anEvent->created());
     addPropValue(vevent, VCDCreatedProp, tmpStr.toUtf8().constData());
 
     // unique id
@@ -667,7 +667,7 @@ VObject *VCalFormat::eventToVEvent(const Event::Ptr &anEvent)
     addPropValue(vevent, VCSequenceProp, tmpStr.toUtf8().constData());
 
     // last modification date
-    tmpStr = kDateTimeToISO(anEvent->lastModified());
+    tmpStr = qDateTimeToISO(anEvent->lastModified());
     addPropValue(vevent, VCLastModifiedProp, tmpStr.toUtf8().constData());
 
     // attendee and organizer stuff
@@ -976,7 +976,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
 
     // creation date
     if ((vo = isAPropertyOf(vtodo, VCDCreatedProp)) != nullptr) {
-        anEvent->setCreated(ISOToKDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo)))));
+        anEvent->setCreated(ISOToQDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo)))));
         deleteStr(s);
     }
 
@@ -991,10 +991,10 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
 
     // last modification date
     if ((vo = isAPropertyOf(vtodo, VCLastModifiedProp)) != nullptr) {
-        anEvent->setLastModified(ISOToKDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo)))));
+        anEvent->setLastModified(ISOToQDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo)))));
         deleteStr(s);
     } else {
-        anEvent->setLastModified(KDateTime::currentUtcDateTime());
+        anEvent->setLastModified(QDateTime::currentDateTimeUtc());
     }
 
     // organizer
@@ -1437,7 +1437,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
 
     // creation date
     if ((vo = isAPropertyOf(vevent, VCDCreatedProp)) != nullptr) {
-        anEvent->setCreated(ISOToKDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo)))));
+        anEvent->setCreated(ISOToQDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo)))));
         deleteStr(s);
     }
 
@@ -1463,10 +1463,10 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
 
     // last modification date
     if ((vo = isAPropertyOf(vevent, VCLastModifiedProp)) != nullptr) {
-        anEvent->setLastModified(ISOToKDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo)))));
+        anEvent->setLastModified(ISOToQDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo)))));
         deleteStr(s);
     } else {
-        anEvent->setLastModified(KDateTime::currentUtcDateTime());
+        anEvent->setLastModified(QDateTime::currentDateTimeUtc());
     }
 
     // organizer
@@ -2026,6 +2026,30 @@ QString VCalFormat::kDateTimeToISO(const KDateTime &dt, bool zulu)
     return tmpStr;
 }
 
+QString VCalFormat::qDateTimeToISO(const QDateTime &dt, bool zulu)
+{
+    QString tmpStr;
+
+    if (!dt.isValid()) {
+        return QString();
+    }
+
+    QDateTime tmpDT;
+    if (zulu) {
+        tmpDT = dt.toUTC();
+    } else {
+        tmpDT = dt.toTimeZone(d->mCalendar->timeZone());
+    }
+    tmpStr.sprintf("%.2d%.2d%.2dT%.2d%.2d%.2d",
+                   tmpDT.date().year(), tmpDT.date().month(),
+                   tmpDT.date().day(), tmpDT.time().hour(),
+                   tmpDT.time().minute(), tmpDT.time().second());
+    if (zulu || dt.timeZone() == QTimeZone::utc()) {
+        tmpStr += QLatin1Char('Z');
+    }
+    return tmpStr;
+}
+
 KDateTime VCalFormat::ISOToKDateTime(const QString &dtStr)
 {
     QDate tmpDate;
@@ -2052,6 +2076,35 @@ KDateTime VCalFormat::ISOToKDateTime(const QString &dtStr)
         }
     } else {
         return KDateTime();
+    }
+}
+
+QDateTime VCalFormat::ISOToQDateTime(const QString &dtStr)
+{
+    QDate tmpDate;
+    QTime tmpTime;
+    QString tmpStr;
+    int year, month, day, hour, minute, second;
+
+    tmpStr = dtStr;
+    year = tmpStr.leftRef(4).toInt();
+    month = tmpStr.midRef(4, 2).toInt();
+    day = tmpStr.midRef(6, 2).toInt();
+    hour = tmpStr.midRef(9, 2).toInt();
+    minute = tmpStr.midRef(11, 2).toInt();
+    second = tmpStr.midRef(13, 2).toInt();
+    tmpDate.setDate(year, month, day);
+    tmpTime.setHMS(hour, minute, second);
+
+    if (tmpDate.isValid() && tmpTime.isValid()) {
+        // correct for GMT if string is in Zulu format
+        if (dtStr.at(dtStr.length() - 1) == QLatin1Char('Z')) {
+            return QDateTime(tmpDate, tmpTime, Qt::UTC);
+        } else {
+            return QDateTime(tmpDate, tmpTime, d->mCalendar->timeZone());
+        }
+    } else {
+        return QDateTime();
     }
 }
 
