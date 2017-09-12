@@ -548,17 +548,17 @@ QLatin1String Todo::todoMimeType()
     return QLatin1String("application/x-vnd.akonadi.calendar.todo");
 }
 
-QLatin1String Todo::iconName(const KDateTime &recurrenceId) const
+QLatin1String Todo::iconName(const QDateTime &recurrenceId) const
 {
-    KDateTime occurrenceDT = recurrenceId;
+    QDateTime occurrenceDT = recurrenceId;
 
-    if (recurs() && occurrenceDT.isDateOnly()) {
+    if (recurs() && allDay()) {
         occurrenceDT.setTime(QTime(0, 0));
     }
 
     const bool usesCompletedTaskPixmap = isCompleted() ||
                                          (recurs() && occurrenceDT.isValid() &&
-                                          occurrenceDT < dtDue(false));
+                                          occurrenceDT < k2q(dtDue(false)));
 
     if (usesCompletedTaskPixmap) {
         return QLatin1String("task-complete");

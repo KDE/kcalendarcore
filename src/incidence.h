@@ -816,7 +816,7 @@ public:
       for example, completed to-do occurrences. Use this parameter to identify
       the specific occurrence in a recurring serie.
     */
-    virtual QLatin1String iconName(const KDateTime &recurrenceId = KDateTime()) const = 0;
+    virtual QLatin1String iconName(const QDateTime &recurrenceId = {}) const = 0;
 
     /**
      * Returns true if the incidence type supports groupware communication.

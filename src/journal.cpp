@@ -126,7 +126,7 @@ QLatin1String Journal::journalMimeType()
     return QLatin1String("application/x-vnd.akonadi.calendar.journal");
 }
 
-QLatin1String Journal::iconName(const KDateTime &) const
+QLatin1String Journal::iconName(const QDateTime &) const
 {
     return QLatin1String("view-pim-journal");
 }

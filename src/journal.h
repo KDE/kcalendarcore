@@ -104,7 +104,7 @@ public:
        @copydoc
        Incidence::iconName()
     */
-    QLatin1String iconName(const KDateTime &recurrenceId = KDateTime()) const override;
+    QLatin1String iconName(const QDateTime &recurrenceId = {}) const override;
 
     /**
        @copydoc
