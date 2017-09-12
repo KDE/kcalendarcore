@@ -124,7 +124,7 @@ public:
     /**
       Sets the created and dtstamp.
     */
-    virtual void setCreatedToDtStamp(const Incidence::Ptr &incidence, const KDateTime &dtstamp);
+    virtual void setCreatedToDtStamp(const Incidence::Ptr &incidence, const QDateTime &dtstamp);
 
 private:
     //@cond PRIVATE
@@ -184,7 +184,7 @@ public:
       @copydoc
       Compat::setCreatedToDtStamp()
     */
-    void setCreatedToDtStamp(const Incidence::Ptr &incidence, const KDateTime &dtstamp) override;
+    void setCreatedToDtStamp(const Incidence::Ptr &incidence, const QDateTime &dtstamp) override;
 
 private:
     //@cond PRIVATE
@@ -378,7 +378,7 @@ public:
       @copydoc
       Compat::setCreatedToDtStamp()
     */
-    void setCreatedToDtStamp(const Incidence::Ptr &incidence, const KDateTime &dtstamp) override;
+    void setCreatedToDtStamp(const Incidence::Ptr &incidence, const QDateTime &dtstamp) override;
 
 private:
     //@cond PRIVATE

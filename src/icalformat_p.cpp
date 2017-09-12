@@ -1936,7 +1936,7 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent,
     if (d->mCompat) {
         // Fix incorrect alarm settings by other applications (like outloook 9)
         d->mCompat->fixAlarms(incidence);
-        d->mCompat->setCreatedToDtStamp(incidence, dtstamp);
+        d->mCompat->setCreatedToDtStamp(incidence, k2q(dtstamp));
     }
 }
 

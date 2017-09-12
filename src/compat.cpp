@@ -34,6 +34,7 @@
 
 #include "compat_p.h"
 #include "incidence.h"
+#include "utils.h"
 
 #include "kcalcore_debug.h"
 
@@ -152,7 +153,7 @@ bool Compat::useTimeZoneShift() const
     return true;
 }
 
-void Compat::setCreatedToDtStamp(const Incidence::Ptr &incidence, const KDateTime &dtstamp)
+void Compat::setCreatedToDtStamp(const Incidence::Ptr &incidence, const QDateTime &dtstamp)
 {
     Q_UNUSED(incidence);
     Q_UNUSED(dtstamp);
@@ -207,7 +208,7 @@ bool CompatDecorator::useTimeZoneShift() const
 }
 
 void CompatDecorator::setCreatedToDtStamp(const Incidence::Ptr &incidence,
-        const KDateTime &dtstamp)
+        const QDateTime &dtstamp)
 {
     d->compat->setCreatedToDtStamp(incidence, dtstamp);
 }
@@ -403,9 +404,9 @@ CompatPre410::~CompatPre410()
 {
 }
 
-void CompatPre410::setCreatedToDtStamp(const Incidence::Ptr &incidence, const KDateTime &dtstamp)
+void CompatPre410::setCreatedToDtStamp(const Incidence::Ptr &incidence, const QDateTime &dtstamp)
 {
     if (dtstamp.isValid()) {
-        incidence->setCreated(dtstamp);
+        incidence->setCreated(q2k(dtstamp));
     }
 }
