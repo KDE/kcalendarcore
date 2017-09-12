@@ -32,6 +32,8 @@
 #include "incidence.h"
 #include "supertrait.h"
 
+#include <QTimeZone>
+
 namespace KCalCore
 {
 
@@ -147,10 +149,10 @@ public:
       otherwise returns false. Other occurrences might have a different span due to day light
       savings changes.
 
-      @param spec If set, looks if the event is multiday for the given spec.
-      If not set, looks if event this multiday for its spec.
+      @param zone If set, looks if the event is multiday for the given zone.
+      If not set, looks if event this multiday for its zone.
     */
-    bool isMultiDay(const KDateTime::Spec &spec = KDateTime::Spec()) const;
+    bool isMultiDay(const QTimeZone &zone = {}) const;
 
     /**
       @copydoc
