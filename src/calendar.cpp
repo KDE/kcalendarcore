@@ -1311,7 +1311,7 @@ void Calendar::appendAlarms(Alarm::List &alarms, const Incidence::Ptr &incidence
     Alarm::List alarmlist = incidence->alarms();
     for (int i = 0, iend = alarmlist.count();  i < iend;  ++i) {
         if (alarmlist[i]->enabled()) {
-            QDateTime dt = k2q(alarmlist[i]->nextRepetition(q2k(preTime)));
+            QDateTime dt = alarmlist[i]->nextRepetition(preTime);
             if (dt.isValid() && dt <= to) {
                 qCDebug(KCALCORE_LOG) << incidence->summary() << "':" << dt.toString();
                 alarms.append(alarmlist[i]);
@@ -1325,10 +1325,10 @@ void Calendar::appendRecurringAlarms(Alarm::List &alarms,
                                      const QDateTime &from,
                                      const QDateTime &to) const
 {
-    KDateTime dt;
+    QDateTime dt;
     bool endOffsetValid = false;
     Duration endOffset(0);
-    Duration period(q2k(from), q2k(to));
+    Duration period(from, to);
 
     Alarm::List alarmlist = incidence->alarms();
     for (int i = 0, iend = alarmlist.count();  i < iend;  ++i) {
@@ -1336,8 +1336,8 @@ void Calendar::appendRecurringAlarms(Alarm::List &alarms,
         if (a->enabled()) {
             if (a->hasTime()) {
                 // The alarm time is defined as an absolute date/time
-                dt = a->nextRepetition(q2k(from.addSecs(-1)));
-                if (!dt.isValid() || dt > q2k(to)) {
+                dt = a->nextRepetition(from.addSecs(-1));
+                if (!dt.isValid() || dt > to) {
                     continue;
                 }
             } else {
@@ -1350,31 +1350,31 @@ void Calendar::appendRecurringAlarms(Alarm::List &alarms,
                 } else if (a->hasEndOffset()) {
                     offset = a->endOffset();
                     if (!endOffsetValid) {
-                        endOffset = Duration(incidence->dtStart(),
-                                             incidence->dateTime(Incidence::RoleAlarmEndOffset));
+                        endOffset = Duration(k2q(incidence->dtStart()),
+                                             k2q(incidence->dateTime(Incidence::RoleAlarmEndOffset)));
                         endOffsetValid = true;
                     }
                 }
 
                 // Find the incidence's earliest alarm
-                KDateTime alarmStart =
-                    offset.end(a->hasEndOffset() ? incidence->dateTime(Incidence::RoleAlarmEndOffset) :
-                               incidence->dtStart());
+                QDateTime alarmStart =
+                    offset.end(k2q(a->hasEndOffset() ? incidence->dateTime(Incidence::RoleAlarmEndOffset) :
+                               incidence->dtStart()));
 //        KDateTime alarmStart = incidence->dtStart().addSecs( offset );
-                if (alarmStart > q2k(to)) {
+                if (alarmStart > to) {
                     continue;
                 }
-                KDateTime baseStart = incidence->dtStart();
-                if (q2k(from) > alarmStart) {
-                    alarmStart = q2k(from);   // don't look earlier than the earliest alarm
+                QDateTime baseStart = k2q(incidence->dtStart());
+                if (from > alarmStart) {
+                    alarmStart = from;   // don't look earlier than the earliest alarm
                     baseStart = (-offset).end((-endOffset).end(alarmStart));
                 }
 
                 // Adjust the 'alarmStart' date/time and find the next recurrence at or after it.
                 // Treate the two offsets separately in case one is daily and the other not.
-                dt = q2k(incidence->recurrence()->getNextDateTime(k2q(baseStart.addSecs(-1))));
+                dt = incidence->recurrence()->getNextDateTime(baseStart.addSecs(-1));
                 if (!dt.isValid() ||
-                        (dt = endOffset.end(offset.end(dt))) > q2k(to)) {      // adjust 'dt' to get the alarm time
+                        (dt = endOffset.end(offset.end(dt))) > to) {      // adjust 'dt' to get the alarm time
                     // The next recurrence is too late.
                     if (!a->repeatCount()) {
                         continue;
@@ -1384,8 +1384,8 @@ void Calendar::appendRecurringAlarms(Alarm::List &alarms,
                     // recurrences fall within the time period.
                     bool found = false;
                     Duration alarmDuration = a->duration();
-                    for (KDateTime base = baseStart;
-                            (dt = q2k(incidence->recurrence()->getPreviousDateTime(k2q(base)))).isValid();
+                    for (QDateTime base = baseStart;
+                            (dt = incidence->recurrence()->getPreviousDateTime(base)).isValid();
                             base = dt) {
                         if (a->duration().end(dt) < base) {
                             break;  // this recurrence's last repetition is too early, so give up
@@ -1397,7 +1397,7 @@ void Calendar::appendRecurringAlarms(Alarm::List &alarms,
                         if (a->snoozeTime().isDaily()) {
                             Duration toFromDuration(dt, base);
                             int toFrom = toFromDuration.asDays();
-                            if (a->snoozeTime().end(q2k(from)) <= q2k(to) ||
+                            if (a->snoozeTime().end(from) <= to ||
                                     (toFromDuration.isDaily() && toFrom % snooze == 0) ||
                                     (toFrom / snooze + 1) * snooze <= toFrom + period.asDays()) {
                                 found = true;

@@ -177,6 +177,11 @@ inline icaltimetype ICalFormatImpl::writeICalUtcDateTime(const KDateTime &dt)
     return writeICalDateTime(dt.toUtc());
 }
 
+inline icaltimetype ICalFormatImpl::writeICalUtcDateTime(const QDateTime &dt, bool dayOnly)
+{
+    return writeICalDateTime(dt.toUTC(), dayOnly);
+}
+
 ICalFormatImpl::ICalFormatImpl(ICalFormat *parent)
     : d(new Private(this, parent))
 {
@@ -1145,7 +1150,7 @@ icalcomponent *ICalFormatImpl::writeAlarm(const Alarm::Ptr &alarm)
     // Trigger time
     icaltriggertype trigger;
     if (alarm->hasTime()) {
-        trigger.time = writeICalUtcDateTime(alarm->time());
+        trigger.time = writeICalUtcDateTime(alarm->time(), false);
         trigger.duration = icaldurationtype_null_duration();
     } else {
         trigger.time = icaltime_null_time();
@@ -1352,10 +1357,10 @@ FreeBusy::Ptr ICalFormatImpl::readFreeBusy(icalcomponent *vfreebusy)
             FreeBusyPeriod period;
             if (!icaltime_is_null_time(icalperiod.end)) {
                 KDateTime period_end = readICalUtcDateTime(p, icalperiod.end);
-                period = FreeBusyPeriod(period_start, period_end);
+                period = FreeBusyPeriod(k2q(period_start), k2q(period_end));
             } else {
                 Duration duration(readICalDuration(icalperiod.duration));
-                period = FreeBusyPeriod(period_start, duration);
+                period = FreeBusyPeriod(k2q(period_start), duration);
             }
 
             icalparameter *param = icalproperty_get_first_parameter(p, ICAL_FBTYPE_PARAMETER);
@@ -2220,7 +2225,7 @@ void ICalFormatImpl::readAlarm(icalcomponent *alarm,
             icaltriggertype trigger = icalproperty_get_trigger(p);
             if (!icaltime_is_null_time(trigger.time)) {
                 //set the trigger to a specific time (which is not in rfc2445, btw)
-                ialarm->setTime(readICalUtcDateTime(p, trigger.time, tzlist));
+                ialarm->setTime(k2q(readICalUtcDateTime(p, trigger.time, tzlist)));
             } else {
                 //set the trigger to an offset from the incidence start or end time.
                 if (!icaldurationtype_is_bad_duration(trigger.duration)) {
@@ -2377,6 +2382,28 @@ icaltimetype ICalFormatImpl::writeICalDateTime(const KDateTime &datetime)
     t.is_utc = datetime.isUtc() ? 1 : 0;
 
     // _dumpIcaltime( t );
+
+    return t;
+}
+
+icaltimetype ICalFormatImpl::writeICalDateTime(const QDateTime &datetime, bool dateOnly)
+{
+    icaltimetype t = icaltime_null_time();
+
+    t.year = datetime.date().year();
+    t.month = datetime.date().month();
+    t.day = datetime.date().day();
+
+    t.is_date = dateOnly;
+
+    if (!t.is_date) {
+        t.hour = datetime.time().hour();
+        t.minute = datetime.time().minute();
+        t.second = datetime.time().second();
+    }
+    t.zone = nullptr;   // zone is NOT set
+    t.is_utc = datetime.timeSpec() == Qt::UTC ||
+                (datetime.timeSpec() == Qt::OffsetFromUTC && datetime.utcOffset() == 0);
 
     return t;
 }

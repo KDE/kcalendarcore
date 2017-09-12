@@ -164,7 +164,7 @@ void FreeBusy::Private::init(const Event::List &eventList,
                         if (event->recursOn(day.addDays(-x), specToZone(start.timeSpec()))) {
                             tmpStart.setDate(day.addDays(-x));
                             tmpStart.setTime(event->dtStart().time());
-                            tmpEnd = event->duration().end(tmpStart);
+                            tmpEnd = q2k(event->duration().end(k2q(tmpStart)));
 
                             addLocalPeriod(q, tmpStart, tmpEnd);
                             break;
@@ -271,13 +271,13 @@ void FreeBusy::addPeriods(const FreeBusyPeriod::List &list)
 
 void FreeBusy::addPeriod(const KDateTime &start, const KDateTime &end)
 {
-    d->mBusyPeriods.append(FreeBusyPeriod(start, end));
+    d->mBusyPeriods.append(FreeBusyPeriod(k2q(start), k2q(end)));
     sortList();
 }
 
 void FreeBusy::addPeriod(const KDateTime &start, const Duration &duration)
 {
-    d->mBusyPeriods.append(FreeBusyPeriod(start, duration));
+    d->mBusyPeriods.append(FreeBusyPeriod(k2q(start), duration));
     sortList();
 }
 
@@ -390,7 +390,7 @@ bool FreeBusy::Private::addLocalPeriod(FreeBusy *fb,
         tmpEnd = eventEnd;
     }
 
-    FreeBusyPeriod p(tmpStart, tmpEnd);
+    FreeBusyPeriod p(k2q(tmpStart), k2q(tmpEnd));
     mBusyPeriods.append(p);
 
     return true;

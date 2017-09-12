@@ -156,10 +156,10 @@ KDateTime Event::dtEnd() const
     if (hasDuration()) {
         if (allDay()) {
             // For all day events, dtEnd is always inclusive
-            KDateTime end = duration().end(dtStart()).addDays(-1);
+            KDateTime end = q2k(duration().end(k2q(dtStart()))).addDays(-1);
             return end >= dtStart() ? end : dtStart();
         } else {
-            return duration().end(dtStart());
+            return q2k(duration().end(k2q(dtStart())));
         }
     }
 

@@ -69,7 +69,7 @@ public:
     QStringList mMailAttachFiles; // filenames to attach to email
     Person::List mMailAddresses;  // who to mail for reminder
 
-    KDateTime mAlarmTime;// time at which to trigger the alarm
+    QDateTime mAlarmTime;// time at which to trigger the alarm
     Duration mAlarmSnoozeTime; // how long after alarm to snooze before
     // triggering again
     int mAlarmRepeatCount;// number of times for alarm to repeat
@@ -485,7 +485,7 @@ QString Alarm::text() const
     return (d->mType == Display) ? d->mDescription : QString();
 }
 
-void Alarm::setTime(const KDateTime &alarmTime)
+void Alarm::setTime(const QDateTime &alarmTime)
 {
     if (d->mParent) {
         d->mParent->update();
@@ -498,32 +498,32 @@ void Alarm::setTime(const KDateTime &alarmTime)
     }
 }
 
-KDateTime Alarm::time() const
+QDateTime Alarm::time() const
 {
     if (hasTime()) {
         return d->mAlarmTime;
     } else if (d->mParent) {
         if (d->mEndOffset) {
-            KDateTime dt = d->mParent->dateTime(Incidence::RoleAlarmEndOffset);
+            QDateTime dt = k2q(d->mParent->dateTime(Incidence::RoleAlarmEndOffset));
             return d->mOffset.end(dt);
         } else {
-            KDateTime dt = d->mParent->dateTime(Incidence::RoleAlarmStartOffset);
+            QDateTime dt = k2q(d->mParent->dateTime(Incidence::RoleAlarmStartOffset));
             return d->mOffset.end(dt);
         }
     } else {
-        return KDateTime();
+        return QDateTime();
     }
 }
 
-KDateTime Alarm::nextTime(const KDateTime &preTime, bool ignoreRepetitions) const
+QDateTime Alarm::nextTime(const QDateTime &preTime, bool ignoreRepetitions) const
 {
     if (d->mParent && d->mParent->recurs()) {
-        KDateTime dtEnd = d->mParent->dateTime(Incidence::RoleAlarmEndOffset);
+        QDateTime dtEnd = k2q(d->mParent->dateTime(Incidence::RoleAlarmEndOffset));
 
-        KDateTime dtStart = d->mParent->dtStart();
+        QDateTime dtStart = k2q(d->mParent->dtStart());
         // Find the incidence's earliest alarm
         // Alarm time is defined by an offset from the event start or end time.
-        KDateTime alarmStart = d->mOffset.end(d->mEndOffset ? dtEnd : dtStart);
+        QDateTime alarmStart = d->mOffset.end(d->mEndOffset ? dtEnd : dtStart);
         // Find the offset from the event start time, which is also used as the
         // offset from the recurrence time.
         Duration alarmOffset(dtStart, alarmStart);
@@ -541,23 +541,23 @@ KDateTime Alarm::nextTime(const KDateTime &preTime, bool ignoreRepetitions) cons
         if (d->mAlarmRepeatCount && !ignoreRepetitions) {
             // The alarm has repetitions, so check whether repetitions of previous
             // recurrences happen after given time.
-            KDateTime prevRecurrence = KCalCore::q2k(d->mParent->recurrence()->getPreviousDateTime(KCalCore::k2q(preTime)));
+            QDateTime prevRecurrence = d->mParent->recurrence()->getPreviousDateTime(preTime);
             if (prevRecurrence.isValid()) {
-                KDateTime prevLastRepeat = alarmOffset.end(duration().end(prevRecurrence));
+                QDateTime prevLastRepeat = alarmOffset.end(duration().end(prevRecurrence));
                 // qCDebug(KCALCORE_LOG) << "prevRecurrence" << prevRecurrence;
                 // qCDebug(KCALCORE_LOG) << "prevLastRepeat" << prevLastRepeat;
                 if (prevLastRepeat > preTime) {
                     // Yes they did, return alarm offset to previous recurrence.
-                    KDateTime prevAlarm = alarmOffset.end(prevRecurrence);
+                    QDateTime prevAlarm = alarmOffset.end(prevRecurrence);
                     // qCDebug(KCALCORE_LOG) << "prevAlarm     " << prevAlarm;
                     return prevAlarm;
                 }
             }
         }
         // Check the next recurrence now.
-        KDateTime nextRecurrence = KCalCore::q2k(d->mParent->recurrence()->getNextDateTime(KCalCore::k2q(preTime)));
+        QDateTime nextRecurrence = d->mParent->recurrence()->getNextDateTime(preTime);
         if (nextRecurrence.isValid()) {
-            KDateTime nextAlarm = alarmOffset.end(nextRecurrence);
+            QDateTime nextAlarm = alarmOffset.end(nextRecurrence);
             /*
             qCDebug(KCALCORE_LOG) << "nextRecurrence" << nextRecurrence;
             qCDebug(KCALCORE_LOG) << "nextAlarm     " << nextAlarm;
@@ -569,12 +569,12 @@ KDateTime Alarm::nextTime(const KDateTime &preTime, bool ignoreRepetitions) cons
         }
     } else {
         // Not recurring.
-        KDateTime alarmTime = time();
+        QDateTime alarmTime = time();
         if (alarmTime > preTime) {
             return alarmTime;
         }
     }
-    return KDateTime();
+    return QDateTime();
 }
 
 bool Alarm::hasTime() const
@@ -587,8 +587,8 @@ void Alarm::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
     if (d->mParent) {
         d->mParent->update();
     }
-    d->mAlarmTime = d->mAlarmTime.toTimeSpec(zoneToSpec(oldZone));
-    d->mAlarmTime.setTimeSpec(zoneToSpec(newZone));
+    d->mAlarmTime = d->mAlarmTime.toTimeZone(oldZone);
+    d->mAlarmTime.setTimeZone(newZone);
     if (d->mParent) {
         d->mParent->updated();
     }
@@ -634,22 +634,22 @@ Duration Alarm::duration() const
                     d->mAlarmSnoozeTime.type());
 }
 
-KDateTime Alarm::nextRepetition(const KDateTime &preTime) const
+QDateTime Alarm::nextRepetition(const QDateTime &preTime) const
 {
-    KDateTime at = nextTime(preTime);
+    QDateTime at = nextTime(preTime);
     if (at > preTime) {
         return at;
     }
     if (!d->mAlarmRepeatCount) {
         // there isn't an occurrence after the specified time
-        return KDateTime();
+        return QDateTime();
     }
     qint64 repetition;
     int interval = d->mAlarmSnoozeTime.value();
     bool daily = d->mAlarmSnoozeTime.isDaily();
     if (daily) {
         int daysTo = at.daysTo(preTime);
-        if (!preTime.isDateOnly() && preTime.time() <= at.time()) {
+        if (preTime.time() <= at.time()) {
             --daysTo;
         }
         repetition = daysTo / interval + 1;
@@ -658,18 +658,18 @@ KDateTime Alarm::nextRepetition(const KDateTime &preTime) const
     }
     if (repetition > d->mAlarmRepeatCount) {
         // all repetitions have finished before the specified time
-        return KDateTime();
+        return QDateTime();
     }
     return daily ? at.addDays(int(repetition * interval))
            : at.addSecs(repetition * interval);
 }
 
-KDateTime Alarm::previousRepetition(const KDateTime &afterTime) const
+QDateTime Alarm::previousRepetition(const QDateTime &afterTime) const
 {
-    KDateTime at = time();
+    QDateTime at = time();
     if (at >= afterTime) {
         // alarm's first/only time is at/after the specified time
-        return KDateTime();
+        return QDateTime();
     }
     if (!d->mAlarmRepeatCount) {
         return at;
@@ -679,7 +679,7 @@ KDateTime Alarm::previousRepetition(const KDateTime &afterTime) const
     bool daily = d->mAlarmSnoozeTime.isDaily();
     if (daily) {
         int daysTo = at.daysTo(afterTime);
-        if (afterTime.isDateOnly() || afterTime.time() <= at.time()) {
+        if (afterTime.time() <= at.time()) {
             --daysTo;
         }
         repetition = daysTo / interval;
@@ -693,7 +693,7 @@ KDateTime Alarm::previousRepetition(const KDateTime &afterTime) const
            : at.addSecs(repetition * interval);
 }
 
-KDateTime Alarm::endTime() const
+QDateTime Alarm::endTime() const
 {
     if (!d->mAlarmRepeatCount) {
         return time();
@@ -837,8 +837,9 @@ QDataStream &KCalCore::operator<<(QDataStream &out, const KCalCore::Alarm::Ptr &
 {
     if (a) {
         out << ((quint32)a->d->mType) << a->d->mAlarmSnoozeTime << a->d->mAlarmRepeatCount << a->d->mEndOffset << a->d->mHasTime
-            << a->d->mAlarmEnabled << a->d->mHasLocationRadius << a->d->mLocationRadius << a->d->mOffset << a->d->mAlarmTime
-            << a->d->mFile << a->d->mMailSubject << a->d->mDescription << a->d->mMailAttachFiles << a->d->mMailAddresses;
+            << a->d->mAlarmEnabled << a->d->mHasLocationRadius << a->d->mLocationRadius << a->d->mOffset;
+        serializeQDateTimeAsKDateTime(out, a->d->mAlarmTime);
+        out << a->d->mFile << a->d->mMailSubject << a->d->mDescription << a->d->mMailAttachFiles << a->d->mMailAddresses;
     }
     return out;
 }
@@ -850,8 +851,9 @@ QDataStream &KCalCore::operator>>(QDataStream &in, const KCalCore::Alarm::Ptr &a
         in >> type;
         a->d->mType = static_cast<Alarm::Type>(type);
         in >> a->d->mAlarmSnoozeTime >> a->d->mAlarmRepeatCount >> a->d->mEndOffset >> a->d->mHasTime
-           >> a->d->mAlarmEnabled >> a->d->mHasLocationRadius >> a->d->mLocationRadius >> a->d->mOffset >> a->d->mAlarmTime
-           >> a->d->mFile >> a->d->mMailSubject >> a->d->mDescription >> a->d->mMailAttachFiles >> a->d->mMailAddresses;
+           >> a->d->mAlarmEnabled >> a->d->mHasLocationRadius >> a->d->mLocationRadius >> a->d->mOffset;
+        deserializeKDateTimeAsQDateTime(in, a->d->mAlarmTime);
+        in >> a->d->mFile >> a->d->mMailSubject >> a->d->mDescription >> a->d->mMailAttachFiles >> a->d->mMailAddresses;
     }
     return in;
 }

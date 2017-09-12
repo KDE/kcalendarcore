@@ -31,9 +31,9 @@
   @author David Jarvie \<software@astrojar.org.uk\>
 */
 #include "duration.h"
-#include <KDateTime>
 
-#include <QTime>
+#include <QDateTime>
+#include <QTimeZone>
 
 using namespace KCalCore;
 
@@ -59,10 +59,10 @@ Duration::Duration()
 {
 }
 
-Duration::Duration(const KDateTime &start, const KDateTime &end)
+Duration::Duration(const QDateTime &start, const QDateTime &end)
     : d(new KCalCore::Duration::Private())
 {
-    if (start.time() == end.time() && start.timeSpec() == end.timeSpec()) {
+    if (start.time() == end.time() && start.timeZone() == end.timeZone()) {
         d->mDuration = start.daysTo(end);
         d->mDaily = true;
     } else {
@@ -71,11 +71,11 @@ Duration::Duration(const KDateTime &start, const KDateTime &end)
     }
 }
 
-Duration::Duration(const KDateTime &start, const KDateTime &end, Type type)
+Duration::Duration(const QDateTime &start, const QDateTime &end, Type type)
     : d(new KCalCore::Duration::Private())
 {
     if (type == Days) {
-        KDateTime endSt(end.toTimeSpec(start));
+        QDateTime endSt(end.toTimeZone(start.timeZone()));
         d->mDuration = start.daysTo(endSt);
         if (d->mDuration) {
             // Round down to whole number of days if necessary
@@ -182,7 +182,7 @@ Duration &Duration::operator/=(int value)
     return *this;
 }
 
-KDateTime Duration::end(const KDateTime &start) const
+QDateTime Duration::end(const QDateTime &start) const
 {
     return d->mDaily ? start.addDays(d->mDuration)
            : start.addSecs(d->mDuration);

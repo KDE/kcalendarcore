@@ -42,22 +42,22 @@ void FreeBusyTest::testAddSort()
 {
     Period::List periods;
 
-    const KDateTime firstq1DateTime(QDate(2007, 7, 23), QTime(7, 0, 0), KDateTime::UTC);
+    const QDateTime firstq1DateTime(QDate(2007, 7, 23), QTime(7, 0, 0), Qt::UTC);
     Period q1(
         firstq1DateTime,
-        KDateTime(QDate(2007, 7, 23), QTime(8, 0, 0), KDateTime::UTC));
+        QDateTime(QDate(2007, 7, 23), QTime(8, 0, 0), Qt::UTC));
     periods.append(q1);
 
-    const KDateTime firstq2DateTime(QDate(2007, 8, 23), QTime(7, 0, 0), KDateTime::UTC);
+    const QDateTime firstq2DateTime(QDate(2007, 8, 23), QTime(7, 0, 0), Qt::UTC);
     Period q2(
         firstq2DateTime,
-        KDateTime(QDate(2007, 8, 23), QTime(8, 0, 0), KDateTime::UTC));
+        QDateTime(QDate(2007, 8, 23), QTime(8, 0, 0), Qt::UTC));
     periods.append(q2);
 
-    const KDateTime firstq3DateTime(QDate(2007, 9, 23), QTime(7, 0, 0), KDateTime::UTC);
+    const QDateTime firstq3DateTime(QDate(2007, 9, 23), QTime(7, 0, 0), Qt::UTC);
     Period q3(
         firstq3DateTime,
-        KDateTime(QDate(2007, 9, 23), QTime(8, 0, 0), KDateTime::UTC));
+        QDateTime(QDate(2007, 9, 23), QTime(8, 0, 0), Qt::UTC));
     periods.append(q3);
 
     FreeBusy fb1;
@@ -79,7 +79,7 @@ void FreeBusyTest::testAddSort()
         KDateTime(QDate(2007, 6, 27), QTime(8, 0, 0), KDateTime::UTC));
 
     QVERIFY(fb1.busyPeriods().last().end() ==
-            KDateTime(QDate(2007, 10, 27), QTime(8, 0, 0), KDateTime::UTC));
+            QDateTime(QDate(2007, 10, 27), QTime(8, 0, 0), Qt::UTC));
 }
 
 void FreeBusyTest::testAssign()

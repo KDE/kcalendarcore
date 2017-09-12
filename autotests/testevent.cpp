@@ -235,7 +235,7 @@ void EventTest::testDurationDtEnd()
     {
         Event event;
         event.setDtStart(KDateTime(dt));
-        event.setDuration(Duration(KDateTime(dt), KDateTime(dt).addDays(1)));
+        event.setDuration(Duration(QDateTime(dt, {}), QDateTime(dt, {}).addDays(1)));
         QCOMPARE(event.hasDuration(), true);
         QCOMPARE(event.hasEndDate(), false);
     }

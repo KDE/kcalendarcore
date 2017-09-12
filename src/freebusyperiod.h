@@ -71,7 +71,7 @@ public:
       @param start the time the period begins.
       @param end the time the period ends.
     */
-    FreeBusyPeriod(const KDateTime &start, const KDateTime &end);
+    FreeBusyPeriod(const QDateTime &start, const QDateTime &end);
 
     /**
       Constructs a period from @p start and lasting @p duration.
@@ -79,7 +79,7 @@ public:
       @param start the time when the period starts.
       @param duration how long the period lasts.
     */
-    FreeBusyPeriod(const KDateTime &start, const Duration &duration);
+    FreeBusyPeriod(const QDateTime &start, const Duration &duration);
 
     /**
       Constructs a period by copying another period object

@@ -30,7 +30,7 @@ using namespace KCalCore;
 
 void FreeBusyPeriodTest::testValidity()
 {
-    const KDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), KDateTime::UTC);
+    const QDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), Qt::UTC);
     FreeBusyPeriod p1(p1DateTime, Duration(60));
 
     QString summary = QStringLiteral("I can haz summary?");
@@ -40,7 +40,7 @@ void FreeBusyPeriodTest::testValidity()
 
     QVERIFY(p1.hasDuration());
     QCOMPARE(p1.duration().asSeconds(), 60);
-    QVERIFY(p1.start() == KDateTime(QDate(2006, 8, 30), QTime(7, 0, 0), KDateTime::UTC));
+    QVERIFY(p1.start() == QDateTime(QDate(2006, 8, 30), QTime(7, 0, 0), Qt::UTC));
 
     QCOMPARE(p1.summary(), summary);
     QCOMPARE(p1.location(), location);
@@ -48,7 +48,7 @@ void FreeBusyPeriodTest::testValidity()
 
 void FreeBusyPeriodTest::testAssign()
 {
-    const KDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), KDateTime::UTC);
+    const QDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), Qt::UTC);
     FreeBusyPeriod p1(p1DateTime, Duration(60));
     FreeBusyPeriod p2;
 
@@ -61,14 +61,14 @@ void FreeBusyPeriodTest::testAssign()
 
     QVERIFY(p2.hasDuration());
     QVERIFY(p2.duration().asSeconds() == 60);
-    QVERIFY(p2.start() == KDateTime(QDate(2006, 8, 30), QTime(7, 0, 0), KDateTime::UTC));
+    QVERIFY(p2.start() == QDateTime(QDate(2006, 8, 30), QTime(7, 0, 0), Qt::UTC));
     QCOMPARE(p1.summary(), summary);
     QCOMPARE(p1.location(), location);
 }
 
 void FreeBusyPeriodTest::testDataStreamOut()
 {
-    const KDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), KDateTime::UTC);
+    const QDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), Qt::UTC);
     FreeBusyPeriod p1(p1DateTime, Duration(60));
 
     p1.setSummary(QStringLiteral("I can haz summary?"));
@@ -97,7 +97,7 @@ void FreeBusyPeriodTest::testDataStreamOut()
 
 void FreeBusyPeriodTest::testDataStreamIn()
 {
-    const KDateTime p1DateTime(QDate(2006, 8, 30));
+    const QDateTime p1DateTime(QDate(2006, 8, 30));
     const Duration duration(24 * 60 * 60);
     FreeBusyPeriod p1(p1DateTime, duration);
     p1.setSummary(QStringLiteral("I can haz summary?"));

@@ -168,8 +168,10 @@ public:
     static QDate readICalDate(const icaltimetype &);
 
     static icaltimetype writeICalDateTime(const KDateTime &);
+    static icaltimetype writeICalDateTime(const QDateTime &, bool dayOnly = false);
 
     static icaltimetype writeICalUtcDateTime(const KDateTime &);
+    static icaltimetype writeICalUtcDateTime(const QDateTime &, bool dayOnly = false);
 
     /**
       Creates an ical property from a date/time value.

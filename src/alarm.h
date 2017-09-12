@@ -36,8 +36,7 @@
 #include "duration.h"
 #include "person.h"
 
-#include <KDateTime>
-
+#include <QDateTime>
 #include <QString>
 #include <QStringList>
 #include <QVector>
@@ -425,18 +424,18 @@ public:
     /**
       Sets the trigger time of the alarm.
 
-      @param alarmTime is the KDateTime alarm trigger.
+      @param alarmTime is the QDateTime alarm trigger.
 
       @see time()
     */
-    void setTime(const KDateTime &alarmTime);
+    void setTime(const QDateTime &alarmTime);
 
     /**
       Returns the alarm trigger date/time.
 
       @see setTime()
     */
-    KDateTime time() const;
+    QDateTime time() const;
 
     /**
       Returns the next alarm trigger date/time after given date/time.
@@ -446,7 +445,7 @@ public:
       @param ignoreRepetitions don't take repetitions into account
       @see nextRepetition()
     */
-    KDateTime nextTime(const KDateTime &preTime, bool ignoreRepetitions = false) const;
+    QDateTime nextTime(const QDateTime &preTime, bool ignoreRepetitions = false) const;
 
     /**
       Returns the date/time when the last repetition of the alarm goes off.
@@ -454,7 +453,7 @@ public:
 
       @see setTime()
     */
-    KDateTime endTime() const;
+    QDateTime endTime() const;
 
     /**
       Returns true if the alarm has a trigger date/time.
@@ -576,7 +575,7 @@ public:
 
       @see previousRepetition()
     */
-    KDateTime nextRepetition(const KDateTime &preTime) const;
+    QDateTime nextRepetition(const QDateTime &preTime) const;
 
     /**
       Returns the date/time of the alarm's latest repetition or, if none,
@@ -591,7 +590,7 @@ public:
 
       @see nextRepetition()
     */
-    KDateTime previousRepetition(const KDateTime &afterTime) const;
+    QDateTime previousRepetition(const QDateTime &afterTime) const;
 
     /**
       Returns the interval between the alarm's initial occurrence and

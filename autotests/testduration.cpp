@@ -22,7 +22,7 @@
 #include "testduration.h"
 #include "duration.h"
 
-#include <KDateTime>
+#include <QDateTime>
 
 #include <QTest>
 QTEST_MAIN(DurationTest)
@@ -31,20 +31,20 @@ using namespace KCalCore;
 
 void DurationTest::testValidity()
 {
-    const KDateTime firstDateTime(QDate(2006, 8, 3), QTime(7, 0, 0), KDateTime::UTC);
+    const QDateTime firstDateTime(QDate(2006, 8, 3), QTime(7, 0, 0), Qt::UTC);
 
     Duration d(firstDateTime,
-               KDateTime(QDate(2006, 8, 3), QTime(8, 0, 0), KDateTime::UTC));
+               QDateTime(QDate(2006, 8, 3), QTime(8, 0, 0), Qt::UTC));
 
     QCOMPARE(d.asSeconds(), 1 * 60 * 60);
 }
 
 void DurationTest::testCompare()
 {
-    const KDateTime firstDateTime(QDate(2006, 8, 3), QTime(7, 0, 0), KDateTime::UTC);
+    const QDateTime firstDateTime(QDate(2006, 8, 3), QTime(7, 0, 0), Qt::UTC);
 
     Duration d1(firstDateTime,
-                KDateTime(QDate(2006, 8, 3), QTime(8, 0, 0), KDateTime::UTC));
+                QDateTime(QDate(2006, 8, 3), QTime(8, 0, 0), Qt::UTC));
     //d1 has 1hr duration
 
     Duration d2(2 * 60 * 60);   // 2hr duration
@@ -81,8 +81,8 @@ void DurationTest::testSerializer_data()
     Duration duration2(7, Duration::Days);
     Duration duration3(7 * 24 * 60 * 60, Duration::Seconds);
 
-    const KDateTime firstDateTime(QDate(2006, 8, 3), QTime(7, 0, 0), KDateTime::UTC);
-    Duration duration4(firstDateTime, KDateTime(QDate(2006, 8, 3), QTime(8, 0, 0), KDateTime::UTC));
+    const QDateTime firstDateTime(QDate(2006, 8, 3), QTime(7, 0, 0), Qt::UTC);
+    Duration duration4(firstDateTime, QDateTime(QDate(2006, 8, 3), QTime(8, 0, 0), Qt::UTC));
 
     QTest::newRow("duration1") << duration1;
     QTest::newRow("duration2") << duration2;

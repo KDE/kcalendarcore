@@ -42,14 +42,14 @@ QDateTime applySpec(const QDateTime &dt, const KDateTime::Spec &spec, bool isAll
 /**
  * Helpers to retain backwards compatibility of binary serialization.
  */
-void serializeQDateTimeAsKDateTime(QDataStream &out, const QDateTime &dt);
-void deserializeKDateTimeAsQDateTime(QDataStream &in, QDateTime &dt);
+KCALCORE_EXPORT void serializeQDateTimeAsKDateTime(QDataStream &out, const QDateTime &dt);
+KCALCORE_EXPORT void deserializeKDateTimeAsQDateTime(QDataStream &in, QDateTime &dt);
 
-void serializeQDateTimeSortableList(QDataStream &out, const SortableList<QDateTime> &list);
-void deserializeQDateTimeSortableList(QDataStream &in, SortableList<QDateTime> &list);
+KCALCORE_EXPORT void serializeQDateTimeSortableList(QDataStream &out, const SortableList<QDateTime> &list);
+KCALCORE_EXPORT void deserializeQDateTimeSortableList(QDataStream &in, SortableList<QDateTime> &list);
 
-void serializeQTimeZoneAsSpec(QDataStream &out, const QTimeZone &tz);
-void deserializeSpecAsQTimeZone(QDataStream &in, QTimeZone &tz);
+KCALCORE_EXPORT void serializeQTimeZoneAsSpec(QDataStream &out, const QTimeZone &tz);
+KCALCORE_EXPORT void deserializeSpecAsQTimeZone(QDataStream &in, QTimeZone &tz);
 
 /** Convert a QTimeZone to a KDateTime::Spec */
 KCALCORE_EXPORT KDateTime::Spec zoneToSpec(const QTimeZone &zone);

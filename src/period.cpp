@@ -33,8 +33,6 @@
 #include "period.h"
 #include "utils.h"
 
-#include <KDateTime>
-
 #include <QHash>
 #include <QTimeZone>
 
@@ -45,14 +43,14 @@ class Q_DECL_HIDDEN KCalCore::Period::Private
 {
 public:
     Private() : mHasDuration(false), mDailyDuration(false)  {}
-    Private(const KDateTime &start, const KDateTime &end, bool hasDuration)
+    Private(const QDateTime &start, const QDateTime &end, bool hasDuration)
         : mStart(start),
           mEnd(end),
           mHasDuration(hasDuration),
           mDailyDuration(false)
     {}
-    KDateTime mStart;    // period starting date/time
-    KDateTime mEnd;      // period ending date/time
+    QDateTime mStart;    // period starting date/time
+    QDateTime mEnd;      // period ending date/time
     bool mHasDuration = false;   // does period have a duration?
     bool mDailyDuration = false; // duration is defined as number of days, not seconds
 };
@@ -62,12 +60,12 @@ Period::Period() : d(new KCalCore::Period::Private())
 {
 }
 
-Period::Period(const KDateTime &start, const KDateTime &end)
+Period::Period(const QDateTime &start, const QDateTime &end)
     : d(new KCalCore::Period::Private(start, end, false))
 {
 }
 
-Period::Period(const KDateTime &start, const Duration &duration)
+Period::Period(const QDateTime &start, const Duration &duration)
     : d(new KCalCore::Period::Private(start, duration.end(start), true))
 {
     d->mDailyDuration = duration.isDaily();
@@ -109,12 +107,12 @@ Period &Period::operator=(const Period &other)
     return *this;
 }
 
-KDateTime Period::start() const
+QDateTime Period::start() const
 {
     return d->mStart;
 }
 
-KDateTime Period::end() const
+QDateTime Period::end() const
 {
     return d->mEnd;
 }
@@ -142,26 +140,26 @@ bool Period::hasDuration() const
 void Period::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
 {
     if (oldZone.isValid() && newZone.isValid() && oldZone != newZone) {
-        d->mStart = d->mStart.toTimeSpec(zoneToSpec(oldZone));
-        d->mStart.setTimeSpec(zoneToSpec(newZone));
-        d->mEnd = d->mEnd.toTimeSpec(zoneToSpec(oldZone));
-        d->mEnd.setTimeSpec(zoneToSpec(newZone));
+        d->mStart = d->mStart.toTimeZone(oldZone);
+        d->mStart.setTimeZone(newZone);
+        d->mEnd = d->mEnd.toTimeZone(oldZone);
+        d->mEnd.setTimeZone(newZone);
     }
 }
 
 QDataStream &KCalCore::operator<<(QDataStream &stream, const KCalCore::Period &period)
 {
-    return stream << period.d->mStart
-           << period.d->mEnd
-           << period.d->mDailyDuration
-           << period.d->mHasDuration;
+    serializeQDateTimeAsKDateTime(stream, period.d->mStart);
+    serializeQDateTimeAsKDateTime(stream, period.d->mEnd);
+    return stream << period.d->mDailyDuration
+                  << period.d->mHasDuration;
 }
 
 QDataStream &KCalCore::operator>>(QDataStream &stream, KCalCore::Period &period)
 {
-    stream >> period.d->mStart
-           >> period.d->mEnd
-           >> period.d->mDailyDuration
+    deserializeKDateTimeAsQDateTime(stream, period.d->mStart);
+    deserializeKDateTimeAsQDateTime(stream, period.d->mEnd);
+    stream >> period.d->mDailyDuration
            >> period.d->mHasDuration;
     return stream;
 }
@@ -174,4 +172,3 @@ uint KCalCore::qHash(const KCalCore::Period &key)
         return qHash(key.start().toString() + key.end().toString());
     }
 }
-

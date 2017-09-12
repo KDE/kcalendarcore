@@ -52,12 +52,12 @@ FreeBusyPeriod::FreeBusyPeriod() : Period(), d(new KCalCore::FreeBusyPeriod::Pri
 {
 }
 
-FreeBusyPeriod::FreeBusyPeriod(const KDateTime &start, const KDateTime &end)
+FreeBusyPeriod::FreeBusyPeriod(const QDateTime &start, const QDateTime &end)
     : Period(start, end), d(new KCalCore::FreeBusyPeriod::Private())
 {
 }
 
-FreeBusyPeriod::FreeBusyPeriod(const KDateTime &start, const Duration &duration)
+FreeBusyPeriod::FreeBusyPeriod(const QDateTime &start, const Duration &duration)
     : Period(start, duration), d(new KCalCore::FreeBusyPeriod::Private())
 {
 }

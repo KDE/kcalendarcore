@@ -609,7 +609,7 @@ VObject *VCalFormat::eventToVTodo(const Todo::Ptr &anEvent)
             VObject *a;
             if (alarm->type() == Alarm::Display) {
                 a = addProp(vtodo, VCDAlarmProp);
-                tmpStr = kDateTimeToISO(alarm->time());
+                tmpStr = qDateTimeToISO(alarm->time());
                 addPropValue(a, VCRunTimeProp, tmpStr.toUtf8().constData());
                 addPropValue(a, VCRepeatCountProp, "1");
                 if (alarm->text().isNull()) {
@@ -619,13 +619,13 @@ VObject *VCalFormat::eventToVTodo(const Todo::Ptr &anEvent)
                 }
             } else if (alarm->type() == Alarm::Audio) {
                 a = addProp(vtodo, VCAAlarmProp);
-                tmpStr = kDateTimeToISO(alarm->time());
+                tmpStr = qDateTimeToISO(alarm->time());
                 addPropValue(a, VCRunTimeProp, tmpStr.toUtf8().constData());
                 addPropValue(a, VCRepeatCountProp, "1");
                 addPropValue(a, VCAudioContentProp, QFile::encodeName(alarm->audioFile()).constData());
             } else if (alarm->type() == Alarm::Procedure) {
                 a = addProp(vtodo, VCPAlarmProp);
-                tmpStr = kDateTimeToISO(alarm->time());
+                tmpStr = qDateTimeToISO(alarm->time());
                 addPropValue(a, VCRunTimeProp, tmpStr.toUtf8().constData());
                 addPropValue(a, VCRepeatCountProp, "1");
                 addPropValue(a, VCProcedureNameProp, QFile::encodeName(alarm->programFile()).constData());
@@ -925,7 +925,7 @@ VObject *VCalFormat::eventToVEvent(const Event::Ptr &anEvent)
             VObject *a;
             if (alarm->type() == Alarm::Display) {
                 a = addProp(vevent, VCDAlarmProp);
-                tmpStr = kDateTimeToISO(alarm->time());
+                tmpStr = qDateTimeToISO(alarm->time());
                 addPropValue(a, VCRunTimeProp, tmpStr.toUtf8().constData());
                 addPropValue(a, VCRepeatCountProp, "1");
                 if (alarm->text().isNull()) {
@@ -935,14 +935,14 @@ VObject *VCalFormat::eventToVEvent(const Event::Ptr &anEvent)
                 }
             } else if (alarm->type() == Alarm::Audio) {
                 a = addProp(vevent, VCAAlarmProp);
-                tmpStr = kDateTimeToISO(alarm->time());
+                tmpStr = qDateTimeToISO(alarm->time());
                 addPropValue(a, VCRunTimeProp, tmpStr.toUtf8().constData());
                 addPropValue(a, VCRepeatCountProp, "1");
                 addPropValue(a, VCAudioContentProp, QFile::encodeName(alarm->audioFile()).constData());
             }
             if (alarm->type() == Alarm::Procedure) {
                 a = addProp(vevent, VCPAlarmProp);
-                tmpStr = kDateTimeToISO(alarm->time());
+                tmpStr = qDateTimeToISO(alarm->time());
                 addPropValue(a, VCRunTimeProp, tmpStr.toUtf8().constData());
                 addPropValue(a, VCRepeatCountProp, "1");
                 addPropValue(a, VCProcedureNameProp, QFile::encodeName(alarm->programFile()).constData());
@@ -1334,7 +1334,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
         if (a || b) {
             alarm = anEvent->newAlarm();
             if (a) {
-                alarm->setTime(ISOToKDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(a)))));
+                alarm->setTime(ISOToQDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(a)))));
                 deleteStr(s);
             }
             alarm->setEnabled(true);
@@ -1358,7 +1358,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
         if (a || b) {
             alarm = anEvent->newAlarm();
             if (a) {
-                alarm->setTime(ISOToKDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(a)))));
+                alarm->setTime(ISOToQDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(a)))));
                 deleteStr(s);
             }
             alarm->setEnabled(true);
@@ -1380,7 +1380,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
         if (a || b) {
             alarm = anEvent->newAlarm();
             if (a) {
-                alarm->setTime(ISOToKDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(a)))));
+                alarm->setTime(ISOToQDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(a)))));
                 deleteStr(s);
             }
             alarm->setEnabled(true);
@@ -1864,7 +1864,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
         if (a || b) {
             alarm = anEvent->newAlarm();
             if (a) {
-                alarm->setTime(ISOToKDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(a)))));
+                alarm->setTime(ISOToQDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(a)))));
                 deleteStr(s);
             }
             alarm->setEnabled(true);
@@ -1889,7 +1889,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
         if (a || b) {
             alarm = anEvent->newAlarm();
             if (a) {
-                alarm->setTime(ISOToKDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(a)))));
+                alarm->setTime(ISOToQDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(a)))));
                 deleteStr(s);
             }
             alarm->setEnabled(true);
@@ -1914,7 +1914,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
         if (a || b) {
             alarm = anEvent->newAlarm();
             if (a) {
-                alarm->setTime(ISOToKDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(a)))));
+                alarm->setTime(ISOToQDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(a)))));
                 deleteStr(s);
             }
             alarm->setEnabled(true);

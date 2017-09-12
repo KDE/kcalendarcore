@@ -92,7 +92,7 @@ void AlarmTest::testSerializer_data()
     a1->setMailAttachment(QStringLiteral("foo attachment"));
     a1->setMailText(QStringLiteral("mail body"));
 
-    a1->setTime(KDateTime(QDate(2006, 8, 3), QTime(8, 0, 0), KDateTime::UTC));
+    a1->setTime(QDateTime(QDate(2006, 8, 3), QTime(8, 0, 0), Qt::UTC));
     a2->setStartOffset(Duration(7, Duration::Days));
     a3->setEndOffset(Duration(1, Duration::Days));
 
