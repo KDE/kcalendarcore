@@ -27,6 +27,8 @@
 #include <QDateTime>
 #include <KDateTime>
 
+class QDataStream;
+
 namespace KCalCore {
 
 // TODO: PORTING-helper only, remove once KDateTime is gone
@@ -34,6 +36,18 @@ namespace KCalCore {
  * Applies KDateTime::Spec to given QDateTime and returns a modified QDateTime
  */
 KCALCORE_EXPORT QDateTime applySpec(const QDateTime &dt, const KDateTime::Spec &spec, bool isAllDay);
+
+/**
+ * Helpers to retain backwards compatibility of binary serialization.
+ */
+void serializeQDateTimeAsKDateTime(QDataStream &out, const QDateTime &dt);
+void deserializeKDateTimeAsQDateTime(QDataStream &in, QDateTime &dt);
+
+void serializeQDateTimeSortableList(QDataStream &out, const SortableList<QDateTime> &list);
+void deserializeQDateTimeSortableList(QDataStream &in, SortableList<QDateTime> &list);
+
+void serializeQTimeZoneAsSpec(QDataStream &out, const QTimeZone &tz);
+void deserializeSpecAsQTimeZone(QDataStream &in, QTimeZone &tz);
 
 /** Convert a QTimeZone to a KDateTime::Spec */
 KCALCORE_EXPORT KDateTime::Spec zoneToSpec(const QTimeZone &zone);
