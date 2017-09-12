@@ -295,24 +295,24 @@ void Calendar::setTimeZones(ICalTimeZones *zones)
     d->mTimeZones = zones;
 }
 
-void Calendar::shiftTimes(const KDateTime::Spec &oldSpec, const KDateTime::Spec &newSpec)
+void Calendar::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
 {
-    setTimeZone(specToZone(newSpec));
+    setTimeZone(newZone);
 
     int i, end;
     Event::List ev = events();
     for (i = 0, end = ev.count();  i < end;  ++i) {
-        ev[i]->shiftTimes(oldSpec, newSpec);
+        ev[i]->shiftTimes(oldZone, newZone);
     }
 
     Todo::List to = todos();
     for (i = 0, end = to.count();  i < end;  ++i) {
-        to[i]->shiftTimes(oldSpec, newSpec);
+        to[i]->shiftTimes(oldZone, newZone);
     }
 
     Journal::List jo = journals();
     for (i = 0, end = jo.count();  i < end;  ++i) {
-        jo[i]->shiftTimes(oldSpec, newSpec);
+        jo[i]->shiftTimes(oldZone, newZone);
     }
 }
 

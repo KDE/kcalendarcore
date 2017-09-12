@@ -32,7 +32,7 @@
 */
 #include "freebusy.h"
 #include "visitor.h"
-
+#include "utils.h"
 
 #include "icalformat.h"
 
@@ -300,15 +300,14 @@ void FreeBusy::merge(const FreeBusy::Ptr &freeBusy)
     sortList();
 }
 
-void FreeBusy::shiftTimes(const KDateTime::Spec &oldSpec,
-                          const KDateTime::Spec &newSpec)
+void FreeBusy::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
 {
-    if (oldSpec.isValid() && newSpec.isValid() && oldSpec != newSpec) {
-        IncidenceBase::shiftTimes(oldSpec, newSpec);
-        d->mDtEnd = d->mDtEnd.toTimeSpec(oldSpec);
-        d->mDtEnd.setTimeSpec(newSpec);
+    if (oldZone.isValid() && newZone.isValid() && oldZone != newZone) {
+        IncidenceBase::shiftTimes(oldZone, newZone);
+        d->mDtEnd = d->mDtEnd.toTimeSpec(zoneToSpec(oldZone));
+        d->mDtEnd.setTimeSpec(zoneToSpec(newZone));
         for (FreeBusyPeriod p : qAsConst(d->mBusyPeriods)) {
-            p.shiftTimes(oldSpec, newSpec);
+            p.shiftTimes(oldZone, newZone);
         }
     }
 }

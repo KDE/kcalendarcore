@@ -402,15 +402,14 @@ void Incidence::setDtStart(const KDateTime &dt)
     }
 }
 
-void Incidence::shiftTimes(const KDateTime::Spec &oldSpec,
-                           const KDateTime::Spec &newSpec)
+void Incidence::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
 {
-    IncidenceBase::shiftTimes(oldSpec, newSpec);
+    IncidenceBase::shiftTimes(oldZone, newZone);
     if (d->mRecurrence) {
-        d->mRecurrence->shiftTimes(oldSpec, newSpec);
+        d->mRecurrence->shiftTimes(oldZone, newZone);
     }
     for (int i = 0, end = d->mAlarms.count();  i < end;  ++i) {
-        d->mAlarms[i]->shiftTimes(oldSpec, newSpec);
+        d->mAlarms[i]->shiftTimes(oldZone, newZone);
     }
 }
 

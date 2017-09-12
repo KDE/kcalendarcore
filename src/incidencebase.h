@@ -69,6 +69,7 @@
 
 class QUrl;
 class QDate;
+class QTimeZone;
 
 namespace KCalCore
 {
@@ -434,11 +435,10 @@ public:
       will result in the time being shifted from 14:00 (which is the London
       time of the incidence start) to 14:00 Paris time.
 
-      @param oldSpec the time specification which provides the clock times
-      @param newSpec the new time specification
+      @param oldZone the time zone which provides the clock times
+      @param newZone the new time zone
     */
-    virtual void shiftTimes(const KDateTime::Spec &oldSpec,
-                            const KDateTime::Spec &newSpec);
+    virtual void shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone);
 
     /**
       Adds a comment to the incidence. Does not add a linefeed character; simply

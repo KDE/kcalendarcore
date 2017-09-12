@@ -29,6 +29,8 @@
 
 #include <KDateTime>
 
+class QTimeZone;
+
 namespace KCalCore
 {
 
@@ -191,15 +193,15 @@ public:
       time zone rather than from the actual rule time zone.
 
       For example, shifting a rule whose start time is 09:00 America/New York,
-      using an old viewing time zone (@p oldSpec) of Europe/London, to a new time
-      zone (@p newSpec) of Europe/Paris, will result in the time being shifted
+      using an old viewing time zone (@p oldZone) of Europe/London, to a new time
+      zone (@p newZone) of Europe/Paris, will result in the time being shifted
       from 14:00 (which is the London time of the rule start) to 14:00 Paris
       time.
 
-      @param oldSpec the time specification which provides the clock times
-      @param newSpec the new time specification
+      @param oldZone the time specification which provides the clock times
+      @param newZone the new time specification
     */
-    void shiftTimes(const KDateTime::Spec &oldSpec, const KDateTime::Spec &newSpec);
+    void shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone);
 
     /** Returns true if the date specified is one on which the event will
      * recur. The start date returns true only if it actually matches the rule.

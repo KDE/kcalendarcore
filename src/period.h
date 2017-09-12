@@ -40,6 +40,8 @@
 #include <QMetaType>
 #include <QVector>
 
+class QTimeZone;
+
 namespace KCalCore
 {
 
@@ -190,11 +192,10 @@ public:
       shifted from 14:00 (which is the London time of the period start) to
       14:00 Paris time.
 
-      @param oldSpec the time specification which provides the clock times
-      @param newSpec the new time specification
+      @param oldZone the time zone which provides the clock times
+      @param newZone the new time zone
     */
-    void shiftTimes(const KDateTime::Spec &oldSpec,
-                    const KDateTime::Spec &newSpec);
+    void shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone);
 
 private:
     //@cond PRIVATE

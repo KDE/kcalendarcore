@@ -155,8 +155,7 @@ public:
       @copydoc
       IncidenceBase::shiftTimes()
     */
-    void shiftTimes(const KDateTime::Spec &oldSpec,
-                    const KDateTime::Spec &newSpec) override;
+    void shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone) override;
 
     /**
       Returns the list of all periods within the free/busy.

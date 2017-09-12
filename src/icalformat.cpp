@@ -422,7 +422,7 @@ QString ICalFormat::createScheduleMessage(const IncidenceBase::Ptr &incidence,
 
             // Handle conversion to UTC times
             if (useUtcTimes) {
-                i->shiftTimes(KDateTime::Spec::UTC(), KDateTime::Spec::UTC());
+                i->shiftTimes(QTimeZone::utc(), QTimeZone::utc());
             }
 
             // Handle scheduling ID being present

@@ -23,7 +23,7 @@
 */
 #include "recurrence.h"
 #include "sortablelist.h"
-
+#include "utils.h"
 
 #include "kcalcore_debug.h"
 
@@ -527,29 +527,29 @@ void Recurrence::setDuration(int duration)
     }
 }
 
-void Recurrence::shiftTimes(const KDateTime::Spec &oldSpec, const KDateTime::Spec &newSpec)
+void Recurrence::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
 {
     if (d->mRecurReadOnly) {
         return;
     }
 
-    d->mStartDateTime = d->mStartDateTime.toTimeSpec(oldSpec);
-    d->mStartDateTime.setTimeSpec(newSpec);
+    d->mStartDateTime = d->mStartDateTime.toTimeSpec(zoneToSpec(oldZone));
+    d->mStartDateTime.setTimeSpec(zoneToSpec(newZone));
 
     int i, end;
     for (i = 0, end = d->mRDateTimes.count();  i < end;  ++i) {
-        d->mRDateTimes[i] = d->mRDateTimes[i].toTimeSpec(oldSpec);
-        d->mRDateTimes[i].setTimeSpec(newSpec);
+        d->mRDateTimes[i] = d->mRDateTimes[i].toTimeSpec(zoneToSpec(oldZone));
+        d->mRDateTimes[i].setTimeSpec(zoneToSpec(newZone));
     }
     for (i = 0, end = d->mExDateTimes.count();  i < end;  ++i) {
-        d->mExDateTimes[i] = d->mExDateTimes[i].toTimeSpec(oldSpec);
-        d->mExDateTimes[i].setTimeSpec(newSpec);
+        d->mExDateTimes[i] = d->mExDateTimes[i].toTimeSpec(zoneToSpec(oldZone));
+        d->mExDateTimes[i].setTimeSpec(zoneToSpec(newZone));
     }
     for (i = 0, end = d->mRRules.count();  i < end;  ++i) {
-        d->mRRules[i]->shiftTimes(oldSpec, newSpec);
+        d->mRRules[i]->shiftTimes(oldZone, newZone);
     }
     for (i = 0, end = d->mExRules.count();  i < end;  ++i) {
-        d->mExRules[i]->shiftTimes(oldSpec, newSpec);
+        d->mExRules[i]->shiftTimes(oldZone, newZone);
     }
 }
 

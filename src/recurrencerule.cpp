@@ -20,11 +20,12 @@
   Boston, MA 02110-1301, USA.
 */
 #include "recurrencerule.h"
-
+#include "utils.h"
 #include "kcalcore_debug.h"
 
 #include <QStringList>
 #include <QTime>
+#include <QTimeZone>
 #include <QVector>
 
 using namespace KCalCore;
@@ -1132,13 +1133,13 @@ void RecurrenceRule::setWeekStart(short weekStart)
     d->setDirty();
 }
 
-void RecurrenceRule::shiftTimes(const KDateTime::Spec &oldSpec, const KDateTime::Spec &newSpec)
+void RecurrenceRule::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
 {
-    d->mDateStart = d->mDateStart.toTimeSpec(oldSpec);
-    d->mDateStart.setTimeSpec(newSpec);
+    d->mDateStart = d->mDateStart.toTimeSpec(zoneToSpec(oldZone));
+    d->mDateStart.setTimeSpec(zoneToSpec(newZone));
     if (d->mDuration == 0) {
-        d->mDateEnd = d->mDateEnd.toTimeSpec(oldSpec);
-        d->mDateEnd.setTimeSpec(newSpec);
+        d->mDateEnd = d->mDateEnd.toTimeSpec(zoneToSpec(oldZone));
+        d->mDateEnd.setTimeSpec(zoneToSpec(newZone));
     }
     d->setDirty();
 }

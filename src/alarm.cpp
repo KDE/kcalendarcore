@@ -33,8 +33,10 @@
 #include "alarm.h"
 #include "duration.h"
 #include "incidence.h"
+#include "utils.h"
 
 #include <QTime>
+#include <QTimeZone>
 
 using namespace KCalCore;
 
@@ -580,14 +582,13 @@ bool Alarm::hasTime() const
     return d->mHasTime;
 }
 
-void Alarm::shiftTimes(const KDateTime::Spec &oldSpec,
-                       const KDateTime::Spec &newSpec)
+void Alarm::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
 {
     if (d->mParent) {
         d->mParent->update();
     }
-    d->mAlarmTime = d->mAlarmTime.toTimeSpec(oldSpec);
-    d->mAlarmTime.setTimeSpec(newSpec);
+    d->mAlarmTime = d->mAlarmTime.toTimeSpec(zoneToSpec(oldZone));
+    d->mAlarmTime.setTimeSpec(zoneToSpec(newZone));
     if (d->mParent) {
         d->mParent->updated();
     }

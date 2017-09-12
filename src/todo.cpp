@@ -34,7 +34,7 @@
 #include "todo.h"
 #include "visitor.h"
 #include "recurrence.h"
-
+#include "utils.h"
 #include "kcalcore_debug.h"
 
 #include <QTime>
@@ -353,19 +353,18 @@ bool Todo::isNotStarted(bool first) const
     return true;
 }
 
-void Todo::shiftTimes(const KDateTime::Spec &oldSpec,
-                      const KDateTime::Spec &newSpec)
+void Todo::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
 {
-    Incidence::shiftTimes(oldSpec, newSpec);
-    d->mDtDue = d->mDtDue.toTimeSpec(oldSpec);
-    d->mDtDue.setTimeSpec(newSpec);
+    Incidence::shiftTimes(oldZone, newZone);
+    d->mDtDue = d->mDtDue.toTimeSpec(zoneToSpec(oldZone));
+    d->mDtDue.setTimeSpec(zoneToSpec(newZone));
     if (recurs()) {
-        d->mDtRecurrence = d->mDtRecurrence.toTimeSpec(oldSpec);
-        d->mDtRecurrence.setTimeSpec(newSpec);
+        d->mDtRecurrence = d->mDtRecurrence.toTimeSpec(zoneToSpec(oldZone));
+        d->mDtRecurrence.setTimeSpec(zoneToSpec(newZone));
     }
     if (hasCompletedDate()) {
-        d->mCompleted = d->mCompleted.toTimeSpec(oldSpec);
-        d->mCompleted.setTimeSpec(newSpec);
+        d->mCompleted = d->mCompleted.toTimeSpec(zoneToSpec(oldZone));
+        d->mCompleted.setTimeSpec(zoneToSpec(newZone));
     }
 }
 

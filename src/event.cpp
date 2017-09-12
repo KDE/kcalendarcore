@@ -31,7 +31,7 @@
 
 #include "event.h"
 #include "visitor.h"
-
+#include "utils.h"
 #include "kcalcore_debug.h"
 
 #include <QDate>
@@ -217,13 +217,12 @@ bool Event::isMultiDay(const KDateTime::Spec &spec) const
     return multi;
 }
 
-void Event::shiftTimes(const KDateTime::Spec &oldSpec,
-                       const KDateTime::Spec &newSpec)
+void Event::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
 {
-    Incidence::shiftTimes(oldSpec, newSpec);
+    Incidence::shiftTimes(oldZone, newZone);
     if (d->mDtEnd.isValid()) {
-        d->mDtEnd = d->mDtEnd.toTimeSpec(oldSpec);
-        d->mDtEnd.setTimeSpec(newSpec);
+        d->mDtEnd = d->mDtEnd.toTimeSpec(zoneToSpec(oldZone));
+        d->mDtEnd.setTimeSpec(zoneToSpec(newZone));
     }
 }
 

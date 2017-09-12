@@ -31,10 +31,12 @@
 */
 
 #include "period.h"
+#include "utils.h"
 
 #include <KDateTime>
 
 #include <QHash>
+#include <QTimeZone>
 
 using namespace KCalCore;
 
@@ -137,14 +139,13 @@ bool Period::hasDuration() const
     return d->mHasDuration;
 }
 
-void Period::shiftTimes(const KDateTime::Spec &oldSpec,
-                        const KDateTime::Spec &newSpec)
+void Period::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
 {
-    if (oldSpec.isValid() && newSpec.isValid() && oldSpec != newSpec) {
-        d->mStart = d->mStart.toTimeSpec(oldSpec);
-        d->mStart.setTimeSpec(newSpec);
-        d->mEnd = d->mEnd.toTimeSpec(oldSpec);
-        d->mEnd.setTimeSpec(newSpec);
+    if (oldZone.isValid() && newZone.isValid() && oldZone != newZone) {
+        d->mStart = d->mStart.toTimeSpec(zoneToSpec(oldZone));
+        d->mStart.setTimeSpec(zoneToSpec(newZone));
+        d->mEnd = d->mEnd.toTimeSpec(zoneToSpec(oldZone));
+        d->mEnd.setTimeSpec(zoneToSpec(newZone));
     }
 }
 

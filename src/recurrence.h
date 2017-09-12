@@ -28,6 +28,7 @@
 #include "recurrencerule.h"
 
 class QBitArray;
+class QTimeZone;
 
 namespace KCalCore
 {
@@ -319,10 +320,10 @@ public:
       from 14:00 (which is the London time of the recurrence start) to 14:00 Paris
       time.
 
-      @param oldSpec the time specification which provides the clock times
-      @param newSpec the new time specification
+      @param oldZone the time specification which provides the clock times
+      @param newZone the new time specification
     */
-    void shiftTimes(const KDateTime::Spec &oldSpec, const KDateTime::Spec &newSpec);
+    void shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone);
 
     /** Sets an event to recur minutely. By default infinite recurrence is used.
         To set an end date use the method setEndDate and to set the number
