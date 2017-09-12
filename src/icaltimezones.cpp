@@ -1123,9 +1123,8 @@ void ICalTimeZoneSourcePrivate::parseTransitions(const MSSystemTime &date,
 {
     // NOTE that we need to set start and end times and they cannot be
     // to far in either direction to avoid bloating the transitions list
-    const KDateTime klocalStart(QDateTime(QDate(2000, 1, 1), QTime(0, 0, 0)),
-                                KDateTime::Spec::ClockTime());
-    const KDateTime maxTime(MAX_DATE(), KDateTime::Spec::ClockTime());
+    const QDateTime klocalStart(QDate(2000, 1, 1), QTime(0, 0, 0), Qt::LocalTime);
+    const QDateTime maxTime(MAX_DATE());
 
     if (date.wYear) {
         // Absolute change time.
@@ -1159,9 +1158,9 @@ void ICalTimeZoneSourcePrivate::parseTransitions(const MSSystemTime &date,
             r.setByDays(wdlst);
             r.setStartDt(klocalStart);
             r.setWeekStart(1);
-            const DateTimeList dtl = r.timesInInterval(klocalStart, maxTime);
-            for (int i = 0, end = dtl.count();  i < end;  ++i) {
-                QDateTime utc = dtl[i].dateTime();
+            const auto dtl = r.timesInInterval(klocalStart, maxTime);
+            for (auto it = dtl.cbegin(), end = dtl.cend(); it != end; ++it) {
+                QDateTime utc = (*it);
                 utc.setTimeSpec(Qt::UTC);
                 transitions += KTimeZone::Transition(utc.addSecs(-prevOffset), phase);
             }
