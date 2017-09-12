@@ -23,6 +23,7 @@ class TestReadRecurrenceId: public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
+    void initTestCase();
     void testReadSingleException();
     void testReadSingleExceptionWithThisAndFuture();
     void testReadWriteSingleExceptionWithThisAndFuture();

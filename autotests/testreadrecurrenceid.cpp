@@ -21,12 +21,18 @@
 #include "icaltimezones.h"
 #include "exceptions.h"
 #include "utils.h"
+#include "setuptzinfo.h"
 
 #include <QDebug>
 #include <QTimeZone>
 
 #include <QTest>
 QTEST_MAIN(TestReadRecurrenceId)
+
+void TestReadRecurrenceId::initTestCase()
+{
+    const SetupTzinfo setup;
+}
 
 void TestReadRecurrenceId::testReadSingleException()
 {
