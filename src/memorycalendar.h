@@ -38,7 +38,6 @@
 namespace KCalCore
 {
 
-class CalFormat;
 
 /**
   @brief
