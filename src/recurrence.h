@@ -237,7 +237,7 @@ public:
      *
      * There is a (large) maximum limit to the number of times returned. If due to
      * this limit the list is incomplete, this is indicated by the last entry being
-     * set to an invalid KDateTime value. If you need further values, call the
+     * set to an invalid QDateTime value. If you need further values, call the
      * method again with a start time set to just after the last valid time returned.
      *
      * @param start inclusive start of interval
@@ -250,7 +250,7 @@ public:
      * If the recurrence has no time, the next date after the specified date is returned.
      * @param preDateTime the date/time after which to find the recurrence.
      * @return date/time of next recurrence (strictly later than the given
-     *         KDateTime), or invalid date if none.
+     *         QDateTime), or invalid date if none.
      */
     QDateTime getNextDateTime(const QDateTime &preDateTime) const;
 
@@ -260,7 +260,7 @@ public:
      *
      * @param afterDateTime the date/time before which to find the recurrence.
      * @return date/time of previous recurrence (strictly earlier than the given
-     *         KDateTime), or invalid date if none.
+     *         QDateTime), or invalid date if none.
      */
     QDateTime getPreviousDateTime(const QDateTime &afterDateTime) const;
 
