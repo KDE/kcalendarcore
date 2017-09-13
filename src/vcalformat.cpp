@@ -2288,7 +2288,7 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
                     //we go. If there is a TZ in the VCALENDAR even if the dtStart
                     //and dtend are in UTC, clients interpret it using also the TZ defined
                     //in the Calendar. I know it sounds braindead but oh well
-                    int utcOffSet = anEvent->dtStart().utcOffset();
+                    int utcOffSet = anEvent->dtStart().offsetFromUtc();
                     QDateTime dtStart(anEvent->dtStart().addSecs(utcOffSet));
                     dtStart.setTimeZone(d->mCalendar->timeZone());
                     QDateTime dtEnd(anEvent->dtEnd().addSecs(utcOffSet));
@@ -2329,7 +2329,7 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
                     //we go. If there is a TZ in the VCALENDAR even if the dtStart
                     //and dtend are in UTC, clients interpret it usint alse the TZ defined
                     //in the Calendar. I know it sounds braindead but oh well
-                    int utcOffSet = aTodo->dtStart().utcOffset();
+                    int utcOffSet = aTodo->dtStart().offsetFromUtc();
                     QDateTime dtStart(aTodo->dtStart().addSecs(utcOffSet));
                     dtStart.setTimeZone(d->mCalendar->timeZone());
                     aTodo->setDtStart(dtStart);

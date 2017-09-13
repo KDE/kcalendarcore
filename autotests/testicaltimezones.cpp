@@ -545,29 +545,29 @@ void ICalTimeZonesTest::isDst()
     QVERIFY(tz.isValid());
     icalcomponent_free(vtimezone);
 
-    QVERIFY(!tz.isDst((time_t)start.addSecs(-1).toTime_t()));
-    QVERIFY(!tz.isDst((time_t)start.toTime_t()));
-    QVERIFY(!tz.isDst((time_t)daylight87.addSecs(-1).toTime_t()));
-    QVERIFY(tz.isDst((time_t)daylight87.toTime_t()));
-    QVERIFY(tz.isDst((time_t)standardOct87.addSecs(-1).toTime_t()));
-    QVERIFY(!tz.isDst((time_t)standardOct87.toTime_t()));
-    QVERIFY(!tz.isDst((time_t)standardOct87.addDays(1).toTime_t()));
-    QVERIFY(!tz.isDst((time_t)daylight88.addSecs(-1).toTime_t()));
-    QVERIFY(tz.isDst((time_t)daylight88.toTime_t()));
-    QVERIFY(!tz.isDst((time_t)daylight97.addSecs(-1).toTime_t()));
-    QVERIFY(tz.isDst((time_t)daylight97.toTime_t()));
-    QVERIFY(tz.isDst((time_t)standardOct97.addSecs(-1).toTime_t()));
-    QVERIFY(!tz.isDst((time_t)standardOct97.toTime_t()));
-    QVERIFY(!tz.isDst((time_t)spring98.toTime_t()));
-    QVERIFY(!tz.isDst((time_t)standardOct98.addSecs(-1).toTime_t()));
-    QVERIFY(!tz.isDst((time_t)standardOct98.toTime_t()));
-    QVERIFY(!tz.isDst((time_t)daylight99.addSecs(-1).toTime_t()));
-    QVERIFY(tz.isDst((time_t)daylight99.toTime_t()));
-    QVERIFY(tz.isDst((time_t)standardOct99.addSecs(-1).toTime_t()));
-    QVERIFY(!tz.isDst((time_t)standardOct99.toTime_t()));
-    QVERIFY(!tz.isDst((time_t)daylight00.addSecs(-1).toTime_t()));
-    QVERIFY(tz.isDst((time_t)daylight00.toTime_t()));
-    QVERIFY(!tz.isDst((time_t)spring01.toTime_t()));
+    QVERIFY(!tz.isDst((time_t)start.addSecs(-1).toSecsSinceEpoch()));
+    QVERIFY(!tz.isDst((time_t)start.toSecsSinceEpoch()));
+    QVERIFY(!tz.isDst((time_t)daylight87.addSecs(-1).toSecsSinceEpoch()));
+    QVERIFY(tz.isDst((time_t)daylight87.toSecsSinceEpoch()));
+    QVERIFY(tz.isDst((time_t)standardOct87.addSecs(-1).toSecsSinceEpoch()));
+    QVERIFY(!tz.isDst((time_t)standardOct87.toSecsSinceEpoch()));
+    QVERIFY(!tz.isDst((time_t)standardOct87.addDays(1).toSecsSinceEpoch()));
+    QVERIFY(!tz.isDst((time_t)daylight88.addSecs(-1).toSecsSinceEpoch()));
+    QVERIFY(tz.isDst((time_t)daylight88.toSecsSinceEpoch()));
+    QVERIFY(!tz.isDst((time_t)daylight97.addSecs(-1).toSecsSinceEpoch()));
+    QVERIFY(tz.isDst((time_t)daylight97.toSecsSinceEpoch()));
+    QVERIFY(tz.isDst((time_t)standardOct97.addSecs(-1).toSecsSinceEpoch()));
+    QVERIFY(!tz.isDst((time_t)standardOct97.toSecsSinceEpoch()));
+    QVERIFY(!tz.isDst((time_t)spring98.toSecsSinceEpoch()));
+    QVERIFY(!tz.isDst((time_t)standardOct98.addSecs(-1).toSecsSinceEpoch()));
+    QVERIFY(!tz.isDst((time_t)standardOct98.toSecsSinceEpoch()));
+    QVERIFY(!tz.isDst((time_t)daylight99.addSecs(-1).toSecsSinceEpoch()));
+    QVERIFY(tz.isDst((time_t)daylight99.toSecsSinceEpoch()));
+    QVERIFY(tz.isDst((time_t)standardOct99.addSecs(-1).toSecsSinceEpoch()));
+    QVERIFY(!tz.isDst((time_t)standardOct99.toSecsSinceEpoch()));
+    QVERIFY(!tz.isDst((time_t)daylight00.addSecs(-1).toSecsSinceEpoch()));
+    QVERIFY(tz.isDst((time_t)daylight00.toSecsSinceEpoch()));
+    QVERIFY(!tz.isDst((time_t)spring01.toSecsSinceEpoch()));
 }
 
 void ICalTimeZonesTest::utcOffsets()

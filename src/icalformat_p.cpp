@@ -2384,7 +2384,7 @@ icaltimetype ICalFormatImpl::writeICalDateTime(const QDateTime &datetime, bool d
     }
     t.zone = nullptr;   // zone is NOT set
     t.is_utc = datetime.timeSpec() == Qt::UTC ||
-                (datetime.timeSpec() == Qt::OffsetFromUTC && datetime.utcOffset() == 0);
+                (datetime.timeSpec() == Qt::OffsetFromUTC && datetime.offsetFromUtc() == 0);
 
     return t;
 }
