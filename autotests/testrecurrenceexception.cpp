@@ -19,7 +19,6 @@
 #include "memorycalendar.h"
 #include "utils.h"
 
-#include <QDebug>
 
 #include <QTest>
 QTEST_MAIN(TestRecurrenceException)

@@ -24,7 +24,6 @@
 #include "calendar.h"
 #include "memorycalendar.h"
 
-#include <QDebug>
 #include <QSignalSpy>
 #include <QTest>
 #include <QTimeZone>

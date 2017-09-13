@@ -24,7 +24,6 @@
 #include "testperson.h"
 #include "person.h"
 
-#include <QDebug>
 
 #include <QTest>
 QTEST_MAIN(PersonTest)

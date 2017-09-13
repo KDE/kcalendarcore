@@ -23,7 +23,6 @@
 #include "testattendee.h"
 #include "attendee.h"
 
-#include <QDebug>
 
 #include <QTest>
 QTEST_MAIN(AttendeeTest)

@@ -26,7 +26,6 @@
 #include "utils.h"
 
 #include <KConfig>
-#include <KConfigGroup>
 #include <QTimeZone>
 #include <KSystemTimeZones>
 #include <KTimeZone>

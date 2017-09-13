@@ -25,7 +25,6 @@
 #include "setuptzinfo.h"
 #include "utils.h"
 
-#include <KDateTime>
 
 #include <QDebug>
 #include <QFile>

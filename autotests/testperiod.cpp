@@ -25,7 +25,6 @@
 #include "period.h"
 #include "utils.h"
 
-#include <KSystemTimeZone>
 
 #include <QTest>
 QTEST_MAIN(PeriodTest)
