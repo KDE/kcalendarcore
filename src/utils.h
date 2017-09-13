@@ -54,7 +54,6 @@ QTimeZone specToZone(const KDateTime::Spec &spec);
 
 /** Convert KDateTime to QDateTime, correctly preserves timespec */
 QDateTime k2q(const KDateTime &kdt);
-KDateTime q2k(const QDateTime &qdt, bool isAllDay = false);
 
 }
 

@@ -112,7 +112,7 @@ void RecurTodoTest::testNonAllDay()
     const bool equal = todo->dtStart() == QDateTime(currentDate, currentTime, todo->dtStart().timeZone()).addDays(1);
     if (!equal) {
         qDebug() << "Test Failed. dtDue = " << todo->dtDue().toString() << "OriginalDtDue:" << originalDtDue.toString()
-                 <<  "KDateTime:"
+                 <<  "QDateTime:"
                  << QDateTime(currentDate, currentTime, todo->dtDue().timeZone()).addDays(1).toString();
     }
 

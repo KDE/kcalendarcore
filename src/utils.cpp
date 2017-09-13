@@ -148,17 +148,6 @@ QDateTime KCalCore::k2q(const KDateTime &kdt)
     }
 }
 
-KDateTime KCalCore::q2k(const QDateTime &qdt, bool allDay)
-{
-    if (qdt.isValid()) {
-        KDateTime kdt(qdt.date(), qdt.time(), zoneToSpec(qdt.timeZone()));
-        kdt.setDateOnly(allDay && qdt.time() == QTime(0, 0, 0));
-        return kdt;
-    } else {
-        return KDateTime();
-    }
-}
-
 // To remain backwards compatible we need to (de)serialize QDateTime the way KDateTime
 // was (de)serialized
 void KCalCore::serializeQDateTimeAsKDateTime(QDataStream &out, const QDateTime &dt)

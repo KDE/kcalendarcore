@@ -1359,7 +1359,6 @@ void Calendar::appendRecurringAlarms(Alarm::List &alarms,
                 QDateTime alarmStart =
                     offset.end(a->hasEndOffset() ? incidence->dateTime(Incidence::RoleAlarmEndOffset) :
                                incidence->dtStart());
-//        KDateTime alarmStart = incidence->dtStart().addSecs( offset );
                 if (alarmStart > to) {
                     continue;
                 }

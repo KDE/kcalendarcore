@@ -41,6 +41,6 @@ void TestRecurrenceException::testCreateTodoException()
     QCOMPARE(exception->dtDue(), QDateTime(dtdue).addDays(1));
     //FIXME should be done on clearing the recurrence, but we can't due to BC.
     //Probably not that important as long as dtRecurrence is ignored if the todo is not recurring
-    //QCOMPARE(exception->dtRecurrence(), KDateTime());
+    //QCOMPARE(exception->dtRecurrence(), QDateTime());
     //TODO dtCompleted
 }

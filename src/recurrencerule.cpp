@@ -625,7 +625,7 @@ void Constraint::appendDateTime(const QDate &date, const QTime &time,
 
 bool Constraint::increase(RecurrenceRule::PeriodType type, int freq)
 {
-    // convert the first day of the interval to KDateTime
+    // convert the first day of the interval to QDateTime
     intervalDateTime(type);
 
     // Now add the intervals
@@ -654,7 +654,7 @@ bool Constraint::increase(RecurrenceRule::PeriodType type, int freq)
     default:
         break;
     }
-    // Convert back from KDateTime to the Constraint class
+    // Convert back from QDateTime to the Constraint class
     readDateTime(cachedDt, type);
     useCachedDt = true;   // readDateTime() resets this
 

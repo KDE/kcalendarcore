@@ -1144,7 +1144,7 @@ QDateTime Recurrence::getNextDateTime(const QDateTime &preDateTime) const
         //     1.0) Add the start date if it's after preDateTime
         //     1.1) Use the next occurrence from the explicit RDATE lists
         //     1.2) Add the next recurrence for each of the RRULEs
-        //   2) Take the earliest recurrence of these = KDateTime nextDT
+        //   2) Take the earliest recurrence of these = QDateTime nextDT
         //   3) If that date/time is not excluded, either explicitly by an EXDATE or
         //      by an EXRULE, return nextDT as the next date/time of the recurrence
         //   4) If it's excluded, start all at 1), but starting at nextDT (instead
@@ -1209,14 +1209,14 @@ QDateTime Recurrence::getPreviousDateTime(const QDateTime &afterDateTime) const
     QDateTime prevDT = afterDateTime;
     // prevent infinite loops, e.g. when an exrule extinguishes an rrule (e.g.
     // the exrule is identical to the rrule). If an occurrence is found, break
-    // out of the loop by returning that KDateTime
+    // out of the loop by returning that QDateTime
     int loop = 0;
     while (loop < 1000) {
         // Outline of the algo:
         //   1) Find the next date/time after preDateTime when the event could recur
         //     1.1) Use the next occurrence from the explicit RDATE lists
         //     1.2) Add the next recurrence for each of the RRULEs
-        //   2) Take the earliest recurrence of these = KDateTime nextDT
+        //   2) Take the earliest recurrence of these = QDateTime nextDT
         //   3) If that date/time is not excluded, either explicitly by an EXDATE or
         //      by an EXRULE, return nextDT as the next date/time of the recurrence
         //   4) If it's excluded, start all at 1), but starting at nextDT (instead
