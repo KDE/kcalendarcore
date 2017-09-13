@@ -38,7 +38,6 @@
 #include "calformat.h"
 
 #include <QDate>
-#include <KDateTime>
 
 template <typename K, typename V>
 static QVector<V> values(const QMultiHash<K, V> &c)

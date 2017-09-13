@@ -25,7 +25,6 @@
 #include "setuptzinfo.h"
 #include "utils.h"
 
-#include <KConfig>
 #include <QTimeZone>
 #include <KSystemTimeZones>
 #include <KTimeZone>

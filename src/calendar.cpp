@@ -43,7 +43,6 @@
 
 #include "kcalcore_debug.h"
 
-#include <KSystemTimeZones>
 #include <QTimeZone>
 
 extern "C" {

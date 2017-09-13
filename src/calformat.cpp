@@ -37,7 +37,6 @@
 #include <uuid/uuid.h>
 #else
 #include <KRandom>
-#include <QDateTime>
 #endif
 
 using namespace KCalCore;
