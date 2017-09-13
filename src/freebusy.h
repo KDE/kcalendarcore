@@ -98,7 +98,7 @@ public:
       @param start is the start date/time of the period.
       @param end is the end date/time of the period.
     */
-    FreeBusy(const KDateTime &start, const KDateTime &end);
+    FreeBusy(const QDateTime &start, const QDateTime &end);
 
     /**
       Constructs a freebusy for a specified list of events given a single period.
@@ -107,7 +107,7 @@ public:
       @param start is the start date/time of the period.
       @param end is the end date/time of the period.
     */
-    FreeBusy(const Event::List &events, const KDateTime &start, const KDateTime &end);
+    FreeBusy(const Event::List &events, const QDateTime &start, const QDateTime &end);
 
     /**
       Destroys a free/busy.
@@ -130,26 +130,26 @@ public:
       Sets the start date/time for the free/busy. Note that this date/time
       may be later or earlier than all periods within the free/busy.
 
-      @param start is a KDateTime specifying an start datetime.
+      @param start is a QDateTime specifying an start datetime.
       @see IncidenceBase::dtStart(), setDtEnd().
     */
-    void setDtStart(const KDateTime &start) override;
+    void setDtStart(const QDateTime &start) override;
 
     /**
       Sets the end datetime for the free/busy. Note that this datetime
       may be later or earlier than all periods within the free/busy.
 
-      @param end is a KDateTime specifying an end datetime.
+      @param end is a QDateTime specifying an end datetime.
       @see dtEnd(), setDtStart().
     */
-    void setDtEnd(const KDateTime &end);
+    void setDtEnd(const QDateTime &end);
 
     /**
       Returns the end datetime for the free/busy.
       FIXME: calling addPeriod() does not change mDtEnd. Is that incorrect?
       @see setDtEnd().
     */
-    virtual KDateTime dtEnd() const;
+    virtual QDateTime dtEnd() const;
 
     /**
       @copydoc
@@ -173,7 +173,7 @@ public:
       @param start is the start datetime of the period.
       @param end is the end datetime of the period.
     */
-    void addPeriod(const KDateTime &start, const KDateTime &end);
+    void addPeriod(const QDateTime &start, const QDateTime &end);
 
     /**
       Adds a period to the freebusy list and sorts the list.
@@ -181,7 +181,7 @@ public:
       @param start is the start datetime of the period.
       @param duration is the Duration of the period.
     */
-    void addPeriod(const KDateTime &start, const Duration &duration);
+    void addPeriod(const QDateTime &start, const Duration &duration);
 
     /**
       Adds a list of periods to the freebusy object and then sorts that list.
@@ -217,13 +217,13 @@ public:
       @copydoc
       IncidenceBase::dateTime()
     */
-    KDateTime dateTime(DateTimeRole role) const override;
+    QDateTime dateTime(DateTimeRole role) const override;
 
     /**
       @copydoc
       IncidenceBase::setDateTime()
     */
-    void setDateTime(const KDateTime &dateTime, DateTimeRole role) override;
+    void setDateTime(const QDateTime &dateTime, DateTimeRole role) override;
 
     /**
        @copydoc

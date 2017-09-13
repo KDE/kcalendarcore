@@ -61,7 +61,7 @@
 #include "duration.h"
 #include "sortablelist.h"
 
-#include <KDateTime>
+#include <QDateTime>
 
 #include <QSet>
 #include <QUrl>
@@ -78,7 +78,7 @@ namespace KCalCore
 typedef SortableList<QDate> DateList;
 
 /** List of times */
-typedef SortableList<KDateTime> DateTimeList;
+typedef SortableList<QDateTime> DateTimeList;
 
 class Event;
 class Todo;
@@ -141,7 +141,7 @@ public:
         RoleEndTimeZone,         /**< Role for determining an incidence's ending timezone */
         RoleEndRecurrenceBase,
         RoleEnd,                 /**< Role for determining an incidence's dtEnd, will return
-                                    an invalid KDateTime if the incidence does not support dtEnd */
+                                    an invalid QDateTime if the incidence does not support dtEnd */
         RoleDisplayEnd,          /**< Role used for display purposes, represents the end boundary
                                     if an incidence supports dtEnd */
         RoleAlarm,               /**< Role for determining the date/time of the first alarm.
@@ -364,20 +364,20 @@ public:
     bool isReadOnly() const;
 
     /**
-      Sets the incidence's starting date/time with a KDateTime.
+      Sets the incidence's starting date/time with a QDateTime.
       The incidence's all-day status is set according to whether @p dtStart
       is a date/time (not all-day) or date-only (all-day).
 
       @param dtStart is the incidence start date/time.
       @see dtStart().
     */
-    virtual void setDtStart(const KDateTime &dtStart);
+    virtual void setDtStart(const QDateTime &dtStart);
 
     /**
-      Returns an incidence's starting date/time as a KDateTime.
+      Returns an incidence's starting date/time as a QDateTime.
       @see setDtStart().
     */
-    virtual KDateTime dtStart() const;
+    virtual QDateTime dtStart() const;
 
     /**
       Sets the incidence duration.
@@ -634,14 +634,14 @@ public:
       Returns a date/time corresponding to the specified DateTimeRole.
       @param role is a DateTimeRole.
     */
-    virtual KDateTime dateTime(DateTimeRole role) const = 0;
+    virtual QDateTime dateTime(DateTimeRole role) const = 0;
 
     /**
       Sets the date/time corresponding to the specified DateTimeRole.
-      @param dateTime is KDateTime value to set.
+      @param dateTime is QDateTime value to set.
       @param role is a DateTimeRole.
     */
-    virtual void setDateTime(const KDateTime &dateTime, DateTimeRole role) = 0;
+    virtual void setDateTime(const QDateTime &dateTime, DateTimeRole role) = 0;
 
     /**
       Returns the Akonadi specific sub MIME type of a KCalCore::IncidenceBase item,

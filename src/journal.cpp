@@ -75,12 +75,12 @@ bool Journal::accept(Visitor &v, const IncidenceBase::Ptr &incidence)
     return v.visit(incidence.staticCast<Journal>());
 }
 
-KDateTime Journal::dateTime(DateTimeRole role) const
+QDateTime Journal::dateTime(DateTimeRole role) const
 {
     switch (role) {
     case RoleEnd:
     case RoleEndTimeZone:
-        return KDateTime();
+        return QDateTime();
     case RoleDisplayStart:
     case RoleDisplayEnd:
         return dtStart();
@@ -89,7 +89,7 @@ KDateTime Journal::dateTime(DateTimeRole role) const
     }
 }
 
-void Journal::setDateTime(const KDateTime &dateTime, DateTimeRole role)
+void Journal::setDateTime(const QDateTime &dateTime, DateTimeRole role)
 {
     switch (role) {
     case RoleDnD: {

@@ -88,7 +88,7 @@ public:
                 (calendar.filter()->criteria() & KCalCore::CalFilter::HideCompletedTodos)) {
             if (inc->recurs()) {
                 const Todo::Ptr todo = inc.staticCast<Todo>();
-                if (todo && (occurrenceDate < k2q(todo->dtDue()))) {
+                if (todo && (occurrenceDate < todo->dtDue())) {
                     return true;
                 }
             } else if (inc->hasRecurrenceId()) {
@@ -109,7 +109,7 @@ public:
             }
             if (inc->recurs()) {
                 QHash<QDateTime, Incidence::Ptr> recurrenceIds;
-                QDateTime incidenceRecStart = k2q(inc->dateTime(Incidence::RoleRecurrenceStart));
+                QDateTime incidenceRecStart = inc->dateTime(Incidence::RoleRecurrenceStart);
                 const bool isAllDay = inc->allDay();
                 foreach (const Incidence::Ptr &exception, calendar.instances(inc)) {
                     if (incidenceRecStart.isValid()) {
@@ -132,9 +132,9 @@ public:
                         }
 
                         incidence = recurrenceIds.value(recurrenceId);
-                        occurrenceStartDate = k2q(incidence->dtStart());
+                        occurrenceStartDate = incidence->dtStart();
                         resetIncidence = !incidence->thisAndFuture();
-                        offset = incidence->recurrenceId().secsTo(k2q(incidence->dtStart()));
+                        offset = incidence->recurrenceId().secsTo(incidence->dtStart());
                         if (incidence->thisAndFuture()) {
                             lastInc = incidence;
                             lastOffset = offset;
@@ -153,7 +153,7 @@ public:
                     }
                 }
             } else {
-                occurrenceList << Private::Occurrence(inc, {}, k2q(inc->dtStart()));
+                occurrenceList << Private::Occurrence(inc, {}, inc->dtStart());
             }
         }
         occurrenceIt = QListIterator<Private::Occurrence>(occurrenceList);
@@ -194,7 +194,7 @@ OccurrenceIterator::OccurrenceIterator(const Calendar &calendar,
     Journal::List journals;
     const Journal::List allJournals = calendar.rawJournals();
     for (const KCalCore::Journal::Ptr &journal : allJournals) {
-        const QDate journalStart = journal->dtStart().toTimeSpec(zoneToSpec(start.timeZone())).date();
+        const QDate journalStart = journal->dtStart().toTimeZone(start.timeZone()).date();
         if (journal->dtStart().isValid() &&
                 journalStart >= start.date() &&
                 journalStart <= end.date()) {

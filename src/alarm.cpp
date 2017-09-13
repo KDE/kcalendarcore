@@ -504,10 +504,10 @@ QDateTime Alarm::time() const
         return d->mAlarmTime;
     } else if (d->mParent) {
         if (d->mEndOffset) {
-            QDateTime dt = k2q(d->mParent->dateTime(Incidence::RoleAlarmEndOffset));
+            QDateTime dt = d->mParent->dateTime(Incidence::RoleAlarmEndOffset);
             return d->mOffset.end(dt);
         } else {
-            QDateTime dt = k2q(d->mParent->dateTime(Incidence::RoleAlarmStartOffset));
+            QDateTime dt = d->mParent->dateTime(Incidence::RoleAlarmStartOffset);
             return d->mOffset.end(dt);
         }
     } else {
@@ -518,9 +518,9 @@ QDateTime Alarm::time() const
 QDateTime Alarm::nextTime(const QDateTime &preTime, bool ignoreRepetitions) const
 {
     if (d->mParent && d->mParent->recurs()) {
-        QDateTime dtEnd = k2q(d->mParent->dateTime(Incidence::RoleAlarmEndOffset));
+        QDateTime dtEnd = d->mParent->dateTime(Incidence::RoleAlarmEndOffset);
 
-        QDateTime dtStart = k2q(d->mParent->dtStart());
+        QDateTime dtStart = d->mParent->dtStart();
         // Find the incidence's earliest alarm
         // Alarm time is defined by an offset from the event start or end time.
         QDateTime alarmStart = d->mOffset.end(d->mEndOffset ? dtEnd : dtStart);

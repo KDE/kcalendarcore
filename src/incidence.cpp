@@ -398,11 +398,11 @@ int Incidence::revision() const
     return d->mRevision;
 }
 
-void Incidence::setDtStart(const KDateTime &dt)
+void Incidence::setDtStart(const QDateTime &dt)
 {
     IncidenceBase::setDtStart(dt);
     if (d->mRecurrence && dirtyFields().contains(FieldDtStart)) {
-        d->mRecurrence->setStartDateTime(k2q(dt), allDay());
+        d->mRecurrence->setStartDateTime(dt, allDay());
     }
 }
 
@@ -561,7 +561,7 @@ Recurrence *Incidence::recurrence() const
 {
     if (!d->mRecurrence) {
         d->mRecurrence = new Recurrence();
-        d->mRecurrence->setStartDateTime(k2q(dateTime(RoleRecurrenceStart)), allDay());
+        d->mRecurrence->setStartDateTime(dateTime(RoleRecurrenceStart), allDay());
         d->mRecurrence->setAllDay(allDay());
         d->mRecurrence->setRecurReadOnly(mReadOnly);
         d->mRecurrence->addObserver(const_cast<KCalCore::Incidence *>(this));
@@ -599,18 +599,18 @@ bool Incidence::recursOn(const QDate &date, const QTimeZone &timeZone) const
     return d->mRecurrence && d->mRecurrence->recursOn(date, timeZone);
 }
 
-bool Incidence::recursAt(const KDateTime &qdt) const
+bool Incidence::recursAt(const QDateTime &qdt) const
 {
-    return d->mRecurrence && d->mRecurrence->recursAt(k2q(qdt));
+    return d->mRecurrence && d->mRecurrence->recursAt(qdt);
 }
 
-QList<KDateTime> Incidence::startDateTimesForDate(const QDate &date,
-        const KDateTime::Spec &timeSpec) const
+QList<QDateTime> Incidence::startDateTimesForDate(const QDate &date,
+                                                  const QTimeZone &timeZone) const
 {
-    KDateTime start = dtStart();
-    KDateTime end = dateTime(RoleEndRecurrenceBase);
+    QDateTime start = dtStart();
+    QDateTime end = dateTime(RoleEndRecurrenceBase);
 
-    QList<KDateTime> result;
+    QList<QDateTime> result;
 
     // TODO_Recurrence: Also work if only due date is given...
     if (!start.isValid() && ! end.isValid()) {
@@ -618,7 +618,7 @@ QList<KDateTime> Incidence::startDateTimesForDate(const QDate &date,
     }
 
     // if the incidence doesn't recur,
-    KDateTime kdate(date, timeSpec);
+    QDateTime kdate(date, {}, timeZone);
     if (!recurs()) {
         if (!(start > kdate || end < kdate)) {
             result << start;
@@ -629,12 +629,12 @@ QList<KDateTime> Incidence::startDateTimesForDate(const QDate &date,
     int days = start.daysTo(end);
     // Account for possible recurrences going over midnight, while the original event doesn't
     QDate tmpday(date.addDays(-days - 1));
-    KDateTime tmp;
+    QDateTime tmp;
     while (tmpday <= date) {
-        if (recurrence()->recursOn(tmpday, specToZone(timeSpec))) {
-            const QList<QTime> times = recurrence()->recurTimesOn(tmpday, specToZone(timeSpec));
+        if (recurrence()->recursOn(tmpday, timeZone)) {
+            const QList<QTime> times = recurrence()->recurTimesOn(tmpday, timeZone);
             for (const QTime &time : times) {
-                tmp = KDateTime(tmpday, time, start.timeSpec());
+                tmp = QDateTime(tmpday, time, start.timeZone());
                 if (endDateForStart(tmp) >= kdate) {
                     result << tmp;
                 }
@@ -645,12 +645,12 @@ QList<KDateTime> Incidence::startDateTimesForDate(const QDate &date,
     return result;
 }
 
-QList<KDateTime> Incidence::startDateTimesForDateTime(const KDateTime &datetime) const
+QList<QDateTime> Incidence::startDateTimesForDateTime(const QDateTime &datetime) const
 {
-    KDateTime start = dtStart();
-    KDateTime end = dateTime(RoleEndRecurrenceBase);
+    QDateTime start = dtStart();
+    QDateTime end = dateTime(RoleEndRecurrenceBase);
 
-    QList<KDateTime> result;
+    QList<QDateTime> result;
 
     // TODO_Recurrence: Also work if only due date is given...
     if (!start.isValid() && ! end.isValid()) {
@@ -668,13 +668,13 @@ QList<KDateTime> Incidence::startDateTimesForDateTime(const KDateTime &datetime)
     int days = start.daysTo(end);
     // Account for possible recurrences going over midnight, while the original event doesn't
     QDate tmpday(datetime.date().addDays(-days - 1));
-    KDateTime tmp;
+    QDateTime tmp;
     while (tmpday <= datetime.date()) {
-        if (recurrence()->recursOn(tmpday, specToZone(datetime.timeSpec()))) {
+        if (recurrence()->recursOn(tmpday, datetime.timeZone())) {
             // Get the times during the day (in start date's time zone) when recurrences happen
-            const QList<QTime> times = recurrence()->recurTimesOn(tmpday, specToZone(start.timeSpec()));
+            const QList<QTime> times = recurrence()->recurTimesOn(tmpday, start.timeZone());
             for (const QTime &time : times) {
-                tmp = KDateTime(tmpday, time, start.timeSpec());
+                tmp = QDateTime(tmpday, time, start.timeZone());
                 if (!(tmp > datetime || endDateForStart(tmp) < datetime)) {
                     result << tmp;
                 }
@@ -685,10 +685,10 @@ QList<KDateTime> Incidence::startDateTimesForDateTime(const KDateTime &datetime)
     return result;
 }
 
-KDateTime Incidence::endDateForStart(const KDateTime &startDt) const
+QDateTime Incidence::endDateForStart(const QDateTime &startDt) const
 {
-    KDateTime start = dtStart();
-    KDateTime end = dateTime(RoleEndRecurrenceBase);
+    QDateTime start = dtStart();
+    QDateTime end = dateTime(RoleEndRecurrenceBase);
     if (!end.isValid()) {
         return start;
     }

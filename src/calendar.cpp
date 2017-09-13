@@ -666,17 +666,17 @@ Incidence::Ptr Calendar::createException(const Incidence::Ptr &incidence,
 
     newInc->setRecurrenceId(recurrenceId);
     newInc->setThisAndFuture(thisAndFuture);
-    newInc->setDtStart(q2k(recurrenceId));
+    newInc->setDtStart(recurrenceId);
 
     // Calculate and set the new end of the incidence
-    KDateTime end = incidence->dateTime(IncidenceBase::RoleEnd);
+    QDateTime end = incidence->dateTime(IncidenceBase::RoleEnd);
 
     if (end.isValid()) {
-        if (incidence->dtStart().isDateOnly()) {
-            int offset = incidence->dtStart().daysTo(q2k(recurrenceId));
+        if (incidence->allDay()) {
+            int offset = incidence->dtStart().daysTo(recurrenceId);
             end = end.addDays(offset);
         } else {
-            qint64 offset = incidence->dtStart().secsTo(q2k(recurrenceId));
+            qint64 offset = incidence->dtStart().secsTo(recurrenceId);
             end = end.addSecs(offset);
         }
         newInc->setDateTime(end, IncidenceBase::RoleEnd);
@@ -1350,21 +1350,21 @@ void Calendar::appendRecurringAlarms(Alarm::List &alarms,
                 } else if (a->hasEndOffset()) {
                     offset = a->endOffset();
                     if (!endOffsetValid) {
-                        endOffset = Duration(k2q(incidence->dtStart()),
-                                             k2q(incidence->dateTime(Incidence::RoleAlarmEndOffset)));
+                        endOffset = Duration(incidence->dtStart(),
+                                             incidence->dateTime(Incidence::RoleAlarmEndOffset));
                         endOffsetValid = true;
                     }
                 }
 
                 // Find the incidence's earliest alarm
                 QDateTime alarmStart =
-                    offset.end(k2q(a->hasEndOffset() ? incidence->dateTime(Incidence::RoleAlarmEndOffset) :
-                               incidence->dtStart()));
+                    offset.end(a->hasEndOffset() ? incidence->dateTime(Incidence::RoleAlarmEndOffset) :
+                               incidence->dtStart());
 //        KDateTime alarmStart = incidence->dtStart().addSecs( offset );
                 if (alarmStart > to) {
                     continue;
                 }
-                QDateTime baseStart = k2q(incidence->dtStart());
+                QDateTime baseStart = incidence->dtStart();
                 if (from > alarmStart) {
                     alarmStart = from;   // don't look earlier than the earliest alarm
                     baseStart = (-offset).end((-endOffset).end(alarmStart));

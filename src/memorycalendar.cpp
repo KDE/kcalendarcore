@@ -187,7 +187,7 @@ bool MemoryCalendar::deleteIncidence(const Incidence::Ptr &incidence)
             d->mDeletedIncidences[type].insert(uid, incidence);
         }
 
-        const KDateTime dt = incidence->dateTime(Incidence::RoleCalendarHashing);
+        const QDateTime dt = incidence->dateTime(Incidence::RoleCalendarHashing);
         if (dt.isValid()) {
             d->mIncidencesForDate[type].remove(dt.date().toString(), incidence);
         }
@@ -287,7 +287,7 @@ void MemoryCalendar::Private::insertIncidence(const Incidence::Ptr &incidence)
     if (!mIncidences[type].contains(uid, incidence)) {
         mIncidences[type].insert(uid, incidence);
         mIncidencesByIdentifier.insert(incidence->instanceIdentifier(), incidence);
-        const KDateTime dt = incidence->dateTime(Incidence::RoleCalendarHashing);
+        const QDateTime dt = incidence->dateTime(Incidence::RoleCalendarHashing);
         if (dt.isValid()) {
             mIncidencesForDate[type].insert(dt.date().toString(), incidence);
         }
@@ -467,8 +467,8 @@ Todo::List MemoryCalendar::rawTodos(const QDate &start,
             continue;
         }
 
-        QDateTime rStart = todo->hasDueDate() ? k2q(todo->dtDue()) :
-                           todo->hasStartDate() ? k2q(todo->dtStart()) : QDateTime();
+        QDateTime rStart = todo->hasDueDate() ? todo->dtDue() :
+                           todo->hasStartDate() ? todo->dtStart() : QDateTime();
         if (!rStart.isValid()) {
             continue;
         }
@@ -555,7 +555,7 @@ void MemoryCalendar::incidenceUpdate(const QString &uid, const QDateTime &recurr
         // Save it so we can detect changes to uid or recurringId.
         d->mIncidenceBeingUpdated = inc->instanceIdentifier();
 
-        const KDateTime dt = inc->dateTime(Incidence::RoleCalendarHashing);
+        const QDateTime dt = inc->dateTime(Incidence::RoleCalendarHashing);
         if (dt.isValid()) {
             const Incidence::IncidenceType type = inc->type();
             d->mIncidencesForDate[type].remove(dt.date().toString(), inc);
@@ -584,7 +584,7 @@ void MemoryCalendar::incidenceUpdated(const QString &uid, const QDateTime &recur
         // or internally in the Event itself when certain things change.
         // need to verify with ical documentation.
 
-        const KDateTime dt = inc->dateTime(Incidence::RoleCalendarHashing);
+        const QDateTime dt = inc->dateTime(Incidence::RoleCalendarHashing);
         if (dt.isValid()) {
             const Incidence::IncidenceType type = inc->type();
             d->mIncidencesForDate[type].insert(dt.date().toString(), inc);
@@ -618,9 +618,9 @@ Event::List MemoryCalendar::rawEventsForDate(const QDate &date,
     const auto ts = timeZone.isValid() ? timeZone : this->timeZone();
     while (it != d->mIncidencesForDate[Incidence::TypeEvent].constEnd() && it.key() == dateStr) {
         ev = it.value().staticCast<Event>();
-        KDateTime end(ev->dtEnd().toTimeSpec(ev->dtStart()));
+        QDateTime end(ev->dtEnd().toTimeZone(ev->dtStart().timeZone()));
         if (ev->allDay()) {
-            end.setDateOnly(true);
+            end.setTime(QTime());
         } else {
             end = end.addSecs(-1);
         }
@@ -678,7 +678,7 @@ Event::List MemoryCalendar::rawEvents(const QDate &start,
     while (i.hasNext()) {
         i.next();
         event = i.value().staticCast<Event>();
-        QDateTime rStart = k2q(event->dtStart());
+        QDateTime rStart = event->dtStart();
         if (nd < rStart) {
             continue;
         }
@@ -687,7 +687,7 @@ Event::List MemoryCalendar::rawEvents(const QDate &start,
         }
 
         if (!event->recurs()) {   // non-recurring events
-            QDateTime rEnd = k2q(event->dtEnd());
+            QDateTime rEnd = event->dtEnd();
             if (rEnd < st) {
                 continue;
             }

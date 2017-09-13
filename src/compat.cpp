@@ -225,11 +225,11 @@ void CompatPre35::fixRecurrence(const Incidence::Ptr &incidence)
 {
     Recurrence *recurrence = incidence->recurrence();
     if (recurrence) {
-        KDateTime start(incidence->dtStart());
+        QDateTime start(incidence->dtStart());
         // kde < 3.5 only had one rrule, so no need to loop over all RRULEs.
         RecurrenceRule *r = recurrence->defaultRRule();
-        if (r && !r->dateMatchesRules(k2q(start))) {
-            recurrence->addExDateTime(k2q(start));
+        if (r && !r->dateMatchesRules(start)) {
+            recurrence->addExDateTime(start);
         }
     }
 
@@ -327,7 +327,7 @@ void CompatPre31::fixRecurrence(const Incidence::Ptr &incidence)
             }
             if (!doNothing) {
                 duration = r->durationTo(
-                               QDateTime(end, QTime(0, 0, 0), specToZone(incidence->dtStart().timeSpec())));
+                               QDateTime(end, QTime(0, 0, 0), incidence->dtStart().timeZone()));
                 r->setDuration(duration);
             }
         }

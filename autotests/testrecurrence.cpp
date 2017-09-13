@@ -23,7 +23,6 @@
 #include "filestorage.h"
 #include "memorycalendar.h"
 #include "setuptzinfo.h"
-#include "utils.h"
 
 
 #include <QDebug>
@@ -96,9 +95,9 @@ int main(int argc, char **argv)
 
         QDateTime dt;
         if (incidence->allDay()) {
-            dt = k2q(incidence->dtStart()).addDays(-1);
+            dt = incidence->dtStart().addDays(-1);
         } else {
-            dt = k2q(incidence->dtStart()).addSecs(-1);
+            dt = incidence->dtStart().addSecs(-1);
         }
 
         int i = 0;

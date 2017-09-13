@@ -52,16 +52,18 @@ void MemoryCalendarTest::testEvents()
 
     Event::Ptr event1 = Event::Ptr(new Event());
     event1->setUid(QStringLiteral("1"));
-    event1->setDtStart(KDateTime(dt));
-    event1->setDtEnd(KDateTime(dt).addDays(1));
+    event1->setDtStart(QDateTime(dt, {}));
+    event1->setDtEnd(QDateTime(dt, {}).addDays(1));
+    event1->setAllDay(true);
     event1->setSummary(QStringLiteral("Event1 Summary"));
     event1->setDescription(QStringLiteral("This is a description of the first event"));
     event1->setLocation(QStringLiteral("the place"));
 
     Event::Ptr event2 = Event::Ptr(new Event());
     event2->setUid(QStringLiteral("2"));
-    event2->setDtStart(KDateTime(dt).addDays(1));
-    event2->setDtEnd(KDateTime(dt).addDays(2));
+    event2->setDtStart(QDateTime(dt, {}).addDays(1));
+    event2->setDtEnd(QDateTime(dt, {}).addDays(2));
+    event2->setAllDay(true);
     event2->setSummary(QStringLiteral("Event2 Summary"));
     event2->setDescription(QStringLiteral("This is a description of the second event"));
     event2->setLocation(QStringLiteral("the other place"));
@@ -83,16 +85,18 @@ void MemoryCalendarTest::testIncidences()
 
     Event::Ptr event1 = Event::Ptr(new Event());
     event1->setUid(QStringLiteral("1"));
-    event1->setDtStart(KDateTime(dt));
-    event1->setDtEnd(KDateTime(dt).addDays(1));
+    event1->setDtStart(QDateTime(dt, {}));
+    event1->setDtEnd(QDateTime(dt, {}).addDays(1));
+    event1->setAllDay(true);
     event1->setSummary(QStringLiteral("Event1 Summary"));
     event1->setDescription(QStringLiteral("This is a description of the first event"));
     event1->setLocation(QStringLiteral("the place"));
 
     Event::Ptr event2 = Event::Ptr(new Event());
     event2->setUid(QStringLiteral("2"));
-    event2->setDtStart(KDateTime(dt).addDays(1));
-    event2->setDtEnd(KDateTime(dt).addDays(2));
+    event2->setDtStart(QDateTime(dt, {}).addDays(1));
+    event2->setDtEnd(QDateTime(dt, {}).addDays(2));
+    event2->setAllDay(true);
     event2->setSummary(QStringLiteral("Event2 Summary"));
     event2->setDescription(QStringLiteral("This is a description of the second event"));
     event2->setLocation(QStringLiteral("the other place"));
@@ -102,15 +106,16 @@ void MemoryCalendarTest::testIncidences()
 
     Todo::Ptr todo1 = Todo::Ptr(new Todo());
     todo1->setUid(QStringLiteral("3"));
-    todo1->setDtStart(KDateTime(dt).addDays(1));
-    todo1->setDtDue(KDateTime(dt).addDays(2));
+    todo1->setDtStart(QDateTime(dt, {}).addDays(1));
+    todo1->setDtDue(QDateTime(dt, {}).addDays(2));
+    todo1->setAllDay(true);
     todo1->setSummary(QStringLiteral("Todo1 Summary"));
     todo1->setDescription(QStringLiteral("This is a description of a todo"));
     todo1->setLocation(QStringLiteral("this place"));
 
     Todo::Ptr todo2 = Todo::Ptr(new Todo());
     todo2->setUid(QStringLiteral("4"));
-    todo2->setDtStart(KDateTime(dt).addDays(1));
+    todo2->setDtStart(QDateTime(dt, {}).addDays(1));
     todo2->setAllDay(true);
     todo2->setSummary(QStringLiteral("<qt><h1>Todo2 Summary</h1></qt>"), true);
     todo2->setDescription(QStringLiteral("This is a description of a todo"));
@@ -179,7 +184,7 @@ void MemoryCalendarTest::testRecurrenceExceptions()
     MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
     cal->setProductId(QStringLiteral("fredware calendar"));
     QDate dt = QDate::currentDate();
-    KDateTime start(dt);
+    QDateTime start(dt, {});
 
     Event::Ptr event1 = Event::Ptr(new Event());
     event1->setUid(QStringLiteral("1"));
@@ -190,7 +195,7 @@ void MemoryCalendarTest::testRecurrenceExceptions()
     event1->recurrence()->setDuration(3);
     QVERIFY(cal->addEvent(event1));
 
-    const QDateTime recurrenceId = k2q(event1->dtStart().addDays(1));
+    const QDateTime recurrenceId = event1->dtStart().addDays(1);
     Event::Ptr exception1 = cal->createException(event1, recurrenceId).staticCast<Event>();
     QCOMPARE(exception1->recurrenceId(), recurrenceId);
     QCOMPARE(exception1->uid(), event1->uid());
@@ -202,7 +207,7 @@ void MemoryCalendarTest::testRecurrenceExceptions()
     QCOMPARE(cal->event(event1->uid()), event1);
     QCOMPARE(cal->event(event1->uid(), recurrenceId), exception1);
 
-    const Event::List incidences = cal->rawEvents(start.date(), start.addDays(3).date(), specToZone(start.timeSpec()));
+    const Event::List incidences = cal->rawEvents(start.date(), start.addDays(3).date(), start.timeZone());
     //Contains incidence and exception
     QCOMPARE(incidences.size(), 2);
 
@@ -218,7 +223,7 @@ void MemoryCalendarTest::testChangeRecurId()
     // When we change the recurring id, internal hashtables should be updated.
 
     MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
-    KDateTime start(QDate::currentDate());
+    QDateTime start(QDate::currentDate(), {});
 
     // Add main event
     Event::Ptr event1 = Event::Ptr(new Event());
@@ -226,13 +231,14 @@ void MemoryCalendarTest::testChangeRecurId()
     event1->setUid(uid);
     event1->setDtStart(start);
     event1->setDtEnd(start.addDays(1));
+    event1->setAllDay(true);
     event1->setSummary(QStringLiteral("Event1 Summary"));
     event1->recurrence()->setDaily(1);
     event1->recurrence()->setDuration(3);
     QVERIFY(cal->addEvent(event1));
 
     // Add exception event:
-    const QDateTime recurrenceId = k2q(event1->dtStart().addDays(1));
+    const QDateTime recurrenceId = event1->dtStart().addDays(1);
     Event::Ptr exception1 = cal->createException(event1, recurrenceId).staticCast<Event>();
     QCOMPARE(exception1->recurrenceId(), recurrenceId);
     QCOMPARE(exception1->uid(), event1->uid());
@@ -244,7 +250,7 @@ void MemoryCalendarTest::testChangeRecurId()
     Incidence::Ptr foo = cal->instance(oldIdentifier);
     QVERIFY(foo && foo->hasRecurrenceId());
     // Now change the recurring id!
-    exception1->setRecurrenceId(k2q(start.addDays(2)));
+    exception1->setRecurrenceId(start.addDays(2));
     const QString newIdentifier = exception1->instanceIdentifier();
     QVERIFY(oldIdentifier != newIdentifier);
 
@@ -258,7 +264,7 @@ void MemoryCalendarTest::testChangeRecurId()
     Incidence::List incidences = cal->incidences();
     QVERIFY(incidences.count() == 2);
 
-    QDateTime newRecId = k2q(start.addDays(2));
+    QDateTime newRecId = start.addDays(2);
     Incidence::Ptr main      = cal->incidence(uid);
     Incidence::Ptr exception = cal->incidence(uid, newRecId);
     Incidence::Ptr noException = cal->incidence(uid, recurrenceId);

@@ -86,13 +86,13 @@ public:
       @copydoc
       IncidenceBase::dateTime(DateTimeRole)const
     */
-    KDateTime dateTime(DateTimeRole role) const override;
+    QDateTime dateTime(DateTimeRole role) const override;
 
     /**
       @copydoc
-      IncidenceBase::setDateTime(const KDateTime &, DateTimeRole )
+      IncidenceBase::setDateTime(const QDateTime &, DateTimeRole )
     */
-    void setDateTime(const KDateTime &dateTime, DateTimeRole role) override;
+    void setDateTime(const QDateTime &dateTime, DateTimeRole role) override;
 
     /**
        @copydoc

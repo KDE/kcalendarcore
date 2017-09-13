@@ -241,7 +241,7 @@ public:
      *
      * There is a (large) maximum limit to the number of times returned. If due to
      * this limit the list is incomplete, this is indicated by the last entry being
-     * set to an invalid KDateTime value. If you need further values, call the
+     * set to an invalid QDateTime value. If you need further values, call the
      * method again with a start time set to just after the last valid time returned.
      * @param start inclusive start of interval
      * @param end inclusive end of interval

@@ -48,8 +48,8 @@ void FileStorageTest::testSave()
 
     Event::Ptr event1 = Event::Ptr(new Event());
     event1->setUid(QStringLiteral("1"));
-    event1->setDtStart(KDateTime(dt));
-    event1->setDtEnd(KDateTime(dt).addDays(1));
+    event1->setDtStart(QDateTime(dt, {}));
+    event1->setDtEnd(QDateTime(dt, {}).addDays(1));
     event1->setSummary(QStringLiteral("Event1 Summary"));
     event1->setDescription(QStringLiteral("This is a description of the first event"));
     event1->setLocation(QStringLiteral("the place"));
@@ -57,8 +57,8 @@ void FileStorageTest::testSave()
 
     Event::Ptr event2 = Event::Ptr(new Event());
     event2->setUid(QStringLiteral("2"));
-    event2->setDtStart(KDateTime(dt).addDays(1));
-    event2->setDtEnd(KDateTime(dt).addDays(2));
+    event2->setDtStart(QDateTime(dt, {}).addDays(1));
+    event2->setDtEnd(QDateTime(dt, {}).addDays(2));
     event2->setSummary(QStringLiteral("Event2 Summary"));
     event2->setDescription(QStringLiteral("This is a description of the second event"));
     event2->setLocation(QStringLiteral("the other place"));
@@ -80,8 +80,8 @@ void FileStorageTest::testSaveLoadSave()
 
     Event::Ptr event1 = Event::Ptr(new Event());
     event1->setUid(QStringLiteral("1"));
-    event1->setDtStart(KDateTime(dt));
-    event1->setDtEnd(KDateTime(dt).addDays(1));
+    event1->setDtStart(QDateTime(dt, {}));
+    event1->setDtEnd(QDateTime(dt, {}).addDays(1));
     event1->setSummary(QStringLiteral("Event1 Summary"));
     event1->setDescription(QStringLiteral("This is a description of the first event"));
     event1->setLocation(QStringLiteral("the place"));
@@ -89,8 +89,8 @@ void FileStorageTest::testSaveLoadSave()
 
     Event::Ptr event2 = Event::Ptr(new Event());
     event2->setUid(QStringLiteral("2"));
-    event2->setDtStart(KDateTime(dt).addDays(1));
-    event2->setDtEnd(KDateTime(dt).addDays(2));
+    event2->setDtStart(QDateTime(dt, {}).addDays(1));
+    event2->setDtEnd(QDateTime(dt, {}).addDays(2));
     event2->setSummary(QStringLiteral("Event2 Summary"));
     event2->setDescription(QStringLiteral("This is a description of the second event"));
     event2->setLocation(QStringLiteral("the other place"));
@@ -119,8 +119,8 @@ void FileStorageTest::testSpecialChars()
 
     Event::Ptr event = Event::Ptr(new Event());
     event->setUid(uid);
-    event->setDtStart(KDateTime(currentDate));
-    event->setDtEnd(KDateTime(currentDate.addDays(1)));
+    event->setDtStart(QDateTime(currentDate, {}));
+    event->setDtEnd(QDateTime(currentDate.addDays(1), {}));
 
     const QChar latin1_umlaut[] = { 0xFC, QLatin1Char('\0') };
 

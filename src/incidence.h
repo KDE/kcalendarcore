@@ -220,7 +220,7 @@ public:
       @param dt is the starting date/time.
       @see IncidenceBase::dtStart().
     */
-    void setDtStart(const KDateTime &dt) override;
+    void setDtStart(const QDateTime &dt) override;
 
     /**
       @copydoc IncidenceBase::shiftTimes()
@@ -452,7 +452,7 @@ public:
     /**
       @copydoc Recurrence::recursAt()
     */
-    bool recursAt(const KDateTime &dt) const;
+    bool recursAt(const QDateTime &dt) const;
 
     /**
       Calculates the start date/time for all recurrences that happen at some
@@ -465,9 +465,8 @@ public:
       given date; an empty list if the incidence does not overlap with the
       date at all.
     */
-    virtual QList<KDateTime> startDateTimesForDate(
-        const QDate &date,
-        const KDateTime::Spec &timeSpec = KDateTime::LocalZone) const;
+    virtual QList<QDateTime> startDateTimesForDate(const QDate &date,
+                                                   const QTimeZone &timeZone) const;
 
     /**
       Calculates the start date/time for all recurrences that happen at the
@@ -478,8 +477,7 @@ public:
       given date/time; an empty list if the incidence does not happen at the
       given time at all.
     */
-    virtual QList<KDateTime> startDateTimesForDateTime(
-        const KDateTime &datetime) const;
+    virtual QList<QDateTime> startDateTimesForDateTime(const QDateTime &datetime) const;
 
     /**
       Returns the end date/time of the incidence occurrence if it starts at
@@ -490,7 +488,7 @@ public:
       date/time if the end date/time is invalid; or the end date/time if
       the start date/time is invalid.
     */
-    virtual KDateTime endDateForStart(const KDateTime &startDt) const;
+    virtual QDateTime endDateForStart(const QDateTime &startDt) const;
 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // %%%%%  Attachment-related methods
@@ -684,7 +682,7 @@ public:
 
     /**
       Returns true if the incidence has recurrenceId, otherwise return false.
-      @see setRecurrenceId(KDateTime)
+      @see setRecurrenceId(QDateTime)
     */
     bool hasRecurrenceId() const;
 

@@ -62,7 +62,7 @@ public:
         : mOrganizer(nullptr),
           mUpdateGroupLevel(0),
           mUpdatedPending(false),
-          mAllDay(true),
+          mAllDay(false),
           mHasDuration(false)
     {}
 
@@ -82,7 +82,7 @@ public:
     void init(const Private &other);
 
     QDateTime mLastModified;     // incidence last modified date
-    KDateTime mDtStart;          // incidence start time
+    QDateTime mDtStart;          // incidence start time
     Person::Ptr mOrganizer;           // incidence person (owner)
     QString mUid;                // incidence unique id
     Duration mDuration;          // incidence duration
@@ -307,7 +307,7 @@ bool IncidenceBase::isReadOnly() const
     return mReadOnly;
 }
 
-void IncidenceBase::setDtStart(const KDateTime &dtStart)
+void IncidenceBase::setDtStart(const QDateTime &dtStart)
 {
 //  if ( mReadOnly ) return;
 
@@ -315,16 +315,15 @@ void IncidenceBase::setDtStart(const KDateTime &dtStart)
         qCWarning(KCALCORE_LOG) << "Invalid dtStart";
     }
 
-    if (d->mDtStart != dtStart || d->mAllDay != dtStart.isDateOnly()) {
+    if (d->mDtStart != dtStart) {
         update();
         d->mDtStart = dtStart;
-        d->mAllDay = dtStart.isDateOnly();
         d->mDirtyFields.insert(FieldDtStart);
         updated();
     }
 }
 
-KDateTime IncidenceBase::dtStart() const
+QDateTime IncidenceBase::dtStart() const
 {
     return d->mDtStart;
 }
@@ -350,8 +349,8 @@ void IncidenceBase::setAllDay(bool f)
 void IncidenceBase::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
 {
     update();
-    d->mDtStart = d->mDtStart.toTimeSpec(zoneToSpec(oldZone));
-    d->mDtStart.setTimeSpec(zoneToSpec(newZone));
+    d->mDtStart = d->mDtStart.toTimeZone(oldZone);
+    d->mDtStart.setTimeZone(newZone);
     d->mDirtyFields.insert(FieldDtStart);
     d->mDirtyFields.insert(FieldDtEnd);
     updated();
@@ -692,7 +691,8 @@ QDataStream &KCalCore::operator<<(QDataStream &out, const KCalCore::IncidenceBas
 
     out << *(static_cast<CustomProperties *>(i.data()));
     serializeQDateTimeAsKDateTime(out, i->d->mLastModified);
-    out << i->d->mDtStart << i->organizer() << i->d->mUid << i->d->mDuration
+    serializeQDateTimeAsKDateTime(out, i->d->mDtStart);
+    out << i->organizer() << i->d->mUid << i->d->mDuration
         << i->d->mAllDay << i->d->mHasDuration << i->d->mComments << i->d->mContacts
         << i->d->mAttendees.count() << i->d->mUrl;
 
@@ -733,7 +733,8 @@ QDataStream &KCalCore::operator>>(QDataStream &in, const KCalCore::IncidenceBase
 
     in >> *(static_cast<CustomProperties *>(i.data()));
     deserializeKDateTimeAsQDateTime(in, i->d->mLastModified);
-    in >> i->d->mDtStart >> i->d->mOrganizer >> i->d->mUid >> i->d->mDuration
+    deserializeKDateTimeAsQDateTime(in, i->d->mDtStart);
+    in >> i->d->mOrganizer >> i->d->mUid >> i->d->mDuration
        >> i->d->mAllDay >> i->d->mHasDuration >> i->d->mComments >> i->d->mContacts >> attendeeCount
        >> i->d->mUrl;
 

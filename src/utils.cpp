@@ -76,14 +76,23 @@ KDateTime::Spec KCalCore::zoneToSpec(const QTimeZone& zone)
         return KDateTime::UTC;
     if (zone == QTimeZone::systemTimeZone())
         return KDateTime::LocalZone;
-    auto tz = KSystemTimeZones::zone(QString::fromLatin1(zone.id()));
-    return tz;
+    if (zone.id().startsWith("UTC")) {
+        return KDateTime::Spec(KDateTime::OffsetFromUTC, zone.offsetFromUtc(QDateTime::currentDateTimeUtc()));
+    } else {
+        return KSystemTimeZones::zone(QString::fromLatin1(zone.id()));
+    }
 }
 
 namespace {
 
 QTimeZone resolveCustomTZ(const KTimeZone &ktz)
 {
+    // First, let's try Microsoft
+    const auto msIana = QTimeZone::windowsIdToDefaultIanaId(ktz.name().toUtf8());
+    if (!msIana.isEmpty()) {
+        return QTimeZone(msIana);
+    }
+
     int standardUtcOffset = 0;
     bool matched = false;
     const auto phases = ktz.phases();

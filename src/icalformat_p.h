@@ -189,7 +189,7 @@ public:
       to free the returned property.
     */
     static icalproperty *writeICalDateTimeProperty(const icalproperty_kind kind,
-            const KDateTime &dt,
+            const QDateTime &dt,
             ICalTimeZones *tzlist = nullptr,
             ICalTimeZones *tzUsedList = nullptr);
 
@@ -205,7 +205,7 @@ public:
       @param utc    UTC date/time is expected
       @return date/time, converted to UTC if @p utc is @c true
     */
-    static KDateTime readICalDateTime(icalproperty *p, const icaltimetype &t,
+    static QDateTime readICalDateTime(icalproperty *p, const icaltimetype &t,
                                       ICalTimeZones *tzlist, bool utc = false);
 
     /**
@@ -217,7 +217,7 @@ public:
       @param tzlist time zones collection
       @return date/time, or invalid if @p t is not UTC
     */
-    static KDateTime readICalUtcDateTime(icalproperty *p, icaltimetype &t,
+    static QDateTime readICalUtcDateTime(icalproperty *p, icaltimetype &t,
                                          ICalTimeZones *tzlist = nullptr)
     //TODO: KDE5, move this implementation to icalformat_p.cpp
     {
@@ -234,16 +234,16 @@ public:
       @return date or date/time, or invalid if property doesn't contain
       a time value.
     */
-    static KDateTime readICalDateTimeProperty(icalproperty *p,
-            ICalTimeZones *tzlist, bool utc = false);
+    static QDateTime readICalDateTimeProperty(icalproperty *p,
+            ICalTimeZones *tzlist, bool utc = false, bool *allDay = nullptr);
 
     /**
       Reads a UTC date/time value from a property.
       @param p is a pointer to a valid icalproperty structure.
     */
-    static KDateTime readICalUtcDateTimeProperty(icalproperty *p)
+    static QDateTime readICalUtcDateTimeProperty(icalproperty *p, bool *allDay)
     {
-        return readICalDateTimeProperty(p, 0, true);
+        return readICalDateTimeProperty(p, 0, true, allDay);
     }
 
     static icaldurationtype writeICalDuration(const Duration &duration);

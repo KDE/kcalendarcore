@@ -22,9 +22,6 @@
 
 #include "filestorage.h"
 #include "memorycalendar.h"
-#include "utils.h"
-
-#include <KSystemTimeZone>
 
 #include <QDebug>
 #include <QFile>
@@ -35,7 +32,7 @@
 
 using namespace KCalCore;
 
-static QString dumpTime(const KDateTime &dt, const KDateTime::Spec &viewSpec);
+static QString dumpTime(const QDateTime &dt, const QTimeZone &viewZone);
 
 int main(int argc, char **argv)
 {
@@ -72,14 +69,14 @@ int main(int argc, char **argv)
 
     MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
 
-    KDateTime::Spec viewSpec;
+    QTimeZone viewZone;
     FileStorage store(cal, input);
     if (!store.load()) {
         return 1;
     }
     QString tz = cal->nonKDECustomProperty("X-LibKCal-Testsuite-OutTZ");
     if (!tz.isEmpty()) {
-        viewSpec = KDateTime::Spec(KSystemTimeZones::zone(tz));
+        viewZone = QTimeZone(tz.toUtf8());
     }
 
     Incidence::List inc = cal->incidences();
@@ -91,7 +88,7 @@ int main(int argc, char **argv)
 
         incidence->recurrence()->dump();
 
-        KDateTime dt;
+        QDateTime dt;
         if (incidence->allDay()) {
             dt = incidence->dtStart().addDays(-1);
         } else {
@@ -102,9 +99,9 @@ int main(int argc, char **argv)
             // Output to file for testing purposes
             while (dt.isValid() && i < 500) {
                 ++i;
-                dt = q2k(incidence->recurrence()->getNextDateTime(k2q(dt)));
+                dt = incidence->recurrence()->getNextDateTime(dt);
                 if (dt.isValid()) {
-                    (*outstream) << dumpTime(dt, viewSpec) << endl;
+                    (*outstream) << dumpTime(dt, viewZone) << endl;
                 }
             }
         } else {
@@ -113,9 +110,9 @@ int main(int argc, char **argv)
             while (dt.isValid() && i < 10) {
                 ++i;
                 qDebug() << "-------------------------------------------";
-                dt = q2k(incidence->recurrence()->getNextDateTime(k2q(dt)));
+                dt = incidence->recurrence()->getNextDateTime(dt);
                 if (dt.isValid()) {
-                    qDebug() << " *~*~*~*~ Next date is:" << dumpTime(dt, viewSpec);
+                    qDebug() << " *~*~*~*~ Next date is:" << dumpTime(dt, viewZone);
                 }
             }
         }
@@ -126,19 +123,15 @@ int main(int argc, char **argv)
     return 0;
 }
 
-QString dumpTime(const KDateTime &dt, const KDateTime::Spec &viewSpec)
+QString dumpTime(const QDateTime &dt, const QTimeZone &viewZone)
 {
     if (!dt.isValid()) {
         return QString();
     }
-    KDateTime vdt = viewSpec.isValid() ? dt.toTimeSpec(viewSpec) : dt;
-    QString format;
-    format = QStringLiteral("%Y-%m-%dT%H:%M:%S");
-    if (vdt.isSecondOccurrence()) {
-        format += QStringLiteral(" %Z");
-    }
-    if (vdt.timeSpec() != KDateTime::ClockTime) {
-        format += QStringLiteral(" %:Z");
+    QDateTime vdt = viewZone.isValid() ? dt.toTimeZone(viewZone) : dt;
+    QString format = QStringLiteral("yyyy-MM-ddThh:mm:ss t");
+    if (viewZone.isValid()) {
+        format += QStringLiteral(" '%1'").arg(QString::fromUtf8(viewZone.id()));
     }
     return vdt.toString(format);
 }

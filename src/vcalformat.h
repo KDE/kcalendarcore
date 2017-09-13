@@ -47,8 +47,6 @@
 
 struct VObject;
 
-class KDateTime;
-
 class QDate;
 
 #define _VCAL_VERSION "1.0"
@@ -155,25 +153,23 @@ protected:
     QString qDateToISO(const QDate &date);
 
     /**
-      Takes a KDateTime and returns a string in format YYYYMMDDTHHMMSS.
+      Takes a QDateTime and returns a string in format YYYYMMDDTHHMMSS.
       @param date is the date to format.
       @param zulu if true, then shift the date to UTC.
     */
-    QString kDateTimeToISO(const KDateTime &date, bool zulu = true);
     QString qDateTimeToISO(const QDateTime &date, bool zulu = true);
 
     /**
-      Takes a string in YYYYMMDDTHHMMSS format and returns a valid KDateTime.
+      Takes a string in YYYYMMDDTHHMMSS format and returns a valid QDateTime.
       @param dtStr is a QString containing the date to convert. If this value
-      is invalid, then KDateTime() is returned.
+      is invalid, then QDateTime() is returned.
     */
-    KDateTime ISOToKDateTime(const QString &dtStr);
     QDateTime ISOToQDateTime(const QString &dtStr);
 
     /**
       Takes a string in the YYYYMMDD format and returns a valid QDate.
       @param dtStr is a QString containing the date to convert. If this value
-      is invalid, then KDateTime() is returned.
+      is invalid, then QDateTime() is returned.
     */
     QDate ISOToQDate(const QString &dtStr);
 

@@ -109,17 +109,17 @@ public:
       @param dt is the starting date/time.
       @see IncidenceBase::dtStart().
     */
-    void setDtStart(const KDateTime &dt) override;
+    void setDtStart(const QDateTime &dt) override;
 
     /**
       Sets the event end date and time.
       Important note for all day events: the end date is inclusive,
       the event will still occur during dtEnd(). When serializing to iCalendar
       DTEND will be dtEnd()+1, because the RFC states that DTEND is exclusive.
-      @param dtEnd is a KDateTime specifying when the event ends.
+      @param dtEnd is a QDateTime specifying when the event ends.
       @see dtEnd(), dateEnd().
     */
-    void setDtEnd(const KDateTime &dtEnd);
+    void setDtEnd(const QDateTime &dtEnd);
 
     /**
       Returns the event end date and time.
@@ -128,7 +128,7 @@ public:
       DTEND will be dtEnd()+1, because the RFC states that DTEND is exclusive.
       @see setDtEnd().
     */
-    virtual KDateTime dtEnd() const;
+    virtual QDateTime dtEnd() const;
 
     /**
       Returns the date when the event ends. This might be different from
@@ -187,13 +187,13 @@ public:
       @copydoc
       IncidenceBase::dateTime()
     */
-    KDateTime dateTime(DateTimeRole role) const override;
+    QDateTime dateTime(DateTimeRole role) const override;
 
     /**
       @copydoc
       IncidenceBase::setDateTime()
     */
-    void setDateTime(const KDateTime &dateTime, DateTimeRole role) override;
+    void setDateTime(const QDateTime &dateTime, DateTimeRole role) override;
 
     /**
       @copydoc

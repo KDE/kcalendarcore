@@ -17,7 +17,6 @@
 
 #include "testrecurrenceexception.h"
 #include "memorycalendar.h"
-#include "utils.h"
 
 
 #include <QTest>
@@ -25,9 +24,9 @@ QTEST_MAIN(TestRecurrenceException)
 
 void TestRecurrenceException::testCreateTodoException()
 {
-    const KDateTime dtstart(QDate(2013, 03, 10), QTime(10, 0, 0), KDateTime::UTC);
-    const KDateTime dtdue(QDate(2013, 03, 10), QTime(11, 0, 0), KDateTime::UTC);
-    const KDateTime recurrenceId(KDateTime(dtstart).addDays(1));
+    const QDateTime dtstart(QDate(2013, 03, 10), QTime(10, 0, 0), Qt::UTC);
+    const QDateTime dtdue(QDate(2013, 03, 10), QTime(11, 0, 0), Qt::UTC);
+    const QDateTime recurrenceId(QDateTime(dtstart).addDays(1));
 
     KCalCore::Todo::Ptr todo(new KCalCore::Todo());
     todo->setUid(QStringLiteral("todo"));
@@ -37,9 +36,9 @@ void TestRecurrenceException::testCreateTodoException()
     todo->recurrence()->setDuration(3);
 
     const KCalCore::Todo::Ptr exception =
-        KCalCore::MemoryCalendar::createException(todo, KCalCore::k2q(recurrenceId), false).staticCast<KCalCore::Todo>();
+        KCalCore::MemoryCalendar::createException(todo, recurrenceId, false).staticCast<KCalCore::Todo>();
     QCOMPARE(exception->dtStart(), recurrenceId);
-    QCOMPARE(exception->dtDue(), KDateTime(dtdue).addDays(1));
+    QCOMPARE(exception->dtDue(), QDateTime(dtdue).addDays(1));
     //FIXME should be done on clearing the recurrence, but we can't due to BC.
     //Probably not that important as long as dtRecurrence is ignored if the todo is not recurring
     //QCOMPARE(exception->dtRecurrence(), KDateTime());
