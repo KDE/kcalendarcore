@@ -94,11 +94,12 @@ QTimeZone resolveCustomTZ(const KTimeZone &ktz)
             if (candidateTransitions.isEmpty()) {
                 continue;
             }
+            ++matchedTransitions; // 1 point for a matching transition
             const auto candidateTransition = candidateTransitions[0];
             const auto abvs = transition.phase().abbreviations();
             for (const auto &abv : abvs) {
                 if (candidateTransition.abbreviation == QString::fromUtf8(abv)) {
-                    ++matchedTransitions;
+                    matchedTransitions += 1024; // lots of points for a transition with a matching abbreviation
                     break;
                 }
             }
