@@ -792,10 +792,6 @@ public:
                                        int &prevOffset, KTimeZone::Phase &);
     static QByteArray icalTzidPrefix;
 
-#if defined(HAVE_UUID_UUID_H)
-    static void parseTransitions(const MSSystemTime &date, const KTimeZone::Phase &phase,
-                                 int prevOffset, QList<KTimeZone::Transition> &transitions);
-#endif
 };
 
 QByteArray ICalTimeZoneSourcePrivate::icalTzidPrefix;
@@ -984,76 +980,6 @@ ICalTimeZone ICalTimeZoneSource::parse(icalcomponent *vtimezone)
     return ICalTimeZone(this, name, data);
 }
 
-#if defined(HAVE_UUID_UUID_H)
-ICalTimeZone ICalTimeZoneSource::parse(MSTimeZone *tz, ICalTimeZones &zones)
-{
-    const ICalTimeZone zone = parse(tz);
-    if (!zone.isValid()) {
-        return ICalTimeZone(); // error
-    }
-    const ICalTimeZone oldzone = zones.zone(zone);
-    if (oldzone.isValid()) {
-        // A similar zone already exists in the collection, so don't add this
-        // new zone, return old zone instead.
-        return oldzone;
-    } else if (zones.add(zone)) {
-        // No similar zone, add and return new one.
-        return zone;
-    }
-    return ICalTimeZone(); // error
-}
-
-ICalTimeZone ICalTimeZoneSource::parse(MSTimeZone *tz)
-{
-    ICalTimeZoneData kdata;
-
-    // General properties.
-    uuid_t uuid;
-    char suuid[64];
-    uuid_generate_random(uuid);
-    uuid_unparse(uuid, suuid);
-    QString name = QString::fromLatin1(suuid);
-
-    // Create phases.
-    QList<KTimeZone::Phase> phases;
-
-    QList<QByteArray> standardAbbrevs;
-    standardAbbrevs += tz->StandardName.toLatin1();
-    const KTimeZone::Phase standardPhase(
-        (tz->Bias + tz->StandardBias) * -60,
-        standardAbbrevs, false,
-        QStringLiteral("Microsoft TIME_ZONE_INFORMATION"));
-    phases += standardPhase;
-
-    QList<QByteArray> daylightAbbrevs;
-    daylightAbbrevs += tz->DaylightName.toLatin1();
-    const KTimeZone::Phase daylightPhase(
-        (tz->Bias + tz->DaylightBias) * -60,
-        daylightAbbrevs, true,
-        QStringLiteral("Microsoft TIME_ZONE_INFORMATION"));
-    phases += daylightPhase;
-
-    // Set phases used by the time zone, but note that previous time zone
-    // abbreviation is not known.
-    const int prevOffset = tz->Bias * -60;
-    kdata.setPhases(phases, prevOffset);
-
-    // Create transitions
-    QList<KTimeZone::Transition> transitions;
-    ICalTimeZoneSourcePrivate::parseTransitions(
-        tz->StandardDate, standardPhase, prevOffset, transitions);
-    ICalTimeZoneSourcePrivate::parseTransitions(
-        tz->DaylightDate, daylightPhase, prevOffset, transitions);
-
-    std::sort(transitions.begin(), transitions.end());
-    kdata.setTransitions(transitions);
-
-    ICalTimeZoneData *idata = new ICalTimeZoneData(kdata, KTimeZone(name), QDate());
-
-    return ICalTimeZone(this, name, idata);
-}
-#endif // HAVE_UUID_UUID_H
-
 ICalTimeZone ICalTimeZoneSource::parse(const QString &name, const QStringList &tzList,
                                        ICalTimeZones &zones)
 {
@@ -1114,61 +1040,6 @@ ICalTimeZone ICalTimeZoneSource::parse(const QString &name, const QStringList &t
     ICalTimeZoneData *idata = new ICalTimeZoneData(kdata, KTimeZone(name), QDate());
     return ICalTimeZone(this, name, idata);
 }
-
-#if defined(HAVE_UUID_UUID_H)
-//@cond PRIVATE
-void ICalTimeZoneSourcePrivate::parseTransitions(const MSSystemTime &date,
-        const KTimeZone::Phase &phase, int prevOffset,
-        QList<KTimeZone::Transition> &transitions)
-{
-    // NOTE that we need to set start and end times and they cannot be
-    // to far in either direction to avoid bloating the transitions list
-    const QDateTime klocalStart(QDate(2000, 1, 1), QTime(0, 0, 0), Qt::LocalTime);
-    const QDateTime maxTime(MAX_DATE());
-
-    if (date.wYear) {
-        // Absolute change time.
-        if (date.wYear >= 1601 && date.wYear <= 30827 &&
-                date.wMonth >= 1 && date.wMonth <= 12 &&
-                date.wDay >= 1 && date.wDay <= 31) {
-            const QDate dt(date.wYear, date.wMonth, date.wDay);
-            const QTime tm(date.wHour, date.wMinute, date.wSecond, date.wMilliseconds);
-            const QDateTime datetime(dt, tm);
-            if (datetime.isValid()) {
-                transitions += KTimeZone::Transition(datetime, phase);
-            }
-        }
-    } else {
-        // The normal way, for example: 'First Sunday in April at 02:00'.
-        if (date.wDayOfWeek >= 0 && date.wDayOfWeek <= 6 &&
-                date.wMonth >= 1 && date.wMonth <= 12 &&
-                date.wDay >= 1 && date.wDay <= 5) {
-            RecurrenceRule r;
-            r.setRecurrenceType(RecurrenceRule::rYearly);
-            r.setDuration(-1);
-            r.setFrequency(1);
-            QList<int> lst;
-            lst.append(date.wMonth);
-            r.setByMonths(lst);
-            QList<RecurrenceRule::WDayPos> wdlst;
-            RecurrenceRule::WDayPos pos;
-            pos.setDay(date.wDayOfWeek ? date.wDayOfWeek : 7);
-            pos.setPos(date.wDay < 5 ? date.wDay : -1);
-            wdlst.append(pos);
-            r.setByDays(wdlst);
-            r.setStartDt(klocalStart);
-            r.setWeekStart(1);
-            const auto dtl = r.timesInInterval(klocalStart, maxTime);
-            for (auto it = dtl.cbegin(), end = dtl.cend(); it != end; ++it) {
-                QDateTime utc = (*it);
-                utc.setTimeSpec(Qt::UTC);
-                transitions += KTimeZone::Transition(utc.addSecs(-prevOffset), phase);
-            }
-        }
-    }
-}
-//@endcond
-#endif // HAVE_UUID_UUID_H
 
 ICalTimeZone ICalTimeZoneSource::parse(icaltimezone *tz)
 {

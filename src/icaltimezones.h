@@ -106,7 +106,6 @@ public:
      * Note that the ICalTimeZone returned remains a member of the ICalTimeZones
      * collection, and should not be deleted without calling remove() first.
      *
-     * @see ICalTimeZone parse( MSTimeZone *tz, ICalTimeZones &zones );
      * @param zone zone information to look for
      * @return time zone, or invalid if not found
      */
@@ -366,33 +365,6 @@ private:
 };
 
 /**
- * Placeholhers for Microsoft and ActiveSync timezone data.
- * @see http://msdn.microsoft.com/en-us/library/ms725481(VS.85).aspx
- * (TIME_ZONE_INFORMATION Structure)
- */
-
-typedef struct _MSSystemTime {
-    qint16 wYear;
-    qint16 wMonth;
-    qint16 wDayOfWeek;
-    qint16 wDay;
-    qint16 wHour;
-    qint16 wMinute;
-    qint16 wSecond;
-    qint16 wMilliseconds;
-} MSSystemTime;
-
-typedef struct _MSTimeZone {
-    long         Bias;
-    QString      StandardName;
-    MSSystemTime StandardDate;
-    long         StandardBias;
-    QString      DaylightName;
-    MSSystemTime DaylightDate;
-    long         DaylightBias;
-} MSTimeZone;
-
-/**
  * A class which reads and parses iCalendar VTIMEZONE components, and accesses
  * libical time zone data.
  *
@@ -440,26 +412,6 @@ public:
      *         component or adding an ICalTimeZone to @p zones), @c true otherwise
      */
     bool parse(icalcomponent *calendar, ICalTimeZones &zones);
-
-    /**
-     * Creates an ICalTimeZone instance containing the detailed information
-     * contained in an MSTimeZone structure.
-     *
-     * @param tz the MSTimeZone structure from which data is to be extracted
-     * @return an ICalTimeZone instance containing the time zone data, or invalid on error
-     */
-    ICalTimeZone parse(MSTimeZone *tz);
-
-    /**
-     * Creates an ICalTimeZone instance and adds it to a ICalTimeZones
-     * collection or returns an existing instance for the MSTimeZone component.
-     *
-     * @param tz       the MSTimeZone structure to parse
-     * @param zones    the time zones collection to which the ICalTimeZone
-     *                 instances are to be added
-     * @return an ICalTimeZone instance containing the time zone data, or invalid on error
-     */
-    ICalTimeZone parse(MSTimeZone *tz, ICalTimeZones &zones);
 
     /**
      * Creates an ICalTimeZone instance containing the detailed information
