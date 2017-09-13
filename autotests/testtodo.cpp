@@ -39,7 +39,7 @@ void TodoTest::testValidity()
     todo->setDescription(QStringLiteral("This is a description of the first to-do"));
     todo->setLocation(QStringLiteral("the place"));
     todo->setPercentComplete(5);
-    //KDE5: QVERIFY( todo->typeStr() == i18n( "to-do" ) );
+    //KDE5: QVERIFY( todo->typeStr() == QStringLiteral( "to-do" ) );
     QVERIFY(todo->summary() == QLatin1String("To-do1 Summary"));
     QVERIFY(todo->location() == QLatin1String("the place"));
     QVERIFY(todo->percentComplete() == 5);

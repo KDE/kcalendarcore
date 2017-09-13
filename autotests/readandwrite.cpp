@@ -25,8 +25,6 @@
 #include "vcalformat.h"
 #include <config-kcalcore.h>
 
-#include <KAboutData>
-#include <KLocalizedString>
 
 #include <QDebug>
 #include <QFileInfo>
@@ -41,21 +39,14 @@ int main(int argc, char **argv)
     qSetGlobalQHashSeed(0); // Disable QHash randomness
 
     QCommandLineParser parser;
-    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), i18n("Verbose output")));
-    parser.addPositionalArgument(QStringLiteral("source"), i18n("Source file to copy."));
-    parser.addPositionalArgument(QStringLiteral("destination"), i18n("Destination directory."));
-
-    KAboutData about(QStringLiteral("readandwrite"),
-                     i18n("Read and Write Calendar"), QStringLiteral("0.1"));
-
-    about.setupCommandLine(&parser);
-    KAboutData::setApplicationData(about);
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), QStringLiteral("Verbose output")));
+    parser.addPositionalArgument(QStringLiteral("source"), QStringLiteral("Source file to copy."));
+    parser.addPositionalArgument(QStringLiteral("destination"), QStringLiteral("Destination directory."));
 
     QCoreApplication app(argc, argv);
     QCoreApplication::setApplicationName(QStringLiteral("readandwrite"));
     QCoreApplication::setApplicationVersion(QStringLiteral("0.1"));
     parser.process(app);
-    about.processCommandLine(&parser);
 
     const QStringList parsedArgs = parser.positionalArguments();
     if (parsedArgs.count() != 2) {

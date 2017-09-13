@@ -77,7 +77,7 @@ void EventTest::testValidity()
     event->setSummary(QStringLiteral("Event1 Summary"));
     event->setDescription(QStringLiteral("This is a description of the first event"));
     event->setLocation(QStringLiteral("the place"));
-    //KDE5: QVERIFY( event->typeStr() == i18n( "event" ) );
+    //KDE5: QVERIFY( event->typeStr() == QStringLiteral( "event" ) );
     QVERIFY(event->summary() == QLatin1String("Event1 Summary"));
     QVERIFY(event->location() == QLatin1String("the place"));
     QVERIFY(event->type() == Incidence::TypeEvent);

@@ -34,7 +34,7 @@ void JournalTest::testValidity()
     journal->setSummary(QStringLiteral("Journal Summary"));
     journal->setDescription(QStringLiteral("This is a description of my journal"));
     journal->setLocation(QStringLiteral("the place"));
-    //KDE5: QVERIFY( journal->typeStr() == i18n( "journal" ) );
+    //KDE5: QVERIFY( journal->typeStr() == QStringLiteral( "journal" ) );
     QVERIFY(journal->summary() == QLatin1String("Journal Summary"));
     QVERIFY(journal->location() == QLatin1String("the place"));
 }

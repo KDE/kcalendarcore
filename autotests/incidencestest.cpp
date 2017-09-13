@@ -23,8 +23,6 @@
 #include "event.h"
 #include "todo.h"
 
-#include <KAboutData>
-#include <KLocalizedString>
 
 #include <QDebug>
 #include <QCoreApplication>
@@ -35,20 +33,12 @@ using namespace KCalCore;
 int main(int argc, char **argv)
 {
     QCommandLineParser parser;
-    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), i18n("Verbose output")));
-
-    KAboutData about(QStringLiteral("testincidence"),
-                     i18n("Test Incidence"), QStringLiteral("0.1"));
-
-    about.setupCommandLine(&parser);
-    KAboutData::setApplicationData(about);
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), QStringLiteral("Verbose output")));
 
     QCoreApplication app(argc, argv);
     QCoreApplication::setApplicationName(QStringLiteral("testincidence"));
     QCoreApplication::setApplicationVersion(QStringLiteral("0.1"));
     parser.process(app);
-    about.processCommandLine(&parser);
-    // KComponentData componentData(&about);   // needed by KConfig used by KSaveFile TODO: still needed ?
 
     const bool verbose = parser.isSet(QStringLiteral("verbose"));
 

@@ -25,9 +25,6 @@
 #include "setuptzinfo.h"
 #include "utils.h"
 
-#include <KAboutData>
-#include <KLocalizedString>
-
 #include <QTimeZone>
 
 #include <QDebug>
@@ -46,22 +43,14 @@ int main(int argc, char **argv)
     qputenv("TZ", "GMT");
 
     QCommandLineParser parser;
-    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), i18n("Verbose output")));
-    parser.addPositionalArgument(QStringLiteral("input"), i18n("Name of input file"));
-    parser.addPositionalArgument(QStringLiteral("output"), i18n("optional name of output file for the recurrence dates"));
-
-    KAboutData about(QStringLiteral("testrecurrencenew"),
-                     i18n("Load recurrence rules with the new class and print out debug messages"),
-                     QStringLiteral("0.1"));
-
-    about.setupCommandLine(&parser);
-    KAboutData::setApplicationData(about);
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), QStringLiteral("Verbose output")));
+    parser.addPositionalArgument(QStringLiteral("input"), QStringLiteral("Name of input file"));
+    parser.addPositionalArgument(QStringLiteral("output"), QStringLiteral("optional name of output file for the recurrence dates"));
 
     QCoreApplication app(argc, argv);
     QCoreApplication::setApplicationName(QStringLiteral("testrecurrencenew"));
     QCoreApplication::setApplicationVersion(QStringLiteral("0.1"));
     parser.process(app);
-    about.processCommandLine(&parser);
 
     QStringList parsedArgs = parser.positionalArguments();
 

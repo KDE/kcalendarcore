@@ -24,9 +24,6 @@
 #include "memorycalendar.h"
 #include "vcalformat.h"
 
-#include <KAboutData>
-#include <KLocalizedString>
-
 #include <QDebug>
 #include <QFileInfo>
 #include <QCoreApplication>
@@ -38,23 +35,14 @@ using namespace KCalCore;
 int main(int argc, char **argv)
 {
     QCommandLineParser parser;
-    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), i18n("Verbose output")));
-    parser.addPositionalArgument(QStringLiteral("input"), i18n("Name of input file"));
-    parser.addPositionalArgument(QStringLiteral("output"), i18n("Name of output file"));
-
-    KAboutData about(QStringLiteral("testvcalexport"),
-                     i18n("Part of LibKCal's test suite. Checks if export "
-                          "to vCalendar still works correctly."),
-                     QStringLiteral("0.1"));
-
-    about.setupCommandLine(&parser);
-    KAboutData::setApplicationData(about);
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), QStringLiteral("Verbose output")));
+    parser.addPositionalArgument(QStringLiteral("input"), QStringLiteral("Name of input file"));
+    parser.addPositionalArgument(QStringLiteral("output"), QStringLiteral("Name of output file"));
 
     QCoreApplication app(argc, argv);
     QCoreApplication::setApplicationName(QStringLiteral("testvcalexport"));
     QCoreApplication::setApplicationVersion(QStringLiteral("0.1"));
     parser.process(app);
-    about.processCommandLine(&parser);
 
     const QStringList parsedArgs = parser.positionalArguments();
 
