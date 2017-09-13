@@ -172,11 +172,6 @@ public:
 };
 //@endcond
 
-inline icaltimetype ICalFormatImpl::writeICalUtcDateTime(const KDateTime &dt)
-{
-    return writeICalDateTime(dt.toUtc());
-}
-
 inline icaltimetype ICalFormatImpl::writeICalUtcDateTime(const QDateTime &dt, bool dayOnly)
 {
     return writeICalDateTime(dt.toUTC(), dayOnly);
@@ -684,7 +679,7 @@ void ICalFormatImpl::Private::writeIncidenceBase(icalcomponent *parent,
     }
 
     icalcomponent_add_property(
-        parent, icalproperty_new_dtstamp(writeICalUtcDateTime(q2k(incidenceBase->lastModified()))));
+        parent, icalproperty_new_dtstamp(writeICalUtcDateTime(incidenceBase->lastModified())));
 
     // attendees
     if (incidenceBase->attendeeCount() > 0) {
@@ -1067,7 +1062,7 @@ icalrecurrencetype ICalFormatImpl::writeRecurrenceRule(RecurrenceRule *recur)
         if (recur->allDay()) {
             r.until = writeICalDate(recur->endDt().date());
         } else {
-            r.until = writeICalUtcDateTime(q2k(recur->endDt()));
+            r.until = writeICalUtcDateTime(recur->endDt());
         }
     }
 
@@ -2372,29 +2367,6 @@ icaltimetype ICalFormatImpl::writeICalDate(const QDate &date)
     return t;
 }
 
-icaltimetype ICalFormatImpl::writeICalDateTime(const KDateTime &datetime)
-{
-    icaltimetype t = icaltime_null_time();
-
-    t.year = datetime.date().year();
-    t.month = datetime.date().month();
-    t.day = datetime.date().day();
-
-    t.is_date = datetime.isDateOnly() ? 1 : 0;
-
-    if (!t.is_date) {
-        t.hour = datetime.time().hour();
-        t.minute = datetime.time().minute();
-        t.second = datetime.time().second();
-    }
-    t.zone = nullptr;   // zone is NOT set
-    t.is_utc = datetime.isUtc() ? 1 : 0;
-
-    // _dumpIcaltime( t );
-
-    return t;
-}
-
 icaltimetype ICalFormatImpl::writeICalDateTime(const QDateTime &datetime, bool dateOnly)
 {
     icaltimetype t = icaltime_null_time();
@@ -3120,7 +3092,7 @@ icalcomponent *ICalFormatImpl::createScheduleComponent(const IncidenceBase::Ptr 
     if (method != KCalCore::iTIPNoMethod) {
         //Not very nice, but since dtstamp changes semantics if used in scheduling, we have to adapt
         icalcomponent_set_dtstamp(
-            inc, writeICalUtcDateTime(KDateTime::currentUtcDateTime()));
+            inc, writeICalUtcDateTime(QDateTime::currentDateTimeUtc()));
     }
 
     /*
