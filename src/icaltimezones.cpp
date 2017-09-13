@@ -40,10 +40,6 @@ extern "C" {
 #include <icaltimezone.h>
 }
 
-#if defined(HAVE_UUID_UUID_H)
-#include <uuid/uuid.h>
-#endif
-
 using namespace KCalCore;
 
 // Minimum repetition counts for VTIMEZONE RRULEs

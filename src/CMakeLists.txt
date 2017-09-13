@@ -72,13 +72,6 @@ PRIVATE
     ${LibIcal_LIBRARIES}
 )
 
-if(HAVE_UUID_LIBRARY)
-  target_link_libraries(KF5CalendarCore
-PRIVATE
-      ${UUID_LIBRARY}
-  )
-endif()
-
 set_target_properties(KF5CalendarCore PROPERTIES
     VERSION ${KCALCORE_VERSION_STRING}
     SOVERSION ${KCALCORE_SOVERSION}

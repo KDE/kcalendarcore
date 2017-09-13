@@ -49,8 +49,6 @@ set_package_properties(BISON PROPERTIES
   TYPE REQUIRED
 )
 
-include(ConfigureChecks.cmake)
-
 ########### CMake Config Files ###########
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF5CalendarCore")
 
