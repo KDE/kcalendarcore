@@ -35,31 +35,26 @@ namespace KCalCore {
 
 // TODO: PORTING-helper only, remove once KDateTime is gone
 /**
- * Applies KDateTime::Spec to given QDateTime and returns a modified QDateTime
- */
-QDateTime applySpec(const QDateTime &dt, const KDateTime::Spec &spec, bool isAllDay);
-
-/**
  * Helpers to retain backwards compatibility of binary serialization.
  */
 KCALCORE_EXPORT void serializeQDateTimeAsKDateTime(QDataStream &out, const QDateTime &dt);
 KCALCORE_EXPORT void deserializeKDateTimeAsQDateTime(QDataStream &in, QDateTime &dt);
 
-KCALCORE_EXPORT void serializeQDateTimeSortableList(QDataStream &out, const SortableList<QDateTime> &list);
-KCALCORE_EXPORT void deserializeQDateTimeSortableList(QDataStream &in, SortableList<QDateTime> &list);
+void serializeQDateTimeSortableList(QDataStream &out, const SortableList<QDateTime> &list);
+void deserializeQDateTimeSortableList(QDataStream &in, SortableList<QDateTime> &list);
 
-KCALCORE_EXPORT void serializeQTimeZoneAsSpec(QDataStream &out, const QTimeZone &tz);
-KCALCORE_EXPORT void deserializeSpecAsQTimeZone(QDataStream &in, QTimeZone &tz);
-
-/** Convert a QTimeZone to a KDateTime::Spec */
-KCALCORE_EXPORT KDateTime::Spec zoneToSpec(const QTimeZone &zone);
+void serializeQTimeZoneAsSpec(QDataStream &out, const QTimeZone &tz);
+void deserializeSpecAsQTimeZone(QDataStream &in, QTimeZone &tz);
 
 /** Convert a QTimeZone to a KDateTime::Spec */
-KCALCORE_EXPORT QTimeZone specToZone(const KDateTime::Spec &spec);
+KDateTime::Spec zoneToSpec(const QTimeZone &zone);
+
+/** Convert a QTimeZone to a KDateTime::Spec */
+QTimeZone specToZone(const KDateTime::Spec &spec);
 
 /** Convert KDateTime to QDateTime, correctly preserves timespec */
-KCALCORE_EXPORT QDateTime k2q(const KDateTime &kdt);
-KCALCORE_EXPORT KDateTime q2k(const QDateTime &qdt, bool isAllDay = false);
+QDateTime k2q(const KDateTime &kdt);
+KDateTime q2k(const QDateTime &qdt, bool isAllDay = false);
 
 }
 

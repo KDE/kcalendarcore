@@ -29,45 +29,6 @@
 
 #include <QDebug>
 
-QDateTime KCalCore::applySpec(const QDateTime &dt, const KDateTime::Spec &spec, bool isAllDay)
-{
-    if (isAllDay) {
-        QDateTime out;
-        switch (spec.type()) {
-        case KDateTime::UTC:
-            return QDateTime(dt.date(), QTime(), Qt::UTC);
-        case KDateTime::OffsetFromUTC:
-            return QDateTime(dt.date(), QTime(), Qt::OffsetFromUTC, spec.utcOffset());
-        case KDateTime::TimeZone:
-            return QDateTime(dt.date(), QTime(), QTimeZone(spec.timeZone().name().toUtf8()));
-        case KDateTime::LocalZone:
-        case KDateTime::ClockTime:
-            return QDateTime(dt.date(), QTime(), Qt::LocalTime);
-        case KDateTime::Invalid:
-            return dt;
-        }
-        out.setTime({});
-        return out;
-    } else {
-        switch (spec.type()) {
-        case KDateTime::UTC:
-            return dt.toTimeSpec(Qt::UTC);
-        case KDateTime::OffsetFromUTC:
-            return dt.toOffsetFromUtc(spec.utcOffset());
-        case KDateTime::TimeZone:
-            return dt.toTimeZone(QTimeZone(spec.timeZone().name().toUtf8()));
-        case KDateTime::LocalZone:
-        case KDateTime::ClockTime:
-            return dt.toLocalTime();
-        case KDateTime::Invalid:
-            return dt;
-        }
-    }
-
-    Q_UNREACHABLE();
-    return {};
-}
-
 KDateTime::Spec KCalCore::zoneToSpec(const QTimeZone& zone)
 {
     if (!zone.isValid())
