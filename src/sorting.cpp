@@ -25,8 +25,6 @@
 #include "todo.h"
 #include "utils.h"
 
-#include <KDateTime>
-
 // PENDING(kdab) Review
 // The QString::compare() need to be replace by a DUI string comparisons.
 // See http://qt.gitorious.org/maemo-6-ui-framework/libdui
@@ -185,12 +183,6 @@ DateTimeComparison compare(const QDateTime &dt1, bool isAllDay1, const QDateTime
                    : (end1 < end2) ? Inside : static_cast<DateTimeComparison>(Inside | AtEnd | After);
     }
     return (start1 == start2) ? Equal : (start1 < start2) ? Before : After;
-}
-
-// ### temporary porting helper
-DateTimeComparison compare(const KDateTime &dt1, bool isAllDay1, const KDateTime &dt2, bool isAllDay2)
-{
-    return compare(k2q(dt1), isAllDay1, k2q(dt2), isAllDay2);
 }
 
 bool KCalCore::Events::startDateLessThan(const Event::Ptr &e1, const Event::Ptr &e2)
