@@ -63,6 +63,7 @@ set_target_properties(testreadrecurrenceid PROPERTIES COMPILE_FLAGS -DICALTESTDA
 # TODO: check if this can build with msvc now (and if it works on Windows)
 if(NOT MSVC)
   macro_unit_tests(testicaltimezones)
+  target_link_libraries(testicaltimezones ${LibIcal_LIBRARIES})
 endif()
 
 ########### Tests #######################

@@ -67,6 +67,7 @@ target_include_directories(KF5CalendarCore PUBLIC "$<BUILD_INTERFACE:${LibIcal_I
 target_link_libraries(KF5CalendarCore
 PUBLIC
     KF5::KDELibs4Support
+PRIVATE
     ${LibIcal_LIBRARIES}
 )
 
