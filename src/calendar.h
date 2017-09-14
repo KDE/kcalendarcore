@@ -64,7 +64,7 @@ namespace KCalCore
 
 class CalFilter;
 class Person;
-class ICalTimeZones;
+class ICalFormat;
 
 /**
   Calendar Incidence sort directions.
@@ -257,23 +257,6 @@ public:
       @see isLocalTime()
     */
     void shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone);
-
-    /**
-      Returns the time zone collection used by the calendar.
-
-      @return the time zones collection.
-
-      @see setLocalTime()
-    */
-    ICalTimeZones *timeZones() const;
-
-    /**
-       Set the time zone collection used by the calendar.
-
-       @param zones time zones collection. Important: all time zones references
-                    in the calendar must be included in the collection.
-     */
-    void setTimeZones(ICalTimeZones *zones);
 
     /**
       Sets if the calendar has been modified.
@@ -1429,6 +1412,8 @@ Q_SIGNALS:
     void filterChanged();
 
 private:
+    friend class ICalFormat;
+
     //@cond PRIVATE
     class Private;
     Private *const d;

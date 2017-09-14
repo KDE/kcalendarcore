@@ -18,7 +18,6 @@
 #include "testreadrecurrenceid.h"
 #include "memorycalendar.h"
 #include "icalformat.h"
-#include "icaltimezones.h"
 #include "exceptions.h"
 #include "setuptzinfo.h"
 
@@ -67,7 +66,6 @@ void TestReadRecurrenceId::testReadWriteSingleExceptionWithThisAndFuture()
     KCalCore::MemoryCalendar::Ptr cal(new KCalCore::MemoryCalendar(QTimeZone::utc()));
     KCalCore::ICalFormat format;
     KCalCore::Incidence::Ptr inc(new KCalCore::Event);
-    KCalCore::ICalTimeZoneSource tzsource;
     QTimeZone tz("Europe/Berlin");
     QDateTime startDate(QDate(2015, 1, 2), QTime(3, 4, 5), tz);
     inc->setDtStart(startDate);

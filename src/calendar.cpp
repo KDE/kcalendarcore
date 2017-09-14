@@ -35,8 +35,9 @@
   @author David Jarvie \<software@astrojar.org.uk\>
 */
 #include "calendar.h"
+#include "calendar_p.h"
 #include "calfilter.h"
-#include "icaltimezones.h"
+#include "icaltimezones_p.h"
 #include "sorting.h"
 #include "visitor.h"
 #include "utils.h"
@@ -52,71 +53,6 @@ extern "C" {
 #include <algorithm>  // for std::remove()
 
 using namespace KCalCore;
-
-/**
-  Private class that helps to provide binary compatibility between releases.
-  @internal
-*/
-//@cond PRIVATE
-class Q_DECL_HIDDEN KCalCore::Calendar::Private
-{
-public:
-    Private()
-        : mTimeZones(new ICalTimeZones),
-          mModified(false),
-          mNewObserver(false),
-          mObserversEnabled(true),
-          mDefaultFilter(new CalFilter),
-          batchAddingInProgress(false),
-          mDeletionTracking(true)
-    {
-        // Setup default filter, which does nothing
-        mFilter = mDefaultFilter;
-        mFilter->setEnabled(false);
-
-        mOwner = Person::Ptr(new Person());
-        mOwner->setName(QStringLiteral("Unknown Name"));
-        mOwner->setEmail(QStringLiteral("unknown@nowhere"));
-    }
-
-    ~Private()
-    {
-        delete mTimeZones;
-        mTimeZones = nullptr;
-        if (mFilter != mDefaultFilter) {
-            delete mFilter;
-        }
-        delete mDefaultFilter;
-    }
-    QTimeZone timeZoneIdSpec(const QByteArray &timeZoneId);
-
-    QString mProductId;
-    Person::Ptr mOwner;
-    ICalTimeZones *mTimeZones = nullptr; // collection of time zones used in this calendar
-    ICalTimeZone mBuiltInTimeZone;   // cached time zone lookup
-    QTimeZone mTimeZone;
-    bool mModified = false;
-    bool mNewObserver = false;
-    bool mObserversEnabled = false;
-    QList<CalendarObserver *> mObservers;
-
-    CalFilter *mDefaultFilter = nullptr;
-    CalFilter *mFilter = nullptr;
-
-    // These lists are used to put together related To-dos
-    QMultiHash<QString, Incidence::Ptr> mOrphans;
-    QMultiHash<QString, Incidence::Ptr> mOrphanUids;
-
-    // Lists for associating incidences to notebooks
-    QMultiHash<QString, Incidence::Ptr > mNotebookIncidences;
-    QHash<QString, QString> mUidToNotebook;
-    QHash<QString, bool> mNotebooks; // name to visibility
-    QHash<Incidence::Ptr, bool> mIncidenceVisibility; // incidence -> visibility
-    QString mDefaultNotebook; // uid of default notebook
-    QMap<QString, Incidence::List > mIncidenceRelations;
-    bool batchAddingInProgress = false;
-    bool mDeletionTracking = false;
-};
 
 /**
   Make a QHash::value that returns a QVector.
@@ -235,7 +171,6 @@ void Calendar::setOwner(const Person::Ptr &owner)
 void Calendar::setTimeZone(const QTimeZone &timeZone)
 {
     d->mTimeZone = timeZone;
-    d->mBuiltInTimeZone = ICalTimeZone();
 
     doSetTimeZone(d->mTimeZone);
 }
@@ -255,7 +190,6 @@ void Calendar::setTimeZoneId(const QByteArray &timeZoneId)
 //@cond PRIVATE
 QTimeZone Calendar::Private::timeZoneIdSpec(const QByteArray &timeZoneId)
 {
-    mBuiltInTimeZone = ICalTimeZone();
     if (timeZoneId == QByteArrayLiteral("UTC")) {
         return QTimeZone::utc();
     }
@@ -269,24 +203,6 @@ QTimeZone Calendar::Private::timeZoneIdSpec(const QByteArray &timeZoneId)
 QByteArray Calendar::timeZoneId() const
 {
     return d->mTimeZone.id();
-}
-
-ICalTimeZones *Calendar::timeZones() const
-{
-    return d->mTimeZones;
-}
-
-void Calendar::setTimeZones(ICalTimeZones *zones)
-{
-    if (!zones) {
-        return;
-    }
-
-    if (d->mTimeZones && (d->mTimeZones != zones)) {
-        delete d->mTimeZones;
-        d->mTimeZones = nullptr;
-    }
-    d->mTimeZones = zones;
 }
 
 void Calendar::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
@@ -1168,6 +1084,15 @@ void Calendar::notifyIncidenceAdded(const Incidence::Ptr &incidence)
 
     for (CalendarObserver *observer : qAsConst(d->mObservers)) {
         observer->calendarIncidenceAdded(incidence);
+    }
+
+    for (auto role : { IncidenceBase::RoleStartTimeZone, IncidenceBase::RoleEndTimeZone }) {
+        const auto dt = incidence->dateTime(role);
+        if (dt.isValid() && dt.timeZone() != QTimeZone::utc()) {
+            if (!d->mTimeZones.contains(dt.timeZone())) {
+                d->mTimeZones.push_back(dt.timeZone());
+            }
+        }
     }
 }
 

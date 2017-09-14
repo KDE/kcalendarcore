@@ -1468,10 +1468,7 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
                     }
                 }
             }
-            ICalTimeZones *tzlist = d->mCalendar->timeZones();
-            ICalTimeZoneSource tzs;
-            ICalTimeZone zone = tzs.parse(name, tzList, *tzlist);
-            if (!zone.isValid()) {
+            if (!QTimeZone::isTimeZoneIdAvailable(name.toLatin1())) {
                 qCDebug(KCALCORE_LOG) << "zone is not valid, parsing error" << tzList;
             } else {
                 previousZone = d->mCalendar->timeZone();

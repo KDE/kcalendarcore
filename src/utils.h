@@ -27,7 +27,6 @@
 #include "sortablelist.h"
 
 #include <QDateTime>
-#include <KDateTime>
 
 class QDataStream;
 
@@ -46,14 +45,6 @@ void deserializeQDateTimeSortableList(QDataStream &in, SortableList<QDateTime> &
 void serializeQTimeZoneAsSpec(QDataStream &out, const QTimeZone &tz);
 void deserializeSpecAsQTimeZone(QDataStream &in, QTimeZone &tz);
 
-/** Convert a QTimeZone to a KDateTime::Spec */
-KDateTime::Spec zoneToSpec(const QTimeZone &zone);
-
-/** Convert a QTimeZone to a KDateTime::Spec */
-QTimeZone specToZone(const KDateTime::Spec &spec);
-
-/** Convert KDateTime to QDateTime, correctly preserves timespec */
-QDateTime k2q(const KDateTime &kdt);
 
 }
 

@@ -28,15 +28,10 @@ class ICalTimeZonesTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
+    void initTestCase();
+    void parse_data();
     void parse();
-    void general();
-    void offsetAtUtc();
-    void offset();
-    void offsetAtZoneTime();
-    void abbreviation();
-    void isDstAtUtc();
-    void isDst();
-    void utcOffsets();
+    void write();
 };
 
 #endif

@@ -30,12 +30,12 @@
 */
 #include "icalformat.h"
 #include "icalformat_p.h"
-#include "icaltimezones.h"
+#include "icaltimezones_p.h"
 #include "freebusy.h"
 #include "memorycalendar.h"
 #include "kcalcore_debug.h"
-
 #include <KBackup>
+#include "calendar_p.h"
 
 #include <QSaveFile>
 #include <QFile>
@@ -150,8 +150,6 @@ bool ICalFormat::fromString(const Calendar::Ptr &cal, const QString &string,
 
 Incidence::Ptr ICalFormat::readIncidence(const QByteArray &string)
 {
-    static ICalTimeZones *tzCache = new ICalTimeZones(); // populated on demand further down the call chain
-
     // Let's defend const correctness until the very gates of hell^Wlibical
     icalcomponent *calendar = icalcomponent_new_from_string(const_cast<char *>(string.constData()));
     if (!calendar) {
@@ -160,13 +158,17 @@ Incidence::Ptr ICalFormat::readIncidence(const QByteArray &string)
         return Incidence::Ptr();
     }
 
+    ICalTimeZoneCache tzCache;
+    ICalTimeZoneParser parser(&tzCache);
+    parser.parse(calendar);
+
     Incidence::Ptr incidence;
     if (icalcomponent_isa(calendar) == ICAL_VCALENDAR_COMPONENT) {
-        incidence = d->mImpl->readOneIncidence(calendar, tzCache);
+        incidence = d->mImpl->readOneIncidence(calendar, &tzCache);
     } else if (icalcomponent_isa(calendar) == ICAL_XROOT_COMPONENT) {
         icalcomponent *comp = icalcomponent_get_first_component(calendar, ICAL_VCALENDAR_COMPONENT);
         if (comp) {
-            incidence = d->mImpl->readOneIncidence(comp, tzCache);
+            incidence = d->mImpl->readOneIncidence(comp, &tzCache);
         }
     }
 
@@ -252,66 +254,66 @@ QString ICalFormat::toString(const Calendar::Ptr &cal,
     icalcomponent *calendar = d->mImpl->createCalendarComponent(cal);
     icalcomponent *component;
 
-    ICalTimeZones *tzlist = cal->timeZones();  // time zones possibly used in the calendar
-    ICalTimeZones tzUsedList;                  // time zones actually used in the calendar
+    QVector<QTimeZone> tzUsedList;
+    TimeZoneEarliestDate earliestTz;
 
     // todos
     Todo::List todoList = deleted ? cal->deletedTodos() : cal->rawTodos();
-    Todo::List::ConstIterator it;
-    for (it = todoList.constBegin(); it != todoList.constEnd(); ++it) {
+    for (auto it = todoList.cbegin(), end = todoList.cend(); it != end; ++it) {
         if (!deleted || !cal->todo((*it)->uid(), (*it)->recurrenceId())) {
             // use existing ones, or really deleted ones
             if (notebook.isEmpty() ||
                     (!cal->notebook(*it).isEmpty() && notebook.endsWith(cal->notebook(*it)))) {
-                component = d->mImpl->writeTodo(*it, tzlist, &tzUsedList);
+                component = d->mImpl->writeTodo(*it, &tzUsedList);
                 icalcomponent_add_component(calendar, component);
+                ICalTimeZoneParser::updateTzEarliestDate((*it), &earliestTz);
             }
         }
     }
     // events
     Event::List events = deleted ? cal->deletedEvents() : cal->rawEvents();
-    Event::List::ConstIterator it2;
-    for (it2 = events.constBegin(); it2 != events.constEnd(); ++it2) {
-        if (!deleted || !cal->event((*it2)->uid(), (*it2)->recurrenceId())) {
+    for (auto it = events.cbegin(), end = events.cend(); it != end; ++it) {
+        if (!deleted || !cal->event((*it)->uid(), (*it)->recurrenceId())) {
             // use existing ones, or really deleted ones
             if (notebook.isEmpty() ||
-                    (!cal->notebook(*it2).isEmpty() && notebook.endsWith(cal->notebook(*it2)))) {
-                component = d->mImpl->writeEvent(*it2, tzlist, &tzUsedList);
+                    (!cal->notebook(*it).isEmpty() && notebook.endsWith(cal->notebook(*it)))) {
+                component = d->mImpl->writeEvent(*it, &tzUsedList);
                 icalcomponent_add_component(calendar, component);
+                ICalTimeZoneParser::updateTzEarliestDate((*it), &earliestTz);
             }
         }
     }
 
     // journals
     Journal::List journals = deleted ? cal->deletedJournals() : cal->rawJournals();
-    Journal::List::ConstIterator it3;
-    for (it3 = journals.constBegin(); it3 != journals.constEnd(); ++it3) {
-        if (!deleted || !cal->journal((*it3)->uid(), (*it3)->recurrenceId())) {
+    for (auto it = journals.cbegin(), end = journals.cend(); it != end; ++it) {
+        if (!deleted || !cal->journal((*it)->uid(), (*it)->recurrenceId())) {
             // use existing ones, or really deleted ones
             if (notebook.isEmpty() ||
-                    (!cal->notebook(*it3).isEmpty() && notebook.endsWith(cal->notebook(*it3)))) {
-                component = d->mImpl->writeJournal(*it3, tzlist, &tzUsedList);
+                    (!cal->notebook(*it).isEmpty() && notebook.endsWith(cal->notebook(*it)))) {
+                component = d->mImpl->writeJournal(*it, &tzUsedList);
                 icalcomponent_add_component(calendar, component);
+                ICalTimeZoneParser::updateTzEarliestDate((*it), &earliestTz);
             }
         }
     }
 
     // time zones
-    ICalTimeZones::ZoneMap zones = tzUsedList.zones();
     if (todoList.isEmpty() && events.isEmpty() && journals.isEmpty()) {
         // no incidences means no used timezones, use all timezones
         // this will export a calendar having only timezone definitions
-        zones = tzlist->zones();
+        tzUsedList = cal->d->mTimeZones;
     }
-    for (ICalTimeZones::ZoneMap::ConstIterator it = zones.constBegin();
-            it != zones.constEnd(); ++it) {
-        icaltimezone *tz = (*it).icalTimezone();
-        if (!tz) {
-            qCritical() << "bad time zone";
-        } else {
-            component = icalcomponent_new_clone(icaltimezone_get_component(tz));
-            icalcomponent_add_component(calendar, component);
-            icaltimezone_free(tz, 1);
+    for (const auto &qtz : qAsConst(tzUsedList)) {
+        if (qtz != QTimeZone::utc()) {
+            icaltimezone *tz = ICalTimeZoneParser::icaltimezoneFromQTimeZone(qtz, earliestTz[qtz]);
+            if (!tz) {
+                qCritical() << "bad time zone";
+            } else {
+                component = icalcomponent_new_clone(icaltimezone_get_component(tz));
+                icalcomponent_add_component(calendar, component);
+                icaltimezone_free(tz, 1);
+            }
         }
     }
 
@@ -343,25 +345,27 @@ QString ICalFormat::toString(const Incidence::Ptr &incidence)
 
 QByteArray ICalFormat::toRawString(const Incidence::Ptr &incidence)
 {
-    ICalTimeZones tzlist;
-    ICalTimeZones tzUsedList;
+    TimeZoneList tzUsedList;
 
-    icalcomponent *component = d->mImpl->writeIncidence(incidence, iTIPRequest, &tzlist, &tzUsedList);
+    icalcomponent *component = d->mImpl->writeIncidence(incidence, iTIPRequest, &tzUsedList);
 
     QByteArray text = icalcomponent_as_ical_string(component);
 
+    TimeZoneEarliestDate earliestTzDt;
+    ICalTimeZoneParser::updateTzEarliestDate(incidence, &earliestTzDt);
+
     // time zones
-    ICalTimeZones::ZoneMap zones = tzUsedList.zones();
-    for (ICalTimeZones::ZoneMap::ConstIterator it = zones.constBegin();
-            it != zones.constEnd(); ++it) {
-        icaltimezone *tz = (*it).icalTimezone();
-        if (!tz) {
-            qCritical() << "bad time zone";
-        } else {
-            icalcomponent *tzcomponent = icaltimezone_get_component(tz);
-            icalcomponent_add_component(component, component);
-            text.append(icalcomponent_as_ical_string(tzcomponent));
-            icaltimezone_free(tz, 1);
+    for (const auto &qtz : qAsConst(tzUsedList)) {
+        if (qtz != QTimeZone::utc()) {
+            icaltimezone *tz = ICalTimeZoneParser::icaltimezoneFromQTimeZone(qtz, earliestTzDt[qtz]);
+            if (!tz) {
+                qCritical() << "bad time zone";
+            } else {
+                icalcomponent *tzcomponent = icaltimezone_get_component(tz);
+                icalcomponent_add_component(component, component);
+                text.append(icalcomponent_as_ical_string(tzcomponent));
+                icaltimezone_free(tz, 1);
+            }
         }
     }
 
@@ -510,9 +514,9 @@ ScheduleMessage::Ptr ICalFormat::parseScheduleMessage(const Calendar::Ptr &cal,
     }
 
     // Populate the message's time zone collection with all VTIMEZONE components
-    ICalTimeZones tzlist;
-    ICalTimeZoneSource tzs;
-    tzs.parse(message, tzlist);
+    ICalTimeZoneCache tzlist;
+    ICalTimeZoneParser parser(&tzlist);
+    parser.parse(message);
 
     IncidenceBase::Ptr incidence;
     icalcomponent *c = icalcomponent_get_first_component(message, ICAL_VEVENT_COMPONENT);
