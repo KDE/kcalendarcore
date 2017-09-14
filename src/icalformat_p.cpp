@@ -48,7 +48,6 @@
 #include "visitor.h"
 #include "utils.h"
 
-#include <KCodecs>
 #include "kcalcore_debug.h"
 
 #include <QFile>
@@ -394,12 +393,12 @@ icalcomponent *ICalFormatImpl::writeFreeBusy(const FreeBusy::Ptr &freebusy, iTIP
 
         if (!fbPeriod.summary().isEmpty()) {
             icalparameter *param = icalparameter_new_x("X-SUMMARY");
-            icalparameter_set_xvalue(param, KCodecs::base64Encode(fbPeriod.summary().toUtf8()).constData());
+            icalparameter_set_xvalue(param, fbPeriod.summary().toUtf8().toBase64().constData());
             icalproperty_set_parameter(property, param);
         }
         if (!fbPeriod.location().isEmpty()) {
             icalparameter *param = icalparameter_new_x("X-LOCATION");
-            icalparameter_set_xvalue(param, KCodecs::base64Encode(fbPeriod.location().toUtf8()).constData());
+            icalparameter_set_xvalue(param, fbPeriod.location().toUtf8().toBase64().constData());
             icalproperty_set_parameter(property, param);
         }
 
@@ -1374,11 +1373,11 @@ FreeBusy::Ptr ICalFormatImpl::readFreeBusy(icalcomponent *vfreebusy)
             while (param) {
                 if (strncmp(icalparameter_get_xname(param), "X-SUMMARY", 9) == 0) {
                     period.setSummary(QString::fromUtf8(
-                                          KCodecs::base64Decode(icalparameter_get_xvalue(param))));
+                                        QByteArray::fromBase64(icalparameter_get_xvalue(param))));
                 }
                 if (strncmp(icalparameter_get_xname(param), "X-LOCATION", 10) == 0) {
                     period.setLocation(QString::fromUtf8(
-                                           KCodecs::base64Decode(icalparameter_get_xvalue(param))));
+                                        QByteArray::fromBase64(icalparameter_get_xvalue(param))));
                 }
                 param = icalproperty_get_next_parameter(p, ICAL_X_PARAMETER);
             }
