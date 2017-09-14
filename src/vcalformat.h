@@ -125,12 +125,6 @@ protected:
     Event::Ptr VEventToEvent(VObject *vevent);
 
     /**
-      Translates an Event into a VEvent-type VObject and returns a pointer to it.
-      @param event is a pointer to a valid Event object.
-    */
-    VObject *eventToVEvent(const Event::Ptr &event);
-
-    /**
       Parse TZ tag from vtimezone.
     */
     QString parseTZ(const QByteArray &timezone) const;
@@ -139,12 +133,6 @@ protected:
       Parse DAYLIGHT tag from vtimezone.
     */
     QString parseDst(QByteArray &timezone) const;
-
-    /**
-      Translates a Todo into a VTodo-type VObject and return pointer.
-      @param todo is a pointer to a valid Todo object.
-    */
-    VObject *eventToVTodo(const Todo::Ptr &todo);
 
     /**
       Takes a QDate and returns a string in the format YYYYMMDDTHHMMSS.

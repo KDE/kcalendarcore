@@ -116,10 +116,6 @@ foreach(file ${compatFiles})
   kcalcore_run_single_test(Compat ${file} readandwrite "ical")
 endforeach()
 
-foreach(file ${vCalFilesAsIcal})
-  kcalcore_run_single_test(VCalOut ${file} testvcalexport "vcal")
-endforeach()
-
 foreach(file ${vCalFiles})
   kcalcore_run_single_test(VCalIn ${file} readandwrite "ical")
 endforeach()
