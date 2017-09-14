@@ -28,6 +28,8 @@ class TodoTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
+    void initTestCase();
+
     void testValidity();
     void testCompare();
     void testClone();

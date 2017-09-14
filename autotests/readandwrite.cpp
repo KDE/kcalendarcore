@@ -37,6 +37,7 @@ using namespace KCalCore;
 int main(int argc, char **argv)
 {
     qSetGlobalQHashSeed(0); // Disable QHash randomness
+    qputenv("TZ", "GM");
 
     QCommandLineParser parser;
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), QStringLiteral("Verbose output")));

@@ -29,6 +29,11 @@ QTEST_MAIN(TodoTest)
 
 using namespace KCalCore;
 
+void TodoTest::initTestCase()
+{
+    qputenv("TZ", "GMT");
+}
+
 void TodoTest::testValidity()
 {
     QDate dt = QDate::currentDate();
