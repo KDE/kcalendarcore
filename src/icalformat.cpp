@@ -34,7 +34,6 @@
 #include "freebusy.h"
 #include "memorycalendar.h"
 #include "kcalcore_debug.h"
-#include <KBackup>
 #include "calendar_p.h"
 
 #include <QSaveFile>
@@ -116,7 +115,9 @@ bool ICalFormat::save(const Calendar::Ptr &calendar, const QString &fileName)
     }
 
     // Write backup file
-    KBackup::backupFile(fileName);
+    const QString backupFile = fileName + QLatin1Char('~');
+    QFile::remove(backupFile);
+    QFile::copy(fileName, backupFile);
 
     QSaveFile file(fileName);
     if (!file.open(QIODevice::WriteOnly)) {
