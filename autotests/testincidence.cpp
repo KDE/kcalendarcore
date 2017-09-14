@@ -21,20 +21,14 @@
 #include "testincidence.h"
 #include "event.h"
 #include "utils.h"
-#include "setuptzinfo.h"
 
-#include <qtest_kde.h>
+#include <QTest>
 
-QTEST_KDEMAIN(IncidenceTest, NoGUI)
+QTEST_MAIN(IncidenceTest)
 
 Q_DECLARE_METATYPE(KCalCore::Incidence::DateTimeRole)
 
 using namespace KCalCore;
-
-void IncidenceTest::initTestCase()
-{
-    SetupTzinfo setup;
-}
 
 void IncidenceTest::testDtStartChange()
 {

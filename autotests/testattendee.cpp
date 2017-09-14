@@ -23,8 +23,9 @@
 #include "testattendee.h"
 #include "attendee.h"
 
-
+#include <QDataStream>
 #include <QTest>
+
 QTEST_MAIN(AttendeeTest)
 
 using namespace KCalCore;

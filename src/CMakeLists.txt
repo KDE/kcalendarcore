@@ -68,7 +68,7 @@ target_link_libraries(KF5CalendarCore
 PUBLIC
     Qt5::Core
 PRIVATE
-    KF5::KDELibs4Support
+    Qt5::Gui
     ${LibIcal_LIBRARIES}
 )
 

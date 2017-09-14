@@ -22,12 +22,9 @@
 
 #include "filestorage.h"
 #include "memorycalendar.h"
-#include "setuptzinfo.h"
 #include "utils.h"
 
 #include <QTimeZone>
-#include <KSystemTimeZones>
-#include <KTimeZone>
 
 #include <QDebug>
 #include <QDate>
@@ -43,11 +40,6 @@ using namespace KCalCore;
 int main(int argc, char **argv)
 {
     qputenv("TZ", "GMT");
-
-    const SetupTzinfo setup;
-
-    qDebug() << "QTimeZone:" << QTimeZone::systemTimeZone().id();
-    qDebug() << "KTimeZone:" << KSystemTimeZones::local().name();
 
     QCommandLineParser parser;
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), QStringLiteral("Verbose output")));

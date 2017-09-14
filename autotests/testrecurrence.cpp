@@ -22,8 +22,6 @@
 
 #include "filestorage.h"
 #include "memorycalendar.h"
-#include "setuptzinfo.h"
-
 
 #include <QDebug>
 #include <QFile>
@@ -54,8 +52,6 @@ int main(int argc, char **argv)
     if (parsedArgs.isEmpty()) {
         parser.showHelp();
     }
-
-    const SetupTzinfo setup;
 
     QString input = parsedArgs[0];
     qDebug() << "Input file:" << input;

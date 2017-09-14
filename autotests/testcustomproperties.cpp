@@ -23,7 +23,9 @@
 #include "testcustomproperties.h"
 #include "customproperties.h"
 
+#include <QDataStream>
 #include <QTest>
+
 QTEST_MAIN(CustomPropertiesTest)
 
 using namespace KCalCore;

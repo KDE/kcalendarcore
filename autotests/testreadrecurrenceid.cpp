@@ -19,18 +19,12 @@
 #include "memorycalendar.h"
 #include "icalformat.h"
 #include "exceptions.h"
-#include "setuptzinfo.h"
 
 #include <QDebug>
 #include <QTimeZone>
-
 #include <QTest>
-QTEST_MAIN(TestReadRecurrenceId)
 
-void TestReadRecurrenceId::initTestCase()
-{
-    const SetupTzinfo setup;
-}
+QTEST_MAIN(TestReadRecurrenceId)
 
 void TestReadRecurrenceId::testReadSingleException()
 {

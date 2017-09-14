@@ -24,8 +24,9 @@
 #include "testperson.h"
 #include "person.h"
 
-
+#include <QDataStream>
 #include <QTest>
+
 QTEST_MAIN(PersonTest)
 
 using namespace KCalCore;

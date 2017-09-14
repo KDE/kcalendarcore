@@ -10,7 +10,7 @@ macro(macro_unit_tests)
     add_executable(${_testname} ${_testname}.cpp)
     add_test(NAME ${_testname} COMMAND ${_testname})
     ecm_mark_as_test(${_testname})
-    target_link_libraries(${_testname} KF5::KDELibs4Support KF5::ConfigCore KF5CalendarCore Qt5::Test)
+    target_link_libraries(${_testname} KF5CalendarCore Qt5::Test)
   endforeach()
 endmacro()
 
@@ -63,7 +63,7 @@ set_target_properties(testreadrecurrenceid PROPERTIES COMPILE_FLAGS -DICALTESTDA
 # TODO: check if this can build with msvc now (and if it works on Windows)
 if(NOT MSVC)
   macro_unit_tests(testicaltimezones)
-  target_link_libraries(testicaltimezones KF5::KDELibs4Support ${LibIcal_LIBRARIES})
+  target_link_libraries(testicaltimezones Qt5::Core KF5::CalendarCore ${LibIcal_LIBRARIES})
 endif()
 
 ########### Tests #######################

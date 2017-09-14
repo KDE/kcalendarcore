@@ -22,7 +22,9 @@
 #include "todo.h"
 #include "utils.h"
 
+#include <QDebug>
 #include <QTest>
+
 QTEST_MAIN(RecurTodoTest)
 
 using namespace KCalCore;

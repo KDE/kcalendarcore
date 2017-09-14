@@ -31,7 +31,7 @@ ecm_setup_version(PROJECT VARIABLE_PREFIX KCALCORE
 )
 
 ########### Find packages ###########
-find_package(KF5 ${KF5_VERSION} REQUIRED Config KDELibs4Support)
+find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED Core Gui)
 
 set(LibIcal_MIN_VERSION "0.42")
 find_package(LibIcal ${LibIcal_MIN_VERSION})
