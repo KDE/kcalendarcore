@@ -20,7 +20,9 @@ include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 include(ECMQtDeclareLoggingCategory)
 include(ECMCoverageOption)
-
+if (POLICY CMP0053)
+    cmake_policy(SET CMP0053 NEW)
+endif()
 set(QT_REQUIRED_VERSION "5.8.0")
 
 set(KCALENDARCORE_LIB_VERSION ${PIM_VERSION})
