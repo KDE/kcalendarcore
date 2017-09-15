@@ -23,7 +23,6 @@
 #include "icaltimezones_p.h"
 
 #include <QDateTime>
-#include <QVector>
 
 #include <QTest>
 

@@ -24,7 +24,6 @@
 #include <QTimeZone>
 #include <QDataStream>
 
-#include <QDebug>
 
 // To remain backwards compatible we need to (de)serialize QDateTime the way KDateTime
 // was (de)serialized
