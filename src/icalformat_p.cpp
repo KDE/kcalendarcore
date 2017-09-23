@@ -343,16 +343,9 @@ icalcomponent *ICalFormatImpl::writeFreeBusy(const FreeBusy::Ptr &freebusy, iTIP
     icalcomponent_add_property(
         vfreebusy, icalproperty_new_dtend(writeICalUtcDateTime(freebusy->dtEnd())));
 
-#ifdef USE_ICAL_1_0
     Q_UNUSED(method);
     icalcomponent_add_property(
         vfreebusy, icalproperty_new_uid(freebusy->uid().toUtf8().constData()));
-#else
-    if (method == iTIPRequest) {
-        icalcomponent_add_property(
-            vfreebusy, icalproperty_new_uid(freebusy->uid().toUtf8().constData()));
-    }
-#endif
 
     //Loops through all the periods in the freebusy object
     FreeBusyPeriod::List list = freebusy->fullBusyPeriods();
@@ -883,11 +876,7 @@ icalproperty *ICalFormatImpl::writeAttachment(const Attachment::Ptr &att)
     if (att->isUri()) {
         attach = icalattach_new_from_url(att->uri().toUtf8().data());
     } else {
-#ifdef USE_ICAL_0_46
         attach = icalattach_new_from_data((const char *)att->data().constData(), nullptr, nullptr);
-#else
-        attach = icalattach_new_from_data((unsigned char *)att->data().constData(), 0, 0);
-#endif
     }
     icalproperty *p = icalproperty_new_attach(attach);
 
