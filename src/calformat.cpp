@@ -29,7 +29,6 @@
   @author Cornelius Schumacher \<schumacher@kde.org\>
 */
 
-#include <config-kcalcore.h>
 #include "calformat.h"
 #include "exceptions.h"
 

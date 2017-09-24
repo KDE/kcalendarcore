@@ -34,7 +34,6 @@
   @author David Jarvie \<software@astrojar.org.uk\>
 */
 
-#include <config-kcalcore.h>
 #include "icalformat_p.h"
 #include "compat_p.h"
 #include "event.h"

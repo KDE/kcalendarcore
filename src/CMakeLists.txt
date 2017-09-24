@@ -1,8 +1,4 @@
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-kcalcore.h.cmake
-    ${CMAKE_CURRENT_BINARY_DIR}/config-kcalcore.h
-)
-
 ########### next target ###############
 
 bison_target(VersitParser
