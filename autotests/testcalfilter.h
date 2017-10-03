@@ -21,7 +21,7 @@
 #ifndef TESTCALFILTER_H
 #define TESTCALFILTER_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class CalFilterTest : public QObject
 {

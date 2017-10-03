@@ -47,8 +47,6 @@
 
 struct VObject;
 
-class KDateTime;
-
 class QDate;
 
 #define _VCAL_VERSION "1.0"
@@ -84,34 +82,34 @@ public:
       @copydoc
       CalFormat::load()
     */
-    bool load(const Calendar::Ptr &calendar, const QString &fileName) Q_DECL_OVERRIDE;
+    bool load(const Calendar::Ptr &calendar, const QString &fileName) override;
 
     /**
       @copydoc
       CalFormat::save()
     */
-    bool save(const Calendar::Ptr &calendar, const QString &fileName) Q_DECL_OVERRIDE;
+    bool save(const Calendar::Ptr &calendar, const QString &fileName) override;
 
     /**
       @copydoc
       CalFormat::fromString()
     */
     bool fromString(const Calendar::Ptr &calendar, const QString &string,
-                    bool deleted = false, const QString &notebook = QString()) Q_DECL_OVERRIDE;
+                    bool deleted = false, const QString &notebook = QString()) override;
 
     /**
       @copydoc
       CalFormat::toString()
     */
     QString toString(const Calendar::Ptr &calendar, const QString &notebook = QString(),
-                     bool deleted = false) Q_DECL_OVERRIDE;
+                     bool deleted = false) override;
 
     /**
       @copydoc
       CalFormat::fromRawString()
     */
     bool fromRawString(const Calendar::Ptr &calendar, const QByteArray &string,
-                       bool deleted = false, const QString &notebook = QString()) Q_DECL_OVERRIDE;
+                       bool deleted = false, const QString &notebook = QString()) override;
 
 protected:
     /**
@@ -127,12 +125,6 @@ protected:
     Event::Ptr VEventToEvent(VObject *vevent);
 
     /**
-      Translates an Event into a VEvent-type VObject and returns a pointer to it.
-      @param event is a pointer to a valid Event object.
-    */
-    VObject *eventToVEvent(const Event::Ptr &event);
-
-    /**
       Parse TZ tag from vtimezone.
     */
     QString parseTZ(const QByteArray &timezone) const;
@@ -143,35 +135,29 @@ protected:
     QString parseDst(QByteArray &timezone) const;
 
     /**
-      Translates a Todo into a VTodo-type VObject and return pointer.
-      @param todo is a pointer to a valid Todo object.
-    */
-    VObject *eventToVTodo(const Todo::Ptr &todo);
-
-    /**
       Takes a QDate and returns a string in the format YYYYMMDDTHHMMSS.
       @param date is the date to format.
     */
     QString qDateToISO(const QDate &date);
 
     /**
-      Takes a KDateTime and returns a string in format YYYYMMDDTHHMMSS.
+      Takes a QDateTime and returns a string in format YYYYMMDDTHHMMSS.
       @param date is the date to format.
       @param zulu if true, then shift the date to UTC.
     */
-    QString kDateTimeToISO(const KDateTime &date, bool zulu = true);
+    QString qDateTimeToISO(const QDateTime &date, bool zulu = true);
 
     /**
-      Takes a string in YYYYMMDDTHHMMSS format and returns a valid KDateTime.
+      Takes a string in YYYYMMDDTHHMMSS format and returns a valid QDateTime.
       @param dtStr is a QString containing the date to convert. If this value
-      is invalid, then KDateTime() is returned.
+      is invalid, then QDateTime() is returned.
     */
-    KDateTime ISOToKDateTime(const QString &dtStr);
+    QDateTime ISOToQDateTime(const QString &dtStr);
 
     /**
       Takes a string in the YYYYMMDD format and returns a valid QDate.
       @param dtStr is a QString containing the date to convert. If this value
-      is invalid, then KDateTime() is returned.
+      is invalid, then QDateTime() is returned.
     */
     QDate ISOToQDate(const QString &dtStr);
 
@@ -226,7 +212,7 @@ protected:
       @copydoc
       IncidenceBase::virtual_hook()
     */
-    void virtual_hook(int id, void *data) Q_DECL_OVERRIDE;
+    void virtual_hook(int id, void *data) override;
 
 private:
     //@cond PRIVATE

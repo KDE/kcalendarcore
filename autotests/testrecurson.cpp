@@ -22,40 +22,34 @@
 
 #include "filestorage.h"
 #include "memorycalendar.h"
+#include "utils.h"
 
-#include <kaboutdata.h>
-#include <kcmdlineargs.h>
-#include <kcomponentdata.h>
-#include <qdebug.h>
+#include <QTimeZone>
 
+#include <QDebug>
 #include <QDate>
-#include <QtCore/QFile>
-#include <QtCore/QTextStream>
-#include <QtCore/QCoreApplication>
-#include <QtCore/QCommandLineParser>
+#include <QFile>
+#include <QStandardPaths>
+#include <QTextStream>
+#include <QCoreApplication>
+#include <QCommandLineParser>
+#include <QTimeZone>
 
 using namespace KCalCore;
 
 int main(int argc, char **argv)
 {
+    qputenv("TZ", "GMT");
+
     QCommandLineParser parser;
-    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), i18n("Verbose output")));
-    parser.addPositionalArgument(QStringLiteral("input"), i18n("Name of input file"));
-    parser.addPositionalArgument(QStringLiteral("output"), i18n("optional name of output file for the recurrence dates"));
-
-    KAboutData about(QStringLiteral("testrecurson"),
-                     i18n("Tests all dates from 2002 to 2010 to test if the event recurs on each individual date. "
-                          "This is meant to test the Recurrence::recursOn method for errors."),
-                     QStringLiteral("0.1"));
-
-    about.setupCommandLine(&parser);
-    KAboutData::setApplicationData(about);
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), QStringLiteral("Verbose output")));
+    parser.addPositionalArgument(QStringLiteral("input"), QStringLiteral("Name of input file"));
+    parser.addPositionalArgument(QStringLiteral("output"), QStringLiteral("optional name of output file for the recurrence dates"));
 
     QCoreApplication app(argc, argv);
     QCoreApplication::setApplicationName(QStringLiteral("testrecurson"));
     QCoreApplication::setApplicationVersion(QStringLiteral("0.1"));
     parser.process(app);
-    about.processCommandLine(&parser);
 
     const QStringList parsedArgs = parser.positionalArguments();
 
@@ -77,16 +71,14 @@ int main(int argc, char **argv)
         outstream = new QTextStream(&outfile);
     }
 
-    MemoryCalendar::Ptr cal(new MemoryCalendar(KDateTime::UTC));
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
 
     FileStorage store(cal, input);
     if (!store.load()) {
         return 1;
     }
     QString tz = cal->nonKDECustomProperty("X-LibKCal-Testsuite-OutTZ");
-    if (!tz.isEmpty()) {
-        cal->setViewTimeZoneId(tz);
-    }
+    const auto viewZone = tz.isEmpty() ? cal->timeZone() : QTimeZone(tz.toUtf8());
 
     Incidence::List inc = cal->incidences();
 
@@ -102,7 +94,7 @@ int main(int argc, char **argv)
             // Output to file for testing purposes
             int nr = 0;
             while (dt.year() <= 2020 && nr <= 500) {
-                if (incidence->recursOn(dt, cal->viewTimeSpec())) {
+                if (incidence->recursOn(dt, viewZone)) {
                     (*outstream) << dt.toString(Qt::ISODate) << endl;
                     nr++;
                 }
@@ -111,7 +103,7 @@ int main(int argc, char **argv)
         } else {
             dt = QDate(2005, 1, 1);
             while (dt.year() < 2007) {
-                if (incidence->recursOn(dt, cal->viewTimeSpec())) {
+                if (incidence->recursOn(dt, viewZone)) {
                     qDebug() << dt.toString(Qt::ISODate);
                 }
                 dt = dt.addDays(1);

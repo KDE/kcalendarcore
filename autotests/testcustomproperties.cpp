@@ -23,7 +23,9 @@
 #include "testcustomproperties.h"
 #include "customproperties.h"
 
-#include <qtest.h>
+#include <QDataStream>
+#include <QTest>
+
 QTEST_MAIN(CustomPropertiesTest)
 
 using namespace KCalCore;
@@ -212,7 +214,6 @@ void CustomPropertiesTest::testVolatile()
     in_stream >> cp;
 
     QCOMPARE(cp.customProperties().count(), 1);
-
 }
 
 void CustomPropertiesTest::testDataStreamOut()
@@ -237,4 +238,3 @@ void CustomPropertiesTest::testDataStreamOut()
 
     QVERIFY(cp2 == cp);
 }
-

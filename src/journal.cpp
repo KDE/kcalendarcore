@@ -51,7 +51,7 @@ Incidence::IncidenceType Journal::type() const
 
 QByteArray Journal::typeStr() const
 {
-    return "Journal";
+    return QByteArrayLiteral("Journal");
 }
 
 Journal *Journal::clone() const
@@ -75,12 +75,12 @@ bool Journal::accept(Visitor &v, const IncidenceBase::Ptr &incidence)
     return v.visit(incidence.staticCast<Journal>());
 }
 
-KDateTime Journal::dateTime(DateTimeRole role) const
+QDateTime Journal::dateTime(DateTimeRole role) const
 {
     switch (role) {
     case RoleEnd:
     case RoleEndTimeZone:
-        return KDateTime();
+        return QDateTime();
     case RoleDisplayStart:
     case RoleDisplayEnd:
         return dtStart();
@@ -89,7 +89,7 @@ KDateTime Journal::dateTime(DateTimeRole role) const
     }
 }
 
-void Journal::setDateTime(const KDateTime &dateTime, DateTimeRole role)
+void Journal::setDateTime(const QDateTime &dateTime, DateTimeRole role)
 {
     switch (role) {
     case RoleDnD: {
@@ -126,7 +126,7 @@ QLatin1String Journal::journalMimeType()
     return QLatin1String("application/x-vnd.akonadi.calendar.journal");
 }
 
-QLatin1String Journal::iconName(const KDateTime &) const
+QLatin1String Journal::iconName(const QDateTime &) const
 {
     return QLatin1String("view-pim-journal");
 }

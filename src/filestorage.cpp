@@ -55,7 +55,7 @@ public:
     }
 
     QString mFileName;
-    CalFormat *mSaveFormat;
+    CalFormat *mSaveFormat = nullptr;
 };
 //@endcond
 

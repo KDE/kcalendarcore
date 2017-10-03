@@ -18,9 +18,12 @@
 #include "testcreateddatecompat.h"
 #include "icalformat.h"
 #include "memorycalendar.h"
+
 #include <iostream>
 
-#include <qtest.h>
+#include <QTest>
+#include <QTimeZone>
+
 //"X-KDE-ICAL-IMPLEMENTATION-VERSION:1.0\n"
 
 const char *const icalFile32 =
@@ -58,24 +61,24 @@ const char *const icalFile33 =
 
 void CreatedDateCompatTest::testCompat32()
 {
-    KCalCore::MemoryCalendar::Ptr cal(new KCalCore::MemoryCalendar(KDateTime::UTC));
+    KCalCore::MemoryCalendar::Ptr cal(new KCalCore::MemoryCalendar(QTimeZone::utc()));
     KCalCore::ICalFormat format;
     format.fromRawString(cal, QByteArray(icalFile32));
     KCalCore::Event::Ptr event = cal->event(QStringLiteral("uid"));
     QVERIFY(event);
     QCOMPARE(event->created(),
-             KDateTime(QDate(2003, 12, 13), QTime(20, 47, 53), KDateTime::UTC));
+             QDateTime(QDate(2003, 12, 13), QTime(20, 47, 53), Qt::UTC));
 }
 
 void CreatedDateCompatTest::testCompat33()
 {
-    KCalCore::MemoryCalendar::Ptr cal(new KCalCore::MemoryCalendar(KDateTime::UTC));
+    KCalCore::MemoryCalendar::Ptr cal(new KCalCore::MemoryCalendar(QTimeZone::utc()));
     KCalCore::ICalFormat format;
     format.fromRawString(cal, QByteArray(icalFile33));
     KCalCore::Event::Ptr event = cal->event(QStringLiteral("uid"));
     QVERIFY(event);
     QCOMPARE(event->created(),
-             KDateTime(QDate(2003, 12, 13), QTime(20, 41, 52), KDateTime::UTC));
+             QDateTime(QDate(2003, 12, 13), QTime(20, 41, 52), Qt::UTC));
     QVERIFY(!event->customProperties().contains("X-KDE-ICAL-IMPLEMENTATION-VERSION"));
 }
 

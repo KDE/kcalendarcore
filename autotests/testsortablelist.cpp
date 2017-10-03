@@ -24,7 +24,7 @@
 
 #include <stdlib.h>
 
-#include <qtest.h>
+#include <QTest>
 QTEST_MAIN(SortableListTest)
 
 using namespace KCalCore;

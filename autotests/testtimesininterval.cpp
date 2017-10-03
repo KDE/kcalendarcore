@@ -21,17 +21,18 @@
 */
 #include "testtimesininterval.h"
 #include "event.h"
+#include "utils.h"
 
-#include <qdebug.h>
+#include <QDebug>
 
-#include <qtest.h>
+#include <QTest>
 QTEST_MAIN(TimesInIntervalTest)
 
 using namespace KCalCore;
 
 void TimesInIntervalTest::test()
 {
-    const KDateTime currentDate(QDate::currentDate());
+    const QDateTime currentDate(QDate::currentDate(), {});
     Event *event = new Event();
     event->setDtStart(currentDate);
     event->setDtEnd(currentDate.addDays(1));
@@ -49,12 +50,12 @@ void TimesInIntervalTest::test()
     // Daily recurrence that never stops.
     // Should return numDaysInInterval+1 occurrences
     const int numDaysInInterval = 7;
-    KDateTime start(currentDate);
-    KDateTime end(start.addDays(numDaysInInterval));
+    QDateTime start(currentDate);
+    QDateTime end(start.addDays(numDaysInInterval));
 
     start.setTime(QTime(0, 0, 0));
     end.setTime(QTime(23, 59, 59));
-    DateTimeList dateList = event->recurrence()->timesInInterval(start, end);
+    auto dateList = event->recurrence()->timesInInterval(start, end);
     QVERIFY(dateList.count() == numDaysInInterval + 1);
 
     //------------------------------------------------------------------------------------------------
@@ -88,8 +89,8 @@ void TimesInIntervalTest::test()
 //Test that interval start and end are inclusive
 void TimesInIntervalTest::testSubDailyRecurrenceIntervalInclusive()
 {
-    const KDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), KDateTime::UTC);
-    const KDateTime end(QDate(2013, 03, 10), QTime(11, 0, 0), KDateTime::UTC);
+    const QDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), Qt::UTC);
+    const QDateTime end(QDate(2013, 03, 10), QTime(11, 0, 0), Qt::UTC);
 
     KCalCore::Event::Ptr event(new KCalCore::Event());
     event->setUid(QStringLiteral("event"));
@@ -97,12 +98,12 @@ void TimesInIntervalTest::testSubDailyRecurrenceIntervalInclusive()
     event->recurrence()->setHourly(1);
     event->recurrence()->setDuration(2);
 
-    QList<KDateTime> expectedEventOccurrences;
+    QList<QDateTime> expectedEventOccurrences;
     expectedEventOccurrences << start << start.addSecs(60 * 60);
 
-    const DateTimeList timesInInterval = event->recurrence()->timesInInterval(start, end);
+    const auto timesInInterval = event->recurrence()->timesInInterval(start, end);
 //   qDebug() << "timesInInterval " << timesInInterval;
-    for (const KDateTime &dt : timesInInterval) {
+    for (const auto &dt : timesInInterval) {
 //     qDebug() << dt;
         QCOMPARE(expectedEventOccurrences.removeAll(dt), 1);
     }
@@ -112,8 +113,8 @@ void TimesInIntervalTest::testSubDailyRecurrenceIntervalInclusive()
 //Test that the recurrence dtStart is used for calculation and not the interval start date
 void TimesInIntervalTest::testSubDailyRecurrence2()
 {
-    const KDateTime start(QDate(2013, 03, 10), QTime(10, 2, 3), KDateTime::UTC);
-    const KDateTime end(QDate(2013, 03, 10), QTime(13, 4, 5), KDateTime::UTC);
+    const QDateTime start(QDate(2013, 03, 10), QTime(10, 2, 3), Qt::UTC);
+    const QDateTime end(QDate(2013, 03, 10), QTime(13, 4, 5), Qt::UTC);
 
     KCalCore::Event::Ptr event(new KCalCore::Event());
     event->setUid(QStringLiteral("event"));
@@ -121,12 +122,12 @@ void TimesInIntervalTest::testSubDailyRecurrence2()
     event->recurrence()->setHourly(1);
     event->recurrence()->setDuration(2);
 
-    QList<KDateTime> expectedEventOccurrences;
+    QList<QDateTime> expectedEventOccurrences;
     expectedEventOccurrences << start << start.addSecs(60 * 60);
 
-    const DateTimeList timesInInterval = event->recurrence()->timesInInterval(start.addSecs(-20), end.addSecs(20));
+    const auto timesInInterval = event->recurrence()->timesInInterval(start.addSecs(-20), end.addSecs(20));
 //   qDebug() << "timesInInterval " << timesInInterval;
-    for (const KDateTime &dt : timesInInterval) {
+    for (const auto &dt : timesInInterval) {
 //     qDebug() << dt;
         QCOMPARE(expectedEventOccurrences.removeAll(dt), 1);
     }
@@ -135,8 +136,8 @@ void TimesInIntervalTest::testSubDailyRecurrence2()
 
 void TimesInIntervalTest::testSubDailyRecurrenceIntervalLimits()
 {
-    const KDateTime start(QDate(2013, 03, 10), QTime(10, 2, 3), KDateTime::UTC);
-    const KDateTime end(QDate(2013, 03, 10), QTime(12, 2, 3), KDateTime::UTC);
+    const QDateTime start(QDate(2013, 03, 10), QTime(10, 2, 3), Qt::UTC);
+    const QDateTime end(QDate(2013, 03, 10), QTime(12, 2, 3), Qt::UTC);
 
     KCalCore::Event::Ptr event(new KCalCore::Event());
     event->setUid(QStringLiteral("event"));
@@ -144,12 +145,12 @@ void TimesInIntervalTest::testSubDailyRecurrenceIntervalLimits()
     event->recurrence()->setHourly(1);
     event->recurrence()->setDuration(3);
 
-    QList<KDateTime> expectedEventOccurrences;
+    QList<QDateTime> expectedEventOccurrences;
     expectedEventOccurrences << start.addSecs(60 * 60);
 
-    const DateTimeList timesInInterval = event->recurrence()->timesInInterval(start.addSecs(1), end.addSecs(-1));
+    const auto timesInInterval = event->recurrence()->timesInInterval(start.addSecs(1), end.addSecs(-1));
 //   qDebug() << "timesInInterval " << timesInInterval;
-    for (const KDateTime &dt : timesInInterval) {
+    for (const auto &dt : timesInInterval) {
 //     qDebug() << dt;
         QCOMPARE(expectedEventOccurrences.removeAll(dt), 1);
     }

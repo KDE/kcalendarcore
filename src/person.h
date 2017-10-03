@@ -33,10 +33,10 @@
 
 #include "kcalcore_export.h"
 
-#include <QtCore/QString>
-#include <QtCore/QHash>
-#include <QtCore/QMetaType>
-#include <QtCore/QSharedPointer>
+#include <QString>
+#include <QHash>
+#include <QMetaType>
+#include <QSharedPointer>
 
 namespace KCalCore
 {

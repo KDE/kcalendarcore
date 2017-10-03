@@ -16,15 +16,14 @@
  */
 
 #include "testreadrecurrenceid.h"
-
-#include <qdebug.h>
-
 #include "memorycalendar.h"
 #include "icalformat.h"
-#include "icaltimezones.h"
 #include "exceptions.h"
 
-#include <qtest.h>
+#include <QDebug>
+#include <QTimeZone>
+#include <QTest>
+
 QTEST_MAIN(TestReadRecurrenceId)
 
 void TestReadRecurrenceId::testReadSingleException()
@@ -58,12 +57,11 @@ void TestReadRecurrenceId::testReadSingleExceptionWithThisAndFuture()
 
 void TestReadRecurrenceId::testReadWriteSingleExceptionWithThisAndFuture()
 {
-    KCalCore::MemoryCalendar::Ptr cal(new KCalCore::MemoryCalendar(KDateTime::UTC));
+    KCalCore::MemoryCalendar::Ptr cal(new KCalCore::MemoryCalendar(QTimeZone::utc()));
     KCalCore::ICalFormat format;
     KCalCore::Incidence::Ptr inc(new KCalCore::Event);
-    KCalCore::ICalTimeZoneSource tzsource;
-    KDateTime::Spec spec(tzsource.standardZone(QStringLiteral("Europe/Berlin")));
-    KDateTime startDate = KDateTime(QDate(2015, 1, 2), QTime(3, 4, 5), spec);
+    QTimeZone tz("Europe/Berlin");
+    QDateTime startDate(QDate(2015, 1, 2), QTime(3, 4, 5), tz);
     inc->setDtStart(startDate);
     inc->setRecurrenceId(startDate);
     inc->setThisAndFuture(true);
@@ -80,11 +78,10 @@ void TestReadRecurrenceId::testReadWriteSingleExceptionWithThisAndFuture()
 
 void TestReadRecurrenceId::testReadExceptionWithMainEvent()
 {
-    KCalCore::MemoryCalendar::Ptr calendar(new KCalCore::MemoryCalendar(KDateTime::UTC));
+    KCalCore::MemoryCalendar::Ptr calendar(new KCalCore::MemoryCalendar(QTimeZone::utc()));
     KCalCore::ICalFormat format;
     QFile file(QLatin1String(ICALTESTDATADIR) + QLatin1String("test_recurrenceid.ics"));
     QVERIFY(file.open(QIODevice::ReadOnly));
     format.fromString(calendar, QString::fromUtf8(file.readAll()));
     QCOMPARE(calendar->rawEvents().size(), 2);
 }
-

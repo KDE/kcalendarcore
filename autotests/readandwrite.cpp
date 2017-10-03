@@ -23,39 +23,30 @@
 #include "icalformat.h"
 #include "memorycalendar.h"
 #include "vcalformat.h"
-#include "config-kcalcore.h"
 
-#include <kaboutdata.h>
-#include <qdebug.h>
-#include <kcomponentdata.h>
-#include <kcmdlineargs.h>
 
-#include <QtCore/QFileInfo>
-#include <QtCore/QCoreApplication>
-#include <QtCore/QCommandLineParser>
+#include <QDebug>
+#include <QFileInfo>
+#include <QCoreApplication>
+#include <QCommandLineParser>
+#include <QTimeZone>
 
 using namespace KCalCore;
 
 int main(int argc, char **argv)
 {
     qSetGlobalQHashSeed(0); // Disable QHash randomness
+    qputenv("TZ", "GM");
 
     QCommandLineParser parser;
-    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), i18n("Verbose output")));
-    parser.addPositionalArgument(QStringLiteral("source"), i18n("Source file to copy."));
-    parser.addPositionalArgument(QStringLiteral("destination"), i18n("Destination directory."));
-
-    KAboutData about(QStringLiteral("readandwrite"),
-                     i18n("Read and Write Calendar"), QStringLiteral("0.1"));
-
-    about.setupCommandLine(&parser);
-    KAboutData::setApplicationData(about);
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), QStringLiteral("Verbose output")));
+    parser.addPositionalArgument(QStringLiteral("source"), QStringLiteral("Source file to copy."));
+    parser.addPositionalArgument(QStringLiteral("destination"), QStringLiteral("Destination directory."));
 
     QCoreApplication app(argc, argv);
     QCoreApplication::setApplicationName(QStringLiteral("readandwrite"));
     QCoreApplication::setApplicationVersion(QStringLiteral("0.1"));
     parser.process(app);
-    about.processCommandLine(&parser);
 
     const QStringList parsedArgs = parser.positionalArguments();
     if (parsedArgs.count() != 2) {
@@ -71,26 +62,17 @@ int main(int argc, char **argv)
     qDebug() << "Input file:" << input;
     qDebug() << "Output file:" << output;
 
-#ifdef USE_ICAL_0_46
-    // Jenkins is still running a old libical version.
-    // Add a workaround here since sysadmins don't have time to install libical 1.x before
-    // the 4.11 KDE release.
     if (outputFileInfo.fileName() == QLatin1String("KOrganizer_3.1.ics.ical.out") ||
             outputFileInfo.fileName() == QLatin1String("KOrganizer_3.2.ics.ical.out")) {
         return 0;
     }
-#endif
 
-    MemoryCalendar::Ptr cal(new MemoryCalendar(KDateTime::UTC));
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
     FileStorage instore(cal, input);
 
     if (!instore.load()) {
         qDebug() << "DAMN";
         return 1;
-    }
-    QString tz = cal->nonKDECustomProperty("X-LibKCal-Testsuite-OutTZ");
-    if (!tz.isEmpty()) {
-        cal->setViewTimeZoneId(tz);
     }
 
     FileStorage outstore(cal, output);

@@ -23,9 +23,9 @@
 #include "testattendee.h"
 #include "attendee.h"
 
-#include <qdebug.h>
+#include <QDataStream>
+#include <QTest>
 
-#include <qtest.h>
 QTEST_MAIN(AttendeeTest)
 
 using namespace KCalCore;
@@ -219,4 +219,3 @@ void AttendeeTest::testDataStreamIn()
     QVERIFY(attendee2->customProperties() == attendee1->customProperties());
     QVERIFY(*attendee1 == *attendee2);
 }
-

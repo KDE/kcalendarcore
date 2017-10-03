@@ -23,7 +23,7 @@
 #ifndef TESTATTENDEE_H
 #define TESTATTENDEE_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class AttendeeTest : public QObject
 {

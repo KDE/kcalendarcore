@@ -55,14 +55,16 @@ This API needs serious cleaning up:
 #include "journal.h"
 #include "todo.h"
 
-#include <QtCore/QObject>
+#include <QObject>
+#include <QDateTime>
+#include <QTimeZone>
 
 namespace KCalCore
 {
 
 class CalFilter;
 class Person;
-class ICalTimeZones;
+class ICalFormat;
 
 /**
   Calendar Incidence sort directions.
@@ -139,16 +141,14 @@ public:
     typedef QSharedPointer<Calendar> Ptr;
 
     /**
-      Constructs a calendar with a specified time zone @p timeZoneid.
-      The time specification is used as the default for creating or
-      modifying incidences in the Calendar. The time specification does
+      Constructs a calendar with a specified time zone @p timeZone.
+      The time zone is used as the default for creating or
+      modifying incidences in the Calendar. The time zone does
       not alter existing incidences.
 
-      The constructor also calls setViewTimeSpec(@p timeSpec).
-
-      @param timeSpec time specification
+      @param timeZone time specification
     */
-    explicit Calendar(const KDateTime::Spec &timeSpec);
+    explicit Calendar(const QTimeZone &timeZone);
 
     /**
       Construct Calendar object using a time zone ID.
@@ -156,14 +156,12 @@ public:
       incidences in the Calendar. The time zone does not alter existing
       incidences.
 
-      The constructor also calls setViewTimeZoneId(@p timeZoneId).
-
       @param timeZoneId is a string containing a time zone ID, which is
       assumed to be valid.  If no time zone is found, the viewing time
-      specification is set to local clock time.
+      specification is set to local time zone.
       @e Example: "Europe/Berlin"
     */
-    explicit Calendar(const QString &timeZoneId);
+    explicit Calendar(const QByteArray &timeZoneId);
 
     /**
       Destroys the calendar.
@@ -205,37 +203,33 @@ public:
     Person::Ptr owner() const;
 
     /**
-      Sets the default time specification (time zone, etc.) used for creating
+      Sets the default time specification zone used for creating
       or modifying incidences in the Calendar.
 
-      The method also calls setViewTimeSpec(@p timeSpec).
-
-      @param timeSpec time specification
+      @param timeZone The time zone
     */
-    void setTimeSpec(const KDateTime::Spec &timeSpec);
+    void setTimeZone(const QTimeZone &timeZone);
 
     /**
-       Get the time specification (time zone etc.) used for creating or
+       Get the time zone used for creating or
        modifying incidences in the Calendar.
 
        @return time specification
     */
-    KDateTime::Spec timeSpec() const;
+    QTimeZone timeZone() const;
 
     /**
       Sets the time zone ID used for creating or modifying incidences in the
       Calendar. This method has no effect on existing incidences.
 
-      The method also calls setViewTimeZoneId(@p timeZoneId).
-
       @param timeZoneId is a string containing a time zone ID, which is
       assumed to be valid. The time zone ID is used to set the time zone
       for viewing Incidence date/times. If no time zone is found, the
-      viewing time specification is set to local clock time.
+      viewing time specification is set to local time zone.
       @e Example: "Europe/Berlin"
-      @see setTimeSpec()
+      @see setTimeZone()
     */
-    void setTimeZoneId(const QString &timeZoneId);
+    void setTimeZoneId(const QByteArray &timeZoneId);
 
     /**
       Returns the time zone ID used for creating or modifying incidences in
@@ -244,59 +238,7 @@ public:
       @return the string containing the time zone ID, or empty string if the
               creation/modification time specification is not a time zone.
     */
-    QString timeZoneId() const;
-
-    /**
-      Notes the time specification which the client application intends to
-      use for viewing the incidences in this calendar. This is simply a
-      convenience method which makes a note of the new time zone so that
-      it can be read back by viewTimeSpec(). The client application must
-      convert date/time values to the desired time zone itself.
-
-      The time specification is not used in any way by the Calendar or its
-      incidences; it is solely for use by the client application.
-
-      @param timeSpec time specification
-
-      @see viewTimeSpec()
-    */
-    void setViewTimeSpec(const KDateTime::Spec &timeSpec) const;
-
-    /**
-      Notes the time zone Id which the client application intends to use for
-      viewing the incidences in this calendar. This is simply a convenience
-      method which makes a note of the new time zone so that it can be read
-      back by viewTimeId(). The client application must convert date/time
-      values to the desired time zone itself.
-
-      The Id is not used in any way by the Calendar or its incidences.
-      It is solely for use by the client application.
-
-      @param timeZoneId is a string containing a time zone ID, which is
-      assumed to be valid. The time zone ID is used to set the time zone
-      for viewing Incidence date/times. If no time zone is found, the
-      viewing time specification is set to local clock time.
-      @e Example: "Europe/Berlin"
-
-      @see viewTimeZoneId()
-    */
-    void setViewTimeZoneId(const QString &timeZoneId) const;
-
-    /**
-      Returns the time specification used for viewing the incidences in
-      this calendar. This simply returns the time specification last
-      set by setViewTimeSpec().
-      @see setViewTimeSpec().
-    */
-    KDateTime::Spec viewTimeSpec() const;
-
-    /**
-      Returns the time zone Id used for viewing the incidences in this
-      calendar. This simply returns the time specification last set by
-      setViewTimeSpec().
-      @see setViewTimeZoneId().
-    */
-    QString viewTimeZoneId() const;
+    QByteArray timeZoneId() const;
 
     /**
       Shifts the times of all incidences so that they appear at the same clock
@@ -309,29 +251,12 @@ public:
       from 14:00 (which is the London time of the incidence start) to 14:00 Paris
       time.
 
-      @param oldSpec the time specification which provides the clock times
-      @param newSpec the new time specification
+      @param oldZone the time zone which provides the clock times
+      @param newZone the new time zone
 
       @see isLocalTime()
     */
-    void shiftTimes(const KDateTime::Spec &oldSpec, const KDateTime::Spec &newSpec);
-
-    /**
-      Returns the time zone collection used by the calendar.
-
-      @return the time zones collection.
-
-      @see setLocalTime()
-    */
-    ICalTimeZones *timeZones() const;
-
-    /**
-       Set the time zone collection used by the calendar.
-
-       @param zones time zones collection. Important: all time zones references
-                    in the calendar must be included in the collection.
-     */
-    void setTimeZones(ICalTimeZones *zones);
+    void shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone);
 
     /**
       Sets if the calendar has been modified.
@@ -596,7 +521,7 @@ public:
       A null pointer is returned if no such Incidence exists.
     */
     Incidence::Ptr incidence(const QString &uid,
-                             const KDateTime &recurrenceId = KDateTime()) const;
+                             const QDateTime &recurrenceId = {}) const;
 
     /**
       Returns the deleted Incidence associated with the given unique identifier.
@@ -607,7 +532,7 @@ public:
       @return a pointer to the Incidence.
       A null pointer is returned if no such Incidence exists.
     */
-    Incidence::Ptr deleted(const QString &uid, const KDateTime &recurrenceId = KDateTime()) const;
+    Incidence::Ptr deleted(const QString &uid, const QDateTime &recurrenceId = {}) const;
 
     /**
       Delete all incidences that are instances of recurring incidence @p incidence.
@@ -661,27 +586,6 @@ public:
     virtual bool endChange(const Incidence::Ptr &incidence);
 
     /**
-      Dissociate an Incidence from a recurring Incidence.
-      By default, only one single Incidence for the specified @a date
-      will be dissociated and returned.  If @a single is false, then
-      the recurrence will be split at @a date, the old Incidence will
-      have its recurrence ending at @a date and the new Incidence
-      will have all recurrences past the @a date.
-
-      @param incidence is a pointer to a recurring Incidence.
-      @param date is the QDate within the recurring Incidence on which
-      the dissociation will be performed.
-      @param spec is the spec in which the @a date is formulated.
-      @param single is a flag meaning that a new Incidence should be created
-      from the recurring Incidences after @a date.
-
-      @return a pointer to a new recurring Incidence if @a single is false.
-      @deprecated Use createException()
-    */
-    KCALCORE_DEPRECATED Incidence::Ptr dissociateOccurrence(
-        const Incidence::Ptr &incidence, const QDate &date,
-        const KDateTime::Spec &spec, bool single = true);
-    /**
       Creates an exception for an occurrence from a recurring Incidence.
 
       The returned exception is not automatically inserted into the calendar.
@@ -696,7 +600,7 @@ public:
       @since 4.11
     */
     static Incidence::Ptr createException(const Incidence::Ptr &incidence,
-                                          const KDateTime &recurrenceId,
+                                          const QDateTime &recurrenceId,
                                           bool thisAndFuture = false);
 
     // Event Specific Methods //
@@ -757,19 +661,19 @@ public:
     /**
       Returns a filtered list of all Events which occur on the given timestamp.
 
-      @param dt request filtered Event list for this KDateTime only.
+      @param dt request filtered Event list for this QDateTime only.
 
       @return the list of filtered Events occurring on the specified timestamp.
     */
-    Event::List events(const KDateTime &dt) const;
+    Event::List events(const QDateTime &dt) const;
 
     /**
       Returns a filtered list of all Events occurring within a date range.
 
       @param start is the starting date.
       @param end is the ending date.
-      @param timeSpec time zone etc. to interpret @p start and @p end,
-                      or the calendar's default time spec if none is specified
+      @param timeZone time zone to interpret @p start and @p end,
+                      or the calendar's default time zone if none is specified
       @param inclusive if true only Events which are completely included
       within the date range are returned.
 
@@ -777,7 +681,7 @@ public:
       date range.
     */
     Event::List events(const QDate &start, const QDate &end,
-                       const KDateTime::Spec &timeSpec = KDateTime::Spec(),
+                       const QTimeZone &timeZone = {},
                        bool inclusive = false) const;
 
     /**
@@ -786,15 +690,15 @@ public:
       @a sortDirection.
 
       @param date request filtered Event list for this QDate only.
-      @param timeSpec time zone etc. to interpret @p start and @p end,
-                      or the calendar's default time spec if none is specified
+      @param timeZone time zone to interpret @p start and @p end,
+                      or the calendar's default time zone if none is specified
       @param sortField specifies the EventSortField.
       @param sortDirection specifies the SortDirection.
 
       @return the list of sorted, filtered Events occurring on @a date.
     */
     Event::List events(const QDate &date,
-                       const KDateTime::Spec &timeSpec = KDateTime::Spec(),
+                       const QTimeZone &timeZone = {},
                        EventSortField sortField = EventSortUnsorted,
                        SortDirection sortDirection = SortDirectionAscending) const;
 
@@ -814,20 +718,20 @@ public:
       Returns an unfiltered list of all Events which occur on the given
       timestamp.
 
-      @param dt request unfiltered Event list for this KDateTime only.
+      @param dt request unfiltered Event list for this QDateTime only.
 
       @return the list of unfiltered Events occurring on the specified
       timestamp.
     */
-    virtual Event::List rawEventsForDate(const KDateTime &dt) const = 0;
+    virtual Event::List rawEventsForDate(const QDateTime &dt) const = 0;
 
     /**
       Returns an unfiltered list of all Events occurring within a date range.
 
       @param start is the starting date
       @param end is the ending date
-      @param timeSpec time zone etc. to interpret @p start and @p end,
-                      or the calendar's default time spec if none is specified
+      @param timeZone time zone to interpret @p start and @p end,
+                      or the calendar's default time zone if none is specified
       @param inclusive if true only Events which are completely included
       within the date range are returned.
 
@@ -835,7 +739,7 @@ public:
       date range.
     */
     virtual Event::List rawEvents(const QDate &start, const QDate &end,
-                                  const KDateTime::Spec &timeSpec = KDateTime::Spec(),
+                                  const QTimeZone &timeZone = {},
                                   bool inclusive = false) const = 0;
 
     /**
@@ -844,8 +748,8 @@ public:
       @a sortDirection.
 
       @param date request unfiltered Event list for this QDate only
-      @param timeSpec time zone etc. to interpret @p date,
-                      or the calendar's default time spec if none is specified
+      @param timeZone time zone to interpret @p date,
+                      or the calendar's default time zone if none is specified
       @param sortField specifies the EventSortField
       @param sortDirection specifies the SortDirection
 
@@ -853,7 +757,7 @@ public:
     */
     virtual Event::List rawEventsForDate(
         const QDate &date,
-        const KDateTime::Spec &timeSpec = KDateTime::Spec(),
+        const QTimeZone &timeZone = {},
         EventSortField sortField = EventSortUnsorted,
         SortDirection sortDirection = SortDirectionAscending) const = 0;
 
@@ -867,7 +771,7 @@ public:
       A null pointer is returned if no such Event exists.
     */
     virtual Event::Ptr event(const QString &uid,
-                             const KDateTime &recurrenceId = KDateTime()) const = 0;
+                             const QDateTime &recurrenceId = {}) const = 0;
 
     /**
       Returns the deleted Event associated with the given unique identifier.
@@ -882,7 +786,7 @@ public:
       @see deletionTracking()
     */
     virtual Event::Ptr deletedEvent(const QString &uid,
-                                    const KDateTime &recurrenceId = KDateTime()) const = 0;
+                                    const QDateTime &recurrenceId = {}) const = 0;
 
     /**
       Returns a sorted, unfiltered list of all deleted Events for this Calendar.
@@ -982,8 +886,8 @@ public:
 
       @param start is the starting date
       @param end is the ending date
-      @param timespec time zone etc. to interpret @p start and @p end,
-                      or the calendar's default time spec if none is specified
+      @param timeZone time zone to interpret @p start and @p end,
+                      or the calendar's default time zone if none is specified
       @param inclusive if true only Todos which are completely included
       within the date range are returned.
 
@@ -991,7 +895,7 @@ public:
       date range.
     */
     virtual Todo::List todos(const QDate &start, const QDate &end,
-                             const KDateTime::Spec &timespec = KDateTime::Spec(),
+                             const QTimeZone &timeZone = {},
                              bool inclusive = false) const;
 
     /**
@@ -1020,8 +924,8 @@ public:
 
       @param start is the starting date
       @param end is the ending date
-      @param timespec time zone etc. to interpret @p start and @p end,
-                      or the calendar's default time spec if none is specified
+      @param timeZone time zone to interpret @p start and @p end,
+                      or the calendar's default time zone if none is specified
       @param inclusive if true only Todos which are completely included
       within the date range are returned.
 
@@ -1029,7 +933,7 @@ public:
       date range.
     */
     virtual Todo::List rawTodos(const QDate &start, const QDate &end,
-                                const KDateTime::Spec &timespec = KDateTime::Spec(),
+                                const QTimeZone &timeZone = {},
                                 bool inclusive = false) const = 0;
 
     /**
@@ -1042,7 +946,7 @@ public:
       A null pointer is returned if no such Todo exists.
     */
     virtual Todo::Ptr todo(const QString &uid,
-                           const KDateTime &recurrenceId = KDateTime()) const = 0;
+                           const QDateTime &recurrenceId = {}) const = 0;
 
     /**
       Returns the deleted Todo associated with the given unique identifier.
@@ -1057,7 +961,7 @@ public:
       @see deletionTracking()
     */
     virtual Todo::Ptr deletedTodo(const QString &uid,
-                                  const KDateTime &recurrenceId = KDateTime()) const = 0;
+                                  const QDateTime &recurrenceId = {}) const = 0;
 
     /**
       Returns a sorted, unfiltered list of all deleted Todos for this Calendar.
@@ -1184,7 +1088,7 @@ public:
       A null pointer is returned if no such Journal exists.
     */
     virtual Journal::Ptr journal(const QString &uid,
-                                 const KDateTime &recurrenceId = KDateTime()) const = 0;
+                                 const QDateTime &recurrenceId = {}) const = 0;
 
     /**
       Returns the deleted Journal associated with the given unique identifier.
@@ -1199,7 +1103,7 @@ public:
       @see deletionTracking()
     */
     virtual Journal::Ptr deletedJournal(const QString &uid,
-                                        const KDateTime &recurrenceId = KDateTime()) const = 0;
+                                        const QDateTime &recurrenceId = {}) const = 0;
 
     /**
       Returns a sorted, unfiltered list of all deleted Journals for this Calendar.
@@ -1292,11 +1196,11 @@ public:
 
       @param from is the starting timestamp.
       @param to is the ending timestamp.
-      @param exludeBlockedAlarms if true, alarms belonging to blocked collections aren't returned.
+      @param excludeBlockedAlarms if true, alarms belonging to blocked collections aren't returned.
 
       @return the list of Alarms for the for the specified time range.
     */
-    virtual Alarm::List alarms(const KDateTime &from, const KDateTime &to, bool excludeBlockedAlarms = false) const = 0;
+    virtual Alarm::List alarms(const QDateTime &from, const QDateTime &to, bool excludeBlockedAlarms = false) const = 0;
 
     // Observer Specific Methods //
 
@@ -1392,14 +1296,14 @@ protected:
       @param uid is the UID for the Incidence that has been updated.
       @param recurrenceId is possible recurrenceid of incidence.
     */
-    void incidenceUpdated(const QString &uid, const KDateTime &recurrenceId) Q_DECL_OVERRIDE;
+    void incidenceUpdated(const QString &uid, const QDateTime &recurrenceId) override;
 
     /**
       Let Calendar subclasses set the time specification.
-      @param timeSpec is the time specification (time zone, etc.) for
+      @param timeZone is the time specification (time zone, etc.) for
                       viewing Incidence dates.\n
     */
-    virtual void doSetTimeSpec(const KDateTime::Spec &timeSpec);
+    virtual void doSetTimeZone(const QTimeZone &timeZone);
 
     /**
       Let Calendar subclasses notify that they inserted an Incidence.
@@ -1443,7 +1347,7 @@ protected:
       @copydoc
       CustomProperties::customPropertyUpdated()
     */
-    void customPropertyUpdated() Q_DECL_OVERRIDE;
+    void customPropertyUpdated() override;
 
     /**
       Let Calendar subclasses notify that they enabled an Observer.
@@ -1463,7 +1367,7 @@ protected:
       @param to is the upper range of the next Alarm repitition.
     */
     void appendAlarms(Alarm::List &alarms, const Incidence::Ptr &incidence,
-                      const KDateTime &from, const KDateTime &to) const;
+                      const QDateTime &from, const QDateTime &to) const;
 
     /**
       Appends alarms of recurring events in interval to list of alarms.
@@ -1475,7 +1379,7 @@ protected:
       @param to is the upper range of the next Alarm repitition.
     */
     void appendRecurringAlarms(Alarm::List &alarms, const Incidence::Ptr &incidence,
-                               const KDateTime &from, const KDateTime &to) const;
+                               const QDateTime &from, const QDateTime &to) const;
 
     /**
       Enables or disabled deletion tracking.
@@ -1508,6 +1412,8 @@ Q_SIGNALS:
     void filterChanged();
 
 private:
+    friend class ICalFormat;
+
     //@cond PRIVATE
     class Private;
     Private *const d;

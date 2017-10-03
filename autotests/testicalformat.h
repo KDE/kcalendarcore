@@ -23,7 +23,7 @@
 #ifndef TESTICALFORMAT_H
 #define TESTICALFORMAT_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class ICalFormatTest : public QObject
 {

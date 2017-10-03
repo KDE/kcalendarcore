@@ -23,40 +23,28 @@
 #include "filestorage.h"
 #include "memorycalendar.h"
 
-#include <kaboutdata.h>
-#include <kcmdlineargs.h>
-#include <kcomponentdata.h>
-#include <qdebug.h>
-#include <ksystemtimezone.h>
-
-#include <QtCore/QFile>
-#include <QtCore/QTextStream>
-#include <QtCore/QCoreApplication>
-#include <QtCore/QCommandLineParser>
+#include <QDebug>
+#include <QFile>
+#include <QTextStream>
+#include <QCoreApplication>
+#include <QCommandLineParser>
+#include <QTimeZone>
 
 using namespace KCalCore;
 
-static QString dumpTime(const KDateTime &dt, const KDateTime::Spec &viewSpec);
+static QString dumpTime(const QDateTime &dt, const QTimeZone &viewZone);
 
 int main(int argc, char **argv)
 {
     QCommandLineParser parser;
-    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), i18n("Verbose output")));
-    parser.addPositionalArgument(QStringLiteral("input"), i18n("Name of input file"));
-    parser.addPositionalArgument(QStringLiteral("output"), i18n("optional name of output file for the recurrence dates"));
-
-    KAboutData about(QStringLiteral("testrecurrencenew"),
-                     i18n("Load recurrence rules with the new class and print out debug messages"),
-                     QStringLiteral("0.1"));
-
-    about.setupCommandLine(&parser);
-    KAboutData::setApplicationData(about);
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), QStringLiteral("Verbose output")));
+    parser.addPositionalArgument(QStringLiteral("input"), QStringLiteral("Name of input file"));
+    parser.addPositionalArgument(QStringLiteral("output"), QStringLiteral("optional name of output file for the recurrence dates"));
 
     QCoreApplication app(argc, argv);
     QCoreApplication::setApplicationName(QStringLiteral("testrecurrencenew"));
     QCoreApplication::setApplicationVersion(QStringLiteral("0.1"));
     parser.process(app);
-    about.processCommandLine(&parser);
 
     const QStringList parsedArgs = parser.positionalArguments();
 
@@ -79,16 +67,16 @@ int main(int argc, char **argv)
         outstream = new QTextStream(&outfile);
     }
 
-    MemoryCalendar::Ptr cal(new MemoryCalendar(KDateTime::UTC));
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
 
-    KDateTime::Spec viewSpec;
+    QTimeZone viewZone;
     FileStorage store(cal, input);
     if (!store.load()) {
         return 1;
     }
     QString tz = cal->nonKDECustomProperty("X-LibKCal-Testsuite-OutTZ");
     if (!tz.isEmpty()) {
-        viewSpec = KDateTime::Spec(KSystemTimeZones::zone(tz));
+        viewZone = QTimeZone(tz.toUtf8());
     }
 
     Incidence::List inc = cal->incidences();
@@ -100,7 +88,7 @@ int main(int argc, char **argv)
 
         incidence->recurrence()->dump();
 
-        KDateTime dt;
+        QDateTime dt;
         if (incidence->allDay()) {
             dt = incidence->dtStart().addDays(-1);
         } else {
@@ -113,7 +101,7 @@ int main(int argc, char **argv)
                 ++i;
                 dt = incidence->recurrence()->getNextDateTime(dt);
                 if (dt.isValid()) {
-                    (*outstream) << dumpTime(dt, viewSpec) << endl;
+                    (*outstream) << dumpTime(dt, viewZone) << endl;
                 }
             }
         } else {
@@ -124,7 +112,7 @@ int main(int argc, char **argv)
                 qDebug() << "-------------------------------------------";
                 dt = incidence->recurrence()->getNextDateTime(dt);
                 if (dt.isValid()) {
-                    qDebug() << " *~*~*~*~ Next date is:" << dumpTime(dt, viewSpec);
+                    qDebug() << " *~*~*~*~ Next date is:" << dumpTime(dt, viewZone);
                 }
             }
         }
@@ -135,24 +123,15 @@ int main(int argc, char **argv)
     return 0;
 }
 
-QString dumpTime(const KDateTime &dt, const KDateTime::Spec &viewSpec)
+QString dumpTime(const QDateTime &dt, const QTimeZone &viewZone)
 {
     if (!dt.isValid()) {
         return QString();
     }
-    KDateTime vdt = viewSpec.isValid() ? dt.toTimeSpec(viewSpec) : dt;
-    QString format;
-#ifdef FLOAT_IS_DATE_ONLY
-    if (vdt.isDateOnly()) {
-        format = QStringLiteral("%Y-%m-%d");
-    } else
-#endif
-        format = QStringLiteral("%Y-%m-%dT%H:%M:%S");
-    if (vdt.isSecondOccurrence()) {
-        format += QStringLiteral(" %Z");
-    }
-    if (vdt.timeSpec() != KDateTime::ClockTime) {
-        format += QStringLiteral(" %:Z");
+    QDateTime vdt = viewZone.isValid() ? dt.toTimeZone(viewZone) : dt;
+    QString format = QStringLiteral("yyyy-MM-ddThh:mm:ss t");
+    if (viewZone.isValid()) {
+        format += QStringLiteral(" '%1'").arg(QString::fromUtf8(viewZone.id()));
     }
     return vdt.toString(format);
 }

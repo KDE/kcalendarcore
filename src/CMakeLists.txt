@@ -1,8 +1,4 @@
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-kcalcore.h.cmake
-    ${CMAKE_CURRENT_BINARY_DIR}/config-kcalcore.h
-)
-
 ########### next target ###############
 
 bison_target(VersitParser
@@ -48,6 +44,7 @@ set(kcalcore_LIB_SRCS
   schedulemessage.cpp
   sorting.cpp
   todo.cpp
+  utils.cpp
   vcalformat.cpp
   visitor.cpp
 )
@@ -59,22 +56,17 @@ generate_export_header(KF5CalendarCore BASE_NAME kcalcore)
 
 add_library(KF5::CalendarCore ALIAS KF5CalendarCore)
 
-target_include_directories(KF5CalendarCore INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KCalCore;${LibIcal_INCLUDE_DIRS};${LibIcal_INCLUDE_DIRS}/libical>")
+target_include_directories(KF5CalendarCore INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KCalCore>")
 target_include_directories(KF5CalendarCore PUBLIC "$<BUILD_INTERFACE:${KCalCore_SOURCE_DIR}/src;${KCalCore_BINARY_DIR}/src;${KCalCore_SOURCE_DIR}/src/versit>")
 target_include_directories(KF5CalendarCore PUBLIC "$<BUILD_INTERFACE:${LibIcal_INCLUDE_DIRS};${LibIcal_INCLUDE_DIRS}/libical>")
 
 target_link_libraries(KF5CalendarCore
 PUBLIC
-    KF5::KDELibs4Support
+    Qt5::Core
+PRIVATE
+    Qt5::Gui
     ${LibIcal_LIBRARIES}
 )
-
-if(HAVE_UUID_LIBRARY)
-  target_link_libraries(KF5CalendarCore
-PRIVATE
-      ${UUID_LIBRARY}
-  )
-endif()
 
 set_target_properties(KF5CalendarCore PROPERTIES
     VERSION ${KCALCORE_VERSION_STRING}
@@ -103,7 +95,6 @@ ecm_generate_headers(KCalCore_CamelCase_HEADERS
   FreeBusyCache
   FreeBusyPeriod
   ICalFormat
-  ICalTimeZones
   Incidence
   IncidenceBase
   Journal
@@ -140,5 +131,5 @@ install(FILES
   COMPONENT Devel
 )
 
-ecm_generate_pri_file(BASE_NAME KCalCore LIB_NAME KF5CalendarCore DEPS "ItemViews KDELibs4Support" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF5}/KCalCore/KCalCore)
+ecm_generate_pri_file(BASE_NAME KCalCore LIB_NAME KF5CalendarCore DEPS "Core" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF5}/KCalCore/KCalCore)
 install(FILES ${PRI_FILENAME} DESTINATION ${ECM_MKSPECS_INSTALL_DIR})

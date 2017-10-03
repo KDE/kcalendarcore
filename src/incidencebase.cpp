@@ -37,13 +37,13 @@
 #include "incidencebase.h"
 #include "calformat.h"
 #include "visitor.h"
-
+#include "utils.h"
 
 #include <QTime>
 #include "kcalcore_debug.h"
 #include <QUrl>
 
-#include <QtCore/QStringList>
+#include <QStringList>
 
 #define KCALCORE_MAGIC_NUMBER 0xCA1C012E
 #define KCALCORE_SERIALIZATION_VERSION 1
@@ -62,7 +62,7 @@ public:
         : mOrganizer(nullptr),
           mUpdateGroupLevel(0),
           mUpdatedPending(false),
-          mAllDay(true),
+          mAllDay(false),
           mHasDuration(false)
     {}
 
@@ -81,15 +81,15 @@ public:
 
     void init(const Private &other);
 
-    KDateTime mLastModified;     // incidence last modified date
-    KDateTime mDtStart;          // incidence start time
+    QDateTime mLastModified;     // incidence last modified date
+    QDateTime mDtStart;          // incidence start time
     Person::Ptr mOrganizer;           // incidence person (owner)
     QString mUid;                // incidence unique id
     Duration mDuration;          // incidence duration
     int mUpdateGroupLevel;       // if non-zero, suppresses update() calls
-    bool mUpdatedPending;        // true if an update has occurred since startUpdates()
-    bool mAllDay;                // true if the incidence is all-day
-    bool mHasDuration;           // true if the incidence has a duration
+    bool mUpdatedPending = false;        // true if an update has occurred since startUpdates()
+    bool mAllDay = false;                // true if the incidence is all-day
+    bool mHasDuration = false;           // true if the incidence has a duration
     Attendee::List mAttendees;   // list of incidence attendees
     QStringList mComments;       // list of incidence comments
     QStringList mContacts;       // list of incidence contacts
@@ -240,7 +240,7 @@ QString IncidenceBase::uid() const
     return d->mUid;
 }
 
-void IncidenceBase::setLastModified(const KDateTime &lm)
+void IncidenceBase::setLastModified(const QDateTime &lm)
 {
     // DON'T! updated() because we call this from
     // Calendar::updateEvent().
@@ -248,7 +248,7 @@ void IncidenceBase::setLastModified(const KDateTime &lm)
     d->mDirtyFields.insert(FieldLastModified);
 
     // Convert to UTC and remove milliseconds part.
-    KDateTime current = lm.toUtc();
+    QDateTime current = lm.toUTC();
     QTime t = current.time();
     t.setHMS(t.hour(), t.minute(), t.second(), 0);
     current.setTime(t);
@@ -256,7 +256,7 @@ void IncidenceBase::setLastModified(const KDateTime &lm)
     d->mLastModified = current;
 }
 
-KDateTime IncidenceBase::lastModified() const
+QDateTime IncidenceBase::lastModified() const
 {
     return d->mLastModified;
 }
@@ -307,7 +307,7 @@ bool IncidenceBase::isReadOnly() const
     return mReadOnly;
 }
 
-void IncidenceBase::setDtStart(const KDateTime &dtStart)
+void IncidenceBase::setDtStart(const QDateTime &dtStart)
 {
 //  if ( mReadOnly ) return;
 
@@ -315,16 +315,15 @@ void IncidenceBase::setDtStart(const KDateTime &dtStart)
         qCWarning(KCALCORE_LOG) << "Invalid dtStart";
     }
 
-    if (d->mDtStart != dtStart || d->mAllDay != dtStart.isDateOnly()) {
+    if (d->mDtStart != dtStart) {
         update();
         d->mDtStart = dtStart;
-        d->mAllDay = dtStart.isDateOnly();
         d->mDirtyFields.insert(FieldDtStart);
         updated();
     }
 }
 
-KDateTime IncidenceBase::dtStart() const
+QDateTime IncidenceBase::dtStart() const
 {
     return d->mDtStart;
 }
@@ -347,12 +346,11 @@ void IncidenceBase::setAllDay(bool f)
     updated();
 }
 
-void IncidenceBase::shiftTimes(const KDateTime::Spec &oldSpec,
-                               const KDateTime::Spec &newSpec)
+void IncidenceBase::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
 {
     update();
-    d->mDtStart = d->mDtStart.toTimeSpec(oldSpec);
-    d->mDtStart.setTimeSpec(newSpec);
+    d->mDtStart = d->mDtStart.toTimeZone(oldZone);
+    d->mDtStart.setTimeZone(newZone);
     d->mDirtyFields.insert(FieldDtStart);
     d->mDirtyFields.insert(FieldDtEnd);
     updated();
@@ -600,7 +598,7 @@ void IncidenceBase::update()
 {
     if (!d->mUpdateGroupLevel) {
         d->mUpdatedPending = true;
-        KDateTime rid = recurrenceId();
+        const auto rid = recurrenceId();
         for (IncidenceObserver *o : qAsConst(d->mObservers)) {
             o->incidenceUpdate(uid(), rid);
         }
@@ -612,7 +610,7 @@ void IncidenceBase::updated()
     if (d->mUpdateGroupLevel) {
         d->mUpdatedPending = true;
     } else {
-        const KDateTime rid = recurrenceId();
+        const auto rid = recurrenceId();
         for (IncidenceObserver *o : qAsConst(d->mObservers)) {
             o->incidenceUpdated(uid(), rid);
         }
@@ -645,9 +643,9 @@ void IncidenceBase::customPropertyUpdated()
     updated();
 }
 
-KDateTime IncidenceBase::recurrenceId() const
+QDateTime IncidenceBase::recurrenceId() const
 {
-    return KDateTime();
+    return QDateTime();
 }
 
 void IncidenceBase::resetDirtyFields()
@@ -692,7 +690,9 @@ QDataStream &KCalCore::operator<<(QDataStream &out, const KCalCore::IncidenceBas
     out << static_cast<qint32>(i->type());
 
     out << *(static_cast<CustomProperties *>(i.data()));
-    out << i->d->mLastModified << i->d->mDtStart << i->organizer() << i->d->mUid << i->d->mDuration
+    serializeQDateTimeAsKDateTime(out, i->d->mLastModified);
+    serializeQDateTimeAsKDateTime(out, i->d->mDtStart);
+    out << i->organizer() << i->d->mUid << i->d->mDuration
         << i->d->mAllDay << i->d->mHasDuration << i->d->mComments << i->d->mContacts
         << i->d->mAttendees.count() << i->d->mUrl;
 
@@ -732,7 +732,9 @@ QDataStream &KCalCore::operator>>(QDataStream &in, const KCalCore::IncidenceBase
     in >> type;
 
     in >> *(static_cast<CustomProperties *>(i.data()));
-    in >> i->d->mLastModified >> i->d->mDtStart >> i->d->mOrganizer >> i->d->mUid >> i->d->mDuration
+    deserializeKDateTimeAsQDateTime(in, i->d->mLastModified);
+    deserializeKDateTimeAsQDateTime(in, i->d->mDtStart);
+    in >> i->d->mOrganizer >> i->d->mUid >> i->d->mDuration
        >> i->d->mAllDay >> i->d->mHasDuration >> i->d->mComments >> i->d->mContacts >> attendeeCount
        >> i->d->mUrl;
 

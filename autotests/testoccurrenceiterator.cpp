@@ -20,22 +20,24 @@
 #include "memorycalendar.h"
 #include "calfilter.h"
 
-#include <qtest.h>
-#include <qdebug.h>
+#include <QDebug>
+#include <QTest>
+#include <QTimeZone>
+
 QTEST_MAIN(TestOccurrenceIterator)
 
 void TestOccurrenceIterator::testIterationWithExceptions()
 {
-    KCalCore::MemoryCalendar calendar(KDateTime::UTC);
+    KCalCore::MemoryCalendar calendar(QTimeZone::utc());
 
-    KDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), KDateTime::UTC);
-    KDateTime end(QDate(2013, 03, 10), QTime(11, 0, 0), KDateTime::UTC);
+    QDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), Qt::UTC);
+    QDateTime end(QDate(2013, 03, 10), QTime(11, 0, 0), Qt::UTC);
 
-    KDateTime recurrenceId(QDate(2013, 03, 11), QTime(10, 0, 0), KDateTime::UTC);
-    KDateTime exceptionStart(QDate(2013, 03, 11), QTime(12, 0, 0), KDateTime::UTC);
-    KDateTime exceptionEnd(QDate(2013, 03, 11), QTime(13, 0, 0), KDateTime::UTC);
+    QDateTime recurrenceId(QDate(2013, 03, 11), QTime(10, 0, 0), Qt::UTC);
+    QDateTime exceptionStart(QDate(2013, 03, 11), QTime(12, 0, 0), Qt::UTC);
+    QDateTime exceptionEnd(QDate(2013, 03, 11), QTime(13, 0, 0), Qt::UTC);
 
-    KDateTime actualEnd(QDate(2013, 03, 12), QTime(11, 0, 0), KDateTime::UTC);
+    QDateTime actualEnd(QDate(2013, 03, 12), QTime(11, 0, 0), Qt::UTC);
 
     KCalCore::Event::Ptr event1(new KCalCore::Event());
     event1->setUid(QStringLiteral("event1"));
@@ -82,12 +84,12 @@ void TestOccurrenceIterator::testIterationWithExceptions()
 
 void TestOccurrenceIterator::testEventsAndTodos()
 {
-    KCalCore::MemoryCalendar calendar(KDateTime::UTC);
+    KCalCore::MemoryCalendar calendar(QTimeZone::utc());
 
-    KDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), KDateTime::UTC);
-    KDateTime end(QDate(2013, 03, 10), QTime(11, 0, 0), KDateTime::UTC);
+    QDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), Qt::UTC);
+    QDateTime end(QDate(2013, 03, 10), QTime(11, 0, 0), Qt::UTC);
 
-    KDateTime actualEnd(QDate(2013, 03, 13), QTime(11, 0, 0), KDateTime::UTC);
+    QDateTime actualEnd(QDate(2013, 03, 13), QTime(11, 0, 0), Qt::UTC);
 
     KCalCore::Event::Ptr event(new KCalCore::Event());
     event->setUid(QStringLiteral("event"));
@@ -104,9 +106,9 @@ void TestOccurrenceIterator::testEventsAndTodos()
     calendar.addTodo(todo);
 
     KCalCore::OccurrenceIterator rIt(calendar, start, actualEnd);
-    QList<KDateTime> expectedTodoOccurrences;
+    QList<QDateTime> expectedTodoOccurrences;
     expectedTodoOccurrences << start << start.addDays(1);
-    QList<KDateTime> expectedEventOccurrences;
+    QList<QDateTime> expectedEventOccurrences;
     expectedEventOccurrences << start << start.addDays(1);
     while (rIt.hasNext()) {
         rIt.next();
@@ -123,13 +125,13 @@ void TestOccurrenceIterator::testEventsAndTodos()
 
 void TestOccurrenceIterator::testFilterCompletedTodos()
 {
-    KCalCore::MemoryCalendar calendar(KDateTime::UTC);
+    KCalCore::MemoryCalendar calendar(QTimeZone::utc());
     calendar.filter()->setCriteria(KCalCore::CalFilter::HideCompletedTodos);
 
-    KDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), KDateTime::UTC);
-    KDateTime end(QDate(2013, 03, 10), QTime(11, 0, 0), KDateTime::UTC);
+    QDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), Qt::UTC);
+    QDateTime end(QDate(2013, 03, 10), QTime(11, 0, 0), Qt::UTC);
 
-    KDateTime actualEnd(QDate(2013, 03, 13), QTime(11, 0, 0), KDateTime::UTC);
+    QDateTime actualEnd(QDate(2013, 03, 13), QTime(11, 0, 0), Qt::UTC);
 
     KCalCore::Todo::Ptr todo(new KCalCore::Todo());
     todo->setUid(QStringLiteral("todo"));
@@ -137,8 +139,9 @@ void TestOccurrenceIterator::testFilterCompletedTodos()
     todo->setDtStart(start);
     todo->recurrence()->setDaily(1);
     todo->recurrence()->setDuration(2);
-    //Yes, recurring todos are weird... setting this says that all occurrences until this one have been completed, and thus should be skipped.
-    //that's what kontact did, so it's what we test now.
+    // Yes, recurring todos are weird... setting this says that all occurrences
+    // until this one have been completed, and thus should be skipped.
+    // that's what kontact did, so it's what we test now.
     todo->setDtRecurrence(start.addDays(2));
     calendar.addTodo(todo);
 
@@ -148,20 +151,21 @@ void TestOccurrenceIterator::testFilterCompletedTodos()
 
 void TestOccurrenceIterator::testAllDayEvents()
 {
-    KCalCore::MemoryCalendar calendar(KDateTime::UTC);
+    KCalCore::MemoryCalendar calendar(QTimeZone::utc());
 
-    KDateTime start(QDate(2013, 03, 10), KDateTime::Spec(KDateTime::UTC));
-    KDateTime actualEnd(QDate(2013, 03, 13), QTime(11, 0, 0), KDateTime::UTC);
+    QDateTime start(QDate(2013, 03, 10), QTime(), Qt::UTC);
+    QDateTime actualEnd(QDate(2013, 03, 13), QTime(11, 0, 0), Qt::UTC);
 
     KCalCore::Event::Ptr event(new KCalCore::Event());
     event->setUid(QStringLiteral("event"));
     event->setDtStart(start);
+    event->setAllDay(true);
     event->recurrence()->setDaily(1);
     event->recurrence()->setDuration(2);
     calendar.addEvent(event);
 
     KCalCore::OccurrenceIterator rIt(calendar, start, actualEnd);
-    QList<KDateTime> expectedEventOccurrences;
+    QList<QDateTime> expectedEventOccurrences;
     expectedEventOccurrences << start << start.addDays(1);
     while (rIt.hasNext()) {
         rIt.next();
@@ -173,20 +177,20 @@ void TestOccurrenceIterator::testAllDayEvents()
 
 void TestOccurrenceIterator::testWithExceptionThisAndFuture()
 {
-    KCalCore::MemoryCalendar calendar(KDateTime::UTC);
+    KCalCore::MemoryCalendar calendar(QTimeZone::utc());
 
-    KDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), KDateTime::UTC);
-    KDateTime end(QDate(2013, 03, 10), QTime(11, 0, 0), KDateTime::UTC);
+    QDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), Qt::UTC);
+    QDateTime end(QDate(2013, 03, 10), QTime(11, 0, 0), Qt::UTC);
 
-    KDateTime recurrenceId1(QDate(2013, 03, 11), QTime(10, 0, 0), KDateTime::UTC);
-    KDateTime exceptionStart1(QDate(2013, 03, 11), QTime(12, 0, 0), KDateTime::UTC);
-    KDateTime exceptionEnd1(QDate(2013, 03, 11), QTime(13, 0, 0), KDateTime::UTC);
+    QDateTime recurrenceId1(QDate(2013, 03, 11), QTime(10, 0, 0), Qt::UTC);
+    QDateTime exceptionStart1(QDate(2013, 03, 11), QTime(12, 0, 0), Qt::UTC);
+    QDateTime exceptionEnd1(QDate(2013, 03, 11), QTime(13, 0, 0), Qt::UTC);
 
-    KDateTime recurrenceId2(QDate(2013, 03, 13), QTime(10, 0, 0), KDateTime::UTC);
-    KDateTime exceptionStart2(QDate(2013, 03, 13), QTime(14, 0, 0), KDateTime::UTC);
-    KDateTime exceptionEnd2(QDate(2013, 03, 13), QTime(15, 0, 0), KDateTime::UTC);
+    QDateTime recurrenceId2(QDate(2013, 03, 13), QTime(10, 0, 0), Qt::UTC);
+    QDateTime exceptionStart2(QDate(2013, 03, 13), QTime(14, 0, 0), Qt::UTC);
+    QDateTime exceptionEnd2(QDate(2013, 03, 13), QTime(15, 0, 0), Qt::UTC);
 
-    KDateTime actualEnd(QDate(2013, 03, 14), QTime(11, 0, 0), KDateTime::UTC);
+    QDateTime actualEnd(QDate(2013, 03, 14), QTime(11, 0, 0), Qt::UTC);
 
     KCalCore::Event::Ptr event1(new KCalCore::Event());
     event1->setUid(QStringLiteral("event1"));
@@ -251,10 +255,10 @@ void TestOccurrenceIterator::testWithExceptionThisAndFuture()
 
 void TestOccurrenceIterator::testSubDailyRecurrences()
 {
-    KCalCore::MemoryCalendar calendar(KDateTime::UTC);
+    KCalCore::MemoryCalendar calendar(QTimeZone::utc());
 
-    KDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), KDateTime::UTC);
-    KDateTime actualEnd(QDate(2013, 03, 10), QTime(13, 0, 0), KDateTime::UTC);
+    QDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), Qt::UTC);
+    QDateTime actualEnd(QDate(2013, 03, 10), QTime(13, 0, 0), Qt::UTC);
 
     KCalCore::Event::Ptr event(new KCalCore::Event());
     event->setUid(QStringLiteral("event"));
@@ -264,7 +268,7 @@ void TestOccurrenceIterator::testSubDailyRecurrences()
     calendar.addEvent(event);
 
     KCalCore::OccurrenceIterator rIt(calendar, start, actualEnd);
-    QList<KDateTime> expectedEventOccurrences;
+    QList<QDateTime> expectedEventOccurrences;
     expectedEventOccurrences << start << start.addSecs(60 * 60);
     while (rIt.hasNext()) {
         rIt.next();
@@ -272,16 +276,15 @@ void TestOccurrenceIterator::testSubDailyRecurrences()
         QCOMPARE(expectedEventOccurrences.removeAll(rIt.occurrenceStartDate()), 1);
     }
     QCOMPARE(expectedEventOccurrences.size(), 0);
-
 }
 
 void TestOccurrenceIterator::testJournals()
 {
-    KCalCore::MemoryCalendar calendar(KDateTime::UTC);
+    KCalCore::MemoryCalendar calendar(QTimeZone::utc());
 
-    const KDateTime today = KDateTime::currentDateTime(KDateTime::UTC);
-    const KDateTime yesterday = today.addDays(-1);
-    const KDateTime tomorrow = today.addDays(1);
+    const QDateTime today = QDateTime::currentDateTimeUtc();
+    const QDateTime yesterday = today.addDays(-1);
+    const QDateTime tomorrow = today.addDays(1);
 
     KCalCore::Journal::Ptr journal(new KCalCore::Journal());
     journal->setUid(QStringLiteral("journal"));

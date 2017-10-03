@@ -24,39 +24,25 @@
 #include "memorycalendar.h"
 #include "vcalformat.h"
 
-#include <kaboutdata.h>
-#include <kcmdlineargs.h>
-#include <kcomponentdata.h>
-#include <qdebug.h>
-#include <klocalizedstring.h>
-
-#include <QtCore/QFile>
-#include <QtCore/QFileInfo>
-#include <QtCore/QCoreApplication>
-#include <QtCore/QCommandLineParser>
+#include <QDebug>
+#include <QFileInfo>
+#include <QCoreApplication>
+#include <QCommandLineParser>
+#include <QTimeZone>
 
 using namespace KCalCore;
 
 int main(int argc, char **argv)
 {
     QCommandLineParser parser;
-    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), i18n("Verbose output")));
-    parser.addPositionalArgument(QStringLiteral("input"), i18n("Name of input file"));
-    parser.addPositionalArgument(QStringLiteral("output"), i18n("Name of output file"));
-
-    KAboutData about(QStringLiteral("testvcalexport"),
-                     i18n("Part of LibKCal's test suite. Checks if export "
-                          "to vCalendar still works correctly."),
-                     QStringLiteral("0.1"));
-
-    about.setupCommandLine(&parser);
-    KAboutData::setApplicationData(about);
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), QStringLiteral("Verbose output")));
+    parser.addPositionalArgument(QStringLiteral("input"), QStringLiteral("Name of input file"));
+    parser.addPositionalArgument(QStringLiteral("output"), QStringLiteral("Name of output file"));
 
     QCoreApplication app(argc, argv);
     QCoreApplication::setApplicationName(QStringLiteral("testvcalexport"));
     QCoreApplication::setApplicationVersion(QStringLiteral("0.1"));
     parser.process(app);
-    about.processCommandLine(&parser);
 
     const QStringList parsedArgs = parser.positionalArguments();
 
@@ -73,15 +59,11 @@ int main(int argc, char **argv)
     qDebug() << "Input file:" << input;
     qDebug() << "Output file:" << output;
 
-    MemoryCalendar::Ptr cal(new MemoryCalendar(KDateTime::UTC));
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
     FileStorage instore(cal, input);
 
     if (!instore.load()) {
         return 1;
-    }
-    QString tz = cal->nonKDECustomProperty("X-LibKCal-Testsuite-OutTZ");
-    if (!tz.isEmpty()) {
-        cal->setViewTimeZoneId(tz);
     }
 
     FileStorage outstore(cal, output, new VCalFormat);

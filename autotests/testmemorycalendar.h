@@ -22,7 +22,7 @@
 #ifndef TESTMEMORYCALENDAR_H
 #define TESTMEMORYCALENDAR_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class MemoryCalendarTest : public QObject
 {

@@ -29,16 +29,10 @@
   @author Cornelius Schumacher \<schumacher@kde.org\>
 */
 
-#include <config-kcalcore.h>
 #include "calformat.h"
 #include "exceptions.h"
 
-#if defined(HAVE_UUID_UUID_H)
-#include <uuid/uuid.h>
-#else
-#include <KRandom>
-#include <QtCore/QDateTime>
-#endif
+#include <QUuid>
 
 using namespace KCalCore;
 
@@ -58,7 +52,7 @@ public:
     static QString mApplication; // Name of application, for creating unique ID strings
     static QString mProductId;   // PRODID string to write to calendar files
     QString mLoadedProductId;    // PRODID string loaded from calendar file
-    Exception *mException;
+    Exception *mException = nullptr;
 };
 
 QString CalFormat::Private::mApplication = QStringLiteral("libkcal");
@@ -123,22 +117,7 @@ void CalFormat::setLoadedProductId(const QString &id)
 
 QString CalFormat::createUniqueId()
 {
-#if defined(HAVE_UUID_UUID_H)
-    uuid_t uuid;
-    char suuid[64];
-
-    uuid_generate_random(uuid);
-    uuid_unparse(uuid, suuid);
-    return QString::fromLatin1(suuid);
-#else
-    const QTime now = QTime::currentTime();
-    int hashTime = now.hour() + now.minute() + now.second() + now.msec();
-    QString uidStr = QStringLiteral("%1-%2.%3").
-                     arg(Private::mApplication).
-                     arg(KRandom::random()).
-                     arg(hashTime);
-    return uidStr;
-#endif
+    return QUuid::createUuid().toString().mid(1, 36);
 }
 
 void CalFormat::virtual_hook(int id, void *data)

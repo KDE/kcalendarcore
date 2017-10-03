@@ -37,11 +37,11 @@
 #include "incidencebase.h"
 #include "recurrence.h"
 
-#include <QtCore/QMetaType>
+#include <QMetaType>
 
 //@cond PRIVATE
 // Value used to signal invalid/unset latitude or longitude.
-#define INVALID_LATLON 255.0
+#define INVALID_LATLON 255.0 //krazy:exclude=defines (part of the API)
 //@endcond
 
 namespace KCalCore
@@ -149,12 +149,12 @@ public:
       @param readonly If true, the incidence is set to readonly, if false the
                       incidence is set to readwrite.
     */
-    void setReadOnly(bool readonly) Q_DECL_OVERRIDE;
+    void setReadOnly(bool readonly) override;
 
     /**
       @copydoc IncidenceBase::setLastModified().
     */
-    void setLastModified(const KDateTime &lm) Q_DECL_OVERRIDE;
+    void setLastModified(const QDateTime &lm) override;
 
     /**
       Set localOnly state of incidence.
@@ -177,7 +177,7 @@ public:
     /**
       @copydoc IncidenceBase::setAllDay().
     */
-    void setAllDay(bool allDay) Q_DECL_OVERRIDE;
+    void setAllDay(bool allDay) override;
 
     /**
       Recreate incidence. The incidence is made a new unique incidence, but already stored
@@ -192,13 +192,13 @@ public:
       @param dt is the creation date/time.
       @see created().
     */
-    void setCreated(const KDateTime &dt);
+    void setCreated(const QDateTime &dt);
 
     /**
       Returns the incidence creation date/time.
       @see setCreated().
     */
-    KDateTime created() const;
+    QDateTime created() const;
 
     /**
       Sets the number of revisions this incidence has seen.
@@ -220,13 +220,12 @@ public:
       @param dt is the starting date/time.
       @see IncidenceBase::dtStart().
     */
-    void setDtStart(const KDateTime &dt) Q_DECL_OVERRIDE;
+    void setDtStart(const QDateTime &dt) override;
 
     /**
       @copydoc IncidenceBase::shiftTimes()
     */
-    void shiftTimes(const KDateTime::Spec &oldSpec,
-                    const KDateTime::Spec &newSpec) Q_DECL_OVERRIDE;
+    void shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone) override;
 
     /**
       Sets the incidence description.
@@ -448,12 +447,12 @@ public:
     /**
       @copydoc Recurrence::recursOn()
     */
-    virtual bool recursOn(const QDate &date, const KDateTime::Spec &timeSpec) const;
+    virtual bool recursOn(const QDate &date, const QTimeZone &timeZone) const;
 
     /**
       @copydoc Recurrence::recursAt()
     */
-    bool recursAt(const KDateTime &dt) const;
+    bool recursAt(const QDateTime &dt) const;
 
     /**
       Calculates the start date/time for all recurrences that happen at some
@@ -466,9 +465,8 @@ public:
       given date; an empty list if the incidence does not overlap with the
       date at all.
     */
-    virtual QList<KDateTime> startDateTimesForDate(
-        const QDate &date,
-        const KDateTime::Spec &timeSpec = KDateTime::LocalZone) const;
+    virtual QList<QDateTime> startDateTimesForDate(const QDate &date,
+                                                   const QTimeZone &timeZone) const;
 
     /**
       Calculates the start date/time for all recurrences that happen at the
@@ -479,8 +477,7 @@ public:
       given date/time; an empty list if the incidence does not happen at the
       given time at all.
     */
-    virtual QList<KDateTime> startDateTimesForDateTime(
-        const KDateTime &datetime) const;
+    virtual QList<QDateTime> startDateTimesForDateTime(const QDateTime &datetime) const;
 
     /**
       Returns the end date/time of the incidence occurrence if it starts at
@@ -491,7 +488,7 @@ public:
       date/time if the end date/time is invalid; or the end date/time if
       the start date/time is invalid.
     */
-    virtual KDateTime endDateForStart(const KDateTime &startDt) const;
+    virtual QDateTime endDateForStart(const QDateTime &startDt) const;
 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // %%%%%  Attachment-related methods
@@ -685,7 +682,7 @@ public:
 
     /**
       Returns true if the incidence has recurrenceId, otherwise return false.
-      @see setRecurrenceId(KDateTime)
+      @see setRecurrenceId(QDateTime)
     */
     bool hasRecurrenceId() const;
 
@@ -696,14 +693,14 @@ public:
       @param recurrenceId is the incidence recurrenceId to set
       @see recurrenceId().
     */
-    void setRecurrenceId(const KDateTime &recurrenceId);
+    void setRecurrenceId(const QDateTime &recurrenceId);
 
     /**
       Returns the incidence recurrenceId.
       @return incidences recurrenceId value
       @see setRecurrenceId().
     */
-    KDateTime recurrenceId() const Q_DECL_OVERRIDE;
+    QDateTime recurrenceId() const override;
 
     /**
       Set to true if the exception also applies to all future occurrences.
@@ -808,7 +805,7 @@ public:
 
       @param recurrence is a pointer to a valid Recurrence object.
     */
-    void recurrenceUpdated(Recurrence *recurrence) Q_DECL_OVERRIDE;
+    void recurrenceUpdated(Recurrence *recurrence) override;
 
     /**
       Returns the name of the icon that best represents this incidence.
@@ -817,7 +814,7 @@ public:
       for example, completed to-do occurrences. Use this parameter to identify
       the specific occurrence in a recurring serie.
     */
-    virtual QLatin1String iconName(const KDateTime &recurrenceId = KDateTime()) const = 0;
+    virtual QLatin1String iconName(const QDateTime &recurrenceId = {}) const = 0;
 
     /**
      * Returns true if the incidence type supports groupware communication.
@@ -849,12 +846,12 @@ protected:
       @param incidence is the Incidence to compare against.
       @return true if the incidences are equal; false otherwise.
     */
-    bool equals(const IncidenceBase &incidence) const Q_DECL_OVERRIDE;
+    bool equals(const IncidenceBase &incidence) const override;
 
     /**
       @copydoc IncidenceBase::assign()
     */
-    IncidenceBase &assign(const IncidenceBase &other) Q_DECL_OVERRIDE;
+    IncidenceBase &assign(const IncidenceBase &other) override;
 
     void serialize(QDataStream &out);
     void deserialize(QDataStream &in);

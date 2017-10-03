@@ -16,7 +16,7 @@ if(NOT LibIcal_FIND_VERSION)
   set(LibIcal_FIND_VERSION "0.33")
 endif()
 
-if (WIN32)
+if(WIN32)
   file(TO_CMAKE_PATH "$ENV{PROGRAMFILES}" _program_FILES_DIR)
 endif()
 
@@ -29,25 +29,26 @@ if(DEFINED LibIcal_BASE)
 endif()
 
 find_path(LibIcal_INCLUDE_DIRS
-    NAMES libical/ical.h
-    HINTS ${libical_root}/include ${_program_FILES_DIR}/libical/include
+  NAMES libical/ical.h
+  HINTS ${libical_root}/include ${_program_FILES_DIR}/libical/include
 )
 
 find_library(LibIcal_LIBRARY
-    NAMES ical libical
-    HINTS ${libical_root}/lib ${_program_FILES_DIR}/libical/lib
+  NAMES ical libical
+  HINTS ${libical_root}/lib ${_program_FILES_DIR}/libical/lib
 )
 
 find_library(LibIcalss_LIBRARY
-    NAMES icalss libicalss
-    HINTS ${libical_root}/lib ${_program_FILES_DIR}/libical/lib
+  NAMES icalss libicalss
+  HINTS ${libical_root}/lib ${_program_FILES_DIR}/libical/lib
 )
 
 set(LibIcal_LIBRARIES ${LibIcal_LIBRARY} ${LibIcalss_LIBRARY})
 
 if(LibIcal_INCLUDE_DIRS AND LibIcal_LIBRARIES)
   set(FIND_LibIcal_VERSION_SOURCE
-    "#include <libical/ical.h>\n int main()\n {\n printf(\"%s\",ICAL_VERSION);return 1;\n }\n")
+    "#include <libical/ical.h>\n int main()\n {\n printf(\"%s\",ICAL_VERSION);return 1;\n }\n"
+  )
   set(FIND_LibIcal_VERSION_SOURCE_FILE ${CMAKE_BINARY_DIR}/CMakeTmp/FindLIBICAL.cxx)
   file(WRITE "${FIND_LibIcal_VERSION_SOURCE_FILE}" "${FIND_LibIcal_VERSION_SOURCE}")
 
@@ -79,7 +80,7 @@ if(LibIcal_INCLUDE_DIRS AND LibIcal_LIBRARIES)
 
   else()
     if(NOT CMAKE_CROSSCOMPILING)
-      if (NOT COMPILE_RESULT)
+      if(NOT COMPILE_RESULT)
         message(FATAL_ERROR "Unable to compile the libical version detection program: ${FIND_LibIcal_Compile_Output}")
       else()
         message(FATAL_ERROR "Unable to run the libical version detection program: it returned ${RUN_RESULT}.")

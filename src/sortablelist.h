@@ -29,35 +29,19 @@
 #ifndef KCALCORE_SORTABLELIST_H
 #define KCALCORE_SORTABLELIST_H
 
-#include <QtCore/QList>
-#include <QtCore/QtAlgorithms>
-#include <QtCore/QDataStream>
+#include <QList>
+#include <QtAlgorithms>
+#include <QDataStream>
 
 namespace KCalCore
 {
 
 //@cond PRIVATE
-template <class T>
-void qSortUnique(QList<T> &list)
+template<typename V, template<typename> class T>
+void qSortUnique(T<V> &list)
 {
-    if (list.count() <= 1) {
-        return;
-    }
     std::sort(list.begin(), list.end());
-    typename QList<T>::iterator prev = list.begin();
-    for (typename QList<T>::iterator it = prev + 1;  it != list.end();  ++it) {
-        if (*it == *prev) {
-            // Found two equal values. Search for any further equal values and remove
-            // them all together for efficiency.
-            while (++it != list.end() && *it == *prev);
-            prev = it = list.erase(prev + 1, it);
-            if (it == list.end()) {
-                break;
-            }
-        } else {
-            prev = it;
-        }
-    }
+    list.erase(std::unique(list.begin(), list.end()), list.end());
 }
 //@endcond
 

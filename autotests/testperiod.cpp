@@ -23,46 +23,46 @@
 
 #include "testperiod.h"
 #include "period.h"
+#include "utils.h"
 
-#include <ksystemtimezone.h>
 
-#include <qtest.h>
+#include <QTest>
 QTEST_MAIN(PeriodTest)
 
 using namespace KCalCore;
 
 void PeriodTest::testValidity()
 {
-    const KDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), KDateTime::UTC);
+    const QDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), Qt::UTC);
     Period p1(p1DateTime,
               Duration(60));
     Period p2;
 
     QVERIFY(p1.hasDuration());
     QCOMPARE(p1.duration().asSeconds(), 60);
-    QVERIFY(p1.start() == KDateTime(QDate(2006, 8, 30), QTime(7, 0, 0), KDateTime::UTC));
+    QVERIFY(p1.start() == QDateTime(QDate(2006, 8, 30), QTime(7, 0, 0), Qt::UTC));
 
     p2 = p1;
 
     QVERIFY(p2.hasDuration());
     QVERIFY(p2.duration().asSeconds() == 60);
-    QVERIFY(p2.start() == KDateTime(QDate(2006, 8, 30), QTime(7, 0, 0), KDateTime::UTC));
+    QVERIFY(p2.start() == QDateTime(QDate(2006, 8, 30), QTime(7, 0, 0), Qt::UTC));
 
-    const KDateTime p3DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), KDateTime::UTC);
+    const QDateTime p3DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), Qt::UTC);
     Period p3(p3DateTime, Duration(24 * 60 * 60));
 
     QVERIFY(p3.hasDuration());
     QVERIFY(p3.duration().asSeconds() == 24 * 60 * 60);
-    QVERIFY(p3.start() == KDateTime(QDate(2006, 8, 30), QTime(7, 0, 0), KDateTime::UTC));
+    QVERIFY(p3.start() == QDateTime(QDate(2006, 8, 30), QTime(7, 0, 0), Qt::UTC));
 }
 
 void PeriodTest::testCompare()
 {
-    const KDateTime p1DateTime(QDate(2006, 8, 30));
+    const QDateTime p1DateTime(QDate(2006, 8, 30), {});
     Period p1(p1DateTime, Duration(24 * 60 * 60));
-    const KDateTime p2DateTime(QDate(2006, 8, 29));
+    const QDateTime p2DateTime(QDate(2006, 8, 29), {});
     Period p2(p2DateTime, Duration(23 * 60 * 60));
-    const KDateTime p3DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), KDateTime::UTC);
+    const QDateTime p3DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), Qt::UTC);
     Period p3(p3DateTime, Duration(24 * 60 * 60));
     Period p1copy(p1);   // test copy constructor
     Period p1assign = p1; // test operator=
@@ -75,12 +75,11 @@ void PeriodTest::testCompare()
     QVERIFY(p1assign == p1);
     QVERIFY(p3copy == p3);
     QVERIFY(p3assign == p3);
-
 }
 
 void PeriodTest::testDataStreamOut()
 {
-    const KDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), KDateTime::UTC);
+    const QDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), Qt::UTC);
     const Duration duration(24 * 60 * 60);
     Period p1(p1DateTime, duration);
 
@@ -91,16 +90,16 @@ void PeriodTest::testDataStreamOut()
 
     QDataStream in_stream(&byteArray, QIODevice::ReadOnly);
 
-    KDateTime begin;
-    in_stream >> begin;
+    QDateTime begin;
+    deserializeKDateTimeAsQDateTime(in_stream, begin);
     // There is no way to serialize KDateTime as of KDE4.5
     // and the to/fromString methods do not perform a perfect reconstruction
     // of a datetime
-    QVERIFY(begin.compare(p1.start()) == KDateTime::Equal);
+    QVERIFY(begin == p1.start());
 
-    KDateTime end;
-    in_stream >> end;
-    QVERIFY(end.compare(p1.end()) == KDateTime::Equal);
+    QDateTime end;
+    deserializeKDateTimeAsQDateTime(in_stream, end);
+    QVERIFY(end == p1.end());
 
     bool dailyduration;
     in_stream >> dailyduration;
@@ -113,7 +112,7 @@ void PeriodTest::testDataStreamOut()
 
 void PeriodTest::testDataStreamIn()
 {
-    const KDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), KDateTime::UTC);
+    const QDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), Qt::UTC);
     const Duration duration(24 * 60 * 60);
     Period p1(p1DateTime, duration);
 
@@ -130,4 +129,3 @@ void PeriodTest::testDataStreamIn()
 
     QVERIFY(p1 == p2);
 }
-

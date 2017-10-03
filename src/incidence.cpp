@@ -34,13 +34,14 @@
 
 #include "incidence.h"
 #include "calformat.h"
-
+#include "utils.h"
 
 #include <QTemporaryFile>
 #include <QMimeDatabase>
 #include <QTextDocument> // for .toHtmlEscaped() and Qt::mightBeRichText()
 #include <QStringList>
 #include <QTime>
+#include <QTimeZone>
 
 using namespace KCalCore;
 
@@ -149,7 +150,7 @@ public:
         }
     }
 
-    KDateTime mCreated;                 // creation datetime
+    QDateTime mCreated;                 // creation datetime
     QString mDescription;               // description string
     QString mSummary;                   // summary string
     QString mLocation;                  // location string
@@ -161,7 +162,7 @@ public:
     QString mSchedulingID;              // ID for scheduling mails
     QMap<RelType, QString> mRelatedToUid; // incidence uid this is related to, for each relType
     QHash<Attachment::Ptr, QString> mTempFiles; // Temporary files for writing attachments to.
-    KDateTime mRecurrenceId;            // recurrenceId
+    QDateTime mRecurrenceId;            // recurrenceId
 
     float mGeoLatitude;                 // Specifies latitude in decimal degrees
     float mGeoLongitude;                // Specifies longitude in decimal degrees
@@ -170,12 +171,12 @@ public:
     int mPriority;                      // priority: 1 = highest, 2 = less, etc.
     Status mStatus;                     // status
     Secrecy mSecrecy;                   // secrecy
-    bool mDescriptionIsRich;            // description string is richtext.
-    bool mSummaryIsRich;                // summary string is richtext.
-    bool mLocationIsRich;               // location string is richtext.
-    bool mHasGeo;                       // if incidence has geo data
-    bool mThisAndFuture;
-    bool mLocalOnly;                    // allow changes that won't go to the server
+    bool mDescriptionIsRich = false;            // description string is richtext.
+    bool mSummaryIsRich = false;                // summary string is richtext.
+    bool mLocationIsRich = false;               // location string is richtext.
+    bool mHasGeo = false;                       // if incidence has geo data
+    bool mThisAndFuture = false;
+    bool mLocalOnly = false;                    // allow changes that won't go to the server
 };
 //@endcond
 
@@ -304,14 +305,14 @@ bool Incidence::equals(const IncidenceBase &incidence) const
 QString Incidence::instanceIdentifier() const
 {
     if (hasRecurrenceId()) {
-        return uid() + recurrenceId().toString();
+        return uid() + recurrenceId().toString(Qt::ISODate);
     }
     return uid();
 }
 
 void Incidence::recreate()
 {
-    const KDateTime nowUTC = KDateTime::currentUtcDateTime();
+    const QDateTime nowUTC = QDateTime::currentDateTimeUtc();
     setCreated(nowUTC);
 
     setSchedulingID(QString(), CalFormat::createUniqueId());
@@ -319,7 +320,7 @@ void Incidence::recreate()
     setLastModified(nowUTC);
 }
 
-void Incidence::setLastModified(const KDateTime &lm)
+void Incidence::setLastModified(const QDateTime &lm)
 {
     if (!d->mLocalOnly) {
         IncidenceBase::setLastModified(lm);
@@ -358,20 +359,23 @@ void Incidence::setAllDay(bool allDay)
     IncidenceBase::setAllDay(allDay);
 }
 
-void Incidence::setCreated(const KDateTime &created)
+void Incidence::setCreated(const QDateTime &created)
 {
     if (mReadOnly || d->mLocalOnly) {
         return;
     }
 
-    d->mCreated = created.toUtc();
+    d->mCreated = created.toUTC();
+    const auto ct = d->mCreated.time();
+    // Remove milliseconds
+    d->mCreated.setTime(QTime(ct.hour(), ct.minute(), ct.second()));
     setFieldDirty(FieldCreated);
 
 // FIXME: Shouldn't we call updated for the creation date, too?
 //  updated();
 }
 
-KDateTime Incidence::created() const
+QDateTime Incidence::created() const
 {
     return d->mCreated;
 }
@@ -394,23 +398,22 @@ int Incidence::revision() const
     return d->mRevision;
 }
 
-void Incidence::setDtStart(const KDateTime &dt)
+void Incidence::setDtStart(const QDateTime &dt)
 {
     IncidenceBase::setDtStart(dt);
     if (d->mRecurrence && dirtyFields().contains(FieldDtStart)) {
-        d->mRecurrence->setStartDateTime(dt);
+        d->mRecurrence->setStartDateTime(dt, allDay());
     }
 }
 
-void Incidence::shiftTimes(const KDateTime::Spec &oldSpec,
-                           const KDateTime::Spec &newSpec)
+void Incidence::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
 {
-    IncidenceBase::shiftTimes(oldSpec, newSpec);
+    IncidenceBase::shiftTimes(oldZone, newZone);
     if (d->mRecurrence) {
-        d->mRecurrence->shiftTimes(oldSpec, newSpec);
+        d->mRecurrence->shiftTimes(oldZone, newZone);
     }
     for (int i = 0, end = d->mAlarms.count();  i < end;  ++i) {
-        d->mAlarms[i]->shiftTimes(oldSpec, newSpec);
+        d->mAlarms[i]->shiftTimes(oldZone, newZone);
     }
 }
 
@@ -558,7 +561,7 @@ Recurrence *Incidence::recurrence() const
 {
     if (!d->mRecurrence) {
         d->mRecurrence = new Recurrence();
-        d->mRecurrence->setStartDateTime(dateTime(RoleRecurrenceStart));
+        d->mRecurrence->setStartDateTime(dateTime(RoleRecurrenceStart), allDay());
         d->mRecurrence->setAllDay(allDay());
         d->mRecurrence->setRecurReadOnly(mReadOnly);
         d->mRecurrence->addObserver(const_cast<KCalCore::Incidence *>(this));
@@ -591,24 +594,23 @@ bool Incidence::recurs() const
     }
 }
 
-bool Incidence::recursOn(const QDate &date,
-                         const KDateTime::Spec &timeSpec) const
+bool Incidence::recursOn(const QDate &date, const QTimeZone &timeZone) const
 {
-    return d->mRecurrence && d->mRecurrence->recursOn(date, timeSpec);
+    return d->mRecurrence && d->mRecurrence->recursOn(date, timeZone);
 }
 
-bool Incidence::recursAt(const KDateTime &qdt) const
+bool Incidence::recursAt(const QDateTime &qdt) const
 {
     return d->mRecurrence && d->mRecurrence->recursAt(qdt);
 }
 
-QList<KDateTime> Incidence::startDateTimesForDate(const QDate &date,
-        const KDateTime::Spec &timeSpec) const
+QList<QDateTime> Incidence::startDateTimesForDate(const QDate &date,
+                                                  const QTimeZone &timeZone) const
 {
-    KDateTime start = dtStart();
-    KDateTime end = dateTime(RoleEndRecurrenceBase);
+    QDateTime start = dtStart();
+    QDateTime end = dateTime(RoleEndRecurrenceBase);
 
-    QList<KDateTime> result;
+    QList<QDateTime> result;
 
     // TODO_Recurrence: Also work if only due date is given...
     if (!start.isValid() && ! end.isValid()) {
@@ -616,7 +618,7 @@ QList<KDateTime> Incidence::startDateTimesForDate(const QDate &date,
     }
 
     // if the incidence doesn't recur,
-    KDateTime kdate(date, timeSpec);
+    QDateTime kdate(date, {}, timeZone);
     if (!recurs()) {
         if (!(start > kdate || end < kdate)) {
             result << start;
@@ -627,12 +629,12 @@ QList<KDateTime> Incidence::startDateTimesForDate(const QDate &date,
     int days = start.daysTo(end);
     // Account for possible recurrences going over midnight, while the original event doesn't
     QDate tmpday(date.addDays(-days - 1));
-    KDateTime tmp;
+    QDateTime tmp;
     while (tmpday <= date) {
-        if (recurrence()->recursOn(tmpday, timeSpec)) {
-            const QList<QTime> times = recurrence()->recurTimesOn(tmpday, timeSpec);
+        if (recurrence()->recursOn(tmpday, timeZone)) {
+            const QList<QTime> times = recurrence()->recurTimesOn(tmpday, timeZone);
             for (const QTime &time : times) {
-                tmp = KDateTime(tmpday, time, start.timeSpec());
+                tmp = QDateTime(tmpday, time, start.timeZone());
                 if (endDateForStart(tmp) >= kdate) {
                     result << tmp;
                 }
@@ -643,12 +645,12 @@ QList<KDateTime> Incidence::startDateTimesForDate(const QDate &date,
     return result;
 }
 
-QList<KDateTime> Incidence::startDateTimesForDateTime(const KDateTime &datetime) const
+QList<QDateTime> Incidence::startDateTimesForDateTime(const QDateTime &datetime) const
 {
-    KDateTime start = dtStart();
-    KDateTime end = dateTime(RoleEndRecurrenceBase);
+    QDateTime start = dtStart();
+    QDateTime end = dateTime(RoleEndRecurrenceBase);
 
-    QList<KDateTime> result;
+    QList<QDateTime> result;
 
     // TODO_Recurrence: Also work if only due date is given...
     if (!start.isValid() && ! end.isValid()) {
@@ -666,13 +668,13 @@ QList<KDateTime> Incidence::startDateTimesForDateTime(const KDateTime &datetime)
     int days = start.daysTo(end);
     // Account for possible recurrences going over midnight, while the original event doesn't
     QDate tmpday(datetime.date().addDays(-days - 1));
-    KDateTime tmp;
+    QDateTime tmp;
     while (tmpday <= datetime.date()) {
-        if (recurrence()->recursOn(tmpday, datetime.timeSpec())) {
+        if (recurrence()->recursOn(tmpday, datetime.timeZone())) {
             // Get the times during the day (in start date's time zone) when recurrences happen
-            const QList<QTime> times = recurrence()->recurTimesOn(tmpday, start.timeSpec());
+            const QList<QTime> times = recurrence()->recurTimesOn(tmpday, start.timeZone());
             for (const QTime &time : times) {
-                tmp = KDateTime(tmpday, time, start.timeSpec());
+                tmp = QDateTime(tmpday, time, start.timeZone());
                 if (!(tmp > datetime || endDateForStart(tmp) < datetime)) {
                     result << tmp;
                 }
@@ -683,10 +685,10 @@ QList<KDateTime> Incidence::startDateTimesForDateTime(const KDateTime &datetime)
     return result;
 }
 
-KDateTime Incidence::endDateForStart(const KDateTime &startDt) const
+QDateTime Incidence::endDateForStart(const QDateTime &startDt) const
 {
-    KDateTime start = dtStart();
-    KDateTime end = dateTime(RoleEndRecurrenceBase);
+    QDateTime start = dtStart();
+    QDateTime end = dateTime(RoleEndRecurrenceBase);
     if (!end.isValid()) {
         return start;
     }
@@ -1045,10 +1047,10 @@ void Incidence::setGeoLongitude(float geolongitude)
 
 bool Incidence::hasRecurrenceId() const
 {
-    return d->mRecurrenceId.isValid();
+    return (allDay() && d->mRecurrenceId.date().isValid()) || d->mRecurrenceId.isValid();
 }
 
-KDateTime Incidence::recurrenceId() const
+QDateTime Incidence::recurrenceId() const
 {
     return d->mRecurrenceId;
 }
@@ -1063,7 +1065,7 @@ bool Incidence::thisAndFuture() const
     return d->mThisAndFuture;
 }
 
-void Incidence::setRecurrenceId(const KDateTime &recurrenceId)
+void Incidence::setRecurrenceId(const QDateTime &recurrenceId)
 {
     if (!mReadOnly) {
         update();
@@ -1129,10 +1131,13 @@ QStringList Incidence::mimeTypes()
 
 void Incidence::serialize(QDataStream &out)
 {
-    out << d->mCreated << d->mRevision << d->mDescription << d->mDescriptionIsRich << d->mSummary
+    serializeQDateTimeAsKDateTime(out, d->mCreated);
+    out << d->mRevision << d->mDescription << d->mDescriptionIsRich << d->mSummary
         << d->mSummaryIsRich << d->mLocation << d->mLocationIsRich << d->mCategories
         << d->mResources << d->mStatusString << d->mPriority << d->mSchedulingID
-        << d->mGeoLatitude << d->mGeoLongitude << d->mHasGeo << d->mRecurrenceId << d->mThisAndFuture
+        << d->mGeoLatitude << d->mGeoLongitude << d->mHasGeo;
+    serializeQDateTimeAsKDateTime(out, d->mRecurrenceId);
+    out << d->mThisAndFuture
         << d->mLocalOnly << d->mStatus << d->mSecrecy << (d->mRecurrence ? true : false)
         << d->mAttachments.count() << d->mAlarms.count() << d->mRelatedToUid;
 
@@ -1155,10 +1160,13 @@ void Incidence::deserialize(QDataStream &in)
     bool hasRecurrence;
     int attachmentCount, alarmCount;
     QMap<int, QString> relatedToUid;
-    in >> d->mCreated >> d->mRevision >> d->mDescription >> d->mDescriptionIsRich >> d->mSummary
+    deserializeKDateTimeAsQDateTime(in, d->mCreated);
+    in >> d->mRevision >> d->mDescription >> d->mDescriptionIsRich >> d->mSummary
        >> d->mSummaryIsRich >> d->mLocation >> d->mLocationIsRich >> d->mCategories
        >> d->mResources >> d->mStatusString >> d->mPriority >> d->mSchedulingID
-       >> d->mGeoLatitude >> d->mGeoLongitude >> d->mHasGeo >> d->mRecurrenceId >> d->mThisAndFuture
+       >> d->mGeoLatitude >> d->mGeoLongitude >> d->mHasGeo;
+    deserializeKDateTimeAsQDateTime(in, d->mRecurrenceId);
+    in >> d->mThisAndFuture
        >> d->mLocalOnly >> status >> secrecy >> hasRecurrence >> attachmentCount >> alarmCount
        >> relatedToUid;
 

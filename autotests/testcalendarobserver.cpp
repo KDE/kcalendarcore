@@ -22,14 +22,12 @@
 #include "testcalendarobserver.h"
 #include "filestorage.h"
 #include "calendar.h"
-#include <memorycalendar.h>
+#include "memorycalendar.h"
 
-#include <qdebug.h>
+#include <QSignalSpy>
+#include <QTest>
+#include <QTimeZone>
 
-#include <unistd.h>
-
-#include <qtest.h>
-#include <qsignalspy.h>
 QTEST_MAIN(CalendarObserverTest)
 
 using namespace KCalCore;
@@ -45,7 +43,7 @@ public:
         , mCal(cal)
     {
     }
-    Calendar *mCal;
+    Calendar *mCal = nullptr;
 Q_SIGNALS:
     void incidenceAdded(const KCalCore::Incidence::Ptr &incidence);
     void incidenceChanged(const KCalCore::Incidence::Ptr &incidence);
@@ -53,21 +51,21 @@ Q_SIGNALS:
     void incidenceDeletedDeprecated(const KCalCore::Incidence::Ptr &incidence);
     void incidenceDeleted(const KCalCore::Incidence::Ptr &incidence, const Calendar *calendar);
 protected:
-    void calendarIncidenceAdded(const KCalCore::Incidence::Ptr &incidence) Q_DECL_OVERRIDE {
+    void calendarIncidenceAdded(const KCalCore::Incidence::Ptr &incidence) override {
         Q_EMIT incidenceAdded(incidence);
     }
-    void calendarIncidenceChanged(const KCalCore::Incidence::Ptr &incidence) Q_DECL_OVERRIDE {
+    void calendarIncidenceChanged(const KCalCore::Incidence::Ptr &incidence) override {
         Q_EMIT incidenceChanged(incidence);
     }
-    void calendarIncidenceAboutToBeDeleted(const KCalCore::Incidence::Ptr &incidence) Q_DECL_OVERRIDE {
+    void calendarIncidenceAboutToBeDeleted(const KCalCore::Incidence::Ptr &incidence) override {
         QVERIFY(mCal->incidences().contains(incidence));
         Q_EMIT incidenceAboutToBeDeleted(incidence);
     }
-    void calendarIncidenceDeleted(const KCalCore::Incidence::Ptr &incidence) Q_DECL_OVERRIDE {
+    void calendarIncidenceDeleted(const KCalCore::Incidence::Ptr &incidence) override {
         QVERIFY(!mCal->incidences().contains(incidence));
         Q_EMIT incidenceDeletedDeprecated(incidence);
     }
-    void calendarIncidenceDeleted(const KCalCore::Incidence::Ptr &incidence, const Calendar *calendar) Q_DECL_OVERRIDE {
+    void calendarIncidenceDeleted(const KCalCore::Incidence::Ptr &incidence, const Calendar *calendar) override {
         QCOMPARE(calendar, mCal);
         QVERIFY(!calendar->incidences().contains(incidence));
         Q_EMIT incidenceDeleted(incidence, calendar);
@@ -77,7 +75,7 @@ protected:
 void CalendarObserverTest::testAdd()
 {
     qRegisterMetaType<KCalCore::Incidence::Ptr>();
-    MemoryCalendar::Ptr cal(new MemoryCalendar(KDateTime::UTC));
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
     SimpleObserver ob(cal.data());
     QSignalSpy spy(&ob, &SimpleObserver::incidenceAdded);
     cal->registerObserver(&ob);
@@ -93,7 +91,7 @@ void CalendarObserverTest::testAdd()
 void CalendarObserverTest::testChange()
 {
     qRegisterMetaType<KCalCore::Incidence::Ptr>();
-    MemoryCalendar::Ptr cal(new MemoryCalendar(KDateTime::UTC));
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
     SimpleObserver ob(cal.data());
     QSignalSpy spy(&ob, &SimpleObserver::incidenceChanged);
     cal->registerObserver(&ob);
@@ -112,7 +110,7 @@ void CalendarObserverTest::testDelete()
 {
     qRegisterMetaType<KCalCore::Incidence::Ptr>();
     qRegisterMetaType<const Calendar *>();
-    MemoryCalendar::Ptr cal(new MemoryCalendar(KDateTime::UTC));
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
     SimpleObserver ob(cal.data());
     QSignalSpy spy1(&ob, &SimpleObserver::incidenceAboutToBeDeleted);
     QSignalSpy spy2(&ob, &SimpleObserver::incidenceDeleted);

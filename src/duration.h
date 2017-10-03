@@ -37,7 +37,7 @@
 #include <QHash>
 #include <QMetaType>
 
-class KDateTime;
+class QDateTime;
 
 namespace KCalCore
 {
@@ -81,7 +81,7 @@ public:
       @param start is the time the duration begins.
       @param end is the time the duration ends.
     */
-    Duration(const KDateTime &start, const KDateTime &end);
+    Duration(const QDateTime &start, const QDateTime &end);
 
     /**
       Constructs a duration from @p start to @p end.
@@ -94,7 +94,7 @@ public:
       @param end is the time the duration ends.
       @param type the unit of time to use (seconds or days)
     */
-    Duration(const KDateTime &start, const KDateTime &end, Type type);
+    Duration(const QDateTime &start, const QDateTime &end, Type type);
 
     /**
       Constructs a duration with a number of seconds or days.
@@ -280,7 +280,7 @@ public:
       @param start is the start time.
       @return end time.
     */
-    KDateTime end(const KDateTime &start) const;
+    QDateTime end(const QDateTime &start) const;
 
     /**
       Returns the time units (seconds or days) used to specify the duration.

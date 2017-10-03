@@ -22,7 +22,7 @@
 #include "testexception.h"
 #include "exceptions.h"
 
-#include <qtest.h>
+#include <QTest>
 QTEST_MAIN(ExceptionTest)
 
 using namespace KCalCore;

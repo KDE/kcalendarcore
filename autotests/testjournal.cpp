@@ -21,7 +21,7 @@
 #include "testjournal.h"
 #include "journal.h"
 
-#include <qtest.h>
+#include <QTest>
 QTEST_MAIN(JournalTest)
 
 using namespace KCalCore;
@@ -30,11 +30,12 @@ void JournalTest::testValidity()
 {
     QDate dt = QDate::currentDate();
     Journal *journal = new Journal();
-    journal->setDtStart(KDateTime(dt));
+    journal->setDtStart(QDateTime(dt, {}));
+    journal->setAllDay(true);
     journal->setSummary(QStringLiteral("Journal Summary"));
     journal->setDescription(QStringLiteral("This is a description of my journal"));
     journal->setLocation(QStringLiteral("the place"));
-    //KDE5: QVERIFY( journal->typeStr() == i18n( "journal" ) );
+    //KDE5: QVERIFY( journal->typeStr() == QStringLiteral( "journal" ) );
     QVERIFY(journal->summary() == QLatin1String("Journal Summary"));
     QVERIFY(journal->location() == QLatin1String("the place"));
 }
@@ -43,13 +44,15 @@ void JournalTest::testCompare()
 {
     QDate dt = QDate::currentDate();
     Journal journal1;
-    journal1.setDtStart(KDateTime(dt));
+    journal1.setDtStart(QDateTime(dt, {}));
+    journal1.setAllDay(true);
     journal1.setSummary(QStringLiteral("Journal Summary"));
     journal1.setDescription(QStringLiteral("This is a description of my journal"));
     journal1.setLocation(QStringLiteral("the place"));
 
     Journal journal2;
-    journal2.setDtStart(KDateTime(dt).addDays(1));
+    journal2.setDtStart(QDateTime(dt, {}).addDays(1));
+    journal2.setAllDay(true);
     journal2.setSummary(QStringLiteral("Journal2 Summary"));
     journal2.setDescription(QStringLiteral("This is a description of another journal"));
     journal2.setLocation(QStringLiteral("the other place"));
@@ -62,7 +65,8 @@ void JournalTest::testClone()
 {
     QDate dt = QDate::currentDate();
     Journal journal1;
-    journal1.setDtStart(KDateTime(dt));
+    journal1.setDtStart(QDateTime(dt, {}));
+    journal1.setAllDay(true);
     journal1.setSummary(QStringLiteral("Journal1 Summary"));
     journal1.setDescription(QStringLiteral("This is a description of the first journal"));
     journal1.setLocation(QStringLiteral("the place"));
@@ -78,7 +82,8 @@ void JournalTest::testRich()
 {
     QDate dt = QDate::currentDate();
     Journal journal1;
-    journal1.setDtStart(KDateTime(dt));
+    journal1.setDtStart(QDateTime(dt, {}));
+    journal1.setAllDay(true);
     journal1.setSummary(QStringLiteral("<html><b><i>Journal1 Summary</i></b></html>"), true);
     journal1.setDescription(QStringLiteral("<html>This is a of the <b>first</b> journal</html>"), true);
     journal1.setLocation(QStringLiteral("<qt><h1>the place</h1></qt>"), true);
@@ -91,7 +96,8 @@ void JournalTest::testAssign()
 {
     QDate dt = QDate::currentDate();
     Journal journal1;
-    journal1.setDtStart(KDateTime(dt));
+    journal1.setDtStart(QDateTime(dt, {}));
+    journal1.setAllDay(true);
     journal1.setSummary(QStringLiteral("Journal1 Summary"));
     journal1.setDescription(QStringLiteral("This is a description of the first journal"));
     journal1.setLocation(QStringLiteral("the place"));

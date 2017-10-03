@@ -22,34 +22,24 @@
 #include "filestorage.h"
 #include "memorycalendar.h"
 
-#include <kaboutdata.h>
-#include <kcmdlineargs.h>
-#include <kcomponentdata.h>
-#include <qdebug.h>
-
-#include <QtCore/QCoreApplication>
-#include <QtCore/QCommandLineParser>
+#include <QDebug>
+#include <QCoreApplication>
+#include <QCommandLineParser>
+#include <QTimeZone>
 
 using namespace KCalCore;
 
 int main(int argc, char **argv)
 {
     QCommandLineParser parser;
-    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), i18n("Verbose output")));
-
-    KAboutData about(QStringLiteral("testcalendar"),
-                     i18n("Test Calendar"), QStringLiteral("0.1"));
-
-    about.setupCommandLine(&parser);
-    KAboutData::setApplicationData(about);
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), QStringLiteral("Verbose output")));
 
     QCoreApplication app(argc, argv);
     QCoreApplication::setApplicationName(QStringLiteral("testincidence"));
     QCoreApplication::setApplicationVersion(QStringLiteral("0.1"));
     parser.process(app);
-    about.processCommandLine(&parser);
 
-    MemoryCalendar::Ptr cal(new MemoryCalendar(KDateTime::UTC));
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
     FileStorage store(cal, QStringLiteral("cal"));
     store.load();
 

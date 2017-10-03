@@ -31,7 +31,7 @@
 
 #include "event.h"
 #include "visitor.h"
-
+#include "utils.h"
 #include "kcalcore_debug.h"
 
 #include <QDate>
@@ -58,10 +58,10 @@ public:
           mMultiDay(false)
     {}
 
-    KDateTime mDtEnd;
+    QDateTime mDtEnd;
     Transparency mTransparency;
-    bool mMultiDayValid;
-    bool mMultiDay;
+    bool mMultiDayValid = false;
+    bool mMultiDay = false;
 };
 //@endcond
 
@@ -122,16 +122,16 @@ Incidence::IncidenceType Event::type() const
 
 QByteArray Event::typeStr() const
 {
-    return "Event";
+    return QByteArrayLiteral("Event");
 }
 
-void Event::setDtStart(const KDateTime &dt)
+void Event::setDtStart(const QDateTime &dt)
 {
     d->mMultiDayValid = false;
     Incidence::setDtStart(dt);
 }
 
-void Event::setDtEnd(const KDateTime &dtEnd)
+void Event::setDtEnd(const QDateTime &dtEnd)
 {
     if (mReadOnly) {
         return;
@@ -147,7 +147,7 @@ void Event::setDtEnd(const KDateTime &dtEnd)
     }
 }
 
-KDateTime Event::dtEnd() const
+QDateTime Event::dtEnd() const
 {
     if (d->mDtEnd.isValid()) {
         return d->mDtEnd;
@@ -156,7 +156,7 @@ KDateTime Event::dtEnd() const
     if (hasDuration()) {
         if (allDay()) {
             // For all day events, dtEnd is always inclusive
-            KDateTime end = duration().end(dtStart()).addDays(-1);
+            QDateTime end = duration().end(dtStart().addDays(-1));
             return end >= dtStart() ? end : dtStart();
         } else {
             return duration().end(dtStart());
@@ -170,7 +170,7 @@ KDateTime Event::dtEnd() const
 
 QDate Event::dateEnd() const
 {
-    KDateTime end = dtEnd().toTimeSpec(dtStart());
+    QDateTime end = dtEnd().toTimeZone(dtStart().timeZone());
     if (allDay()) {
         return end.date();
     } else {
@@ -183,22 +183,22 @@ bool Event::hasEndDate() const
     return d->mDtEnd.isValid();
 }
 
-bool Event::isMultiDay(const KDateTime::Spec &spec) const
+bool Event::isMultiDay(const QTimeZone &zone) const
 {
     // First off, if spec's not valid, we can check for cache
-    if (!spec.isValid() && d->mMultiDayValid) {
+    if (!zone.isValid() && d->mMultiDayValid) {
         return d->mMultiDay;
     }
 
     // Not in cache -> do it the hard way
-    KDateTime start, end;
+    QDateTime start, end;
 
-    if (!spec.isValid()) {
+    if (!zone.isValid()) {
         start = dtStart();
         end = dtEnd();
     } else {
-        start = dtStart().toTimeSpec(spec);
-        end = dtEnd().toTimeSpec(spec);
+        start = dtStart().toTimeZone(zone);
+        end = dtEnd().toTimeZone(zone);
     }
 
     bool multi = (start < end && start.date() != end.date());
@@ -217,13 +217,12 @@ bool Event::isMultiDay(const KDateTime::Spec &spec) const
     return multi;
 }
 
-void Event::shiftTimes(const KDateTime::Spec &oldSpec,
-                       const KDateTime::Spec &newSpec)
+void Event::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
 {
-    Incidence::shiftTimes(oldSpec, newSpec);
+    Incidence::shiftTimes(oldZone, newZone);
     if (d->mDtEnd.isValid()) {
-        d->mDtEnd = d->mDtEnd.toTimeSpec(oldSpec);
-        d->mDtEnd.setTimeSpec(newSpec);
+        d->mDtEnd = d->mDtEnd.toTimeZone(oldZone);
+        d->mDtEnd.setTimeZone(newZone);
     }
 }
 
@@ -245,7 +244,7 @@ Event::Transparency Event::transparency() const
 
 void Event::setDuration(const Duration &duration)
 {
-    setDtEnd(KDateTime());
+    setDtEnd(QDateTime());
     Incidence::setDuration(duration);
 }
 
@@ -262,7 +261,7 @@ bool Event::accept(Visitor &v, const IncidenceBase::Ptr &incidence)
     return v.visit(incidence.staticCast<Event>());
 }
 
-KDateTime Event::dateTime(DateTimeRole role) const
+QDateTime Event::dateTime(DateTimeRole role) const
 {
     switch (role) {
     case RoleRecurrenceStart:
@@ -271,8 +270,7 @@ KDateTime Event::dateTime(DateTimeRole role) const
     case RoleSort:
         return dtStart();
     case RoleCalendarHashing:
-        return !recurs() && !isMultiDay() ? dtStart() :
-               KDateTime();
+        return !recurs() && !isMultiDay() ? dtStart() : QDateTime();
     case RoleAlarmEndOffset:
     case RoleEndTimeZone:
     case RoleEndRecurrenceBase:
@@ -283,18 +281,18 @@ KDateTime Event::dateTime(DateTimeRole role) const
         return dtStart();
     case RoleAlarm:
         if (alarms().isEmpty()) {
-            return KDateTime();
+            return QDateTime();
         } else {
             Alarm::Ptr alarm = alarms().at(0);
             return alarm->hasStartOffset() ? dtStart() : dtEnd();
         }
         break;
     default:
-        return KDateTime();
+        return QDateTime();
     }
 }
 
-void Event::setDateTime(const KDateTime &dateTime, DateTimeRole role)
+void Event::setDateTime(const QDateTime &dateTime, DateTimeRole role)
 {
     switch (role) {
     case RoleDnD: {
@@ -336,7 +334,7 @@ QLatin1String Event::eventMimeType()
     return QLatin1String("application/x-vnd.akonadi.calendar.event");
 }
 
-QLatin1String Event::iconName(const KDateTime &) const
+QLatin1String Event::iconName(const QDateTime &) const
 {
     return QLatin1String("view-calendar-day");
 }
@@ -344,14 +342,16 @@ QLatin1String Event::iconName(const KDateTime &) const
 void Event::serialize(QDataStream &out)
 {
     Incidence::serialize(out);
-    out << d->mDtEnd << hasEndDate() << static_cast<quint32>(d->mTransparency) << d->mMultiDayValid << d->mMultiDay;
+    serializeQDateTimeAsKDateTime(out, d->mDtEnd);
+    out << hasEndDate() << static_cast<quint32>(d->mTransparency) << d->mMultiDayValid << d->mMultiDay;
 }
 
 void Event::deserialize(QDataStream &in)
 {
     Incidence::deserialize(in);
     bool hasEndDateDummy = true;
-    in >> d->mDtEnd >> hasEndDateDummy;
+    deserializeKDateTimeAsQDateTime(in, d->mDtEnd);
+    in >> hasEndDateDummy;
     quint32 transp;
     in >> transp;
     d->mTransparency = static_cast<Transparency>(transp);

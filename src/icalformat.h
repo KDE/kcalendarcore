@@ -34,8 +34,6 @@
 #include "calformat.h"
 #include "schedulemessage.h"
 
-#include <KDateTime>
-
 namespace KCalCore
 {
 
@@ -73,13 +71,13 @@ public:
       @copydoc
       CalFormat::load()
     */
-    bool load(const Calendar::Ptr &calendar, const QString &fileName) Q_DECL_OVERRIDE;
+    bool load(const Calendar::Ptr &calendar, const QString &fileName) override;
 
     /**
       @copydoc
       CalFormat::save()
     */
-    bool save(const Calendar::Ptr &calendar, const QString &fileName) Q_DECL_OVERRIDE;
+    bool save(const Calendar::Ptr &calendar, const QString &fileName) override;
 
     /**
       @copydoc
@@ -88,7 +86,7 @@ public:
       @note The notebook is ignored and the default one is used
     */
     bool fromString(const Calendar::Ptr &calendar, const QString &string,
-                    bool deleted = false, const QString &notebook = QString()) Q_DECL_OVERRIDE;
+                    bool deleted = false, const QString &notebook = QString()) override;
 
     /**
       Parses a string, returning the first iCal component as an Incidence.
@@ -127,14 +125,14 @@ public:
       CalFormat::fromRawString()
     */
     bool fromRawString(const Calendar::Ptr &calendar, const QByteArray &string,
-                       bool deleted = false, const QString &notebook = QString()) Q_DECL_OVERRIDE;
+                       bool deleted = false, const QString &notebook = QString()) override;
 
     /**
       @copydoc
       CalFormat::toString()
     */
     QString toString(const Calendar::Ptr &calendar,
-                     const QString &notebook = QString(), bool deleted = false) Q_DECL_OVERRIDE;
+                     const QString &notebook = QString(), bool deleted = false) override;
 
     /**
       Converts an Incidence to a QString.
@@ -208,30 +206,30 @@ public:
     FreeBusy::Ptr parseFreeBusy(const QString &string);
 
     /**
-      Sets the iCalendar time specification (time zone, etc.).
-      @param timeSpec is the time specification to set.
-      @see timeSpec().
+      Sets the iCalendar time zone.
+      @param timeZone is the time zone to set.
+      @see timeZone().
     */
-    void setTimeSpec(const KDateTime::Spec &timeSpec);
+    void setTimeZone(const QTimeZone &timeZone);
 
     /**
-      Returns the iCalendar time specification.
-      @see setTimeSpec().
+      Returns the iCalendar time zone.
+      @see setTimeZone().
     */
-    KDateTime::Spec timeSpec() const;
+    QTimeZone timeZone() const;
 
     /**
       Returns the timezone id string used by the iCalendar; an empty string
       if the iCalendar does not have a timezone.
     */
-    QString timeZoneId() const;
+    QByteArray timeZoneId() const;
 
 protected:
     /**
       @copydoc
       IncidenceBase::virtual_hook()
     */
-    void virtual_hook(int id, void *data) Q_DECL_OVERRIDE;
+    void virtual_hook(int id, void *data) override;
 
 private:
     //@cond PRIVATE

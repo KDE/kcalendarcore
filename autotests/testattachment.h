@@ -21,7 +21,7 @@
 #ifndef TESTATTACHMENT_H
 #define TESTATTACHMENT_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class AttachmentTest : public QObject
 {

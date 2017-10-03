@@ -34,12 +34,13 @@
 
 #include "compat_p.h"
 #include "incidence.h"
+#include "utils.h"
 
 #include "kcalcore_debug.h"
 
-#include <QtCore/QRegExp>
-#include <QtCore/QString>
-#include <QtCore/QDate>
+#include <QRegExp>
+#include <QString>
+#include <QDate>
 
 using namespace KCalCore;
 
@@ -152,7 +153,7 @@ bool Compat::useTimeZoneShift() const
     return true;
 }
 
-void Compat::setCreatedToDtStamp(const Incidence::Ptr &incidence, const KDateTime &dtstamp)
+void Compat::setCreatedToDtStamp(const Incidence::Ptr &incidence, const QDateTime &dtstamp)
 {
     Q_UNUSED(incidence);
     Q_UNUSED(dtstamp);
@@ -207,7 +208,7 @@ bool CompatDecorator::useTimeZoneShift() const
 }
 
 void CompatDecorator::setCreatedToDtStamp(const Incidence::Ptr &incidence,
-        const KDateTime &dtstamp)
+        const QDateTime &dtstamp)
 {
     d->compat->setCreatedToDtStamp(incidence, dtstamp);
 }
@@ -224,7 +225,7 @@ void CompatPre35::fixRecurrence(const Incidence::Ptr &incidence)
 {
     Recurrence *recurrence = incidence->recurrence();
     if (recurrence) {
-        KDateTime start(incidence->dtStart());
+        QDateTime start(incidence->dtStart());
         // kde < 3.5 only had one rrule, so no need to loop over all RRULEs.
         RecurrenceRule *r = recurrence->defaultRRule();
         if (r && !r->dateMatchesRules(start)) {
@@ -326,7 +327,7 @@ void CompatPre31::fixRecurrence(const Incidence::Ptr &incidence)
             }
             if (!doNothing) {
                 duration = r->durationTo(
-                               KDateTime(end, QTime(0, 0, 0), incidence->dtStart().timeSpec()));
+                               QDateTime(end, QTime(0, 0, 0), incidence->dtStart().timeZone()));
                 r->setDuration(duration);
             }
         }
@@ -366,8 +367,8 @@ void CompatOutlook9::fixAlarms(const Incidence::Ptr &incidence)
         return;
     }
     Alarm::List alarms = incidence->alarms();
-    Alarm::List::Iterator it;
-    for (it = alarms.begin(); it != alarms.end(); ++it) {
+    Alarm::List::Iterator end(alarms.end());
+    for (Alarm::List::Iterator it = alarms.begin(); it != end; ++it) {
         Alarm::Ptr al = *it;
         if (al && al->hasStartOffset()) {
             Duration offsetDuration = al->startOffset();
@@ -403,7 +404,7 @@ CompatPre410::~CompatPre410()
 {
 }
 
-void CompatPre410::setCreatedToDtStamp(const Incidence::Ptr &incidence, const KDateTime &dtstamp)
+void CompatPre410::setCreatedToDtStamp(const Incidence::Ptr &incidence, const QDateTime &dtstamp)
 {
     if (dtstamp.isValid()) {
         incidence->setCreated(dtstamp);

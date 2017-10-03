@@ -22,7 +22,7 @@
 #ifndef TESTFREEBUSY_H
 #define TESTFREEBUSY_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class FreeBusyTest : public QObject
 {

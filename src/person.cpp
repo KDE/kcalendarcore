@@ -34,8 +34,8 @@
 */
 
 #include "person.h"
-#include <QtCore/QRegExp>
-#include <QtCore/QDataStream>
+#include <QRegExp>
+#include <QDataStream>
 
 using namespace KCalCore;
 
@@ -47,10 +47,10 @@ using namespace KCalCore;
 class Q_DECL_HIDDEN KCalCore::Person::Private
 {
 public:
-    Private() : mCount(0) {}
+    Private() {}
     QString mName;   // person name
     QString mEmail;  // person email address
-    int mCount;      // person reference count
+    int mCount = 0;      // person reference count
 };
 //@endcond
 

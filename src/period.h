@@ -34,11 +34,12 @@
 #include "kcalcore_export.h"
 #include "duration.h"
 
-#include <KDateTime>
+#include <QDateTime>
+#include <QDataStream>
+#include <QMetaType>
+#include <QVector>
 
-#include <QtCore/QDataStream>
-#include <QtCore/QMetaType>
-#include <QtCore/QVector>
+class QTimeZone;
 
 namespace KCalCore
 {
@@ -66,7 +67,7 @@ public:
       @param start the time the period begins.
       @param end the time the period ends.
     */
-    Period(const KDateTime &start, const KDateTime &end);
+    Period(const QDateTime &start, const QDateTime &end);
 
     /**
       Constructs a period from @p start and lasting @p duration.
@@ -74,7 +75,7 @@ public:
       @param start the time when the period starts.
       @param duration how long the period lasts.
     */
-    Period(const KDateTime &start, const Duration &duration);
+    Period(const QDateTime &start, const Duration &duration);
 
     /**
       Constructs a period by copying another period object
@@ -139,12 +140,12 @@ public:
     /**
       Returns when this period starts.
     */
-    KDateTime start() const;
+    QDateTime start() const;
 
     /**
       Returns when this period ends.
     */
-    KDateTime end() const;
+    QDateTime end() const;
 
     /**
       Returns the duration of the period.
@@ -190,11 +191,10 @@ public:
       shifted from 14:00 (which is the London time of the period start) to
       14:00 Paris time.
 
-      @param oldSpec the time specification which provides the clock times
-      @param newSpec the new time specification
+      @param oldZone the time zone which provides the clock times
+      @param newZone the new time zone
     */
-    void shiftTimes(const KDateTime::Spec &oldSpec,
-                    const KDateTime::Spec &newSpec);
+    void shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone);
 
 private:
     //@cond PRIVATE

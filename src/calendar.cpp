@@ -35,12 +35,16 @@
   @author David Jarvie \<software@astrojar.org.uk\>
 */
 #include "calendar.h"
+#include "calendar_p.h"
 #include "calfilter.h"
-#include "icaltimezones.h"
+#include "icaltimezones_p.h"
 #include "sorting.h"
 #include "visitor.h"
+#include "utils.h"
 
 #include "kcalcore_debug.h"
+
+#include <QTimeZone>
 
 extern "C" {
 #include <icaltimezone.h>
@@ -49,73 +53,6 @@ extern "C" {
 #include <algorithm>  // for std::remove()
 
 using namespace KCalCore;
-
-/**
-  Private class that helps to provide binary compatibility between releases.
-  @internal
-*/
-//@cond PRIVATE
-class Q_DECL_HIDDEN KCalCore::Calendar::Private
-{
-public:
-    Private()
-        : mTimeZones(new ICalTimeZones),
-          mModified(false),
-          mNewObserver(false),
-          mObserversEnabled(true),
-          mDefaultFilter(new CalFilter),
-          batchAddingInProgress(false),
-          mDeletionTracking(true)
-    {
-        // Setup default filter, which does nothing
-        mFilter = mDefaultFilter;
-        mFilter->setEnabled(false);
-
-        mOwner = Person::Ptr(new Person());
-        mOwner->setName(QStringLiteral("Unknown Name"));
-        mOwner->setEmail(QStringLiteral("unknown@nowhere"));
-    }
-
-    ~Private()
-    {
-        delete mTimeZones;
-        mTimeZones = nullptr;
-        if (mFilter != mDefaultFilter) {
-            delete mFilter;
-        }
-        delete mDefaultFilter;
-    }
-    KDateTime::Spec timeZoneIdSpec(const QString &timeZoneId, bool view);
-
-    QString mProductId;
-    Person::Ptr mOwner;
-    ICalTimeZones *mTimeZones; // collection of time zones used in this calendar
-    ICalTimeZone mBuiltInTimeZone;   // cached time zone lookup
-    ICalTimeZone mBuiltInViewTimeZone;   // cached viewing time zone lookup
-    KDateTime::Spec mTimeSpec;
-    mutable KDateTime::Spec mViewTimeSpec;
-    bool mModified;
-    bool mNewObserver;
-    bool mObserversEnabled;
-    QList<CalendarObserver *> mObservers;
-
-    CalFilter *mDefaultFilter;
-    CalFilter *mFilter;
-
-    // These lists are used to put together related To-dos
-    QMultiHash<QString, Incidence::Ptr> mOrphans;
-    QMultiHash<QString, Incidence::Ptr> mOrphanUids;
-
-    // Lists for associating incidences to notebooks
-    QMultiHash<QString, Incidence::Ptr >mNotebookIncidences;
-    QHash<QString, QString>mUidToNotebook;
-    QHash<QString, bool>mNotebooks; // name to visibility
-    QHash<Incidence::Ptr, bool>mIncidenceVisibility; // incidence -> visibility
-    QString mDefaultNotebook; // uid of default notebook
-    QMap<QString, Incidence::List > mIncidenceRelations;
-    bool batchAddingInProgress;
-    bool mDeletionTracking;
-};
 
 /**
   Make a QHash::value that returns a QVector.
@@ -153,16 +90,16 @@ class AddVisitor : public Visitor
 public:
     AddVisitor(T *r) : mResource(r) {}
 
-    bool visit(const Event::Ptr &e) Q_DECL_OVERRIDE {
+    bool visit(const Event::Ptr &e) override {
         return mResource->addEvent(e);
     }
-    bool visit(const Todo::Ptr &t) Q_DECL_OVERRIDE {
+    bool visit(const Todo::Ptr &t) override {
         return mResource->addTodo(t);
     }
-    bool visit(const Journal::Ptr &j) Q_DECL_OVERRIDE {
+    bool visit(const Journal::Ptr &j) override {
         return mResource->addJournal(j);
     }
-    bool visit(const FreeBusy::Ptr &) Q_DECL_OVERRIDE {
+    bool visit(const FreeBusy::Ptr &) override {
         return false;
     }
 
@@ -181,19 +118,19 @@ class DeleteVisitor : public Visitor
 public:
     DeleteVisitor(T *r) : mResource(r) {}
 
-    bool visit(const Event::Ptr &e) Q_DECL_OVERRIDE {
+    bool visit(const Event::Ptr &e) override {
         mResource->deleteEvent(e);
         return true;
     }
-    bool visit(const Todo::Ptr &t) Q_DECL_OVERRIDE {
+    bool visit(const Todo::Ptr &t) override {
         mResource->deleteTodo(t);
         return true;
     }
-    bool visit(const Journal::Ptr &j) Q_DECL_OVERRIDE {
+    bool visit(const Journal::Ptr &j) override {
         mResource->deleteJournal(j);
         return true;
     }
-    bool visit(const FreeBusy::Ptr &) Q_DECL_OVERRIDE {
+    bool visit(const FreeBusy::Ptr &) override {
         return false;
     }
 
@@ -202,14 +139,13 @@ private:
 };
 //@endcond
 
-Calendar::Calendar(const KDateTime::Spec &timeSpec)
+Calendar::Calendar(const QTimeZone &timeZone)
     : d(new KCalCore::Calendar::Private)
 {
-    d->mTimeSpec = timeSpec;
-    d->mViewTimeSpec = timeSpec;
+    d->mTimeZone = timeZone;
 }
 
-Calendar::Calendar(const QString &timeZoneId)
+Calendar::Calendar(const QByteArray &timeZoneId)
     : d(new KCalCore::Calendar::Private)
 {
     setTimeZoneId(timeZoneId);
@@ -232,123 +168,61 @@ void Calendar::setOwner(const Person::Ptr &owner)
     setModified(true);
 }
 
-void Calendar::setTimeSpec(const KDateTime::Spec &timeSpec)
+void Calendar::setTimeZone(const QTimeZone &timeZone)
 {
-    d->mTimeSpec = timeSpec;
-    d->mBuiltInTimeZone = ICalTimeZone();
-    setViewTimeSpec(timeSpec);
+    d->mTimeZone = timeZone;
 
-    doSetTimeSpec(d->mTimeSpec);
+    doSetTimeZone(d->mTimeZone);
 }
 
-KDateTime::Spec Calendar::timeSpec() const
+QTimeZone Calendar::timeZone() const
 {
-    return d->mTimeSpec;
+    return d->mTimeZone;
 }
 
-void Calendar::setTimeZoneId(const QString &timeZoneId)
+void Calendar::setTimeZoneId(const QByteArray &timeZoneId)
 {
-    d->mTimeSpec = d->timeZoneIdSpec(timeZoneId, false);
-    d->mViewTimeSpec = d->mTimeSpec;
-    d->mBuiltInViewTimeZone = d->mBuiltInTimeZone;
+    d->mTimeZone = d->timeZoneIdSpec(timeZoneId);
 
-    doSetTimeSpec(d->mTimeSpec);
+    doSetTimeZone(d->mTimeZone);
 }
 
 //@cond PRIVATE
-KDateTime::Spec Calendar::Private::timeZoneIdSpec(const QString &timeZoneId,
-        bool view)
+QTimeZone Calendar::Private::timeZoneIdSpec(const QByteArray &timeZoneId)
 {
-    if (view) {
-        mBuiltInViewTimeZone = ICalTimeZone();
-    } else {
-        mBuiltInTimeZone = ICalTimeZone();
+    if (timeZoneId == QByteArrayLiteral("UTC")) {
+        return QTimeZone::utc();
     }
-    if (timeZoneId == QLatin1String("UTC")) {
-        return KDateTime::UTC;
-    }
-    ICalTimeZone tz = mTimeZones->zone(timeZoneId);
-    if (!tz.isValid()) {
-        ICalTimeZoneSource tzsrc;
-        tz = tzsrc.parse(icaltimezone_get_builtin_timezone(timeZoneId.toLatin1().constData()));
-        if (view) {
-            mBuiltInViewTimeZone = tz;
-        } else {
-            mBuiltInTimeZone = tz;
-        }
-    }
-    if (tz.isValid()) {
+    auto tz = QTimeZone(timeZoneId);
+    if (tz.isValid())
         return tz;
-    } else {
-        return KDateTime::ClockTime;
-    }
+    return QTimeZone::systemTimeZone();
 }
 //@endcond
 
-QString Calendar::timeZoneId() const
+QByteArray Calendar::timeZoneId() const
 {
-    KTimeZone tz = d->mTimeSpec.timeZone();
-    return tz.isValid() ? tz.name() : QString();
+    return d->mTimeZone.id();
 }
 
-void Calendar::setViewTimeSpec(const KDateTime::Spec &timeSpec) const
+void Calendar::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
 {
-    d->mViewTimeSpec = timeSpec;
-    d->mBuiltInViewTimeZone = ICalTimeZone();
-}
-
-void Calendar::setViewTimeZoneId(const QString &timeZoneId) const
-{
-    d->mViewTimeSpec = d->timeZoneIdSpec(timeZoneId, true);
-}
-
-KDateTime::Spec Calendar::viewTimeSpec() const
-{
-    return d->mViewTimeSpec;
-}
-
-QString Calendar::viewTimeZoneId() const
-{
-    KTimeZone tz = d->mViewTimeSpec.timeZone();
-    return tz.isValid() ? tz.name() : QString();
-}
-
-ICalTimeZones *Calendar::timeZones() const
-{
-    return d->mTimeZones;
-}
-
-void Calendar::setTimeZones(ICalTimeZones *zones)
-{
-    if (!zones) {
-        return;
-    }
-
-    if (d->mTimeZones && (d->mTimeZones != zones)) {
-        delete d->mTimeZones;
-        d->mTimeZones = nullptr;
-    }
-    d->mTimeZones = zones;
-}
-
-void Calendar::shiftTimes(const KDateTime::Spec &oldSpec, const KDateTime::Spec &newSpec)
-{
-    setTimeSpec(newSpec);
+    setTimeZone(newZone);
 
     int i, end;
     Event::List ev = events();
     for (i = 0, end = ev.count();  i < end;  ++i) {
-        ev[i]->shiftTimes(oldSpec, newSpec);
+        ev[i]->shiftTimes(oldZone, newZone);
     }
 
     Todo::List to = todos();
     for (i = 0, end = to.count();  i < end;  ++i) {
-        to[i]->shiftTimes(oldSpec, newSpec);
+        to[i]->shiftTimes(oldZone, newZone);
     }
 
     Journal::List jo = journals();
     for (i = 0, end = jo.count();  i < end;  ++i) {
-        jo[i]->shiftTimes(oldSpec, newSpec);
+        jo[i]->shiftTimes(oldZone, newZone);
     }
 }
 
@@ -631,16 +505,16 @@ Event::List Calendar::sortEvents(const Event::List &eventList,
 }
 
 Event::List Calendar::events(const QDate &date,
-                             const KDateTime::Spec &timeSpec,
+                             const QTimeZone &timeZone,
                              EventSortField sortField,
                              SortDirection sortDirection) const
 {
-    Event::List el = rawEventsForDate(date, timeSpec, sortField, sortDirection);
+    Event::List el = rawEventsForDate(date, timeZone, sortField, sortDirection);
     d->mFilter->apply(&el);
     return el;
 }
 
-Event::List Calendar::events(const KDateTime &dt) const
+Event::List Calendar::events(const QDateTime &dt) const
 {
     Event::List el = rawEventsForDate(dt);
     d->mFilter->apply(&el);
@@ -648,10 +522,10 @@ Event::List Calendar::events(const KDateTime &dt) const
 }
 
 Event::List Calendar::events(const QDate &start, const QDate &end,
-                             const KDateTime::Spec &timeSpec,
+                             const QTimeZone &timeZone,
                              bool inclusive) const
 {
-    Event::List el = rawEvents(start, end, timeSpec, inclusive);
+    Event::List el = rawEvents(start, end, timeZone, inclusive);
     d->mFilter->apply(&el);
     return el;
 }
@@ -691,7 +565,7 @@ bool Calendar::deleteIncidence(const Incidence::Ptr &incidence)
 }
 
 Incidence::Ptr Calendar::createException(const Incidence::Ptr &incidence,
-        const KDateTime &recurrenceId,
+        const QDateTime &recurrenceId,
         bool thisAndFuture)
 {
     Q_ASSERT(recurrenceId.isValid());
@@ -700,7 +574,7 @@ Incidence::Ptr Calendar::createException(const Incidence::Ptr &incidence,
     }
 
     Incidence::Ptr newInc(incidence->clone());
-    newInc->setCreated(KDateTime::currentUtcDateTime());
+    newInc->setCreated(QDateTime::currentDateTimeUtc());
     newInc->setRevision(0);
     //Recurring exceptions are not support for now
     newInc->clearRecurrence();
@@ -710,10 +584,10 @@ Incidence::Ptr Calendar::createException(const Incidence::Ptr &incidence,
     newInc->setDtStart(recurrenceId);
 
     // Calculate and set the new end of the incidence
-    KDateTime end = incidence->dateTime(IncidenceBase::RoleEnd);
+    QDateTime end = incidence->dateTime(IncidenceBase::RoleEnd);
 
     if (end.isValid()) {
-        if (incidence->dtStart().isDateOnly()) {
+        if (incidence->allDay()) {
             int offset = incidence->dtStart().daysTo(recurrenceId);
             end = end.addDays(offset);
         } else {
@@ -725,85 +599,8 @@ Incidence::Ptr Calendar::createException(const Incidence::Ptr &incidence,
     return newInc;
 }
 
-// Dissociate a single occurrence or all future occurrences from a recurring
-// sequence. The new incidence is returned, but not automatically inserted
-// into the calendar, which is left to the calling application.
-Incidence::Ptr Calendar::dissociateOccurrence(const Incidence::Ptr &incidence,
-        const QDate &date,
-        const KDateTime::Spec &spec,
-        bool single)
-{
-    if (!incidence || !incidence->recurs()) {
-        return Incidence::Ptr();
-    }
-
-    Incidence::Ptr newInc(incidence->clone());
-    newInc->recreate();
-    // Do not call setRelatedTo() when dissociating recurring to-dos, otherwise the new to-do
-    // will appear as a child.  Originally, we planned to set a relation with reltype SIBLING
-    // when dissociating to-dos, but currently kcalcore only supports reltype PARENT.
-    // We can uncomment the following line when we support the PARENT reltype.
-    //newInc->setRelatedTo( incidence );
-    Recurrence *recur = newInc->recurrence();
-    if (single) {
-        recur->clear();
-    } else {
-        // Adjust the recurrence for the future incidences. In particular adjust
-        // the "end after n occurrences" rules! "No end date" and "end by ..."
-        // don't need to be modified.
-        int duration = recur->duration();
-        if (duration > 0) {
-            int doneduration = recur->durationTo(date.addDays(-1));
-            if (doneduration >= duration) {
-                qCDebug(KCALCORE_LOG) << "The dissociated event already occurred more often"
-                                      << "than it was supposed to ever occur. ERROR!";
-                recur->clear();
-            } else {
-                recur->setDuration(duration - doneduration);
-            }
-        }
-    }
-    // Adjust the date of the incidence
-    if (incidence->type() == Incidence::TypeEvent) {
-        Event::Ptr ev = newInc.staticCast<Event>();
-        KDateTime start(ev->dtStart());
-        int daysTo = start.toTimeSpec(spec).date().daysTo(date);
-        ev->setDtStart(start.addDays(daysTo));
-        ev->setDtEnd(ev->dtEnd().addDays(daysTo));
-    } else if (incidence->type() == Incidence::TypeTodo) {
-        Todo::Ptr td = newInc.staticCast<Todo>();
-        bool haveOffset = false;
-        int daysTo = 0;
-        if (td->hasDueDate()) {
-            KDateTime due(td->dtDue());
-            daysTo = due.toTimeSpec(spec).date().daysTo(date);
-            td->setDtDue(due.addDays(daysTo), true);
-            haveOffset = true;
-        }
-        if (td->hasStartDate()) {
-            KDateTime start(td->dtStart());
-            if (!haveOffset) {
-                daysTo = start.toTimeSpec(spec).date().daysTo(date);
-            }
-            td->setDtStart(start.addDays(daysTo));
-            haveOffset = true;
-        }
-    }
-    recur = incidence->recurrence();
-    if (recur) {
-        if (single) {
-            recur->addExDate(date);
-        } else {
-            // Make sure the recurrence of the past events ends
-            // at the corresponding day
-            recur->setEndDate(date.addDays(-1));
-        }
-    }
-    return newInc;
-}
-
 Incidence::Ptr Calendar::incidence(const QString &uid,
-                                   const KDateTime &recurrenceId) const
+                                   const QDateTime &recurrenceId) const
 {
     Incidence::Ptr i = event(uid, recurrenceId);
     if (i) {
@@ -819,7 +616,7 @@ Incidence::Ptr Calendar::incidence(const QString &uid,
     return i;
 }
 
-Incidence::Ptr Calendar::deleted(const QString &uid, const KDateTime &recurrenceId) const
+Incidence::Ptr Calendar::deleted(const QString &uid, const QDateTime &recurrenceId) const
 {
     Incidence::Ptr i = deletedEvent(uid, recurrenceId);
     if (i) {
@@ -951,9 +748,9 @@ Todo::List Calendar::todos(const QDate &date) const
 }
 
 Todo::List Calendar::todos(const QDate &start, const QDate &end,
-                           const KDateTime::Spec &timespec, bool inclusive) const
+                           const QTimeZone &timeZone, bool inclusive) const
 {
-    Todo::List tl = rawTodos(start, end, timespec, inclusive);
+    Todo::List tl = rawTodos(start, end, timeZone, inclusive);
     d->mFilter->apply(&tl);
     return tl;
 }
@@ -1251,7 +1048,7 @@ bool Calendar::reload()
     return true;
 }
 
-void Calendar::incidenceUpdated(const QString &uid, const KDateTime &recurrenceId)
+void Calendar::incidenceUpdated(const QString &uid, const QDateTime &recurrenceId)
 {
 
     Incidence::Ptr inc = incidence(uid, recurrenceId);
@@ -1260,7 +1057,7 @@ void Calendar::incidenceUpdated(const QString &uid, const KDateTime &recurrenceI
         return;
     }
 
-    inc->setLastModified(KDateTime::currentUtcDateTime());
+    inc->setLastModified(QDateTime::currentDateTimeUtc());
     // we should probably update the revision number here,
     // or internally in the Event itself when certain things change.
     // need to verify with ical documentation.
@@ -1270,9 +1067,9 @@ void Calendar::incidenceUpdated(const QString &uid, const KDateTime &recurrenceI
     setModified(true);
 }
 
-void Calendar::doSetTimeSpec(const KDateTime::Spec &timeSpec)
+void Calendar::doSetTimeZone(const QTimeZone &timeZone)
 {
-    Q_UNUSED(timeSpec);
+    Q_UNUSED(timeZone);
 }
 
 void Calendar::notifyIncidenceAdded(const Incidence::Ptr &incidence)
@@ -1287,6 +1084,15 @@ void Calendar::notifyIncidenceAdded(const Incidence::Ptr &incidence)
 
     for (CalendarObserver *observer : qAsConst(d->mObservers)) {
         observer->calendarIncidenceAdded(incidence);
+    }
+
+    for (auto role : { IncidenceBase::RoleStartTimeZone, IncidenceBase::RoleEndTimeZone }) {
+        const auto dt = incidence->dateTime(role);
+        if (dt.isValid() && dt.timeZone() != QTimeZone::utc()) {
+            if (!d->mTimeZones.contains(dt.timeZone())) {
+                d->mTimeZones.push_back(dt.timeZone());
+            }
+        }
     }
 }
 
@@ -1422,14 +1228,14 @@ void Calendar::setObserversEnabled(bool enabled)
 }
 
 void Calendar::appendAlarms(Alarm::List &alarms, const Incidence::Ptr &incidence,
-                            const KDateTime &from, const KDateTime &to) const
+                            const QDateTime &from, const QDateTime &to) const
 {
-    KDateTime preTime = from.addSecs(-1);
+    QDateTime preTime = from.addSecs(-1);
 
     Alarm::List alarmlist = incidence->alarms();
     for (int i = 0, iend = alarmlist.count();  i < iend;  ++i) {
         if (alarmlist[i]->enabled()) {
-            KDateTime dt = alarmlist[i]->nextRepetition(preTime);
+            QDateTime dt = alarmlist[i]->nextRepetition(preTime);
             if (dt.isValid() && dt <= to) {
                 qCDebug(KCALCORE_LOG) << incidence->summary() << "':" << dt.toString();
                 alarms.append(alarmlist[i]);
@@ -1440,10 +1246,10 @@ void Calendar::appendAlarms(Alarm::List &alarms, const Incidence::Ptr &incidence
 
 void Calendar::appendRecurringAlarms(Alarm::List &alarms,
                                      const Incidence::Ptr &incidence,
-                                     const KDateTime &from,
-                                     const KDateTime &to) const
+                                     const QDateTime &from,
+                                     const QDateTime &to) const
 {
-    KDateTime dt;
+    QDateTime dt;
     bool endOffsetValid = false;
     Duration endOffset(0);
     Duration period(from, to);
@@ -1475,14 +1281,13 @@ void Calendar::appendRecurringAlarms(Alarm::List &alarms,
                 }
 
                 // Find the incidence's earliest alarm
-                KDateTime alarmStart =
+                QDateTime alarmStart =
                     offset.end(a->hasEndOffset() ? incidence->dateTime(Incidence::RoleAlarmEndOffset) :
                                incidence->dtStart());
-//        KDateTime alarmStart = incidence->dtStart().addSecs( offset );
                 if (alarmStart > to) {
                     continue;
                 }
-                KDateTime baseStart = incidence->dtStart();
+                QDateTime baseStart = incidence->dtStart();
                 if (from > alarmStart) {
                     alarmStart = from;   // don't look earlier than the earliest alarm
                     baseStart = (-offset).end((-endOffset).end(alarmStart));
@@ -1502,7 +1307,7 @@ void Calendar::appendRecurringAlarms(Alarm::List &alarms,
                     // recurrences fall within the time period.
                     bool found = false;
                     Duration alarmDuration = a->duration();
-                    for (KDateTime base = baseStart;
+                    for (QDateTime base = baseStart;
                             (dt = incidence->recurrence()->getPreviousDateTime(base)).isValid();
                             base = dt) {
                         if (a->duration().end(dt) < base) {

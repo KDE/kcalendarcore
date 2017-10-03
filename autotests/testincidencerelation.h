@@ -22,7 +22,7 @@
 #ifndef TESTINCIDENCERELATION_H
 #define TESTINCIDENCERELATION_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class IncidenceRelationTest : public QObject
 {

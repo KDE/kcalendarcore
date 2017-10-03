@@ -46,16 +46,13 @@ class Q_DECL_HIDDEN KCalCore::CalFilter::Private
 {
 public:
     Private()
-        : mCriteria(0),
-          mCompletedTimeSpan(0),
-          mEnabled(true)
     {}
     QString mName;   // filter name
     QStringList mCategoryList;
     QStringList mEmailList;
-    int mCriteria;
-    int mCompletedTimeSpan;
-    bool mEnabled;
+    int mCriteria = 0;
+    int mCompletedTimeSpan = 0;
+    bool mEnabled = true;
 
 };
 //@endcond
@@ -144,14 +141,14 @@ bool CalFilter::filterIncidence(const Incidence::Ptr &incidence) const
         if ((d->mCriteria & HideCompletedTodos) && todo->isCompleted()) {
             // Check if completion date is suffently long ago:
             if (todo->completed().addDays(d->mCompletedTimeSpan) <
-                    KDateTime::currentUtcDateTime()) {
+                    QDateTime::currentDateTimeUtc()) {
                 return false;
             }
         }
 
         if ((d->mCriteria & HideInactiveTodos) &&
                 ((todo->hasStartDate() &&
-                  KDateTime::currentUtcDateTime() < todo->dtStart()) ||
+                  QDateTime::currentDateTimeUtc() < todo->dtStart()) ||
                  todo->isCompleted())) {
             return false;
         }

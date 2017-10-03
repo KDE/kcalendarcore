@@ -22,7 +22,7 @@
 #ifndef TESTJOURNAL_H
 #define TESTJOURNAL_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class JournalTest : public QObject
 {

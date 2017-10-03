@@ -50,7 +50,7 @@ public:
     CuType cuType() const;
     QString cuTypeStr() const;
 
-    bool mRSVP;
+    bool mRSVP = false;
     Role mRole;
     PartStat mStatus;
     QString mUid;

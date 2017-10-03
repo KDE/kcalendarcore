@@ -70,9 +70,9 @@ public:
     QString mUri;
     QByteArray mEncodedData;
     QString mLabel;
-    bool mBinary;
-    bool mLocal;
-    bool mShowInline;
+    bool mBinary = false;
+    bool mLocal = false;
+    bool mShowInline = false;
 };
 //@endcond
 

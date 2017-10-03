@@ -22,12 +22,14 @@
 #ifndef TESTTODO_H
 #define TESTTODO_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class TodoTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
+    void initTestCase();
+
     void testValidity();
     void testCompare();
     void testClone();

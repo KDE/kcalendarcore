@@ -37,7 +37,7 @@
 #include "incidencebase.h"
 #include "period.h"
 
-#include <QtCore/QMetaType>
+#include <QMetaType>
 
 namespace KCalCore
 {
@@ -98,7 +98,7 @@ public:
       @param start is the start date/time of the period.
       @param end is the end date/time of the period.
     */
-    FreeBusy(const KDateTime &start, const KDateTime &end);
+    FreeBusy(const QDateTime &start, const QDateTime &end);
 
     /**
       Constructs a freebusy for a specified list of events given a single period.
@@ -107,7 +107,7 @@ public:
       @param start is the start date/time of the period.
       @param end is the end date/time of the period.
     */
-    FreeBusy(const Event::List &events, const KDateTime &start, const KDateTime &end);
+    FreeBusy(const Event::List &events, const QDateTime &start, const QDateTime &end);
 
     /**
       Destroys a free/busy.
@@ -118,45 +118,44 @@ public:
       @copydoc
       IncidenceBase::type()
     */
-    IncidenceType type() const Q_DECL_OVERRIDE;
+    IncidenceType type() const override;
 
     /**
       @copydoc
       IncidenceBase::typeStr()
     */
-    QByteArray typeStr() const Q_DECL_OVERRIDE;
+    QByteArray typeStr() const override;
 
     /**
       Sets the start date/time for the free/busy. Note that this date/time
       may be later or earlier than all periods within the free/busy.
 
-      @param start is a KDateTime specifying an start datetime.
+      @param start is a QDateTime specifying an start datetime.
       @see IncidenceBase::dtStart(), setDtEnd().
     */
-    void setDtStart(const KDateTime &start) Q_DECL_OVERRIDE;
+    void setDtStart(const QDateTime &start) override;
 
     /**
       Sets the end datetime for the free/busy. Note that this datetime
       may be later or earlier than all periods within the free/busy.
 
-      @param end is a KDateTime specifying an end datetime.
+      @param end is a QDateTime specifying an end datetime.
       @see dtEnd(), setDtStart().
     */
-    void setDtEnd(const KDateTime &end);
+    void setDtEnd(const QDateTime &end);
 
     /**
       Returns the end datetime for the free/busy.
       FIXME: calling addPeriod() does not change mDtEnd. Is that incorrect?
       @see setDtEnd().
     */
-    virtual KDateTime dtEnd() const;
+    virtual QDateTime dtEnd() const;
 
     /**
       @copydoc
       IncidenceBase::shiftTimes()
     */
-    void shiftTimes(const KDateTime::Spec &oldSpec,
-                    const KDateTime::Spec &newSpec) Q_DECL_OVERRIDE;
+    void shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone) override;
 
     /**
       Returns the list of all periods within the free/busy.
@@ -174,7 +173,7 @@ public:
       @param start is the start datetime of the period.
       @param end is the end datetime of the period.
     */
-    void addPeriod(const KDateTime &start, const KDateTime &end);
+    void addPeriod(const QDateTime &start, const QDateTime &end);
 
     /**
       Adds a period to the freebusy list and sorts the list.
@@ -182,7 +181,7 @@ public:
       @param start is the start datetime of the period.
       @param duration is the Duration of the period.
     */
-    void addPeriod(const KDateTime &start, const Duration &duration);
+    void addPeriod(const QDateTime &start, const Duration &duration);
 
     /**
       Adds a list of periods to the freebusy object and then sorts that list.
@@ -218,19 +217,19 @@ public:
       @copydoc
       IncidenceBase::dateTime()
     */
-    KDateTime dateTime(DateTimeRole role) const Q_DECL_OVERRIDE;
+    QDateTime dateTime(DateTimeRole role) const override;
 
     /**
       @copydoc
       IncidenceBase::setDateTime()
     */
-    void setDateTime(const KDateTime &dateTime, DateTimeRole role) Q_DECL_OVERRIDE;
+    void setDateTime(const QDateTime &dateTime, DateTimeRole role) override;
 
     /**
        @copydoc
        IncidenceBase::mimeType()
     */
-    QLatin1String mimeType() const Q_DECL_OVERRIDE;
+    QLatin1String mimeType() const override;
 
     /**
        Returns the Akonadi specific sub MIME type of a KCalCore::FreeBusy.
@@ -242,26 +241,26 @@ protected:
       Compare this with @p freebusy for equality.
       @param freebusy is the FreeBusy to compare.
     */
-    bool equals(const IncidenceBase &freebusy) const Q_DECL_OVERRIDE;
+    bool equals(const IncidenceBase &freebusy) const override;
 
     /**
       @copydoc
       IncidenceBase::assign()
     */
-    IncidenceBase &assign(const IncidenceBase &other) Q_DECL_OVERRIDE;
+    IncidenceBase &assign(const IncidenceBase &other) override;
 
     /**
       @copydoc
       IncidenceBase::virtual_hook()
     */
-    void virtual_hook(VirtualHook id, void *data) Q_DECL_OVERRIDE;
+    void virtual_hook(VirtualHook id, void *data) override;
 
 private:
     /**
      @copydoc
      IncidenceBase::accept()
     */
-    bool accept(Visitor &v, const IncidenceBase::Ptr &incidence) Q_DECL_OVERRIDE;
+    bool accept(Visitor &v, const IncidenceBase::Ptr &incidence) override;
 
     /**
       Disabled, otherwise could be dangerous if you subclass FreeBusy.

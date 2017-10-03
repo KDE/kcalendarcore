@@ -18,10 +18,10 @@
   Boston, MA 02110-1301, USA.
 */
 
-#ifndef FILESTORAGETEST_H
-#define FILESTORAGETEST_H
+#ifndef TESTFILESTORAGE_H
+#define TESTFILESTORAGE_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class FileStorageTest : public QObject
 {
@@ -32,7 +32,7 @@ private Q_SLOTS:
     void testSaveLoadSave();
 
     /** Saves an incidence with éèü chars, then reads the file into a second incidence
-        and compares both incidences. The comparison should yeld true.
+        and compares both incidences. The comparison should yield true.
     */
     void testSpecialChars();
 };

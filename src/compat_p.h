@@ -34,7 +34,7 @@
 
 #include "incidence.h"
 
-#include <QtCore/QtGlobal> // for Q_DISABLE_COPY()
+#include <QtGlobal> // for Q_DISABLE_COPY()
 
 class QDate;
 class QString;
@@ -124,7 +124,7 @@ public:
     /**
       Sets the created and dtstamp.
     */
-    virtual void setCreatedToDtStamp(const Incidence::Ptr &incidence, const KDateTime &dtstamp);
+    virtual void setCreatedToDtStamp(const Incidence::Ptr &incidence, const QDateTime &dtstamp);
 
 private:
     //@cond PRIVATE
@@ -148,43 +148,43 @@ public:
       @copydoc
       Compat::fixRecurrence()
     */
-    void fixRecurrence(const Incidence::Ptr &incidence) Q_DECL_OVERRIDE;
+    void fixRecurrence(const Incidence::Ptr &incidence) override;
 
     /**
       @copydoc
       Compat::fixEmptySummary()
     */
-    void fixEmptySummary(const Incidence::Ptr &incidence) Q_DECL_OVERRIDE;
+    void fixEmptySummary(const Incidence::Ptr &incidence) override;
 
     /**
       @copydoc
       Compat::fixAlarms()
     */
-    void fixAlarms(const Incidence::Ptr &incidence) Q_DECL_OVERRIDE;
+    void fixAlarms(const Incidence::Ptr &incidence) override;
 
     /**
       @copydoc
       Compat::fixFloatingEnd()
     */
-    void fixFloatingEnd(QDate &date) Q_DECL_OVERRIDE;
+    void fixFloatingEnd(QDate &date) override;
 
     /**
       @copydoc
       Compat::fixPriority()
     */
-    int fixPriority(int priority) Q_DECL_OVERRIDE;
+    int fixPriority(int priority) override;
 
     /**
       @copydoc
       Compat::useTimeZoneShift()
     */
-    bool useTimeZoneShift() const Q_DECL_OVERRIDE;
+    bool useTimeZoneShift() const override;
 
     /**
       @copydoc
       Compat::setCreatedToDtStamp()
     */
-    void setCreatedToDtStamp(const Incidence::Ptr &incidence, const KDateTime &dtstamp) Q_DECL_OVERRIDE;
+    void setCreatedToDtStamp(const Incidence::Ptr &incidence, const QDateTime &dtstamp) override;
 
 private:
     //@cond PRIVATE
@@ -214,7 +214,7 @@ public:
       @copydoc
       Compat::fixRecurrence()
     */
-    void fixRecurrence(const Incidence::Ptr &incidence) Q_DECL_OVERRIDE;
+    void fixRecurrence(const Incidence::Ptr &incidence) override;
 
 private:
     //@cond PRIVATE
@@ -237,7 +237,7 @@ public:
       @copydoc
       Compat::fixPriority()
     */
-    int fixPriority(int priority) Q_DECL_OVERRIDE;
+    int fixPriority(int priority) override;
 
 private:
     //@cond PRIVATE
@@ -265,7 +265,7 @@ public:
       @copydoc
       Compat::fixRecurrence()
     */
-    void fixRecurrence(const Incidence::Ptr &incidence) Q_DECL_OVERRIDE;
+    void fixRecurrence(const Incidence::Ptr &incidence) override;
 
 private:
     //@cond PRIVATE
@@ -300,13 +300,13 @@ public:
       @copydoc
       Compat::fixFloatingEnd()
     */
-    void fixFloatingEnd(QDate &date) Q_DECL_OVERRIDE;
+    void fixFloatingEnd(QDate &date) override;
 
     /**
       @copydoc
       Compat::fixRecurrence()
     */
-    void fixRecurrence(const Incidence::Ptr &incidence) Q_DECL_OVERRIDE;
+    void fixRecurrence(const Incidence::Ptr &incidence) override;
 
 private:
     //@cond PRIVATE
@@ -329,7 +329,7 @@ public:
       @copydoc
       Compat::useTimeZoneShift()
     */
-    bool useTimeZoneShift() const Q_DECL_OVERRIDE;
+    bool useTimeZoneShift() const override;
 
 private:
     //@cond PRIVATE
@@ -356,7 +356,7 @@ public:
       @copydoc
       Compat::fixAlarms()
     */
-    void fixAlarms(const Incidence::Ptr &incidence) Q_DECL_OVERRIDE;
+    void fixAlarms(const Incidence::Ptr &incidence) override;
 
 private:
     //@cond PRIVATE
@@ -378,7 +378,7 @@ public:
       @copydoc
       Compat::setCreatedToDtStamp()
     */
-    void setCreatedToDtStamp(const Incidence::Ptr &incidence, const KDateTime &dtstamp) Q_DECL_OVERRIDE;
+    void setCreatedToDtStamp(const Incidence::Ptr &incidence, const QDateTime &dtstamp) override;
 
 private:
     //@cond PRIVATE

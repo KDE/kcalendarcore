@@ -61,14 +61,15 @@
 #include "duration.h"
 #include "sortablelist.h"
 
-#include <KDateTime>
+#include <QDateTime>
 
-#include <QtCore/QSet>
-#include <QtCore/QUrl>
+#include <QSet>
+#include <QUrl>
 #include <QDataStream>
 
 class QUrl;
 class QDate;
+class QTimeZone;
 
 namespace KCalCore
 {
@@ -77,7 +78,7 @@ namespace KCalCore
 typedef SortableList<QDate> DateList;
 
 /** List of times */
-typedef SortableList<KDateTime> DateTimeList;
+typedef SortableList<QDateTime> DateTimeList;
 
 class Event;
 class Todo;
@@ -140,7 +141,7 @@ public:
         RoleEndTimeZone,         /**< Role for determining an incidence's ending timezone */
         RoleEndRecurrenceBase,
         RoleEnd,                 /**< Role for determining an incidence's dtEnd, will return
-                                    an invalid KDateTime if the incidence does not support dtEnd */
+                                    an invalid QDateTime if the incidence does not support dtEnd */
         RoleDisplayEnd,          /**< Role used for display purposes, represents the end boundary
                                     if an incidence supports dtEnd */
         RoleAlarm,               /**< Role for determining the date/time of the first alarm.
@@ -212,7 +213,7 @@ public:
           @param uid is the string containing the incidence @ref uid.
           @param recurrenceId is possible recurrenceid of incidence.
         */
-        virtual void incidenceUpdate(const QString &uid, const KDateTime &recurrenceId) = 0;
+        virtual void incidenceUpdate(const QString &uid, const QDateTime &recurrenceId) = 0;
 
         /**
           The IncidenceObserver interface.
@@ -220,7 +221,7 @@ public:
           @param uid is the string containing the incidence @ref uid.
           @param recurrenceId is possible recurrenceid of incidence.
         */
-        virtual void incidenceUpdated(const QString &uid, const KDateTime &recurrenceId) = 0;
+        virtual void incidenceUpdated(const QString &uid, const QDateTime &recurrenceId) = 0;
     };
 
     /**
@@ -311,17 +312,17 @@ public:
       Sets the time the incidence was last modified to @p lm.
       It is stored as a UTC date/time.
 
-      @param lm is the KDateTime when the incidence was last modified.
+      @param lm is the QDateTime when the incidence was last modified.
 
       @see lastModified()
     */
-    virtual void setLastModified(const KDateTime &lm);
+    virtual void setLastModified(const QDateTime &lm);
 
     /**
       Returns the time the incidence was last modified.
       @see setLastModified()
     */
-    KDateTime lastModified() const;
+    QDateTime lastModified() const;
 
     /**
       Sets the organizer for the incidence.
@@ -363,20 +364,20 @@ public:
     bool isReadOnly() const;
 
     /**
-      Sets the incidence's starting date/time with a KDateTime.
+      Sets the incidence's starting date/time with a QDateTime.
       The incidence's all-day status is set according to whether @p dtStart
       is a date/time (not all-day) or date-only (all-day).
 
       @param dtStart is the incidence start date/time.
       @see dtStart().
     */
-    virtual void setDtStart(const KDateTime &dtStart);
+    virtual void setDtStart(const QDateTime &dtStart);
 
     /**
-      Returns an incidence's starting date/time as a KDateTime.
+      Returns an incidence's starting date/time as a QDateTime.
       @see setDtStart().
     */
-    virtual KDateTime dtStart() const;
+    virtual QDateTime dtStart() const;
 
     /**
       Sets the incidence duration.
@@ -434,11 +435,10 @@ public:
       will result in the time being shifted from 14:00 (which is the London
       time of the incidence start) to 14:00 Paris time.
 
-      @param oldSpec the time specification which provides the clock times
-      @param newSpec the new time specification
+      @param oldZone the time zone which provides the clock times
+      @param newZone the new time zone
     */
-    virtual void shiftTimes(const KDateTime::Spec &oldSpec,
-                            const KDateTime::Spec &newSpec);
+    virtual void shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone);
 
     /**
       Adds a comment to the incidence. Does not add a linefeed character; simply
@@ -634,14 +634,14 @@ public:
       Returns a date/time corresponding to the specified DateTimeRole.
       @param role is a DateTimeRole.
     */
-    virtual KDateTime dateTime(DateTimeRole role) const = 0;
+    virtual QDateTime dateTime(DateTimeRole role) const = 0;
 
     /**
       Sets the date/time corresponding to the specified DateTimeRole.
-      @param dateTime is KDateTime value to set.
+      @param dateTime is QDateTime value to set.
       @param role is a DateTimeRole.
     */
-    virtual void setDateTime(const KDateTime &dateTime, DateTimeRole role) = 0;
+    virtual void setDateTime(const QDateTime &dateTime, DateTimeRole role) = 0;
 
     /**
       Returns the Akonadi specific sub MIME type of a KCalCore::IncidenceBase item,
@@ -654,7 +654,7 @@ public:
       @return incidences recurrenceId value
       @see setRecurrenceId().
     */
-    virtual KDateTime recurrenceId() const;
+    virtual QDateTime recurrenceId() const;
 
     /**
        Returns a QSet with all Fields that were changed since the incidence was created
@@ -697,13 +697,13 @@ protected:
       @copydoc
       CustomProperties::customPropertyUpdate()
     */
-    void customPropertyUpdate() Q_DECL_OVERRIDE;
+    void customPropertyUpdate() override;
 
     /**
       @copydoc
       CustomProperties::customPropertyUpdated()
     */
-    void customPropertyUpdated() Q_DECL_OVERRIDE;
+    void customPropertyUpdated() override;
 
     /**
       Constructs an IncidenceBase as a copy of another IncidenceBase object.

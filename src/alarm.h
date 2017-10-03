@@ -36,13 +36,14 @@
 #include "duration.h"
 #include "person.h"
 
-#include <KDateTime>
-
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-#include <QtCore/QVector>
+#include <QDateTime>
+#include <QString>
+#include <QStringList>
+#include <QVector>
 #include <QDataStream>
 #include <QMetaType>
+
+class QTimeZone;
 
 namespace KCalCore
 {
@@ -423,18 +424,18 @@ public:
     /**
       Sets the trigger time of the alarm.
 
-      @param alarmTime is the KDateTime alarm trigger.
+      @param alarmTime is the QDateTime alarm trigger.
 
       @see time()
     */
-    void setTime(const KDateTime &alarmTime);
+    void setTime(const QDateTime &alarmTime);
 
     /**
       Returns the alarm trigger date/time.
 
       @see setTime()
     */
-    KDateTime time() const;
+    QDateTime time() const;
 
     /**
       Returns the next alarm trigger date/time after given date/time.
@@ -444,7 +445,7 @@ public:
       @param ignoreRepetitions don't take repetitions into account
       @see nextRepetition()
     */
-    KDateTime nextTime(const KDateTime &preTime, bool ignoreRepetitions = false) const;
+    QDateTime nextTime(const QDateTime &preTime, bool ignoreRepetitions = false) const;
 
     /**
       Returns the date/time when the last repetition of the alarm goes off.
@@ -452,7 +453,7 @@ public:
 
       @see setTime()
     */
-    KDateTime endTime() const;
+    QDateTime endTime() const;
 
     /**
       Returns true if the alarm has a trigger date/time.
@@ -519,16 +520,15 @@ public:
       time zone rather than from the actual alarm time zone.
 
       For example, shifting an alarm whose start time is 09:00 America/New York,
-      using an old viewing time zone (@p oldSpec) of Europe/London, to a new
-      time zone (@p newSpec) of Europe/Paris, will result in the time being
+      using an old viewing time zone (@p oldZone) of Europe/London, to a new
+      time zone (@p newZone) of Europe/Paris, will result in the time being
       shifted from 14:00 (which is the London time of the alarm start) to
       14:00 Paris time.
 
-      @param oldSpec the time specification which provides the clock times
-      @param newSpec the new time specification
+      @param oldZone the time zone which provides the clock times
+      @param newZone the new time zone
     */
-    void shiftTimes(const KDateTime::Spec &oldSpec,
-                    const KDateTime::Spec &newSpec);
+    void shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone);
 
     /**
       Sets the snooze time interval for the alarm.
@@ -575,7 +575,7 @@ public:
 
       @see previousRepetition()
     */
-    KDateTime nextRepetition(const KDateTime &preTime) const;
+    QDateTime nextRepetition(const QDateTime &preTime) const;
 
     /**
       Returns the date/time of the alarm's latest repetition or, if none,
@@ -590,7 +590,7 @@ public:
 
       @see nextRepetition()
     */
-    KDateTime previousRepetition(const KDateTime &afterTime) const;
+    QDateTime previousRepetition(const QDateTime &afterTime) const;
 
     /**
       Returns the interval between the alarm's initial occurrence and
@@ -658,7 +658,7 @@ protected:
       @copydoc
       CustomProperties::customPropertyUpdated()
     */
-    void customPropertyUpdated() Q_DECL_OVERRIDE;
+    void customPropertyUpdated() override;
 
     /**
       @copydoc

@@ -26,9 +26,8 @@
 #include "memorycalendar.h"
 
 #include <QDebug>
-#include <kdatetime.h>
-
-#include <qtest.h>
+#include <QTest>
+#include <QTimeZone>
 
 #include <unistd.h>
 
@@ -42,8 +41,9 @@ void ICalFormatTest::testCharsets()
     const QDate currentDate = QDate::currentDate();
     Event::Ptr event = Event::Ptr(new Event());
     event->setUid(QStringLiteral("12345"));
-    event->setDtStart(KDateTime(currentDate));
-    event->setDtEnd(KDateTime(currentDate.addDays(1)));
+    event->setDtStart(QDateTime(currentDate, {}));
+    event->setDtEnd(QDateTime(currentDate.addDays(1), {}));
+    event->setAllDay(true);
 
     // ü
     const QChar latin1_umlaut[] = { 0xFC, QLatin1Char('\0') };
@@ -69,7 +69,7 @@ void ICalFormatTest::testCharsets()
             QByteArray(QString(utf_umlaut).toLatin1().constData()));
 
     // test save()
-    MemoryCalendar::Ptr calendar(new MemoryCalendar(QStringLiteral("UTC")));
+    MemoryCalendar::Ptr calendar(new MemoryCalendar(QTimeZone::utc()));
     calendar->addIncidence(event);
     QVERIFY(format.save(calendar, QLatin1String("hommer.ics")));
 
@@ -83,7 +83,7 @@ void ICalFormatTest::testCharsets()
     file.close();
 
     // Test load:
-    MemoryCalendar::Ptr calendar2(new MemoryCalendar(QStringLiteral("UTC")));
+    MemoryCalendar::Ptr calendar2(new MemoryCalendar(QTimeZone::utc()));
     QVERIFY(format.load(calendar2, QLatin1String("hommer.ics")));
     QVERIFY(calendar2->incidences().count() == 1);
 
@@ -96,7 +96,7 @@ void ICalFormatTest::testCharsets()
     QVERIFY(*loadedEvent == *event);
 
     // Test fromRawString()
-    MemoryCalendar::Ptr calendar3(new MemoryCalendar(QStringLiteral("UTC")));
+    MemoryCalendar::Ptr calendar3(new MemoryCalendar(QTimeZone::utc()));
     format.fromRawString(calendar3, bytesFromFile);
     QVERIFY(calendar3->incidences().count() == 1);
     QVERIFY(*calendar3->incidences().at(0) == *event);
@@ -111,8 +111,9 @@ void ICalFormatTest::testVolatileProperties()
     const QDate currentDate = QDate::currentDate();
     Event::Ptr event = Event::Ptr(new Event());
     event->setUid(QStringLiteral("12345"));
-    event->setDtStart(KDateTime(currentDate));
-    event->setDtEnd(KDateTime(currentDate.addDays(1)));
+    event->setDtStart(QDateTime(currentDate, {}));
+    event->setDtEnd(QDateTime(currentDate.addDays(1), {}));
+    event->setAllDay(true);
     event->setCustomProperty("VOLATILE", "FOO", QStringLiteral("BAR"));
     QString string = format.toICalString(event);
     Incidence::Ptr incidence = format.fromString(string);
@@ -127,8 +128,9 @@ void ICalFormatTest::testCuType()
     const QDate currentDate = QDate::currentDate();
     Event::Ptr event(new Event());
     event->setUid(QStringLiteral("12345"));
-    event->setDtStart(KDateTime(currentDate));
-    event->setDtEnd(KDateTime(currentDate.addDays(1)));
+    event->setDtStart(QDateTime(currentDate, {}));
+    event->setDtEnd(QDateTime(currentDate.addDays(1), {}));
+    event->setAllDay(true);
 
     Attendee::Ptr attendee(new Attendee(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com")));
     attendee->setCuType(Attendee::Resource);
