@@ -2318,7 +2318,6 @@ icaltimetype ICalFormatImpl::writeICalDate(const QDate &date)
     t.second = 0;
 
     t.is_date = 1;
-    t.is_utc = 0;
     t.zone = nullptr;
 
     return t;
@@ -2340,8 +2339,10 @@ icaltimetype ICalFormatImpl::writeICalDateTime(const QDateTime &datetime, bool d
         t.second = datetime.time().second();
     }
     t.zone = nullptr;   // zone is NOT set
-    t.is_utc = datetime.timeSpec() == Qt::UTC ||
-                (datetime.timeSpec() == Qt::OffsetFromUTC && datetime.offsetFromUtc() == 0);
+    if (datetime.timeSpec() == Qt::UTC ||
+        (datetime.timeSpec() == Qt::OffsetFromUTC && datetime.offsetFromUtc() == 0)) {
+        t = icaltime_convert_to_zone(t, icaltimezone_get_utc_timezone());
+    }
 
     return t;
 }
@@ -2411,7 +2412,7 @@ icalproperty *ICalFormatImpl::writeICalDateTimeProperty(const icalproperty_kind 
     }
 
     QTimeZone qtz;
-    if (!t.is_utc) {
+    if (!icaltime_is_utc(t)) {
         qtz = dt.timeZone();
     }
 
@@ -2433,7 +2434,7 @@ QDateTime ICalFormatImpl::readICalDateTime(icalproperty *p, const icaltimetype &
 //  _dumpIcaltime( t );
 
     QTimeZone timeZone;
-    if (t.is_utc  ||  t.zone == icaltimezone_get_utc_timezone()) {
+    if (icaltime_is_utc(t) ||  t.zone == icaltimezone_get_utc_timezone()) {
         timeZone = QTimeZone::utc(); // the time zone is UTC
         utc = false;    // no need to convert to UTC
     } else {
