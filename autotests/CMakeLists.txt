@@ -69,9 +69,15 @@ endif()
 ########### Tests #######################
 
 file(GLOB_RECURSE testFiles data/RecurrenceRule/*.ics)
-file(GLOB_RECURSE compatFiles data/Compat/*.ics)
 file(GLOB_RECURSE vCalFilesAsIcal data/vCalendar/*.ics)
 file(GLOB_RECURSE vCalFiles data/vCalendar/*.vcs)
+#libical v3 (and above) compatibility is slighty changed from older libical versions.
+#keep 2 sets of reference data, for now.
+if(NOT HAVE_ICAL_3)
+  file(GLOB_RECURSE compatFiles data/Compat/*.ics)
+else()
+  file(GLOB_RECURSE compatFiles data/Compat-libical3/*.ics)
+endif()
 
 if(WIN32)
   find_program(PERL_EXECUTABLE perl)
