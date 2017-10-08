@@ -20,8 +20,8 @@ include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 include(ECMQtDeclareLoggingCategory)
 include(ECMCoverageOption)
-if (POLICY CMP0053)
-    cmake_policy(SET CMP0053 NEW)
+if(POLICY CMP0053)
+  cmake_policy(SET CMP0053 NEW)
 endif()
 set(QT_REQUIRED_VERSION "5.8.0")
 
@@ -35,13 +35,16 @@ ecm_setup_version(PROJECT VARIABLE_PREFIX KCALCORE
 ########### Find packages ###########
 find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED Core Gui)
 
-set(LibIcal_MIN_VERSION "1.0")
+set(LibIcal_MIN_VERSION "2.99")
 find_package(LibIcal ${LibIcal_MIN_VERSION})
 set_package_properties(LibIcal PROPERTIES
   DESCRIPTION "The libical library"
   URL "http://sourceforge.net/projects/freeassociation"
   TYPE REQUIRED
 )
+if(LibIcal_VERSION VERSION_GREATER_EQUAL 2.99)
+  add_definitions(-DUSE_ICAL_3)
+endif()
 
 find_package(BISON REQUIRED)
 set_package_properties(BISON PROPERTIES

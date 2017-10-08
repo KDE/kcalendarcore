@@ -47,7 +47,11 @@ static QDateTime toQDateTime(const icaltimetype &t)
 {
     return QDateTime(QDate(t.year, t.month, t.day),
                      QTime(t.hour, t.minute, t.second),
+#if defined(USE_ICAL_3)
                      (icaltime_is_utc(t) ? Qt::UTC : Qt::LocalTime));
+#else
+                     (t.is_utc ? Qt::UTC : Qt::LocalTime));
+#endif
 }
 
 // Maximum date for time zone data.
@@ -74,12 +78,14 @@ static icaltimetype writeLocalICalDateTime(const QDateTime &utc, int offset)
     t.second = local.time().second();
     t.is_date = 0;
     t.zone = nullptr;
+#if !defined(USE_ICAL_3)
+    t.is_utc = 0;
+#endif
     return t;
 }
 
 namespace KCalCore
 {
-
 
 void ICalTimeZonePhase::dump()
 {
@@ -140,7 +146,7 @@ QTimeZone ICalTimeZoneCache::tzForTime(const QDateTime &dt, const QByteArray &tz
     // The lookup in ICalTimeZoneParser will only find TZ in standard time, but
     // if the datetim in question fits in the DTS zone, we need to use another UTC
     // offset timezone
-    if (tz.qZone.id().startsWith("UTC")) {
+    if (tz.qZone.id().startsWith("UTC")) { //krazy:exclude=strings
         // Find the nearest standard and DST transitions that occur BEFORE the "dt"
         const auto stdPrev = greatestSmallerThan(tz.standard.transitions, dt);
         const auto dstPrev = greatestSmallerThan(tz.daylight.transitions, dt);
@@ -151,7 +157,7 @@ QTimeZone ICalTimeZoneCache::tzForTime(const QDateTime &dt, const QByteArray &tz
                 const auto tzids = QTimeZone::availableTimeZoneIds(tz.daylight.utcOffset);
                 auto dtsTzId = std::find_if(tzids.cbegin(), tzids.cend(),
                                             [](const QByteArray &id) {
-                                                return id.startsWith("UTC");
+                                                return id.startsWith("UTC"); //krazy:exclude=strings
                                             });
                 if (dtsTzId != tzids.cend()) {
                     return QTimeZone(*dtsTzId);
@@ -162,8 +168,6 @@ QTimeZone ICalTimeZoneCache::tzForTime(const QDateTime &dt, const QByteArray &tz
 
     return tz.qZone;
 }
-
-
 
 ICalTimeZoneParser::ICalTimeZoneParser(ICalTimeZoneCache *cache)
     : mCache(cache)
@@ -197,7 +201,6 @@ icalcomponent *ICalTimeZoneParser::icalcomponentFromQTimeZone(const QTimeZone &t
         WEEKDAY_OF_MONTH      = 0x02,
         LAST_WEEKDAY_OF_MONTH = 0x04
     };
-
 
     // Write the time zone data into an iCal component
     icalcomponent *tzcomp = icalcomponent_new(ICAL_VTIMEZONE_COMPONENT);
@@ -509,7 +512,7 @@ QTimeZone ICalTimeZoneParser::resolveICalTimeZone(const ICalTimeZone &icalZone)
                 }
             }
         }
-        matchedCandidates.insert(matchedTransitions, candidate); 
+        matchedCandidates.insert(matchedTransitions, candidate);
     }
 
     if (!matchedCandidates.isEmpty()) {
@@ -631,7 +634,11 @@ bool ICalTimeZoneParser::parsePhase(icalcomponent *c, ICalTimeZonePhase &phase)
     // Convert DTSTART to QDateTime, and from local time to UTC
     const QDateTime localStart = toQDateTime(dtstart);     // local time
     dtstart.second -= prevOffset;
+#if defined(USE_ICAL_3)
     dtstart = icaltime_convert_to_zone(dtstart, icaltimezone_get_utc_timezone());
+#else
+    dtstart.is_utc = 1;
+#endif
     const QDateTime utcStart = toQDateTime(icaltime_normalize(dtstart));       // UTC
 
     phase.abbrevs.unite(abbrevs);
@@ -659,13 +666,24 @@ bool ICalTimeZoneParser::parsePhase(icalcomponent *c, ICalTimeZonePhase &phase)
                     t.hour = dtstart.hour;
                     t.minute = dtstart.minute;
                     t.second = dtstart.second;
+#if !defined(USE_ICAL_3)
+                    t.is_utc = 0;    // dtstart is in local time
+#endif
                     t.is_date = 0;
                 }
                 // RFC2445 states that RDATE must be in local time,
                 // but we support UTC as well to be safe.
+#if defined(USE_ICAL_3)
                 if (!icaltime_is_utc(t)) {
+#else
+                if (!t.is_utc) {
+#endif
                     t.second -= prevOffset;    // convert to UTC
+#if defined(USE_ICAL_3)
                     t = icaltime_convert_to_zone(t, icaltimezone_get_utc_timezone());
+#else
+                    t.is_utc = 1;
+#endif
                     t = icaltime_normalize(t);
                 }
                 phase.transitions += toQDateTime(t);

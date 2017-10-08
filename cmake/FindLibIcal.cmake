@@ -35,12 +35,16 @@ find_path(LibIcal_INCLUDE_DIRS
 
 find_library(LibIcal_LIBRARY
   NAMES ical libical
-  HINTS ${libical_root}/lib ${_program_FILES_DIR}/libical/lib
+  HINTS
+    ${libical_root}/lib64 ${_program_FILES_DIR}/libical/lib64
+    ${libical_root}/lib ${_program_FILES_DIR}/libical/lib
 )
 
 find_library(LibIcalss_LIBRARY
   NAMES icalss libicalss
-  HINTS ${libical_root}/lib ${_program_FILES_DIR}/libical/lib
+  HINTS
+    ${libical_root}/lib64 ${_program_FILES_DIR}/libical/lib64
+    ${libical_root}/lib ${_program_FILES_DIR}/libical/lib
 )
 
 set(LibIcal_LIBRARIES ${LibIcal_LIBRARY} ${LibIcalss_LIBRARY})
