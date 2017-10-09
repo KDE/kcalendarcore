@@ -110,11 +110,9 @@ bool VCalFormat::load(const Calendar::Ptr &calendar, const QString &fileName)
 
     clearException();
 
-    VObject *vcal = nullptr;
-
     // this is not necessarily only 1 vcal.  Could be many vcals, or include
     // a vcard...
-    vcal = Parse_MIME_FromFileName(const_cast<char *>(QFile::encodeName(fileName).data()));
+    VObject *vcal = Parse_MIME_FromFileName(const_cast<char *>(QFile::encodeName(fileName).data()));
 
     if (!vcal) {
         setException(new Exception(Exception::CalVersionUnknown));
@@ -242,10 +240,10 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
             QString tmpStr = QString::fromUtf8(s);
             deleteStr(s);
             tmpStr = tmpStr.simplified();
-            int emailPos1, emailPos2;
+            int emailPos1;
             if ((emailPos1 = tmpStr.indexOf(QLatin1Char('<'))) > 0) {
                 // both email address and name
-                emailPos2 = tmpStr.lastIndexOf(QLatin1Char('>'));
+                int emailPos2 = tmpStr.lastIndexOf(QLatin1Char('>'));
                 a = Attendee::Ptr(new Attendee(tmpStr.left(emailPos1 - 1),
                                                tmpStr.mid(emailPos1 + 1,
                                                        emailPos2 - (emailPos1 + 1))));
@@ -715,10 +713,10 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
             QString tmpStr = QString::fromUtf8(s);
             deleteStr(s);
             tmpStr = tmpStr.simplified();
-            int emailPos1, emailPos2;
+            int emailPos1;
             if ((emailPos1 = tmpStr.indexOf(QLatin1Char('<'))) > 0) {
                 // both email address and name
-                emailPos2 = tmpStr.lastIndexOf(QLatin1Char('>'));
+                int emailPos2 = tmpStr.lastIndexOf(QLatin1Char('>'));
                 a = Attendee::Ptr(new Attendee(tmpStr.left(emailPos1 - 1),
                                                tmpStr.mid(emailPos1 + 1,
                                                        emailPos2 - (emailPos1 + 1))));
@@ -1364,8 +1362,7 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
     QTimeZone previousZone; //If we add a new TZ we should leave the spec as it was before
 
     if ((curVO = isAPropertyOf(vcal, ICMethodProp)) != nullptr) {
-        char *methodType = nullptr;
-        methodType = fakeCString(vObjectUStringZValue(curVO));
+        char *methodType = fakeCString(vObjectUStringZValue(curVO));
         // qCDebug(KCALCORE_LOG) << "This calendar is an iTIP transaction of type '" << methodType << "'";
         deleteStr(methodType);
     }
@@ -1704,14 +1701,12 @@ QByteArray VCalFormat::writeStatus(Attendee::PartStat status) const
 void VCalFormat::readCustomProperties(VObject *o, const Incidence::Ptr &i)
 {
     VObjectIterator iter;
-    VObject *cur;
-    const char *curname;
     char *s;
 
     initPropIterator(&iter, o);
     while (moreIteration(&iter)) {
-        cur = nextVObject(&iter);
-        curname = vObjectName(cur);
+        VObject *cur = nextVObject(&iter);
+        const char *curname = vObjectName(cur);
         Q_ASSERT(curname);
         if ((curname[0] == 'X' && curname[1] == '-') &&
                 strcmp(curname, ICOrganizerProp) != 0) {
