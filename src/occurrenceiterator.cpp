@@ -110,7 +110,7 @@ public:
             if (inc->recurs()) {
                 QHash<QDateTime, Incidence::Ptr> recurrenceIds;
                 QDateTime incidenceRecStart = inc->dateTime(Incidence::RoleRecurrenceStart);
-                const bool isAllDay = inc->allDay();
+                //const bool isAllDay = inc->allDay();
                 foreach (const Incidence::Ptr &exception, calendar.instances(inc)) {
                     if (incidenceRecStart.isValid()) {
                         recurrenceIds.insert(exception->recurrenceId().toTimeZone(incidenceRecStart.timeZone()), exception);

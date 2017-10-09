@@ -499,7 +499,6 @@ bool Constraint::merge(const Constraint &interval)
 QList<QDateTime> Constraint::dateTimes(RecurrenceRule::PeriodType type) const
 {
     QList<QDateTime> result;
-    bool done = false;
     if (!isConsistent(type)) {
         return result;
     }
@@ -507,7 +506,8 @@ QList<QDateTime> Constraint::dateTimes(RecurrenceRule::PeriodType type) const
     // TODO_Recurrence: Handle all-day
     QTime tm(hour, minute, second);
 
-    if (!done && day && month > 0) {
+    bool done = false;
+    if (day && month > 0) {
         appendDateTime(DateHelper::getDate(year, month, day), tm, result);
         done = true;
     }
