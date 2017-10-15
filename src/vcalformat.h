@@ -183,7 +183,6 @@ protected:
       Converts a two letter representation of the day (i.e. MO, TU, WE, etc) and
       returns a number 0-6 corresponding to that ordinal day of the week.
       @param day is the QString containing the two letter day representation.
-      @see dayFromNum().
     */
     int numFromDay(const QString &day);
 
