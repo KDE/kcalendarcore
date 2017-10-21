@@ -2120,6 +2120,7 @@ QString dumpTime(const QDateTime &dt, bool isAllDay)
     return result;
 #else
     Q_UNUSED(dt);
+    Q_UNUSED(isAllDay);
     return QString();
 #endif
 }

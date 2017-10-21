@@ -76,15 +76,6 @@ void removeAllVCal(QVector< QSharedPointer<K> > &c, const QSharedPointer<K> &x)
     c.remove(c.indexOf(x));
 }
 
-static QString dayFromNum(int day)
-{
-    static const QStringList days = { QStringLiteral("MO "), QStringLiteral("TU "), QStringLiteral("WE "),
-                                      QStringLiteral("TH "), QStringLiteral("FR "), QStringLiteral("SA "), QStringLiteral("SU ")
-                                    };
-
-    return days[day];
-}
-
 class Q_DECL_HIDDEN KCalCore::VCalFormat::Private
 {
 public:
