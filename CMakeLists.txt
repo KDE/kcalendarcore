@@ -42,7 +42,7 @@ set_package_properties(LibIcal PROPERTIES
   URL "http://sourceforge.net/projects/freeassociation"
   TYPE REQUIRED
 )
-if(LibIcal_VERSION VERSION_GREATER_EQUAL 2.99)
+if(LibIcal_VERSION VERSION_GREATER "2.98")
   set(HAVE_ICAL_3 TRUE)
   add_definitions(-DUSE_ICAL_3)
 endif()
