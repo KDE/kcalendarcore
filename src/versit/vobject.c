@@ -46,6 +46,7 @@ DFARS 252.227-7013 or 48 CFR 52.227-19, as applicable.
 
 #include "vobject.h"
 #include <string.h>
+#include <strings.h>
 #include <stdio.h>
 
 #define NAME_OF(o)          o->id
