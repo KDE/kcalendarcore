@@ -24,8 +24,6 @@
 #include "memorycalendar.h"
 #include "utils.h"
 
-#include <QTimeZone>
-
 #include <QDebug>
 #include <QDate>
 #include <QFile>
@@ -42,9 +40,14 @@ int main(int argc, char **argv)
     qputenv("TZ", "GMT");
 
     QCommandLineParser parser;
-    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), QStringLiteral("Verbose output")));
-    parser.addPositionalArgument(QStringLiteral("input"), QStringLiteral("Name of input file"));
-    parser.addPositionalArgument(QStringLiteral("output"), QStringLiteral("optional name of output file for the recurrence dates"));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"),
+                                        QStringLiteral("Verbose output")));
+
+    parser.addPositionalArgument(QStringLiteral("input"),
+                                 QStringLiteral("Name of input file"));
+
+    parser.addPositionalArgument(QStringLiteral("output"),
+                                 QStringLiteral("optional name of output file for the recurrence dates"));
 
     QCoreApplication app(argc, argv);
     QCoreApplication::setApplicationName(QStringLiteral("testrecurson"));

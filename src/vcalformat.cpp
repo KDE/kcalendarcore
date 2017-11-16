@@ -42,7 +42,6 @@
 #include "utils.h"
 #include "versit/vcc.h"
 #include "versit/vobject.h"
-#include "utils.h"
 
 #include "kcalcore_debug.h"
 
@@ -1198,7 +1197,11 @@ QString VCalFormat::parseDst(QByteArray &timezone) const
     QString sEnd = QString::fromUtf8(timezone.mid(0, (timezone.indexOf("COMMENT:"))));
     sEnd.chop(2);
 
-    return QStringLiteral("TRUE;") + sOffset + QLatin1Char(';') + sStart + QLatin1Char(';') + sEnd + QLatin1String(";;");
+    return
+        QStringLiteral("TRUE;") +
+        sOffset + QLatin1Char(';') +
+        sStart + QLatin1Char(';') +
+        sEnd + QLatin1String(";;");
 }
 
 QString VCalFormat::qDateToISO(const QDate &qd)
@@ -1211,7 +1214,6 @@ QString VCalFormat::qDateToISO(const QDate &qd)
 
     tmpStr.sprintf("%.2d%.2d%.2d", qd.year(), qd.month(), qd.day());
     return tmpStr;
-
 }
 
 QString VCalFormat::qDateTimeToISO(const QDateTime &dt, bool zulu)
@@ -1599,7 +1601,6 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
     if (hasTimeZone) {
         d->mCalendar->setTimeZone(previousZone);
     }
-
 }
 
 int VCalFormat::numFromDay(const QString &day)
