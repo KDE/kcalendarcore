@@ -18,8 +18,8 @@
   the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
   Boston, MA 02110-1301, USA.
 */
-#ifndef KCALCORE_ICALTIMEZONES_H
-#define KCALCORE_ICALTIMEZONES_H
+#ifndef KCALCORE_ICALTIMEZONES_P_H
+#define KCALCORE_ICALTIMEZONES_P_H
 
 #include "kcalcore_export.h"
 #include "incidencebase.h"
@@ -62,7 +62,6 @@ public:
     ICalTimeZonePhase daylight;       // DST time
 };
 
-
 class KCALCORE_EXPORT ICalTimeZoneCache
 {
 public:
@@ -97,7 +96,6 @@ private:
     static icalcomponent *icalcomponentFromQTimeZone(const QTimeZone &qtz,
                                                      const QDateTime &earliest);
 
-
     ICalTimeZone parseTimeZone(icalcomponent *zone);
     bool parsePhase(icalcomponent *c, ICalTimeZonePhase &phase);
     QTimeZone resolveICalTimeZone(const ICalTimeZone &icalZone);
@@ -106,7 +104,6 @@ private:
 };
 
 } // namespace KCalCore
-
 
 inline uint qHash(const QTimeZone &tz)
 {
