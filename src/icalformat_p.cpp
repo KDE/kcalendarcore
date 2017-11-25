@@ -1187,7 +1187,7 @@ Todo::Ptr ICalFormatImpl::readTodo(icalcomponent *vtodo, const ICalTimeZoneCache
             bool allDay = false;
             QDateTime kdt = readICalDateTimeProperty(p, tzlist, false, &allDay);
             todo->setDtDue(kdt, true);
-            todo->setAllDay(false);
+            todo->setAllDay(allDay);
             break;
         }
         case ICAL_COMPLETED_PROPERTY:  // completion date/time
