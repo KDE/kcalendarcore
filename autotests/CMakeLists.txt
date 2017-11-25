@@ -69,7 +69,6 @@ endif()
 ########### Tests #######################
 
 file(GLOB_RECURSE testFiles data/RecurrenceRule/*.ics)
-file(GLOB_RECURSE vCalFilesAsIcal data/vCalendar/*.ics)
 file(GLOB_RECURSE vCalFiles data/vCalendar/*.vcs)
 #libical v3 (and above) compatibility is slighty changed from older libical versions.
 #keep 2 sets of reference data, for now.
