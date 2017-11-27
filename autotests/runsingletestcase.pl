@@ -69,9 +69,14 @@ sub checkfile()
   my $file_orig = shift;
   my $outfile = shift;
 
+  unless (-e "$file_orig.$id.ref") {
+    print STDERR "Missing ref file: $file_orig.$id.ref\n";
+    exit 1;
+  }
+
   $cmd = 'diff -u -w -B -I "^DTSTAMP:[0-9ZT]*" -I "^LAST-MODIFIED:[0-9ZT]*" -I "^CREATED:[0-9ZT]*" -I "^DCREATED:[0-9ZT]*" -I "^X-KDE-KCALCORE-ENABLED:" -I "^X-KDE-ICAL-IMPLEMENTATION-VERSION:" -I "^PRODID:.*" -I "X-UID=[0-9]*" '."$file.$id.ref $outfile";
   if ( !open( DIFF, "$cmd|" ) ) {
-    print STDERR "Unable to run diff command on the files $file.$id.ref and $outfile\n";
+    print STDERR "Unable to run diff command on the files $file_orig.$id.ref and $outfile\n";
     exit 1;
   }
 
@@ -107,7 +112,7 @@ sub checkfile()
 
     if ( -e "$file_orig.$id.fixme" ) {
       if ( !open( FIXME, "$file_orig.$id.fixme" ) ) {
-        print STDERR "Unable to open $file.fixme\n";
+        print STDERR "Unable to open $file_orig.$id.fixme\n";
         exit 1;
       }
       my $firstline = <FIXME>;
