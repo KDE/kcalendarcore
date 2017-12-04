@@ -58,7 +58,7 @@ add_library(KF5::CalendarCore ALIAS KF5CalendarCore)
 
 target_include_directories(KF5CalendarCore INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KCalCore>")
 target_include_directories(KF5CalendarCore PUBLIC "$<BUILD_INTERFACE:${KCalCore_SOURCE_DIR}/src;${KCalCore_BINARY_DIR}/src;${KCalCore_SOURCE_DIR}/src/versit>")
-target_include_directories(KF5CalendarCore PUBLIC "$<BUILD_INTERFACE:${LibIcal_INCLUDE_DIRS};${LibIcal_INCLUDE_DIRS}/libical>")
+target_include_directories(KF5CalendarCore PRIVATE "$<BUILD_INTERFACE:${LibIcal_INCLUDE_DIRS};${LibIcal_INCLUDE_DIRS}/libical>")
 
 target_link_libraries(KF5CalendarCore
 PUBLIC
