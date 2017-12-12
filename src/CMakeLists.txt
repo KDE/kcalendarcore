@@ -5,6 +5,7 @@ bison_target(VersitParser
   ${CMAKE_CURRENT_SOURCE_DIR}/versit/vcc.y
   ${CMAKE_CURRENT_BINARY_DIR}/vcc-parser.c
 )
+set_property(SOURCE ${CMAKE_CURRENT_BINARY_DIR}/vcc-parser.h PROPERTY SKIP_AUTOMOC TRUE) # don't run automoc on this file
 
 set(libversit_SRCS
   ${CMAKE_CURRENT_SOURCE_DIR}/versit/vobject.c
