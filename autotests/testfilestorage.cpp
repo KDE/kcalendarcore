@@ -22,8 +22,6 @@
 #include "filestorage.h"
 #include "memorycalendar.h"
 
-#include <unistd.h>
-
 #include <QTest>
 #include <QTimeZone>
 QTEST_MAIN(FileStorageTest)
@@ -68,7 +66,7 @@ void FileStorageTest::testSave()
     QVERIFY(fs.save());
     QVERIFY(fs.close());
     cal->close();
-    unlink("fred.ics");
+    QFile::remove(QStringLiteral("fred.ics"));
 }
 
 void FileStorageTest::testSaveLoadSave()
@@ -104,12 +102,12 @@ void FileStorageTest::testSaveLoadSave()
     Event::Ptr e = fs.calendar()->incidence(QStringLiteral("1")).staticCast<Event>();
     QVERIFY(e != nullptr);
     QVERIFY(fs.close());
-    unlink("fred.ics");
+    QFile::remove(QStringLiteral("fred.ics"));
 
     QVERIFY(fs.open());
     QVERIFY(fs.save());
     QVERIFY(fs.close());
-    unlink("fred.ics");
+    QFile::remove(QStringLiteral("fred.ics"));
 }
 
 void FileStorageTest::testSpecialChars()
@@ -164,5 +162,5 @@ void FileStorageTest::testSpecialChars()
 
     file.close();
 
-    unlink("bart.ics");
+    file.remove();
 }

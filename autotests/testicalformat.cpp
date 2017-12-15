@@ -29,8 +29,6 @@
 #include <QTest>
 #include <QTimeZone>
 
-#include <unistd.h>
-
 QTEST_MAIN(ICalFormatTest)
 
 using namespace KCalCore;
@@ -101,7 +99,7 @@ void ICalFormatTest::testCharsets()
     QVERIFY(calendar3->incidences().count() == 1);
     QVERIFY(*calendar3->incidences().at(0) == *event);
 
-    unlink("hommer.ics");
+    QFile::remove(QStringLiteral("hommer.ics"));
 }
 
 void ICalFormatTest::testVolatileProperties()
