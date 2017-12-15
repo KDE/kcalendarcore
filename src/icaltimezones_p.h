@@ -97,7 +97,7 @@ private:
                                                      const QDateTime &earliest);
 
     ICalTimeZone parseTimeZone(icalcomponent *zone);
-    bool parsePhase(icalcomponent *c, ICalTimeZonePhase &phase);
+    bool parsePhase(icalcomponent *c, bool daylight, ICalTimeZonePhase &phase);
     QTimeZone resolveICalTimeZone(const ICalTimeZone &icalZone);
 
     ICalTimeZoneCache *mCache;

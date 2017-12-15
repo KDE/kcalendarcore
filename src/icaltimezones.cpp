@@ -551,11 +551,11 @@ ICalTimeZone ICalTimeZoneParser::parseTimeZone(icalcomponent *vtimezone)
         switch (kind) {
         case ICAL_XSTANDARD_COMPONENT:
             //qCDebug(KCALCORE_LOG) << "---standard phase: found";
-            parsePhase(c, icalTz.standard);
+            parsePhase(c, false, icalTz.standard);
             break;
         case ICAL_XDAYLIGHT_COMPONENT:
             //qCDebug(KCALCORE_LOG) << "---daylight phase: found";
-            parsePhase(c, icalTz.daylight);
+            parsePhase(c, true, icalTz.daylight);
             break;
 
         default:
@@ -567,7 +567,7 @@ ICalTimeZone ICalTimeZoneParser::parseTimeZone(icalcomponent *vtimezone)
     return icalTz;
 }
 
-bool ICalTimeZoneParser::parsePhase(icalcomponent *c, ICalTimeZonePhase &phase)
+bool ICalTimeZoneParser::parsePhase(icalcomponent *c, bool daylight, ICalTimeZonePhase &phase)
 {
     // Read the observance data for this standard/daylight savings phase
     int utcOffset = 0;
