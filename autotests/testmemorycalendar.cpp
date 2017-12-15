@@ -26,8 +26,6 @@
 
 #include <QDebug>
 
-#include <unistd.h>
-
 #include <QTest>
 #include <QTimeZone>
 QTEST_MAIN(MemoryCalendarTest)
@@ -74,7 +72,7 @@ void MemoryCalendarTest::testEvents()
     FileStorage store(cal, QStringLiteral("foo.ics"));
     QVERIFY(store.save());
     cal->close();
-    unlink("foo.ics");
+    QFile::remove(QStringLiteral("foo.ics"));
 }
 
 void MemoryCalendarTest::testIncidences()
@@ -134,7 +132,7 @@ void MemoryCalendarTest::testIncidences()
     QVERIFY(todo->summaryIsRich());
     QVERIFY(todo->locationIsRich());
     cal->close();
-    unlink("foo.ics");
+    QFile::remove(QStringLiteral("foo.ics"));
 }
 
 void MemoryCalendarTest::testRelationsCrash()
