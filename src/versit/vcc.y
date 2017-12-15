@@ -104,6 +104,11 @@ DFARS 252.227-7013 or 48 CFR 52.227-19, as applicable.
 #include <ctype.h>
 #include "vcc.h"
 
+#ifdef _WIN32
+#define strncasecmp _strnicmp
+#define strcasecmp _stricmp
+#endif
+
 /* The following is a hack that I hope will get things compiling
  * on SunOS 4.1.x systems
  */
