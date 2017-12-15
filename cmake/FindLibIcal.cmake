@@ -107,5 +107,11 @@ find_package_handle_standard_args(LibIcal
     REQUIRED_VARS LibIcal_LIBRARIES LibIcal_INCLUDE_DIRS
     VERSION_VAR LibIcal_VERSION
 )
-
+if(LibIcal_FOUND AND NOT TARGET LibIcal)
+    add_library(LibIcal INTERFACE IMPORTED)
+    set_target_properties(LibIcal PROPERTIES
+        INTERFACE_LINK_LIBRARIES "${LibIcal_LIBRARIES}"
+        INTERFACE_INCLUDE_DIRECTORIES "${LibIcal_INCLUDE_DIRS};${LibIcal_INCLUDE_DIRS}/libical"
+    )
+endif()
 mark_as_advanced(LibIcal_INCLUDE_DIRS LibIcal_LIBRARIES)
