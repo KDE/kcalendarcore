@@ -48,6 +48,11 @@ DFARS 252.227-7013 or 48 CFR 52.227-19, as applicable.
 #include <string.h>
 #include <stdio.h>
 
+#ifdef _WIN32
+#define strncasecmp _strnicmp
+#define strcasecmp _stricmp
+#endif
+
 #define NAME_OF(o)          o->id
 #define VALUE_TYPE(o)           o->valType
 #define STRINGZ_VALUE_OF(o)     o->val.strs
