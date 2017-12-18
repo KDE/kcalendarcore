@@ -43,6 +43,7 @@ public:
         , mCal(cal)
     {
     }
+
     Calendar *mCal = nullptr;
 Q_SIGNALS:
     void incidenceAdded(const KCalCore::Incidence::Ptr &incidence);
@@ -51,21 +52,30 @@ Q_SIGNALS:
     void incidenceDeletedDeprecated(const KCalCore::Incidence::Ptr &incidence);
     void incidenceDeleted(const KCalCore::Incidence::Ptr &incidence, const Calendar *calendar);
 protected:
-    void calendarIncidenceAdded(const KCalCore::Incidence::Ptr &incidence) override {
+    void calendarIncidenceAdded(const KCalCore::Incidence::Ptr &incidence) override
+    {
         Q_EMIT incidenceAdded(incidence);
     }
-    void calendarIncidenceChanged(const KCalCore::Incidence::Ptr &incidence) override {
+
+    void calendarIncidenceChanged(const KCalCore::Incidence::Ptr &incidence) override
+    {
         Q_EMIT incidenceChanged(incidence);
     }
-    void calendarIncidenceAboutToBeDeleted(const KCalCore::Incidence::Ptr &incidence) override {
+
+    void calendarIncidenceAboutToBeDeleted(const KCalCore::Incidence::Ptr &incidence) override
+    {
         QVERIFY(mCal->incidences().contains(incidence));
         Q_EMIT incidenceAboutToBeDeleted(incidence);
     }
-    void calendarIncidenceDeleted(const KCalCore::Incidence::Ptr &incidence) override {
+
+    void calendarIncidenceDeleted(const KCalCore::Incidence::Ptr &incidence) override
+    {
         QVERIFY(!mCal->incidences().contains(incidence));
         Q_EMIT incidenceDeletedDeprecated(incidence);
     }
-    void calendarIncidenceDeleted(const KCalCore::Incidence::Ptr &incidence, const Calendar *calendar) override {
+
+    void calendarIncidenceDeleted(const KCalCore::Incidence::Ptr &incidence, const Calendar *calendar) override
+    {
         QCOMPARE(calendar, mCal);
         QVERIFY(!calendar->incidences().contains(incidence));
         Q_EMIT incidenceDeleted(incidence, calendar);
@@ -135,4 +145,5 @@ void CalendarObserverTest::testDelete()
     arguments = spy3.takeFirst();
     QCOMPARE(arguments.at(0).value<KCalCore::Incidence::Ptr>(), static_cast<KCalCore::Incidence::Ptr>(event1));
 }
+
 #include "testcalendarobserver.moc"

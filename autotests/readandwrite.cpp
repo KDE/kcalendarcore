@@ -24,7 +24,6 @@
 #include "memorycalendar.h"
 #include "vcalformat.h"
 
-
 #include <QDebug>
 #include <QFileInfo>
 #include <QCoreApplication>
@@ -62,8 +61,8 @@ int main(int argc, char **argv)
     qDebug() << "Input file:" << input;
     qDebug() << "Output file:" << output;
 
-    if (outputFileInfo.fileName() == QLatin1String("KOrganizer_3.1.ics.ical.out") ||
-            outputFileInfo.fileName() == QLatin1String("KOrganizer_3.2.ics.ical.out")) {
+    if (outputFileInfo.fileName() == QLatin1String("KOrganizer_3.1.ics.ical.out")
+        || outputFileInfo.fileName() == QLatin1String("KOrganizer_3.2.ics.ical.out")) {
         return 0;
     }
 

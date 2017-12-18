@@ -56,7 +56,7 @@ int main(int argc, char **argv)
 
     qDebug() << (*todoList.begin())->uid();
     QString result = (*todoList.begin())->customProperty(QByteArray("karm"),
-                     QByteArray("totalTaskTime"));
+                                                         QByteArray("totalTaskTime"));
     qDebug() << result;
     if (result != QStringLiteral("a,b")) {
         qDebug() << "The string a,b was expected, but given was" << result;

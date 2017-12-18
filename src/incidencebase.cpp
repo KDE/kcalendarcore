@@ -59,18 +59,19 @@ class Q_DECL_HIDDEN KCalCore::IncidenceBase::Private
 {
 public:
     Private()
-        : mOrganizer(nullptr),
-          mUpdateGroupLevel(0),
-          mUpdatedPending(false),
-          mAllDay(false),
-          mHasDuration(false)
-    {}
+        : mOrganizer(nullptr)
+        , mUpdateGroupLevel(0)
+        , mUpdatedPending(false)
+        , mAllDay(false)
+        , mHasDuration(false)
+    {
+    }
 
     Private(const Private &other)
-        : mUpdateGroupLevel(0),
-          mUpdatedPending(false),
-          mAllDay(true),
-          mHasDuration(false)
+        : mUpdateGroupLevel(0)
+        , mUpdatedPending(false)
+        , mAllDay(true)
+        , mHasDuration(false)
     {
         init(other);
     }
@@ -119,6 +120,7 @@ void IncidenceBase::Private::init(const Private &other)
     }
     mUrl = other.mUrl;
 }
+
 //@endcond
 
 IncidenceBase::IncidenceBase()
@@ -129,8 +131,8 @@ IncidenceBase::IncidenceBase()
 }
 
 IncidenceBase::IncidenceBase(const IncidenceBase &i)
-    : CustomProperties(i),
-      d(new KCalCore::IncidenceBase::Private(*i.d))
+    : CustomProperties(i)
+    , d(new KCalCore::IncidenceBase::Private(*i.d))
 {
     mReadOnly = i.mReadOnly;
 }
@@ -207,8 +209,8 @@ bool IncidenceBase::equals(const IncidenceBase &i2) const
     // no need to compare mObserver
 
     bool a = ((dtStart() == i2.dtStart()) || (!dtStart().isValid() && !i2.dtStart().isValid()));
-    bool b =  *(organizer().data()) == *(i2.organizer().data());
-    bool c =  uid() == i2.uid();
+    bool b = *(organizer().data()) == *(i2.organizer().data());
+    bool c = uid() == i2.uid();
     bool d = allDay() == i2.allDay();
     bool e = duration() == i2.duration();
     bool f = hasDuration() == i2.hasDuration();
@@ -515,8 +517,7 @@ Attendee::Ptr IncidenceBase::attendeeByMail(const QString &email) const
     return Attendee::Ptr();
 }
 
-Attendee::Ptr IncidenceBase::attendeeByMails(const QStringList &emails,
-        const QString &email) const
+Attendee::Ptr IncidenceBase::attendeeByMails(const QStringList &emails, const QString &email) const
 {
     QStringList mails = emails;
     if (!email.isEmpty()) {
@@ -735,8 +736,8 @@ QDataStream &KCalCore::operator>>(QDataStream &in, const KCalCore::IncidenceBase
     deserializeKDateTimeAsQDateTime(in, i->d->mLastModified);
     deserializeKDateTimeAsQDateTime(in, i->d->mDtStart);
     in >> i->d->mOrganizer >> i->d->mUid >> i->d->mDuration
-       >> i->d->mAllDay >> i->d->mHasDuration >> i->d->mComments >> i->d->mContacts >> attendeeCount
-       >> i->d->mUrl;
+    >> i->d->mAllDay >> i->d->mHasDuration >> i->d->mComments >> i->d->mContacts >> attendeeCount
+    >> i->d->mUrl;
 
     i->d->mAttendees.clear();
     i->d->mAttendees.reserve(attendeeCount);

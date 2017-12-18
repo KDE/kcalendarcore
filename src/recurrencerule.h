@@ -32,9 +32,7 @@
 
 class QTimeZone;
 
-namespace KCalCore
-{
-
+namespace KCalCore {
 // These two are duplicates wrt. incidencebase.h
 typedef SortableList<QDate> DateList;
 /* List of times */
@@ -98,6 +96,7 @@ public:
     {
         return !operator==(r);
     }
+
     RecurrenceRule &operator=(const RecurrenceRule &r);
 
     /** Set if recurrence is read-only or can be changed. */
@@ -344,7 +343,6 @@ KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, const KCalCore::Recurre
  */
 KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalCore::RecurrenceRule::WDayPos &);
 KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalCore::RecurrenceRule::WDayPos &);
-
 }
 
 Q_DECLARE_TYPEINFO(KCalCore::RecurrenceRule::WDayPos, Q_MOVABLE_TYPE);

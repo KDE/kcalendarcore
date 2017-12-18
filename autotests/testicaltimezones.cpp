@@ -37,119 +37,119 @@ static icalcomponent *loadCALENDAR(const char *vcal);
 
 // First daylight savings time has an end date, takes a break for a year,
 // and is then replaced by another
-static const char *VTZ_Western =
-    "BEGIN:VTIMEZONE\r\n"
-    "TZID:Test-Dummy-Western\r\n"
-    "LAST-MODIFIED:19870101T000000Z\r\n"
-    "TZURL:http://tz.reference.net/dummies/western\r\n"
-    "LOCATION:Zedland/Tryburgh\r\n"
-    "X-LIC-LOCATION:Wyland/Tryburgh\r\n"
-    "BEGIN:STANDARD\r\n"
-    "DTSTART:19671029T020000\r\n"
-    "RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10\r\n"
-    "TZOFFSETFROM:-0400\r\n"
-    "TZOFFSETTO:-0500\r\n"
-    "TZNAME:WST\r\n"
-    "END:STANDARD\r\n"
-    "BEGIN:DAYLIGHT\r\n"
-    "DTSTART:19870405T020000\r\n"
-    "RRULE:FREQ=YEARLY;UNTIL=19970406T070000Z;BYDAY=1SU;BYMONTH=4\r\n"
-    "TZOFFSETFROM:-0500\r\n"
-    "TZOFFSETTO:-0400\r\n"
-    "TZNAME:WDT1\r\n"
-    "END:DAYLIGHT\r\n"
-    "BEGIN:DAYLIGHT\r\n"
-    "DTSTART:19990425T020000\r\n"
-    "RDATE;VALUE=DATE-TIME:20000430T020000\r\n"
-    "TZOFFSETFROM:-0500\r\n"
-    "TZOFFSETTO:-0400\r\n"
-    "TZNAME:WDT2\r\n"
-    "END:DAYLIGHT\r\n"
-    "END:VTIMEZONE\r\n";
+static const char *VTZ_Western
+    = "BEGIN:VTIMEZONE\r\n"
+      "TZID:Test-Dummy-Western\r\n"
+      "LAST-MODIFIED:19870101T000000Z\r\n"
+      "TZURL:http://tz.reference.net/dummies/western\r\n"
+      "LOCATION:Zedland/Tryburgh\r\n"
+      "X-LIC-LOCATION:Wyland/Tryburgh\r\n"
+      "BEGIN:STANDARD\r\n"
+      "DTSTART:19671029T020000\r\n"
+      "RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10\r\n"
+      "TZOFFSETFROM:-0400\r\n"
+      "TZOFFSETTO:-0500\r\n"
+      "TZNAME:WST\r\n"
+      "END:STANDARD\r\n"
+      "BEGIN:DAYLIGHT\r\n"
+      "DTSTART:19870405T020000\r\n"
+      "RRULE:FREQ=YEARLY;UNTIL=19970406T070000Z;BYDAY=1SU;BYMONTH=4\r\n"
+      "TZOFFSETFROM:-0500\r\n"
+      "TZOFFSETTO:-0400\r\n"
+      "TZNAME:WDT1\r\n"
+      "END:DAYLIGHT\r\n"
+      "BEGIN:DAYLIGHT\r\n"
+      "DTSTART:19990425T020000\r\n"
+      "RDATE;VALUE=DATE-TIME:20000430T020000\r\n"
+      "TZOFFSETFROM:-0500\r\n"
+      "TZOFFSETTO:-0400\r\n"
+      "TZNAME:WDT2\r\n"
+      "END:DAYLIGHT\r\n"
+      "END:VTIMEZONE\r\n";
 
 // Standard time only
-static const char *VTZ_other =
-    "BEGIN:VTIMEZONE\r\n"
-    "TZID:Test-Dummy-Other\r\n"
-    "TZURL:http://tz.reference.net/dummies/other\r\n"
-    "X-LIC-LOCATION:Wyland/Tryburgh\r\n"
-    "BEGIN:STANDARD\r\n"
-    "DTSTART:19500101T000000\r\n"
-    "RDATE;VALUE=DATE-TIME:19500101T000000\r\n"
-    "TZOFFSETFROM:+0000\r\n"
-    "TZOFFSETTO:+0300\r\n"
-    "TZNAME:OST\r\n"
-    "END:STANDARD\r\n"
-    "END:VTIMEZONE\r\n";
+static const char *VTZ_other
+    = "BEGIN:VTIMEZONE\r\n"
+      "TZID:Test-Dummy-Other\r\n"
+      "TZURL:http://tz.reference.net/dummies/other\r\n"
+      "X-LIC-LOCATION:Wyland/Tryburgh\r\n"
+      "BEGIN:STANDARD\r\n"
+      "DTSTART:19500101T000000\r\n"
+      "RDATE;VALUE=DATE-TIME:19500101T000000\r\n"
+      "TZOFFSETFROM:+0000\r\n"
+      "TZOFFSETTO:+0300\r\n"
+      "TZNAME:OST\r\n"
+      "END:STANDARD\r\n"
+      "END:VTIMEZONE\r\n";
 
-static const char *VTZ_other_DST =
-    "BEGIN:VTIMEZONE\r\n"
-    "TZID:Test-Dummy-Other-DST\r\n"
-    "BEGIN:STANDARD\r\n"
-    "DTSTART:19500101T000000\r\n"
-    "RRULE:FREQ=YEARLY;BYDAY=1SU;BYMONTH=11\r\n"
-    "TZOFFSETFROM:+0000\r\n"
-    "TZOFFSETTO:+0300\r\n"
-    "TZNAME:OST\r\n"
-    "END:STANDARD\r\n"
-    "BEGIN:DAYLIGHT\r\n"
-    "DTSTART:19500501T000000\r\n"
-    "RRULE:FREQ=YEARLY;BYDAY=3SU;BYMONTH=5\r\n"
-    "TZOFFSETFROM:+0200\r\n"
-    "TZOFFSETTO:+0500\r\n"
-    "TZNAME:DST\r\n"
-    "END:DAYLIGHT\r\n"
-    "END:VTIMEZONE\r\n";
+static const char *VTZ_other_DST
+    = "BEGIN:VTIMEZONE\r\n"
+      "TZID:Test-Dummy-Other-DST\r\n"
+      "BEGIN:STANDARD\r\n"
+      "DTSTART:19500101T000000\r\n"
+      "RRULE:FREQ=YEARLY;BYDAY=1SU;BYMONTH=11\r\n"
+      "TZOFFSETFROM:+0000\r\n"
+      "TZOFFSETTO:+0300\r\n"
+      "TZNAME:OST\r\n"
+      "END:STANDARD\r\n"
+      "BEGIN:DAYLIGHT\r\n"
+      "DTSTART:19500501T000000\r\n"
+      "RRULE:FREQ=YEARLY;BYDAY=3SU;BYMONTH=5\r\n"
+      "TZOFFSETFROM:+0200\r\n"
+      "TZOFFSETTO:+0500\r\n"
+      "TZNAME:DST\r\n"
+      "END:DAYLIGHT\r\n"
+      "END:VTIMEZONE\r\n";
 
-static const char *VTZ_Prague =
-    "BEGIN:VTIMEZONE\r\n"
-    "TZID:Europe/Prague\r\n"
-    "BEGIN:STANDARD\r\n"
-    "TZNAME:CET\r\n"
-    "TZOFFSETFROM:+0000\r\n"
-    "TZOFFSETTO:+0100\r\n"
-    "DTSTART:19781231T230000\r\n"
-    "RDATE;VALUE=DATE-TIME:19781231T230000\r\n"
-    "END:STANDARD\r\n"
-    "BEGIN:DAYLIGHT\r\n"
-    "TZNAME:CEST\r\n"
-    "TZOFFSETFROM:+0100\r\n"
-    "TZOFFSETTO:+0200\r\n"
-    "DTSTART:19810329T020000\r\n"
-    "RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3\r\n"
-    "END:DAYLIGHT\r\n"
-    "BEGIN:DAYLIGHT\r\n"
-    "TZNAME:CEST\r\n"
-    "TZOFFSETFROM:+0100\r\n"
-    "TZOFFSETTO:+0200\r\n"
-    "DTSTART:19790401T020000\r\n"
-    "RDATE;VALUE=DATE-TIME:19790401T020000\r\n"
-    "RDATE;VALUE=DATE-TIME:19800406T020000\r\n"
-    "END:DAYLIGHT\r\n"
-    "BEGIN:STANDARD\r\n"
-    "TZNAME:CET\r\n"
-    "TZOFFSETFROM:+0200\r\n"
-    "TZOFFSETTO:+0100\r\n"
-    "DTSTART:19971026T030000\r\n"
-    "RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10\r\n"
-    "END:STANDARD\r\n"
-    "BEGIN:STANDARD\r\n"
-    "TZNAME:CET\r\n"
-    "TZOFFSETFROM:+0200\r\n"
-    "TZOFFSETTO:+0100\r\n"
-    "DTSTART:19790930T030000\r\n"
-    "RRULE:FREQ=YEARLY;UNTIL=19961027T030000;COUNT=17;BYDAY=-1SU;BYMONTH=9\r\n"
-    "RDATE;VALUE=DATE-TIME:19950924T030000\r\n"
-    "END:STANDARD\r\n"
-    "END:VTIMEZONE\r\n";
+static const char *VTZ_Prague
+    = "BEGIN:VTIMEZONE\r\n"
+      "TZID:Europe/Prague\r\n"
+      "BEGIN:STANDARD\r\n"
+      "TZNAME:CET\r\n"
+      "TZOFFSETFROM:+0000\r\n"
+      "TZOFFSETTO:+0100\r\n"
+      "DTSTART:19781231T230000\r\n"
+      "RDATE;VALUE=DATE-TIME:19781231T230000\r\n"
+      "END:STANDARD\r\n"
+      "BEGIN:DAYLIGHT\r\n"
+      "TZNAME:CEST\r\n"
+      "TZOFFSETFROM:+0100\r\n"
+      "TZOFFSETTO:+0200\r\n"
+      "DTSTART:19810329T020000\r\n"
+      "RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3\r\n"
+      "END:DAYLIGHT\r\n"
+      "BEGIN:DAYLIGHT\r\n"
+      "TZNAME:CEST\r\n"
+      "TZOFFSETFROM:+0100\r\n"
+      "TZOFFSETTO:+0200\r\n"
+      "DTSTART:19790401T020000\r\n"
+      "RDATE;VALUE=DATE-TIME:19790401T020000\r\n"
+      "RDATE;VALUE=DATE-TIME:19800406T020000\r\n"
+      "END:DAYLIGHT\r\n"
+      "BEGIN:STANDARD\r\n"
+      "TZNAME:CET\r\n"
+      "TZOFFSETFROM:+0200\r\n"
+      "TZOFFSETTO:+0100\r\n"
+      "DTSTART:19971026T030000\r\n"
+      "RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10\r\n"
+      "END:STANDARD\r\n"
+      "BEGIN:STANDARD\r\n"
+      "TZNAME:CET\r\n"
+      "TZOFFSETFROM:+0200\r\n"
+      "TZOFFSETTO:+0100\r\n"
+      "DTSTART:19790930T030000\r\n"
+      "RRULE:FREQ=YEARLY;UNTIL=19961027T030000;COUNT=17;BYDAY=-1SU;BYMONTH=9\r\n"
+      "RDATE;VALUE=DATE-TIME:19950924T030000\r\n"
+      "END:STANDARD\r\n"
+      "END:VTIMEZONE\r\n";
 
 // CALENDAR component header and footer
-static const char *calendarHeader =
-    "BEGIN:VCALENDAR\r\n"
-    "PRODID:-//Libkcal//NONSGML ICalTimeZonesTest//EN\r\n"
-    "VERSION:2.0\r\n";
-static const char *calendarFooter =
-    "END:CALENDAR\r\n";
+static const char *calendarHeader
+    = "BEGIN:VCALENDAR\r\n"
+      "PRODID:-//Libkcal//NONSGML ICalTimeZonesTest//EN\r\n"
+      "VERSION:2.0\r\n";
+static const char *calendarFooter
+    = "END:CALENDAR\r\n";
 
 ///////////////////////////
 // ICalTimeZoneSource tests
@@ -168,24 +168,24 @@ void ICalTimeZonesTest::parse_data()
     QTest::addColumn<QByteArray>("expTz");
 
     QTest::newRow("dummy-western")
-                << QByteArray(VTZ_Western) << QDateTime{}
-                << QByteArray("Test-Dummy-Western") << QByteArray("America/Toronto");
+        << QByteArray(VTZ_Western) << QDateTime{}
+        << QByteArray("Test-Dummy-Western") << QByteArray("America/Toronto");
     QTest::newRow("dummy-other")
-                << QByteArray(VTZ_other) << QDateTime{}
-                << QByteArray("Test-Dummy-Other") << QByteArray("UTC+03:00");
+        << QByteArray(VTZ_other) << QDateTime{}
+        << QByteArray("Test-Dummy-Other") << QByteArray("UTC+03:00");
     QTest::newRow("dummy-other-dst DST")
-                << QByteArray(VTZ_other_DST) << QDateTime({ 2017, 03, 10 }, {})
-                << QByteArray("Test-Dummy-Other-DST") << QByteArray("UTC+03:00");
+        << QByteArray(VTZ_other_DST) << QDateTime({ 2017, 03, 10 }, {})
+        << QByteArray("Test-Dummy-Other-DST") << QByteArray("UTC+03:00");
     QTest::newRow("dummy-other-dst STD")
-                << QByteArray(VTZ_other_DST) << QDateTime({ 2017, 07, 05 }, {})
-                << QByteArray("Test-Dummy-Other-DST") << QByteArray("UTC+05:00");
+        << QByteArray(VTZ_other_DST) << QDateTime({ 2017, 07, 05 }, {})
+        << QByteArray("Test-Dummy-Other-DST") << QByteArray("UTC+05:00");
     QTest::newRow("dummy-other-dst DST after")
-                << QByteArray(VTZ_other_DST)
-                << QDateTime({ 2017, 12, 24 }, {})
-                << QByteArray("Test-Dummy-Other-DST") << QByteArray("UTC+03:00");
+        << QByteArray(VTZ_other_DST)
+        << QDateTime({ 2017, 12, 24 }, {})
+        << QByteArray("Test-Dummy-Other-DST") << QByteArray("UTC+03:00");
     QTest::newRow("iana")
-                << QByteArray() << QDateTime({ 2017, 9, 14 }, {})
-                << QByteArray("Europe/Zurich") << QByteArray("Europe/Zurich");
+        << QByteArray() << QDateTime({ 2017, 9, 14 }, {})
+        << QByteArray("Europe/Zurich") << QByteArray("Europe/Zurich");
 }
 
 void ICalTimeZonesTest::parse()

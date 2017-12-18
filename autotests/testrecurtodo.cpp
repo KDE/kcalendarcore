@@ -127,7 +127,6 @@ void RecurTodoTest::testNonAllDay()
 
 void RecurTodoTest::testIsAllDay()
 {
-    ;
     KCalCore::Todo::Ptr todo(new KCalCore::Todo());
     todo->setUid(QStringLiteral("todo"));
     todo->setDtStart(QDateTime(QDate(2013, 03, 10), QTime(10, 0, 0), Qt::UTC));
@@ -196,7 +195,7 @@ void RecurTodoTest::testRecurTodo()
         QVERIFY(!todo->dtStart().isValid());
         QCOMPARE(todo->dtDue(), dtdue.addDays(1));
 
-        QCOMPARE(todo->dtDue(/**first=*/true), dtdue);
+        QCOMPARE(todo->dtDue(/**first=*/ true), dtdue);
     } else {
         QVERIFY(todo->dtStart().isValid());
         QVERIFY(!(todo->dtDue().isValid() ^ dtdue.isValid()));
@@ -207,7 +206,7 @@ void RecurTodoTest::testRecurTodo()
             QCOMPARE(todo->dtStart().daysTo(todo->dtDue()), delta);
         }
 
-        QCOMPARE(todo->dtStart(/**first=*/true), dtstart);
+        QCOMPARE(todo->dtStart(/**first=*/ true), dtstart);
     }
 }
 

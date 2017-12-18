@@ -23,7 +23,6 @@
 #include "event.h"
 #include "todo.h"
 
-
 #include <QDebug>
 #include <QCoreApplication>
 #include <QCommandLineParser>

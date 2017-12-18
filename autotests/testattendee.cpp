@@ -156,8 +156,8 @@ void AttendeeTest::testDataStreamOut()
     uint role_int, status_int;
 
     in_stream >> person;
-    QVERIFY(person->name() ==  attendee1->name());
-    QVERIFY(person->email() ==  attendee1->email());
+    QVERIFY(person->name() == attendee1->name());
+    QVERIFY(person->email() == attendee1->email());
 
     in_stream >> rsvp;
     QVERIFY(rsvp == attendee1->RSVP());

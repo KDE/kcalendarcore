@@ -54,46 +54,46 @@ class Q_DECL_HIDDEN KCalCore::Incidence::Private
 {
 public:
     Private()
-        : mGeoLatitude(INVALID_LATLON),
-          mGeoLongitude(INVALID_LATLON),
-          mRecurrence(nullptr),
-          mRevision(0),
-          mPriority(0),
-          mStatus(StatusNone),
-          mSecrecy(SecrecyPublic),
-          mDescriptionIsRich(false),
-          mSummaryIsRich(false),
-          mLocationIsRich(false),
-          mHasGeo(false),
-          mThisAndFuture(false),
-          mLocalOnly(false)
+        : mGeoLatitude(INVALID_LATLON)
+        , mGeoLongitude(INVALID_LATLON)
+        , mRecurrence(nullptr)
+        , mRevision(0)
+        , mPriority(0)
+        , mStatus(StatusNone)
+        , mSecrecy(SecrecyPublic)
+        , mDescriptionIsRich(false)
+        , mSummaryIsRich(false)
+        , mLocationIsRich(false)
+        , mHasGeo(false)
+        , mThisAndFuture(false)
+        , mLocalOnly(false)
     {
     }
 
     Private(const Private &p)
-        : mCreated(p.mCreated),
-          mDescription(p.mDescription),
-          mSummary(p.mSummary),
-          mLocation(p.mLocation),
-          mCategories(p.mCategories),
-          mResources(p.mResources),
-          mStatusString(p.mStatusString),
-          mSchedulingID(p.mSchedulingID),
-          mRelatedToUid(p.mRelatedToUid),
-          mRecurrenceId(p.mRecurrenceId),
-          mGeoLatitude(p.mGeoLatitude),
-          mGeoLongitude(p.mGeoLongitude),
-          mRecurrence(nullptr),
-          mRevision(p.mRevision),
-          mPriority(p.mPriority),
-          mStatus(p.mStatus),
-          mSecrecy(p.mSecrecy),
-          mDescriptionIsRich(p.mDescriptionIsRich),
-          mSummaryIsRich(p.mSummaryIsRich),
-          mLocationIsRich(p.mLocationIsRich),
-          mHasGeo(p.mHasGeo),
-          mThisAndFuture(p.mThisAndFuture),
-          mLocalOnly(false)
+        : mCreated(p.mCreated)
+        , mDescription(p.mDescription)
+        , mSummary(p.mSummary)
+        , mLocation(p.mLocation)
+        , mCategories(p.mCategories)
+        , mResources(p.mResources)
+        , mStatusString(p.mStatusString)
+        , mSchedulingID(p.mSchedulingID)
+        , mRelatedToUid(p.mRelatedToUid)
+        , mRecurrenceId(p.mRecurrenceId)
+        , mGeoLatitude(p.mGeoLatitude)
+        , mGeoLongitude(p.mGeoLongitude)
+        , mRecurrence(nullptr)
+        , mRevision(p.mRevision)
+        , mPriority(p.mPriority)
+        , mStatus(p.mStatus)
+        , mSecrecy(p.mSecrecy)
+        , mDescriptionIsRich(p.mDescriptionIsRich)
+        , mSummaryIsRich(p.mSummaryIsRich)
+        , mLocationIsRich(p.mLocationIsRich)
+        , mHasGeo(p.mHasGeo)
+        , mThisAndFuture(p.mThisAndFuture)
+        , mLocalOnly(false)
     {
     }
 
@@ -130,7 +130,7 @@ public:
         // We need to really duplicate the objects stored therein, otherwise deleting
         // i will also delete all attachments from this object (setAutoDelete...)
         mAlarms.reserve(src.d->mAlarms.count());
-       for (const Alarm::Ptr &alarm : qAsConst(src.d->mAlarms)) {
+        for (const Alarm::Ptr &alarm : qAsConst(src.d->mAlarms)) {
             Alarm::Ptr b(new Alarm(*alarm.data()));
             b->setParent(dest);
             mAlarms.append(b);
@@ -181,16 +181,17 @@ public:
 //@endcond
 
 Incidence::Incidence()
-    : IncidenceBase(), d(new KCalCore::Incidence::Private)
+    : IncidenceBase()
+    , d(new KCalCore::Incidence::Private)
 {
     recreate();
     resetDirtyFields();
 }
 
 Incidence::Incidence(const Incidence &i)
-    : IncidenceBase(i),
-      Recurrence::RecurrenceObserver(),
-      d(new KCalCore::Incidence::Private(*i.d))
+    : IncidenceBase(i)
+    , Recurrence::RecurrenceObserver()
+    , d(new KCalCore::Incidence::Private(*i.d))
 {
     d->init(this, i);
     resetDirtyFields();
@@ -278,28 +279,28 @@ bool Incidence::equals(const IncidenceBase &incidence) const
     if (!recurrenceEqual) {
         recurrence(); // create if doesn't exist
         i2->recurrence(); // create if doesn't exist
-        recurrenceEqual = d->mRecurrence != nullptr &&
-                          i2->d->mRecurrence != nullptr &&
-                          *d->mRecurrence == *i2->d->mRecurrence;
+        recurrenceEqual = d->mRecurrence != nullptr
+                          && i2->d->mRecurrence != nullptr
+                          && *d->mRecurrence == *i2->d->mRecurrence;
     }
 
     return
-        recurrenceEqual &&
-        created() == i2->created() &&
-        stringCompare(description(), i2->description()) &&
-        stringCompare(summary(), i2->summary()) &&
-        categories() == i2->categories() &&
-        stringCompare(relatedTo(), i2->relatedTo()) &&
-        resources() == i2->resources() &&
-        d->mStatus == i2->d->mStatus &&
-        (d->mStatus == StatusNone ||
-         stringCompare(d->mStatusString, i2->d->mStatusString)) &&
-        secrecy() == i2->secrecy() &&
-        priority() == i2->priority() &&
-        stringCompare(location(), i2->location()) &&
-        stringCompare(schedulingID(), i2->schedulingID()) &&
-        recurrenceId() == i2->recurrenceId() &&
-        thisAndFuture() == i2->thisAndFuture();
+        recurrenceEqual
+        && created() == i2->created()
+        && stringCompare(description(), i2->description())
+        && stringCompare(summary(), i2->summary())
+        && categories() == i2->categories()
+        && stringCompare(relatedTo(), i2->relatedTo())
+        && resources() == i2->resources()
+        && d->mStatus == i2->d->mStatus
+        && (d->mStatus == StatusNone
+            || stringCompare(d->mStatusString, i2->d->mStatusString))
+        && secrecy() == i2->secrecy()
+        && priority() == i2->priority()
+        && stringCompare(location(), i2->location())
+        && stringCompare(schedulingID(), i2->schedulingID())
+        && recurrenceId() == i2->recurrenceId()
+        && thisAndFuture() == i2->thisAndFuture();
 }
 
 QString Incidence::instanceIdentifier() const
@@ -412,7 +413,7 @@ void Incidence::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
     if (d->mRecurrence) {
         d->mRecurrence->shiftTimes(oldZone, newZone);
     }
-    for (int i = 0, end = d->mAlarms.count();  i < end;  ++i) {
+    for (int i = 0, end = d->mAlarms.count(); i < end; ++i) {
         d->mAlarms[i]->shiftTimes(oldZone, newZone);
     }
 }
@@ -604,8 +605,7 @@ bool Incidence::recursAt(const QDateTime &qdt) const
     return d->mRecurrence && d->mRecurrence->recursAt(qdt);
 }
 
-QList<QDateTime> Incidence::startDateTimesForDate(const QDate &date,
-                                                  const QTimeZone &timeZone) const
+QList<QDateTime> Incidence::startDateTimesForDate(const QDate &date, const QTimeZone &timeZone) const
 {
     QDateTime start = dtStart();
     QDateTime end = dateTime(RoleEndRecurrenceBase);
@@ -613,7 +613,7 @@ QList<QDateTime> Incidence::startDateTimesForDate(const QDate &date,
     QList<QDateTime> result;
 
     // TODO_Recurrence: Also work if only due date is given...
-    if (!start.isValid() && ! end.isValid()) {
+    if (!start.isValid() && !end.isValid()) {
         return result;
     }
 
@@ -653,7 +653,7 @@ QList<QDateTime> Incidence::startDateTimesForDateTime(const QDateTime &datetime)
     QList<QDateTime> result;
 
     // TODO_Recurrence: Also work if only due date is given...
-    if (!start.isValid() && ! end.isValid()) {
+    if (!start.isValid() && !end.isValid()) {
         return result;
     }
 
@@ -938,7 +938,7 @@ void Incidence::setLocation(const QString &location, bool isRich)
         return;
     }
 
-    if (d->mLocation != location || d->mLocationIsRich !=  isRich) {
+    if (d->mLocation != location || d->mLocationIsRich != isRich) {
         update();
         d->mLocation = location;
         d->mLocationIsRich = isRich;
@@ -1124,9 +1124,9 @@ QString Incidence::altDescription() const
 QStringList Incidence::mimeTypes()
 {
     return QStringList() << QStringLiteral("text/calendar")
-           << KCalCore::Event::eventMimeType()
-           << KCalCore::Todo::todoMimeType()
-           << KCalCore::Journal::journalMimeType();
+                         << KCalCore::Event::eventMimeType()
+                         << KCalCore::Todo::todoMimeType()
+                         << KCalCore::Journal::journalMimeType();
 }
 
 void Incidence::serialize(QDataStream &out)
@@ -1162,13 +1162,13 @@ void Incidence::deserialize(QDataStream &in)
     QMap<int, QString> relatedToUid;
     deserializeKDateTimeAsQDateTime(in, d->mCreated);
     in >> d->mRevision >> d->mDescription >> d->mDescriptionIsRich >> d->mSummary
-       >> d->mSummaryIsRich >> d->mLocation >> d->mLocationIsRich >> d->mCategories
-       >> d->mResources >> d->mStatusString >> d->mPriority >> d->mSchedulingID
-       >> d->mGeoLatitude >> d->mGeoLongitude >> d->mHasGeo;
+    >> d->mSummaryIsRich >> d->mLocation >> d->mLocationIsRich >> d->mCategories
+    >> d->mResources >> d->mStatusString >> d->mPriority >> d->mSchedulingID
+    >> d->mGeoLatitude >> d->mGeoLongitude >> d->mHasGeo;
     deserializeKDateTimeAsQDateTime(in, d->mRecurrenceId);
     in >> d->mThisAndFuture
-       >> d->mLocalOnly >> status >> secrecy >> hasRecurrence >> attachmentCount >> alarmCount
-       >> relatedToUid;
+    >> d->mLocalOnly >> status >> secrecy >> hasRecurrence >> attachmentCount >> alarmCount
+    >> relatedToUid;
 
     if (hasRecurrence) {
         d->mRecurrence = new Recurrence();

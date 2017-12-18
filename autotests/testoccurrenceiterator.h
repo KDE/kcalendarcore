@@ -19,7 +19,7 @@
 #define TESTOCCURRENCEITERATOR_H
 #include <QObject>
 
-class TestOccurrenceIterator: public QObject
+class TestOccurrenceIterator : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:

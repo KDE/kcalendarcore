@@ -71,9 +71,7 @@ class QUrl;
 class QDate;
 class QTimeZone;
 
-namespace KCalCore
-{
-
+namespace KCalCore {
 /** List of dates */
 typedef SortableList<QDate> DateList;
 
@@ -505,8 +503,7 @@ public:
       @param attendee a pointer to the attendee to add
       @param doUpdate If true the Observers are notified, if false they are not.
     */
-    void addAttendee(const Attendee::Ptr &attendee,
-                     bool doUpdate = true);
+    void addAttendee(const Attendee::Ptr &attendee, bool doUpdate = true);
 
     /**
       Removes all attendees from the incidence.
@@ -521,8 +518,7 @@ public:
      @param attendee The attendee to be removeComment
      @param doUpdate If true the Observers are notified, if false they are not.
     */
-    void deleteAttendee(const Attendee::Ptr &attendee,
-                        bool doUpdate = true);
+    void deleteAttendee(const Attendee::Ptr &attendee, bool doUpdate = true);
 
     /**
       Returns a list of incidence attendees.
@@ -554,8 +550,7 @@ public:
       in addition to the list specified in @p emails.
       @see attendeeByMail(), attendeesByUid().
     */
-    Attendee::Ptr attendeeByMails(const QStringList &emails,
-                                  const QString &email = QString()) const;
+    Attendee::Ptr attendeeByMails(const QStringList &emails, const QString &email = QString()) const;
 
     /**
       Returns the incidence attendee with the specified attendee @acronym UID.
@@ -751,11 +746,9 @@ private:
     Private *const d;
     //@endcond
 
-    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
-            const KCalCore::IncidenceBase::Ptr &);
+    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalCore::IncidenceBase::Ptr &);
 
-    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream,
-            const KCalCore::IncidenceBase::Ptr &);
+    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream, const KCalCore::IncidenceBase::Ptr &);
 };
 
 /**
@@ -777,7 +770,6 @@ KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalCore::Incide
  * @since 4.12
  */
 KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, const KCalCore::IncidenceBase::Ptr &);
-
 }
 
 Q_DECLARE_METATYPE(KCalCore::IncidenceBase *)

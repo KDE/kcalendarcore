@@ -263,7 +263,7 @@ void MemoryCalendarTest::testChangeRecurId()
     QVERIFY(incidences.count() == 2);
 
     QDateTime newRecId = start.addDays(2);
-    Incidence::Ptr main      = cal->incidence(uid);
+    Incidence::Ptr main = cal->incidence(uid);
     Incidence::Ptr exception = cal->incidence(uid, newRecId);
     Incidence::Ptr noException = cal->incidence(uid, recurrenceId);
     QVERIFY(!noException);

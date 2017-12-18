@@ -19,7 +19,7 @@
 #define TESTREADRECURRENCEID_H
 #include <QObject>
 
-class TestReadRecurrenceId: public QObject
+class TestReadRecurrenceId : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:

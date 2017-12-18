@@ -146,9 +146,9 @@ void FileStorageTest::testSpecialChars()
 
     // Make sure the retrieved incidence is equal to the original one
     QVERIFY(otherEvent->summary() == event->summary());
-    QVERIFY(otherEvent->summary().toLatin1().count() == 1 &&
-            strcmp(otherEvent->summary().toLatin1().constData(),
-                   QString(latin1_umlaut).toLatin1().constData()) == 0);
+    QVERIFY(otherEvent->summary().toLatin1().count() == 1
+            && strcmp(otherEvent->summary().toLatin1().constData(),
+                      QString(latin1_umlaut).toLatin1().constData()) == 0);
 
     // Make sure bart.ics is in UTF-8
     QFile file(QStringLiteral("bart.ics"));
