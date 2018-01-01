@@ -284,6 +284,14 @@ bool Incidence::equals(const IncidenceBase &incidence) const
                           && *d->mRecurrence == *i2->d->mRecurrence;
     }
 
+    if (d->mHasGeo == i2->d->mHasGeo) {
+        if (d->mHasGeo && (!qFuzzyCompare(d->mGeoLatitude, i2->d->mGeoLatitude) || !qFuzzyCompare(d->mGeoLongitude, i2->d->mGeoLongitude))) {
+            return false;
+        }
+    } else {
+        return false;
+    }
+
     return
         recurrenceEqual
         && created() == i2->created()
