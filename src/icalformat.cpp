@@ -90,9 +90,7 @@ bool ICalFormat::load(const Calendar::Ptr &calendar, const QString &fileName)
         setException(new Exception(Exception::LoadError));
         return false;
     }
-    QTextStream ts(&file);
-    ts.setCodec("UTF-8");
-    QByteArray text = ts.readAll().trimmed().toUtf8();
+    const QByteArray text = file.readAll().trimmed();
     file.close();
 
     if (text.isEmpty()) {
