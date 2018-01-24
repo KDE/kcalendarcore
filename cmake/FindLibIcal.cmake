@@ -1,103 +1,111 @@
-# Find Libical
+#.rst:
+# FindLibIcal
+# -----------
 #
-#  LibIcal_FOUND - system has Libical with the minimum version needed
-#  LibIcal_INCLUDE_DIRS - the Libical include directories
-#  LibIcal_LIBRARIES - The libraries needed to use Libical
-#  LibIcal_VERSION = The value of ICAL_VERSION defined in ical.h
-#  LibIcal_MAJOR_VERSION = The library major version number
-#  LibIcal_MINOR_VERSION = The library minor version number
-
+# Try to find the Ical libraries.
+#
+# This will define the following variables:
+#
+# ``LibIcal_FOUND``
+#     True if a suitable LibIcal was found
+#  ``LibIcal_INCLUDE_DIRS``
+#     This should be passed to target_include_directories() if
+#     the target is not used for linking
+#  ``LibIcal_LIBRARIES``
+#     The Ical libraries (ical + icalss)
+#     This can be passed to target_link_libraries() instead of
+#     the ``LibIcal`` target
+#
+# ``LibIcal_VERSION``
+#     The LibIcal version defined in ical.h
+# If ``LibIcal_FOUND`` is TRUE, the following imported target
+# will be available:
+#
+# ``LibIcal``
+#     The Ical libraries
+#
+# The following variables are set for compatibility reason and will be
+# removed in the next major version
+#  ``LibIcal_MAJOR_VERSION``
+#     The LibIcal major version
+#  ``LibIcal_MINOR_VERSION``
+#     The LibIcal minor version
+#
 # Copyright (c) 2008,2010 Allen Winter <winter@kde.org>
 #
-# Redistribution and use is allowed according to the terms of the BSD license.
-# For details see the accompanying COPYING-CMAKE-SCRIPTS file.
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+#
+# 1. Redistributions of source code must retain the copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. The name of the author may not be used to endorse or promote products
+#    derived from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+# IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+# OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+# IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+# INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+# NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+# THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#=============================================================================
 
 if(NOT LibIcal_FIND_VERSION)
   set(LibIcal_FIND_VERSION "0.33")
 endif()
 
-if(WIN32)
-  file(TO_CMAKE_PATH "$ENV{PROGRAMFILES}" _program_FILES_DIR)
-endif()
-
-#set the root from the LibIcal_BASE environment
-file(TO_CMAKE_PATH "$ENV{LibIcal_BASE}" libical_root)
-
-#override the root from LibIcal_BASE defined to cmake
-if(DEFINED LibIcal_BASE)
-  file(TO_CMAKE_PATH "${LibIcal_BASE}" libical_root)
-endif()
+find_package(PkgConfig QUIET)
+pkg_check_modules(PC_LibIcal QUIET libical)
 
 find_path(LibIcal_INCLUDE_DIRS
   NAMES libical/ical.h
-  HINTS ${libical_root}/include ${_program_FILES_DIR}/libical/include
+  HINTS ${PC_LibIcal_INCLUDEDIR}
 )
 
 find_library(LibIcal_LIBRARY
   NAMES ical libical
-  HINTS
-    ${libical_root}/lib64 ${_program_FILES_DIR}/libical/lib64
-    ${libical_root}/lib ${_program_FILES_DIR}/libical/lib
+  HINTS ${PC_LibIcal_LIBDIR}
 )
-
 find_library(LibIcalss_LIBRARY
   NAMES icalss libicalss
-  HINTS
-    ${libical_root}/lib64 ${_program_FILES_DIR}/libical/lib64
-    ${libical_root}/lib ${_program_FILES_DIR}/libical/lib
+  HINTS ${PC_LibIcal_LIBDIR}
 )
+
+# For backward compatibility
+set(LibIcal_INCLUDE_DIRS "${LibIcal_INCLUDE_DIRS}" "${LibIcal_INCLUDE_DIRS}/libical")
 
 set(LibIcal_LIBRARIES ${LibIcal_LIBRARY} ${LibIcalss_LIBRARY})
 
-if(LibIcal_INCLUDE_DIRS AND LibIcal_LIBRARIES)
-  set(FIND_LibIcal_VERSION_SOURCE
-    "#include <libical/ical.h>\n int main()\n {\n printf(\"%s\",ICAL_VERSION);return 1;\n }\n"
+set(LibIcal_VERSION "${PC_LibIcal_VERSION}")
+
+if(NOT LibIcal_VERSION)
+  find_file(ICAL_H NAMES ical.h
+    HINTS ${LibIcal_INCLUDE_DIRS}
   )
-  set(FIND_LibIcal_VERSION_SOURCE_FILE ${CMAKE_BINARY_DIR}/CMakeTmp/FindLIBICAL.cxx)
-  file(WRITE "${FIND_LibIcal_VERSION_SOURCE_FILE}" "${FIND_LibIcal_VERSION_SOURCE}")
 
-  set(FIND_LibIcal_VERSION_ADD_INCLUDES
-    "-DINCLUDE_DIRECTORIES:STRING=${LibIcal_INCLUDE_DIRS}")
-
-  if(NOT CMAKE_CROSSCOMPILING)
-  try_run(RUN_RESULT COMPILE_RESULT
-    ${CMAKE_BINARY_DIR}
-    ${FIND_LibIcal_VERSION_SOURCE_FILE}
-    CMAKE_FLAGS "${FIND_LibIcal_VERSION_ADD_INCLUDES}"
-    COMPILE_OUTPUT_VARIABLE FIND_LibIcal_Compile_Output
-    RUN_OUTPUT_VARIABLE LibIcal_VERSION)
+  if(EXISTS "${ICAL_H}")
+    file(STRINGS "${ICAL_H}" _ICAL_H_CONTENT REGEX "^#define[ ]+ICAL_VERSION[ ]+\"[0-9].[0-9]\"$")
+    string(REGEX REPLACE "^#define[ ]+ICAL_VERSION[ ]+\"([0-9].[0-9])\"$" "\\1" LibIcal_VERSION "${_ICAL_H_CONTENT}")
+    unset(_ICAL_H_CONTENT)
   endif()
+endif()
 
-  if(COMPILE_RESULT AND RUN_RESULT EQUAL 1 AND NOT CMAKE_CROSSCOMPILING)
-    message(STATUS "Found Libical version ${LibIcal_VERSION}")
-    if(${LibIcal_VERSION} VERSION_LESS ${LibIcal_FIND_VERSION})
-      message(STATUS "LibIcal version ${LibIcal_VERSION} is too old. At least version ${LibIcal_FIND_VERSION} is needed.")
-      set(LibIcal_INCLUDE_DIRS "")
-      set(LibIcal_LIBRARIES "")
-    endif()
-    if(NOT LibIcal_VERSION VERSION_LESS 0.46)
-      set(USE_ICAL_0_46 TRUE)
-    endif()
-    if(NOT LibIcal_VERSION VERSION_LESS 1.00)
-      set(USE_ICAL_1_0 TRUE)
-    endif()
+# For compatibility
+string(REGEX REPLACE "^([0-9]).[0-9]$" "\\1" LibIcal_MAJOR_VERSION "${LibIcal_VERSION}")
+string(REGEX REPLACE "^[0-9].([0-9])$" "\\1" LibIcal_MINOR_VERSION "${LibIcal_VERSION}")
 
-  else()
-    if(NOT CMAKE_CROSSCOMPILING)
-      if(NOT COMPILE_RESULT)
-        message(FATAL_ERROR "Unable to compile the libical version detection program: ${FIND_LibIcal_Compile_Output}")
-      else()
-        message(FATAL_ERROR "Unable to run the libical version detection program: it returned ${RUN_RESULT}.")
-      endif()
-    endif()
-  endif()
-
-  #compute the major and minor version numbers
-  if(NOT CMAKE_CROSSCOMPILING)
-    string(REGEX REPLACE "\\..*$" "" LibIcal_MAJOR_VERSION ${LibIcal_VERSION})
-    string(REGEX REPLACE "^.*\\." "" LibIcal_MINOR_VERSION ${LibIcal_VERSION})
-  endif()
-
+if(NOT LibIcal_VERSION VERSION_LESS 0.46)
+  set(USE_ICAL_0_46 TRUE)
+endif()
+if(NOT LibIcal_VERSION VERSION_LESS 1.00)
+  set(USE_ICAL_1_0 TRUE)
 endif()
 
 include(FindPackageHandleStandardArgs)
@@ -107,11 +115,26 @@ find_package_handle_standard_args(LibIcal
     REQUIRED_VARS LibIcal_LIBRARIES LibIcal_INCLUDE_DIRS
     VERSION_VAR LibIcal_VERSION
 )
-if(LibIcal_FOUND AND NOT TARGET LibIcal)
-    add_library(LibIcal INTERFACE IMPORTED)
-    set_target_properties(LibIcal PROPERTIES
-        INTERFACE_LINK_LIBRARIES "${LibIcal_LIBRARIES}"
-        INTERFACE_INCLUDE_DIRECTORIES "${LibIcal_INCLUDE_DIRS};${LibIcal_INCLUDE_DIRS}/libical"
-    )
+
+# Internal
+if(LibIcal_FOUND AND NOT TARGET LibIcalss)
+  add_library(LibIcalss UNKNOWN IMPORTED)
+  set_target_properties(LibIcalss PROPERTIES
+  IMPORTED_LOCATION "${LibIcalss_LIBRARY}")
 endif()
-mark_as_advanced(LibIcal_INCLUDE_DIRS LibIcal_LIBRARIES)
+
+if(LibIcal_FOUND AND NOT TARGET LibIcal)
+    add_library(LibIcal UNKNOWN IMPORTED)
+    set_target_properties(LibIcal PROPERTIES
+        IMPORTED_LOCATION "${LibIcal_LIBRARY}"
+        INTERFACE_INCLUDE_DIRECTORIES "${LibIcal_INCLUDE_DIRS}"
+        INTERFACE_LINK_LIBRARIES LibIcalss)
+endif()
+
+mark_as_advanced(LibIcal_INCLUDE_DIRS LibIcal_LIBRARY LibIcalss_LIBRARY LibIcal_LIBRARIES)
+
+include(FeatureSummary)
+set_package_properties(LibIcal PROPERTIES
+  URL "https://github.com/libical/libical"
+  DESCRIPTION "Implementation of iCalendar protocols and data formats"
+)
