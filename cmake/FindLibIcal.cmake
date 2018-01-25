@@ -86,14 +86,16 @@ set(LibIcal_LIBRARIES ${LibIcal_LIBRARY} ${LibIcalss_LIBRARY})
 set(LibIcal_VERSION "${PC_LibIcal_VERSION}")
 
 if(NOT LibIcal_VERSION)
-  find_file(ICAL_H NAMES ical.h
-    HINTS ${LibIcal_INCLUDE_DIRS}
-  )
-
   if(EXISTS "${ICAL_H}")
-    file(STRINGS "${ICAL_H}" _ICAL_H_CONTENT REGEX "^#define[ ]+ICAL_VERSION[ ]+\"[0-9].[0-9]\"$")
-    string(REGEX REPLACE "^#define[ ]+ICAL_VERSION[ ]+\"([0-9].[0-9])\"$" "\\1" LibIcal_VERSION "${_ICAL_H_CONTENT}")
-    unset(_ICAL_H_CONTENT)
+    file(STRINGS "${ICAL_H}" _ICAL_H_VERSION REGEX "^#define[ ]+ICAL_VERSION[ ]+\"[0-9].[0-9]\"$")
+    string(REGEX REPLACE "^#define[ ]+ICAL_VERSION[ ]+\"([0-9].[0-9])\"$" "\\1" LibIcal_VERSION "${_ICAL_H_VERSION}")
+    file(STRINGS "${ICAL_H}" _ICAL_H_PATCH_VERSION REGEX "^#define[ ]+ICAL_PATCH_VERSION[ ]+\\([0-9]+\\)$")
+    string(REGEX REPLACE "^#define[ ]+ICAL_PATCH_VERSION[ ]+\\(([0-9]+)\\)$" "\\1" LibIcal_PATCH_VERSION "${_ICAL_H_PATCH_VERSION}")
+    unset(_ICAL_H_VERSION)
+    unset(_ICAL_H_PATCH_VERSION)
+    if(LibIcal_PATCH_VERSION)
+      set(LibIcal_VERSION "${LibIcal_VERSION}.${LibIcal_PATCH_VERSION}")
+    endif()
   endif()
 endif()
 
