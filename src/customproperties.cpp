@@ -52,7 +52,7 @@ public:
 
     bool isVolatileProperty(const QString &name) const
     {
-        return name.startsWith(QStringLiteral("X-KDE-VOLATILE"));
+        return name.startsWith(QLatin1String("X-KDE-VOLATILE"));
     }
 };
 

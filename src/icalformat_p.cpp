@@ -1422,7 +1422,7 @@ Attendee::Ptr ICalFormatImpl::readAttendee(icalproperty *attendee)
     icalparameter *p = nullptr;
 
     QString email = QString::fromUtf8(icalproperty_get_attendee(attendee));
-    if (email.startsWith(QStringLiteral("mailto:"), Qt::CaseInsensitive)) {
+    if (email.startsWith(QLatin1String("mailto:"), Qt::CaseInsensitive)) {
         email = email.mid(7);
     }
 
@@ -1559,7 +1559,7 @@ Attendee::Ptr ICalFormatImpl::readAttendee(icalproperty *attendee)
 Person::Ptr ICalFormatImpl::readOrganizer(icalproperty *organizer)
 {
     QString email = QString::fromUtf8(icalproperty_get_organizer(organizer));
-    if (email.startsWith(QStringLiteral("mailto:"), Qt::CaseInsensitive)) {
+    if (email.startsWith(QLatin1String("mailto:"), Qt::CaseInsensitive)) {
         email = email.mid(7);
     }
     QString cn;
@@ -2266,7 +2266,7 @@ void ICalFormatImpl::readAlarm(icalcomponent *alarm, const Incidence::Ptr &incid
         case ICAL_ATTENDEE_PROPERTY: {
             // Only in EMAIL alarm
             QString email = QString::fromUtf8(icalproperty_get_attendee(p));
-            if (email.startsWith(QStringLiteral("mailto:"), Qt::CaseInsensitive)) {
+            if (email.startsWith(QLatin1String("mailto:"), Qt::CaseInsensitive)) {
                 email = email.mid(7);
             }
             QString name;

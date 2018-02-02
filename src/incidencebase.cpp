@@ -281,7 +281,7 @@ void IncidenceBase::setOrganizer(const Person::Ptr &organizer)
 void IncidenceBase::setOrganizer(const QString &o)
 {
     QString mail(o);
-    if (mail.startsWith(QStringLiteral("MAILTO:"), Qt::CaseInsensitive)) {
+    if (mail.startsWith(QLatin1String("MAILTO:"), Qt::CaseInsensitive)) {
         mail = mail.remove(0, 7);
     }
 
