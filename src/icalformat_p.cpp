@@ -1699,7 +1699,7 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent, const Incidence::Ptr &
             if (!textStr.isEmpty()) {
                 QString valStr = QString::fromUtf8(
                                      icalproperty_get_parameter_as_string(p, "X-KDE-TEXTFORMAT"));
-                if (!valStr.compare(QStringLiteral("HTML"), Qt::CaseInsensitive)) {
+                if (!valStr.compare(QLatin1String("HTML"), Qt::CaseInsensitive)) {
                     incidence->setDescription(textStr, true);
                 } else {
                     incidence->setDescription(textStr, false);
@@ -1713,7 +1713,7 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent, const Incidence::Ptr &
             if (!textStr.isEmpty()) {
                 QString valStr = QString::fromUtf8(
                                      icalproperty_get_parameter_as_string(p, "X-KDE-TEXTFORMAT"));
-                if (!valStr.compare(QStringLiteral("HTML"), Qt::CaseInsensitive)) {
+                if (!valStr.compare(QLatin1String("HTML"), Qt::CaseInsensitive)) {
                     incidence->setSummary(textStr, true);
                 } else {
                     incidence->setSummary(textStr, false);
@@ -1733,7 +1733,7 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent, const Incidence::Ptr &
             if (!textStr.isEmpty()) {
                 QString valStr = QString::fromUtf8(
                                      icalproperty_get_parameter_as_string(p, "X-KDE-TEXTFORMAT"));
-                if (!valStr.compare(QStringLiteral("HTML"), Qt::CaseInsensitive)) {
+                if (!valStr.compare(QLatin1String("HTML"), Qt::CaseInsensitive)) {
                     incidence->setLocation(textStr, true);
                 } else {
                     incidence->setLocation(textStr, false);
