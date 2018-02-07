@@ -49,8 +49,8 @@ Compat *CompatFactory::createCompat(const QString &productId,
 {
     Compat *compat = nullptr;
 
-    int korg = productId.indexOf(QStringLiteral("KOrganizer"));
-    int outl9 = productId.indexOf(QStringLiteral("Outlook 9.0"));
+    int korg = productId.indexOf(QLatin1String("KOrganizer"));
+    int outl9 = productId.indexOf(QLatin1String("Outlook 9.0"));
 
     if (korg >= 0) {
         int versionStart = productId.indexOf(QLatin1Char(' '), korg);
