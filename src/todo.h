@@ -77,7 +77,7 @@ public:
     /**
       Destroys a to-do.
     */
-    ~Todo();
+    ~Todo() override;
 
     /**
       @copydoc IncidenceBase::type()

@@ -142,7 +142,7 @@ class CompatDecorator : public Compat
 {
 public:
     explicit CompatDecorator(Compat *decoratedCompat);
-    ~CompatDecorator();
+    ~CompatDecorator() override;
 
     /**
       @copydoc

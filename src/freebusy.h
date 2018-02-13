@@ -112,7 +112,7 @@ public:
     /**
       Destroys a free/busy.
     */
-    ~FreeBusy();
+    ~FreeBusy() override;
 
     /**
       @copydoc

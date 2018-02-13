@@ -58,7 +58,7 @@ public:
     /**
       Destuctor.
     */
-    virtual ~CalStorage();
+    ~CalStorage() override;
 
     /**
       Returns the calendar for this storage object.

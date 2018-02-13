@@ -70,7 +70,7 @@ public:
     /**
       Destructor.
     */
-    virtual ~FileStorage();
+    ~FileStorage() override;
 
     /**
       Sets the name of the file that contains the calendar data.

@@ -84,7 +84,7 @@ public:
     /**
       Destroys the event.
     */
-    ~Event();
+    ~Event() override;
 
     /**
       @copydoc

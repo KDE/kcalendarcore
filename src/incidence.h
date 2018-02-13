@@ -125,7 +125,7 @@ public:
     /**
       Destroys an incidence.
     */
-    virtual ~Incidence();
+    ~Incidence() override;
 
     /**
       Returns an exact copy of this incidence. The returned object is owned

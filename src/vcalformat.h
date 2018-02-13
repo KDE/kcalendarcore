@@ -76,7 +76,7 @@ public:
     /**
       Destructor.
     */
-    virtual ~VCalFormat();
+    ~VCalFormat() override;
 
     /**
       @copydoc

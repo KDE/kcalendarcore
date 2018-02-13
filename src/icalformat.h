@@ -65,7 +65,7 @@ public:
     /**
       Destructor.
     */
-    virtual ~ICalFormat();
+    ~ICalFormat() override;
 
     /**
       @copydoc
