@@ -1,2 +1,2 @@
-SKIP /libical.*/|/versit/|/tests/
+SKIP /libical.*/|/tests/
 EXTRA kdebug,tipsandthis,defines,qenums,null,camelcase

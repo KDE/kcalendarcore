@@ -73,15 +73,21 @@ find_library(LibIcal_LIBRARY
   NAMES ical libical
   HINTS ${PC_LibIcal_LIBDIR}
 )
+
 find_library(LibIcalss_LIBRARY
   NAMES icalss libicalss
+  HINTS ${PC_LibIcal_LIBDIR}
+)
+
+find_library(LibIcalvcal_LIBRARY
+  NAMES icalvcal
   HINTS ${PC_LibIcal_LIBDIR}
 )
 
 # For backward compatibility
 set(LibIcal_INCLUDE_DIRS "${LibIcal_INCLUDE_DIRS}" "${LibIcal_INCLUDE_DIRS}/libical")
 
-set(LibIcal_LIBRARIES ${LibIcal_LIBRARY} ${LibIcalss_LIBRARY})
+set(LibIcal_LIBRARIES ${LibIcal_LIBRARY} ${LibIcalss_LIBRARY} ${LibIcalvcal_LIBRARY})
 
 set(LibIcal_VERSION "${PC_LibIcal_VERSION}")
 
@@ -124,16 +130,23 @@ if(LibIcal_FOUND AND NOT TARGET LibIcalss)
   set_target_properties(LibIcalss PROPERTIES
   IMPORTED_LOCATION "${LibIcalss_LIBRARY}")
 endif()
-
-if(LibIcal_FOUND AND NOT TARGET LibIcal)
-    add_library(LibIcal UNKNOWN IMPORTED)
-    set_target_properties(LibIcal PROPERTIES
-        IMPORTED_LOCATION "${LibIcal_LIBRARY}"
-        INTERFACE_INCLUDE_DIRECTORIES "${LibIcal_INCLUDE_DIRS}"
-        INTERFACE_LINK_LIBRARIES LibIcalss)
+if(LibIcal_FOUND AND NOT TARGET LibIcalvcal)
+  add_library(LibIcalvcal UNKNOWN IMPORTED)
+  set_target_properties(LibIcalvcal PROPERTIES
+  IMPORTED_LOCATION "${LibIcalvcal_LIBRARY}")
 endif()
 
-mark_as_advanced(LibIcal_INCLUDE_DIRS LibIcal_LIBRARY LibIcalss_LIBRARY LibIcal_LIBRARIES)
+# Public Target
+if(LibIcal_FOUND AND NOT TARGET LibIcal)
+  add_library(LibIcal UNKNOWN IMPORTED)
+  set_target_properties(LibIcal PROPERTIES
+    IMPORTED_LOCATION "${LibIcal_LIBRARY}"
+    INTERFACE_INCLUDE_DIRECTORIES "${LibIcal_INCLUDE_DIRS}"
+    INTERFACE_LINK_LIBRARIES "LibIcalss;LibIcalvcal"
+  )
+endif()
+
+mark_as_advanced(LibIcal_INCLUDE_DIRS LibIcal_LIBRARY LibIcalss_LIBRARY LibIcalvcal_LIBRARY LibIcal_LIBRARIES)
 
 include(FeatureSummary)
 set_package_properties(LibIcal PROPERTIES

@@ -1,19 +1,7 @@
 
 ########### next target ###############
 
-bison_target(VersitParser
-  ${CMAKE_CURRENT_SOURCE_DIR}/versit/vcc.y
-  ${CMAKE_CURRENT_BINARY_DIR}/vcc-parser.c
-)
-set_property(SOURCE ${CMAKE_CURRENT_BINARY_DIR}/vcc-parser.h PROPERTY SKIP_AUTOMOC TRUE) # don't run automoc on this file
-
-set(libversit_SRCS
-  ${CMAKE_CURRENT_SOURCE_DIR}/versit/vobject.c
-  ${BISON_VersitParser_OUTPUTS}
-)
-
 set(kcalcore_LIB_SRCS
-  ${libversit_SRCS}
   alarm.cpp
   attachment.cpp
   attendee.cpp
@@ -58,7 +46,7 @@ generate_export_header(KF5CalendarCore BASE_NAME kcalcore)
 add_library(KF5::CalendarCore ALIAS KF5CalendarCore)
 
 target_include_directories(KF5CalendarCore INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KCalCore>")
-target_include_directories(KF5CalendarCore PUBLIC "$<BUILD_INTERFACE:${KCalCore_SOURCE_DIR}/src;${KCalCore_BINARY_DIR}/src;${KCalCore_SOURCE_DIR}/src/versit>")
+target_include_directories(KF5CalendarCore PUBLIC "$<BUILD_INTERFACE:${KCalCore_SOURCE_DIR}/src;${KCalCore_BINARY_DIR}/src>")
 
 target_link_libraries(KF5CalendarCore
 PUBLIC

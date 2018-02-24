@@ -40,10 +40,13 @@
 #include "exceptions.h"
 #include "todo.h"
 #include "utils.h"
-#include "versit/vcc.h"
-#include "versit/vobject.h"
 
 #include "kcalcore_debug.h"
+
+extern "C" {
+#include <libical/vcc.h>
+#include <libical/vobject.h>
+}
 
 #include <QBitArray>
 #include <QFile>

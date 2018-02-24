@@ -51,6 +51,11 @@ class QDate;
 
 #define _VCAL_VERSION "1.0"
 
+/* extensions for iMIP / iTIP */
+#define ICOrganizerProp       "X-ORGANIZER"
+#define ICMethodProp          "X-METHOD"
+#define ICRequestStatusProp   "X-REQUEST-STATUS"
+
 namespace KCalCore
 {
 

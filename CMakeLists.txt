@@ -43,14 +43,6 @@ if(LibIcal_VERSION VERSION_GREATER "2.98")
   add_definitions(-DUSE_ICAL_3)
 endif()
 
-find_package(BISON REQUIRED)
-set_package_properties(BISON PROPERTIES
-  DESCRIPTION "general-purpose parser generator"
-  URL "http://www.gnu.org/software/bison"
-  PURPOSE "Required for the Versit parser"
-  TYPE REQUIRED
-)
-
 ########### CMake Config Files ###########
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF5CalendarCore")
 
@@ -94,6 +86,6 @@ install(FILES
   DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5} COMPONENT Devel
 )
 
-install( FILES kcalcore.renamecategories kcalcore.categories DESTINATION ${KDE_INSTALL_CONFDIR} )
+install(FILES kcalcore.renamecategories kcalcore.categories DESTINATION ${KDE_INSTALL_CONFDIR})
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
