@@ -95,7 +95,6 @@ if(NOT ICAL_H)
   find_file(ICAL_H ical.h HINTS ${LibIcal_INCLUDE_DIRS})
 endif()
 
-message(STATUS "${ICAL_H}")
 if(NOT LibIcal_VERSION)
   if(EXISTS "${ICAL_H}")
     file(STRINGS "${ICAL_H}" _ICAL_H_VERSION REGEX "^#define[ ]+ICAL_VERSION[ ]+\"[0-9].[0-9]\"$")
