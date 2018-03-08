@@ -91,16 +91,10 @@ macro(kcalcore_run_single_test _prefix _f _test _testarg)
   file(MAKE_DIRECTORY ${_outputPath})
 
   set(_runner ${CMAKE_CURRENT_SOURCE_DIR}/runsingletestcase.pl)
-  get_property(_output_dir TARGET ${_test} PROPERTY RUNTIME_OUTPUT_DIRECTORY)
-  if(NOT _output_dir)
-    set(_output_dir ${CMAKE_CURRENT_BINARY_DIR})
-  endif()
-  set(_test_path ${_output_dir}/${_test})
   if(WIN32)
     set(_runner ${PERL_EXECUTABLE} ${_runner})
   endif()
-
-  add_test(${_prefix}-${_fn} ${_runner} ${_test_path} ${_testarg} ${_f} ${_outFile})
+  add_test(NAME ${_prefix}-${_fn} COMMAND ${_runner} $<TARGET_FILE:${_test}> ${_testarg} ${_f} ${_outFile})
 endmacro()
 
 file(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/FAILED.log)

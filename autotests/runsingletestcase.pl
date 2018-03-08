@@ -36,18 +36,18 @@ if ( @ARGV != 4 ) {
   exit 1;
 }
 
-$app = quotemeta $ARGV[0];
-$id = quotemeta $ARGV[1];
-$file_orig = $ARGV[2];
-$file = quotemeta $file_orig;
-$outfile = quotemeta $ARGV[3];  # necessary to avoid creating files in the $file directory
+$app = "$ARGV[0]";
+$id = "$ARGV[1]";
+$file_orig = "$ARGV[2]";
+$file = "$file_orig";
+$outfile ="$ARGV[3]";  # necessary to avoid creating files in the $file directory
 
 $MAXERRLINES=25;
 
 $outfile = "$outfile.$id.out";
 
 if ( $^O eq "MSWin32" || $^O eq "msys" ) {
-  $testcmd = "$app $file $outfile 2> nul";
+  $testcmd = "$app $file $outfile 2> \$null";
 } else {
   $testcmd = "$app $file $outfile";
 }
