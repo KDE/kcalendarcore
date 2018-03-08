@@ -748,7 +748,7 @@ private:
 
     friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalCore::IncidenceBase::Ptr &);
 
-    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream, const KCalCore::IncidenceBase::Ptr &);
+    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalCore::IncidenceBase::Ptr &);
 };
 
 /**
@@ -769,7 +769,7 @@ KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalCore::Incide
  *
  * @since 4.12
  */
-KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, const KCalCore::IncidenceBase::Ptr &);
+KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalCore::IncidenceBase::Ptr &);
 }
 
 Q_DECLARE_METATYPE(KCalCore::IncidenceBase *)

@@ -707,7 +707,7 @@ QDataStream &KCalCore::operator<<(QDataStream &out, const KCalCore::IncidenceBas
     return out;
 }
 
-QDataStream &KCalCore::operator>>(QDataStream &in, const KCalCore::IncidenceBase::Ptr &i)
+QDataStream &KCalCore::operator>>(QDataStream &in, KCalCore::IncidenceBase::Ptr &i)
 {
     if (!i) {
         return in;
