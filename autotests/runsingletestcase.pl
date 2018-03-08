@@ -47,9 +47,9 @@ $MAXERRLINES=25;
 $outfile = "$outfile.$id.out";
 
 if ( $^O eq "MSWin32" || $^O eq "msys" ) {
-  $testcmd = "$app $file $outfile 2> \$null";
+  $testcmd = "\"$app\" \"$file\" \"$outfile\" 2> \$null";
 } else {
-  $testcmd = "$app $file $outfile";
+  $testcmd = "\"$app\" \"$file\" \"$outfile\"";
 }
 
 #print "CMD $testcmd\n";
