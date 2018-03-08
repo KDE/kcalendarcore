@@ -42,6 +42,7 @@
 #include <QStringList>
 #include <QTime>
 #include <QTimeZone>
+#include <QDebug>
 
 using namespace KCalCore;
 
@@ -795,7 +796,10 @@ void Incidence::clearTempFiles()
     QHash<Attachment::Ptr, QString>::const_iterator it = d->mTempFiles.constBegin();
     const QHash<Attachment::Ptr, QString>::const_iterator end = d->mTempFiles.constEnd();
     for (; it != end; ++it) {
-        QFile::remove(it.value());
+        QFile f(it.value());
+        // On Windows the file must be writeable before we can remove it
+        f.setPermissions(QFile::WriteUser);
+        f.remove();
     }
     d->mTempFiles.clear();
 }
