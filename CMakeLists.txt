@@ -35,7 +35,7 @@ ecm_setup_version(PROJECT VARIABLE_PREFIX KCALCORE
 ########### Find packages ###########
 find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED Core Gui)
 
-set(LibIcal_MIN_VERSION "1.0")
+set(LibIcal_MIN_VERSION "2.0")
 find_package(LibIcal ${LibIcal_MIN_VERSION})
 set_package_properties(LibIcal PROPERTIES TYPE REQUIRED)
 if(LibIcal_VERSION VERSION_GREATER "2.98")
