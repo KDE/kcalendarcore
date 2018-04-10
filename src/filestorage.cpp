@@ -152,7 +152,6 @@ bool FileStorage::load()
 
 bool FileStorage::save()
 {
-    qCDebug(KCALCORE_LOG);
     if (d->mFileName.isEmpty()) {
         return false;
     }

@@ -1471,8 +1471,6 @@ void Recurrence::recurrenceChanged(RecurrenceRule *)
 
 void Recurrence::dump() const
 {
-    qCDebug(KCALCORE_LOG);
-
     int i;
     int count = d->mRRules.count();
     qCDebug(KCALCORE_LOG) << "  -)" << count << "RRULEs:";

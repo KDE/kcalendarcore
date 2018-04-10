@@ -2039,7 +2039,6 @@ SortableList<QDateTime> RecurrenceRule::Private::datesForInterval(const Constrai
 void RecurrenceRule::dump() const
 {
 #ifndef NDEBUG
-    qCDebug(KCALCORE_LOG);
     if (!d->mRRule.isEmpty()) {
         qCDebug(KCALCORE_LOG) << "   RRULE=" << d->mRRule;
     }
