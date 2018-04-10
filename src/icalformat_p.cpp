@@ -2455,7 +2455,9 @@ icalproperty *ICalFormatImpl::writeICalDateTimeProperty(const icalproperty_kind 
 
     if (qtz.isValid()) {
         if (tzUsedList) {
-            tzUsedList->push_back(qtz);
+            if (!tzUsedList->contains(qtz)) {
+                tzUsedList->push_back(qtz);
+            }
         }
 
         icalproperty_add_parameter(
