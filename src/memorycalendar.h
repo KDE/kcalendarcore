@@ -66,7 +66,7 @@ public:
     /**
       @copydoc Calendar::~Calendar()
     */
-    ~MemoryCalendar();
+    ~MemoryCalendar() override;
 
     /**
       Clears out the current calendar, freeing all used memory etc. etc.

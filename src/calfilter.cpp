@@ -205,8 +205,6 @@ bool CalFilter::filterIncidence(const Incidence::Ptr &incidence) const
         }
         return true;
     }
-
-    return true;
 }
 
 void CalFilter::setName(const QString &name)

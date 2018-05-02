@@ -166,7 +166,7 @@ public:
     /**
       Destroys the calendar.
     */
-    virtual ~Calendar();
+    ~Calendar() override;
 
     /**
       Sets the calendar Product ID to @p id.

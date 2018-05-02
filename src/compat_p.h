@@ -208,7 +208,7 @@ class CompatPre35 : public Compat
 {
 public:
     CompatPre35();
-    ~CompatPre35();
+    ~CompatPre35() override;
 
     /**
       @copydoc
@@ -231,7 +231,7 @@ class CompatPre34 : public CompatPre35
 {
 public:
     CompatPre34();
-    ~CompatPre34();
+    ~CompatPre34() override;
 
     /**
       @copydoc
@@ -259,7 +259,7 @@ class CompatPre32 : public CompatPre34
 {
 public:
     CompatPre32();
-    ~CompatPre32();
+    ~CompatPre32() override;
 
     /**
       @copydoc
@@ -323,7 +323,7 @@ class Compat32PrereleaseVersions : public Compat
 {
 public:
     Compat32PrereleaseVersions();
-    ~Compat32PrereleaseVersions();
+    ~Compat32PrereleaseVersions() override;
 
     /**
       @copydoc
@@ -350,7 +350,7 @@ class CompatOutlook9 : public Compat
 {
 public:
     CompatOutlook9();
-    ~CompatOutlook9();
+    ~CompatOutlook9() override;
 
     /**
       @copydoc
@@ -373,7 +373,7 @@ class CompatPre410 : public CompatDecorator
 {
 public:
     explicit CompatPre410(Compat *decoratedCompat);
-    ~CompatPre410();
+    ~CompatPre410() override;
     /**
       @copydoc
       Compat::setCreatedToDtStamp()

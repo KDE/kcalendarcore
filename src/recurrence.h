@@ -127,7 +127,7 @@ public:
     /**
       Destructor.
     */
-    ~Recurrence();
+    ~Recurrence() override;
 
     /**
       Comparison operator for equality.

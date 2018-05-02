@@ -648,7 +648,7 @@ QDateTime Alarm::nextRepetition(const QDateTime &preTime) const
     int interval = d->mAlarmSnoozeTime.value();
     bool daily = d->mAlarmSnoozeTime.isDaily();
     if (daily) {
-        int daysTo = at.daysTo(preTime);
+        qint64 daysTo = at.daysTo(preTime);
         if (preTime.time() <= at.time()) {
             --daysTo;
         }
@@ -678,7 +678,7 @@ QDateTime Alarm::previousRepetition(const QDateTime &afterTime) const
     int interval = d->mAlarmSnoozeTime.value();
     bool daily = d->mAlarmSnoozeTime.isDaily();
     if (daily) {
-        int daysTo = at.daysTo(afterTime);
+        qint64 daysTo = at.daysTo(afterTime);
         if (afterTime.time() <= at.time()) {
             --daysTo;
         }

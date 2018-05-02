@@ -635,7 +635,7 @@ QList<QDateTime> Incidence::startDateTimesForDate(const QDate &date, const QTime
         return result;
     }
 
-    int days = start.daysTo(end);
+    qint64 days = start.daysTo(end);
     // Account for possible recurrences going over midnight, while the original event doesn't
     QDate tmpday(date.addDays(-days - 1));
     QDateTime tmp;
@@ -674,7 +674,7 @@ QList<QDateTime> Incidence::startDateTimesForDateTime(const QDateTime &datetime)
         return result;
     }
 
-    int days = start.daysTo(end);
+    qint64 days = start.daysTo(end);
     // Account for possible recurrences going over midnight, while the original event doesn't
     QDate tmpday(datetime.date().addDays(-days - 1));
     QDateTime tmp;

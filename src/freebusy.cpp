@@ -107,8 +107,10 @@ FreeBusy::FreeBusy(const Event::List &events, const QDateTime &start, const QDat
 void FreeBusy::Private::init(const Event::List &eventList,
                              const QDateTime &start, const QDateTime &end)
 {
-    int extraDays, i, x, duration;
-    duration = start.daysTo(end);
+    qint64 extraDays;
+    int i;
+    int x;
+    qint64 duration = start.daysTo(end);
     QDate day;
     QDateTime tmpStart;
     QDateTime tmpEnd;

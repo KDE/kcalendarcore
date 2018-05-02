@@ -588,7 +588,7 @@ Incidence::Ptr Calendar::createException(const Incidence::Ptr &incidence,
 
     if (end.isValid()) {
         if (incidence->allDay()) {
-            int offset = incidence->dtStart().daysTo(recurrenceId);
+            qint64 offset = incidence->dtStart().daysTo(recurrenceId);
             end = end.addDays(offset);
         } else {
             qint64 offset = incidence->dtStart().secsTo(recurrenceId);

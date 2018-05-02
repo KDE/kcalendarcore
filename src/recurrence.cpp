@@ -321,12 +321,10 @@ ushort Recurrence::recurrenceType(const RecurrenceRule *rrule)
         } else {
             return rYearlyMonth;
         }
-        break;
     }
     default:
         return rOther;
     }
-    return rOther;
 }
 
 bool Recurrence::recursOn(const QDate &qd, const QTimeZone &timeZone) const

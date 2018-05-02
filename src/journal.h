@@ -62,7 +62,7 @@ public:
     /**
       Destroys a journal.
     */
-    ~Journal();
+    ~Journal() override;
 
     /**
       @copydoc

@@ -187,7 +187,7 @@ QDateTime Todo::dtDue(bool first) const
     if (recurs() && !first && d->mDtRecurrence.isValid()) {
         if (start.isValid()) {
             // This is the normal case, recurring to-dos have a valid DTSTART.
-            const int duration = start.daysTo(d->mDtDue);
+            const qint64 duration = start.daysTo(d->mDtDue);
             QDateTime dt = d->mDtRecurrence.addDays(duration);
             dt.setTime(d->mDtDue.time());
             return dt;

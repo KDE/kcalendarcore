@@ -926,7 +926,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
 
                 if (index == last) {
                     // e.g. YD1 #0
-                    short tmpDay = anEvent->dtStart().date().dayOfYear();
+                    const int tmpDay = anEvent->dtStart().date().dayOfYear();
                     anEvent->recurrence()->addYearlyDay(tmpDay);
                 } else {
                     // e.g. YD1 123 #0
@@ -1671,25 +1671,18 @@ QByteArray VCalFormat::writeStatus(Attendee::PartStat status) const
     default:
     case Attendee::NeedsAction:
         return "NEEDS ACTION";
-        break;
     case Attendee::Accepted:
         return "ACCEPTED";
-        break;
     case Attendee::Declined:
         return "DECLINED";
-        break;
     case Attendee::Tentative:
         return "TENTATIVE";
-        break;
     case Attendee::Delegated:
         return "DELEGATED";
-        break;
     case Attendee::Completed:
         return "COMPLETED";
-        break;
     case Attendee::InProcess:
         return "NEEDS ACTION";
-        break;
     }
 }
 

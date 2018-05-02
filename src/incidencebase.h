@@ -230,7 +230,7 @@ public:
     /**
       Destroys the IncidenceBase.
     */
-    virtual ~IncidenceBase();
+    ~IncidenceBase() override;
 
     /**
       Assignment operator.

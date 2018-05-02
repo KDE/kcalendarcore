@@ -296,7 +296,7 @@ void Event::setDateTime(const QDateTime &dateTime, DateTimeRole role)
 {
     switch (role) {
     case RoleDnD: {
-        const int duration = dtStart().secsTo(dtEnd());
+        const qint64 duration = dtStart().secsTo(dtEnd());
 
         setDtStart(dateTime);
         setDtEnd(dateTime.addSecs(duration <= 0 ? 3600 : duration));
