@@ -102,7 +102,7 @@ public:
     /**
       Destroys the alarm.
     */
-    virtual ~Alarm();
+    ~Alarm() override;
 
     /**
       Copy operator.

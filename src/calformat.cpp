@@ -44,7 +44,7 @@ using namespace KCalCore;
 class Q_DECL_HIDDEN KCalCore::CalFormat::Private
 {
 public:
-    Private() : mException(nullptr) {}
+    Private() {}
     ~Private()
     {
         delete mException;

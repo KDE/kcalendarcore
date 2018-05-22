@@ -286,7 +286,6 @@ QDateTime Event::dateTime(DateTimeRole role) const
             Alarm::Ptr alarm = alarms().at(0);
             return alarm->hasStartOffset() ? dtStart() : dtEnd();
         }
-        break;
     default:
         return QDateTime();
     }

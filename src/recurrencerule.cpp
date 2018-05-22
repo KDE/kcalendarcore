@@ -129,7 +129,7 @@ int DateHelper::getWeekNumber(const QDate &date, short weekstart, int *year)
     QDate dt(y, 1, 4);   // <= definitely in week #1
     dt = dt.addDays(-(7 + dt.dayOfWeek() - weekstart) % 7);     // begin of week #1
 
-    int daysto = dt.daysTo(date);
+    qint64 daysto = dt.daysTo(date);
     if (daysto < 0) {
         // in first week of year
         --y;
@@ -140,7 +140,7 @@ int DateHelper::getWeekNumber(const QDate &date, short weekstart, int *year)
         // near the end of the year - check if it's next year
         QDate dtn(y + 1, 1, 4); // <= definitely first week of next year
         dtn = dtn.addDays(-(7 + dtn.dayOfWeek() - weekstart) % 7);
-        int dayston = dtn.daysTo(date);
+        qint64 dayston = dtn.daysTo(date);
         if (dayston >= 0) {
             // in first week of next year;
             ++y;
@@ -320,7 +320,7 @@ bool Constraint::matches(const QDate &dt, RecurrenceRule::PeriodType type) const
             return false;
         }
     } else {
-        int y;
+        int y = 0;
         if (weeknumber > 0 &&
                 weeknumber != DateHelper::getWeekNumber(dt, weekstart, &y)) {
             return false;
