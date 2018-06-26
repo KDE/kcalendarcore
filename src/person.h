@@ -97,14 +97,14 @@ public:
     /**
       Returns true if the person name and email address are empty.
     */
-    bool isEmpty() const;
+    Q_REQUIRED_RESULT bool isEmpty() const;
 
     /**
       Returns the full name of this person.
       @return A QString containing the person's full name in the form
         "FirstName LastName \<mail@domain\>".
     */
-    QString fullName() const;
+    Q_REQUIRED_RESULT QString fullName() const;
 
     /**
       Sets the name of the person to @p name.
@@ -120,7 +120,7 @@ public:
 
       @see setName()
     */
-    QString name() const;
+    Q_REQUIRED_RESULT QString name() const;
 
     /**
       Sets the email address for this person to @p email.
@@ -136,7 +136,7 @@ public:
       @return A QString containing the person's email address.
       @see setEmail()
     */
-    QString email() const;
+    Q_REQUIRED_RESULT QString email() const;
 
     /**
       Returns true if person's email address is valid.
@@ -149,7 +149,7 @@ public:
 
       @param email is the email address to validate
     */
-    static bool isValidEmail(const QString &email);
+    Q_REQUIRED_RESULT static bool isValidEmail(const QString &email);
 
     /**
       Sets the number of references for this person.
@@ -168,7 +168,7 @@ public:
 
       @see setCount()
     */
-    int count() const;
+    Q_REQUIRED_RESULT int count() const;
 
     /**
       Compares this with @p person for equality.

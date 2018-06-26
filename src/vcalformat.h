@@ -99,21 +99,21 @@ public:
       @copydoc
       CalFormat::fromString()
     */
-    bool fromString(const Calendar::Ptr &calendar, const QString &string,
+    Q_REQUIRED_RESULT bool fromString(const Calendar::Ptr &calendar, const QString &string,
                     bool deleted = false, const QString &notebook = QString()) override;
 
     /**
       @copydoc
       CalFormat::toString()
     */
-    QString toString(const Calendar::Ptr &calendar, const QString &notebook = QString(),
+    Q_REQUIRED_RESULT QString toString(const Calendar::Ptr &calendar, const QString &notebook = QString(),
                      bool deleted = false) override;
 
     /**
       @copydoc
       CalFormat::fromRawString()
     */
-    bool fromRawString(const Calendar::Ptr &calendar, const QByteArray &string,
+    Q_REQUIRED_RESULT bool fromRawString(const Calendar::Ptr &calendar, const QByteArray &string,
                        bool deleted = false, const QString &notebook = QString()) override;
 
 protected:

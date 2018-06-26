@@ -142,7 +142,7 @@ public:
       @see setParent()
     */
     // We don't have a share pointer to return, so return the UID.
-    QString parentUid() const;
+    Q_REQUIRED_RESULT QString parentUid() const;
 
     /**
       Sets the #Type for this alarm to @p type.
@@ -160,7 +160,7 @@ public:
 
       @see setType()
     */
-    Type type() const;
+    Q_REQUIRED_RESULT Type type() const;
 
     /**
       Sets the #Display type for this alarm.
@@ -189,7 +189,7 @@ public:
 
       @see setDisplayAlarm(), setText()
     */
-    QString text() const;
+    Q_REQUIRED_RESULT QString text() const;
 
     /**
       Sets the #Audio type for this alarm and the name of the audio file
@@ -219,7 +219,7 @@ public:
 
       @see setAudioAlarm(), setAudioFile()
     */
-    QString audioFile() const;
+    Q_REQUIRED_RESULT QString audioFile() const;
 
     /**
       Sets the #Procedure type for this alarm and the program (with arguments)
@@ -254,7 +254,7 @@ public:
       @see setProcedureAlarm(), setProgramFile(),
       setProgramArguments(), programArguments()
     */
-    QString programFile() const;
+    Q_REQUIRED_RESULT QString programFile() const;
 
     /**
       Sets the program arguments string when the alarm is triggered.
@@ -274,7 +274,7 @@ public:
       @see setProcedureAlarm(), setProgramFile(), programFile(),
       setProgramArguments()
     */
-    QString programArguments() const;
+    Q_REQUIRED_RESULT QString programArguments() const;
 
     /**
       Sets the #Email type for this alarm and the email @p subject, @p text,
@@ -336,7 +336,7 @@ public:
 
       @see addMailAddress(), setMailAddress(), setMailAddresses()
     */
-    Person::List mailAddresses() const;
+    Q_REQUIRED_RESULT Person::List mailAddresses() const;
 
     /**
       Sets the subject line of a mail message for an #Email alarm type.
@@ -356,7 +356,7 @@ public:
 
       @see setMailSubject()
     */
-    QString mailSubject() const;
+    Q_REQUIRED_RESULT QString mailSubject() const;
 
     /**
       Sets the filename to attach to a mail message for an #Email alarm type.
@@ -399,7 +399,7 @@ public:
 
       @see addMailAttachment(), setMailAttachment(), setMailAttachments()
     */
-    QStringList mailAttachments() const;
+    Q_REQUIRED_RESULT QStringList mailAttachments() const;
 
     /**
       Sets the body text for an #Email alarm type.
@@ -419,7 +419,7 @@ public:
 
       @see setMailText()
     */
-    QString mailText() const;
+    Q_REQUIRED_RESULT QString mailText() const;
 
     /**
       Sets the trigger time of the alarm.
@@ -435,7 +435,7 @@ public:
 
       @see setTime()
     */
-    QDateTime time() const;
+    Q_REQUIRED_RESULT QDateTime time() const;
 
     /**
       Returns the next alarm trigger date/time after given date/time.
@@ -445,7 +445,7 @@ public:
       @param ignoreRepetitions don't take repetitions into account
       @see nextRepetition()
     */
-    QDateTime nextTime(const QDateTime &preTime, bool ignoreRepetitions = false) const;
+    Q_REQUIRED_RESULT QDateTime nextTime(const QDateTime &preTime, bool ignoreRepetitions = false) const;
 
     /**
       Returns the date/time when the last repetition of the alarm goes off.
@@ -453,12 +453,12 @@ public:
 
       @see setTime()
     */
-    QDateTime endTime() const;
+    Q_REQUIRED_RESULT QDateTime endTime() const;
 
     /**
       Returns true if the alarm has a trigger date/time.
     */
-    bool hasTime() const;
+    Q_REQUIRED_RESULT bool hasTime() const;
 
     /**
       Sets the alarm offset relative to the start of the parent Incidence.
@@ -477,7 +477,7 @@ public:
 
       @see setStartOffset(), hasStartOffset()
     */
-    Duration startOffset() const;
+    Q_REQUIRED_RESULT Duration startOffset() const;
 
     /**
       Returns whether the alarm is defined in terms of an offset relative
@@ -504,7 +504,7 @@ public:
 
       @see setEndOffset(), hasEndOffset()
     */
-    Duration endOffset() const;
+    Q_REQUIRED_RESULT Duration endOffset() const;
 
     /**
       Returns whether the alarm is defined in terms of an offset relative
@@ -544,7 +544,7 @@ public:
 
       @see setSnoozeTime()
     */
-    Duration snoozeTime() const;
+    Q_REQUIRED_RESULT Duration snoozeTime() const;
 
     /**
       Sets how many times an alarm is to repeat itself after its initial
@@ -562,7 +562,7 @@ public:
 
       @see setRepeatCount()
     */
-    int repeatCount() const;
+    Q_REQUIRED_RESULT int repeatCount() const;
 
     /**
       Returns the date/time of the alarm's initial occurrence or its next
@@ -575,7 +575,7 @@ public:
 
       @see previousRepetition()
     */
-    QDateTime nextRepetition(const QDateTime &preTime) const;
+    Q_REQUIRED_RESULT QDateTime nextRepetition(const QDateTime &preTime) const;
 
     /**
       Returns the date/time of the alarm's latest repetition or, if none,
@@ -590,13 +590,13 @@ public:
 
       @see nextRepetition()
     */
-    QDateTime previousRepetition(const QDateTime &afterTime) const;
+    Q_REQUIRED_RESULT QDateTime previousRepetition(const QDateTime &afterTime) const;
 
     /**
       Returns the interval between the alarm's initial occurrence and
       its final repetition.
     */
-    Duration duration() const;
+    Q_REQUIRED_RESULT Duration duration() const;
 
     /**
       Toggles the alarm status, i.e, an enable alarm becomes disabled
@@ -619,7 +619,7 @@ public:
 
       @see setEnabled(), toggleAlarm()
     */
-    bool enabled() const;
+    Q_REQUIRED_RESULT bool enabled() const;
 
     /**
       Set if the location radius for the alarm has been defined.
@@ -634,7 +634,7 @@ public:
 
       @see setLocationRadius()
     */
-    bool hasLocationRadius() const;
+    Q_REQUIRED_RESULT bool hasLocationRadius() const;
 
     /**
       Set location radius for the alarm. This means that alarm will be
@@ -651,7 +651,7 @@ public:
 
       @see setLocationRadius()
     */
-    int locationRadius() const;
+    Q_REQUIRED_RESULT int locationRadius() const;
 
 protected:
     /**

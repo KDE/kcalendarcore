@@ -154,9 +154,9 @@ public:
 
     /** Return the start date/time of the recurrence (Time for all-day recurrences will be 0:00).
      @return the current start/time of the recurrence. */
-    QDateTime startDateTime() const;
+    Q_REQUIRED_RESULT QDateTime startDateTime() const;
     /** Return the start date/time of the recurrence */
-    QDate startDate() const;
+    Q_REQUIRED_RESULT QDate startDate() const;
     /** Set start of recurrence.
        If @p start is date-only, the recurrence is set to all-day. Otherwise, the
        start is set to a date and time, and the recurrence is set to non-all-day.
@@ -170,7 +170,7 @@ public:
      * N.B. This property is derived by default from whether setStartDateTime() is
      * called with a date-only or date/time parameter.
      * @return whether the recurrence has a time (false) or it is just a date (true). */
-    bool allDay() const;
+    Q_REQUIRED_RESULT bool allDay() const;
     /** Sets whether the dtstart is a all-day (i.e. has no time attached)
        @param allDay If the recurrence is for all-day item (true) or has a time associated (false).
        */
@@ -180,14 +180,14 @@ public:
     void setRecurReadOnly(bool readOnly);
 
     /** Returns true if the recurrence is read-only, or false if it can be changed. */
-    bool recurReadOnly() const;
+    Q_REQUIRED_RESULT bool recurReadOnly() const;
 
     /** Returns whether the event recurs at all. */
-    bool recurs() const;
+    Q_REQUIRED_RESULT bool recurs() const;
 
     /** Returns the event's recurrence status.  See the enumeration at the top
      * of this file for possible values. */
-    ushort recurrenceType() const;
+    Q_REQUIRED_RESULT ushort recurrenceType() const;
 
     /** Returns the recurrence status for a recurrence rule.
      * See the enumeration at the top of this file for possible values.
@@ -230,7 +230,7 @@ public:
      * @param date the date for which to find the recurrence times
      * @param timeZone timezone for @p date
      */
-    TimeList recurTimesOn(const QDate &date, const QTimeZone &timeZone) const;
+    Q_REQUIRED_RESULT TimeList recurTimesOn(const QDate &date, const QTimeZone &timeZone) const;
 
     /** Returns a list of all the times at which the recurrence will occur
      * between two specified times.
@@ -244,7 +244,7 @@ public:
      * @param end inclusive end of interval
      * @return list of date/time values
      */
-    SortableList<QDateTime> timesInInterval(const QDateTime &start, const QDateTime &end) const;
+    Q_REQUIRED_RESULT SortableList<QDateTime> timesInInterval(const QDateTime &start, const QDateTime &end) const;
 
     /** Returns the date and time of the next recurrence, after the specified date/time.
      * If the recurrence has no time, the next date after the specified date is returned.
@@ -252,7 +252,7 @@ public:
      * @return date/time of next recurrence (strictly later than the given
      *         QDateTime), or invalid date if none.
      */
-    QDateTime getNextDateTime(const QDateTime &preDateTime) const;
+    Q_REQUIRED_RESULT QDateTime getNextDateTime(const QDateTime &preDateTime) const;
 
     /** Returns the date and time of the last previous recurrence, before the specified date/time.
      * If a time later than 00:00:00 is specified and the recurrence has no time, 00:00:00 on
@@ -262,10 +262,10 @@ public:
      * @return date/time of previous recurrence (strictly earlier than the given
      *         QDateTime), or invalid date if none.
      */
-    QDateTime getPreviousDateTime(const QDateTime &afterDateTime) const;
+    Q_REQUIRED_RESULT QDateTime getPreviousDateTime(const QDateTime &afterDateTime) const;
 
     /** Returns frequency of recurrence, in terms of the recurrence time period type. */
-    int frequency() const;
+    Q_REQUIRED_RESULT int frequency() const;
 
     /** Sets the frequency of recurrence, in terms of the recurrence time period type. */
     void setFrequency(int freq);
@@ -274,7 +274,7 @@ public:
      * Returns -1 if the event recurs infinitely, 0 if the end date is set,
      * otherwise the total number of recurrences, including the initial occurrence.
      */
-    int duration() const;
+    Q_REQUIRED_RESULT int duration() const;
 
     /** Sets the total number of times the event is to occur, including both the
      * first and last. */
@@ -283,22 +283,22 @@ public:
     /** Returns the number of recurrences up to and including the date/time specified.
      *  @warning This function can be very time consuming - use it sparingly!
      */
-    int durationTo(const QDateTime &dt) const;
+    Q_REQUIRED_RESULT int durationTo(const QDateTime &dt) const;
 
     /** Returns the number of recurrences up to and including the date specified.
      *  @warning This function can be very time consuming - use it sparingly!
      */
-    int durationTo(const QDate &date) const;
+    Q_REQUIRED_RESULT int durationTo(const QDate &date) const;
 
     /** Returns the date/time of the last recurrence.
      * An invalid date is returned if the recurrence has no end.
      */
-    QDateTime endDateTime() const;
+    Q_REQUIRED_RESULT QDateTime endDateTime() const;
 
     /** Returns the date of the last recurrence.
      * An invalid date is returned if the recurrence has no end.
      */
-    QDate endDate() const;
+    Q_REQUIRED_RESULT QDate endDate() const;
 
     /** Sets the date of the last recurrence. The end time is set to the recurrence start time.
      * @param endDate the ending date after which to stop recurring. If the
@@ -405,7 +405,7 @@ public:
     int weekStart() const;
 
     /** Returns week day mask (bit 0 = Monday). */
-    QBitArray days() const; // Emulate the old behavior
+    Q_REQUIRED_RESULT QBitArray days() const; // Emulate the old behavior
 
     /** Sets an event to recur monthly. By default infinite recurrence is used.
         The date of the monthly recurrence will be taken from the start date
@@ -444,11 +444,11 @@ public:
     void setMonthlyDate(const QList<int> &monthlyDays);
 
     /** Returns list of day positions in months. */
-    QList<RecurrenceRule::WDayPos> monthPositions() const;
+    Q_REQUIRED_RESULT QList<RecurrenceRule::WDayPos> monthPositions() const;
 
     /** Returns list of day numbers of a  month. */
     // Emulate old behavior
-    QList<int> monthDays() const;
+    Q_REQUIRED_RESULT QList<int> monthDays() const;
 
     /** Sets an event to recur yearly. By default, this will recur every year
      *  on the same date (e.g. every year on April 15 if the start date was
@@ -530,7 +530,7 @@ public:
      *         60, this means the recurrence happens on day 60 of the year, i.e.
      *         on Feb 29 in leap years and March 1 in non-leap years.
      */
-    QList<int> yearDays() const;
+    Q_REQUIRED_RESULT QList<int> yearDays() const;
 
     /** Returns the dates within a yearly recurrence.
      * @return the days of the month for the event. E.g. if the list contains
@@ -539,7 +539,7 @@ public:
      *         yearlyMonths(). If this list is empty, the month of the start
      *         date is used.
      */
-    QList<int> yearDates() const;
+    Q_REQUIRED_RESULT QList<int> yearDates() const;
 
     /** Returns the months within a yearly recurrence.
      * @return the months for the event. E.g. if the list contains
@@ -549,7 +549,7 @@ public:
      *         through yearlyPositions() if they are given as positions within the
      *         month. If none is specified, the date of the start date is used.
      */
-    QList<int> yearMonths() const;
+    Q_REQUIRED_RESULT QList<int> yearMonths() const;
 
     /** Returns the positions within a yearly recurrence.
      * @return the positions for the event, either within a month (if months
@@ -560,7 +560,7 @@ public:
      *         year.
      */
     /** Returns list of day positions in months, for a recursYearlyPos recurrence rule. */
-    QList<RecurrenceRule::WDayPos> yearPositions() const;
+    Q_REQUIRED_RESULT QList<RecurrenceRule::WDayPos> yearPositions() const;
 
     /** Upper date limit for recurrences */
     static const QDate MAX_DATE;
@@ -571,7 +571,7 @@ public:
     void dump() const;
 
     // RRULE
-    RecurrenceRule::List rRules() const;
+    Q_REQUIRED_RESULT RecurrenceRule::List rRules() const;
     /**
       Add a recurrence rule to the recurrence.
       @param rrule the recurrence rule to add
@@ -593,7 +593,7 @@ public:
     void deleteRRule(RecurrenceRule *rrule);
 
     // EXRULE
-    RecurrenceRule::List exRules() const;
+    Q_REQUIRED_RESULT RecurrenceRule::List exRules() const;
 
     /**
       Add an exception rule to the recurrence.
@@ -616,16 +616,16 @@ public:
     void deleteExRule(RecurrenceRule *exrule);
 
     // RDATE
-    SortableList<QDateTime> rDateTimes() const;
-    DateList rDates() const;
+    Q_REQUIRED_RESULT SortableList<QDateTime> rDateTimes() const;
+    Q_REQUIRED_RESULT DateList rDates() const;
     void setRDateTimes(const SortableList<QDateTime> &rdates);
     void setRDates(const DateList &rdates);
     void addRDateTime(const QDateTime &rdate);
     void addRDate(const QDate &rdate);
 
     // ExDATE
-    SortableList<QDateTime> exDateTimes() const;
-    DateList exDates() const;
+    Q_REQUIRED_RESULT SortableList<QDateTime> exDateTimes() const;
+    Q_REQUIRED_RESULT DateList exDates() const;
     void setExDateTimes(const SortableList<QDateTime> &exdates);
     void setExDates(const DateList &exdates);
     void addExDateTime(const QDateTime &exdate);

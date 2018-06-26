@@ -120,7 +120,7 @@ public:
       Returns the period summary.
       @see setSummary()
     */
-    QString summary() const;
+    Q_REQUIRED_RESULT QString summary() const;
 
     /**
       Sets the period location.
@@ -133,7 +133,7 @@ public:
       Returns the period location.
       @see setLocation()
     */
-    QString location() const;
+    Q_REQUIRED_RESULT QString location() const;
 
     /**
       Sets the free/busy type.
@@ -148,7 +148,7 @@ public:
       @see setType().
       @since 5.0
     */
-    FreeBusyType type() const;
+    Q_REQUIRED_RESULT FreeBusyType type() const;
 
 private:
     //@cond PRIVATE

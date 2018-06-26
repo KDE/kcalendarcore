@@ -280,42 +280,42 @@ public:
       @param start is the start time.
       @return end time.
     */
-    QDateTime end(const QDateTime &start) const;
+    Q_REQUIRED_RESULT QDateTime end(const QDateTime &start) const;
 
     /**
       Returns the time units (seconds or days) used to specify the duration.
     */
-    Type type() const;
+    Q_REQUIRED_RESULT Type type() const;
 
     /**
       Returns whether the duration is specified in terms of days rather
       than seconds.
     */
-    bool isDaily() const;
+    Q_REQUIRED_RESULT bool isDaily() const;
 
     /**
       Returns the length of the duration in seconds.
     */
-    int asSeconds() const;
+    Q_REQUIRED_RESULT int asSeconds() const;
 
     /**
       Returns the length of the duration in days. If the duration is
       not an exact number of days, it is rounded down to return the
       number of whole days.
     */
-    int asDays() const;
+    Q_REQUIRED_RESULT int asDays() const;
 
     /**
       Returns the length of the duration in seconds or days.
 
       @return if isDaily(), duration in days, else duration in seconds
     */
-    int value() const;
+    Q_REQUIRED_RESULT int value() const;
 
     /**
       Returns true if the duration is 0 seconds.
     */
-    bool isNull() const;
+    Q_REQUIRED_RESULT bool isNull() const;
 
 private:
     //@cond PRIVATE

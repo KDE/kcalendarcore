@@ -114,21 +114,21 @@ public:
 
       @see setUri(), isUri()
     */
-    QString uri() const;
+    Q_REQUIRED_RESULT QString uri() const;
 
     /**
       Returns true if the attachment has a @acronym URI; false otherwise.
 
       @see uri(), setUri(I), isBinary()
     */
-    bool isUri() const;
+    Q_REQUIRED_RESULT bool isUri() const;
 
     /**
       Returns true if the attachment has a binary blob; false otherwise.
 
       @see isUri()
     */
-    bool isBinary() const;
+    Q_REQUIRED_RESULT bool isBinary() const;
 
     /**
       Sets the base64 encoded binary blob data of the attachment.
@@ -145,7 +145,7 @@ public:
 
       @see setData(), setDecodedData()
     */
-    QByteArray data() const;
+    Q_REQUIRED_RESULT QByteArray data() const;
 
     /**
       Sets the decoded attachment data.
@@ -162,7 +162,7 @@ public:
 
       @see setDecodedData(), setData()
     */
-    QByteArray decodedData() const;
+    Q_REQUIRED_RESULT QByteArray decodedData() const;
 
     /**
       Returns the size of the attachment, in bytes.
@@ -185,7 +185,7 @@ public:
 
       @see setMimeType()
     */
-    QString mimeType() const;
+    Q_REQUIRED_RESULT QString mimeType() const;
 
     /**
       Sets the attachment "show in-line" option, which is derived from
@@ -203,7 +203,7 @@ public:
 
       @see setShowInline()
     */
-    bool showInline() const;
+    Q_REQUIRED_RESULT bool showInline() const;
 
     /**
       Sets the attachment label to @p label, which is derived from
@@ -218,7 +218,7 @@ public:
     /**
       Returns the attachment label string.
     */
-    QString label() const;
+    Q_REQUIRED_RESULT QString label() const;
 
     /**
       Sets the attachment "local" option, which is derived from the
@@ -234,7 +234,7 @@ public:
     /**
       Returns the attachment "local" flag.
     */
-    bool isLocal() const;
+    Q_REQUIRED_RESULT bool isLocal() const;
 
     /**
       Assignment operator.

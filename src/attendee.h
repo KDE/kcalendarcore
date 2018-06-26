@@ -159,7 +159,7 @@ public:
 
       @see setRole()
     */
-    Role role() const;
+    Q_REQUIRED_RESULT Role role() const;
 
     /**
       Sets the @acronym UID of the attendee to @p uid.
@@ -175,7 +175,7 @@ public:
 
       @see setUid()
     */
-    QString uid() const;
+    Q_REQUIRED_RESULT QString uid() const;
 
     /**
       Sets the #PartStat of the attendee to @p status.
@@ -191,7 +191,7 @@ public:
 
       @see setStatus()
     */
-    PartStat status() const;
+    Q_REQUIRED_RESULT PartStat status() const;
 
     /**
       Sets the #CuType of the attendee to @p cuType.
@@ -222,7 +222,7 @@ public:
 
       @since 4.14
     */
-    CuType cuType() const;
+    Q_REQUIRED_RESULT CuType cuType() const;
 
     /**
       Returns the #CuType of the attendee.
@@ -231,7 +231,7 @@ public:
 
       @since 4.14
     */
-    QString cuTypeStr() const;
+    Q_REQUIRED_RESULT QString cuTypeStr() const;
 
     /**
       Sets the @acronym RSVP flag of the attendee to @p rsvp.
@@ -248,7 +248,7 @@ public:
 
       @see setRSVP()
     */
-    bool RSVP() const;
+    Q_REQUIRED_RESULT bool RSVP() const;
 
     /**
       Compares this with @p attendee for equality.
@@ -276,7 +276,7 @@ public:
       Returns the delegate.
       @see setDelegate().
     */
-    QString delegate() const;
+    Q_REQUIRED_RESULT QString delegate() const;
 
     /**
       Sets the delegator.
@@ -290,7 +290,7 @@ public:
       Returns the delegator.
       @see setDelegator().
     */
-    QString delegator() const;
+    Q_REQUIRED_RESULT QString delegator() const;
 
     /**
       Adds a custom property. If the property already exists it will be overwritten.
@@ -302,7 +302,7 @@ public:
     /**
       Returns a reference to the CustomProperties object
     */
-    CustomProperties &customProperties();
+    Q_REQUIRED_RESULT CustomProperties &customProperties();
 
     /**
       Returns a const reference to the CustomProperties object

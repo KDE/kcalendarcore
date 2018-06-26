@@ -85,7 +85,7 @@ public:
       @return A QString with the name of the calendar file for this storge.
       @see setFileName().
     */
-    QString fileName() const;
+    Q_REQUIRED_RESULT QString fileName() const;
 
     /**
       Sets the CalFormat object to use for this storage.
@@ -106,22 +106,22 @@ public:
     /**
       @copydoc CalStorage::open()
     */
-    bool open() override;
+    Q_REQUIRED_RESULT bool open() override;
 
     /**
       @copydoc CalStorage::load()
     */
-    bool load() override;
+    Q_REQUIRED_RESULT bool load() override;
 
     /**
       @copydoc CalStorage::save()
     */
-    bool save() override;
+    Q_REQUIRED_RESULT bool save() override;
 
     /**
       @copydoc CalStorage::close()
     */
-    bool close() override;
+    Q_REQUIRED_RESULT bool close() override;
 
 private:
     //@cond PRIVATE

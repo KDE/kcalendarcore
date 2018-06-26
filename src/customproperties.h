@@ -108,7 +108,7 @@ public:
       @return Property value, or QString() if (and only if) the property
       does not exist.
     */
-    QString customProperty(const QByteArray &app, const QByteArray &key) const;
+    Q_REQUIRED_RESULT QString customProperty(const QByteArray &app, const QByteArray &key) const;
 
     /**
       Validate and return the full name of a custom calendar property.
@@ -118,7 +118,7 @@ public:
       @return Full property name, or empty string if it would contain invalid
               characters
     */
-    static QByteArray customPropertyName(const QByteArray &app, const QByteArray &key);
+    Q_REQUIRED_RESULT static QByteArray customPropertyName(const QByteArray &app, const QByteArray &key);
 
     /**
       Create or modify a non-KDE or non-standard custom calendar property.
@@ -150,7 +150,7 @@ public:
       @return Property value, or QString() if (and only if) the property
       does not exist.
     */
-    QString nonKDECustomProperty(const QByteArray &name) const;
+    Q_REQUIRED_RESULT QString nonKDECustomProperty(const QByteArray &name) const;
 
     /**
       Return the parameters of a non-KDE or non-standard custom
@@ -160,7 +160,7 @@ public:
       @return The parameters for the given property. Empty string is
       returned if none are set.
     */
-    QString nonKDECustomPropertyParameters(const QByteArray &name) const;
+    Q_REQUIRED_RESULT QString nonKDECustomPropertyParameters(const QByteArray &name) const;
 
     /**
       Initialise the alarm's custom calendar properties to the specified
@@ -174,7 +174,7 @@ public:
       Returns all custom calendar property key/value pairs.
       @see setCustomProperties().
     */
-    QMap<QByteArray, QString> customProperties() const;
+    Q_REQUIRED_RESULT QMap<QByteArray, QString> customProperties() const;
 
     /**
       Assignment operator.

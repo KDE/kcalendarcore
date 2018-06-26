@@ -98,13 +98,13 @@ public:
       Returns the error code.
       @return The ErrorCode for this exception.
     */
-    virtual ErrorCode code() const;
+    Q_REQUIRED_RESULT virtual ErrorCode code() const;
 
     /**
       Returns the arguments.
       @return A QStringList with the argument list for this exception.
     */
-    virtual QStringList arguments() const;
+    Q_REQUIRED_RESULT virtual QStringList arguments() const;
 
 protected:
     /**

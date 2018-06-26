@@ -68,13 +68,13 @@ public:
       @copydoc
       IncidenceBase::type()
     */
-    IncidenceType type() const override;
+    Q_REQUIRED_RESULT IncidenceType type() const override;
 
     /**
       @copydoc
       IncidenceBase::typeStr()
     */
-    QByteArray typeStr() const override;
+    Q_REQUIRED_RESULT QByteArray typeStr() const override;
 
     /**
       Returns an exact copy of this journal. The returned object is owned
@@ -86,7 +86,7 @@ public:
       @copydoc
       IncidenceBase::dateTime(DateTimeRole)const
     */
-    QDateTime dateTime(DateTimeRole role) const override;
+    Q_REQUIRED_RESULT QDateTime dateTime(DateTimeRole role) const override;
 
     /**
       @copydoc
@@ -98,24 +98,24 @@ public:
        @copydoc
        IncidenceBase::mimeType()
     */
-    QLatin1String mimeType() const override;
+    Q_REQUIRED_RESULT QLatin1String mimeType() const override;
 
     /**
        @copydoc
        Incidence::iconName()
     */
-    QLatin1String iconName(const QDateTime &recurrenceId = {}) const override;
+    Q_REQUIRED_RESULT QLatin1String iconName(const QDateTime &recurrenceId = {}) const override;
 
     /**
        @copydoc
        Incidence::supportsGroupwareCommunication()
     */
-    bool supportsGroupwareCommunication() const override;
+    Q_REQUIRED_RESULT bool supportsGroupwareCommunication() const override;
 
     /**
        Returns the Akonadi specific sub MIME type of a KCalCore::Journal.
     */
-    static QLatin1String journalMimeType();
+    Q_REQUIRED_RESULT static QLatin1String journalMimeType();
 
 protected:
     /**

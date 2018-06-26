@@ -108,7 +108,7 @@ public:
       @param start is the start index for search (default is from beginning).
       @return index to item in list, or -1 if @p value not found in the list.
     */
-    int findSorted(const T &value, int start = 0) const;
+    Q_REQUIRED_RESULT int findSorted(const T &value, int start = 0) const;
 
     /**
       Search the list for the last item <= @p value. The list must be sorted;
@@ -118,7 +118,7 @@ public:
       @param start is the start index for search (default is from beginning).
       @return index to item in list, or -1 if @p value < first value in the list.
     */
-    int findLE(const T &value, int start = 0) const;
+    Q_REQUIRED_RESULT int findLE(const T &value, int start = 0) const;
 
     /**
       Search the list for the last item < @p value. The list must be sorted;
@@ -128,7 +128,7 @@ public:
       @param start is the start index for search (default is from beginning).
       @return index to item in list, or -1 if @p value <= first value in the list.
     */
-    int findLT(const T &value, int start = 0) const;
+    Q_REQUIRED_RESULT int findLT(const T &value, int start = 0) const;
 
     /**
       Search the list for the first item >= @p value. The list must be sorted;
@@ -138,7 +138,7 @@ public:
       @param start is the start index for search (default is from beginning).
       @return index to item in list, or -1 if @p value > last value in the list.
     */
-    int findGE(const T &value, int start = 0) const;
+    Q_REQUIRED_RESULT int findGE(const T &value, int start = 0) const;
 
     /**
       Search the list for the first item > @p value. The list must be sorted;
@@ -148,7 +148,7 @@ public:
       @param start is the start index for search (default is from beginning).
       @return index to item in list, or -1 if @p value >= last value in the list.
     */
-    int findGT(const T &value, int start = 0) const;
+    Q_REQUIRED_RESULT int findGT(const T &value, int start = 0) const;
 
     /**
       Insert a value in the list, in correct sorted order. If the same value
@@ -161,7 +161,7 @@ public:
       @return index to inserted item in list, or to the pre-existing entry
       equal to @p value.
     */
-    int insertSorted(const T &value);
+    Q_REQUIRED_RESULT int insertSorted(const T &value);
 
     /**
       Remove value @p value from the list. The list must be sorted.
@@ -172,7 +172,7 @@ public:
       @param start is the start index for search (default is from beginning).
       @return index to removed value, or -1 if not found.
     */
-    int removeSorted(const T &value, int start = 0);
+    Q_REQUIRED_RESULT int removeSorted(const T &value, int start = 0);
 
     /**
       Sort the list. Any duplicate values are removed.

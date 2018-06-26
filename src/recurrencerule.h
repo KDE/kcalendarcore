@@ -105,15 +105,15 @@ public:
     /**
       Returns true if the recurrence is read-only; false if it can be changed.
     */
-    bool isReadOnly() const;
+    Q_REQUIRED_RESULT bool isReadOnly() const;
 
     /**
       Returns the event's recurrence status.  See the enumeration at the top
       of this file for possible values.
     */
-    bool recurs() const;
+    Q_REQUIRED_RESULT bool recurs() const;
     void setRecurrenceType(PeriodType period);
-    PeriodType recurrenceType() const;
+    Q_REQUIRED_RESULT PeriodType recurrenceType() const;
 
     /** Turns off recurrence for the event. */
     void clear();
@@ -121,7 +121,7 @@ public:
     /**
       Returns the recurrence frequency, in terms of the recurrence time period type.
     */
-    uint frequency() const;
+    Q_REQUIRED_RESULT uint frequency() const;
 
     /**
       Sets the recurrence frequency, in terms of the recurrence time period type.
@@ -133,7 +133,7 @@ public:
       Note that the recurrence does not necessarily occur on the start date/time.
       For this to happen, it must actually match the rule.
     */
-    QDateTime startDt() const;
+    Q_REQUIRED_RESULT QDateTime startDt() const;
 
     /**
       Sets the recurrence start date/time.
@@ -151,7 +151,7 @@ public:
 
     /** Returns whether the start date has no time associated. All-Day
         means -- according to rfc2445 -- that the event has no time associate. */
-    bool allDay() const;
+    Q_REQUIRED_RESULT bool allDay() const;
 
     /** Sets whether the dtstart is all-day (i.e. has no time attached)
      *
@@ -164,7 +164,7 @@ public:
      * @param result if non-null, *result is updated to true if successful,
      * or false if there is no recurrence or its end date cannot be determined.
      */
-    QDateTime endDt(bool *result = nullptr) const;
+    Q_REQUIRED_RESULT QDateTime endDt(bool *result = nullptr) const;
 
     /** Sets the date and time of the last recurrence.
      * @param endDateTime the ending date/time after which to stop recurring. */
@@ -174,17 +174,17 @@ public:
      * Returns -1 if the event recurs infinitely, 0 if the end date is set,
      * otherwise the total number of recurrences, including the initial occurrence.
      */
-    int duration() const;
+    Q_REQUIRED_RESULT int duration() const;
 
     /** Sets the total number of times the event is to occur, including both the
      * first and last. */
     void setDuration(int duration);
 
     /** Returns the number of recurrences up to and including the date/time specified. */
-    int durationTo(const QDateTime &dt) const;
+    Q_REQUIRED_RESULT int durationTo(const QDateTime &dt) const;
 
     /** Returns the number of recurrences up to and including the date specified. */
-    int durationTo(const QDate &date) const;
+    Q_REQUIRED_RESULT int durationTo(const QDate &date) const;
 
     /**
       Shift the times of the rule so that they appear at the same clock
@@ -208,7 +208,7 @@ public:
      * @param date date to check
      * @param timeZone time specification for @p date
      */
-    bool recursOn(const QDate &date, const QTimeZone &timeZone) const;
+    Q_REQUIRED_RESULT bool recursOn(const QDate &date, const QTimeZone &timeZone) const;
 
     /** Returns true if the date/time specified is one at which the event will
      * recur. Times are rounded down to the nearest minute to determine the result.
@@ -216,7 +216,7 @@ public:
      *
      * @param dt the date+time to check for recurrency
      */
-    bool recursAt(const QDateTime &dt) const;
+    Q_REQUIRED_RESULT bool recursAt(const QDateTime &dt) const;
 
     /** Returns true if the date matches the rules. It does not necessarily
         mean that this is an actual occurrence. In particular, the method does
@@ -225,7 +225,7 @@ public:
 
         @param dt the date+time to check for matching the rules
      */
-    bool dateMatchesRules(const QDateTime &dt) const;
+    Q_REQUIRED_RESULT bool dateMatchesRules(const QDateTime &dt) const;
 
     /** Returns a list of the times on the specified date at which the
      * recurrence will occur. The returned times should be interpreted in the
@@ -233,7 +233,7 @@ public:
      * @param date the date for which to find the recurrence times
      * @param timeZone time specification for @p date
      */
-    TimeList recurTimesOn(const QDate &date, const QTimeZone &timeZone) const;
+    Q_REQUIRED_RESULT TimeList recurTimesOn(const QDate &date, const QTimeZone &timeZone) const;
 
     /** Returns a list of all the times at which the recurrence will occur
      * between two specified times.
@@ -246,14 +246,14 @@ public:
      * @param end inclusive end of interval
      * @return list of date/time values
      */
-    SortableList<QDateTime> timesInInterval(const QDateTime &start, const QDateTime &end) const;
+    Q_REQUIRED_RESULT SortableList<QDateTime> timesInInterval(const QDateTime &start, const QDateTime &end) const;
 
     /** Returns the date and time of the next recurrence, after the specified date/time.
      * If the recurrence has no time, the next date after the specified date is returned.
      * @param preDateTime the date/time after which to find the recurrence.
      * @return date/time of next recurrence, or invalid date if none.
      */
-    QDateTime getNextDate(const QDateTime &preDateTime) const;
+    Q_REQUIRED_RESULT QDateTime getNextDate(const QDateTime &preDateTime) const;
 
     /** Returns the date and time of the last previous recurrence, before the specified date/time.
      * If a time later than 00:00:00 is specified and the recurrence has no time, 00:00:00 on
@@ -261,7 +261,7 @@ public:
      * @param afterDateTime the date/time before which to find the recurrence.
      * @return date/time of previous recurrence, or invalid date if none.
      */
-    QDateTime getPreviousDate(const QDateTime &afterDateTime) const;
+    Q_REQUIRED_RESULT QDateTime getPreviousDate(const QDateTime &afterDateTime) const;
 
     void setBySeconds(const QList<int> &bySeconds);
     void setByMinutes(const QList<int> &byMinutes);
@@ -295,7 +295,7 @@ public:
       @param rrule the RRULE string
      */
     void setRRule(const QString &rrule);
-    QString rrule() const;
+    Q_REQUIRED_RESULT QString rrule() const;
 
     void setDirty();
     /**

@@ -82,12 +82,12 @@ public:
     /**
       @copydoc IncidenceBase::type()
     */
-    IncidenceType type() const override;
+    Q_REQUIRED_RESULT IncidenceType type() const override;
 
     /**
       @copydoc IncidenceBase::typeStr()
     */
-    QByteArray typeStr() const override;
+    Q_REQUIRED_RESULT QByteArray typeStr() const override;
 
     /**
       Returns an exact copy of this todo. The returned object is owned by the caller.
@@ -115,24 +115,24 @@ public:
       datetime will be returned.
       @return A QDateTime containing the todo due datetime.
     */
-    QDateTime dtDue(bool first = false) const;
+    Q_REQUIRED_RESULT QDateTime dtDue(bool first = false) const;
 
     /**
       Returns if the todo has a due datetime.
       @return true if the todo has a due datetime; false otherwise.
     */
-    bool hasDueDate() const;
+    Q_REQUIRED_RESULT bool hasDueDate() const;
 
     /**
       Returns if the todo has a start datetime.
       @return true if the todo has a start datetime; false otherwise.
     */
-    bool hasStartDate() const;
+    Q_REQUIRED_RESULT bool hasStartDate() const;
 
     /**
       @copydoc IncidenceBase::dtStart()
     */
-    QDateTime dtStart() const override;
+    Q_REQUIRED_RESULT QDateTime dtStart() const override;
 
     /**
       Returns the start datetime of the todo.
@@ -144,7 +144,7 @@ public:
       based on the datetime returned by dtRecurrence().
       @return A QDateTime for the start datetime of the todo.
     */
-    QDateTime dtStart(bool first) const;
+    Q_REQUIRED_RESULT QDateTime dtStart(bool first) const;
 
     /**
       Returns if the todo is 100% completed.
@@ -153,7 +153,7 @@ public:
       @see isOverdue, isInProgress(), isOpenEnded(), isNotStarted(bool),
       setCompleted(), percentComplete()
     */
-    bool isCompleted() const;
+    Q_REQUIRED_RESULT bool isCompleted() const;
 
     /**
       Sets completed state.
@@ -170,7 +170,7 @@ public:
       @return The percentage complete of the to-do as an integer between 0 and 100, inclusive.
       @see setPercentComplete(), isCompleted()
     */
-    int percentComplete() const;
+    Q_REQUIRED_RESULT int percentComplete() const;
 
     /**
       Sets what percentage of the to-do is completed. Valid values are in the
@@ -189,7 +189,7 @@ public:
       @return A QDateTime for the completeion datetime of the to-do.
       @see hasCompletedDate()
     */
-    QDateTime completed() const;
+    Q_REQUIRED_RESULT QDateTime completed() const;
 
     /**
       Sets date and time of completion.
@@ -219,13 +219,13 @@ public:
       used, based on the date returned by dtRecurrence().
       @see isOverdue(), isCompleted(), isOpenEnded(), isNotStarted(bool)
     */
-    bool isInProgress(bool first) const;
+    Q_REQUIRED_RESULT bool isInProgress(bool first) const;
 
     /**
       Returns true, if the to-do is open-ended (no due date); false otherwise.
       @see isOverdue(), isCompleted(), isInProgress(), isNotStarted(bool)
     */
-    bool isOpenEnded() const;
+    Q_REQUIRED_RESULT bool isOpenEnded() const;
 
     /**
       Returns true, if the to-do has yet to be started (no start date and 0%
@@ -238,7 +238,7 @@ public:
       based on the date returned by dtRecurrence().
       @see isOverdue(), isCompleted(), isInProgress(), isOpenEnded()
     */
-    bool isNotStarted(bool first) const;
+    Q_REQUIRED_RESULT bool isNotStarted(bool first) const;
 
     /**
       @copydoc IncidenceBase::shiftTimes()
@@ -260,7 +260,7 @@ public:
     /**
       Returns the due date/time of the current occurrence if recurrent.
     */
-    QDateTime dtRecurrence() const;
+    Q_REQUIRED_RESULT QDateTime dtRecurrence() const;
 
     /**
       Returns true if the @p date specified is one on which the to-do will
@@ -283,7 +283,7 @@ public:
     /**
       @copydoc IncidenceBase::dateTime()
     */
-    QDateTime dateTime(DateTimeRole role) const override;
+    Q_REQUIRED_RESULT QDateTime dateTime(DateTimeRole role) const override;
 
     /**
       @copydoc IncidenceBase::setDateTime()
@@ -293,12 +293,12 @@ public:
     /**
        @copydoc IncidenceBase::mimeType()
     */
-    QLatin1String mimeType() const override;
+    Q_REQUIRED_RESULT QLatin1String mimeType() const override;
 
     /**
        @copydoc Incidence::iconName()
     */
-    QLatin1String iconName(const QDateTime &recurrenceId = {}) const override;
+    Q_REQUIRED_RESULT QLatin1String iconName(const QDateTime &recurrenceId = {}) const override;
 
     /**
        @copydoc
@@ -309,7 +309,7 @@ public:
     /**
        Returns the Akonadi specific sub MIME type of a KCalCore::Todo.
     */
-    static QLatin1String todoMimeType();
+    Q_REQUIRED_RESULT static QLatin1String todoMimeType();
 
 protected:
     /**

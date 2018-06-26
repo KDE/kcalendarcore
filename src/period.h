@@ -140,12 +140,12 @@ public:
     /**
       Returns when this period starts.
     */
-    QDateTime start() const;
+    Q_REQUIRED_RESULT QDateTime start() const;
 
     /**
       Returns when this period ends.
     */
-    QDateTime end() const;
+    Q_REQUIRED_RESULT QDateTime end() const;
 
     /**
       Returns the duration of the period.
@@ -159,7 +159,7 @@ public:
       If the period is defined in terms of a duration, that duration is
       returned unchanged.
     */
-    Duration duration() const;
+    Q_REQUIRED_RESULT Duration duration() const;
 
     /**
       Returns the duration of the period.
@@ -172,13 +172,13 @@ public:
 
       @param type the unit of time to use (seconds or days)
     */
-    Duration duration(Duration::Type type) const;
+    Q_REQUIRED_RESULT Duration duration(Duration::Type type) const;
 
     /**
       Returns true if this period has a set duration, false
       if it just has a start and an end.
     */
-    bool hasDuration() const;
+    Q_REQUIRED_RESULT bool hasDuration() const;
 
     /**
       Shift the times of the period so that they appear at the same clock

@@ -93,23 +93,23 @@ public:
     /**
       Returns the iTIP method associated with this message.
     */
-    iTIPMethod method() const;
+    Q_REQUIRED_RESULT iTIPMethod method() const;
 
     /**
       Returns a machine-readable (not translatable) name for a iTIP method.
       @param method an iTIPMethod.
     */
-    static QString methodName(iTIPMethod method);
+    Q_REQUIRED_RESULT static QString methodName(iTIPMethod method);
 
     /**
       Returns the status of this message.
     */
-    Status status() const;
+    Q_REQUIRED_RESULT Status status() const;
 
     /**
       Returns the error message if there is any.
     */
-    QString error() const;
+    Q_REQUIRED_RESULT QString error() const;
 
 private:
     //@cond PRIVATE

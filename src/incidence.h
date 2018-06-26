@@ -141,7 +141,7 @@ public:
       Due to the recurrence-id, the uid is not unique for a KCalCore::Incidence.
       @since 4.11
     */
-    QString instanceIdentifier() const;
+    Q_REQUIRED_RESULT QString instanceIdentifier() const;
 
     /**
       Set readonly state of incidence.
@@ -172,7 +172,7 @@ public:
 
       @see setLocalOnly()
     */
-    bool localOnly() const;
+    Q_REQUIRED_RESULT bool localOnly() const;
 
     /**
       @copydoc IncidenceBase::setAllDay().
@@ -198,7 +198,7 @@ public:
       Returns the incidence creation date/time.
       @see setCreated().
     */
-    QDateTime created() const;
+    Q_REQUIRED_RESULT QDateTime created() const;
 
     /**
       Sets the number of revisions this incidence has seen.
@@ -212,7 +212,7 @@ public:
       Returns the number of revisions this incidence has seen.
       @see setRevision().
     */
-    int revision() const;
+    Q_REQUIRED_RESULT int revision() const;
 
     /**
       Sets the incidence starting date/time.
@@ -250,20 +250,20 @@ public:
       @see setDescription().
       @see richDescription().
     */
-    QString description() const;
+    Q_REQUIRED_RESULT QString description() const;
 
     /**
       Returns the incidence description in rich text format.
       @see setDescription().
       @see description().
     */
-    QString richDescription() const;
+    Q_REQUIRED_RESULT QString richDescription() const;
 
     /**
       Returns true if incidence description contains RichText; false otherwise.
       @see setDescription(), description().
     */
-    bool descriptionIsRich() const;
+    Q_REQUIRED_RESULT bool descriptionIsRich() const;
 
     /**
       Sets the incidence summary.
@@ -287,20 +287,20 @@ public:
       @see setSummary().
       @see richSummary().
     */
-    QString summary() const;
+    Q_REQUIRED_RESULT QString summary() const;
 
     /**
       Returns the incidence summary in rich text format.
       @see setSummary().
       @see summary().
     */
-    QString richSummary() const;
+    Q_REQUIRED_RESULT QString richSummary() const;
 
     /**
       Returns true if incidence summary contains RichText; false otherwise.
       @see setSummary(), summary().
     */
-    bool summaryIsRich() const;
+    Q_REQUIRED_RESULT bool summaryIsRich() const;
 
     /**
       Sets the incidence location. Do _not_ use with journals.
@@ -325,20 +325,20 @@ public:
       @see setLocation().
       @see richLocation().
     */
-    QString location() const;
+    Q_REQUIRED_RESULT QString location() const;
 
     /**
       Returns the incidence location in rich text format.
       @see setLocation().
       @see location().
     */
-    QString richLocation() const;
+    Q_REQUIRED_RESULT QString richLocation() const;
 
     /**
       Returns true if incidence location contains RichText; false otherwise.
       @see setLocation(), location().
     */
-    bool locationIsRich() const;
+    Q_REQUIRED_RESULT bool locationIsRich() const;
 
     /**
       Sets the incidence category list.
@@ -361,13 +361,13 @@ public:
       Returns the incidence categories as a list of strings.
       @see setCategories( const QStringList &), setCategories( Const QString &).
     */
-    QStringList categories() const;
+    Q_REQUIRED_RESULT QStringList categories() const;
 
     /**
       Returns the incidence categories as a comma separated string.
       @see categories().
     */
-    QString categoriesStr() const;
+    Q_REQUIRED_RESULT QString categoriesStr() const;
 
     /**
       Relates another incidence to this one, by UID. This function should only
@@ -393,7 +393,7 @@ public:
 
       @see setRelatedTo().
     */
-    QString relatedTo(RelType relType = RelTypeParent) const;
+    Q_REQUIRED_RESULT QString relatedTo(RelType relType = RelTypeParent) const;
 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // %%%%%  Convenience wrappers for property handling
@@ -403,7 +403,7 @@ public:
        available.
        @see setAltDescription(), altDescription()
     */
-    bool hasAltDescription() const;
+    Q_REQUIRED_RESULT bool hasAltDescription() const;
     /**
       Sets the incidence's alternative (=text/html) description. If
       the text is empty, the property is removed.
@@ -417,7 +417,7 @@ public:
       Returns the incidence alternative (=text/html) description.
       @see setAltDescription().
     */
-    QString altDescription() const;
+    Q_REQUIRED_RESULT QString altDescription() const;
 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // %%%%%  Recurrence-related methods
@@ -437,12 +437,12 @@ public:
     /**
       @copydoc Recurrence::recurs()
     */
-    bool recurs() const;
+    Q_REQUIRED_RESULT bool recurs() const;
 
     /**
       @copydoc Recurrence::recurrenceType()
     */
-    ushort recurrenceType() const;
+    Q_REQUIRED_RESULT ushort recurrenceType() const;
 
     /**
       @copydoc Recurrence::recursOn()
@@ -452,7 +452,7 @@ public:
     /**
       @copydoc Recurrence::recursAt()
     */
-    bool recursAt(const QDateTime &dt) const;
+    Q_REQUIRED_RESULT bool recursAt(const QDateTime &dt) const;
 
     /**
       Calculates the start date/time for all recurrences that happen at some
@@ -477,7 +477,7 @@ public:
       given date/time; an empty list if the incidence does not happen at the
       given time at all.
     */
-    virtual QList<QDateTime> startDateTimesForDateTime(const QDateTime &datetime) const;
+    Q_REQUIRED_RESULT virtual QList<QDateTime> startDateTimesForDateTime(const QDateTime &datetime) const;
 
     /**
       Returns the end date/time of the incidence occurrence if it starts at
@@ -488,7 +488,7 @@ public:
       date/time if the end date/time is invalid; or the end date/time if
       the start date/time is invalid.
     */
-    virtual QDateTime endDateForStart(const QDateTime &startDt) const;
+    Q_REQUIRED_RESULT virtual QDateTime endDateForStart(const QDateTime &startDt) const;
 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // %%%%%  Attachment-related methods
@@ -524,7 +524,7 @@ public:
       Returns a list of all incidence attachments.
       @see attachments( const QString &).
     */
-    Attachment::List attachments() const;
+    Q_REQUIRED_RESULT Attachment::List attachments() const;
 
     /**
       Returns a list of all incidence attachments with the specified MIME type.
@@ -532,7 +532,7 @@ public:
       @param mime is a QString containing the MIME type.
       @see attachments().
     */
-    Attachment::List attachments(const QString &mime) const;
+    Q_REQUIRED_RESULT Attachment::List attachments(const QString &mime) const;
 
     /**
       Removes all attachments and frees the memory used by them.
@@ -548,7 +548,7 @@ public:
       @return a string containing the name of the temporary file containing the attachment.
       @see clearTempFiles().
     */
-    QString writeAttachmentToTempFile(const Attachment::Ptr &attachment) const;
+    Q_REQUIRED_RESULT QString writeAttachmentToTempFile(const Attachment::Ptr &attachment) const;
 
     /**
       Deletes all temporary files used by attachments and frees any memory in use by them.
@@ -572,7 +572,7 @@ public:
       Returns the incidence #Secrecy.
       @see setSecrecy(), secrecyStr().
     */
-    Secrecy secrecy() const;
+    Q_REQUIRED_RESULT Secrecy secrecy() const;
 
     /**
       Sets the incidence status to a standard #Status value.
@@ -596,13 +596,13 @@ public:
        Returns the non-standard status value.
        @see setCustomStatus().
     */
-    QString customStatus() const;
+    Q_REQUIRED_RESULT QString customStatus() const;
 
     /**
       Returns the incidence #Status.
       @see setStatus(), setCustomStatus(), statusStr().
     */
-    Status status() const;
+    Q_REQUIRED_RESULT Status status() const;
 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // %%%%%  Other methods
@@ -621,7 +621,7 @@ public:
       Returns the incidence resources as a list of strings.
       @see setResources().
     */
-    QStringList resources() const;
+    Q_REQUIRED_RESULT QStringList resources() const;
 
     /**
       Sets the incidences priority. The priority must be an integer value
@@ -637,13 +637,13 @@ public:
       Returns the incidence priority.
       @see setPriority().
     */
-    int priority() const;
+    Q_REQUIRED_RESULT int priority() const;
 
     /**
       Returns true if the incidence has geo data, otherwise return false.
       @see setHasGeo(), setGeoLatitude(float), setGeoLongitude(float).
     */
-    bool hasGeo() const;
+    Q_REQUIRED_RESULT bool hasGeo() const;
 
     /**
       Sets if the incidence has geo data.
@@ -664,7 +664,7 @@ public:
       @return incidences geolatitude value
       @see setGeoLatitude().
     */
-    float geoLatitude() const;
+    Q_REQUIRED_RESULT float geoLatitude() const;
 
     /**
       Set the incidencesgeoLongitude.
@@ -678,13 +678,13 @@ public:
       @return incidences geolongitude value
       @see setGeoLongitude().
     */
-    float geoLongitude() const;
+    Q_REQUIRED_RESULT float geoLongitude() const;
 
     /**
       Returns true if the incidence has recurrenceId, otherwise return false.
       @see setRecurrenceId(QDateTime)
     */
-    bool hasRecurrenceId() const;
+    Q_REQUIRED_RESULT bool hasRecurrenceId() const;
 
     /**
       Set the incidences recurrenceId.
@@ -700,7 +700,7 @@ public:
       @return incidences recurrenceId value
       @see setRecurrenceId().
     */
-    QDateTime recurrenceId() const override;
+    Q_REQUIRED_RESULT QDateTime recurrenceId() const override;
 
     /**
       Set to true if the exception also applies to all future occurrences.
@@ -717,7 +717,7 @@ public:
       @see setThisAndFuture()
       @since 4.11
     */
-    bool thisAndFuture() const;
+    Q_REQUIRED_RESULT bool thisAndFuture() const;
 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // %%%%%  Alarm-related methods
@@ -726,7 +726,7 @@ public:
     /**
       Returns a list of all incidence alarms.
     */
-    Alarm::List alarms() const;
+    Q_REQUIRED_RESULT Alarm::List alarms() const;
 
     /**
       Create a new incidence alarm.
@@ -758,7 +758,7 @@ public:
     /**
       Returns true if any of the incidence alarms are enabled; false otherwise.
     */
-    bool hasEnabledAlarms() const;
+    Q_REQUIRED_RESULT bool hasEnabledAlarms() const;
 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // %%%%%  Other methods
@@ -796,7 +796,7 @@ public:
       If a scheduling ID is not set, then return the incidence UID.
       @see setSchedulingID().
     */
-    QString schedulingID() const;
+    Q_REQUIRED_RESULT QString schedulingID() const;
 
     /**
       Observer interface for the recurrence class. If the recurrence is
@@ -831,7 +831,7 @@ public:
 
       @since 4.12
      */
-    static QStringList mimeTypes();
+    Q_REQUIRED_RESULT static QStringList mimeTypes();
 
 protected:
 

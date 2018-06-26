@@ -118,13 +118,13 @@ public:
       @copydoc
       IncidenceBase::type()
     */
-    IncidenceType type() const override;
+    Q_REQUIRED_RESULT IncidenceType type() const override;
 
     /**
       @copydoc
       IncidenceBase::typeStr()
     */
-    QByteArray typeStr() const override;
+    Q_REQUIRED_RESULT QByteArray typeStr() const override;
 
     /**
       Sets the start date/time for the free/busy. Note that this date/time
@@ -149,7 +149,7 @@ public:
       FIXME: calling addPeriod() does not change mDtEnd. Is that incorrect?
       @see setDtEnd().
     */
-    virtual QDateTime dtEnd() const;
+    Q_REQUIRED_RESULT virtual QDateTime dtEnd() const;
 
     /**
       @copydoc
@@ -160,12 +160,12 @@ public:
     /**
       Returns the list of all periods within the free/busy.
     */
-    Period::List busyPeriods() const;
+    Q_REQUIRED_RESULT Period::List busyPeriods() const;
 
     /**
       Returns the list of all periods within the free/busy.
     */
-    FreeBusyPeriod::List fullBusyPeriods() const;
+    Q_REQUIRED_RESULT FreeBusyPeriod::List fullBusyPeriods() const;
 
     /**
       Adds a period to the freebusy list and sorts the list.
@@ -217,7 +217,7 @@ public:
       @copydoc
       IncidenceBase::dateTime()
     */
-    QDateTime dateTime(DateTimeRole role) const override;
+    Q_REQUIRED_RESULT QDateTime dateTime(DateTimeRole role) const override;
 
     /**
       @copydoc
@@ -229,12 +229,12 @@ public:
        @copydoc
        IncidenceBase::mimeType()
     */
-    QLatin1String mimeType() const override;
+    Q_REQUIRED_RESULT QLatin1String mimeType() const override;
 
     /**
        Returns the Akonadi specific sub MIME type of a KCalCore::FreeBusy.
     */
-    static QLatin1String freeBusyMimeType();
+    Q_REQUIRED_RESULT static QLatin1String freeBusyMimeType();
 
 protected:
     /**

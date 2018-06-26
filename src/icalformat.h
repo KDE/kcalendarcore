@@ -118,20 +118,20 @@ public:
       @param string is a QString containing the data to be parsed.
       @return true if successful; false otherwise.
     */
-    bool fromString(RecurrenceRule *rule, const QString &string);
+    Q_REQUIRED_RESULT bool fromString(RecurrenceRule *rule, const QString &string);
 
     /**
       @copydoc
       CalFormat::fromRawString()
     */
-    bool fromRawString(const Calendar::Ptr &calendar, const QByteArray &string,
+    Q_REQUIRED_RESULT bool fromRawString(const Calendar::Ptr &calendar, const QByteArray &string,
                        bool deleted = false, const QString &notebook = QString()) override;
 
     /**
       @copydoc
       CalFormat::toString()
     */
-    QString toString(const Calendar::Ptr &calendar,
+    Q_REQUIRED_RESULT QString toString(const Calendar::Ptr &calendar,
                      const QString &notebook = QString(), bool deleted = false) override;
 
     /**
@@ -141,7 +141,7 @@ public:
 
       @return the QString will be Null if the conversion was unsuccessful.
     */
-    QString toString(const Incidence::Ptr &incidence);
+    Q_REQUIRED_RESULT QString toString(const Incidence::Ptr &incidence);
 
     /**
       Converts an Incidence to a QByteArray.
@@ -151,7 +151,7 @@ public:
       @return the QString will be Null if the conversion was unsuccessful.
       @since 4.7
     */
-    QByteArray toRawString(const Incidence::Ptr &incidence);
+    Q_REQUIRED_RESULT QByteArray toRawString(const Incidence::Ptr &incidence);
 
     /**
       Converts a RecurrenceRule to a QString.
@@ -160,7 +160,7 @@ public:
 
       @return the QString will be Null if the conversion was unsuccessful.
     */
-    QString toString(RecurrenceRule *rule);
+    Q_REQUIRED_RESULT QString toString(RecurrenceRule *rule);
 
     /**
       Converts an Incidence to iCalendar formatted text.
@@ -169,7 +169,7 @@ public:
       into iCal formatted text.
       @return the QString will be Null if the conversion was unsuccessful.
     */
-    QString toICalString(const Incidence::Ptr &incidence);
+    Q_REQUIRED_RESULT QString toICalString(const Incidence::Ptr &incidence);
 
     /**
       Creates a scheduling message string for an Incidence.
@@ -179,7 +179,7 @@ public:
 
       @return a QString containing the message if successful; 0 otherwise.
     */
-    QString createScheduleMessage(const IncidenceBase::Ptr &incidence,
+    Q_REQUIRED_RESULT QString createScheduleMessage(const IncidenceBase::Ptr &incidence,
                                   iTIPMethod method);
 
     /**
@@ -216,13 +216,13 @@ public:
       Returns the iCalendar time zone.
       @see setTimeZone().
     */
-    QTimeZone timeZone() const;
+    Q_REQUIRED_RESULT QTimeZone timeZone() const;
 
     /**
       Returns the timezone id string used by the iCalendar; an empty string
       if the iCalendar does not have a timezone.
     */
-    QByteArray timeZoneId() const;
+    Q_REQUIRED_RESULT QByteArray timeZoneId() const;
 
 protected:
     /**

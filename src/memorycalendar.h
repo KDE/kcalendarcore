@@ -108,14 +108,14 @@ public:
     /**
       @copydoc Calendar::rawEvents(EventSortField, SortDirection)const
     */
-    Event::List rawEvents(
+    Q_REQUIRED_RESULT Event::List rawEvents(
         EventSortField sortField = EventSortUnsorted,
         SortDirection sortDirection = SortDirectionAscending) const override;
 
     /**
       @copydoc Calendar::rawEvents(const QDate &, const QDate &, const QTimeZone &, bool)const
     */
-    Event::List rawEvents(const QDate &start, const QDate &end,
+    Q_REQUIRED_RESULT Event::List rawEvents(const QDate &start, const QDate &end,
                           const QTimeZone &timeZone = {},
                           bool inclusive = false) const override;
 
@@ -130,7 +130,7 @@ public:
 
       @return the list of unfiltered Events occurring on the specified QDate.
     */
-    Event::List rawEventsForDate(
+    Q_REQUIRED_RESULT Event::List rawEventsForDate(
         const QDate &date, const QTimeZone &timeZone = {},
         EventSortField sortField = EventSortUnsorted,
         SortDirection sortDirection = SortDirectionAscending) const override;
@@ -138,7 +138,7 @@ public:
     /**
       @copydoc Calendar::rawEventsForDate(const QDateTime &)const
     */
-    Event::List rawEventsForDate(const QDateTime &dt) const override;
+    Q_REQUIRED_RESULT Event::List rawEventsForDate(const QDateTime &dt) const override;
 
     /**
      * Returns an incidence by identifier.
@@ -150,24 +150,24 @@ public:
     /**
       @copydoc Calendar::event()
     */
-    Event::Ptr event(const QString &uid, const QDateTime &recurrenceId = {}) const override;
+    Q_REQUIRED_RESULT Event::Ptr event(const QString &uid, const QDateTime &recurrenceId = {}) const override;
 
     /**
       @copydoc Calendar::deletedEvent()
     */
-    Event::Ptr deletedEvent(const QString &uid, const QDateTime &recurrenceId = {}) const override;
+    Q_REQUIRED_RESULT Event::Ptr deletedEvent(const QString &uid, const QDateTime &recurrenceId = {}) const override;
 
     /**
       @copydoc Calendar::deletedEvents(EventSortField, SortDirection)const
     */
-    Event::List deletedEvents(
+    Q_REQUIRED_RESULT Event::List deletedEvents(
         EventSortField sortField = EventSortUnsorted,
         SortDirection sortDirection = SortDirectionAscending) const override;
 
     /**
       @copydoc Calendar::eventInstances(const Incidence::Ptr &, EventSortField, SortDirection)const
     */
-    Event::List eventInstances(
+    Q_REQUIRED_RESULT Event::List eventInstances(
         const Incidence::Ptr &event,
         EventSortField sortField = EventSortUnsorted,
         SortDirection sortDirection = SortDirectionAscending) const override;
@@ -192,14 +192,14 @@ public:
     /**
       @copydoc Calendar::rawTodos(TodoSortField, SortDirection)const
     */
-    Todo::List rawTodos(
+    Q_REQUIRED_RESULT Todo::List rawTodos(
         TodoSortField sortField = TodoSortUnsorted,
         SortDirection sortDirection = SortDirectionAscending) const override;
 
     /**
        @copydoc Calendar::rawTodos(const QDate &, const QDate &, const QTimeZone &, bool)const
     */
-    Todo::List rawTodos(
+    Q_REQUIRED_RESULT Todo::List rawTodos(
         const QDate &start, const QDate &end,
         const QTimeZone &timeZone = {},
         bool inclusive = false) const override;
@@ -207,29 +207,29 @@ public:
     /**
       @copydoc Calendar::rawTodosForDate()
     */
-    Todo::List rawTodosForDate(const QDate &date) const override;
+    Q_REQUIRED_RESULT Todo::List rawTodosForDate(const QDate &date) const override;
 
     /**
       @copydoc Calendar::todo()
     */
-    Todo::Ptr todo(const QString &uid, const QDateTime &recurrenceId = {}) const override;
+    Q_REQUIRED_RESULT Todo::Ptr todo(const QString &uid, const QDateTime &recurrenceId = {}) const override;
 
     /**
       @copydoc Calendar::deletedTodo()
     */
-    Todo::Ptr deletedTodo(const QString &uid, const QDateTime &recurrenceId = {}) const override;
+    Q_REQUIRED_RESULT Todo::Ptr deletedTodo(const QString &uid, const QDateTime &recurrenceId = {}) const override;
 
     /**
       @copydoc Calendar::deletedTodos(TodoSortField, SortDirection)const
     */
-    Todo::List deletedTodos(
+    Q_REQUIRED_RESULT Todo::List deletedTodos(
         TodoSortField sortField = TodoSortUnsorted,
         SortDirection sortDirection = SortDirectionAscending) const override;
 
     /**
       @copydoc Calendar::todoInstances(const Incidence::Ptr &, TodoSortField, SortDirection)const
     */
-    Todo::List todoInstances(const Incidence::Ptr &todo,
+    Q_REQUIRED_RESULT Todo::List todoInstances(const Incidence::Ptr &todo,
                              TodoSortField sortField = TodoSortUnsorted,
                              SortDirection sortDirection = SortDirectionAscending) const override;
 
@@ -253,14 +253,14 @@ public:
     /**
       @copydoc Calendar::rawJournals()
     */
-    Journal::List rawJournals(
+    Q_REQUIRED_RESULT Journal::List rawJournals(
         JournalSortField sortField = JournalSortUnsorted,
         SortDirection sortDirection = SortDirectionAscending) const override;
 
     /**
       @copydoc Calendar::rawJournalsForDate()
     */
-    Journal::List rawJournalsForDate(const QDate &date) const override;
+    Q_REQUIRED_RESULT Journal::List rawJournalsForDate(const QDate &date) const override;
 
     /**
       @copydoc Calendar::journal()
@@ -275,7 +275,7 @@ public:
     /**
       @copydoc Calendar::deletedJournals(JournalSortField, SortDirection)const
     */
-    Journal::List deletedJournals(
+    Q_REQUIRED_RESULT Journal::List deletedJournals(
         JournalSortField sortField = JournalSortUnsorted,
         SortDirection sortDirection = SortDirectionAscending) const override;
 
@@ -283,7 +283,7 @@ public:
       @copydoc Calendar::journalInstances(const Incidence::Ptr &,
                                           JournalSortField, SortDirection)const
     */
-    Journal::List journalInstances(const Incidence::Ptr &journal,
+    Q_REQUIRED_RESULT Journal::List journalInstances(const Incidence::Ptr &journal,
                                    JournalSortField sortField = JournalSortUnsorted,
                                    SortDirection sortDirection = SortDirectionAscending) const override;
 
@@ -292,7 +292,7 @@ public:
     /**
       @copydoc Calendar::alarms()
     */
-    Alarm::List alarms(const QDateTime &from, const QDateTime &to, bool excludeBlockedAlarms = false) const override;
+    Q_REQUIRED_RESULT Alarm::List alarms(const QDateTime &from, const QDateTime &to, bool excludeBlockedAlarms = false) const override;
 
     /**
       Return a list of Alarms that occur before the specified timestamp.
@@ -300,7 +300,7 @@ public:
       @param to is the ending timestamp.
       @return the list of Alarms occurring before the specified QDateTime.
     */
-    Alarm::List alarmsTo(const QDateTime &to) const;
+    Q_REQUIRED_RESULT Alarm::List alarmsTo(const QDateTime &to) const;
 
     /**
       @copydoc Calendar::incidenceUpdate(const QString &,const QDateTime &)

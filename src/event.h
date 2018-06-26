@@ -90,13 +90,13 @@ public:
       @copydoc
       IncidenceBase::type()
     */
-    IncidenceType type() const override;
+    Q_REQUIRED_RESULT IncidenceType type() const override;
 
     /**
       @copydoc
       IncidenceBase::typeStr()
     */
-    QByteArray typeStr() const override;
+    Q_REQUIRED_RESULT QByteArray typeStr() const override;
 
     /**
       Returns an exact copy of this Event. The caller owns the returned object.
@@ -135,12 +135,12 @@ public:
       dtEnd().date, since the end date/time is non-inclusive. So timed events
       ending at 0:00 have their end date on the day before.
     */
-    QDate dateEnd() const;
+    Q_REQUIRED_RESULT QDate dateEnd() const;
 
     /**
       Returns whether the event has an end date/time.
     */
-    bool hasEndDate() const;
+    Q_REQUIRED_RESULT bool hasEndDate() const;
 
     /**
       Returns true if the event spans multiple days, otherwise return false.
@@ -152,7 +152,7 @@ public:
       @param zone If set, looks if the event is multiday for the given zone.
       If not set, looks if event this multiday for its zone.
     */
-    bool isMultiDay(const QTimeZone &zone = {}) const;
+    Q_REQUIRED_RESULT bool isMultiDay(const QTimeZone &zone = {}) const;
 
     /**
       @copydoc
@@ -169,7 +169,7 @@ public:
     /**
       Returns the event's time transparency level.
     */
-    Transparency transparency() const;
+    Q_REQUIRED_RESULT Transparency transparency() const;
 
     /**
       Sets the duration of this event.
@@ -187,7 +187,7 @@ public:
       @copydoc
       IncidenceBase::dateTime()
     */
-    QDateTime dateTime(DateTimeRole role) const override;
+    Q_REQUIRED_RESULT QDateTime dateTime(DateTimeRole role) const override;
 
     /**
       @copydoc
@@ -199,24 +199,24 @@ public:
       @copydoc
       IncidenceBase::mimeType()
     */
-    QLatin1String mimeType() const override;
+    Q_REQUIRED_RESULT QLatin1String mimeType() const override;
 
     /**
        @copydoc
        Incidence::iconName()
     */
-    QLatin1String iconName(const QDateTime &recurrenceId = {}) const override;
+    Q_REQUIRED_RESULT QLatin1String iconName(const QDateTime &recurrenceId = {}) const override;
 
     /**
        @copydoc
        Incidence::supportsGroupwareCommunication()
     */
-    bool supportsGroupwareCommunication() const override;
+    Q_REQUIRED_RESULT bool supportsGroupwareCommunication() const override;
 
     /**
        Returns the Akonadi specific sub MIME type of a KCalCore::Event.
     */
-    static QLatin1String eventMimeType();
+    Q_REQUIRED_RESULT static QLatin1String eventMimeType();
 
 protected:
     /**

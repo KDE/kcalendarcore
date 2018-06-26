@@ -299,12 +299,12 @@ public:
       Returns the unique id (@ref uid) for the incidence.
       @see setUid()
     */
-    QString uid() const;
+    Q_REQUIRED_RESULT QString uid() const;
 
     /**
       Returns the uri for the incidence, of form urn:x-ical:\<uid\>
     */
-    QUrl uri() const;
+    Q_REQUIRED_RESULT QUrl uri() const;
 
     /**
       Sets the time the incidence was last modified to @p lm.
@@ -320,7 +320,7 @@ public:
       Returns the time the incidence was last modified.
       @see setLastModified()
     */
-    QDateTime lastModified() const;
+    Q_REQUIRED_RESULT QDateTime lastModified() const;
 
     /**
       Sets the organizer for the incidence.
@@ -359,7 +359,7 @@ public:
       Returns true the object is read-only; false otherwise.
       @see setReadOnly()
     */
-    bool isReadOnly() const;
+    Q_REQUIRED_RESULT bool isReadOnly() const;
 
     /**
       Sets the incidence's starting date/time with a QDateTime.
@@ -390,7 +390,7 @@ public:
       Returns the length of the incidence duration.
       @see setDuration()
     */
-    Duration duration() const;
+    Q_REQUIRED_RESULT Duration duration() const;
 
     /**
       Sets if the incidence has a duration.
@@ -403,14 +403,14 @@ public:
       Returns true if the incidence has a duration; false otherwise.
       @see setHasDuration()
     */
-    bool hasDuration() const;
+    Q_REQUIRED_RESULT bool hasDuration() const;
 
     /**
       Returns true or false depending on whether the incidence is all-day.
       i.e. has a date but no time attached to it.
       @see setAllDay()
     */
-    bool allDay() const;
+    Q_REQUIRED_RESULT bool allDay() const;
 
     /**
       Sets whether the incidence is all-day, i.e. has a date but no time
@@ -455,7 +455,7 @@ public:
       @return true if match found, false otherwise.
       @see addComment().
      */
-    bool removeComment(const QString &comment);
+    Q_REQUIRED_RESULT bool removeComment(const QString &comment);
 
     /**
       Deletes all incidence comments.
@@ -465,7 +465,7 @@ public:
     /**
       Returns all incidence comments as a list of strings.
     */
-    QStringList comments() const;
+    Q_REQUIRED_RESULT QStringList comments() const;
 
     /**
       Adds a contact to thieincidence. Does not add a linefeed character; simply
@@ -484,7 +484,7 @@ public:
       @return true if match found, false otherwise.
       @see addContact().
      */
-    bool removeContact(const QString &contact);
+    Q_REQUIRED_RESULT bool removeContact(const QString &contact);
 
     /**
       Deletes all incidence contacts.
@@ -494,7 +494,7 @@ public:
     /**
       Returns all incidence contacts as a list of strings.
     */
-    QStringList contacts() const;
+    Q_REQUIRED_RESULT QStringList contacts() const;
 
     /**
       Add Attendee to this incidence. IncidenceBase takes ownership of the
@@ -524,12 +524,12 @@ public:
       Returns a list of incidence attendees.
       All pointers in the list are valid.
     */
-    Attendee::List attendees() const;
+    Q_REQUIRED_RESULT Attendee::List attendees() const;
 
     /**
       Returns the number of incidence attendees.
     */
-    int attendeeCount() const;
+    Q_REQUIRED_RESULT int attendeeCount() const;
 
     /**
       Returns the attendee with the specified email address.
@@ -578,7 +578,7 @@ public:
       @see setUrl()
       @since 4.12
     */
-    QUrl url() const;
+    Q_REQUIRED_RESULT QUrl url() const;
 
     /**
       Register observer. The observer is notified when the observed object
@@ -677,7 +677,7 @@ public:
      *
      * @since 4.12
      */
-    static quint32 magicSerializationIdentifier();
+    Q_REQUIRED_RESULT static quint32 magicSerializationIdentifier();
 
 protected:
 

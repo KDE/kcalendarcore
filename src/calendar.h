@@ -182,7 +182,7 @@ public:
 
       @see setProductId()
     */
-    QString productId() const;
+    Q_REQUIRED_RESULT QString productId() const;
 
     /**
       Sets the owner of the calendar to @p owner.
@@ -200,7 +200,7 @@ public:
 
       @see setOwner()
     */
-    Person::Ptr owner() const;
+    Q_REQUIRED_RESULT Person::Ptr owner() const;
 
     /**
       Sets the default time specification zone used for creating
@@ -216,7 +216,7 @@ public:
 
        @return time specification
     */
-    QTimeZone timeZone() const;
+    Q_REQUIRED_RESULT QTimeZone timeZone() const;
 
     /**
       Sets the time zone ID used for creating or modifying incidences in the
@@ -238,7 +238,7 @@ public:
       @return the string containing the time zone ID, or empty string if the
               creation/modification time specification is not a time zone.
     */
-    QByteArray timeZoneId() const;
+    Q_REQUIRED_RESULT QByteArray timeZoneId() const;
 
     /**
       Shifts the times of all incidences so that they appear at the same clock
@@ -275,7 +275,7 @@ public:
 
       @see setModified()
     */
-    bool isModified() const;
+    Q_REQUIRED_RESULT bool isModified() const;
 
     /**
       Clears out the current calendar, freeing all used memory etc.
@@ -311,7 +311,7 @@ public:
 
       @return a QStringList containing all the categories.
     */
-    QStringList categories() const;
+    Q_REQUIRED_RESULT QStringList categories() const;
 
     // Incidence Specific Methods //
 
@@ -333,7 +333,7 @@ public:
     /**
        @return true if batch adding is in progress
     */
-    bool batchAdding() const;
+    Q_REQUIRED_RESULT bool batchAdding() const;
 
     /**
       Inserts an Incidence into the calendar.
@@ -439,7 +439,7 @@ public:
       @param notebook notebook uid
       @return true if calendar has valid notebook
     */
-    bool hasValidNotebook(const QString &notebook) const;
+    Q_REQUIRED_RESULT bool hasValidNotebook(const QString &notebook) const;
 
     /**
       Add notebook information into calendar.
@@ -450,7 +450,7 @@ public:
       @return true if operation succeeded
       @see isVisible()
     */
-    bool addNotebook(const QString &notebook, bool isVisible);
+    Q_REQUIRED_RESULT bool addNotebook(const QString &notebook, bool isVisible);
 
     /**
       Update notebook information in calendar.
@@ -461,7 +461,7 @@ public:
       @return true if operation succeeded
       @see isVisible()
     */
-    bool updateNotebook(const QString &notebook, bool isVisible);
+    Q_REQUIRED_RESULT bool updateNotebook(const QString &notebook, bool isVisible);
 
     /**
       Delete notebook information from calendar.
@@ -471,7 +471,7 @@ public:
       @return true if operation succeeded
       @see isVisible()
     */
-    bool deleteNotebook(const QString &notebook);
+    Q_REQUIRED_RESULT bool deleteNotebook(const QString &notebook);
 
     /**
       set DefaultNotebook information to calendar.
@@ -479,21 +479,21 @@ public:
       @param notebook notebook uid
       @return true if operation was successful; false otherwise.
     */
-    bool setDefaultNotebook(const QString &notebook);
+    Q_REQUIRED_RESULT bool setDefaultNotebook(const QString &notebook);
 
     /**
       Get uid of default notebook.
 
       @return notebook uid
      */
-    QString defaultNotebook() const;
+    Q_REQUIRED_RESULT QString defaultNotebook() const;
 
     /**
       Check if incidence is visible.
       @param incidence is a pointer to the Incidence to check for visibility.
       @return true if incidence is visible, false otherwise
     */
-    bool isVisible(const Incidence::Ptr &incidence) const;
+    Q_REQUIRED_RESULT bool isVisible(const Incidence::Ptr &incidence) const;
 
     /**
       List all notebook incidences in the memory.
@@ -665,7 +665,7 @@ public:
 
       @return the list of filtered Events occurring on the specified timestamp.
     */
-    Event::List events(const QDateTime &dt) const;
+    Q_REQUIRED_RESULT Event::List events(const QDateTime &dt) const;
 
     /**
       Returns a filtered list of all Events occurring within a date range.
@@ -680,7 +680,7 @@ public:
       @return the list of filtered Events occurring within the specified
       date range.
     */
-    Event::List events(const QDate &start, const QDate &end,
+    Q_REQUIRED_RESULT Event::List events(const QDate &start, const QDate &end,
                        const QTimeZone &timeZone = {},
                        bool inclusive = false) const;
 
@@ -697,7 +697,7 @@ public:
 
       @return the list of sorted, filtered Events occurring on @a date.
     */
-    Event::List events(const QDate &date,
+    Q_REQUIRED_RESULT Event::List events(const QDate &date,
                        const QTimeZone &timeZone = {},
                        EventSortField sortField = EventSortUnsorted,
                        SortDirection sortDirection = SortDirectionAscending) const;

@@ -96,7 +96,7 @@ public:
       Returns the filter name.
       @see setName().
     */
-    QString name() const;
+    Q_REQUIRED_RESULT QString name() const;
 
     /**
       Sets the criteria which must be fulfilled for an Incidence to pass
@@ -111,7 +111,7 @@ public:
       Returns the inclusive filter criteria.
       @see setCriteria().
     */
-    int criteria() const;
+    Q_REQUIRED_RESULT int criteria() const;
 
     /**
       Applies the filter to a list of Events. All events not matching the
@@ -143,7 +143,7 @@ public:
       @param incidence is the Incidence to filter.
       @return true if the Incidence passes the criteria; false otherwise.
     */
-    bool filterIncidence(const Incidence::Ptr &incidence) const;
+    Q_REQUIRED_RESULT bool filterIncidence(const Incidence::Ptr &incidence) const;
 
     /**
       Enables or disables the filter.
@@ -157,7 +157,7 @@ public:
       Returns whether the filter is enabled or not.
       @see setEnabled().
     */
-    bool isEnabled() const;
+    Q_REQUIRED_RESULT bool isEnabled() const;
 
     /**
       Sets the list of categories to be considered when filtering incidences
@@ -172,7 +172,7 @@ public:
       Returns the category list for this filter.
       @see setCategoryList().
     */
-    QStringList categoryList() const;
+    Q_REQUIRED_RESULT QStringList categoryList() const;
 
     /**
       Sets the list of email addresses to be considered when filtering
@@ -187,7 +187,7 @@ public:
       Returns the email list for this filter.
       @see setEmailList().
     */
-    QStringList emailList() const;
+    Q_REQUIRED_RESULT QStringList emailList() const;
 
     /**
       Sets the number of days for the #HideCompletedTodos criteria.
@@ -205,7 +205,7 @@ public:
       Returns the completed time span for this filter.
       @see setCompletedTimeSpan()
      */
-    int completedTimeSpan() const;
+    Q_REQUIRED_RESULT int completedTimeSpan() const;
 
     /**
       Compares this with @p filter for equality.
