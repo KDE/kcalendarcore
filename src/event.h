@@ -43,6 +43,9 @@ namespace KCalCore
 */
 class KCALCORE_EXPORT Event : public Incidence
 {
+    Q_GADGET
+    Q_PROPERTY(QDateTime dtEnd READ dtEnd WRITE setDtEnd)
+    Q_PROPERTY(KCalCore::Event::Transparency transparency READ transparency WRITE setTransparency)
 public:
     /**
       The different Event transparency types.
@@ -51,6 +54,7 @@ public:
         Opaque,      /**< Event appears in free/busy time */
         Transparent  /**< Event does @b not appear in free/busy time */
     };
+    Q_ENUM(Transparency)
 
     /**
       A shared pointer to an Event object.

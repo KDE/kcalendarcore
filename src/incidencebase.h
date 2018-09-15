@@ -108,6 +108,11 @@ class Visitor;
 */
 class KCALCORE_EXPORT IncidenceBase : public CustomProperties
 {
+    Q_GADGET
+    Q_PROPERTY(QString uid READ uid WRITE setUid)
+    Q_PROPERTY(QDateTime lastModified READ lastModified WRITE setLastModified)
+    Q_PROPERTY(QDateTime dtStart READ dtStart WRITE setDtStart)
+    Q_PROPERTY(bool allDay READ allDay WRITE setAllDay)
 public:
     /**
       A shared pointer to an IncidenceBase.

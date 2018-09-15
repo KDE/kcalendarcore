@@ -69,6 +69,14 @@ namespace KCalCore
 class KCALCORE_EXPORT Incidence
     : public IncidenceBase, public Recurrence::RecurrenceObserver
 {
+    Q_GADGET
+    Q_PROPERTY(QString description READ description WRITE setDescription)
+    Q_PROPERTY(QString summary READ summary WRITE setSummary)
+    Q_PROPERTY(QString location READ location WRITE setLocation)
+    Q_PROPERTY(QStringList categories READ categories WRITE setCategories)
+    Q_PROPERTY(int priority READ priority WRITE setPriority)
+    Q_PROPERTY(QDateTime created READ created WRITE setCreated)
+    Q_PROPERTY(KCalCore::Incidence::Secrecy secrecy READ secrecy WRITE setSecrecy)
 public:
 
     /**
@@ -96,6 +104,7 @@ public:
         SecrecyPrivate,     /**< Secret to the owner */
         SecrecyConfidential /**< Secret to the owner and some others */
     };
+    Q_ENUM(Secrecy)
 
     /**
        The different types of RELTYPE values specified by the RFC.
