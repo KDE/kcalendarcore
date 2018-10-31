@@ -52,7 +52,7 @@ configure_package_config_file(
   INSTALL_DESTINATION ${CMAKECONFIG_INSTALL_DIR}
 )
 
-add_definitions(-DQT_NO_NARROWING_CONVERSIONS_IN_CONNECT)
+
 add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x060000)
 ########### Targets ###########
 add_subdirectory(src)
