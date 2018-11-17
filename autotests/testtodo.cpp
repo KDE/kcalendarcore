@@ -160,6 +160,7 @@ void TodoTest::testStatus()
     QDateTime yesterday = today.addDays(-1);
 
     Todo todo1;
+    todo1.setAllDay(true);
     todo1.setDtStart(yesterday);
     todo1.setDtDue(today);
     todo1.setPercentComplete(50);
