@@ -74,34 +74,34 @@ void IncidenceTest::testDtStartChange()
 void IncidenceTest::testSummaryChange()
 {
     Event inc;
-    inc.setSummary(QLatin1String("bla"), false);
+    inc.setSummary(QStringLiteral("bla"), false);
     inc.resetDirtyFields();
 
-    inc.setSummary(QLatin1String("bla"), false);
+    inc.setSummary(QStringLiteral("bla"), false);
     QVERIFY(inc.dirtyFields().empty());
 
-    inc.setSummary(QLatin1String("bla2"), false);
+    inc.setSummary(QStringLiteral("bla2"), false);
     QCOMPARE(inc.dirtyFields(), QSet<IncidenceBase::Field>() << IncidenceBase::FieldSummary);
     inc.resetDirtyFields();
 
-    inc.setSummary(QLatin1String("bla2"), true);
+    inc.setSummary(QStringLiteral("bla2"), true);
     QCOMPARE(inc.dirtyFields(), QSet<IncidenceBase::Field>() << IncidenceBase::FieldSummary);
 }
 
 void IncidenceTest::testLocationChange()
 {
     Event inc;
-    inc.setLocation(QLatin1String("here"), false);
+    inc.setLocation(QStringLiteral("here"), false);
     inc.resetDirtyFields();
 
-    inc.setLocation(QLatin1String("here"), false);
+    inc.setLocation(QStringLiteral("here"), false);
     QVERIFY(inc.dirtyFields().empty());
 
-    inc.setLocation(QLatin1String("there"), false);
+    inc.setLocation(QStringLiteral("there"), false);
     QCOMPARE(inc.dirtyFields(), QSet<IncidenceBase::Field>() << IncidenceBase::FieldLocation);
     inc.resetDirtyFields();
 
-    inc.setLocation(QLatin1String("there"), true);
+    inc.setLocation(QStringLiteral("there"), true);
     QCOMPARE(inc.dirtyFields(), QSet<IncidenceBase::Field>() << IncidenceBase::FieldLocation);
 }
 

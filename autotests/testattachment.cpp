@@ -51,7 +51,7 @@ void AttachmentTest::testValidity()
     QCOMPARE(attachment3.size(), attachment2.size());
 
     QByteArray fred("jkajskldfasjfklasjfaskfaskfasfkasfjdasfkasjf");
-    Attachment attachment4(fred, QLatin1String("image/nonsense"));
+    Attachment attachment4(fred, QStringLiteral("image/nonsense"));
     QCOMPARE(fred, attachment4.data());
     QVERIFY(attachment4.isBinary());
     QByteArray ethel("a9fafafjafkasmfasfasffksjklfjau");
@@ -75,7 +75,7 @@ void AttachmentTest::testSerializer_data()
     QTest::addColumn<KCalCore::Attachment::Ptr>("attachment");
 
     Attachment::Ptr nonInline = Attachment::Ptr(new Attachment(QStringLiteral("http://www.kde.org")));
-    Attachment::Ptr inlineAttachment = Attachment::Ptr(new Attachment(QByteArray("foo"), QLatin1String("image/nonsense")));
+    Attachment::Ptr inlineAttachment = Attachment::Ptr(new Attachment(QByteArray("foo"), QStringLiteral("image/nonsense")));
 
     QTest::newRow("inline") << inlineAttachment;
     QTest::newRow("not inline") << nonInline;
@@ -99,7 +99,7 @@ void AttachmentTest::testSerializer()
 void AttachmentTest::testWriteToTempFile()
 {
     QByteArray data("foo");
-    Attachment::Ptr inlineAttachment = Attachment::Ptr(new Attachment(data.toBase64(), QLatin1String("image/png")));
+    Attachment::Ptr inlineAttachment = Attachment::Ptr(new Attachment(data.toBase64(), QStringLiteral("image/png")));
     Event *event = new Event();
     QString filePath = event->writeAttachmentToTempFile(inlineAttachment);
     QVERIFY(filePath.endsWith(QLatin1String(".png")));
