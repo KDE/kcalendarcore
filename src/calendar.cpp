@@ -863,7 +863,7 @@ void Calendar::removeRelations(const Incidence::Ptr &incidence)
 
     const QString uid = incidence->uid();
 
-    foreach (const Incidence::Ptr &i, d->mIncidenceRelations[uid]) {
+    for (const Incidence::Ptr &i : qAsConst(d->mIncidenceRelations[uid])) {
         if (!d->mOrphanUids.contains(i->uid())) {
             d->mOrphans.insert(uid, i);
             d->mOrphanUids.insert(i->uid(), i);
