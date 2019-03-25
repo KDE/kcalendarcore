@@ -54,7 +54,7 @@ configure_package_config_file(
 
 
 # workaround for https://bugreports.qt.io/browse/QTBUG-74665 (bug in qt5.13 reevaluate it)
-if (${Qt5Gui_VERSION} VERSION_GREATER "5.13")
+if (${Qt5Gui_VERSION} STRGREATER "5.13")
    MESSAGE(STATUS "Qt version: ${Qt5Gui_VERSION} DISABLE compile without deprecated methods. bug QTBUG-74665")
 else()
    add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x060000)
