@@ -32,7 +32,7 @@
   @author David Jarvie \<software@astrojar.org.uk\>
  */
 
-/**
+/*
 
 TODO: KDE5:
 
@@ -59,6 +59,7 @@ This API needs serious cleaning up:
 #include <QDateTime>
 #include <QTimeZone>
 
+/** Namespace for all KCalCore types. */
 namespace KCalCore
 {
 

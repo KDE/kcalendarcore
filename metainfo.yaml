@@ -1,6 +1,6 @@
 maintainer: knauss
 description: The KDE calendar access library 
-tier: 3
+tier: 1
 type: functional
 platforms:
     - name: All
@@ -15,4 +15,4 @@ cmakename: KF5CalendarCore
 public_lib: true
 group: kdepim
 platforms:
-    - name: Linux
+    - name: All
