@@ -1140,7 +1140,6 @@ QDateTime Recurrence::getNextDateTime(const QDateTime &preDateTime) const
             dates << startDateTime();
         }
 
-        int end;
         // Assume that the rdatetime list is sorted
         int i = d->mRDateTimes.findGT(nextDT);
         if (i >= 0) {
@@ -1148,8 +1147,8 @@ QDateTime Recurrence::getNextDateTime(const QDateTime &preDateTime) const
         }
 
         QDateTime kdt(startDateTime());
-        for (i = 0, end = d->mRDates.count();  i < end;  ++i) {
-            kdt.setDate(d->mRDates[i]);
+        for (const auto &date : d->mRDates) {
+            kdt.setDate(date);
             if (kdt > nextDT) {
                 dates << kdt;
                 break;
@@ -1157,8 +1156,8 @@ QDateTime Recurrence::getNextDateTime(const QDateTime &preDateTime) const
         }
 
         // Add the next occurrences from all RRULEs.
-        for (i = 0, end = d->mRRules.count();  i < end;  ++i) {
-            QDateTime dt = d->mRRules[i]->getNextDate(nextDT);
+        for (auto rule : d->mRRules) {
+            QDateTime dt = rule->getNextDate(nextDT);
             if (dt.isValid()) {
                 dates << dt;
             }
@@ -1175,8 +1174,8 @@ QDateTime Recurrence::getNextDateTime(const QDateTime &preDateTime) const
         if (!std::binary_search(d->mExDates.constBegin(), d->mExDates.constEnd(), nextDT.date()) &&
             !std::binary_search(d->mExDateTimes.constBegin(), d->mExDateTimes.constEnd(), nextDT)) {
             bool allowed = true;
-            for (i = 0, end = d->mExRules.count();  i < end;  ++i) {
-                allowed = allowed && !(d->mExRules[i]->recursAt(nextDT));
+            for (auto rule : d->mExRules) {
+                allowed = allowed && !rule->recursAt(nextDT);
             }
             if (allowed) {
                 return nextDT;
@@ -1218,8 +1217,8 @@ QDateTime Recurrence::getPreviousDateTime(const QDateTime &afterDateTime) const
         }
 
         QDateTime kdt(startDateTime());
-        for (i = d->mRDates.count();  --i >= 0;) {
-            kdt.setDate(d->mRDates[i]);
+        for (const auto &date : d->mRDates) {
+            kdt.setDate(date);
             if (kdt < prevDT) {
                 dates << kdt;
                 break;
@@ -1227,9 +1226,8 @@ QDateTime Recurrence::getPreviousDateTime(const QDateTime &afterDateTime) const
         }
 
         // Add the previous occurrences from all RRULEs.
-        int end;
-        for (i = 0, end = d->mRRules.count();  i < end;  ++i) {
-            QDateTime dt = d->mRRules[i]->getPreviousDate(prevDT);
+        for (auto rule : d->mRRules) {
+            QDateTime dt = rule->getPreviousDate(prevDT);
             if (dt.isValid()) {
                 dates << dt;
             }
@@ -1246,8 +1244,8 @@ QDateTime Recurrence::getPreviousDateTime(const QDateTime &afterDateTime) const
         if (!std::binary_search(d->mExDates.constBegin(), d->mExDates.constEnd(), prevDT.date()) &&
             !std::binary_search(d->mExDateTimes.constBegin(), d->mExDateTimes.constEnd(), prevDT)) {
             bool allowed = true;
-            for (i = 0, end = d->mExRules.count();  i < end;  ++i) {
-                allowed = allowed && !(d->mExRules[i]->recursAt(prevDT));
+            for (auto rule : d->mExRules) {
+                allowed = allowed && !rule->recursAt(prevDT);
             }
             if (allowed) {
                 return prevDT;
