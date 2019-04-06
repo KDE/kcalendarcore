@@ -24,6 +24,7 @@
 #include "icalformat_p.h"
 #include "recurrence.h"
 #include "recurrencerule.h"
+#include "recurrencehelper_p.h"
 #include "utils.h"
 
 #include "kcalcore_debug.h"
@@ -717,7 +718,7 @@ bool ICalTimeZoneParser::parsePhase(icalcomponent *c, bool daylight, ICalTimeZon
             }
             p = icalcomponent_get_next_property(c, ICAL_ANY_PROPERTY);
         }
-        qSortUnique(phase.transitions);
+        sortAndRemoveDuplicates(phase.transitions);
     }
 
     return true;
