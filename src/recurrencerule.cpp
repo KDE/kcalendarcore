@@ -2003,7 +2003,8 @@ SortableList<QDateTime> RecurrenceRule::Private::datesForInterval(const Constrai
         }
     }
     // Sort it so we can apply the BySetPos. Also some logic relies on this being sorted
-    lst.sortUnique();
+    std::sort(lst.begin(), lst.end());
+    lst.erase(std::unique(lst.begin(), lst.end()), lst.end());
 
     /*if ( lst.isEmpty() ) {
       qCDebug(KCALCORE_LOG) << "         No Dates in Interval";
@@ -2029,7 +2030,8 @@ SortableList<QDateTime> RecurrenceRule::Private::datesForInterval(const Constrai
                 lst.append(tmplst[pos]);
             }
         }
-        lst.sortUnique();
+        std::sort(lst.begin(), lst.end());
+        lst.erase(std::unique(lst.begin(), lst.end()), lst.end());
     }
 
     return lst;

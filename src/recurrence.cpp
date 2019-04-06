@@ -443,7 +443,8 @@ QDateTime Recurrence::endDateTime() const
         }
         dts << rl;
     }
-    dts.sortUnique();
+    std::sort(dts.begin(), dts.end());
+    dts.erase(std::unique(dts.begin(), dts.end()), dts.end());
     return dts.isEmpty() ? QDateTime() : dts.last();
 }
 
@@ -876,8 +877,10 @@ void Recurrence::setMonthlyDate(const QList< int > &monthlyDays)
     SortableList<int> mD(monthlyDays);
     SortableList<int> rbD(rrule->byMonthDays());
 
-    mD.sortUnique();
-    rbD.sortUnique();
+    std::sort(mD.begin(), mD.end());
+    mD.erase(std::unique(mD.begin(), mD.end()), mD.end());
+    std::sort(rbD.begin(), rbD.end());
+    rbD.erase(std::unique(rbD.begin(), rbD.end()), rbD.end());
 
     if (mD != rbD) {
         rrule->setByMonthDays(monthlyDays);
@@ -914,11 +917,13 @@ void Recurrence::setYearlyDay(const QList<int> &days)
         return;
     }
 
-    SortableList<int> d(days);
-    SortableList<int> bYD(rrule->byYearDays());
+    QList<int> d(days);
+    QList<int> bYD(rrule->byYearDays());
 
-    d.sortUnique();
-    bYD.sortUnique();
+    std::sort(d.begin(), d.end());
+    d.erase(std::unique(d.begin(), d.end()), d.end());
+    std::sort(bYD.begin(), bYD.end());
+    bYD.erase(std::unique(bYD.begin(), bYD.end()), bYD.end());
 
     if (d != bYD) {
         rrule->setByYearDays(days);
@@ -978,11 +983,13 @@ void Recurrence::setYearlyMonth(const QList<int> &months)
         return;
     }
 
-    SortableList<int> m(months);
-    SortableList<int> bM(rrule->byMonths());
+    QList<int> m(months);
+    QList<int> bM(rrule->byMonths());
 
-    m.sortUnique();
-    bM.sortUnique();
+    std::sort(m.begin(), m.end());
+    m.erase(std::unique(m.begin(), m.end()), m.end());
+    std::sort(bM.begin(), bM.end());
+    bM.erase(std::unique(bM.begin(), bM.end()), bM.end());
 
     if (m != bM) {
         rrule->setByMonths(months);
@@ -1029,7 +1036,8 @@ TimeList Recurrence::recurTimesOn(const QDate &date, const QTimeZone &timeZone) 
     for (i = 0, end = d->mRRules.count();  i < end;  ++i) {
         times += d->mRRules[i]->recurTimesOn(date, timeZone);
     }
-    times.sortUnique();
+    std::sort(times.begin(), times.end());
+    times.erase(std::unique(times.begin(), times.end()), times.end());
 
     foundDate = false;
     TimeList extimes;
@@ -1047,7 +1055,8 @@ TimeList Recurrence::recurTimesOn(const QDate &date, const QTimeZone &timeZone) 
             extimes += d->mExRules[i]->recurTimesOn(date, timeZone);
         }
     }
-    extimes.sortUnique();
+    std::sort(extimes.begin(), extimes.end());
+    extimes.erase(std::unique(extimes.begin(), extimes.end()), extimes.end());
 
     int st = 0;
     for (i = 0, end = extimes.count();  i < end;  ++i) {
@@ -1095,7 +1104,8 @@ SortableList<QDateTime> Recurrence::timesInInterval(const QDateTime &start, cons
         times += d->mStartDateTime;
     }
 
-    times.sortUnique();
+    std::sort(times.begin(), times.end());
+    times.erase(std::unique(times.begin(), times.end()), times.end());
 
     // Remove excluded times
     int idt = 0;
@@ -1114,7 +1124,8 @@ SortableList<QDateTime> Recurrence::timesInInterval(const QDateTime &start, cons
         extimes += d->mExRules[i]->timesInInterval(start, end);
     }
     extimes += d->mExDateTimes;
-    extimes.sortUnique();
+    std::sort(extimes.begin(), extimes.end());
+    extimes.erase(std::unique(extimes.begin(), extimes.end()), extimes.end());
 
     int st = 0;
     for (i = 0, count = extimes.count();  i < count;  ++i) {
@@ -1179,7 +1190,8 @@ QDateTime Recurrence::getNextDateTime(const QDateTime &preDateTime) const
         }
 
         // Take the first of these (all others can't be used later on)
-        dates.sortUnique();
+        std::sort(dates.begin(), dates.end());
+        dates.erase(std::unique(dates.begin(), dates.end()), dates.end());
         if (dates.isEmpty()) {
             return QDateTime();
         }
@@ -1250,7 +1262,8 @@ QDateTime Recurrence::getPreviousDateTime(const QDateTime &afterDateTime) const
         }
 
         // Take the last of these (all others can't be used later on)
-        dates.sortUnique();
+        std::sort(dates.begin(), dates.end());
+        dates.erase(std::unique(dates.begin(), dates.end()), dates.end());
         if (dates.isEmpty()) {
             return QDateTime();
         }
@@ -1365,7 +1378,8 @@ void Recurrence::setRDateTimes(const SortableList<QDateTime> &rdates)
     }
 
     d->mRDateTimes = rdates;
-    d->mRDateTimes.sortUnique();
+    std::sort(d->mRDateTimes.begin(), d->mRDateTimes.end());
+    d->mRDateTimes.erase(std::unique(d->mRDateTimes.begin(), d->mRDateTimes.end()), d->mRDateTimes.end());
     updated();
 }
 
@@ -1391,7 +1405,8 @@ void Recurrence::setRDates(const DateList &rdates)
     }
 
     d->mRDates = rdates;
-    d->mRDates.sortUnique();
+    std::sort(d->mRDates.begin(), d->mRDates.end());
+    d->mRDates.erase(std::unique(d->mRDates.begin(), d->mRDates.end()), d->mRDates.end());
     updated();
 }
 
@@ -1417,7 +1432,8 @@ void Recurrence::setExDateTimes(const SortableList<QDateTime> &exdates)
     }
 
     d->mExDateTimes = exdates;
-    d->mExDateTimes.sortUnique();
+    std::sort(d->mExDateTimes.begin(), d->mExDateTimes.end());
+    d->mExDateTimes.erase(std::unique(d->mExDateTimes.begin(), d->mExDateTimes.end()), d->mExDateTimes.end());
 }
 
 void Recurrence::addExDateTime(const QDateTime &exdate)
@@ -1442,7 +1458,8 @@ void Recurrence::setExDates(const DateList &exdates)
     }
 
     DateList l = exdates;
-    l.sortUnique();
+    std::sort(l.begin(), l.end());
+    l.erase(std::unique(l.begin(), l.end()), l.end());
 
     if (d->mExDates != l) {
         d->mExDates = l;
