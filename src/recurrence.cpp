@@ -1211,9 +1211,9 @@ QDateTime Recurrence::getPreviousDateTime(const QDateTime &afterDateTime) const
             dates << startDateTime();
         }
 
-        int i = d->mRDateTimes.findLT(prevDT);
-        if (i >= 0) {
-            dates << d->mRDateTimes[i];
+        const auto it = strictLowerBound(d->mRDateTimes.constBegin(), d->mRDateTimes.constEnd(), prevDT);
+        if (it != d->mRDateTimes.constEnd()) {
+            dates << *it;
         }
 
         QDateTime kdt(startDateTime());

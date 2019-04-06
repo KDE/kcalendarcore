@@ -54,6 +54,16 @@ inline void setInsert(Container &c, const Value &v)
     }
 }
 
+template <typename It, typename Value>
+inline It strictLowerBound(It begin, It end, const Value &v)
+{
+    const auto it = std::lower_bound(begin, end, v);
+    if (it == end || (*it) >= v) {
+        return it == begin ? end : (it - 1);
+    }
+    return it;
+}
+
 }
 
 #endif

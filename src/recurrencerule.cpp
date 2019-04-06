@@ -1331,9 +1331,9 @@ bool RecurrenceRule::Private::buildCache() const
     auto dts = datesForInterval(interval, mPeriod);
     // Only use dates after the event has started (start date is only included
     // if it matches)
-    int i = dts.findLT(mDateStart);
-    if (i >= 0) {
-        dts.erase(dts.begin(), dts.begin() + i + 1);
+    const auto it = strictLowerBound(dts.begin(), dts.end(), mDateStart);
+    if (it != dts.end()) {
+        dts.erase(dts.begin(), it + 1);
     }
 
     // some validity checks to avoid infinite loops (i.e. if we have
@@ -1627,9 +1627,9 @@ QDateTime RecurrenceRule::getPreviousDate(const QDateTime &afterDate) const
         if (!d->mCached) {
             d->buildCache();
         }
-        int i = d->mCachedDates.findLT(toDate);
-        if (i >= 0) {
-            return d->mCachedDates[i];
+        const auto it = strictLowerBound(d->mCachedDates.constBegin(), d->mCachedDates.constEnd(), toDate);
+        if (it != d->mCachedDates.constEnd()) {
+            return *it;
         }
         return QDateTime();
     }
@@ -1640,10 +1640,10 @@ QDateTime RecurrenceRule::getPreviousDate(const QDateTime &afterDate) const
     }
 
     Constraint interval(d->getPreviousValidDateInterval(prev, recurrenceType()));
-    auto dts = d->datesForInterval(interval, recurrenceType());
-    int i = dts.findLT(prev);
-    if (i >= 0) {
-        return (dts[i] >= d->mDateStart) ? dts[i] : QDateTime();
+    const auto dts = d->datesForInterval(interval, recurrenceType());
+    const auto it = strictLowerBound(dts.begin(), dts.end(), prev);
+    if (it != dts.end()) {
+        return ((*it) >= d->mDateStart) ? (*it) : QDateTime();
     }
 
     // Previous interval. As soon as we find an occurrence, we're done.
