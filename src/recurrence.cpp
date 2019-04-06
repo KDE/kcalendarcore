@@ -1361,7 +1361,7 @@ void Recurrence::addRDateTime(const QDateTime &rdate)
         return;
     }
 
-    d->mRDateTimes.insertSorted(rdate);
+    setInsert(d->mRDateTimes, rdate);
     updated();
 }
 
@@ -1387,7 +1387,7 @@ void Recurrence::addRDate(const QDate &rdate)
         return;
     }
 
-    d->mRDates.insertSorted(rdate);
+    setInsert(d->mRDates, rdate);
     updated();
 }
 
@@ -1412,7 +1412,7 @@ void Recurrence::addExDateTime(const QDateTime &exdate)
         return;
     }
 
-    d->mExDateTimes.insertSorted(exdate);
+    setInsert(d->mExDateTimes, exdate);
     updated();
 }
 
@@ -1442,7 +1442,7 @@ void Recurrence::addExDate(const QDate &exdate)
         return;
     }
 
-    d->mExDates.insertSorted(exdate);
+    setInsert(d->mExDates, exdate);
     updated();
 }
 

@@ -45,6 +45,15 @@ inline void inplaceSetDifference(T &set1, const T &set2)
     }
 }
 
+template <typename Container, typename Value>
+inline void setInsert(Container &c, const Value &v)
+{
+    const auto it = std::lower_bound(c.begin(), c.end(), v);
+    if (it == c.end() || *it != v) {
+        c.insert(it, v);
+    }
+}
+
 }
 
 #endif
