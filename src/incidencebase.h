@@ -59,7 +59,6 @@
 #include "attendee.h"
 #include "customproperties.h"
 #include "duration.h"
-#include "sortablelist.h"
 
 #include <QDateTime>
 
@@ -73,10 +72,10 @@ class QTimeZone;
 
 namespace KCalCore {
 /** List of dates */
-typedef SortableList<QDate> DateList;
+typedef QList<QDate> DateList;
 
 /** List of times */
-typedef SortableList<QDateTime> DateTimeList;
+typedef QList<QDateTime> DateTimeList;
 
 class Event;
 class Todo;

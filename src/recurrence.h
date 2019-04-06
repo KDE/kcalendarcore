@@ -244,7 +244,7 @@ public:
      * @param end inclusive end of interval
      * @return list of date/time values
      */
-    Q_REQUIRED_RESULT SortableList<QDateTime> timesInInterval(const QDateTime &start, const QDateTime &end) const;
+    Q_REQUIRED_RESULT QList<QDateTime> timesInInterval(const QDateTime &start, const QDateTime &end) const;
 
     /** Returns the date and time of the next recurrence, after the specified date/time.
      * If the recurrence has no time, the next date after the specified date is returned.
@@ -616,17 +616,17 @@ public:
     void deleteExRule(RecurrenceRule *exrule);
 
     // RDATE
-    Q_REQUIRED_RESULT SortableList<QDateTime> rDateTimes() const;
+    Q_REQUIRED_RESULT QList<QDateTime> rDateTimes() const;
     Q_REQUIRED_RESULT DateList rDates() const;
-    void setRDateTimes(const SortableList<QDateTime> &rdates);
+    void setRDateTimes(const QList<QDateTime> &rdates);
     void setRDates(const DateList &rdates);
     void addRDateTime(const QDateTime &rdate);
     void addRDate(const QDate &rdate);
 
     // ExDATE
-    Q_REQUIRED_RESULT SortableList<QDateTime> exDateTimes() const;
+    Q_REQUIRED_RESULT QList<QDateTime> exDateTimes() const;
     Q_REQUIRED_RESULT DateList exDates() const;
-    void setExDateTimes(const SortableList<QDateTime> &exdates);
+    void setExDateTimes(const QList<QDateTime> &exdates);
     void setExDates(const DateList &exdates);
     void addExDateTime(const QDateTime &exdate);
     void addExDate(const QDate &exdate);

@@ -93,7 +93,6 @@ ecm_generate_headers(KCalCore_CamelCase_HEADERS
   Recurrence
   RecurrenceRule
   ScheduleMessage
-  SortableList
   Sorting
   Todo
   VCalFormat

@@ -24,8 +24,6 @@
 
 #include "kcalcore_export.h"
 
-#include "sortablelist.h"
-
 #include <QDateTime>
 
 class QDataStream;
@@ -39,8 +37,8 @@ namespace KCalCore {
 KCALCORE_EXPORT void serializeQDateTimeAsKDateTime(QDataStream &out, const QDateTime &dt);
 KCALCORE_EXPORT void deserializeKDateTimeAsQDateTime(QDataStream &in, QDateTime &dt);
 
-void serializeQDateTimeSortableList(QDataStream &out, const SortableList<QDateTime> &list);
-void deserializeQDateTimeSortableList(QDataStream &in, SortableList<QDateTime> &list);
+void serializeQDateTimeList(QDataStream &out, const QList<QDateTime> &list);
+void deserializeQDateTimeList(QDataStream &in, QList<QDateTime> &list);
 
 void serializeQTimeZoneAsSpec(QDataStream &out, const QTimeZone &tz);
 void deserializeSpecAsQTimeZone(QDataStream &in, QTimeZone &tz);

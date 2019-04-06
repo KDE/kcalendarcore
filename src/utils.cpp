@@ -112,7 +112,7 @@ void KCalCore::deserializeSpecAsQTimeZone(QDataStream &in, QTimeZone &tz)
 
 }
 
-void KCalCore::serializeQDateTimeSortableList(QDataStream &out, const SortableList<QDateTime> &list)
+void KCalCore::serializeQDateTimeList(QDataStream &out, const QList<QDateTime> &list)
 {
     out << list.size();
     for (const auto &i : list) {
@@ -120,7 +120,7 @@ void KCalCore::serializeQDateTimeSortableList(QDataStream &out, const SortableLi
     }
 }
 
-void KCalCore::deserializeQDateTimeSortableList(QDataStream& in, SortableList<QDateTime>& list)
+void KCalCore::deserializeQDateTimeList(QDataStream& in, QList<QDateTime>& list)
 {
     int size;
     in >> size;

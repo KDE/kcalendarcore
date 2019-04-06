@@ -34,7 +34,6 @@ macro_unit_tests(
   testfreebusyperiod
   testperson
   testrecurtodo
-  testsortablelist
   testtodo
   testtimesininterval
   testcreateddatecompat

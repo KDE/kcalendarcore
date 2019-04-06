@@ -22,12 +22,12 @@
   Boston, MA 02110-1301, USA.
 */
 #include "recurrence.h"
-#include "sortablelist.h"
 #include "utils.h"
 #include "recurrencehelper_p.h"
 
 #include "kcalcore_debug.h"
 
+#include <QDataStream>
 #include <QTimeZone>
 #include <QBitArray>
 #include <QTime>
@@ -61,9 +61,9 @@ public:
 
     RecurrenceRule::List mExRules;
     RecurrenceRule::List mRRules;
-    SortableList<QDateTime> mRDateTimes;
+    QList<QDateTime> mRDateTimes;
     DateList mRDates;
-    SortableList<QDateTime> mExDateTimes;
+    QList<QDateTime> mExDateTimes;
     DateList mExDates;
     QDateTime mStartDateTime;    // date/time of first recurrence
     QList<RecurrenceObserver *> mObservers;
@@ -428,7 +428,7 @@ bool Recurrence::recursAt(const QDateTime &dt) const
     rdates, an invalid date is returned. */
 QDateTime Recurrence::endDateTime() const
 {
-    SortableList<QDateTime> dts;
+    QList<QDateTime> dts;
     dts << startDateTime();
     if (!d->mRDates.isEmpty()) {
         dts << QDateTime(d->mRDates.last(), QTime(0, 0, 0), d->mStartDateTime.timeZone());
@@ -1053,10 +1053,10 @@ TimeList Recurrence::recurTimesOn(const QDate &date, const QTimeZone &timeZone) 
     return times;
 }
 
-SortableList<QDateTime> Recurrence::timesInInterval(const QDateTime &start, const QDateTime &end) const
+QList<QDateTime> Recurrence::timesInInterval(const QDateTime &start, const QDateTime &end) const
 {
     int i, count;
-    SortableList<QDateTime> times;
+    QList<QDateTime> times;
     for (i = 0, count = d->mRRules.count();  i < count;  ++i) {
         times += d->mRRules[i]->timesInInterval(start, end);
     }
@@ -1103,7 +1103,7 @@ SortableList<QDateTime> Recurrence::timesInInterval(const QDateTime &start, cons
             --enddt;
         }
     }
-    SortableList<QDateTime> extimes;
+    QList<QDateTime> extimes;
     for (i = 0, count = d->mExRules.count();  i < count;  ++i) {
         extimes += d->mExRules[i]->timesInInterval(start, end);
     }
@@ -1135,7 +1135,7 @@ QDateTime Recurrence::getNextDateTime(const QDateTime &preDateTime) const
         //      of preDateTime). Loop at most 1000 times.
         ++loop;
         // First, get the next recurrence from the RDate lists
-        SortableList<QDateTime> dates;
+        QList<QDateTime> dates;
         if (nextDT < startDateTime()) {
             dates << startDateTime();
         }
@@ -1206,7 +1206,7 @@ QDateTime Recurrence::getPreviousDateTime(const QDateTime &afterDateTime) const
         //      of preDateTime). Loop at most 1000 times.
         ++loop;
         // First, get the next recurrence from the RDate lists
-        SortableList<QDateTime> dates;
+        QList<QDateTime> dates;
         if (prevDT > startDateTime()) {
             dates << startDateTime();
         }
@@ -1337,12 +1337,12 @@ void Recurrence::deleteExRule(RecurrenceRule *exrule)
     updated();
 }
 
-SortableList<QDateTime> Recurrence::rDateTimes() const
+QList<QDateTime> Recurrence::rDateTimes() const
 {
     return d->mRDateTimes;
 }
 
-void Recurrence::setRDateTimes(const SortableList<QDateTime> &rdates)
+void Recurrence::setRDateTimes(const QList<QDateTime> &rdates)
 {
     if (d->mRecurReadOnly) {
         return;
@@ -1389,12 +1389,12 @@ void Recurrence::addRDate(const QDate &rdate)
     updated();
 }
 
-SortableList<QDateTime> Recurrence::exDateTimes() const
+QList<QDateTime> Recurrence::exDateTimes() const
 {
     return d->mExDateTimes;
 }
 
-void Recurrence::setExDateTimes(const SortableList<QDateTime> &exdates)
+void Recurrence::setExDateTimes(const QList<QDateTime> &exdates)
 {
     if (d->mRecurReadOnly) {
         return;
@@ -1499,8 +1499,8 @@ KCALCORE_EXPORT QDataStream &KCalCore::operator<<(QDataStream &out, KCalCore::Re
         return out;
     }
 
-    serializeQDateTimeSortableList(out, r->d->mRDateTimes);
-    serializeQDateTimeSortableList(out, r->d->mExDateTimes);
+    serializeQDateTimeList(out, r->d->mRDateTimes);
+    serializeQDateTimeList(out, r->d->mExDateTimes);
     out << r->d->mRDates;
     serializeQDateTimeAsKDateTime(out, r->d->mStartDateTime);
     out << r->d->mCachedType
@@ -1526,8 +1526,8 @@ KCALCORE_EXPORT QDataStream &KCalCore::operator>>(QDataStream &in, KCalCore::Rec
 
     int rruleCount, exruleCount;
 
-    deserializeQDateTimeSortableList(in, r->d->mRDateTimes);
-    deserializeQDateTimeSortableList(in, r->d->mExDateTimes);
+    deserializeQDateTimeList(in, r->d->mRDateTimes);
+    deserializeQDateTimeList(in, r->d->mExDateTimes);
     in >> r->d->mRDates;
     deserializeKDateTimeAsQDateTime(in, r->d->mStartDateTime);
     in >> r->d->mCachedType

@@ -25,7 +25,6 @@
 #define KCALCORE_RECURRENCERULE_H
 
 #include "kcalcore_export.h"
-#include "sortablelist.h"
 
 #include <QDateTime>
 #include <QTimeZone>
@@ -34,9 +33,9 @@ class QTimeZone;
 
 namespace KCalCore {
 // These two are duplicates wrt. incidencebase.h
-typedef SortableList<QDate> DateList;
+typedef QList<QDate> DateList;
 /* List of times */
-typedef SortableList<QTime> TimeList;
+typedef QList<QTime> TimeList;
 
 /**
   This class represents a recurrence rule for a calendar incidence.
@@ -246,7 +245,7 @@ public:
      * @param end inclusive end of interval
      * @return list of date/time values
      */
-    Q_REQUIRED_RESULT SortableList<QDateTime> timesInInterval(const QDateTime &start, const QDateTime &end) const;
+    Q_REQUIRED_RESULT QList<QDateTime> timesInInterval(const QDateTime &start, const QDateTime &end) const;
 
     /** Returns the date and time of the next recurrence, after the specified date/time.
      * If the recurrence has no time, the next date after the specified date is returned.

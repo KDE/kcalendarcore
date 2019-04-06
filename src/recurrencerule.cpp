@@ -24,6 +24,7 @@
 #include "kcalcore_debug.h"
 #include "recurrencehelper_p.h"
 
+#include <QDataStream>
 #include <QStringList>
 #include <QTime>
 #include <QTimeZone>
@@ -725,7 +726,7 @@ public:
     bool buildCache() const;
     Constraint getNextValidDateInterval(const QDateTime &preDate, PeriodType type) const;
     Constraint getPreviousValidDateInterval(const QDateTime &afterDate, PeriodType type) const;
-    SortableList<QDateTime> datesForInterval(const Constraint &interval, PeriodType type) const;
+    QList<QDateTime> datesForInterval(const Constraint &interval, PeriodType type) const;
 
     RecurrenceRule *mParent;
     QString mRRule;            // RRULE string
@@ -756,7 +757,7 @@ public:
     QList<RuleObserver *> mObservers;
 
     // Cache for duration
-    mutable SortableList<QDateTime> mCachedDates;
+    mutable QList<QDateTime> mCachedDates;
     mutable QDateTime mCachedDateEnd;
     mutable QDateTime mCachedLastDate;   // when mCachedDateEnd invalid, last date checked
     mutable bool mCached;
@@ -1737,12 +1738,12 @@ QDateTime RecurrenceRule::getNextDate(const QDateTime &preDate) const
     return QDateTime();
 }
 
-SortableList<QDateTime> RecurrenceRule::timesInInterval(const QDateTime &dtStart,
+QList<QDateTime> RecurrenceRule::timesInInterval(const QDateTime &dtStart,
                                                         const QDateTime &dtEnd) const
 {
     const QDateTime start = dtStart.toTimeZone(d->mDateStart.timeZone());
     const QDateTime end = dtEnd.toTimeZone(d->mDateStart.timeZone());
-    SortableList<QDateTime> result;
+    QList<QDateTime> result;
     if (end < d->mDateStart) {
         return result;    // before start of recurrence
     }
@@ -1987,7 +1988,7 @@ Constraint RecurrenceRule::Private::getNextValidDateInterval(const QDateTime &dt
     return Constraint(nextValid, type, mWeekStart);
 }
 
-SortableList<QDateTime> RecurrenceRule::Private::datesForInterval(const Constraint &interval,
+QList<QDateTime> RecurrenceRule::Private::datesForInterval(const Constraint &interval,
                                                                   PeriodType type) const
 {
     /* -) Loop through constraints,
@@ -1996,7 +1997,7 @@ SortableList<QDateTime> RecurrenceRule::Private::datesForInterval(const Constrai
        -) if complete => add that one date to the date list
        -) Loop through all missing fields => For each add the resulting
     */
-    SortableList<QDateTime> lst;
+    QList<QDateTime> lst;
     for (int i = 0, iend = mConstraints.count(); i < iend; ++i) {
         Constraint merged(interval);
         if (merged.merge(mConstraints[i])) {
