@@ -33,6 +33,18 @@ inline void sortAndRemoveDuplicates(T &container)
     container.erase(std::unique(container.begin(), container.end()), container.end());
 }
 
+template <typename T>
+inline void inplaceSetDifference(T &set1, const T &set2)
+{
+    auto beginIt = set1.begin();
+    for (const auto &elem : set2) {
+        const auto it = std::lower_bound(beginIt, set1.end(), elem);
+        if (it != set1.end() && *it == elem) {
+            beginIt = set1.erase(it);
+        }
+    }
+}
+
 }
 
 #endif

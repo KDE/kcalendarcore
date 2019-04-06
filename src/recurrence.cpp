@@ -1049,14 +1049,7 @@ TimeList Recurrence::recurTimesOn(const QDate &date, const QTimeZone &timeZone) 
         }
     }
     sortAndRemoveDuplicates(extimes);
-
-    int st = 0;
-    for (i = 0, end = extimes.count();  i < end;  ++i) {
-        int j = times.removeSorted(extimes[i], st);
-        if (j >= 0) {
-            st = j;
-        }
-    }
+    inplaceSetDifference(times, extimes);
     return times;
 }
 
@@ -1116,15 +1109,7 @@ SortableList<QDateTime> Recurrence::timesInInterval(const QDateTime &start, cons
     }
     extimes += d->mExDateTimes;
     sortAndRemoveDuplicates(extimes);
-
-    int st = 0;
-    for (i = 0, count = extimes.count();  i < count;  ++i) {
-        int j = times.removeSorted(extimes[i], st);
-        if (j >= 0) {
-            st = j;
-        }
-    }
-
+    inplaceSetDifference(times, extimes);
     return times;
 }
 
