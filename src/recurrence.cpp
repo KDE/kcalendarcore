@@ -335,7 +335,7 @@ bool Recurrence::recursOn(const QDate &qd, const QTimeZone &timeZone) const
     }
 
     // First handle dates. Exrules override
-    if (d->mExDates.containsSorted(qd)) {
+    if (std::binary_search(d->mExDates.constBegin(), d->mExDates.constEnd(), qd)) {
         return false;
     }
 
@@ -351,7 +351,7 @@ bool Recurrence::recursOn(const QDate &qd, const QTimeZone &timeZone) const
         }
     }
 
-    if (d->mRDates.containsSorted(qd)) {
+    if (std::binary_search(d->mRDates.constBegin(), d->mRDates.constEnd(), qd)) {
         return true;
     }
 
@@ -398,8 +398,8 @@ bool Recurrence::recursAt(const QDateTime &dt) const
     const auto dtrecur = dt.toTimeZone(d->mStartDateTime.timeZone());
 
     // if it's excluded anyway, don't bother to check if it recurs at all.
-    if (d->mExDateTimes.containsSorted(dtrecur) ||
-            d->mExDates.containsSorted(dtrecur.date())) {
+    if (std::binary_search(d->mExDateTimes.constBegin(), d->mExDateTimes.constEnd(), dtrecur) ||
+        std::binary_search(d->mExDates.constBegin(), d->mExDates.constEnd(), dtrecur.date())) {
         return false;
     }
     int i, end;
@@ -410,7 +410,7 @@ bool Recurrence::recursAt(const QDateTime &dt) const
     }
 
     // Check explicit recurrences, then rrules.
-    if (startDateTime() == dtrecur || d->mRDateTimes.containsSorted(dtrecur)) {
+    if (startDateTime() == dtrecur || std::binary_search(d->mRDateTimes.constBegin(), d->mRDateTimes.constEnd(), dtrecur)) {
         return true;
     }
     for (i = 0, end = d->mRRules.count();  i < end;  ++i) {
@@ -997,7 +997,7 @@ TimeList Recurrence::recurTimesOn(const QDate &date, const QTimeZone &timeZone) 
     TimeList times;
 
     // The whole day is excepted
-    if (d->mExDates.containsSorted(date)) {
+    if (std::binary_search(d->mExDates.constBegin(), d->mExDates.constEnd(), date)) {
         return times;
     }
 
@@ -1186,8 +1186,8 @@ QDateTime Recurrence::getNextDateTime(const QDateTime &preDateTime) const
         nextDT = dates.first();
 
         // Check if that date/time is excluded explicitly or by an exrule:
-        if (!d->mExDates.containsSorted(nextDT.date()) &&
-                !d->mExDateTimes.containsSorted(nextDT)) {
+        if (!std::binary_search(d->mExDates.constBegin(), d->mExDates.constEnd(), nextDT.date()) &&
+            !std::binary_search(d->mExDateTimes.constBegin(), d->mExDateTimes.constEnd(), nextDT)) {
             bool allowed = true;
             for (i = 0, end = d->mExRules.count();  i < end;  ++i) {
                 allowed = allowed && !(d->mExRules[i]->recursAt(nextDT));
@@ -1257,8 +1257,8 @@ QDateTime Recurrence::getPreviousDateTime(const QDateTime &afterDateTime) const
         prevDT = dates.last();
 
         // Check if that date/time is excluded explicitly or by an exrule:
-        if (!d->mExDates.containsSorted(prevDT.date()) &&
-                !d->mExDateTimes.containsSorted(prevDT)) {
+        if (!std::binary_search(d->mExDates.constBegin(), d->mExDates.constEnd(), prevDT.date()) &&
+            !std::binary_search(d->mExDateTimes.constBegin(), d->mExDateTimes.constEnd(), prevDT)) {
             bool allowed = true;
             for (i = 0, end = d->mExRules.count();  i < end;  ++i) {
                 allowed = allowed && !(d->mExRules[i]->recursAt(prevDT));
