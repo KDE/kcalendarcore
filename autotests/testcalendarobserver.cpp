@@ -49,7 +49,6 @@ Q_SIGNALS:
     void incidenceAdded(const KCalCore::Incidence::Ptr &incidence);
     void incidenceChanged(const KCalCore::Incidence::Ptr &incidence);
     void incidenceAboutToBeDeleted(const KCalCore::Incidence::Ptr &incidence);
-    void incidenceDeletedDeprecated(const KCalCore::Incidence::Ptr &incidence);
     void incidenceDeleted(const KCalCore::Incidence::Ptr &incidence, const Calendar *calendar);
 protected:
     void calendarIncidenceAdded(const KCalCore::Incidence::Ptr &incidence) override
@@ -66,12 +65,6 @@ protected:
     {
         QVERIFY(mCal->incidences().contains(incidence));
         Q_EMIT incidenceAboutToBeDeleted(incidence);
-    }
-
-    void calendarIncidenceDeleted(const KCalCore::Incidence::Ptr &incidence) override
-    {
-        QVERIFY(!mCal->incidences().contains(incidence));
-        Q_EMIT incidenceDeletedDeprecated(incidence);
     }
 
     void calendarIncidenceDeleted(const KCalCore::Incidence::Ptr &incidence, const Calendar *calendar) override
@@ -124,26 +117,21 @@ void CalendarObserverTest::testDelete()
     SimpleObserver ob(cal.data());
     QSignalSpy spy1(&ob, &SimpleObserver::incidenceAboutToBeDeleted);
     QSignalSpy spy2(&ob, &SimpleObserver::incidenceDeleted);
-    QSignalSpy spy3(&ob, &SimpleObserver::incidenceDeletedDeprecated);
     cal->registerObserver(&ob);
     Event::Ptr event1 = Event::Ptr(new Event());
     event1->setUid(QStringLiteral("1"));
     cal->addEvent(event1);
     QCOMPARE(spy1.count(), 0);
     QCOMPARE(spy2.count(), 0);
-    QCOMPARE(spy3.count(), 0);
 
     cal->deleteEvent(event1);
     QCOMPARE(spy1.count(), 1);
     QCOMPARE(spy2.count(), 1);
-    QCOMPARE(spy3.count(), 1);
     QList<QVariant> arguments = spy1.takeFirst();
     QCOMPARE(arguments.at(0).value<KCalCore::Incidence::Ptr>(), static_cast<KCalCore::Incidence::Ptr>(event1));
     arguments = spy2.takeFirst();
     QCOMPARE(arguments.at(0).value<KCalCore::Incidence::Ptr>(), static_cast<KCalCore::Incidence::Ptr>(event1));
     QCOMPARE(arguments.at(1).value<const Calendar *>(), cal.data());
-    arguments = spy3.takeFirst();
-    QCOMPARE(arguments.at(0).value<KCalCore::Incidence::Ptr>(), static_cast<KCalCore::Incidence::Ptr>(event1));
 }
 
 #include "testcalendarobserver.moc"

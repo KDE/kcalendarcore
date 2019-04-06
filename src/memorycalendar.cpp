@@ -181,7 +181,6 @@ bool MemoryCalendar::deleteIncidence(const Incidence::Ptr &incidence)
         d->mIncidences[type].remove(uid, incidence);
         d->mIncidencesByIdentifier.remove(incidence->instanceIdentifier());
         setModified(true);
-        notifyIncidenceDeletedOld(incidence);
         if (deletionTracking()) {
             d->mDeletedIncidences[type].insert(uid, incidence);
         }

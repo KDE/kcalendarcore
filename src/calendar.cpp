@@ -979,11 +979,6 @@ void Calendar::CalendarObserver::calendarIncidenceAboutToBeDeleted(const Inciden
     Q_UNUSED(incidence);
 }
 
-void Calendar::CalendarObserver::calendarIncidenceDeleted(const Incidence::Ptr &incidence)
-{
-    Q_UNUSED(incidence);
-}
-
 void Calendar::CalendarObserver::calendarIncidenceDeleted(const Incidence::Ptr &incidence, const Calendar *calendar)
 {
     Q_UNUSED(incidence);
@@ -1123,21 +1118,6 @@ void Calendar::notifyIncidenceAboutToBeDeleted(const Incidence::Ptr &incidence)
 
     for (CalendarObserver *observer : qAsConst(d->mObservers)) {
         observer->calendarIncidenceAboutToBeDeleted(incidence);
-    }
-}
-
-void Calendar::notifyIncidenceDeletedOld(const Incidence::Ptr &incidence)
-{
-    if (!incidence) {
-        return;
-    }
-
-    if (!d->mObserversEnabled) {
-        return;
-    }
-
-    for (CalendarObserver *observer : qAsConst(d->mObservers)) {
-        observer->calendarIncidenceDeleted(incidence);
     }
 }
 

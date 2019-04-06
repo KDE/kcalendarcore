@@ -1249,14 +1249,6 @@ public:
         /**
           Notify the Observer that an Incidence has been removed.
           @param incidence is a pointer to the Incidence that was removed.
-          @deprecated this was called in between the deletion process, so the event it self it removed already,
-                      but the child events are not deleted. Better use AboutToBeDeleted or Deleted (with calendar argument) function to clearifiy.
-        */
-        KCALCORE_DEPRECATED virtual void calendarIncidenceDeleted(const Incidence::Ptr &incidence);
-
-        /**
-          Notify the Observer that an Incidence has been removed.
-          @param incidence is a pointer to the Incidence that was removed.
           @param calendar is a pointer to the calendar where the incidence was part of,
                           because the incidence was deleted, there is now way to determine the calendar
         @since 4.83.0
@@ -1324,14 +1316,6 @@ protected:
       @param incidence is a pointer to the Incidence object that will be removed.
     */
     void notifyIncidenceAboutToBeDeleted(const Incidence::Ptr &incidence);
-
-    /**
-      Let Calendar subclasses notify that they removed an Incidence.
-      @param incidence is a pointer to the Incidence object that has been removed.
-      @deprecated this signal was sent in between the deletion, so the event it self is deleted but not there exceptions.
-                  better use either AboutToBeDeleted or the Deleted signal in future implementations.
-    */
-    KCALCORE_DEPRECATED void notifyIncidenceDeletedOld(const Incidence::Ptr &incidence);
 
     /**
       Let Calendar subclasses notify that they removed an Incidence.
