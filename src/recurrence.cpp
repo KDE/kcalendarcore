@@ -1141,9 +1141,9 @@ QDateTime Recurrence::getNextDateTime(const QDateTime &preDateTime) const
         }
 
         // Assume that the rdatetime list is sorted
-        int i = d->mRDateTimes.findGT(nextDT);
-        if (i >= 0) {
-            dates << d->mRDateTimes[i];
+        const auto it = std::upper_bound(d->mRDateTimes.constBegin(), d->mRDateTimes.constEnd(), nextDT);
+        if (it != d->mRDateTimes.constEnd()) {
+            dates << *it;
         }
 
         QDateTime kdt(startDateTime());

@@ -1508,9 +1508,9 @@ bool RecurrenceRule::recursOn(const QDate &qd, const QTimeZone &timeZone) const
     // but BYSETPOS selects only one of these matching dates!
     do {
         auto dts = d->datesForInterval(interval, recurrenceType());
-        int i = dts.findGE(start);
-        if (i >= 0) {
-            return dts[i] <= end;
+        const auto it = std::lower_bound(dts.constBegin(), dts.constEnd(), start);
+        if (it != dts.constEnd()) {
+            return *it <= end;
         }
         interval.increase(recurrenceType(), frequency());
     } while (interval.intervalDateTime(recurrenceType()).isValid() &&
@@ -1689,18 +1689,18 @@ QDateTime RecurrenceRule::getNextDate(const QDateTime &preDate) const
         if (!d->mCached) {
             d->buildCache();
         }
-        int i = d->mCachedDates.findGT(fromDate);
-        if (i >= 0) {
-            return d->mCachedDates[i];
+        const auto it = std::upper_bound(d->mCachedDates.constBegin(), d->mCachedDates.constEnd(), fromDate);
+        if (it != d->mCachedDates.constEnd()) {
+            return *it;
         }
     }
 
     QDateTime end = endDt();
     Constraint interval(d->getNextValidDateInterval(fromDate, recurrenceType()));
-    auto dts = d->datesForInterval(interval, recurrenceType());
-    int i = dts.findGT(fromDate);
-    if (i >= 0) {
-        return (d->mDuration < 0 || dts[i] <= end) ? dts[i] : QDateTime();
+    const auto dts = d->datesForInterval(interval, recurrenceType());
+    const auto it = std::upper_bound(dts.begin(), dts.end(), fromDate);
+    if (it != dts.end()) {
+        return (d->mDuration < 0 || *it <= end) ? *it : QDateTime();
     }
     interval.increase(recurrenceType(), frequency());
     if (d->mDuration >= 0 && interval.intervalDateTime(recurrenceType()) > end) {
@@ -1784,17 +1784,13 @@ SortableList<QDateTime> RecurrenceRule::timesInInterval(const QDateTime &dtStart
         if (d->mCachedDateEnd.isValid() && start > d->mCachedDateEnd) {
             return result;    // beyond end of recurrence
         }
-        int i = d->mCachedDates.findGE(start);
-        if (i >= 0) {
-            int iend = d->mCachedDates.findGT(enddt, i);
-            if (iend < 0) {
-                iend = d->mCachedDates.count();
-            } else {
+        const auto it = std::lower_bound(d->mCachedDates.constBegin(), d->mCachedDates.constEnd(), start);
+        if (it != d->mCachedDates.constEnd()) {
+            const auto itEnd = std::upper_bound(it, d->mCachedDates.constEnd(), enddt);
+            if (itEnd != d->mCachedDates.constEnd()) {
                 done = true;
             }
-            while (i < iend) {
-                result += d->mCachedDates[i++];
-            }
+            std::copy(it, itEnd, std::back_inserter(result));
         }
         if (d->mCachedDateEnd.isValid()) {
             done = true;
@@ -1813,22 +1809,16 @@ SortableList<QDateTime> RecurrenceRule::timesInInterval(const QDateTime &dtStart
     int loop = 0;
     do {
         auto dts = d->datesForInterval(interval, recurrenceType());
-        int i = 0;
-        int iend = dts.count();
+        auto it = dts.begin();
+        auto itEnd = dts.end();
         if (loop == 0) {
-            i = dts.findGE(st);
-            if (i < 0) {
-                i = iend;
-            }
+            it = std::lower_bound(dts.begin(), dts.end(), st);
         }
-        int j = dts.findGT(enddt, i);
-        if (j >= 0) {
-            iend = j;
+        itEnd = std::upper_bound(it, dts.end(), enddt);
+        if (itEnd != dts.end()) {
             loop = LOOP_LIMIT;
         }
-        while (i < iend) {
-            result += dts[i++];
-        }
+        std::copy(it, itEnd, std::back_inserter(result));
         // Increase the interval.
         interval.increase(recurrenceType(), frequency());
     } while (++loop < LOOP_LIMIT &&
