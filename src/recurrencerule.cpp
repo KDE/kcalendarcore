@@ -22,6 +22,7 @@
 #include "recurrencerule.h"
 #include "utils.h"
 #include "kcalcore_debug.h"
+#include "recurrencehelper_p.h"
 
 #include <QStringList>
 #include <QTime>
@@ -2003,8 +2004,7 @@ SortableList<QDateTime> RecurrenceRule::Private::datesForInterval(const Constrai
         }
     }
     // Sort it so we can apply the BySetPos. Also some logic relies on this being sorted
-    std::sort(lst.begin(), lst.end());
-    lst.erase(std::unique(lst.begin(), lst.end()), lst.end());
+    sortAndRemoveDuplicates(lst);
 
     /*if ( lst.isEmpty() ) {
       qCDebug(KCALCORE_LOG) << "         No Dates in Interval";
@@ -2030,8 +2030,7 @@ SortableList<QDateTime> RecurrenceRule::Private::datesForInterval(const Constrai
                 lst.append(tmplst[pos]);
             }
         }
-        std::sort(lst.begin(), lst.end());
-        lst.erase(std::unique(lst.begin(), lst.end()), lst.end());
+        sortAndRemoveDuplicates(lst);
     }
 
     return lst;
