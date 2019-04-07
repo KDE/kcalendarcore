@@ -341,7 +341,6 @@ bool Recurrence::recursOn(const QDate &qd, const QTimeZone &timeZone) const
     }
 
     int i, end;
-    TimeList tms;
     // For all-day events a matching exrule excludes the whole day
     // since exclusions take precedence over inclusions, we know it can't occur on that day.
     if (allDay()) {
