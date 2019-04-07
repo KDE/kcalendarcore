@@ -1,5 +1,5 @@
 maintainer: knauss
-description: The KDE calendar access library 
+description: The KDE calendar access library
 tier: 1
 type: functional
 platforms:
@@ -9,10 +9,8 @@ deprecated: false
 release: false
 libraries:
  - qmake: KCalCore
-   cmake: "KF5::CalendarCore"
+ - cmake: "KF5::CalendarCore"
 cmakename: KF5CalendarCore
 
 public_lib: true
 group: kdepim
-platforms:
-    - name: All

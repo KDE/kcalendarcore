@@ -30,7 +30,6 @@ class QDataStream;
 
 namespace KCalCore {
 
-// TODO: PORTING-helper only, remove once KDateTime is gone
 /**
  * Helpers to retain backwards compatibility of binary serialization.
  */
