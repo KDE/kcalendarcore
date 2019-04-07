@@ -667,14 +667,19 @@ bool Constraint::readDateTime(const QDateTime &dt, RecurrenceRule::PeriodType ty
     // Really fall through! Only weekly needs to be treated differently!
     case RecurrenceRule::rSecondly:
         second = dt.time().second();
+        Q_FALLTHROUGH();
     case RecurrenceRule::rMinutely:
         minute = dt.time().minute();
+        Q_FALLTHROUGH();
     case RecurrenceRule::rHourly:
         hour = dt.time().hour();
+        Q_FALLTHROUGH();
     case RecurrenceRule::rDaily:
         day = dt.date().day();
+        Q_FALLTHROUGH();
     case RecurrenceRule::rMonthly:
         month = dt.date().month();
+        Q_FALLTHROUGH();
     case RecurrenceRule::rYearly:
         year = dt.date().year();
         break;
@@ -1269,24 +1274,29 @@ void RecurrenceRule::Private::buildConstraints()
                 mByYearDays.isEmpty() && mByMonths.isEmpty()) {
             fixConstraint(setMonth, mDateStart.date().month());
         }
+        Q_FALLTHROUGH();
     case rMonthly:
         if (mByDays.isEmpty() && mByWeekNumbers.isEmpty() &&
                 mByYearDays.isEmpty() && mByMonthDays.isEmpty()) {
             fixConstraint(setDay, mDateStart.date().day());
         }
+        Q_FALLTHROUGH();
     case rWeekly:
     case rDaily:
         if (mByHours.isEmpty()) {
             fixConstraint(setHour, mDateStart.time().hour());
         }
+        Q_FALLTHROUGH();
     case rHourly:
         if (mByMinutes.isEmpty()) {
             fixConstraint(setMinute, mDateStart.time().minute());
         }
+        Q_FALLTHROUGH();
     case rMinutely:
         if (mBySeconds.isEmpty()) {
             fixConstraint(setSecond, mDateStart.time().second());
         }
+        Q_FALLTHROUGH();
     case rSecondly:
     default:
         break;
@@ -1848,8 +1858,10 @@ Constraint RecurrenceRule::Private::getPreviousValidDateInterval(const QDateTime
     // by the factor 60 and 60*60! Same for weekly and daily (factor 7)
     case rHourly:
         modifier *= 60;
+        Q_FALLTHROUGH();
     case rMinutely:
         modifier *= 60;
+        Q_FALLTHROUGH();
     case rSecondly:
         periods = static_cast<int>(start.secsTo(toDate) / modifier);
         // round it down to the next lower multiple of frequency:
@@ -1862,6 +1874,7 @@ Constraint RecurrenceRule::Private::getPreviousValidDateInterval(const QDateTime
         toDate = toDate.addDays(-(7 + toDate.date().dayOfWeek() - mWeekStart) % 7);
         start = start.addDays(-(7 + start.date().dayOfWeek() - mWeekStart) % 7);
         modifier *= 7;
+        Q_FALLTHROUGH();
     case rDaily:
         periods = start.daysTo(toDate) / modifier;
         // round it down to the next lower multiple of frequency:
@@ -1920,8 +1933,10 @@ Constraint RecurrenceRule::Private::getNextValidDateInterval(const QDateTime &dt
     // by the factor 60 and 60*60! Same for weekly and daily (factor 7)
     case rHourly:
         modifier *= 60;
+        Q_FALLTHROUGH();
     case rMinutely:
         modifier *= 60;
+        Q_FALLTHROUGH();
     case rSecondly:
         periods = static_cast<int>(start.secsTo(toDate) / modifier);
         periods = qMax(0L, periods);
@@ -1935,6 +1950,7 @@ Constraint RecurrenceRule::Private::getNextValidDateInterval(const QDateTime &dt
         toDate = toDate.addDays(-(7 + toDate.date().dayOfWeek() - mWeekStart) % 7);
         start = start.addDays(-(7 + start.date().dayOfWeek() - mWeekStart) % 7);
         modifier *= 7;
+        Q_FALLTHROUGH();
     case rDaily:
         periods = start.daysTo(toDate) / modifier;
         periods = qMax(0L, periods);
