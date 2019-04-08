@@ -46,12 +46,12 @@ namespace KCalCore
   This is not an email message attachment.
 
   Calendar Incidence attachments consist of:
-  - A <a href="http://en.wikipedia.org/wiki/Uniform_Resource_Identifier">
+  - A <a href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier">
     Uniform Resource Identifier (URI)</a>
     or a
-    <a href="http://en.wikipedia.org/wiki/Base64#MIME">base64 encoded</a>
+    <a href="https://en.wikipedia.org/wiki/Base64#MIME">base64 encoded</a>
     binary blob.
-  - A <a href="http://en.wikipedia.org/wiki/MIME">
+  - A <a href="https://en.wikipedia.org/wiki/MIME">
     Multipurpose Internet Mail Extensions (MIME)</a> type.
 
   This class is used to associate files (local or remote) or other resources
