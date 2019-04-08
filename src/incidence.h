@@ -368,7 +368,7 @@ public:
 
     /**
       Returns the incidence categories as a list of strings.
-      @see setCategories( const QStringList &), setCategories( Const QString &).
+      @see setCategories( const QStringList &), setCategories( const QString &).
     */
     Q_REQUIRED_RESULT QStringList categories() const;
 

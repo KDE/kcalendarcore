@@ -255,8 +255,6 @@ public:
 
       @param oldZone the time zone which provides the clock times
       @param newZone the new time zone
-
-      @see isLocalTime()
     */
     void shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone);
 
@@ -625,7 +623,7 @@ public:
 
       @return true if the Event was successfully remove; false otherwise.
 
-      @see addEvent(), deleteAllEvents()
+      @see addEvent()
     */
     virtual bool deleteEvent(const Event::Ptr &event) = 0;
 
@@ -839,7 +837,7 @@ public:
 
       @return true if the Todo was successfully removed; false otherwise.
 
-      @see addTodo(), deleteAllTodos()
+      @see addTodo()
     */
     virtual bool deleteTodo(const Todo::Ptr &todo) = 0;
 
@@ -1014,7 +1012,7 @@ public:
 
       @return true if the Journal was successfully removed; false otherwise.
 
-      @see addJournal(), deleteAllJournals()
+      @see addJournal()
     */
     virtual bool deleteJournal(const Journal::Ptr &journal) = 0;
 
