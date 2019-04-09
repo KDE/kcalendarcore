@@ -41,8 +41,12 @@
 #include <QString>
 #include <QStringList>
 
+#include <memory>
+
 namespace KCalCore
 {
+
+class ExceptionPrivate;
 
 /**
   Exception base class, currently used as a fancy kind of error code
@@ -106,14 +110,8 @@ public:
     */
     Q_REQUIRED_RESULT virtual QStringList arguments() const;
 
-protected:
-    /**
-      The current exception code.
-    */
-    ErrorCode mCode;
-
-    /** Arguments to pass to i18n(). */
-    QStringList mArguments;
+private:
+    std::unique_ptr<ExceptionPrivate> d;
 };
 
 } // namespace

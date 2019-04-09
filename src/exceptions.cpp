@@ -38,9 +38,24 @@
 
 using namespace KCalCore;
 
+namespace KCalCore {
+class ExceptionPrivate {
+public:
+    /**
+      The current exception code.
+    */
+    Exception::ErrorCode mCode;
+
+    /** Arguments to pass to i18n(). */
+    QStringList mArguments;
+};
+}
+
 Exception::Exception(const ErrorCode code, const QStringList &arguments)
-    : mCode(code), mArguments(arguments)
+    : d(new ExceptionPrivate)
 {
+    d->mCode = code;
+    d->mArguments = arguments;
 }
 
 Exception::~Exception()
@@ -49,11 +64,10 @@ Exception::~Exception()
 
 Exception::ErrorCode Exception::code() const
 {
-    return mCode;
+    return d->mCode;
 }
 
 QStringList Exception::arguments() const
 {
-    return mArguments;
+    return d->mArguments;
 }
-
