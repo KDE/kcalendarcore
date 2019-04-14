@@ -22,14 +22,13 @@
   Boston, MA 02110-1301, USA.
 */
 
-#ifndef KCALCORE_CALENDAR_P_H_
-#define KCALCORE_CALENDAR_P_H_
+#ifndef KCALCORE_CALENDAR_P_H
+#define KCALCORE_CALENDAR_P_H
 
 #include "calendar.h"
 #include "calfilter.h"
 
 namespace KCalCore {
-
 
 /**
   Private class that helps to provide binary compatibility between releases.

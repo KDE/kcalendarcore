@@ -19,8 +19,8 @@
   Boston, MA 02110-1301, USA.
 */
 
-#ifndef KCALCORE_UTILS_H_
-#define KCALCORE_UTILS_H_
+#ifndef KCALCORE_UTILS_H
+#define KCALCORE_UTILS_H
 
 #include "kcalcore_export.h"
 
@@ -41,7 +41,6 @@ void deserializeQDateTimeList(QDataStream &in, QList<QDateTime> &list);
 
 void serializeQTimeZoneAsSpec(QDataStream &out, const QTimeZone &tz);
 void deserializeSpecAsQTimeZone(QDataStream &in, QTimeZone &tz);
-
 
 }
 
