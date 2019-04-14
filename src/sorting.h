@@ -19,8 +19,8 @@
   the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
   Boston, MA 02110-1301, USA.
 */
-#ifndef KCALCORE_SORTING_P_H
-#define KCALCORE_SORTING_P_H
+#ifndef KCALCORE_SORTING_H
+#define KCALCORE_SORTING_H
 
 #include "event.h"
 #include "journal.h"

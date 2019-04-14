@@ -23,8 +23,8 @@
   Boston, MA 02110-1301, USA.
 */
 
-#ifndef KCALCORE_VISITOR_P_H
-#define KCALCORE_VISITOR_P_H
+#ifndef KCALCORE_VISITOR_H
+#define KCALCORE_VISITOR_H
 
 #include "event.h"
 #include "journal.h"
