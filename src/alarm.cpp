@@ -836,10 +836,23 @@ int Alarm::locationRadius() const
 QDataStream &KCalCore::operator<<(QDataStream &out, const KCalCore::Alarm::Ptr &a)
 {
     if (a) {
-        out << ((quint32)a->d->mType) << a->d->mAlarmSnoozeTime << a->d->mAlarmRepeatCount << a->d->mEndOffset << a->d->mHasTime
-            << a->d->mAlarmEnabled << a->d->mHasLocationRadius << a->d->mLocationRadius << a->d->mOffset;
+        out << ((quint32)a->d->mType)
+            << a->d->mAlarmSnoozeTime
+            << a->d->mAlarmRepeatCount
+            << a->d->mEndOffset
+            << a->d->mHasTime
+            << a->d->mAlarmEnabled
+            << a->d->mHasLocationRadius
+            << a->d->mLocationRadius
+            << a->d->mOffset;
+
         serializeQDateTimeAsKDateTime(out, a->d->mAlarmTime);
-        out << a->d->mFile << a->d->mMailSubject << a->d->mDescription << a->d->mMailAttachFiles << a->d->mMailAddresses;
+
+        out << a->d->mFile
+            << a->d->mMailSubject
+            << a->d->mDescription
+            << a->d->mMailAttachFiles
+            << a->d->mMailAddresses;
     }
     return out;
 }

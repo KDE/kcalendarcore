@@ -194,8 +194,9 @@ QTimeZone Calendar::Private::timeZoneIdSpec(const QByteArray &timeZoneId)
         return QTimeZone::utc();
     }
     auto tz = QTimeZone(timeZoneId);
-    if (tz.isValid())
+    if (tz.isValid()) {
         return tz;
+    }
     return QTimeZone::systemTimeZone();
 }
 //@endcond
@@ -461,7 +462,6 @@ Event::List Calendar::sortEvents(const Event::List &eventList,
                                  EventSortField sortField,
                                  SortDirection sortDirection)
 {
-
     if (eventList.isEmpty()) {
         return Event::List();
     }
@@ -838,7 +838,9 @@ void Calendar::setupRelations(const Incidence::Ptr &forincidence)
             // look for hierarchy loops
             if (isAncestorOf(forincidence, parent)) {
                 forincidence->setRelatedTo(QString());
-                qCWarning(KCALCORE_LOG) << "hierarchy loop beetween " << forincidence->uid() << " and " << parent->uid();
+                qCWarning(KCALCORE_LOG) << "hierarchy loop between "
+                                        << forincidence->uid()
+                                        << " and " << parent->uid();
             } else {
                 d->mIncidenceRelations[parent->uid()].append(forincidence);
             }
@@ -1045,7 +1047,6 @@ bool Calendar::reload()
 
 void Calendar::incidenceUpdated(const QString &uid, const QDateTime &recurrenceId)
 {
-
     Incidence::Ptr inc = incidence(uid, recurrenceId);
 
     if (!inc) {

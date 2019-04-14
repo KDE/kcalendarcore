@@ -24,7 +24,6 @@
 #include <QTimeZone>
 #include <QDataStream>
 
-
 // To remain backwards compatible we need to (de)serialize QDateTime the way KDateTime
 // was (de)serialized
 void KCalCore::serializeQDateTimeAsKDateTime(QDataStream &out, const QDateTime &dt)
@@ -80,7 +79,7 @@ void KCalCore::deserializeKDateTimeAsQDateTime(QDataStream &in, QDateTime &dt)
     in >> flags;
 }
 
-void KCalCore::serializeQTimeZoneAsSpec(QDataStream &out, const QTimeZone& tz)
+void KCalCore::serializeQTimeZoneAsSpec(QDataStream &out, const QTimeZone &tz)
 {
     out << static_cast<quint8>('z') << (tz.isValid() ? QString::fromUtf8(tz.id()) : QString());
 }
@@ -120,7 +119,7 @@ void KCalCore::serializeQDateTimeList(QDataStream &out, const QList<QDateTime> &
     }
 }
 
-void KCalCore::deserializeQDateTimeList(QDataStream& in, QList<QDateTime>& list)
+void KCalCore::deserializeQDateTimeList(QDataStream &in, QList<QDateTime> &list)
 {
     int size;
     in >> size;

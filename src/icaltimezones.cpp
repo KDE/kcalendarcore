@@ -192,7 +192,6 @@ void ICalTimeZoneParser::updateTzEarliestDate(const IncidenceBase::Ptr &incidenc
     }
 }
 
-
 icalcomponent *ICalTimeZoneParser::icalcomponentFromQTimeZone(const QTimeZone &tz,
                                                               const QDateTime &earliest)
 {

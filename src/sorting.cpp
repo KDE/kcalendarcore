@@ -123,9 +123,9 @@ DateTimeComparison compare(const QDateTime &dt1, bool isAllDay1, const QDateTime
     QDateTime start1, start2;
     //FIXME When secondOccurrence is available in QDateTime
     //const bool conv = (!d->equalSpec(*other.d) || d->secondOccurrence() != other.d->secondOccurrence());
-    const bool conv = dt1.timeSpec() != dt2.timeSpec()
-                      || (dt1.timeSpec() == Qt::OffsetFromUTC && dt1.offsetFromUtc() != dt2.offsetFromUtc())
-                      || (dt1.timeSpec() == Qt::TimeZone && dt1.timeZone() != dt2.timeZone());
+    const bool conv =
+        dt1.timeSpec() != dt2.timeSpec() ||
+        (dt1.timeSpec() == Qt::OffsetFromUTC && dt1.offsetFromUtc() != dt2.offsetFromUtc()) || (dt1.timeSpec() == Qt::TimeZone && dt1.timeZone() != dt2.timeZone());
     if (conv) {
         // Different time specs or one is a time which occurs twice,
         // so convert to UTC before comparing
@@ -167,20 +167,24 @@ DateTimeComparison compare(const QDateTime &dt1, bool isAllDay1, const QDateTime
                 end2 = dt2;
             }
         }
-        if (start1 == start2)
+
+        if (start1 == start2) {
             return !isAllDay1 ? AtStart : (end1 == end2) ? Equal
                    : (end1 < end2) ? static_cast<DateTimeComparison>(AtStart | Inside)
                    : static_cast<DateTimeComparison>(AtStart | Inside | AtEnd | After);
-        if (start1 < start2)
+        }
+
+        if (start1 < start2) {
             return (end1 < start2) ? Before
                    : (end1 == end2) ? static_cast<DateTimeComparison>(Before | AtStart | Inside | AtEnd)
                    : (end1 == start2) ? static_cast<DateTimeComparison>(Before | AtStart)
                    : (end1 < end2) ? static_cast<DateTimeComparison>(Before | AtStart | Inside) : Outside;
-        else
+        } else {
             return (start1 > end2) ? After
                    : (start1 == end2) ? (end1 == end2 ? AtEnd : static_cast<DateTimeComparison>(AtEnd | After))
                    : (end1 == end2) ? static_cast<DateTimeComparison>(Inside | AtEnd)
                    : (end1 < end2) ? Inside : static_cast<DateTimeComparison>(Inside | AtEnd | After);
+        }
     }
     return (start1 == start2) ? Equal : (start1 < start2) ? Before : After;
 }
@@ -249,7 +253,6 @@ bool KCalCore::Journals::dateMoreThan(const Journal::Ptr &j1, const Journal::Ptr
 
 bool KCalCore::Journals::summaryLessThan(const Journal::Ptr &j1, const Journal::Ptr &j2)
 {
-
     return QString::compare(j1->summary(), j2->summary(), Qt::CaseInsensitive) < 0;
 }
 
@@ -375,7 +378,8 @@ bool KCalCore::Todos::createdMoreThan(const Todo::Ptr &t1, const Todo::Ptr &t2)
 bool KCalCore::Incidences::dateLessThan(const Incidence::Ptr &i1,
                                         const Incidence::Ptr &i2)
 {
-    DateTimeComparison res = compare(i1->dateTime(Incidence::RoleSort), i1->allDay(), i2->dateTime(Incidence::RoleSort), i2->allDay());
+    DateTimeComparison res = compare(i1->dateTime(Incidence::RoleSort), i1->allDay(),
+                                     i2->dateTime(Incidence::RoleSort), i2->allDay());
     if (res == Equal) {
         return Incidences::summaryLessThan(i1, i2);
     } else {
@@ -386,7 +390,8 @@ bool KCalCore::Incidences::dateLessThan(const Incidence::Ptr &i1,
 bool KCalCore::Incidences::dateMoreThan(const Incidence::Ptr &i1,
                                         const Incidence::Ptr &i2)
 {
-    DateTimeComparison res = compare(i1->dateTime(Incidence::RoleSort), i1->allDay(), i2->dateTime(Incidence::RoleSort), i2->allDay());
+    DateTimeComparison res = compare(i1->dateTime(Incidence::RoleSort), i1->allDay(),
+                                     i2->dateTime(Incidence::RoleSort), i2->allDay());
     if (res == Equal) {
         return Incidences::summaryMoreThan(i1, i2);
     } else {

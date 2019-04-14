@@ -37,8 +37,6 @@
 
 namespace KCalCore
 {
-
-
 /**
   @brief
   This class provides a calendar stored in memory.
@@ -292,7 +290,8 @@ public:
     /**
       @copydoc Calendar::alarms()
     */
-    Q_REQUIRED_RESULT Alarm::List alarms(const QDateTime &from, const QDateTime &to, bool excludeBlockedAlarms = false) const override;
+    Q_REQUIRED_RESULT Alarm::List alarms(const QDateTime &from, const QDateTime &to,
+                                         bool excludeBlockedAlarms = false) const override;
 
     /**
       Return a list of Alarms that occur before the specified timestamp.

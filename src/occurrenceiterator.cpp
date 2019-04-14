@@ -114,14 +114,16 @@ public:
                 const auto lstInstances = calendar.instances(inc);
                 for (const Incidence::Ptr &exception : lstInstances) {
                     if (incidenceRecStart.isValid()) {
-                        recurrenceIds.insert(exception->recurrenceId().toTimeZone(incidenceRecStart.timeZone()), exception);
+                        recurrenceIds.insert(
+                            exception->recurrenceId().toTimeZone(incidenceRecStart.timeZone()),
+                            exception);
                     }
                 }
                 const auto occurrences = inc->recurrence()->timesInInterval(start, end);
                 Incidence::Ptr incidence(inc), lastInc(inc);
                 qint64 offset(0), lastOffset(0);
                 QDateTime occurrenceStartDate;
-                for(auto recurrenceId : qAsConst(occurrences)) {
+                for (auto recurrenceId : qAsConst(occurrences)) {
                     occurrenceStartDate = recurrenceId;
 
                     bool resetIncidence = false;
@@ -161,7 +163,6 @@ public:
     }
 };
 //@endcond
-
 
 /**
  * Right now there is little point in the iterator, but:

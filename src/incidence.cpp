@@ -280,13 +280,14 @@ bool Incidence::equals(const IncidenceBase &incidence) const
     if (!recurrenceEqual) {
         recurrence(); // create if doesn't exist
         i2->recurrence(); // create if doesn't exist
-        recurrenceEqual = d->mRecurrence != nullptr
-                          && i2->d->mRecurrence != nullptr
-                          && *d->mRecurrence == *i2->d->mRecurrence;
+        recurrenceEqual = d->mRecurrence != nullptr &&
+                          i2->d->mRecurrence != nullptr &&
+                          *d->mRecurrence == *i2->d->mRecurrence;
     }
 
     if (d->mHasGeo == i2->d->mHasGeo) {
-        if (d->mHasGeo && (!qFuzzyCompare(d->mGeoLatitude, i2->d->mGeoLatitude) || !qFuzzyCompare(d->mGeoLongitude, i2->d->mGeoLongitude))) {
+        if (d->mHasGeo && (!qFuzzyCompare(d->mGeoLatitude, i2->d->mGeoLatitude) ||
+          !qFuzzyCompare(d->mGeoLongitude, i2->d->mGeoLongitude))) {
             return false;
         }
     } else {
@@ -302,8 +303,7 @@ bool Incidence::equals(const IncidenceBase &incidence) const
         && stringCompare(relatedTo(), i2->relatedTo())
         && resources() == i2->resources()
         && d->mStatus == i2->d->mStatus
-        && (d->mStatus == StatusNone
-            || stringCompare(d->mStatusString, i2->d->mStatusString))
+        && (d->mStatus == StatusNone || stringCompare(d->mStatusString, i2->d->mStatusString))
         && secrecy() == i2->secrecy()
         && priority() == i2->priority()
         && stringCompare(location(), i2->location())

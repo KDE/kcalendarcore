@@ -181,8 +181,8 @@ void FreeBusy::Private::init(const Event::List &eventList,
                     }
                 }
             }
-
         }
+
         // Non-recurring events
         addLocalPeriod(q, event->dtStart(), event->dtEnd());
     }

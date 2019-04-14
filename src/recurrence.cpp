@@ -410,7 +410,8 @@ bool Recurrence::recursAt(const QDateTime &dt) const
     }
 
     // Check explicit recurrences, then rrules.
-    if (startDateTime() == dtrecur || std::binary_search(d->mRDateTimes.constBegin(), d->mRDateTimes.constEnd(), dtrecur)) {
+    if (startDateTime() == dtrecur ||
+        std::binary_search(d->mRDateTimes.constBegin(), d->mRDateTimes.constEnd(), dtrecur)) {
         return true;
     }
     for (i = 0, end = d->mRRules.count();  i < end;  ++i) {

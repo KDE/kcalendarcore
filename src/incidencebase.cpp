@@ -115,7 +115,9 @@ void IncidenceBase::Private::init(const Private &other)
 
     mAttendees.clear();
     mAttendees.reserve(other.mAttendees.count());
-    for (Attendee::List::ConstIterator it = other.mAttendees.constBegin(), end = other.mAttendees.constEnd(); it != end; ++it) {
+    for (Attendee::List::ConstIterator it = other.mAttendees.constBegin(),
+         end = other.mAttendees.constEnd();
+         it != end; ++it) {
         mAttendees.append(Attendee::Ptr(new Attendee(*(*it))));
     }
     mUrl = other.mUrl;
