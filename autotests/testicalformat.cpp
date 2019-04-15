@@ -95,7 +95,7 @@ void ICalFormatTest::testCharsets()
 
     // Test fromRawString()
     MemoryCalendar::Ptr calendar3(new MemoryCalendar(QTimeZone::utc()));
-    format.fromRawString(calendar3, bytesFromFile);
+    QVERIFY(format.fromRawString(calendar3, bytesFromFile));
     QVERIFY(calendar3->incidences().count() == 1);
     QVERIFY(*calendar3->incidences().at(0) == *event);
 

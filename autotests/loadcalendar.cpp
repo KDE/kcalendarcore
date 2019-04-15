@@ -41,7 +41,10 @@ int main(int argc, char **argv)
 
     MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
     FileStorage store(cal, QStringLiteral("cal"));
-    store.load();
+    if (!store.load()) {
+        qWarning() << "Error storing into memory calendar";
+        return 1;
+    }
 
     Todo::List todoList;
 

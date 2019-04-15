@@ -668,7 +668,6 @@ Event::List MemoryCalendar::rawEvents(const QDate &start,
     const auto ts = timeZone.isValid() ? timeZone : this->timeZone();
     QDateTime st(start, QTime(0, 0, 0), ts);
     QDateTime nd(end, QTime(23, 59, 59, 999), ts);
-    QDateTime yesterStart = st.addDays(-1);
 
     // Get non-recurring events
     QHashIterator<QString, Incidence::Ptr>i(d->mIncidences[Incidence::TypeEvent]);

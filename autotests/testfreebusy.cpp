@@ -63,7 +63,9 @@ void FreeBusyTest::testAddSort()
     const QDateTime thirdfb1DateTime(QDate(2007, 6, 27), QTime(7, 0, 0), Qt::UTC);
     fb1.addPeriod(thirdfb1DateTime, QDateTime(QDate(2007, 6, 27), QTime(8, 0, 0), Qt::UTC));
 
-    QCOMPARE(fb1.busyPeriods().last().end(), QDateTime(QDate(2007, 10, 27), QTime(8, 0, 0), Qt::UTC));
+    Period::List busyPeriods = fb1.busyPeriods();
+    QVERIFY(!busyPeriods.isEmpty());
+    QCOMPARE(busyPeriods.last().end(), QDateTime(QDate(2007, 10, 27), QTime(8, 0, 0), Qt::UTC));
 }
 
 void FreeBusyTest::testAssign()

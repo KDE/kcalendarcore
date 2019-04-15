@@ -87,8 +87,6 @@ void TestOccurrenceIterator::testEventsAndTodos()
     KCalCore::MemoryCalendar calendar(QTimeZone::utc());
 
     QDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), Qt::UTC);
-    QDateTime end(QDate(2013, 03, 10), QTime(11, 0, 0), Qt::UTC);
-
     QDateTime actualEnd(QDate(2013, 03, 13), QTime(11, 0, 0), Qt::UTC);
 
     KCalCore::Event::Ptr event(new KCalCore::Event());
@@ -129,8 +127,6 @@ void TestOccurrenceIterator::testFilterCompletedTodos()
     calendar.filter()->setCriteria(KCalCore::CalFilter::HideCompletedTodos);
 
     QDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), Qt::UTC);
-    QDateTime end(QDate(2013, 03, 10), QTime(11, 0, 0), Qt::UTC);
-
     QDateTime actualEnd(QDate(2013, 03, 13), QTime(11, 0, 0), Qt::UTC);
 
     KCalCore::Todo::Ptr todo(new KCalCore::Todo());

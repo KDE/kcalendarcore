@@ -149,7 +149,7 @@ void AttendeeTest::testDataStreamOut()
 
     Person::Ptr person;
     bool rsvp;
-    QString name, email, delegate, delegator, cuType, uid;
+    QString delegate, delegator, cuType, uid;
     CustomProperties customProperties;
     Attendee::Role role;
     Attendee::PartStat status;

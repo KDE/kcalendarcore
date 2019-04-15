@@ -63,7 +63,7 @@ void CreatedDateCompatTest::testCompat32()
 {
     KCalCore::MemoryCalendar::Ptr cal(new KCalCore::MemoryCalendar(QTimeZone::utc()));
     KCalCore::ICalFormat format;
-    format.fromRawString(cal, QByteArray(icalFile32));
+    QVERIFY(format.fromRawString(cal, QByteArray(icalFile32)));
     KCalCore::Event::Ptr event = cal->event(QStringLiteral("uid"));
     QVERIFY(event);
     QCOMPARE(event->created(),
@@ -74,7 +74,7 @@ void CreatedDateCompatTest::testCompat33()
 {
     KCalCore::MemoryCalendar::Ptr cal(new KCalCore::MemoryCalendar(QTimeZone::utc()));
     KCalCore::ICalFormat format;
-    format.fromRawString(cal, QByteArray(icalFile33));
+    QVERIFY(format.fromRawString(cal, QByteArray(icalFile33)));
     KCalCore::Event::Ptr event = cal->event(QStringLiteral("uid"));
     QVERIFY(event);
     QCOMPARE(event->created(),
