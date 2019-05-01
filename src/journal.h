@@ -32,7 +32,6 @@
 
 #include "kcalcore_export.h"
 #include "incidence.h"
-#include "supertrait.h"
 
 namespace KCalCore
 {
@@ -53,6 +52,11 @@ public:
       List of journals.
     */
     typedef QVector<Ptr> List;
+
+    ///@cond PRIVATE
+    // needed for Akonadi polymorphic payload support
+    typedef Incidence SuperClass;
+    ///@endcond
 
     /**
       Constructs an empty journal.
@@ -168,14 +172,6 @@ private:
 Q_DECLARE_TYPEINFO(KCalCore::Journal::Ptr, Q_MOVABLE_TYPE);
 Q_DECLARE_METATYPE(KCalCore::Journal::Ptr)
 Q_DECLARE_METATYPE(KCalCore::Journal *)
-//@endcond
-
-//@cond PRIVATE
-namespace Akonadi
-{
-// super class trait specialization
-template <> struct SuperClass<KCalCore::Journal> : public SuperClassTrait<KCalCore::Incidence> {};
-}
 //@endcond
 
 #endif

@@ -33,7 +33,6 @@
 
 #include "kcalcore_export.h"
 #include "incidence.h"
-#include "supertrait.h"
 
 namespace KCalCore
 {
@@ -54,6 +53,11 @@ public:
       List of to-dos.
     */
     typedef QVector<Ptr> List;
+
+    ///@cond PRIVATE
+    // needed for Akonadi polymorphic payload support
+    typedef Incidence SuperClass;
+    ///@endcond
 
     /**
       Constructs an empty to-do.
@@ -358,12 +362,6 @@ private:
 Q_DECLARE_TYPEINFO(KCalCore::Todo::Ptr, Q_MOVABLE_TYPE);
 Q_DECLARE_METATYPE(KCalCore::Todo::Ptr)
 Q_DECLARE_METATYPE(KCalCore::Todo *)
-
-namespace Akonadi
-{
-// super class trait specialization
-template <> struct SuperClass<KCalCore::Todo> : public SuperClassTrait<KCalCore::Incidence> {};
-}
 //@endcond
 
 #endif

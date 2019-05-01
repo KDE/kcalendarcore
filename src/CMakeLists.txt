@@ -107,7 +107,6 @@ ecm_generate_headers(KCalCore_CamelCase_HEADERS
 install(FILES
   ${CMAKE_CURRENT_BINARY_DIR}/kcalcore_export.h
   ${KCalCore_HEADERS}
-  supertrait.h
   DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}/KCalCore/kcalcore
   COMPONENT Devel
 )

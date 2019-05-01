@@ -30,7 +30,6 @@
 
 #include "kcalcore_export.h"
 #include "incidence.h"
-#include "supertrait.h"
 
 #include <QTimeZone>
 
@@ -65,6 +64,11 @@ public:
       List of events.
     */
     typedef QVector<Ptr> List;
+
+    ///@cond PRIVATE
+    // needed for Akonadi polymorphic payload support
+    typedef Incidence SuperClass;
+    ///@endcond
 
     /**
       Constructs an event.
@@ -272,14 +276,6 @@ private:
 Q_DECLARE_TYPEINFO(KCalCore::Event::Ptr, Q_MOVABLE_TYPE);
 Q_DECLARE_METATYPE(KCalCore::Event::Ptr)
 Q_DECLARE_METATYPE(KCalCore::Event *)
-//@endcond
-
-//@cond PRIVATE
-namespace Akonadi
-{
-// super class trait specialization
-template <> struct SuperClass<KCalCore::Event> : public SuperClassTrait<KCalCore::Incidence> {};
-}
 //@endcond
 
 #endif
