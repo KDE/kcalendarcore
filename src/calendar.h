@@ -133,7 +133,7 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
     public IncidenceBase::IncidenceObserver
 {
     Q_OBJECT
-    Q_PROPERTY(QString productId READ productId WRITE setProductId)
+    Q_PROPERTY(QString productId READ productId WRITE setProductId) //clazy:exclude=qproperty-without-notify
 
 public:
 

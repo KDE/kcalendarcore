@@ -214,13 +214,13 @@ KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalCore::Per
 */
 KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalCore::Person::Ptr &person);
 
-}
-
 /**
   Return a hash value for a Person argument.
   @param key is a Person.
 */
 KCALCORE_EXPORT uint qHash(const KCalCore::Person &key);
+
+}
 
 //@cond PRIVATE
 Q_DECLARE_TYPEINFO(KCalCore::Person::Ptr, Q_MOVABLE_TYPE);

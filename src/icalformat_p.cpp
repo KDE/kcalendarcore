@@ -2567,7 +2567,8 @@ QDateTime ICalFormatImpl::readICalDateTimeProperty(icalproperty *p, const ICalTi
             icalvalue_free(v);
             break;
         }
-    }
+    } //end of ICAL_X_PROPERTY
+    Q_FALLTHROUGH();
     default:
         switch (kind) {
         case ICAL_RDATE_PROPERTY:
@@ -2770,7 +2771,7 @@ bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar,
     p = icalcomponent_get_first_property(calendar, ICAL_PRODID_PROPERTY);
     if (!p) {
         qCDebug(KCALCORE_LOG) << "No PRODID property found";
-        d->mLoadedProductId = QStringLiteral("");
+        d->mLoadedProductId.clear();
     } else {
         d->mLoadedProductId = QString::fromUtf8(icalproperty_get_prodid(p));
 

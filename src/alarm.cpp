@@ -198,16 +198,18 @@ void Alarm::setType(Alarm::Type type)
     }
     switch (type) {
     case Display:
-        d->mDescription = QStringLiteral("");
+        d->mDescription.clear();
         break;
     case Procedure:
-        d->mFile = d->mDescription = QStringLiteral("");
+        d->mFile.clear();
+        d->mDescription.clear();
         break;
     case Audio:
-        d->mFile = QStringLiteral("");
+        d->mFile.clear();
         break;
     case Email:
-        d->mMailSubject = d->mDescription = QStringLiteral("");
+        d->mMailSubject.clear();
+        d->mDescription.clear();
         d->mMailAddresses.clear();
         d->mMailAttachFiles.clear();
         break;

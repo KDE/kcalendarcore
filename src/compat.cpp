@@ -121,7 +121,7 @@ void Compat::fixEmptySummary(const Incidence::Ptr &incidence)
         newSummary.remove(QRegExp(QStringLiteral("\n.*")));
         incidence->setSummary(newSummary);
         if (oldDescription == newSummary) {
-            incidence->setDescription(QStringLiteral(""));
+            incidence->setDescription(QLatin1String(""));
         }
     }
 }

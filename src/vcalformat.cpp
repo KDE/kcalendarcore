@@ -341,42 +341,46 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
         anEvent->setDtStart(QDateTime());
     }
 
-    // repeat stuff
+    // recurrence stuff
     if ((vo = isAPropertyOf(vtodo, VCRRuleProp)) != nullptr) {
+        uint recurrenceType = Recurrence::rNone;
+        int recurrenceTypeAbbrLen = 0;
+
         QString tmpStr = (QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo))));
         deleteStr(s);
         tmpStr = tmpStr.simplified();
-        tmpStr = tmpStr.toUpper();
-        // first, read the type of the recurrence
-        int typelen = 1;
-        uint type = Recurrence::rNone;
-        if (tmpStr.left(1) == QStringLiteral("D")) {
-            type = Recurrence::rDaily;
-        } else if (tmpStr.left(1) == QStringLiteral("W")) {
-            type = Recurrence::rWeekly;
-        } else {
-            typelen = 2;
-            if (tmpStr.left(2) == QStringLiteral("MP")) {
-                type = Recurrence::rMonthlyPos;
-            } else if (tmpStr.left(2) == QStringLiteral("MD")) {
-                type = Recurrence::rMonthlyDay;
-            } else if (tmpStr.left(2) == QStringLiteral("YM")) {
-                type = Recurrence::rYearlyMonth;
-            } else if (tmpStr.left(2) == QStringLiteral("YD")) {
-                type = Recurrence::rYearlyDay;
+        const int tmpStrLen = tmpStr.length();
+        if (tmpStrLen > 0) {
+            tmpStr = tmpStr.toUpper();
+            // first, read the type of the recurrence
+            recurrenceTypeAbbrLen = 1;
+            if (tmpStr.at(0) == QLatin1String("D")) {
+                recurrenceType = Recurrence::rDaily;
+            } else if (tmpStr.at(0) == QLatin1String("W")) {
+                recurrenceType = Recurrence::rWeekly;
+            } else if (tmpStrLen > 1) {
+                recurrenceTypeAbbrLen = 2;
+                if (tmpStr.leftRef(2) == QLatin1String("MP")) {
+                    recurrenceType = Recurrence::rMonthlyPos;
+                } else if (tmpStr.leftRef(2) == QLatin1String("MD")) {
+                    recurrenceType = Recurrence::rMonthlyDay;
+                } else if (tmpStr.leftRef(2) == QLatin1String("YM")) {
+                    recurrenceType = Recurrence::rYearlyMonth;
+                } else if (tmpStr.leftRef(2) == QLatin1String("YD")) {
+                    recurrenceType = Recurrence::rYearlyDay;
+                }
             }
         }
 
-        if (type != Recurrence::rNone) {
-
+        if (recurrenceType != Recurrence::rNone) {
             // Immediately after the type is the frequency
             int index = tmpStr.indexOf(QLatin1Char(' '));
             int last = tmpStr.lastIndexOf(QLatin1Char(' ')) + 1;   // find last entry
-            int rFreq = tmpStr.midRef(typelen, (index - 1)).toInt();
+            int rFreq = tmpStr.midRef(recurrenceTypeAbbrLen, (index - 1)).toInt();
             ++index; // advance to beginning of stuff after freq
 
             // Read the type-specific settings
-            switch (type) {
+            switch (recurrenceType) {
             case Recurrence::rDaily:
                 anEvent->recurrence()->setDaily(rFreq);
                 break;
@@ -781,42 +785,46 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
 
     ///////////////////////////////////////////////////////////////////////////
 
-    // repeat stuff
+    // recurrence stuff
     if ((vo = isAPropertyOf(vevent, VCRRuleProp)) != nullptr) {
+        uint recurrenceType = Recurrence::rNone;
+        int recurrenceTypeAbbrLen = 0;
+
         QString tmpStr = (QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo))));
         deleteStr(s);
         tmpStr = tmpStr.simplified();
-        tmpStr = tmpStr.toUpper();
-        // first, read the type of the recurrence
-        int typelen = 1;
-        uint type = Recurrence::rNone;
-        if (tmpStr.left(1) == QLatin1String("D")) {
-            type = Recurrence::rDaily;
-        } else if (tmpStr.left(1) == QLatin1String("W")) {
-            type = Recurrence::rWeekly;
-        } else {
-            typelen = 2;
-            if (tmpStr.left(2) == QLatin1String("MP")) {
-                type = Recurrence::rMonthlyPos;
-            } else if (tmpStr.left(2) == QLatin1String("MD")) {
-                type = Recurrence::rMonthlyDay;
-            } else if (tmpStr.left(2) == QLatin1String("YM")) {
-                type = Recurrence::rYearlyMonth;
-            } else if (tmpStr.left(2) == QLatin1String("YD")) {
-                type = Recurrence::rYearlyDay;
+        const int tmpStrLen = tmpStr.length();
+        if (tmpStrLen > 0) {
+            tmpStr = tmpStr.toUpper();
+            // first, read the type of the recurrence
+            recurrenceTypeAbbrLen = 1;
+            if (tmpStr.at(0) == QLatin1String("D")) {
+                recurrenceType = Recurrence::rDaily;
+            } else if (tmpStr.at(0) == QLatin1String("W")) {
+                recurrenceType = Recurrence::rWeekly;
+            } else if (tmpStrLen > 1){
+                recurrenceTypeAbbrLen = 2;
+                if (tmpStr.leftRef(2) == QLatin1String("MP")) {
+                    recurrenceType = Recurrence::rMonthlyPos;
+                } else if (tmpStr.leftRef(2) == QLatin1String("MD")) {
+                    recurrenceType = Recurrence::rMonthlyDay;
+                } else if (tmpStr.leftRef(2) == QLatin1String("YM")) {
+                    recurrenceType = Recurrence::rYearlyMonth;
+                } else if (tmpStr.leftRef(2) == QLatin1String("YD")) {
+                    recurrenceType = Recurrence::rYearlyDay;
+                }
             }
         }
 
-        if (type != Recurrence::rNone) {
-
+        if (recurrenceType != Recurrence::rNone) {
             // Immediately after the type is the frequency
             int index = tmpStr.indexOf(QLatin1Char(' '));
             int last = tmpStr.lastIndexOf(QLatin1Char(' ')) + 1;   // find last entry
-            int rFreq = tmpStr.midRef(typelen, (index - 1)).toInt();
+            int rFreq = tmpStr.midRef(recurrenceTypeAbbrLen, (index - 1)).toInt();
             ++index; // advance to beginning of stuff after freq
 
             // Read the type-specific settings
-            switch (type) {
+            switch (recurrenceType) {
             case Recurrence::rDaily:
                 anEvent->recurrence()->setDaily(rFreq);
                 break;

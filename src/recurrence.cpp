@@ -1147,7 +1147,7 @@ QDateTime Recurrence::getNextDateTime(const QDateTime &preDateTime) const
         }
 
         QDateTime kdt(startDateTime());
-        for (const auto &date : d->mRDates) {
+        for (const auto &date : qAsConst(d->mRDates)) {
             kdt.setDate(date);
             if (kdt > nextDT) {
                 dates << kdt;
@@ -1156,7 +1156,7 @@ QDateTime Recurrence::getNextDateTime(const QDateTime &preDateTime) const
         }
 
         // Add the next occurrences from all RRULEs.
-        for (auto rule : d->mRRules) {
+        for (const auto &rule : qAsConst(d->mRRules)) {
             QDateTime dt = rule->getNextDate(nextDT);
             if (dt.isValid()) {
                 dates << dt;
@@ -1174,7 +1174,7 @@ QDateTime Recurrence::getNextDateTime(const QDateTime &preDateTime) const
         if (!std::binary_search(d->mExDates.constBegin(), d->mExDates.constEnd(), nextDT.date()) &&
             !std::binary_search(d->mExDateTimes.constBegin(), d->mExDateTimes.constEnd(), nextDT)) {
             bool allowed = true;
-            for (auto rule : d->mExRules) {
+            for (const auto &rule : qAsConst(d->mExRules)) {
                 allowed = allowed && !rule->recursAt(nextDT);
             }
             if (allowed) {
@@ -1217,7 +1217,7 @@ QDateTime Recurrence::getPreviousDateTime(const QDateTime &afterDateTime) const
         }
 
         QDateTime kdt(startDateTime());
-        for (const auto &date : d->mRDates) {
+        for (const auto &date : qAsConst(d->mRDates)) {
             kdt.setDate(date);
             if (kdt < prevDT) {
                 dates << kdt;
@@ -1226,7 +1226,7 @@ QDateTime Recurrence::getPreviousDateTime(const QDateTime &afterDateTime) const
         }
 
         // Add the previous occurrences from all RRULEs.
-        for (auto rule : d->mRRules) {
+        for (const auto &rule : qAsConst(d->mRRules)) {
             QDateTime dt = rule->getPreviousDate(prevDT);
             if (dt.isValid()) {
                 dates << dt;
@@ -1244,7 +1244,7 @@ QDateTime Recurrence::getPreviousDateTime(const QDateTime &afterDateTime) const
         if (!std::binary_search(d->mExDates.constBegin(), d->mExDates.constEnd(), prevDT.date()) &&
             !std::binary_search(d->mExDateTimes.constBegin(), d->mExDateTimes.constEnd(), prevDT)) {
             bool allowed = true;
-            for (auto rule : d->mExRules) {
+            for (const auto &rule : qAsConst(d->mExRules)) {
                 allowed = allowed && !rule->recursAt(prevDT);
             }
             if (allowed) {

@@ -123,7 +123,7 @@ public:
                 Incidence::Ptr incidence(inc), lastInc(inc);
                 qint64 offset(0), lastOffset(0);
                 QDateTime occurrenceStartDate;
-                for (auto recurrenceId : qAsConst(occurrences)) {
+                for (const auto &recurrenceId : qAsConst(occurrences)) {
                     occurrenceStartDate = recurrenceId;
 
                     bool resetIncidence = false;

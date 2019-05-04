@@ -2071,8 +2071,7 @@ void RecurrenceRule::dump() const
     if (!d->mByDays.isEmpty()) {
         QStringList lst;
         for (int i = 0, iend = d->mByDays.count();  i < iend;  ++i) {
-            \
-            lst.append((d->mByDays[i].pos() ? QString::number(d->mByDays[i].pos()) : QStringLiteral("")) +
+            lst.append((d->mByDays[i].pos() ? QString::number(d->mByDays[i].pos()) : QLatin1String("")) +
                        DateHelper::dayName(d->mByDays[i].day()));
         }
         qCDebug(KCALCORE_LOG) << "   ByDays:    " << lst.join(QStringLiteral(", "));
