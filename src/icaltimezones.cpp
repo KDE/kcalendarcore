@@ -246,7 +246,7 @@ icalcomponent *ICalTimeZoneParser::icalcomponentFromQTimeZone(const QTimeZone &t
         }
         // Found a phase combination which hasn't yet been processed
         const int preOffset = (i > 0) ? transits.at(i - 1).offsetFromUtc : 0;
-        const auto transit = transits.at(i);
+        const auto &transit = transits.at(i);
         if (transit.offsetFromUtc == preOffset) {
             transitionsDone[i] = true;
             while (++i < trcount) {
@@ -651,7 +651,6 @@ bool ICalTimeZoneParser::parsePhase(icalcomponent *c, bool daylight, ICalTimeZon
          * Note that we had to get DTSTART, TZOFFSETFROM, TZOFFSETTO before reading
          * recurrences.
          */
-        const QDateTime klocalStart(localStart);
         const QDateTime maxTime(MAX_DATE());
         Recurrence recur;
         icalproperty *p = icalcomponent_get_first_property(c, ICAL_ANY_PROPERTY);
@@ -694,7 +693,7 @@ bool ICalTimeZoneParser::parsePhase(icalcomponent *c, bool daylight, ICalTimeZon
                 ICalFormat icf;
                 ICalFormatImpl impl(&icf);
                 impl.readRecurrence(icalproperty_get_rrule(p), &r);
-                r.setStartDt(klocalStart);
+                r.setStartDt(localStart);
                 // The end date time specified in an RRULE should be in UTC.
                 // Convert to local time to avoid timesInInterval() getting things wrong.
                 if (r.duration() == 0) {
@@ -704,7 +703,7 @@ bool ICalTimeZoneParser::parsePhase(icalcomponent *c, bool daylight, ICalTimeZon
                         r.setEndDt(end.addSecs(prevOffset));
                     }
                 }
-                const auto dts = r.timesInInterval(klocalStart, maxTime);
+                const auto dts = r.timesInInterval(localStart, maxTime);
                 for (int i = 0, end = dts.count();  i < end;  ++i) {
                     QDateTime utc = dts[i];
                     utc.setTimeSpec(Qt::UTC);

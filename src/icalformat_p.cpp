@@ -1013,7 +1013,7 @@ icalrecurrencetype ICalFormatImpl::writeRecurrenceRule(RecurrenceRule *recur)
         r.by_set_pos[index++] = static_cast<short>(*it);
     }
 
-    QList<RecurrenceRule::WDayPos> byd = recur->byDays();
+    const QList<RecurrenceRule::WDayPos> &byd = recur->byDays();
     int day;
     index = 0;
     for (QList<RecurrenceRule::WDayPos>::ConstIterator dit = byd.constBegin();

@@ -649,7 +649,7 @@ QBitArray Recurrence::days() const
     days.fill(0);
     RecurrenceRule *rrule = defaultRRuleConst();
     if (rrule) {
-        QList<RecurrenceRule::WDayPos> bydays = rrule->byDays();
+        const QList<RecurrenceRule::WDayPos> &bydays = rrule->byDays();
         for (int i = 0; i < bydays.size(); ++i) {
             if (bydays.at(i).pos() == 0) {
                 days.setBit(bydays.at(i).day() - 1);
