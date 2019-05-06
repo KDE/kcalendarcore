@@ -117,14 +117,14 @@ public:
     void insertIncidence(const Incidence::Ptr &incidence);
 
     Incidence::Ptr incidence(const QString &uid,
-                             const IncidenceBase::IncidenceType type,
+                             IncidenceBase::IncidenceType type,
                              const QDateTime &recurrenceId = {}) const;
 
     Incidence::Ptr deletedIncidence(const QString &uid,
                                     const QDateTime &recurrenceId,
-                                    const IncidenceBase::IncidenceType type) const;
+                                    IncidenceBase::IncidenceType type) const;
 
-    void deleteAllIncidences(const IncidenceBase::IncidenceType type);
+    void deleteAllIncidences(IncidenceBase::IncidenceType type);
 
 };
 //@endcond
@@ -143,7 +143,7 @@ MemoryCalendar::MemoryCalendar(const QByteArray &timeZoneId)
 
 MemoryCalendar::~MemoryCalendar()
 {
-    close();
+    close(); //NOLINT false clang-analyzer-optin.cplusplus.VirtualCall
     delete d;
 }
 
@@ -221,7 +221,7 @@ bool MemoryCalendar::deleteIncidenceInstances(const Incidence::Ptr &incidence)
 }
 
 //@cond PRIVATE
-void MemoryCalendar::Private::deleteAllIncidences(const Incidence::IncidenceType incidenceType)
+void MemoryCalendar::Private::deleteAllIncidences(Incidence::IncidenceType incidenceType)
 {
     QHashIterator<QString, Incidence::Ptr>i(mIncidences[incidenceType]);
     while (i.hasNext()) {
@@ -234,7 +234,7 @@ void MemoryCalendar::Private::deleteAllIncidences(const Incidence::IncidenceType
 }
 
 Incidence::Ptr MemoryCalendar::Private::incidence(const QString &uid,
-        const Incidence::IncidenceType type,
+        Incidence::IncidenceType type,
         const QDateTime &recurrenceId) const
 {
     Incidence::List values = ::values(mIncidences[type], uid);
@@ -255,8 +255,8 @@ Incidence::Ptr MemoryCalendar::Private::incidence(const QString &uid,
 
 Incidence::Ptr
 MemoryCalendar::Private::deletedIncidence(const QString &uid,
-    const QDateTime &recurrenceId,
-        const IncidenceBase::IncidenceType type) const
+        const QDateTime &recurrenceId,
+        IncidenceBase::IncidenceType type) const
 {
     if (!q->deletionTracking()) {
         return Incidence::Ptr();

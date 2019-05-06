@@ -184,7 +184,7 @@ void Calendar::setTimeZoneId(const QByteArray &timeZoneId)
 {
     d->mTimeZone = d->timeZoneIdSpec(timeZoneId);
 
-    doSetTimeZone(d->mTimeZone);
+    doSetTimeZone(d->mTimeZone); //NOLINT false clang-analyzer-optin.cplusplus.VirtualCall
 }
 
 //@cond PRIVATE

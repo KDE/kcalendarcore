@@ -1497,7 +1497,6 @@ bool RecurrenceRule::recursOn(const QDate &qd, const QTimeZone &timeZone) const
     Constraint interval(d->getNextValidDateInterval(start, recurrenceType()));
     // Constraint::matches is quite efficient, so first check if it can occur at
     // all before we calculate all actual dates.
-    match = false;
     Constraint intervalm = interval;
     do {
         match = intervalm.matches(startDay, recurrenceType());

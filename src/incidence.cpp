@@ -327,7 +327,7 @@ void Incidence::recreate()
 
     setSchedulingID(QString(), CalFormat::createUniqueId());
     setRevision(0);
-    setLastModified(nowUTC);
+    setLastModified(nowUTC); //NOLINT false clang-analyzer-optin.cplusplus.VirtualCall
 }
 
 void Incidence::setLastModified(const QDateTime &lm)

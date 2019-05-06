@@ -90,15 +90,15 @@ FreeBusy::FreeBusy(const FreeBusy &other)
 FreeBusy::FreeBusy(const QDateTime &start, const QDateTime &end)
     : d(new KCalCore::FreeBusy::Private(this))
 {
-    setDtStart(start);
-    setDtEnd(end);
+    setDtStart(start); //NOLINT false clang-analyzer-optin.cplusplus.VirtualCall
+    setDtEnd(end);     //NOLINT false clang-analyzer-optin.cplusplus.VirtualCall
 }
 
 FreeBusy::FreeBusy(const Event::List &events, const QDateTime &start, const QDateTime &end)
     : d(new KCalCore::FreeBusy::Private(this))
 {
-    setDtStart(start);
-    setDtEnd(end);
+    setDtStart(start); //NOLINT false clang-analyzer-optin.cplusplus.VirtualCall
+    setDtEnd(end);     //NOLINT false clang-analyzer-optin.cplusplus.VirtualCall
 
     d->init(events, start, end);
 }
@@ -253,7 +253,6 @@ FreeBusyPeriod::List FreeBusy::fullBusyPeriods() const
 void FreeBusy::sortList()
 {
     std::sort(d->mBusyPeriods.begin(), d->mBusyPeriods.end());
-    return;
 }
 
 void FreeBusy::addPeriods(const Period::List &list)
