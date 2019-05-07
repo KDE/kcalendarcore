@@ -433,7 +433,3 @@ bool KCalCore::Incidences::summaryMoreThan(const Incidence::Ptr &i1,
     return QString::compare(i1->summary(), i2->summary(), Qt::CaseInsensitive) > 0;
 }
 
-bool KCalCore::Persons::countMoreThan(const Person::Ptr &p1, const Person::Ptr &p2)
-{
-    return p1->count() > p2->count();
-}

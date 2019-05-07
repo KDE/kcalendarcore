@@ -152,25 +152,6 @@ public:
     Q_REQUIRED_RESULT static bool isValidEmail(const QString &email);
 
     /**
-      Sets the number of references for this person.
-
-      This can be initialized in a loading function (see ExtendedStorage),
-      where the number of contact appearances etc. are counted.
-
-      @param count number of references
-
-      @see count()
-    */
-    void setCount(int count);
-
-    /**
-      Returns the number of references or zero if it is not initialized.
-
-      @see setCount()
-    */
-    Q_REQUIRED_RESULT int count() const;
-
-    /**
       Compares this with @p person for equality.
 
       @param person is the person to compare.

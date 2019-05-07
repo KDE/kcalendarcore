@@ -95,9 +95,6 @@ KCALCORE_EXPORT bool summaryLessThan(const Incidence::Ptr &i1, const Incidence::
 KCALCORE_EXPORT bool summaryMoreThan(const Incidence::Ptr &i1, const Incidence::Ptr &i2);
 }
 
-namespace Persons {
-KCALCORE_EXPORT bool countMoreThan(const Person::Ptr &p1, const Person::Ptr &p2);
-}
 }
 
 #endif

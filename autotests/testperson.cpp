@@ -71,7 +71,6 @@ void PersonTest::testStringify()
 void PersonTest::testDataStreamIn()
 {
     Person::Ptr person1(new Person(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com")));
-    int initial_count = person1->count();
 
     QByteArray byteArray;
     QDataStream out_stream(&byteArray, QIODevice::WriteOnly);
@@ -90,7 +89,7 @@ void PersonTest::testDataStreamIn()
     QVERIFY(email == QLatin1String("fred@flintstone.com"));
 
     in_stream >> count;
-    QVERIFY(count == initial_count);
+    QCOMPARE(count, 0);
 }
 
 void PersonTest::testDataStreamOut()
@@ -109,5 +108,4 @@ void PersonTest::testDataStreamOut()
 
     QVERIFY(person2->name() == person1->name());
     QVERIFY(person2->email() == person1->email());
-    QVERIFY(person2->count() == person1->count());
 }

@@ -50,7 +50,6 @@ public:
     Private() {}
     QString mName;   // person name
     QString mEmail;  // person email address
-    int mCount = 0;      // person reference count
 };
 //@endcond
 
@@ -158,16 +157,6 @@ bool Person::isValidEmail(const QString &email)
     return (pos > 0) && (email.lastIndexOf(QLatin1Char('.')) > pos) && ((email.length() - pos) > 4);
 }
 
-void Person::setCount(int count)
-{
-    d->mCount = count;
-}
-
-int Person::count() const
-{
-    return d->mCount;
-}
-
 uint KCalCore::qHash(const KCalCore::Person &key)
 {
     return qHash(key.fullName());
@@ -178,7 +167,7 @@ QDataStream &KCalCore::operator<<(QDataStream &stream, const KCalCore::Person::P
     return stream
            << person->d->mName
            << person->d->mEmail
-           << person->d->mCount;
+           << (int)(0);
 }
 
 QDataStream &KCalCore::operator>>(QDataStream &stream, Person::Ptr &person)
@@ -189,7 +178,6 @@ QDataStream &KCalCore::operator>>(QDataStream &stream, Person::Ptr &person)
     stream >> name >> email >> count;
 
     Person::Ptr person_tmp(new Person(name, email));
-    person_tmp->setCount(count);
     person.swap(person_tmp);
     return stream;
 }
