@@ -32,6 +32,8 @@
 */
 
 #include "attendee.h"
+#include "person.h"
+#include "person_p.h"
 
 #include <QDataStream>
 
@@ -57,6 +59,8 @@ public:
     QString mDelegate;
     QString mDelegator;
     CustomProperties mCustomProperties;
+    QString mName;
+    QString mEmail;
 private:
     QString sCuType;
     CuType mCuType;
@@ -128,8 +132,7 @@ Attendee::Attendee(const QString &name, const QString &email, bool rsvp,
 }
 
 Attendee::Attendee(const Attendee &attendee)
-    : Person(attendee),
-      d(new Attendee::Private(*attendee.d))
+    : d(new Attendee::Private(*attendee.d))
 {
 }
 
@@ -148,7 +151,8 @@ bool KCalCore::Attendee::operator==(const Attendee &attendee) const
         d->mDelegate == attendee.d->mDelegate &&
         d->mDelegator == attendee.d->mDelegator &&
         d->cuTypeStr() == attendee.d->cuTypeStr() &&
-        (const Person &) * this == (const Person &)attendee;
+        d->mName == attendee.d->mName &&
+        d->mEmail == attendee.d->mEmail;
 }
 
 bool KCalCore::Attendee::operator!=(const Attendee &attendee) const
@@ -164,9 +168,32 @@ Attendee &KCalCore::Attendee::operator=(const Attendee &attendee)
     }
 
     *d = *attendee.d;
-    setName(attendee.name());
-    setEmail(attendee.email());
     return *this;
+}
+
+QString Attendee::name() const
+{
+    return d->mName;
+}
+
+void Attendee::setName(const QString &name)
+{
+    d->mName = name;
+}
+
+QString Attendee::fullName() const
+{
+    return fullNameHelper(d->mName, d->mEmail);
+}
+
+QString Attendee::email() const
+{
+    return d->mEmail;
+}
+
+void Attendee::setEmail(const QString &email)
+{
+    d->mEmail = email;
 }
 
 void Attendee::setRSVP(bool r)
@@ -266,7 +293,7 @@ const CustomProperties &Attendee::customProperties() const
 
 QDataStream &KCalCore::operator<<(QDataStream &stream, const KCalCore::Attendee::Ptr &attendee)
 {
-    KCalCore::Person::Ptr p(new KCalCore::Person(*((Person *)attendee.data())));
+    KCalCore::Person::Ptr p(new KCalCore::Person(attendee->name(), attendee->email()));
     stream << p;
     return stream << attendee->d->mRSVP
            << int(attendee->d->mRole)

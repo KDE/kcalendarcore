@@ -30,10 +30,10 @@
 #define KCALCORE_ATTENDEE_H
 
 #include <QMetaType>
+#include <QSharedPointer>
 
 #include "kcalcore_export.h"
 #include "customproperties.h"
-#include "person.h"
 
 namespace KCalCore
 {
@@ -55,15 +55,9 @@ namespace KCalCore
   (unique identifier) derived from a Calendar Incidence, Email Message,
   or any other thing you want.
 */
-class KCALCORE_EXPORT Attendee : private Person
+class KCALCORE_EXPORT Attendee
 {
 public:
-    using Person::setEmail;
-    using Person::email;
-    using Person::setName;
-    using Person::name;
-    using Person::fullName;
-
     /**
       The different types of participant status.
       The meaning is specific to the incidence type in context.
@@ -118,7 +112,7 @@ public:
     typedef QVector<Ptr> List;
 
     /**
-      Constructs an attendee consisting of a Person name (@p name) and
+      Constructs an attendee consisting of a person name (@p name) and
       email address (@p email); invitation status and #Role;
       an optional @acronym RSVP flag and @acronym UID.
 
@@ -144,6 +138,31 @@ public:
       Destroys the attendee.
     */
     ~Attendee();
+
+    /**
+      Returns the name of the attendee.
+    */
+    Q_REQUIRED_RESULT QString name() const;
+    /**
+      Sets the name of the attendee to @p name.
+    */
+    void setName(const QString &name);
+
+    /**
+      Returns the full name and email address of this attendee
+      @return A QString containing the person's full name in the form
+        "FirstName LastName \<mail@domain\>".
+    */
+    Q_REQUIRED_RESULT QString fullName() const;
+
+    /**
+      Returns the email address for this attendee.
+    */
+    Q_REQUIRED_RESULT QString email() const;
+    /**
+      Sets the email address for this attendee to @p email.
+    */
+    void setEmail(const QString &email);
 
     /**
       Sets the Role of the attendee to @p role.

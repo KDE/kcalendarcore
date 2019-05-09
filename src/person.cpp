@@ -34,6 +34,7 @@
 */
 
 #include "person.h"
+#include "person_p.h"
 #include <QRegExp>
 #include <QDataStream>
 
@@ -97,29 +98,32 @@ Person &KCalCore::Person::operator=(const Person &person)
     return *this;
 }
 
-QString Person::fullName() const
+QString KCalCore::fullNameHelper(const QString &name, const QString &email)
 {
-    if (d->mName.isEmpty()) {
-        return d->mEmail;
-    } else {
-        if (d->mEmail.isEmpty()) {
-            return d->mName;
-        } else {
-            // Taken from KContacts::Addressee::fullEmail
-            QString name = d->mName;
-            QRegExp needQuotes(QStringLiteral("[^ 0-9A-Za-z\\x0080-\\xFFFF]"));
-            bool weNeedToQuote = name.indexOf(needQuotes) != -1;
-            if (weNeedToQuote) {
-                if (name[0] != QLatin1Char('"')) {
-                    name.prepend(QLatin1Char('"'));
-                }
-                if (name[ name.length() - 1 ] != QLatin1Char('"')) {
-                    name.append(QLatin1Char('"'));
-                }
-            }
-            return name + QStringLiteral(" <") + d->mEmail + QLatin1Char('>');
+    if (name.isEmpty()) {
+        return email;
+    }
+    if (email.isEmpty()) {
+        return name;
+    }
+    // Taken from KContacts::Addressee::fullEmail
+    QString fullName = name;
+    QRegExp needQuotes(QStringLiteral("[^ 0-9A-Za-z\\x0080-\\xFFFF]"));
+    bool weNeedToQuote = name.indexOf(needQuotes) != -1;
+    if (weNeedToQuote) {
+        if (fullName[0] != QLatin1Char('"')) {
+            fullName.prepend(QLatin1Char('"'));
+        }
+        if (fullName[ fullName.length() - 1 ] != QLatin1Char('"')) {
+            fullName.append(QLatin1Char('"'));
         }
     }
+    return fullName + QStringLiteral(" <") + email + QLatin1Char('>');
+}
+
+QString Person::fullName() const
+{
+    return fullNameHelper(d->mName, d->mEmail);
 }
 
 QString Person::name() const

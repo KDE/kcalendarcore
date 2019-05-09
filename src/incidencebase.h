@@ -59,6 +59,7 @@
 #include "attendee.h"
 #include "customproperties.h"
 #include "duration.h"
+#include "person.h"
 
 #include <QDateTime>
 

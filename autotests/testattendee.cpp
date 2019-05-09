@@ -22,6 +22,7 @@
 
 #include "testattendee.h"
 #include "attendee.h"
+#include "person.h"
 
 #include <QDataStream>
 #include <QTest>
