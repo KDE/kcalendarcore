@@ -1217,20 +1217,15 @@ QString VCalFormat::parseDst(QByteArray &timezone) const
 
 QString VCalFormat::qDateToISO(const QDate &qd)
 {
-    QString tmpStr;
-
     if (!qd.isValid()) {
         return QString();
     }
 
-    tmpStr.sprintf("%.2d%.2d%.2d", qd.year(), qd.month(), qd.day());
-    return tmpStr;
+    return QString::asprintf("%.2d%.2d%.2d", qd.year(), qd.month(), qd.day());
 }
 
 QString VCalFormat::qDateTimeToISO(const QDateTime &dt, bool zulu)
 {
-    QString tmpStr;
-
     if (!dt.isValid()) {
         return QString();
     }
@@ -1241,10 +1236,10 @@ QString VCalFormat::qDateTimeToISO(const QDateTime &dt, bool zulu)
     } else {
         tmpDT = dt.toTimeZone(d->mCalendar->timeZone());
     }
-    tmpStr.sprintf("%.2d%.2d%.2dT%.2d%.2d%.2d",
-                   tmpDT.date().year(), tmpDT.date().month(),
-                   tmpDT.date().day(), tmpDT.time().hour(),
-                   tmpDT.time().minute(), tmpDT.time().second());
+    QString tmpStr = QString::asprintf("%.2d%.2d%.2dT%.2d%.2d%.2d",
+                                        tmpDT.date().year(), tmpDT.date().month(),
+                                        tmpDT.date().day(), tmpDT.time().hour(),
+                                        tmpDT.time().minute(), tmpDT.time().second());
     if (zulu || dt.timeZone() == QTimeZone::utc()) {
         tmpStr += QLatin1Char('Z');
     }
