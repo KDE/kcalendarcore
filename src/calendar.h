@@ -193,7 +193,7 @@ public:
 
       @see owner()
     */
-    void setOwner(const Person::Ptr &owner);
+    void setOwner(const Person &owner);
 
     /**
       Returns the owner of the calendar.
@@ -202,7 +202,7 @@ public:
 
       @see setOwner()
     */
-    Q_REQUIRED_RESULT Person::Ptr owner() const;
+    Q_REQUIRED_RESULT Person owner() const;
 
     /**
       Sets the default time specification zone used for creating

@@ -648,7 +648,7 @@ void ICalFormatImpl::Private::writeIncidenceBase(icalcomponent *parent,
         const IncidenceBase::Ptr &incidenceBase)
 {
     // organizer stuff
-    if (!incidenceBase->organizer()->isEmpty()) {
+    if (!incidenceBase->organizer().isEmpty()) {
         icalproperty *p = mImpl->writeOrganizer(incidenceBase->organizer());
         if (p) {
             icalcomponent_add_property(parent, p);
@@ -722,21 +722,21 @@ void ICalFormatImpl::Private::writeCustomProperties(icalcomponent *parent,
 }
 //@endcond
 
-icalproperty *ICalFormatImpl::writeOrganizer(const Person::Ptr &organizer)
+icalproperty *ICalFormatImpl::writeOrganizer(const Person &organizer)
 {
-    if (organizer->email().isEmpty()) {
+    if (organizer.email().isEmpty()) {
         return nullptr;
     }
 
     icalproperty *p =
-        icalproperty_new_organizer(QByteArray(QByteArray("MAILTO:") + organizer->email().toUtf8()).constData());
+        icalproperty_new_organizer(QByteArray(QByteArray("MAILTO:") + organizer.email().toUtf8()).constData());
 
-    if (!organizer->name().isEmpty()) {
+    if (!organizer.name().isEmpty()) {
         icalproperty_add_parameter(p,
 #if defined(USE_ICAL_3)
-            icalparameter_new_cn(organizer->name().toUtf8().constData()));
+            icalparameter_new_cn(organizer.name().toUtf8().constData()));
 #else
-            icalparameter_new_cn(quoteForParam(organizer->name()).toUtf8().constData()));
+            icalparameter_new_cn(quoteForParam(organizer.name()).toUtf8().constData()));
 #endif
     }
     // TODO: Write dir, sent-by and language
@@ -1088,15 +1088,15 @@ icalcomponent *ICalFormatImpl::writeAlarm(const Alarm::Ptr &alarm)
         const Person::List addresses = alarm->mailAddresses();
         for (Person::List::ConstIterator ad = addresses.constBegin();
                 ad != addresses.constEnd();  ++ad) {
-            if (!(*ad)->email().isEmpty()) {
+            if (!(*ad).email().isEmpty()) {
                 icalproperty *p =
-                    icalproperty_new_attendee(QByteArray(QByteArray("MAILTO:") + (*ad)->email().toUtf8()).constData());
-                if (!(*ad)->name().isEmpty()) {
+                    icalproperty_new_attendee(QByteArray(QByteArray("MAILTO:") + (*ad).email().toUtf8()).constData());
+                if (!(*ad).name().isEmpty()) {
                     icalproperty_add_parameter(p,
 #if defined(USE_ICAL_3)
-                        icalparameter_new_cn((*ad)->name().toUtf8().constData()));
+                        icalparameter_new_cn((*ad).name().toUtf8().constData()));
 #else
-                        icalparameter_new_cn(quoteForParam((*ad)->name()).toUtf8().constData()));
+                        icalparameter_new_cn(quoteForParam((*ad).name()).toUtf8().constData()));
 #endif
                 }
                 icalcomponent_add_property(a, p);
@@ -1556,7 +1556,7 @@ Attendee::Ptr ICalFormatImpl::readAttendee(icalproperty *attendee)
     return a;
 }
 
-Person::Ptr ICalFormatImpl::readOrganizer(icalproperty *organizer)
+Person ICalFormatImpl::readOrganizer(icalproperty *organizer)
 {
     QString email = QString::fromUtf8(icalproperty_get_organizer(organizer));
     if (email.startsWith(QLatin1String("mailto:"), Qt::CaseInsensitive)) {
@@ -1569,7 +1569,7 @@ Person::Ptr ICalFormatImpl::readOrganizer(icalproperty *organizer)
     if (p) {
         cn = QString::fromUtf8(icalparameter_get_cn(p));
     }
-    Person::Ptr org(new Person(cn, email));
+    Person org(cn, email);
     // TODO: Treat sent-by, dir and language here, too
     return org;
 }
@@ -2274,7 +2274,7 @@ void ICalFormatImpl::readAlarm(icalcomponent *alarm, const Incidence::Ptr &incid
             if (param) {
                 name = QString::fromUtf8(icalparameter_get_cn(param));
             }
-            ialarm->addMailAddress(Person::Ptr(new Person(name, email)));
+            ialarm->addMailAddress(Person(name, email));
             break;
         }
 

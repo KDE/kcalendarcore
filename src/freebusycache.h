@@ -60,7 +60,7 @@ public:
       @param person is a valid Person instance.
       @return true if the save was successful; false otherwise.
     */
-    virtual bool saveFreeBusy(const FreeBusy::Ptr &freebusy, const Person::Ptr &person) = 0;
+    virtual bool saveFreeBusy(const FreeBusy::Ptr &freebusy, const Person &person) = 0;
 
     /**
       Load freebusy information belonging to an email.

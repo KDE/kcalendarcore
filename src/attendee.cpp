@@ -293,7 +293,7 @@ const CustomProperties &Attendee::customProperties() const
 
 QDataStream &KCalCore::operator<<(QDataStream &stream, const KCalCore::Attendee::Ptr &attendee)
 {
-    KCalCore::Person::Ptr p(new KCalCore::Person(attendee->name(), attendee->email()));
+    KCalCore::Person p(attendee->name(), attendee->email());
     stream << p;
     return stream << attendee->d->mRSVP
            << int(attendee->d->mRole)
@@ -318,7 +318,7 @@ QDataStream &KCalCore::operator>>(QDataStream &stream, KCalCore::Attendee::Ptr &
     uint role_int;
     uint status_int;
 
-    KCalCore::Person::Ptr person(new Person());
+    KCalCore::Person person;
     stream >> person;
     stream >> RSVP
            >> role_int
@@ -332,7 +332,7 @@ QDataStream &KCalCore::operator>>(QDataStream &stream, KCalCore::Attendee::Ptr &
     role = Attendee::Role(role_int);
     status = Attendee::PartStat(status_int);
 
-    Attendee::Ptr att_temp(new KCalCore::Attendee(person->name(), person->email(),
+    Attendee::Ptr att_temp(new KCalCore::Attendee(person.name(), person.email(),
                            RSVP, status, role, uid));
     att_temp->setDelegate(delegate);
     att_temp->setDelegator(delegator);

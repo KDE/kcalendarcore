@@ -333,7 +333,7 @@ public:
       @param organizer is a non-null Person to use as the incidence @ref organizer.
       @see organizer(), setOrganizer(const QString &)
     */
-    void setOrganizer(const Person::Ptr &organizer);
+    void setOrganizer(const Person &organizer);
 
     /**
       Sets the incidence organizer to any string @p organizer.
@@ -349,7 +349,7 @@ public:
       is returned.
       @see setOrganizer(const QString &), setOrganizer(const Person &)
     */
-    Person::Ptr organizer() const;
+    Person organizer() const;
 
     /**
       Sets readonly status.

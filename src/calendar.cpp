@@ -156,14 +156,13 @@ Calendar::~Calendar()
     delete d;
 }
 
-Person::Ptr Calendar::owner() const
+Person Calendar::owner() const
 {
     return d->mOwner;
 }
 
-void Calendar::setOwner(const Person::Ptr &owner)
+void Calendar::setOwner(const Person &owner)
 {
-    Q_ASSERT(owner);
     d->mOwner = owner;
     setModified(true);
 }

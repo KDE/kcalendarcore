@@ -45,10 +45,9 @@ using namespace KCalCore;
   @internal
 */
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalCore::Person::Private
+class Q_DECL_HIDDEN KCalCore::Person::Private : public QSharedData
 {
 public:
-    Private() {}
     QString mName;   // person name
     QString mEmail;  // person email address
 };
@@ -66,14 +65,11 @@ Person::Person(const QString &name, const QString &email)
 }
 
 Person::Person(const Person &person)
-    : d(new KCalCore::Person::Private(*person.d))
+    : d(person.d)
 {
 }
 
-Person::~Person()
-{
-    delete d;
-}
+Person::~Person() = default;
 
 bool KCalCore::Person::operator==(const Person &person) const
 {
@@ -94,7 +90,7 @@ Person &KCalCore::Person::operator=(const Person &person)
         return *this;
     }
 
-    *d = *person.d;
+    d = person.d;
     return *this;
 }
 
@@ -166,23 +162,18 @@ uint KCalCore::qHash(const KCalCore::Person &key)
     return qHash(key.fullName());
 }
 
-QDataStream &KCalCore::operator<<(QDataStream &stream, const KCalCore::Person::Ptr &person)
+QDataStream &KCalCore::operator<<(QDataStream &stream, const KCalCore::Person &person)
 {
     return stream
-           << person->d->mName
-           << person->d->mEmail
+           << person.d->mName
+           << person.d->mEmail
            << (int)(0);
 }
 
-QDataStream &KCalCore::operator>>(QDataStream &stream, Person::Ptr &person)
+QDataStream &KCalCore::operator>>(QDataStream &stream, Person &person)
 {
-    QString name, email;
     int count;
-
-    stream >> name >> email >> count;
-
-    Person::Ptr person_tmp(new Person(name, email));
-    person.swap(person_tmp);
+    stream >> person.d->mName >> person.d->mEmail >> count;
     return stream;
 }
 
@@ -381,9 +372,9 @@ static bool extractEmailAddressAndName(const QString &aStr, QString &mail, QStri
     return !(name.isEmpty() || mail.isEmpty());
 }
 
-Person::Ptr Person::fromFullName(const QString &fullName)
+Person Person::fromFullName(const QString &fullName)
 {
     QString email, name;
     extractEmailAddressAndName(fullName, email, name);
-    return Person::Ptr(new Person(name, email));
+    return Person(name, email);
 }

@@ -42,12 +42,12 @@ void AlarmTest::testCompare()
     alarm1.setType(Alarm::Email);
     alarm2.setType(Alarm::Email);
 
-    alarm1.setMailAddress(Person::Ptr(new Person(QStringLiteral("name"), QStringLiteral("email@foo.com"))));
-    alarm2.setMailAddress(Person::Ptr(new Person(QStringLiteral("name"), QStringLiteral("email@foo.com"))));
+    alarm1.setMailAddress(Person(QStringLiteral("name"), QStringLiteral("email@foo.com")));
+    alarm2.setMailAddress(Person(QStringLiteral("name"), QStringLiteral("email@foo.com")));
 
     QVERIFY(alarm1 == alarm2);
 
-    alarm2.setMailAddress(Person::Ptr(new Person(QStringLiteral("name"), QStringLiteral("email@foo.pt"))));
+    alarm2.setMailAddress(Person(QStringLiteral("name"), QStringLiteral("email@foo.pt")));
     QVERIFY(alarm1 != alarm2);
 
     alarm2.setType(Alarm::Display);
@@ -86,8 +86,8 @@ void AlarmTest::testSerializer_data()
     a1->setMailSubject(QStringLiteral("empty subject"));
 
     Person::List persons;
-    persons << Person::Ptr(new Person(QStringLiteral("a"), QStringLiteral("a@a.pt")))
-            << Person::Ptr(new Person(QStringLiteral("b"), QStringLiteral("b@b.pt")));
+    persons << Person(QStringLiteral("a"), QStringLiteral("a@a.pt"))
+            << Person(QStringLiteral("b"), QStringLiteral("b@b.pt"));
     a1->setMailAddresses(persons);
     a1->setMailAttachment(QStringLiteral("foo attachment"));
     a1->setMailText(QStringLiteral("mail body"));

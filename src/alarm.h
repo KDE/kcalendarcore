@@ -42,6 +42,7 @@
 #include <QVector>
 #include <QDataStream>
 #include <QMetaType>
+#include <QSharedPointer>
 
 class QTimeZone;
 
@@ -304,7 +305,7 @@ public:
       @see setMailSubject(), setMailText(), setMailAddresses(),
       setMailAttachment(), setMailAttachments(), mailAddresses()
     */
-    void setMailAddress(const Person::Ptr &mailAlarmAddress);
+    void setMailAddress(const Person &mailAlarmAddress);
 
     /**
       Sets a list of email addresses of an #Email type alarm.
@@ -328,7 +329,7 @@ public:
 
       @see setMailAddress(), setMailAddresses(), mailAddresses()
     */
-    void addMailAddress(const Person::Ptr &mailAlarmAddress);
+    void addMailAddress(const Person &mailAlarmAddress);
 
     /**
       Returns the list of addresses for an #Email alarm type.

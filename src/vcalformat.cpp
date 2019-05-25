@@ -217,7 +217,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
         anEvent->setOrganizer(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo))));
         deleteStr(s);
     } else {
-        if (d->mCalendar->owner()->name() != QLatin1String("Unknown Name")) {
+        if (d->mCalendar->owner().name() != QLatin1String("Unknown Name")) {
             anEvent->setOrganizer(d->mCalendar->owner());
         }
     }
@@ -694,7 +694,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
         anEvent->setOrganizer(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo))));
         deleteStr(s);
     } else {
-        if (d->mCalendar->owner()->name() != QStringLiteral("Unknown Name")) {
+        if (d->mCalendar->owner().name() != QStringLiteral("Unknown Name")) {
             anEvent->setOrganizer(d->mCalendar->owner());
         }
     }

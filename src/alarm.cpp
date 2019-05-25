@@ -127,7 +127,7 @@ static bool compareMailAddresses(const Person::List &list1, const Person::List &
 {
     if (list1.count() == list2.count()) {
         for (int i = 0; i < list1.count(); ++i) {
-            if (*list1.at(i) != *list2.at(i)) {
+            if (list1.at(i) != list2.at(i)) {
                 return false;
             }
         }
@@ -329,7 +329,7 @@ void Alarm::setEmailAlarm(const QString &subject, const QString &text,
     }
 }
 
-void Alarm::setMailAddress(const Person::Ptr &mailAddress)
+void Alarm::setMailAddress(const Person &mailAddress)
 {
     if (d->mType == Email) {
         if (d->mParent) {
@@ -356,7 +356,7 @@ void Alarm::setMailAddresses(const Person::List &mailAddresses)
     }
 }
 
-void Alarm::addMailAddress(const Person::Ptr &mailAddress)
+void Alarm::addMailAddress(const Person &mailAddress)
 {
     if (d->mType == Email) {
         if (d->mParent) {

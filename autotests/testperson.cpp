@@ -41,18 +41,18 @@ void PersonTest::testCompare()
 {
     Person person1(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com"));
     Person person2(QStringLiteral("wilma"), QStringLiteral("wilma@flintstone.com"));
-    Person::Ptr person3 = Person::fromFullName(QStringLiteral("fred <fred@flintstone.com>"));
+    Person person3 = Person::fromFullName(QStringLiteral("fred <fred@flintstone.com>"));
     Person person1copy(person1);   // test copy constructor
     Person person1assign = person1; // test operator=
 
     QVERIFY(!(person1 == person2));
-    QVERIFY(person1 == *person3.data());
+    QVERIFY(person1 == person3);
     QVERIFY(person1 == person1copy);
     QVERIFY(person1 == person1assign);
     QVERIFY(person1.name() == QLatin1String("fred"));
     QVERIFY(person2.email() == QLatin1String("wilma@flintstone.com"));
-    QVERIFY(person3->name() == QLatin1String("fred"));
-    QVERIFY(person3->email() == QLatin1String("fred@flintstone.com"));
+    QVERIFY(person3.name() == QLatin1String("fred"));
+    QVERIFY(person3.email() == QLatin1String("fred@flintstone.com"));
 }
 
 void PersonTest::testStringify()
@@ -70,7 +70,7 @@ void PersonTest::testStringify()
 
 void PersonTest::testDataStreamIn()
 {
-    Person::Ptr person1(new Person(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com")));
+    Person person1(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com"));
 
     QByteArray byteArray;
     QDataStream out_stream(&byteArray, QIODevice::WriteOnly);
@@ -94,7 +94,7 @@ void PersonTest::testDataStreamIn()
 
 void PersonTest::testDataStreamOut()
 {
-    Person::Ptr person1(new Person(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com")));
+    Person person1(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com"));
 
     QByteArray byteArray;
     QDataStream out_stream(&byteArray, QIODevice::WriteOnly);
@@ -102,10 +102,10 @@ void PersonTest::testDataStreamOut()
     out_stream << person1;
 
     QDataStream in_stream(&byteArray, QIODevice::ReadOnly);
-    Person::Ptr person2;
+    Person person2;
 
     in_stream >> person2;
 
-    QVERIFY(person2->name() == person1->name());
-    QVERIFY(person2->email() == person1->email());
+    QVERIFY(person2.name() == person1.name());
+    QVERIFY(person2.email() == person1.email());
 }

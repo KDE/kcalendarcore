@@ -36,7 +36,7 @@
 #include <QString>
 #include <QHash>
 #include <QMetaType>
-#include <QSharedPointer>
+#include <QSharedDataPointer>
 
 namespace KCalCore
 {
@@ -52,14 +52,9 @@ class KCALCORE_EXPORT Person
 {
 public:
     /**
-      A shared pointer to a Person object.
-    */
-    typedef QSharedPointer<Person> Ptr;
-
-    /**
       List of persons.
     */
-    typedef QVector<Ptr> List;
+    typedef QVector<Person> List;
 
     /**
       Constructs a blank person.
@@ -71,9 +66,9 @@ public:
 
       @param fullName is the name and email of the person in the form
         "FirstName LastName \<mail@domain\>".
-      @return A Person object pointer.
+      @return A Person object.
     */
-    static Person::Ptr fromFullName(const QString &fullName);
+    static Person fromFullName(const QString &fullName);
 
     /**
       Constructs a person with the name @p name and email address @p email.
@@ -175,24 +170,22 @@ public:
 private:
     //@cond PRIVATE
     class Private;
-    Private *const d;
+    QSharedDataPointer<Private> d;
     //@endcond
 
-    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &s,
-            const KCalCore::Person::Ptr &person);
-    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &s,
-            KCalCore::Person::Ptr &person);
+    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &s, const KCalCore::Person &person);
+    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &s, KCalCore::Person &person);
 };
 
 /**
   Serializes the @p person object into the @p stream.
 */
-KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalCore::Person::Ptr &person);
+KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalCore::Person &person);
 
 /**
   Initializes the @p person object from the @p stream.
 */
-KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalCore::Person::Ptr &person);
+KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalCore::Person &person);
 
 /**
   Return a hash value for a Person argument.
@@ -203,8 +196,8 @@ KCALCORE_EXPORT uint qHash(const KCalCore::Person &key);
 }
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO(KCalCore::Person::Ptr, Q_MOVABLE_TYPE);
-Q_DECLARE_METATYPE(KCalCore::Person::Ptr)
+Q_DECLARE_TYPEINFO(KCalCore::Person, Q_MOVABLE_TYPE);
+Q_DECLARE_METATYPE(KCalCore::Person)
 //@endcond
 
 #endif

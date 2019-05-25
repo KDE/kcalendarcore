@@ -50,9 +50,8 @@ public:
         mFilter = mDefaultFilter;
         mFilter->setEnabled(false);
 
-        mOwner = Person::Ptr(new Person());
-        mOwner->setName(QStringLiteral("Unknown Name"));
-        mOwner->setEmail(QStringLiteral("unknown@nowhere"));
+        mOwner.setName(QStringLiteral("Unknown Name"));
+        mOwner.setEmail(QStringLiteral("unknown@nowhere"));
     }
 
     ~Private()
@@ -65,7 +64,7 @@ public:
     QTimeZone timeZoneIdSpec(const QByteArray &timeZoneId);
 
     QString mProductId;
-    Person::Ptr mOwner;
+    Person mOwner;
     QTimeZone mTimeZone;
     QVector<QTimeZone> mTimeZones;
     bool mModified = false;

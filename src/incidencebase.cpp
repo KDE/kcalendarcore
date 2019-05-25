@@ -59,8 +59,7 @@ class Q_DECL_HIDDEN KCalCore::IncidenceBase::Private
 {
 public:
     Private()
-        : mOrganizer(nullptr)
-        , mUpdateGroupLevel(0)
+        : mUpdateGroupLevel(0)
         , mUpdatedPending(false)
         , mAllDay(false)
         , mHasDuration(false)
@@ -84,7 +83,7 @@ public:
 
     QDateTime mLastModified;     // incidence last modified date
     QDateTime mDtStart;          // incidence start time
-    Person::Ptr mOrganizer;           // incidence person (owner)
+    Person mOrganizer;           // incidence person (owner)
     QString mUid;                // incidence unique id
     Duration mDuration;          // incidence duration
     int mUpdateGroupLevel;       // if non-zero, suppresses update() calls
@@ -211,7 +210,7 @@ bool IncidenceBase::equals(const IncidenceBase &i2) const
     // no need to compare mObserver
 
     bool a = ((dtStart() == i2.dtStart()) || (!dtStart().isValid() && !i2.dtStart().isValid()));
-    bool b = *(organizer().data()) == *(i2.organizer().data());
+    bool b = organizer() == i2.organizer();
     bool c = uid() == i2.uid();
     bool d = allDay() == i2.allDay();
     bool e = duration() == i2.duration();
@@ -265,19 +264,17 @@ QDateTime IncidenceBase::lastModified() const
     return d->mLastModified;
 }
 
-void IncidenceBase::setOrganizer(const Person::Ptr &organizer)
+void IncidenceBase::setOrganizer(const Person &organizer)
 {
-    if (organizer) {
-        update();
-        // we don't check for readonly here, because it is
-        // possible that by setting the organizer we are changing
-        // the event's readonly status...
-        d->mOrganizer = organizer;
+    update();
+    // we don't check for readonly here, because it is
+    // possible that by setting the organizer we are changing
+    // the event's readonly status...
+    d->mOrganizer = organizer;
 
-        d->mDirtyFields.insert(FieldOrganizer);
+    d->mDirtyFields.insert(FieldOrganizer);
 
-        updated();
-    }
+    updated();
 }
 
 void IncidenceBase::setOrganizer(const QString &o)
@@ -288,16 +285,12 @@ void IncidenceBase::setOrganizer(const QString &o)
     }
 
     // split the string into full name plus email.
-    const Person::Ptr organizer = Person::fromFullName(mail);
+    const Person organizer = Person::fromFullName(mail);
     setOrganizer(organizer);
 }
 
-Person::Ptr IncidenceBase::organizer() const
+Person IncidenceBase::organizer() const
 {
-    if (!d->mOrganizer) {
-        d->mOrganizer = Person::Ptr(new Person());    // init at first use only to save memory
-    }
-
     return d->mOrganizer;
 }
 
