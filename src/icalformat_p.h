@@ -204,7 +204,6 @@ public:
     */
     static QDateTime readICalUtcDateTime(icalproperty *p, icaltimetype &t,
                                          const ICalTimeZoneCache *tzList = nullptr)
-    //TODO: KDE5, move this implementation to icalformat_p.cpp
     {
         return readICalDateTime(p, t, tzList, true);
     }
