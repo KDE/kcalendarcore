@@ -134,6 +134,7 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
 {
     Q_OBJECT
     Q_PROPERTY(QString productId READ productId WRITE setProductId) //clazy:exclude=qproperty-without-notify
+    Q_PROPERTY(KCalCore::Person owner READ owner WRITE setOwner)
 
 public:
 

@@ -50,6 +50,12 @@ namespace KCalCore
 */
 class KCALCORE_EXPORT Person
 {
+    Q_GADGET
+    Q_PROPERTY(bool isEmpty READ isEmpty)
+    Q_PROPERTY(QString fullName READ fullName)
+    Q_PROPERTY(QString name READ name WRITE setName)
+    Q_PROPERTY(QString email READ email WRITE setEmail)
+
 public:
     /**
       List of persons.

@@ -113,6 +113,8 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
     Q_PROPERTY(QDateTime lastModified READ lastModified WRITE setLastModified)
     Q_PROPERTY(QDateTime dtStart READ dtStart WRITE setDtStart)
     Q_PROPERTY(bool allDay READ allDay WRITE setAllDay)
+    Q_PROPERTY(KCalCore::Person organizer READ organizer WRITE setOrganizer)
+
 public:
     /**
       A shared pointer to an IncidenceBase.
