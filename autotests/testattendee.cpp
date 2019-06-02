@@ -220,3 +220,13 @@ void AttendeeTest::testDataStreamIn()
     QVERIFY(attendee2->customProperties() == attendee1->customProperties());
     QVERIFY(*attendee1 == *attendee2);
 }
+
+void AttendeeTest::testUid()
+{
+    Attendee::Ptr a(new Attendee(QStringLiteral("me"), QStringLiteral("test@dev.null")));
+    QVERIFY(!a->uid().isEmpty());
+    a->setUid(QStringLiteral("42"));
+    QCOMPARE(a->uid(), QLatin1String("42"));
+    a->setUid({});
+    QVERIFY(!a->uid().isEmpty());
+}

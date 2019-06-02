@@ -253,6 +253,18 @@ void Attendee::setUid(const QString &uid)
 
 QString Attendee::uid() const
 {
+    /* If Uid is empty, just use the pointer to Attendee (encoded to
+     * string) as Uid. Only thing that matters is that the Uid is unique
+     * insofar IncidenceBase is concerned, and this does that (albeit
+     * not very nicely). If these are ever saved to disk, should use
+     * (considerably more expensive) CalFormat::createUniqueId(). As Uid
+     * is not part of Attendee in iCal std, it's fairly safe bet that
+     * these will never hit disc though so faster generation speed is
+     * more important than actually being forever unique.*/
+    if (d->mUid.isEmpty()) {
+        d->mUid = QString::number((qlonglong)this);
+    }
+
     return d->mUid;
 }
 

@@ -36,6 +36,7 @@ private Q_SLOTS:
     void testAssign();
     void testDataStreamOut();
     void testDataStreamIn();
+    void testUid();
 };
 
 #endif

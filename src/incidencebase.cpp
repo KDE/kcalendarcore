@@ -432,6 +432,7 @@ void IncidenceBase::addAttendee(const Attendee::Ptr &a, bool doupdate)
         return;
     }
 
+    Q_ASSERT(!a->uid().isEmpty());
     Q_ASSERT(!d->mAttendees.contains(a));
 
     if (doupdate) {
@@ -439,18 +440,6 @@ void IncidenceBase::addAttendee(const Attendee::Ptr &a, bool doupdate)
     }
     if (a->name().left(7).toUpper() == QLatin1String("MAILTO:")) {
         a->setName(a->name().remove(0, 7));
-    }
-
-    /* If Uid is empty, just use the pointer to Attendee (encoded to
-     * string) as Uid. Only thing that matters is that the Uid is unique
-     * insofar IncidenceBase is concerned, and this does that (albeit
-     * not very nicely). If these are ever saved to disk, should use
-     * (considerably more expensive) CalFormat::createUniqueId(). As Uid
-     * is not part of Attendee in iCal std, it's fairly safe bet that
-     * these will never hit disc though so faster generation speed is
-     * more important than actually being forever unique.*/
-    if (a->uid().isEmpty()) {
-        a->setUid(QString::number((qlonglong)a.data()));
     }
 
     d->mAttendees.append(a);
