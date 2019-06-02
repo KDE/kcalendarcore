@@ -449,27 +449,6 @@ void IncidenceBase::addAttendee(const Attendee::Ptr &a, bool doupdate)
     }
 }
 
-void IncidenceBase::deleteAttendee(const Attendee::Ptr &a, bool doupdate)
-{
-    if (!a || mReadOnly) {
-        return;
-    }
-
-    int index = d->mAttendees.indexOf(a);
-    if (index >= 0) {
-        if (doupdate) {
-            update();
-        }
-
-        d->mAttendees.remove(index);
-
-        if (doupdate) {
-            d->mDirtyFields.insert(FieldAttendees);
-            updated();
-        }
-    }
-}
-
 Attendee::List IncidenceBase::attendees() const
 {
     return d->mAttendees;
@@ -478,6 +457,29 @@ Attendee::List IncidenceBase::attendees() const
 int IncidenceBase::attendeeCount() const
 {
     return d->mAttendees.count();
+}
+
+void IncidenceBase::setAttendees(const Attendee::List &attendees, bool doUpdate)
+{
+    if (mReadOnly) {
+        return;
+    }
+
+    if (doUpdate) {
+        update();
+    }
+
+    // don't simply assign, we need the logic in addAttendee here too
+    clearAttendees();
+    d->mAttendees.reserve(attendees.size());
+    for (const auto &a : attendees) {
+        addAttendee(a, false);
+    }
+
+    if (doUpdate) {
+        d->mDirtyFields.insert(FieldAttendees);
+        updated();
+    }
 }
 
 void IncidenceBase::clearAttendees()

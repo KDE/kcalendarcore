@@ -518,14 +518,13 @@ public:
     void clearAttendees();
 
     /**
-     Delete single attendee from the incidence.
+       Set the attendees of this incidence.
+       This replaces all previously set attendees, unlike addAttendee.
 
-     The given attendee will be delete()d at the end of this call.
-
-     @param attendee The attendee to be removeComment
-     @param doUpdate If true the Observers are notified, if false they are not.
+       @param attendees A list of attendees.
+       @param doUpdate If true the Observers are notified, if false they are not.
     */
-    void deleteAttendee(const Attendee::Ptr &attendee, bool doUpdate = true);
+    void setAttendees(const Attendee::List &attendees, bool doUpdate = true);
 
     /**
       Returns a list of incidence attendees.
