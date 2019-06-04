@@ -150,3 +150,23 @@ void ICalFormatTest::testCuType()
     QVERIFY(attendee2->name() == attendee->name());
     QVERIFY(attendee2->email() == attendee->email());
 }
+
+void ICalFormatTest::testAlarm()
+{
+    ICalFormat format;
+
+    Event::Ptr event(new Event);
+    event->setDtStart(QDateTime(QDate(2017, 03, 24)));
+    Alarm::Ptr alarm = event->newAlarm();
+    alarm->setType(Alarm::Display);
+    alarm->setStartOffset(Duration(0));
+
+    const QString serialized
+        = QLatin1String("BEGIN:VCALENDAR\nPRODID:-//K Desktop Environment//NONSGML libkcal 3.2//EN\nVERSION:2.0\n")
+        + format.toString(event.staticCast<Incidence>())
+        + QLatin1String("\nEND:VCALENDAR");
+
+    Incidence::Ptr event2 = format.fromString(serialized);
+    Alarm::Ptr alarm2 = event2->alarms()[0];
+    QCOMPARE(*alarm, *alarm2);
+}
