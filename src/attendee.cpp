@@ -178,7 +178,11 @@ QString Attendee::name() const
 
 void Attendee::setName(const QString &name)
 {
-    d->mName = name;
+    if (name.startsWith(QLatin1String("mailto:"), Qt::CaseInsensitive)) {
+        d->mName = name.mid(7);
+    } else {
+        d->mName = name;
+    }
 }
 
 QString Attendee::fullName() const
@@ -193,7 +197,11 @@ QString Attendee::email() const
 
 void Attendee::setEmail(const QString &email)
 {
-    d->mEmail = email;
+    if (email.startsWith(QLatin1String("mailto:"), Qt::CaseInsensitive)) {
+        d->mEmail = email.mid(7);
+    } else {
+        d->mEmail = email;
+    }
 }
 
 void Attendee::setRSVP(bool r)
