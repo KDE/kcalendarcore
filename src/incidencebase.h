@@ -62,7 +62,7 @@
 #include "person.h"
 
 #include <QDateTime>
-
+#include <QSharedPointer>
 #include <QSet>
 #include <QUrl>
 #include <QDataStream>
@@ -504,13 +504,12 @@ public:
     Q_REQUIRED_RESULT QStringList contacts() const;
 
     /**
-      Add Attendee to this incidence. IncidenceBase takes ownership of the
-      Attendee object.
+      Add Attendee to this incidence.
 
-      @param attendee a pointer to the attendee to add
+      @param attendee the attendee to add
       @param doUpdate If true the Observers are notified, if false they are not.
     */
-    void addAttendee(const Attendee::Ptr &attendee, bool doUpdate = true);
+    void addAttendee(const Attendee &attendee, bool doUpdate = true);
 
     /**
       Removes all attendees from the incidence.
@@ -544,7 +543,7 @@ public:
       form "FirstName LastName <emailaddress>".
       @see attendeeByMails(), attendeesByUid().
     */
-    Attendee::Ptr attendeeByMail(const QString &email) const;
+    Attendee attendeeByMail(const QString &email) const;
 
     /**
       Returns the first incidence attendee with one of the specified
@@ -556,7 +555,7 @@ public:
       in addition to the list specified in @p emails.
       @see attendeeByMail(), attendeesByUid().
     */
-    Attendee::Ptr attendeeByMails(const QStringList &emails, const QString &email = QString()) const;
+    Attendee attendeeByMails(const QStringList &emails, const QString &email = QString()) const;
 
     /**
       Returns the incidence attendee with the specified attendee @acronym UID.
@@ -564,7 +563,7 @@ public:
       @param uid is a QString containing an attendee @acronym UID.
       @see attendeeByMail(), attendeeByMails().
     */
-    Attendee::Ptr attendeeByUid(const QString &uid) const;
+    Attendee attendeeByUid(const QString &uid) const;
 
     /**
       Sets the incidences url.

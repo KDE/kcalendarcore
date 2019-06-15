@@ -159,7 +159,7 @@ bool CalFilter::filterIncidence(const Incidence::Ptr &incidence) const
             if (!todo->attendees().isEmpty()) {
                 Attendee::List::ConstIterator it;
                 for (it = attendees.begin(); it != attendees.end(); ++it) {
-                    if (d->mEmailList.contains((*it)->email())) {
+                    if (d->mEmailList.contains((*it).email())) {
                         iAmOneOfTheAttendees = true;
                         break;
                     }

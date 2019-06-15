@@ -129,7 +129,7 @@ public:
     icalproperty *writeDescription(const QString &description, bool isRich = false);
     icalproperty *writeSummary(const QString &summary, bool isRich = false);
     icalproperty *writeLocation(const QString &location, bool isRich = false);
-    icalproperty *writeAttendee(const Attendee::Ptr &attendee);
+    icalproperty *writeAttendee(const Attendee &attendee);
     icalproperty *writeOrganizer(const Person &organizer);
     icalproperty *writeAttachment(const Attachment::Ptr &attach);
     icalproperty *writeRecurrenceRule(Recurrence *);
@@ -141,7 +141,7 @@ public:
     Event::Ptr readEvent(icalcomponent *vevent, const ICalTimeZoneCache *tzList);
     FreeBusy::Ptr readFreeBusy(icalcomponent *vfreebusy);
     Journal::Ptr readJournal(icalcomponent *vjournal, const ICalTimeZoneCache *tzList);
-    Attendee::Ptr readAttendee(icalproperty *attendee);
+    Attendee readAttendee(icalproperty *attendee);
     Person readOrganizer(icalproperty *organizer);
     Attachment::Ptr readAttachment(icalproperty *attach);
     void readIncidence(icalcomponent *parent, const Incidence::Ptr &incidence, const ICalTimeZoneCache *tzList);

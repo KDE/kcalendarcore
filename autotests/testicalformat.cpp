@@ -130,8 +130,8 @@ void ICalFormatTest::testCuType()
     event->setDtEnd(QDateTime(currentDate.addDays(1), {}));
     event->setAllDay(true);
 
-    Attendee::Ptr attendee(new Attendee(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com")));
-    attendee->setCuType(Attendee::Resource);
+    Attendee attendee(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com"));
+    attendee.setCuType(Attendee::Resource);
 
     event->addAttendee(attendee);
 
@@ -145,10 +145,10 @@ void ICalFormatTest::testCuType()
 
     Incidence::Ptr event2 = format.fromString(serializedCalendar);
     QVERIFY(event2->attendeeCount() == 1);
-    Attendee::Ptr attendee2 = event2->attendees()[0];
-    QVERIFY(attendee2->cuType() == attendee->cuType());
-    QVERIFY(attendee2->name() == attendee->name());
-    QVERIFY(attendee2->email() == attendee->email());
+    Attendee attendee2 = event2->attendees()[0];
+    QVERIFY(attendee2.cuType() == attendee.cuType());
+    QVERIFY(attendee2.name() == attendee.name());
+    QVERIFY(attendee2.email() == attendee.email());
 }
 
 void ICalFormatTest::testAlarm()

@@ -227,7 +227,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
     while (moreIteration(&voi)) {
         vo = nextVObject(&voi);
         if (strcmp(vObjectName(vo), VCAttendeeProp) == 0) {
-            Attendee::Ptr a;
+            Attendee a;
             VObject *vp;
             s = fakeCString(vObjectUStringZValue(vo));
             QString tmpStr = QString::fromUtf8(s);
@@ -237,26 +237,24 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
             if ((emailPos1 = tmpStr.indexOf(QLatin1Char('<'))) > 0) {
                 // both email address and name
                 int emailPos2 = tmpStr.lastIndexOf(QLatin1Char('>'));
-                a = Attendee::Ptr(new Attendee(tmpStr.left(emailPos1 - 1),
-                                               tmpStr.mid(emailPos1 + 1,
-                                                       emailPos2 - (emailPos1 + 1))));
+                a = Attendee(tmpStr.left(emailPos1 - 1), tmpStr.mid(emailPos1 + 1, emailPos2 - (emailPos1 + 1)));
             } else if (tmpStr.indexOf(QLatin1Char('@')) > 0) {
                 // just an email address
-                a = Attendee::Ptr(new Attendee(QString(), tmpStr));
+                a = Attendee(QString(), tmpStr);
             } else {
                 // just a name
                 // WTF??? Replacing the spaces of a name and using this as email?
                 QString email = tmpStr.replace(QLatin1Char(' '), QLatin1Char('.'));
-                a = Attendee::Ptr(new Attendee(tmpStr, email));
+                a = Attendee(tmpStr, email);
             }
 
             // is there an RSVP property?
             if ((vp = isAPropertyOf(vo, VCRSVPProp)) != nullptr) {
-                a->setRSVP(vObjectStringZValue(vp));
+                a.setRSVP(vObjectStringZValue(vp));
             }
             // is there a status property?
             if ((vp = isAPropertyOf(vo, VCStatusProp)) != nullptr) {
-                a->setStatus(readStatus(vObjectStringZValue(vp)));
+                a.setStatus(readStatus(vObjectStringZValue(vp)));
             }
             // add the attendee
             anEvent->addAttendee(a);
@@ -704,7 +702,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
     while (moreIteration(&voi)) {
         vo = nextVObject(&voi);
         if (strcmp(vObjectName(vo), VCAttendeeProp) == 0) {
-            Attendee::Ptr a;
+            Attendee a;
             VObject *vp = nullptr;
             s = fakeCString(vObjectUStringZValue(vo));
             QString tmpStr = QString::fromUtf8(s);
@@ -714,25 +712,23 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
             if ((emailPos1 = tmpStr.indexOf(QLatin1Char('<'))) > 0) {
                 // both email address and name
                 int emailPos2 = tmpStr.lastIndexOf(QLatin1Char('>'));
-                a = Attendee::Ptr(new Attendee(tmpStr.left(emailPos1 - 1),
-                                               tmpStr.mid(emailPos1 + 1,
-                                                       emailPos2 - (emailPos1 + 1))));
+                a = Attendee(tmpStr.left(emailPos1 - 1), tmpStr.mid(emailPos1 + 1, emailPos2 - (emailPos1 + 1)));
             } else if (tmpStr.indexOf(QLatin1Char('@')) > 0) {
                 // just an email address
-                a = Attendee::Ptr(new Attendee(QString(), tmpStr));
+                a = Attendee(QString(), tmpStr);
             } else {
                 // just a name
                 QString email = tmpStr.replace(QLatin1Char(' '), QLatin1Char('.'));
-                a = Attendee::Ptr(new Attendee(tmpStr, email));
+                a = Attendee(tmpStr, email);
             }
 
             // is there an RSVP property?
             if ((vp = isAPropertyOf(vo, VCRSVPProp)) != nullptr) {
-                a->setRSVP(vObjectStringZValue(vp));
+                a.setRSVP(vObjectStringZValue(vp));
             }
             // is there a status property?
             if ((vp = isAPropertyOf(vo, VCStatusProp)) != nullptr) {
-                a->setStatus(readStatus(vObjectStringZValue(vp)));
+                a.setStatus(readStatus(vObjectStringZValue(vp)));
             }
             // add the attendee
             anEvent->addAttendee(a);

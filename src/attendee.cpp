@@ -44,7 +44,7 @@ using namespace KCalCore;
   @internal
 */
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalCore::Attendee::Private
+class Q_DECL_HIDDEN KCalCore::Attendee::Private : public QSharedData
 {
 public:
     void setCuType(CuType cuType);
@@ -55,7 +55,7 @@ public:
     bool mRSVP = false;
     Role mRole;
     PartStat mStatus;
-    QString mUid;
+    mutable QString mUid;
     QString mDelegate;
     QString mDelegator;
     CustomProperties mCustomProperties;
@@ -118,6 +118,11 @@ QString KCalCore::Attendee::Private::cuTypeStr() const
     return QStringLiteral("UNKNOWN");
 }
 
+Attendee::Attendee()
+    : d(new Attendee::Private)
+{
+}
+
 Attendee::Attendee(const QString &name, const QString &email, bool rsvp,
                    Attendee::PartStat status, Attendee::Role role, const QString &uid)
     : d(new Attendee::Private)
@@ -132,13 +137,16 @@ Attendee::Attendee(const QString &name, const QString &email, bool rsvp,
 }
 
 Attendee::Attendee(const Attendee &attendee)
-    : d(new Attendee::Private(*attendee.d))
+    : d(attendee.d)
 {
 }
 
-Attendee::~Attendee()
+Attendee::~Attendee() = default;
+
+bool Attendee::isNull() const
 {
-    delete d;
+    // isNull rather than isEmpty, as user code is actually creating empty but non-null attendees...
+    return d->mName.isNull() && d->mEmail.isNull();
 }
 
 bool KCalCore::Attendee::operator==(const Attendee &attendee) const
@@ -167,7 +175,7 @@ Attendee &KCalCore::Attendee::operator=(const Attendee &attendee)
         return *this;
     }
 
-    *d = *attendee.d;
+    d = attendee.d;
     return *this;
 }
 
@@ -270,7 +278,7 @@ QString Attendee::uid() const
      * these will never hit disc though so faster generation speed is
      * more important than actually being forever unique.*/
     if (d->mUid.isEmpty()) {
-        d->mUid = QString::number((qlonglong)this);
+        d->mUid = QString::number((qlonglong)d.constData());
     }
 
     return d->mUid;
@@ -311,21 +319,21 @@ const CustomProperties &Attendee::customProperties() const
     return d->mCustomProperties;
 }
 
-QDataStream &KCalCore::operator<<(QDataStream &stream, const KCalCore::Attendee::Ptr &attendee)
+QDataStream &KCalCore::operator<<(QDataStream &stream, const KCalCore::Attendee &attendee)
 {
-    KCalCore::Person p(attendee->name(), attendee->email());
+    KCalCore::Person p(attendee.name(), attendee.email());
     stream << p;
-    return stream << attendee->d->mRSVP
-           << int(attendee->d->mRole)
-           << int(attendee->d->mStatus)
-           << attendee->d->mUid
-           << attendee->d->mDelegate
-           << attendee->d->mDelegator
-           << attendee->d->cuTypeStr()
-           << attendee->d->mCustomProperties;
+    return stream << attendee.d->mRSVP
+           << int(attendee.d->mRole)
+           << int(attendee.d->mStatus)
+           << attendee.d->mUid
+           << attendee.d->mDelegate
+           << attendee.d->mDelegator
+           << attendee.d->cuTypeStr()
+           << attendee.d->mCustomProperties;
 }
 
-QDataStream &KCalCore::operator>>(QDataStream &stream, KCalCore::Attendee::Ptr &attendee)
+QDataStream &KCalCore::operator>>(QDataStream &stream, KCalCore::Attendee &attendee)
 {
     bool RSVP;
     Attendee::Role role;
@@ -352,12 +360,10 @@ QDataStream &KCalCore::operator>>(QDataStream &stream, KCalCore::Attendee::Ptr &
     role = Attendee::Role(role_int);
     status = Attendee::PartStat(status_int);
 
-    Attendee::Ptr att_temp(new KCalCore::Attendee(person.name(), person.email(),
-                           RSVP, status, role, uid));
-    att_temp->setDelegate(delegate);
-    att_temp->setDelegator(delegator);
-    att_temp->setCuType(cuType);
-    att_temp->d->mCustomProperties = customProperties;
-    attendee.swap(att_temp);
+    attendee = Attendee(person.name(), person.email(), RSVP, status, role, uid);
+    attendee.setDelegate(delegate);
+    attendee.setDelegator(delegator);
+    attendee.setCuType(cuType);
+    attendee.d->mCustomProperties = customProperties;
     return stream;
 }

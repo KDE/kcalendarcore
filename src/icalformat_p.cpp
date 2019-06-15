@@ -771,29 +771,29 @@ icalproperty *ICalFormatImpl::writeLocation(const QString &location, bool isRich
     return p;
 }
 
-icalproperty *ICalFormatImpl::writeAttendee(const Attendee::Ptr &attendee)
+icalproperty *ICalFormatImpl::writeAttendee(const Attendee &attendee)
 {
-    if (attendee->email().isEmpty()) {
+    if (attendee.email().isEmpty()) {
         return nullptr;
     }
 
     icalproperty *p =
-        icalproperty_new_attendee(QByteArray(QByteArray("mailto:") + attendee->email().toUtf8()).constData());
+        icalproperty_new_attendee(QByteArray(QByteArray("mailto:") + attendee.email().toUtf8()).constData());
 
-    if (!attendee->name().isEmpty()) {
+    if (!attendee.name().isEmpty()) {
         icalproperty_add_parameter(p,
 #if defined(USE_ICAL_3)
-            icalparameter_new_cn(attendee->name().toUtf8().constData()));
+            icalparameter_new_cn(attendee.name().toUtf8().constData()));
 #else
-            icalparameter_new_cn(quoteForParam(attendee->name()).toUtf8().constData()));
+            icalparameter_new_cn(quoteForParam(attendee.name()).toUtf8().constData()));
 #endif
     }
 
     icalproperty_add_parameter(
-        p, icalparameter_new_rsvp(attendee->RSVP() ? ICAL_RSVP_TRUE : ICAL_RSVP_FALSE));
+        p, icalparameter_new_rsvp(attendee.RSVP() ? ICAL_RSVP_TRUE : ICAL_RSVP_FALSE));
 
     icalparameter_partstat status = ICAL_PARTSTAT_NEEDSACTION;
-    switch (attendee->status()) {
+    switch (attendee.status()) {
     default:
     case Attendee::NeedsAction:
         status = ICAL_PARTSTAT_NEEDSACTION;
@@ -820,7 +820,7 @@ icalproperty *ICalFormatImpl::writeAttendee(const Attendee::Ptr &attendee)
     icalproperty_add_parameter(p, icalparameter_new_partstat(status));
 
     icalparameter_role role = ICAL_ROLE_REQPARTICIPANT;
-    switch (attendee->role()) {
+    switch (attendee.role()) {
     case Attendee::Chair:
         role = ICAL_ROLE_CHAIR;
         break;
@@ -838,7 +838,7 @@ icalproperty *ICalFormatImpl::writeAttendee(const Attendee::Ptr &attendee)
     icalproperty_add_parameter(p, icalparameter_new_role(role));
 
     icalparameter_cutype cutype = ICAL_CUTYPE_INDIVIDUAL;
-    switch (attendee->cuType()) {
+    switch (attendee.cuType()) {
     case Attendee::Unknown:
         cutype = ICAL_CUTYPE_UNKNOWN;
         break;
@@ -858,22 +858,22 @@ icalproperty *ICalFormatImpl::writeAttendee(const Attendee::Ptr &attendee)
     }
     icalproperty_add_parameter(p, icalparameter_new_cutype(cutype));
 
-    if (!attendee->uid().isEmpty()) {
-        icalparameter *icalparameter_uid = icalparameter_new_x(attendee->uid().toUtf8().constData());
+    if (!attendee.uid().isEmpty()) {
+        icalparameter *icalparameter_uid = icalparameter_new_x(attendee.uid().toUtf8().constData());
 
         icalparameter_set_xname(icalparameter_uid, "X-UID");
         icalproperty_add_parameter(p, icalparameter_uid);
     }
 
-    if (!attendee->delegate().isEmpty()) {
+    if (!attendee.delegate().isEmpty()) {
         icalparameter *icalparameter_delegate =
-            icalparameter_new_delegatedto(attendee->delegate().toUtf8().constData());
+            icalparameter_new_delegatedto(attendee.delegate().toUtf8().constData());
         icalproperty_add_parameter(p, icalparameter_delegate);
     }
 
-    if (!attendee->delegator().isEmpty()) {
+    if (!attendee.delegator().isEmpty()) {
         icalparameter *icalparameter_delegator =
-            icalparameter_new_delegatedfrom(attendee->delegator().toUtf8().constData());
+            icalparameter_new_delegatedfrom(attendee.delegator().toUtf8().constData());
         icalproperty_add_parameter(p, icalparameter_delegator);
     }
 
@@ -1411,12 +1411,12 @@ Journal::Ptr ICalFormatImpl::readJournal(icalcomponent *vjournal, const ICalTime
     return journal;
 }
 
-Attendee::Ptr ICalFormatImpl::readAttendee(icalproperty *attendee)
+Attendee ICalFormatImpl::readAttendee(icalproperty *attendee)
 {
     // the following is a hack to support broken calendars (like WebCalendar 1.0.x)
     // that include non-RFC-compliant attendees.  Otherwise libical 0.42 asserts.
     if (!icalproperty_get_value(attendee)) {
-        return Attendee::Ptr();
+        return {};
     }
 
     icalparameter *p = nullptr;
@@ -1429,7 +1429,7 @@ Attendee::Ptr ICalFormatImpl::readAttendee(icalproperty *attendee)
     // libical may return everything after ATTENDEE tag if the rest is
     // not meaningful. Verify the address to filter out these cases.
     if (!Person::isValidEmail(email)) {
-        return Attendee::Ptr();
+        return {};
     }
 
     QString name;
@@ -1539,18 +1539,18 @@ Attendee::Ptr ICalFormatImpl::readAttendee(icalproperty *attendee)
         p = icalproperty_get_next_parameter(attendee, ICAL_X_PARAMETER);
     }
 
-    Attendee::Ptr a(new Attendee(name, email, rsvp, status, role, uid));
-    a->setCuType(cuType);
-    a->customProperties().setCustomProperties(custom);
+    Attendee a(name, email, rsvp, status, role, uid);
+    a.setCuType(cuType);
+    a.customProperties().setCustomProperties(custom);
 
     p = icalproperty_get_first_parameter(attendee, ICAL_DELEGATEDTO_PARAMETER);
     if (p) {
-        a->setDelegate(QLatin1String(icalparameter_get_delegatedto(p)));
+        a.setDelegate(QLatin1String(icalparameter_get_delegatedto(p)));
     }
 
     p = icalproperty_get_first_parameter(attendee, ICAL_DELEGATEDFROM_PARAMETER);
     if (p) {
-        a->setDelegator(QLatin1String(icalparameter_get_delegatedfrom(p)));
+        a.setDelegator(QLatin1String(icalparameter_get_delegatedfrom(p)));
     }
 
     return a;

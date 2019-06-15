@@ -30,7 +30,7 @@
 #define KCALCORE_ATTENDEE_H
 
 #include <QMetaType>
-#include <QSharedPointer>
+#include <QSharedDataPointer>
 
 #include "kcalcore_export.h"
 #include "customproperties.h"
@@ -102,14 +102,12 @@ public:
     };
 
     /**
-      A shared pointer to an Attendee object.
-    */
-    typedef QSharedPointer<Attendee> Ptr;
-
-    /**
       List of attendees.
     */
-    typedef QVector<Ptr> List;
+    typedef QVector<Attendee> List;
+
+    /** Create a null Attendee. */
+    Attendee();
 
     /**
       Constructs an attendee consisting of a person name (@p name) and
@@ -138,6 +136,11 @@ public:
       Destroys the attendee.
     */
     ~Attendee();
+
+    /**
+     * Returns @c true if this is a default-constructed Attendee instance.
+     */
+    bool isNull() const;
 
     /**
       Returns the name of the attendee.
@@ -338,13 +341,13 @@ public:
 private:
     //@cond PRIVATE
     class Private;
-    Private *const d;
+    QSharedDataPointer<Private> d;
     //@endcond
 
     friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &s,
-            const KCalCore::Attendee::Ptr &attendee);
+            const KCalCore::Attendee &attendee);
     friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &s,
-            KCalCore::Attendee::Ptr &attendee);
+            KCalCore::Attendee &attendee);
 };
 
 /**
@@ -353,7 +356,7 @@ private:
   @param attendee is a pointer to a Attendee object to be serialized.
 */
 KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
-                                        const KCalCore::Attendee::Ptr &attendee);
+                                        const KCalCore::Attendee &attendee);
 
 /**
   Initializes an Attendee object from a data stream.
@@ -361,12 +364,12 @@ KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
   @param attendee is a pointer to a Attendee object to be initialized.
 */
 KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream,
-                                        KCalCore::Attendee::Ptr &attendee);
+                                        KCalCore::Attendee &attendee);
 }
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO(KCalCore::Attendee::Ptr, Q_MOVABLE_TYPE);
-Q_DECLARE_METATYPE(KCalCore::Attendee::Ptr)
+Q_DECLARE_TYPEINFO(KCalCore::Attendee, Q_MOVABLE_TYPE);
+Q_DECLARE_METATYPE(KCalCore::Attendee)
 //@endcond
 
 #endif

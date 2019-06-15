@@ -131,15 +131,15 @@ void AttendeeTest::testAssign()
 
 void AttendeeTest::testDataStreamOut()
 {
-    Attendee::Ptr attendee1(new Attendee(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com")));
-    attendee1->setRSVP(true);
-    attendee1->setRole(Attendee::Chair);
-    attendee1->setUid(QStringLiteral("Shooby Doo Bop"));
-    attendee1->setDelegate(QStringLiteral("I AM THE Delegate"));
-    attendee1->setDelegator(QStringLiteral("AND I AM THE Delegator"));
-    attendee1->setCuType(QStringLiteral("X-SPECIAL"));
-    attendee1->setCustomProperty("name", QStringLiteral("value"));
-    attendee1->setCustomProperty("foo", QStringLiteral("bar"));
+    Attendee attendee1(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com"));
+    attendee1.setRSVP(true);
+    attendee1.setRole(Attendee::Chair);
+    attendee1.setUid(QStringLiteral("Shooby Doo Bop"));
+    attendee1.setDelegate(QStringLiteral("I AM THE Delegate"));
+    attendee1.setDelegator(QStringLiteral("AND I AM THE Delegator"));
+    attendee1.setCuType(QStringLiteral("X-SPECIAL"));
+    attendee1.setCustomProperty("name", QStringLiteral("value"));
+    attendee1.setCustomProperty("foo", QStringLiteral("bar"));
 
     QByteArray byteArray;
     QDataStream out_stream(&byteArray, QIODevice::WriteOnly);
@@ -157,76 +157,77 @@ void AttendeeTest::testDataStreamOut()
     uint role_int, status_int;
 
     in_stream >> person;
-    QVERIFY(person.name() == attendee1->name());
-    QVERIFY(person.email() == attendee1->email());
+    QVERIFY(person.name() == attendee1.name());
+    QVERIFY(person.email() == attendee1.email());
 
     in_stream >> rsvp;
-    QVERIFY(rsvp == attendee1->RSVP());
+    QVERIFY(rsvp == attendee1.RSVP());
 
     in_stream >> role_int;
     role = Attendee::Role(role_int);
-    QVERIFY(role == attendee1->role());
+    QVERIFY(role == attendee1.role());
 
     in_stream >> status_int;
     status = Attendee::PartStat(status_int);
-    QVERIFY(status == attendee1->status());
+    QVERIFY(status == attendee1.status());
 
     in_stream >> uid;
-    QVERIFY(uid == attendee1->uid());
+    QVERIFY(uid == attendee1.uid());
 
     in_stream >> delegate;
-    QVERIFY(delegate == attendee1->delegate());
+    QVERIFY(delegate == attendee1.delegate());
 
     in_stream >> delegator;
-    QVERIFY(delegator == attendee1->delegator());
+    QVERIFY(delegator == attendee1.delegator());
 
     in_stream >> cuType;
-    QVERIFY(cuType == attendee1->cuTypeStr());
+    QVERIFY(cuType == attendee1.cuTypeStr());
 
     in_stream >> customProperties;
-    QVERIFY(customProperties == attendee1->customProperties());
+    QVERIFY(customProperties == attendee1.customProperties());
 }
 
 void AttendeeTest::testDataStreamIn()
 {
-    Attendee::Ptr attendee1(new Attendee(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com")));
-    attendee1->setRSVP(true);
-    attendee1->setRole(Attendee::Chair);
-    attendee1->setCuType(QStringLiteral("IANA-FOO"));
-    attendee1->setUid(QStringLiteral("Shooby Doo Bop"));
-    attendee1->setDelegate(QStringLiteral("I AM THE Delegate"));
-    attendee1->setDelegator(QStringLiteral("AND I AM THE Delegator"));
-    attendee1->setCustomProperty("name", QStringLiteral("value"));
-    attendee1->setCustomProperty("foo", QStringLiteral("bar"));
+    Attendee attendee1(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com"));
+    attendee1.setRSVP(true);
+    attendee1.setRole(Attendee::Chair);
+    attendee1.setCuType(QStringLiteral("IANA-FOO"));
+    attendee1.setUid(QStringLiteral("Shooby Doo Bop"));
+    attendee1.setDelegate(QStringLiteral("I AM THE Delegate"));
+    attendee1.setDelegator(QStringLiteral("AND I AM THE Delegator"));
+    attendee1.setCustomProperty("name", QStringLiteral("value"));
+    attendee1.setCustomProperty("foo", QStringLiteral("bar"));
+    QVERIFY(!attendee1.isNull());
 
     QByteArray byteArray;
     QDataStream out_stream(&byteArray, QIODevice::WriteOnly);
 
     out_stream << attendee1;
 
-    Attendee::Ptr attendee2;
+    Attendee attendee2;
     QDataStream in_stream(&byteArray, QIODevice::ReadOnly);
 
     in_stream >> attendee2;
 
-    QVERIFY(attendee2);
-    QVERIFY(attendee2->uid() == attendee1->uid());
-    QVERIFY(attendee2->RSVP() == attendee1->RSVP());
-    QVERIFY(attendee2->role() == attendee1->role());
-    QVERIFY(attendee2->cuTypeStr() == attendee1->cuTypeStr());
-    QVERIFY(attendee2->status() == attendee1->status());
-    QVERIFY(attendee2->delegate() == attendee1->delegate());
-    QVERIFY(attendee2->delegator() == attendee1->delegator());
-    QVERIFY(attendee2->customProperties() == attendee1->customProperties());
-    QVERIFY(*attendee1 == *attendee2);
+    QVERIFY(!attendee2.isNull());
+    QVERIFY(attendee2.uid() == attendee1.uid());
+    QVERIFY(attendee2.RSVP() == attendee1.RSVP());
+    QVERIFY(attendee2.role() == attendee1.role());
+    QVERIFY(attendee2.cuTypeStr() == attendee1.cuTypeStr());
+    QVERIFY(attendee2.status() == attendee1.status());
+    QVERIFY(attendee2.delegate() == attendee1.delegate());
+    QVERIFY(attendee2.delegator() == attendee1.delegator());
+    QVERIFY(attendee2.customProperties() == attendee1.customProperties());
+    QVERIFY(attendee1 == attendee2);
 }
 
 void AttendeeTest::testUid()
 {
-    Attendee::Ptr a(new Attendee(QStringLiteral("me"), QStringLiteral("test@dev.null")));
-    QVERIFY(!a->uid().isEmpty());
-    a->setUid(QStringLiteral("42"));
-    QCOMPARE(a->uid(), QLatin1String("42"));
-    a->setUid({});
-    QVERIFY(!a->uid().isEmpty());
+    Attendee a(QStringLiteral("me"), QStringLiteral("test@dev.null"));
+    QVERIFY(!a.uid().isEmpty());
+    a.setUid(QStringLiteral("42"));
+    QCOMPARE(a.uid(), QLatin1String("42"));
+    a.setUid({});
+    QVERIFY(!a.uid().isEmpty());
 }

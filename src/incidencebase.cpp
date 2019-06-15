@@ -112,13 +112,8 @@ void IncidenceBase::Private::init(const Private &other)
     mComments = other.mComments;
     mContacts = other.mContacts;
 
-    mAttendees.clear();
+    mAttendees = other.mAttendees;
     mAttendees.reserve(other.mAttendees.count());
-    for (Attendee::List::ConstIterator it = other.mAttendees.constBegin(),
-         end = other.mAttendees.constEnd();
-         it != end; ++it) {
-        mAttendees.append(Attendee::Ptr(new Attendee(*(*it))));
-    }
     mUrl = other.mUrl;
 }
 
@@ -194,7 +189,7 @@ bool IncidenceBase::equals(const IncidenceBase &i2) const
     //TODO Does the order of attendees in the list really matter?
     //Please delete this comment if you know it's ok, kthx
     for (; a1 != al1.constEnd() && a2 != al2.constEnd(); ++a1, ++a2) {
-        if (!(**a1 == **a2)) {
+        if (!(*a1 == *a2)) {
             // qCDebug(KCALCORE_LOG) << "Attendees are different";
             return false;
         }
@@ -426,14 +421,12 @@ QStringList IncidenceBase::contacts() const
     return d->mContacts;
 }
 
-void IncidenceBase::addAttendee(const Attendee::Ptr &a, bool doupdate)
+void IncidenceBase::addAttendee(const Attendee &a, bool doupdate)
 {
-    if (!a || mReadOnly) {
+    if (a.isNull() || mReadOnly) {
         return;
     }
-
-    Q_ASSERT(!a->uid().isEmpty());
-    Q_ASSERT(!d->mAttendees.contains(a));
+    Q_ASSERT(!a.uid().isEmpty());
 
     if (doupdate) {
         update();
@@ -488,19 +481,19 @@ void IncidenceBase::clearAttendees()
     d->mAttendees.clear();
 }
 
-Attendee::Ptr IncidenceBase::attendeeByMail(const QString &email) const
+Attendee IncidenceBase::attendeeByMail(const QString &email) const
 {
     Attendee::List::ConstIterator it;
     for (it = d->mAttendees.constBegin(); it != d->mAttendees.constEnd(); ++it) {
-        if ((*it)->email() == email) {
+        if ((*it).email() == email) {
             return *it;
         }
     }
 
-    return Attendee::Ptr();
+    return {};
 }
 
-Attendee::Ptr IncidenceBase::attendeeByMails(const QStringList &emails, const QString &email) const
+Attendee IncidenceBase::attendeeByMails(const QStringList &emails, const QString &email) const
 {
     QStringList mails = emails;
     if (!email.isEmpty()) {
@@ -510,25 +503,25 @@ Attendee::Ptr IncidenceBase::attendeeByMails(const QStringList &emails, const QS
     Attendee::List::ConstIterator itA;
     for (itA = d->mAttendees.constBegin(); itA != d->mAttendees.constEnd(); ++itA) {
         for (QStringList::const_iterator it = mails.constBegin(); it != mails.constEnd(); ++it) {
-            if ((*itA)->email() == (*it)) {
+            if ((*itA).email() == (*it)) {
                 return *itA;
             }
         }
     }
 
-    return Attendee::Ptr();
+    return {};
 }
 
-Attendee::Ptr IncidenceBase::attendeeByUid(const QString &uid) const
+Attendee IncidenceBase::attendeeByUid(const QString &uid) const
 {
     Attendee::List::ConstIterator it;
     for (it = d->mAttendees.constBegin(); it != d->mAttendees.constEnd(); ++it) {
-        if ((*it)->uid() == uid) {
+        if ((*it).uid() == uid) {
             return *it;
         }
     }
 
-    return Attendee::Ptr();
+    return {};
 }
 
 void IncidenceBase::setDuration(const Duration &duration)
@@ -680,7 +673,7 @@ QDataStream &KCalCore::operator<<(QDataStream &out, const KCalCore::IncidenceBas
         << i->d->mAllDay << i->d->mHasDuration << i->d->mComments << i->d->mContacts
         << i->d->mAttendees.count() << i->d->mUrl;
 
-    for (const Attendee::Ptr &attendee : qAsConst(i->d->mAttendees)) {
+    for (const Attendee &attendee : qAsConst(i->d->mAttendees)) {
         out << attendee;
     }
 
@@ -725,7 +718,7 @@ QDataStream &KCalCore::operator>>(QDataStream &in, KCalCore::IncidenceBase::Ptr 
     i->d->mAttendees.clear();
     i->d->mAttendees.reserve(attendeeCount);
     for (int it = 0; it < attendeeCount; it++) {
-        Attendee::Ptr attendee = Attendee::Ptr(new Attendee(QString(), QString()));
+        Attendee attendee;
         in >> attendee;
         i->d->mAttendees.append(attendee);
     }
