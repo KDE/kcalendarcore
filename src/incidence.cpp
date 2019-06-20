@@ -42,7 +42,6 @@
 #include <QStringList>
 #include <QTime>
 #include <QTimeZone>
-#include <QDebug>
 
 using namespace KCalCore;
 
