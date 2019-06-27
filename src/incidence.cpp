@@ -721,15 +721,6 @@ void Incidence::addAttachment(const Attachment::Ptr &attachment)
     updated();
 }
 
-void Incidence::deleteAttachment(const Attachment::Ptr &attachment)
-{
-    int index = d->mAttachments.indexOf(attachment);
-    if (index > -1) {
-        setFieldDirty(FieldAttachment);
-        d->mAttachments.remove(index);
-    }
-}
-
 void Incidence::deleteAttachments(const QString &mime)
 {
     Attachment::List result;

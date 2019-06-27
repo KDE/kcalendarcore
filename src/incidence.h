@@ -507,18 +507,8 @@ public:
       Adds an attachment to the incidence.
 
       @param attachment is a pointer to a valid Attachment object.
-      @see deleteAttachment().
     */
     void addAttachment(const Attachment::Ptr &attachment);
-
-    /**
-      Removes the specified attachment from the incidence.  Additionally,
-      the memory used by the attachment is freed.
-
-      @param attachment is a pointer to a valid Attachment object.
-      @see addAttachment(), deleteAttachments().
-    */
-    void deleteAttachment(const Attachment::Ptr &attachment);
 
     /**
       Removes all attachments of the specified MIME type from the incidence.
@@ -545,7 +535,7 @@ public:
 
     /**
       Removes all attachments and frees the memory used by them.
-      @see deleteAttachment( Attachment::Ptr), deleteAttachments( const QString &).
+      @see deleteAttachments( const QString &).
     */
     void clearAttachments();
 
