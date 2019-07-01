@@ -30,7 +30,6 @@ private Q_SLOTS:
     void testValidity();
     void testSerializer_data();
     void testSerializer();
-    void testWriteToTempFile();
 };
 
 #endif

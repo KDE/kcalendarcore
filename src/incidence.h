@@ -539,22 +539,6 @@ public:
     */
     void clearAttachments();
 
-    /**
-      Writes the data in the attachment @p attachment to a temporary file
-      and returns the local name of the temporary file.
-
-      @param attachment is a pointer to a valid Attachment instance.
-      @return a string containing the name of the temporary file containing the attachment.
-      @see clearTempFiles().
-    */
-    Q_REQUIRED_RESULT QString writeAttachmentToTempFile(const Attachment::Ptr &attachment) const;
-
-    /**
-      Deletes all temporary files used by attachments and frees any memory in use by them.
-      @see writeAttachmentToTempFile().
-    */
-    void clearTempFiles();
-
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // %%%%%  Secrecy and Status methods
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

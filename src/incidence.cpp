@@ -36,8 +36,6 @@
 #include "calformat.h"
 #include "utils.h"
 
-#include <QTemporaryFile>
-#include <QMimeDatabase>
 #include <QTextDocument> // for .toHtmlEscaped() and Qt::mightBeRichText()
 #include <QStringList>
 #include <QTime>
@@ -161,7 +159,6 @@ public:
     QString mStatusString;              // status string, for custom status
     QString mSchedulingID;              // ID for scheduling mails
     QMap<RelType, QString> mRelatedToUid; // incidence uid this is related to, for each relType
-    QHash<Attachment::Ptr, QString> mTempFiles; // Temporary files for writing attachments to.
     QDateTime mRecurrenceId;            // recurrenceId
 
     float mGeoLatitude;                 // Specifies latitude in decimal degrees
@@ -204,7 +201,6 @@ Incidence::~Incidence()
     for (const Alarm::Ptr &alarm : qAsConst(d->mAlarms)) {
         alarm->setParent(nullptr);
     }
-    clearTempFiles();
     delete d->mRecurrence;
     delete d;
 }
@@ -755,43 +751,6 @@ void Incidence::clearAttachments()
 {
     setFieldDirty(FieldAttachment);
     d->mAttachments.clear();
-}
-
-QString Incidence::writeAttachmentToTempFile(const Attachment::Ptr &attachment) const
-{
-    const QString attachementPath = d->mTempFiles.value(attachment);
-    if (!attachementPath.isEmpty()) {
-        return attachementPath;
-    }
-    QTemporaryFile file;
-
-    QMimeDatabase mimeDb;
-    QStringList patterns = mimeDb.mimeTypeForName(attachment->mimeType()).globPatterns();
-
-    if (!patterns.empty()) {
-        file.setFileTemplate(file.fileTemplate() + QString(patterns.first()).remove(QLatin1Char('*')));
-    }
-    file.setAutoRemove(false);
-    file.open();
-    // read-only not to give the idea that it could be written to
-    file.setPermissions(QFile::ReadUser);
-    file.write(QByteArray::fromBase64(attachment->data()));
-    d->mTempFiles.insert(attachment, file.fileName());
-    file.close();
-    return d->mTempFiles.value(attachment);
-}
-
-void Incidence::clearTempFiles()
-{
-    QHash<Attachment::Ptr, QString>::const_iterator it = d->mTempFiles.constBegin();
-    const QHash<Attachment::Ptr, QString>::const_iterator end = d->mTempFiles.constEnd();
-    for (; it != end; ++it) {
-        QFile f(it.value());
-        // On Windows the file must be writeable before we can remove it
-        f.setPermissions(QFile::WriteUser);
-        f.remove();
-    }
-    d->mTempFiles.clear();
 }
 
 void Incidence::setResources(const QStringList &resources)

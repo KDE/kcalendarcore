@@ -95,19 +95,3 @@ void AttachmentTest::testSerializer()
     stream2 >> attachment2; // deserialize
     QVERIFY(*attachment == *attachment2);
 }
-
-void AttachmentTest::testWriteToTempFile()
-{
-    QByteArray data("foo");
-    Attachment::Ptr inlineAttachment = Attachment::Ptr(new Attachment(data.toBase64(), QStringLiteral("image/png")));
-    Event *event = new Event();
-    QString filePath = event->writeAttachmentToTempFile(inlineAttachment);
-    QVERIFY(filePath.endsWith(QLatin1String(".png")));
-    QFile file(filePath);
-    QVERIFY(file.open(QIODevice::ReadOnly | QIODevice::Text));
-    QCOMPARE(file.readLine(), data);
-    file.close();
-
-    delete event; // file is deleted in DTOR
-    QVERIFY(!QFile::exists(filePath));
-}
