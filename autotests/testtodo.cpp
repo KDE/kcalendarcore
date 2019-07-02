@@ -219,7 +219,7 @@ void TodoTest::testSerializer_data()
     todo4->recurrence()->setDaily(1);
     QVERIFY(todo4->dirtyFields().contains(IncidenceBase::FieldRecurrence));
 
-    Attachment::Ptr attachment = Attachment::Ptr(new Attachment(QStringLiteral("http://www.kde.org")));
+    Attachment attachment(QStringLiteral("http://www.kde.org"));
     todo4->addAttachment(attachment);
 
     todo5->recurrence()->setDaily(1);

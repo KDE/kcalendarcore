@@ -134,12 +134,7 @@ public:
             mAlarms.append(b);
         }
 
-        mAttachments.reserve(src.d->mAttachments.count());
-        for (const Attachment::Ptr &attachment : qAsConst(src.d->mAttachments)) {
-            Attachment::Ptr a(new Attachment(*attachment));
-            mAttachments.append(a);
-        }
-
+        mAttachments = src.d->mAttachments;
         if (src.d->mRecurrence) {
             mRecurrence = new Recurrence(*(src.d->mRecurrence));
             mRecurrence->addObserver(dest);
@@ -264,7 +259,7 @@ bool Incidence::equals(const IncidenceBase &incidence) const
     Attachment::List::ConstIterator att2 = otherAttachmentList.constBegin();
     const Attachment::List::ConstIterator att2end = otherAttachmentList.constEnd();
     for (; att1 != att1end && att2 != att2end; ++att1, ++att2) {
-        if (**att1 == **att2) {
+        if (*att1 == *att2) {
             continue;
         } else {
             return false;
@@ -703,13 +698,11 @@ QDateTime Incidence::endDateForStart(const QDateTime &startDt) const
     return startDt.addSecs(start.secsTo(end));
 }
 
-void Incidence::addAttachment(const Attachment::Ptr &attachment)
+void Incidence::addAttachment(const Attachment &attachment)
 {
-    if (mReadOnly || !attachment) {
+    if (mReadOnly || attachment.isEmpty()) {
         return;
     }
-
-    Q_ASSERT(!d->mAttachments.contains(attachment));
 
     update();
     d->mAttachments.append(attachment);
@@ -722,7 +715,7 @@ void Incidence::deleteAttachments(const QString &mime)
     Attachment::List result;
     Attachment::List::Iterator it = d->mAttachments.begin();
     while (it != d->mAttachments.end()) {
-        if ((*it)->mimeType() != mime) {
+        if ((*it).mimeType() != mime) {
             result += *it;
         }
         ++it;
@@ -739,8 +732,8 @@ Attachment::List Incidence::attachments() const
 Attachment::List Incidence::attachments(const QString &mime) const
 {
     Attachment::List attachments;
-    for (const Attachment::Ptr &attachment : qAsConst(d->mAttachments)) {
-        if (attachment->mimeType() == mime) {
+    for (const Attachment &attachment : qAsConst(d->mAttachments)) {
+        if (attachment.mimeType() == mime) {
             attachments.append(attachment);
         }
     }
@@ -1106,7 +1099,7 @@ void Incidence::serialize(QDataStream &out)
         out << d->mRecurrence;
     }
 
-    for (const Attachment::Ptr &attachment : qAsConst(d->mAttachments)) {
+    for (const Attachment &attachment : qAsConst(d->mAttachments)) {
         out << attachment;
     }
 
@@ -1142,7 +1135,7 @@ void Incidence::deserialize(QDataStream &in)
 
     d->mAttachments.reserve(attachmentCount);
     for (int i = 0; i < attachmentCount; ++i) {
-        Attachment::Ptr attachment = Attachment::Ptr(new Attachment(QString()));
+        Attachment attachment;
         in >> attachment;
         d->mAttachments.append(attachment);
     }

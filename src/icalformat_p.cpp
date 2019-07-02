@@ -880,41 +880,41 @@ icalproperty *ICalFormatImpl::writeAttendee(const Attendee &attendee)
     return p;
 }
 
-icalproperty *ICalFormatImpl::writeAttachment(const Attachment::Ptr &att)
+icalproperty *ICalFormatImpl::writeAttachment(const Attachment &att)
 {
     icalattach *attach;
-    if (att->isUri()) {
-        attach = icalattach_new_from_url(att->uri().toUtf8().data());
+    if (att.isUri()) {
+        attach = icalattach_new_from_url(att.uri().toUtf8().data());
     } else {
-        attach = icalattach_new_from_data((const char *)att->data().constData(), nullptr, nullptr);
+        attach = icalattach_new_from_data((const char *)att.data().constData(), nullptr, nullptr);
     }
     icalproperty *p = icalproperty_new_attach(attach);
 
     icalattach_unref(attach);
 
-    if (!att->mimeType().isEmpty()) {
+    if (!att.mimeType().isEmpty()) {
         icalproperty_add_parameter(
-            p, icalparameter_new_fmttype(att->mimeType().toUtf8().data()));
+            p, icalparameter_new_fmttype(att.mimeType().toUtf8().data()));
     }
 
-    if (att->isBinary()) {
+    if (att.isBinary()) {
         icalproperty_add_parameter(p, icalparameter_new_value(ICAL_VALUE_BINARY));
         icalproperty_add_parameter(p, icalparameter_new_encoding(ICAL_ENCODING_BASE64));
     }
 
-    if (att->showInline()) {
+    if (att.showInline()) {
         icalparameter *icalparameter_inline = icalparameter_new_x("inline");
         icalparameter_set_xname(icalparameter_inline, "X-CONTENT-DISPOSITION");
         icalproperty_add_parameter(p, icalparameter_inline);
     }
 
-    if (!att->label().isEmpty()) {
-        icalparameter *icalparameter_label = icalparameter_new_x(att->label().toUtf8().constData());
+    if (!att.label().isEmpty()) {
+        icalparameter *icalparameter_label = icalparameter_new_x(att.label().toUtf8().constData());
         icalparameter_set_xname(icalparameter_label, "X-LABEL");
         icalproperty_add_parameter(p, icalparameter_label);
     }
 
-    if (att->isLocal()) {
+    if (att.isLocal()) {
         icalparameter *icalparameter_local = icalparameter_new_x("local");
         icalparameter_set_xname(icalparameter_local, "X-KONTACT-TYPE");
         icalproperty_add_parameter(p, icalparameter_local);
@@ -1574,9 +1574,9 @@ Person ICalFormatImpl::readOrganizer(icalproperty *organizer)
     return org;
 }
 
-Attachment::Ptr ICalFormatImpl::readAttachment(icalproperty *attach)
+Attachment ICalFormatImpl::readAttachment(icalproperty *attach)
 {
-    Attachment::Ptr attachment;
+    Attachment attachment;
 
     QByteArray p;
     icalvalue *value = icalproperty_get_value(attach);
@@ -1587,12 +1587,12 @@ Attachment::Ptr ICalFormatImpl::readAttachment(icalproperty *attach)
         if (!icalattach_get_is_url(a)) {
             p = QByteArray(reinterpret_cast<const char *>(icalattach_get_data(a)));
             if (!p.isEmpty()) {
-                attachment = Attachment::Ptr(new Attachment(p));
+                attachment = Attachment(p);
             }
         } else {
             p = icalattach_get_url(a);
             if (!p.isEmpty()) {
-                attachment = Attachment::Ptr(new Attachment(QString::fromUtf8(p)));
+                attachment = Attachment(QString::fromUtf8(p));
             }
         }
         break;
@@ -1601,23 +1601,23 @@ Attachment::Ptr ICalFormatImpl::readAttachment(icalproperty *attach)
         icalattach *a = icalproperty_get_attach(attach);
         p = QByteArray(reinterpret_cast<const char *>(icalattach_get_data(a)));
         if (!p.isEmpty()) {
-            attachment = Attachment::Ptr(new Attachment(p));
+            attachment = Attachment(p);
         }
         break;
     }
     case ICAL_URI_VALUE:
         p = icalvalue_get_uri(value);
-        attachment = Attachment::Ptr(new Attachment(QString::fromUtf8(p)));
+        attachment = Attachment(QString::fromUtf8(p));
         break;
     default:
         break;
     }
 
-    if (attachment) {
+    if (!attachment.isEmpty()) {
         icalparameter *p =
             icalproperty_get_first_parameter(attach, ICAL_FMTTYPE_PARAMETER);
         if (p) {
-            attachment->setMimeType(QLatin1String(icalparameter_get_fmttype(p)));
+            attachment.setMimeType(QLatin1String(icalparameter_get_fmttype(p)));
         }
 
         p = icalproperty_get_first_parameter(attach, ICAL_X_PARAMETER);
@@ -1625,11 +1625,11 @@ Attachment::Ptr ICalFormatImpl::readAttachment(icalproperty *attach)
             QString xname = QString::fromLatin1(icalparameter_get_xname(p)).toUpper();
             QString xvalue = QString::fromUtf8(icalparameter_get_xvalue(p));
             if (xname == QLatin1String("X-CONTENT-DISPOSITION")) {
-                attachment->setShowInline(xvalue.toLower() == QLatin1String("inline"));
+                attachment.setShowInline(xvalue.toLower() == QLatin1String("inline"));
             } else if (xname == QLatin1String("X-LABEL")) {
-                attachment->setLabel(xvalue);
+                attachment.setLabel(xvalue);
             } else if (xname == QLatin1String("X-KONTACT-TYPE")) {
-                attachment->setLocal(xvalue.toLower() == QLatin1String("local"));
+                attachment.setLocal(xvalue.toLower() == QLatin1String("local"));
             }
             p = icalproperty_get_next_parameter(attach, ICAL_X_PARAMETER);
         }
@@ -1637,7 +1637,7 @@ Attachment::Ptr ICalFormatImpl::readAttachment(icalproperty *attach)
         p = icalproperty_get_first_parameter(attach, ICAL_X_PARAMETER);
         while (p) {
             if (strncmp(icalparameter_get_xname(p), "X-LABEL", 7) == 0) {
-                attachment->setLabel(QString::fromUtf8(icalparameter_get_xvalue(p)));
+                attachment.setLabel(QString::fromUtf8(icalparameter_get_xvalue(p)));
             }
             p = icalproperty_get_next_parameter(attach, ICAL_X_PARAMETER);
         }
@@ -2280,17 +2280,17 @@ void ICalFormatImpl::readAlarm(icalcomponent *alarm, const Incidence::Ptr &incid
 
         case ICAL_ATTACH_PROPERTY: {
             // Only in AUDIO and EMAIL and PROCEDURE alarms
-            Attachment::Ptr attach = readAttachment(p);
-            if (attach && attach->isUri()) {
+            Attachment attach = readAttachment(p);
+            if (!attach.isEmpty() && attach.isUri()) {
                 switch (action) {
                 case ICAL_ACTION_AUDIO:
-                    ialarm->setAudioFile(attach->uri());
+                    ialarm->setAudioFile(attach.uri());
                     break;
                 case ICAL_ACTION_PROCEDURE:
-                    ialarm->setProgramFile(attach->uri());
+                    ialarm->setProgramFile(attach.uri());
                     break;
                 case ICAL_ACTION_EMAIL:
-                    ialarm->addMailAttachment(attach->uri());
+                    ialarm->addMailAttachment(attach.uri());
                     break;
                 default:
                     break;

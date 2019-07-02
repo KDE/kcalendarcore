@@ -33,7 +33,7 @@
 
 #include <QHash>
 #include <QString>
-#include <QSharedPointer>
+#include <QSharedDataPointer>
 #include <QMetaType>
 
 namespace KCalCore
@@ -61,14 +61,14 @@ class KCALCORE_EXPORT Attachment
 {
 public:
     /**
-      A shared pointer to an Attachment object.
-    */
-    typedef QSharedPointer<Attachment> Ptr;
-
-    /**
       List of attachments.
     */
-    typedef QVector<Ptr> List;
+    typedef QVector<Attachment> List;
+
+    /**
+      Constructs an empty attachment.
+    */
+    explicit Attachment();
 
     /**
       Constructs an attachment consisting of a @p uri and a @p mime type.
@@ -99,6 +99,11 @@ public:
       Destroys the attachment.
     */
     ~Attachment();
+
+    /**
+       Returns whether this is an empty or default constructed object.
+    */
+    bool isEmpty() const;
 
     /**
       Sets the @acronym URI for this attachment to @p uri.
@@ -259,11 +264,11 @@ public:
 private:
     //@cond PRIVATE
     class Private;
-    Private *const d;
+    QSharedDataPointer<Private> d;
     //@endcond
 
-    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &s, const KCalCore::Attachment::Ptr &);
-    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &s, const KCalCore::Attachment::Ptr &);
+    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &s, const KCalCore::Attachment&);
+    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &s, KCalCore::Attachment&);
 };
 
 /**
@@ -271,27 +276,20 @@ private:
  *
  * @since 4.12
  */
-KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalCore::Attachment::Ptr &);
+KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalCore::Attachment&);
 
 /**
  * Attachment deserializer.
  *
  * @since 4.12
  */
-KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, const KCalCore::Attachment::Ptr &);
+KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalCore::Attachment&);
 
 }
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO(KCalCore::Attachment::Ptr, Q_MOVABLE_TYPE);
-Q_DECLARE_METATYPE(KCalCore::Attachment::Ptr)
-//@endcond
-
-//@cond PRIVATE
-inline uint qHash(const QSharedPointer<KCalCore::Attachment> &key)
-{
-    return qHash<KCalCore::Attachment>(key.data());
-}
+Q_DECLARE_TYPEINFO(KCalCore::Attachment, Q_MOVABLE_TYPE);
+Q_DECLARE_METATYPE(KCalCore::Attachment)
 //@endcond
 
 #endif

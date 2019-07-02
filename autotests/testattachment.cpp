@@ -72,10 +72,10 @@ void AttachmentTest::testValidity()
 
 void AttachmentTest::testSerializer_data()
 {
-    QTest::addColumn<KCalCore::Attachment::Ptr>("attachment");
+    QTest::addColumn<KCalCore::Attachment>("attachment");
 
-    Attachment::Ptr nonInline = Attachment::Ptr(new Attachment(QStringLiteral("http://www.kde.org")));
-    Attachment::Ptr inlineAttachment = Attachment::Ptr(new Attachment(QByteArray("foo"), QStringLiteral("image/nonsense")));
+    Attachment nonInline(QStringLiteral("http://www.kde.org"));
+    Attachment inlineAttachment(QByteArray("foo"), QStringLiteral("image/nonsense"));
 
     QTest::newRow("inline") << inlineAttachment;
     QTest::newRow("not inline") << nonInline;
@@ -83,15 +83,15 @@ void AttachmentTest::testSerializer_data()
 
 void AttachmentTest::testSerializer()
 {
-    QFETCH(KCalCore::Attachment::Ptr, attachment);
+    QFETCH(KCalCore::Attachment, attachment);
 
     QByteArray array;
     QDataStream stream(&array, QIODevice::WriteOnly);
     stream << attachment; // Serialize
 
-    Attachment::Ptr attachment2 = Attachment::Ptr(new Attachment(QStringLiteral("foo")));
-    QVERIFY(*attachment != *attachment2);
+    Attachment attachment2(QStringLiteral("foo"));
+    QVERIFY(attachment != attachment2);
     QDataStream stream2(&array, QIODevice::ReadOnly);
     stream2 >> attachment2; // deserialize
-    QVERIFY(*attachment == *attachment2);
+    QVERIFY(attachment == attachment2);
 }

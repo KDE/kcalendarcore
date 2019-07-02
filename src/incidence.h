@@ -506,9 +506,9 @@ public:
     /**
       Adds an attachment to the incidence.
 
-      @param attachment is a pointer to a valid Attachment object.
+      @param attachment a valid Attachment object.
     */
-    void addAttachment(const Attachment::Ptr &attachment);
+    void addAttachment(const Attachment &attachment);
 
     /**
       Removes all attachments of the specified MIME type from the incidence.

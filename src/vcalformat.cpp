@@ -1060,7 +1060,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
         vo = nextVObject(&voi);
         if (strcmp(vObjectName(vo), VCAttachProp) == 0) {
             s = fakeCString(vObjectUStringZValue(vo));
-            anEvent->addAttachment(Attachment::Ptr(new Attachment(QString::fromUtf8(s))));
+            anEvent->addAttachment(Attachment(QString::fromUtf8(s)));
             deleteStr(s);
         }
     }

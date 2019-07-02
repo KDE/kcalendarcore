@@ -39,33 +39,22 @@ using namespace KCalCore;
   @internal
 */
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalCore::Attachment::Private
+class Q_DECL_HIDDEN KCalCore::Attachment::Private : public QSharedData
 {
 public:
+    Private() = default;
     Private(const QString &mime, bool binary)
-        : mSize(0),
-          mMimeType(mime),
-          mBinary(binary),
-          mLocal(false),
-          mShowInline(false)
+        : mMimeType(mime),
+          mBinary(binary)
     {}
-    Private(const Private &other)
-        : mSize(other.mSize),
-          mMimeType(other.mMimeType),
-          mUri(other.mUri),
-          mEncodedData(other.mEncodedData),
-          mLabel(other.mLabel),
-          mBinary(other.mBinary),
-          mLocal(other.mLocal),
-          mShowInline(other.mShowInline)
-    {}
+    Private(const Private &other) = default;
 
     ~Private()
     {
     }
 
-    QByteArray mDecodedDataCache;
-    uint mSize;
+    mutable uint mSize = 0;
+    mutable QByteArray mDecodedDataCache;
     QString mMimeType;
     QString mUri;
     QByteArray mEncodedData;
@@ -76,10 +65,12 @@ public:
 };
 //@endcond
 
-Attachment::Attachment(const Attachment &attachment)
-    : d(new Attachment::Private(*attachment.d))
+Attachment::Attachment()
+    : d(new Attachment::Private)
 {
 }
+
+Attachment::Attachment(const Attachment &attachment) = default;
 
 Attachment::Attachment(const QString &uri, const QString &mime)
     : d(new Attachment::Private(mime, false))
@@ -93,9 +84,11 @@ Attachment::Attachment(const QByteArray &base64, const QString &mime)
     d->mEncodedData = base64;
 }
 
-Attachment::~Attachment()
+Attachment::~Attachment() = default;
+
+bool Attachment::isEmpty() const
 {
-    delete d;
+    return d->mMimeType.isEmpty() && d->mUri.isEmpty() && d->mEncodedData.isEmpty();
 }
 
 bool Attachment::isUri() const
@@ -208,21 +201,7 @@ void Attachment::setLocal(bool local)
     d->mLocal = local;
 }
 
-Attachment &Attachment::operator=(const Attachment &other)
-{
-    if (this != &other) {
-        d->mSize = other.d->mSize;
-        d->mMimeType = other.d->mMimeType;
-        d->mUri = other.d->mUri;
-        d->mEncodedData = other.d->mEncodedData;
-        d->mLabel = other.d->mLabel;
-        d->mBinary = other.d->mBinary;
-        d->mLocal  = other.d->mLocal;
-        d->mShowInline = other.d->mShowInline;
-    }
-
-    return *this;
-}
+Attachment &Attachment::operator=(const Attachment &other) = default;
 
 bool Attachment::operator==(const Attachment &a2) const
 {
@@ -240,33 +219,28 @@ bool Attachment::operator!=(const Attachment &a2) const
     return !(*this == a2);
 }
 
-QDataStream &KCalCore::operator<<(QDataStream &out, const KCalCore::Attachment::Ptr &a)
+QDataStream &KCalCore::operator<<(QDataStream &out, const KCalCore::Attachment &a)
 {
-    if (a) {
-        out << a->d->mSize
-            << a->d->mMimeType
-            << a->d->mUri
-            << a->d->mEncodedData
-            << a->d->mLabel
-            << a->d->mBinary
-            << a->d->mLocal
-            << a->d->mShowInline;
-    }
+    out << a.d->mSize
+        << a.d->mMimeType
+        << a.d->mUri
+        << a.d->mEncodedData
+        << a.d->mLabel
+        << a.d->mBinary
+        << a.d->mLocal
+        << a.d->mShowInline;
     return out;
 }
 
-QDataStream &KCalCore::operator>>(QDataStream &in, const KCalCore::Attachment::Ptr &a)
+QDataStream &KCalCore::operator>>(QDataStream &in, KCalCore::Attachment &a)
 {
-    if (a) {
-        in >> a->d->mSize
-           >> a->d->mMimeType
-           >> a->d->mUri
-           >> a->d->mEncodedData
-           >> a->d->mLabel
-           >> a->d->mBinary
-           >> a->d->mLocal
-           >> a->d->mShowInline;
-    }
+    in >> a.d->mSize
+        >> a.d->mMimeType
+        >> a.d->mUri
+        >> a.d->mEncodedData
+        >> a.d->mLabel
+        >> a.d->mBinary
+        >> a.d->mLocal
+        >> a.d->mShowInline;
     return in;
 }
-
