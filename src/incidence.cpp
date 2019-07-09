@@ -1157,3 +1157,11 @@ void Incidence::deserialize(QDataStream &in)
         d->mRelatedToUid.insert(static_cast<Incidence::RelType>(it.key()), it.value());
     }
 }
+
+QVariantList Incidence::attachmentsVariant() const
+{
+    QVariantList l;
+    l.reserve(d->mAttachments.size());
+    std::transform(d->mAttachments.begin(), d->mAttachments.end(), std::back_inserter(l), [](const Attachment &att) { return QVariant::fromValue(att); });
+    return l;
+}

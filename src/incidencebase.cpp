@@ -732,3 +732,11 @@ QDataStream &KCalCore::operator>>(QDataStream &in, KCalCore::IncidenceBase::Ptr 
 IncidenceBase::IncidenceObserver::~IncidenceObserver()
 {
 }
+
+QVariantList IncidenceBase::attendeesVariant() const
+{
+    QVariantList l;
+    l.reserve(d->mAttendees.size());
+    std::transform(d->mAttendees.begin(), d->mAttendees.end(), std::back_inserter(l), [](const Attendee &a) { return QVariant::fromValue(a); });
+    return l;
+}

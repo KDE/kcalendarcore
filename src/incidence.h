@@ -77,6 +77,8 @@ class KCALCORE_EXPORT Incidence
     Q_PROPERTY(int priority READ priority WRITE setPriority)
     Q_PROPERTY(QDateTime created READ created WRITE setCreated)
     Q_PROPERTY(KCalCore::Incidence::Secrecy secrecy READ secrecy WRITE setSecrecy)
+    Q_PROPERTY(KCalCore::Incidence::Status status READ status WRITE setStatus)
+    Q_PROPERTY(QVariantList attachments READ attachmentsVariant)
 public:
 
     /**
@@ -95,6 +97,7 @@ public:
         StatusFinal,          /**< journal is final */
         StatusX               /**< a non-standard status string */
     };
+    Q_ENUM(Status)
 
     /**
       The different types of incidence access classifications.
@@ -847,6 +850,8 @@ private:
       @param other is another Incidence object to assign to this one.
      */
     Incidence &operator=(const Incidence &other);
+
+    Q_DECL_HIDDEN QVariantList attachmentsVariant() const;
 
     //@cond PRIVATE
     class Private;

@@ -59,6 +59,17 @@ namespace KCalCore
 */
 class KCALCORE_EXPORT Attachment
 {
+    Q_GADGET
+    Q_PROPERTY(bool isEmpty READ isEmpty)
+    Q_PROPERTY(QString uri READ uri WRITE setUri)
+    Q_PROPERTY(bool isUri READ isUri)
+    Q_PROPERTY(bool isBinary READ isBinary)
+    Q_PROPERTY(int size READ size)
+    Q_PROPERTY(QString mimeType READ mimeType WRITE setMimeType)
+    Q_PROPERTY(bool showInline READ showInline WRITE setShowInline)
+    Q_PROPERTY(QString label READ label WRITE setLabel)
+    Q_PROPERTY(bool isLocal READ isLocal WRITE setLocal)
+
 public:
     /**
       List of attachments.

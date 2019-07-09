@@ -114,6 +114,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
     Q_PROPERTY(QDateTime dtStart READ dtStart WRITE setDtStart)
     Q_PROPERTY(bool allDay READ allDay WRITE setAllDay)
     Q_PROPERTY(KCalCore::Person organizer READ organizer WRITE setOrganizer)
+    Q_PROPERTY(QVariantList attendees READ attendeesVariant)
 
 public:
     /**
@@ -749,6 +750,8 @@ private:
     //@cond PRIVATE
     class Private;
     Private *const d;
+
+    Q_DECL_HIDDEN QVariantList attendeesVariant() const;
     //@endcond
 
     friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalCore::IncidenceBase::Ptr &);

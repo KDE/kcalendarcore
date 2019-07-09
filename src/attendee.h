@@ -57,6 +57,19 @@ namespace KCalCore
 */
 class KCALCORE_EXPORT Attendee
 {
+    Q_GADGET
+    Q_PROPERTY(bool isNull READ isNull)
+    Q_PROPERTY(QString name READ name WRITE setName)
+    Q_PROPERTY(QString fullName READ fullName)
+    Q_PROPERTY(QString email READ email WRITE setEmail)
+    Q_PROPERTY(Role role READ role WRITE setRole)
+    Q_PROPERTY(QString uid READ uid WRITE setUid)
+    Q_PROPERTY(PartStat status READ status WRITE setStatus)
+    Q_PROPERTY(CuType cuType READ cuType WRITE setCuType)
+    Q_PROPERTY(bool rsvp READ RSVP WRITE setRSVP)
+    Q_PROPERTY(QString delegate READ delegate WRITE setDelegate)
+    Q_PROPERTY(QString delegator READ delegator WRITE setDelegator)
+
 public:
     /**
       The different types of participant status.
@@ -72,6 +85,7 @@ public:
         InProcess,       /**< To-do in process of being completed */
         None
     };
+    Q_ENUM(PartStat)
 
     /**
       The different types of participation roles.
@@ -82,6 +96,7 @@ public:
         NonParticipant,  /**< Non-Participant; copied for information purposes */
         Chair            /**< Chairperson */
     };
+    Q_ENUM(Role)
 
     /**
      * The different types of a participant.
@@ -100,6 +115,7 @@ public:
          * iana-token     ; Other IANA-registered
          */
     };
+    Q_ENUM(CuType)
 
     /**
       List of attendees.
