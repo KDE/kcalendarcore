@@ -311,16 +311,8 @@ void Event::setDateTime(const QDateTime &dateTime, DateTimeRole role)
 
 void Event::virtual_hook(VirtualHook id, void *data)
 {
-    switch (id) {
-    case IncidenceBase::SerializerHook:
-        serialize(*reinterpret_cast<QDataStream *>(data));
-        break;
-    case IncidenceBase::DeserializerHook:
-        deserialize(*reinterpret_cast<QDataStream *>(data));
-        break;
-    default:
-        Q_ASSERT(false);
-    }
+    Q_UNUSED(id);
+    Q_UNUSED(data);
 }
 
 QLatin1String KCalCore::Event::mimeType() const
@@ -338,7 +330,7 @@ QLatin1String Event::iconName(const QDateTime &) const
     return QLatin1String("view-calendar-day");
 }
 
-void Event::serialize(QDataStream &out)
+void Event::serialize(QDataStream &out) const
 {
     Incidence::serialize(out);
     serializeQDateTimeAsKDateTime(out, d->mDtEnd);

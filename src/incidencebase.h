@@ -727,10 +727,16 @@ protected:
     */
     virtual IncidenceBase &assign(const IncidenceBase &other);
 
-    enum VirtualHook {
-        SerializerHook,
-        DeserializerHook
-    };
+    /**
+     * Sub-type specific serialization.
+     */
+    virtual void serialize(QDataStream &out) const;
+    /**
+     * Sub-type specific deserialization.
+     */
+    virtual void deserialize(QDataStream &in);
+
+    enum VirtualHook {};
 
     /**
       Standard trick to add virtuals later.
@@ -761,9 +767,6 @@ private:
 
 /**
  * Incidence serializer.
- * Uses the virtual_hook internally to avoid slicing.
- *
- * // TODO_KDE5: Provide a virtual serialize() method, as done with assign() and equals().
  *
  * @since 4.12
  */
@@ -771,9 +774,6 @@ KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalCore::Incide
 
 /**
  * Incidence deserializer.
- * Uses the virtual_hook internally to avoid slicing.
- *
- * // TODO_KDE5: Provide a virtual serialize() method, as done with assign() and equals().
  *
  * @since 4.12
  */

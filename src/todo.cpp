@@ -526,16 +526,8 @@ void Todo::setDateTime(const QDateTime &dateTime, DateTimeRole role)
 
 void Todo::virtual_hook(VirtualHook id, void *data)
 {
-    switch (id) {
-    case IncidenceBase::SerializerHook:
-        serialize(*reinterpret_cast<QDataStream *>(data));
-        break;
-    case IncidenceBase::DeserializerHook:
-        deserialize(*reinterpret_cast<QDataStream *>(data));
-        break;
-    default:
-        Q_ASSERT(false);
-    }
+    Q_UNUSED(id);
+    Q_UNUSED(data);
 }
 
 QLatin1String Todo::mimeType() const
@@ -561,7 +553,7 @@ QLatin1String Todo::iconName(const QDateTime &recurrenceId) const
     }
 }
 
-void Todo::serialize(QDataStream &out)
+void Todo::serialize(QDataStream &out) const
 {
     Incidence::serialize(out);
     serializeQDateTimeAsKDateTime(out, d->mDtDue);

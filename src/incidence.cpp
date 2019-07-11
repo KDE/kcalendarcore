@@ -1083,7 +1083,7 @@ QStringList Incidence::mimeTypes()
                          << KCalCore::Journal::journalMimeType();
 }
 
-void Incidence::serialize(QDataStream &out)
+void Incidence::serialize(QDataStream &out) const
 {
     serializeQDateTimeAsKDateTime(out, d->mCreated);
     out << d->mRevision << d->mDescription << d->mDescriptionIsRich << d->mSummary

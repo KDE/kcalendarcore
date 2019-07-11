@@ -650,6 +650,16 @@ void IncidenceBase::setDirtyFields(const QSet<IncidenceBase::Field> &dirtyFields
     d->mDirtyFields = dirtyFields;
 }
 
+void IncidenceBase::serialize(QDataStream &out) const
+{
+    Q_UNUSED(out);
+}
+
+void IncidenceBase::deserialize(QDataStream &in)
+{
+    Q_UNUSED(in);
+}
+
 /** static */
 quint32 IncidenceBase::magicSerializationIdentifier()
 {
@@ -677,8 +687,8 @@ QDataStream &KCalCore::operator<<(QDataStream &out, const KCalCore::IncidenceBas
         out << attendee;
     }
 
-    // Serialize the sub-class data. In KDE5 we can add new virtuals.
-    i->virtual_hook(KCalCore::IncidenceBase::SerializerHook, &out);
+    // Serialize the sub-class data.
+    i->serialize(out);
 
     return out;
 }
@@ -723,8 +733,8 @@ QDataStream &KCalCore::operator>>(QDataStream &in, KCalCore::IncidenceBase::Ptr 
         i->d->mAttendees.append(attendee);
     }
 
-    // Deserialize the sub-class data. In KDE5 we can add new virtuals.
-    i->virtual_hook(KCalCore::IncidenceBase::DeserializerHook, &in);
+    // Deserialize the sub-class data.
+    i->deserialize(in);
 
     return in;
 }

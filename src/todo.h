@@ -347,8 +347,8 @@ private:
     Todo &operator=(const Todo &other);
 
     // For polymorfic serialization
-    void serialize(QDataStream &out);
-    void deserialize(QDataStream &in);
+    void serialize(QDataStream &out) const override;
+    void deserialize(QDataStream &in) override;
 
     //@cond PRIVATE
     class Private;

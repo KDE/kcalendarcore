@@ -103,16 +103,8 @@ void Journal::setDateTime(const QDateTime &dateTime, DateTimeRole role)
 
 void Journal::virtual_hook(VirtualHook id, void *data)
 {
-    switch (id) {
-    case IncidenceBase::SerializerHook:
-        serialize(*reinterpret_cast<QDataStream *>(data));
-        break;
-    case IncidenceBase::DeserializerHook:
-        deserialize(*reinterpret_cast<QDataStream *>(data));
-        break;
-    default:
-        Q_ASSERT(false);
-    }
+    Q_UNUSED(id);
+    Q_UNUSED(data);
 }
 
 QLatin1String Journal::mimeType() const
@@ -131,7 +123,7 @@ QLatin1String Journal::iconName(const QDateTime &) const
     return QLatin1String("view-pim-journal");
 }
 
-void Journal::serialize(QDataStream &out)
+void Journal::serialize(QDataStream &out) const
 {
     Incidence::serialize(out);
 }
