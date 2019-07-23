@@ -34,7 +34,7 @@
 
 #include <QObject>
 
-namespace KCalCore
+namespace KCalendarCore
 {
 
 /**

@@ -36,7 +36,7 @@ typedef struct icalcomponent_impl icalcomponent;
 typedef struct _icaltimezone  icaltimezone;
 #endif
 
-namespace KCalCore
+namespace KCalendarCore
 {
 
 class ICalTimeZonePhase;
@@ -103,7 +103,7 @@ private:
     ICalTimeZoneCache *mCache;
 };
 
-} // namespace KCalCore
+} // namespace KCalendarCore
 
 inline uint qHash(const QTimeZone &tz)
 {

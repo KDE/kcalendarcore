@@ -59,8 +59,8 @@ This API needs serious cleaning up:
 #include <QDateTime>
 #include <QTimeZone>
 
-/** Namespace for all KCalCore types. */
-namespace KCalCore
+/** Namespace for all KCalendarCore types. */
+namespace KCalendarCore
 {
 
 class CalFilter;
@@ -134,7 +134,7 @@ class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
 {
     Q_OBJECT
     Q_PROPERTY(QString productId READ productId WRITE setProductId) //clazy:exclude=qproperty-without-notify
-    Q_PROPERTY(KCalCore::Person owner READ owner WRITE setOwner)
+    Q_PROPERTY(KCalendarCore::Person owner READ owner WRITE setOwner)
 
 public:
 

@@ -32,7 +32,7 @@
 #include "kcalcore_export.h"
 #include "calstorage.h"
 
-namespace KCalCore
+namespace KCalendarCore
 {
 
 class CalFormat;
@@ -65,7 +65,7 @@ public:
     */
     explicit FileStorage(const Calendar::Ptr &calendar,
                          const QString &fileName = QString(),
-                         KCalCore::CalFormat *format = nullptr);
+                         KCalendarCore::CalFormat *format = nullptr);
 
     /**
       Destructor.
@@ -94,7 +94,7 @@ public:
       the calendar format to be used. FileStorage takes ownership.
       @see saveFormat().
     */
-    void setSaveFormat(KCalCore::CalFormat *format);
+    void setSaveFormat(KCalendarCore::CalFormat *format);
 
     /**
       Returns the CalFormat object used by this storage.

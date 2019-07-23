@@ -71,7 +71,7 @@ class QUrl;
 class QDate;
 class QTimeZone;
 
-namespace KCalCore {
+namespace KCalendarCore {
 /** List of dates */
 typedef QList<QDate> DateList;
 
@@ -113,7 +113,7 @@ class KCALCORE_EXPORT IncidenceBase : public CustomProperties
     Q_PROPERTY(QDateTime lastModified READ lastModified WRITE setLastModified)
     Q_PROPERTY(QDateTime dtStart READ dtStart WRITE setDtStart)
     Q_PROPERTY(bool allDay READ allDay WRITE setAllDay)
-    Q_PROPERTY(KCalCore::Person organizer READ organizer WRITE setOrganizer)
+    Q_PROPERTY(KCalendarCore::Person organizer READ organizer WRITE setOrganizer)
     Q_PROPERTY(QVariantList attendees READ attendeesVariant)
 
 public:
@@ -156,7 +156,7 @@ public:
                                     Currently that's DTSTART for an event and DTDUE for a to-do.
                                     (NOTE: If the incidence is a to-do, recurrence should be
                                     calculated having DTSTART for a reference, not DT-DUE.
-                                    This is one place KCalCore isn't compliant with RFC2445) */
+                                    This is one place KCalendarCore isn't compliant with RFC2445) */
         RoleDisplayStart,        /**< Role for display purposes, represents the start boundary of an
                                     incidence. To-dos return dtDue here, for historical reasons */
         RoleDnD                  /**< Role for determining new start and end dates after a DnD */
@@ -645,8 +645,8 @@ public:
     virtual void setDateTime(const QDateTime &dateTime, DateTimeRole role) = 0;
 
     /**
-      Returns the Akonadi specific sub MIME type of a KCalCore::IncidenceBase item,
-      e.g. getting "application/x-vnd.akonadi.calendar.event" for a KCalCore::Event.
+      Returns the Akonadi specific sub MIME type of a KCalendarCore::IncidenceBase item,
+      e.g. getting "application/x-vnd.akonadi.calendar.event" for a KCalendarCore::Event.
     */
     virtual QLatin1String mimeType() const = 0;
 
@@ -679,7 +679,7 @@ public:
     void resetDirtyFields();
 
     /**
-     * Constant that identifies KCalCore data in a binary stream.
+     * Constant that identifies KCalendarCore data in a binary stream.
      *
      * @since 4.12
      */
@@ -760,9 +760,9 @@ private:
     Q_DECL_HIDDEN QVariantList attendeesVariant() const;
     //@endcond
 
-    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalCore::IncidenceBase::Ptr &);
+    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalendarCore::IncidenceBase::Ptr &);
 
-    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalCore::IncidenceBase::Ptr &);
+    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalendarCore::IncidenceBase::Ptr &);
 };
 
 /**
@@ -770,17 +770,17 @@ private:
  *
  * @since 4.12
  */
-KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalCore::IncidenceBase::Ptr &);
+KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalendarCore::IncidenceBase::Ptr &);
 
 /**
  * Incidence deserializer.
  *
  * @since 4.12
  */
-KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalCore::IncidenceBase::Ptr &);
+KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalendarCore::IncidenceBase::Ptr &);
 }
 
-Q_DECLARE_METATYPE(KCalCore::IncidenceBase *)
-Q_DECLARE_METATYPE(KCalCore::IncidenceBase::Ptr)
+Q_DECLARE_METATYPE(KCalendarCore::IncidenceBase *)
+Q_DECLARE_METATYPE(KCalendarCore::IncidenceBase::Ptr)
 
 #endif

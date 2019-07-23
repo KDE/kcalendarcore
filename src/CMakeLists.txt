@@ -45,6 +45,9 @@ generate_export_header(KF5CalendarCore BASE_NAME kcalcore)
 
 add_library(KF5::CalendarCore ALIAS KF5CalendarCore)
 
+# backward compatibility with the old name
+# TODO: remove for KF6
+target_compile_definitions(KF5CalendarCore INTERFACE "-DKCalCore=KCalendarCore")
 target_include_directories(KF5CalendarCore INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KCalCore>")
 target_include_directories(KF5CalendarCore PUBLIC "$<BUILD_INTERFACE:${KCalCore_SOURCE_DIR}/src;${KCalCore_BINARY_DIR}/src>")
 

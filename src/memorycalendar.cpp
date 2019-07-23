@@ -62,14 +62,14 @@ static  QVector<V> values(const QMultiHash<K, V> &c, const K &x)
     return v;
 }
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 /**
   Private class that helps to provide binary compatibility between releases.
   @internal
 */
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalCore::MemoryCalendar::Private
+class Q_DECL_HIDDEN KCalendarCore::MemoryCalendar::Private
 {
 public:
     Private(MemoryCalendar *qq)
@@ -93,7 +93,7 @@ public:
     /**
      * Has all incidences, indexed by identifier.
      */
-    QHash<QString, KCalCore::Incidence::Ptr> mIncidencesByIdentifier;
+    QHash<QString, KCalendarCore::Incidence::Ptr> mIncidencesByIdentifier;
 
     /**
      * List of all deleted incidences.
@@ -131,13 +131,13 @@ public:
 
 MemoryCalendar::MemoryCalendar(const QTimeZone &timeZone)
     : Calendar(timeZone),
-      d(new KCalCore::MemoryCalendar::Private(this))
+      d(new KCalendarCore::MemoryCalendar::Private(this))
 {
 }
 
 MemoryCalendar::MemoryCalendar(const QByteArray &timeZoneId)
     : Calendar(timeZoneId),
-      d(new KCalCore::MemoryCalendar::Private(this))
+      d(new KCalendarCore::MemoryCalendar::Private(this))
 {
 }
 

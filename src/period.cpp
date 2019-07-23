@@ -36,10 +36,10 @@
 #include <QHash>
 #include <QTimeZone>
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalCore::Period::Private
+class Q_DECL_HIDDEN KCalendarCore::Period::Private
 {
 public:
     Private() : mHasDuration(false), mDailyDuration(false)  {}
@@ -56,23 +56,23 @@ public:
 };
 //@endcond
 
-Period::Period() : d(new KCalCore::Period::Private())
+Period::Period() : d(new KCalendarCore::Period::Private())
 {
 }
 
 Period::Period(const QDateTime &start, const QDateTime &end)
-    : d(new KCalCore::Period::Private(start, end, false))
+    : d(new KCalendarCore::Period::Private(start, end, false))
 {
 }
 
 Period::Period(const QDateTime &start, const Duration &duration)
-    : d(new KCalCore::Period::Private(start, duration.end(start), true))
+    : d(new KCalendarCore::Period::Private(start, duration.end(start), true))
 {
     d->mDailyDuration = duration.isDaily();
 }
 
 Period::Period(const Period &period)
-    : d(new KCalCore::Period::Private(*period.d))
+    : d(new KCalendarCore::Period::Private(*period.d))
 {
 }
 
@@ -147,7 +147,7 @@ void Period::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
     }
 }
 
-QDataStream &KCalCore::operator<<(QDataStream &stream, const KCalCore::Period &period)
+QDataStream &KCalendarCore::operator<<(QDataStream &stream, const KCalendarCore::Period &period)
 {
     serializeQDateTimeAsKDateTime(stream, period.d->mStart);
     serializeQDateTimeAsKDateTime(stream, period.d->mEnd);
@@ -155,7 +155,7 @@ QDataStream &KCalCore::operator<<(QDataStream &stream, const KCalCore::Period &p
                   << period.d->mHasDuration;
 }
 
-QDataStream &KCalCore::operator>>(QDataStream &stream, KCalCore::Period &period)
+QDataStream &KCalendarCore::operator>>(QDataStream &stream, KCalendarCore::Period &period)
 {
     deserializeKDateTimeAsQDateTime(stream, period.d->mStart);
     deserializeKDateTimeAsQDateTime(stream, period.d->mEnd);
@@ -164,7 +164,7 @@ QDataStream &KCalCore::operator>>(QDataStream &stream, KCalCore::Period &period)
     return stream;
 }
 
-uint KCalCore::qHash(const KCalCore::Period &key)
+uint KCalendarCore::qHash(const KCalendarCore::Period &key)
 {
     if (key.hasDuration()) {
         return qHash(key.duration());

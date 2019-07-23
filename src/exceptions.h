@@ -43,7 +43,7 @@
 
 #include <memory>
 
-namespace KCalCore
+namespace KCalendarCore
 {
 
 class ExceptionPrivate;

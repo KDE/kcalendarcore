@@ -30,7 +30,7 @@
 
 #include "kcalcore_export.h"
 
-namespace KCalCore {
+namespace KCalendarCore {
 namespace Events {
 KCALCORE_EXPORT bool startDateLessThan(const Event::Ptr &e1, const Event::Ptr &e2);
 

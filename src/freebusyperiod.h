@@ -37,7 +37,7 @@
 
 #include <QMetaType>
 
-namespace KCalCore
+namespace KCalendarCore
 {
 
 /**
@@ -157,21 +157,21 @@ private:
     //@endcond
 
     friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
-            const KCalCore::FreeBusyPeriod &period);
+            const KCalendarCore::FreeBusyPeriod &period);
     friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream,
-            KCalCore::FreeBusyPeriod &period);
+            KCalendarCore::FreeBusyPeriod &period);
 };
 
 /** Write @p period to the datastream @p stream, in binary format. */
 KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
-                                        const KCalCore::FreeBusyPeriod &period);
+                                        const KCalendarCore::FreeBusyPeriod &period);
 
 /** Read a Period object into @p period from @p stream, in binary format. */
-KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalCore::FreeBusyPeriod &period);
+KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalendarCore::FreeBusyPeriod &period);
 }
 
 //@cond PRIVATE
-Q_DECLARE_METATYPE(KCalCore::FreeBusyPeriod)
+Q_DECLARE_METATYPE(KCalendarCore::FreeBusyPeriod)
 //@endcond
 
 #endif

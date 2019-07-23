@@ -28,7 +28,7 @@
 
 #include "freebusycache.h"
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 FreeBusyCache::~FreeBusyCache()
 {

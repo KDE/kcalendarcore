@@ -46,7 +46,7 @@
 
 class QDate;
 
-namespace KCalCore
+namespace KCalendarCore
 {
 
 class Alarm;

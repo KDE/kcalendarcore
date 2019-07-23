@@ -26,7 +26,7 @@
 
 // To remain backwards compatible we need to (de)serialize QDateTime the way KDateTime
 // was (de)serialized
-void KCalCore::serializeQDateTimeAsKDateTime(QDataStream &out, const QDateTime &dt)
+void KCalendarCore::serializeQDateTimeAsKDateTime(QDataStream &out, const QDateTime &dt)
 {
     out << dt.date() << dt.time();
     switch (dt.timeSpec()) {
@@ -47,7 +47,7 @@ void KCalCore::serializeQDateTimeAsKDateTime(QDataStream &out, const QDateTime &
     out << quint8(isDateOnly ? 0x01 : 0x00);
 }
 
-void KCalCore::deserializeKDateTimeAsQDateTime(QDataStream &in, QDateTime &dt)
+void KCalendarCore::deserializeKDateTimeAsQDateTime(QDataStream &in, QDateTime &dt)
 {
     QDate date;
     QTime time;
@@ -79,12 +79,12 @@ void KCalCore::deserializeKDateTimeAsQDateTime(QDataStream &in, QDateTime &dt)
     in >> flags;
 }
 
-void KCalCore::serializeQTimeZoneAsSpec(QDataStream &out, const QTimeZone &tz)
+void KCalendarCore::serializeQTimeZoneAsSpec(QDataStream &out, const QTimeZone &tz)
 {
     out << static_cast<quint8>('z') << (tz.isValid() ? QString::fromUtf8(tz.id()) : QString());
 }
 
-void KCalCore::deserializeSpecAsQTimeZone(QDataStream &in, QTimeZone &tz)
+void KCalendarCore::deserializeSpecAsQTimeZone(QDataStream &in, QTimeZone &tz)
 {
     quint8 ts;
     in >> ts;
@@ -111,7 +111,7 @@ void KCalCore::deserializeSpecAsQTimeZone(QDataStream &in, QTimeZone &tz)
 
 }
 
-void KCalCore::serializeQDateTimeList(QDataStream &out, const QList<QDateTime> &list)
+void KCalendarCore::serializeQDateTimeList(QDataStream &out, const QList<QDateTime> &list)
 {
     out << list.size();
     for (const auto &i : list) {
@@ -119,7 +119,7 @@ void KCalCore::serializeQDateTimeList(QDataStream &out, const QList<QDateTime> &
     }
 }
 
-void KCalCore::deserializeQDateTimeList(QDataStream &in, QList<QDateTime> &list)
+void KCalendarCore::deserializeQDateTimeList(QDataStream &in, QList<QDateTime> &list)
 {
     int size;
     in >> size;

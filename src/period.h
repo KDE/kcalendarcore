@@ -41,7 +41,7 @@
 
 class QTimeZone;
 
-namespace KCalCore
+namespace KCalendarCore
 {
 
 /**
@@ -203,28 +203,28 @@ private:
     //@endcond
 
     friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
-            const KCalCore::Period &period);
+            const KCalendarCore::Period &period);
 
     friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream,
-            KCalCore::Period &period);
+            KCalendarCore::Period &period);
 };
 
 /** Write @p period to the datastream @p stream, in binary format. */
-KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalCore::Period &period);
+KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalendarCore::Period &period);
 
 /** Read a Period object into @p period from @p stream, in binary format. */
-KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalCore::Period &period);
+KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalendarCore::Period &period);
 
 /**
   Return a hash value for a Period argument.
   @param key is a Period.
 */
-KCALCORE_EXPORT uint qHash(const KCalCore::Period &key);
+KCALCORE_EXPORT uint qHash(const KCalendarCore::Period &key);
 }
 
 //@cond PRIVATE
-Q_DECLARE_METATYPE(KCalCore::Period)
-Q_DECLARE_TYPEINFO(KCalCore::Period, Q_MOVABLE_TYPE);
+Q_DECLARE_METATYPE(KCalendarCore::Period)
+Q_DECLARE_TYPEINFO(KCalendarCore::Period, Q_MOVABLE_TYPE);
 //@endcond
 
 #endif

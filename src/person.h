@@ -38,7 +38,7 @@
 #include <QMetaType>
 #include <QSharedDataPointer>
 
-namespace KCalCore
+namespace KCalendarCore
 {
 
 /**
@@ -179,31 +179,31 @@ private:
     QSharedDataPointer<Private> d;
     //@endcond
 
-    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &s, const KCalCore::Person &person);
-    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &s, KCalCore::Person &person);
+    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &s, const KCalendarCore::Person &person);
+    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &s, KCalendarCore::Person &person);
 };
 
 /**
   Serializes the @p person object into the @p stream.
 */
-KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalCore::Person &person);
+KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalendarCore::Person &person);
 
 /**
   Initializes the @p person object from the @p stream.
 */
-KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalCore::Person &person);
+KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalendarCore::Person &person);
 
 /**
   Return a hash value for a Person argument.
   @param key is a Person.
 */
-KCALCORE_EXPORT uint qHash(const KCalCore::Person &key);
+KCALCORE_EXPORT uint qHash(const KCalendarCore::Person &key);
 
 }
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO(KCalCore::Person, Q_MOVABLE_TYPE);
-Q_DECLARE_METATYPE(KCalCore::Person)
+Q_DECLARE_TYPEINFO(KCalendarCore::Person, Q_MOVABLE_TYPE);
+Q_DECLARE_METATYPE(KCalendarCore::Person)
 //@endcond
 
 #endif

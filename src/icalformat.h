@@ -34,7 +34,7 @@
 #include "calformat.h"
 #include "schedulemessage.h"
 
-namespace KCalCore
+namespace KCalendarCore
 {
 
 class FreeBusy;

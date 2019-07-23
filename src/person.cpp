@@ -38,14 +38,14 @@
 #include <QRegExp>
 #include <QDataStream>
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 /**
   Private class that helps to provide binary compatibility between releases.
   @internal
 */
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalCore::Person::Private : public QSharedData
+class Q_DECL_HIDDEN KCalendarCore::Person::Private : public QSharedData
 {
 public:
     QString mName;   // person name
@@ -53,12 +53,12 @@ public:
 };
 //@endcond
 
-Person::Person() : d(new KCalCore::Person::Private)
+Person::Person() : d(new KCalendarCore::Person::Private)
 {
 }
 
 Person::Person(const QString &name, const QString &email)
-    : d(new KCalCore::Person::Private)
+    : d(new KCalendarCore::Person::Private)
 {
     d->mName = name;
     d->mEmail = email;
@@ -71,19 +71,19 @@ Person::Person(const Person &person)
 
 Person::~Person() = default;
 
-bool KCalCore::Person::operator==(const Person &person) const
+bool KCalendarCore::Person::operator==(const Person &person) const
 {
     return
         d->mName == person.d->mName &&
         d->mEmail == person.d->mEmail;
 }
 
-bool KCalCore::Person::operator!=(const Person &person) const
+bool KCalendarCore::Person::operator!=(const Person &person) const
 {
     return !(*this == person);
 }
 
-Person &KCalCore::Person::operator=(const Person &person)
+Person &KCalendarCore::Person::operator=(const Person &person)
 {
     // check for self assignment
     if (&person == this) {
@@ -94,7 +94,7 @@ Person &KCalCore::Person::operator=(const Person &person)
     return *this;
 }
 
-QString KCalCore::fullNameHelper(const QString &name, const QString &email)
+QString KCalendarCore::fullNameHelper(const QString &name, const QString &email)
 {
     if (name.isEmpty()) {
         return email;
@@ -157,12 +157,12 @@ bool Person::isValidEmail(const QString &email)
     return (pos > 0) && (email.lastIndexOf(QLatin1Char('.')) > pos) && ((email.length() - pos) > 4);
 }
 
-uint KCalCore::qHash(const KCalCore::Person &key)
+uint KCalendarCore::qHash(const KCalendarCore::Person &key)
 {
     return qHash(key.fullName());
 }
 
-QDataStream &KCalCore::operator<<(QDataStream &stream, const KCalCore::Person &person)
+QDataStream &KCalendarCore::operator<<(QDataStream &stream, const KCalendarCore::Person &person)
 {
     return stream
            << person.d->mName
@@ -170,7 +170,7 @@ QDataStream &KCalCore::operator<<(QDataStream &stream, const KCalCore::Person &p
            << (int)(0);
 }
 
-QDataStream &KCalCore::operator>>(QDataStream &stream, Person &person)
+QDataStream &KCalendarCore::operator>>(QDataStream &stream, Person &person)
 {
     int count;
     stream >> person.d->mName >> person.d->mEmail >> count;

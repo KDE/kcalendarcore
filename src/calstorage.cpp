@@ -31,14 +31,14 @@
 
 #include "calstorage.h"
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 /**
   Private class that helps to provide binary compatibility between releases.
   @internal
 */
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalCore::CalStorage::Private
+class Q_DECL_HIDDEN KCalendarCore::CalStorage::Private
 {
 public:
     Private(const Calendar::Ptr &cal)
@@ -49,7 +49,7 @@ public:
 //@endcond
 
 CalStorage::CalStorage(const Calendar::Ptr &calendar)
-    : d(new KCalCore::CalStorage::Private(calendar))
+    : d(new KCalendarCore::CalStorage::Private(calendar))
 {
 }
 

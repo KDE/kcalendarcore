@@ -32,10 +32,10 @@
 #include <QBitArray>
 #include <QTime>
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalCore::Recurrence::Private
+class Q_DECL_HIDDEN KCalendarCore::Recurrence::Private
 {
 public:
     Private()
@@ -115,13 +115,13 @@ bool Recurrence::Private::operator==(const Recurrence::Private &p) const
 //@endcond
 
 Recurrence::Recurrence()
-    : d(new KCalCore::Recurrence::Private())
+    : d(new KCalendarCore::Recurrence::Private())
 {
 }
 
 Recurrence::Recurrence(const Recurrence &r)
     : RecurrenceRule::RuleObserver(),
-      d(new KCalCore::Recurrence::Private(*r.d))
+      d(new KCalendarCore::Recurrence::Private(*r.d))
 {
     int i, end;
     d->mRRules.reserve(r.d->mRRules.count());
@@ -207,7 +207,7 @@ RecurrenceRule *Recurrence::defaultRRule(bool create) const
         }
         RecurrenceRule *rrule = new RecurrenceRule();
         rrule->setStartDt(startDateTime());
-        const_cast<KCalCore::Recurrence *>(this)->addRRule(rrule);
+        const_cast<KCalendarCore::Recurrence *>(this)->addRRule(rrule);
         return rrule;
     } else {
         return d->mRRules[0];
@@ -1493,7 +1493,7 @@ Recurrence::RecurrenceObserver::~RecurrenceObserver()
 {
 }
 
-KCALCORE_EXPORT QDataStream &KCalCore::operator<<(QDataStream &out, KCalCore::Recurrence *r)
+KCALCORE_EXPORT QDataStream &KCalendarCore::operator<<(QDataStream &out, KCalendarCore::Recurrence *r)
 {
     if (!r) {
         return out;
@@ -1518,7 +1518,7 @@ KCALCORE_EXPORT QDataStream &KCalCore::operator<<(QDataStream &out, KCalCore::Re
     return out;
 }
 
-KCALCORE_EXPORT QDataStream &KCalCore::operator>>(QDataStream &in, KCalCore::Recurrence *r)
+KCALCORE_EXPORT QDataStream &KCalendarCore::operator>>(QDataStream &in, KCalendarCore::Recurrence *r)
 {
     if (!r) {
         return in;

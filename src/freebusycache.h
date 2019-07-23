@@ -35,7 +35,7 @@
 
 class QString;
 
-namespace KCalCore
+namespace KCalendarCore
 {
 
 class Person;

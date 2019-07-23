@@ -35,14 +35,14 @@
 
 #include "calfilter.h"
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 /**
   Private class that helps to provide binary compatibility between releases.
   @internal
 */
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalCore::CalFilter::Private
+class Q_DECL_HIDDEN KCalendarCore::CalFilter::Private
 {
 public:
     Private()
@@ -57,12 +57,12 @@ public:
 };
 //@endcond
 
-CalFilter::CalFilter() : d(new KCalCore::CalFilter::Private)
+CalFilter::CalFilter() : d(new KCalendarCore::CalFilter::Private)
 {
 }
 
 CalFilter::CalFilter(const QString &name)
-    : d(new KCalCore::CalFilter::Private)
+    : d(new KCalendarCore::CalFilter::Private)
 {
     d->mName = name;
 }
@@ -72,7 +72,7 @@ CalFilter::~CalFilter()
     delete d;
 }
 
-bool KCalCore::CalFilter::operator==(const CalFilter &filter) const
+bool KCalendarCore::CalFilter::operator==(const CalFilter &filter) const
 {
     return d->mName == filter.d->mName &&
            d->mCriteria == filter.d->mCriteria &&

@@ -39,7 +39,7 @@
 
 class QDateTime;
 
-namespace KCalCore
+namespace KCalendarCore
 {
 
 /**
@@ -323,8 +323,8 @@ private:
     Private *const d;
     //@endcond
 
-    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &s, const KCalCore::Duration &);
-    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &s, KCalCore::Duration &);
+    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &s, const KCalendarCore::Duration &);
+    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &s, KCalendarCore::Duration &);
 };
 
 /**
@@ -332,14 +332,14 @@ private:
  *
  * @since 4.12
  */
-KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalCore::Duration &);
+KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalendarCore::Duration &);
 
 /**
  * Duration deserializer.
  *
  * @since 4.12
  */
-KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalCore::Duration &);
+KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalendarCore::Duration &);
 
 inline uint qHash(const Duration &duration, uint seed = 0)
 {
@@ -348,6 +348,6 @@ inline uint qHash(const Duration &duration, uint seed = 0)
 
 }
 
-Q_DECLARE_METATYPE(KCalCore::Duration)
+Q_DECLARE_METATYPE(KCalendarCore::Duration)
 
 #endif

@@ -36,13 +36,13 @@
 
 #include "kcalcore_debug.h"
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 /*
   Private class that helps to provide binary compatibility between releases.
 */
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalCore::FileStorage::Private
+class Q_DECL_HIDDEN KCalendarCore::FileStorage::Private
 {
 public:
     Private(const QString &fileName, CalFormat *format)

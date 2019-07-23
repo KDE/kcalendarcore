@@ -33,7 +33,7 @@
 
 #include <QTimeZone>
 
-namespace KCalCore
+namespace KCalendarCore
 {
 
 /**
@@ -44,7 +44,7 @@ class KCALCORE_EXPORT Event : public Incidence
 {
     Q_GADGET
     Q_PROPERTY(QDateTime dtEnd READ dtEnd WRITE setDtEnd)
-    Q_PROPERTY(KCalCore::Event::Transparency transparency READ transparency WRITE setTransparency)
+    Q_PROPERTY(KCalendarCore::Event::Transparency transparency READ transparency WRITE setTransparency)
 public:
     /**
       The different Event transparency types.
@@ -222,7 +222,7 @@ public:
     Q_REQUIRED_RESULT bool supportsGroupwareCommunication() const override;
 
     /**
-       Returns the Akonadi specific sub MIME type of a KCalCore::Event.
+       Returns the Akonadi specific sub MIME type of a KCalendarCore::Event.
     */
     Q_REQUIRED_RESULT static QLatin1String eventMimeType();
 
@@ -270,12 +270,12 @@ private:
     //@endcond
 };
 
-} // namespace KCalCore
+} // namespace KCalendarCore
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO(KCalCore::Event::Ptr, Q_MOVABLE_TYPE);
-Q_DECLARE_METATYPE(KCalCore::Event::Ptr)
-Q_DECLARE_METATYPE(KCalCore::Event *)
+Q_DECLARE_TYPEINFO(KCalendarCore::Event::Ptr, Q_MOVABLE_TYPE);
+Q_DECLARE_METATYPE(KCalendarCore::Event::Ptr)
+Q_DECLARE_METATYPE(KCalendarCore::Event *)
 //@endcond
 
 #endif

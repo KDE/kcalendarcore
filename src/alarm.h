@@ -46,7 +46,7 @@
 
 class QTimeZone;
 
-namespace KCalCore
+namespace KCalendarCore
 {
 
 class Incidence;
@@ -672,28 +672,28 @@ private:
     class Private;
     Private *const d;
     //@endcond
-    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &s, const KCalCore::Alarm::Ptr &);
-    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &s, const KCalCore::Alarm::Ptr &);
+    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &s, const KCalendarCore::Alarm::Ptr &);
+    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &s, const KCalendarCore::Alarm::Ptr &);
 };
 /**
  * Alarm serializer.
  *
  * @since 4.12
  */
-KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalCore::Alarm::Ptr &);
+KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalendarCore::Alarm::Ptr &);
 
 /**
  * Alarm deserializer.
  *
  * @since 4.12
  */
-KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, const KCalCore::Alarm::Ptr &);
+KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, const KCalendarCore::Alarm::Ptr &);
 
 }
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO(KCalCore::Alarm::Ptr, Q_MOVABLE_TYPE);
-Q_DECLARE_METATYPE(KCalCore::Alarm::Ptr)
+Q_DECLARE_TYPEINFO(KCalendarCore::Alarm::Ptr, Q_MOVABLE_TYPE);
+Q_DECLARE_METATYPE(KCalendarCore::Alarm::Ptr)
 //@endcond
 
 #endif

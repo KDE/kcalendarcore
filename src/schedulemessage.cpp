@@ -25,10 +25,10 @@
 
 #include <QString>
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalCore::ScheduleMessage::Private
+class Q_DECL_HIDDEN KCalendarCore::ScheduleMessage::Private
 {
 public:
     Private() {}
@@ -45,7 +45,7 @@ public:
 ScheduleMessage::ScheduleMessage(const IncidenceBase::Ptr &incidence,
                                  iTIPMethod method,
                                  ScheduleMessage::Status status)
-    : d(new KCalCore::ScheduleMessage::Private)
+    : d(new KCalendarCore::ScheduleMessage::Private)
 {
     d->mIncidence = incidence;
     d->mMethod = method;

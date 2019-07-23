@@ -48,10 +48,10 @@ extern "C" {
 #include <libical/icalmemory.h>
 }
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalCore::ICalFormat::Private
+class Q_DECL_HIDDEN KCalendarCore::ICalFormat::Private
 {
 public:
     Private(ICalFormat *parent)

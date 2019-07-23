@@ -56,7 +56,7 @@ class QDate;
 #define ICMethodProp          "X-METHOD"
 #define ICRequestStatusProp   "X-REQUEST-STATUS"
 
-namespace KCalCore
+namespace KCalendarCore
 {
 
 class Event;

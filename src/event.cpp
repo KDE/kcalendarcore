@@ -36,14 +36,14 @@
 
 #include <QDate>
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 /**
   Private class that helps to provide binary compatibility between releases.
   @internal
 */
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalCore::Event::Private
+class Q_DECL_HIDDEN KCalendarCore::Event::Private
 {
 public:
     Private()
@@ -51,7 +51,7 @@ public:
           mMultiDayValid(false),
           mMultiDay(false)
     {}
-    Private(const KCalCore::Event::Private &other)
+    Private(const KCalendarCore::Event::Private &other)
         : mDtEnd(other.mDtEnd),
           mTransparency(other.mTransparency),
           mMultiDayValid(false),
@@ -66,18 +66,18 @@ public:
 //@endcond
 
 Event::Event()
-    : d(new KCalCore::Event::Private)
+    : d(new KCalendarCore::Event::Private)
 {
 }
 
 Event::Event(const Event &other)
-    : Incidence(other), d(new KCalCore::Event::Private(*other.d))
+    : Incidence(other), d(new KCalendarCore::Event::Private(*other.d))
 {
 }
 
 Event::Event(const Incidence &other)
     : Incidence(other)
-    , d(new KCalCore::Event::Private)
+    , d(new KCalendarCore::Event::Private)
 {
 }
 
@@ -315,7 +315,7 @@ void Event::virtual_hook(VirtualHook id, void *data)
     Q_UNUSED(data);
 }
 
-QLatin1String KCalCore::Event::mimeType() const
+QLatin1String KCalendarCore::Event::mimeType() const
 {
     return Event::eventMimeType();
 }

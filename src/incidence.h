@@ -44,7 +44,7 @@
 #define INVALID_LATLON 255.0 //krazy:exclude=defines (part of the API)
 //@endcond
 
-namespace KCalCore
+namespace KCalendarCore
 {
 
 /**
@@ -76,8 +76,8 @@ class KCALCORE_EXPORT Incidence
     Q_PROPERTY(QStringList categories READ categories WRITE setCategories)
     Q_PROPERTY(int priority READ priority WRITE setPriority)
     Q_PROPERTY(QDateTime created READ created WRITE setCreated)
-    Q_PROPERTY(KCalCore::Incidence::Secrecy secrecy READ secrecy WRITE setSecrecy)
-    Q_PROPERTY(KCalCore::Incidence::Status status READ status WRITE setStatus)
+    Q_PROPERTY(KCalendarCore::Incidence::Secrecy secrecy READ secrecy WRITE setSecrecy)
+    Q_PROPERTY(KCalendarCore::Incidence::Status status READ status WRITE setStatus)
     Q_PROPERTY(QVariantList attachments READ attachmentsVariant)
 public:
 
@@ -150,7 +150,7 @@ public:
     /**
       Returns a unique identifier for a specific instance of an incidence.
 
-      Due to the recurrence-id, the uid is not unique for a KCalCore::Incidence.
+      Due to the recurrence-id, the uid is not unique for a KCalendarCore::Incidence.
       @since 4.11
     */
     Q_REQUIRED_RESULT QString instanceIdentifier() const;
@@ -388,7 +388,7 @@ public:
       @param uid is a QString containing a UID for another incidence.
       @param relType specifies the relation type.
 
-      @warning KCalCore only supports one related-to field per reltype for now.
+      @warning KCalendarCore only supports one related-to field per reltype for now.
 
       @see relatedTo().
     */
@@ -399,7 +399,7 @@ public:
       This function should only be used when constructing a calendar before
       the related incidence exists.
 
-      @warning KCalCore only supports one related-to field per reltype for now.
+      @warning KCalendarCore only supports one related-to field per reltype for now.
 
       @param relType specifies the relation type.
 
@@ -862,15 +862,15 @@ private:
 }
 
 //@cond PRIVATE
-inline uint qHash(const QSharedPointer<KCalCore::Incidence> &key)
+inline uint qHash(const QSharedPointer<KCalendarCore::Incidence> &key)
 {
     return qHash(key.data());
 }
 //@endcond
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO(KCalCore::Incidence::Ptr, Q_MOVABLE_TYPE);
-Q_DECLARE_METATYPE(KCalCore::Incidence *)
+Q_DECLARE_TYPEINFO(KCalendarCore::Incidence::Ptr, Q_MOVABLE_TYPE);
+Q_DECLARE_METATYPE(KCalendarCore::Incidence *)
 //@endcond
 
 #endif

@@ -34,7 +34,7 @@
 
 #include <QString>
 
-namespace KCalCore
+namespace KCalendarCore
 {
 
 class Exception;

@@ -32,7 +32,7 @@
 #include "kcalcore_export.h"
 #include "incidence.h"
 
-namespace KCalCore
+namespace KCalendarCore
 {
 
 class Calendar;
@@ -60,7 +60,7 @@ public:
      * of @param incidence between @param start and @param end (inclusive)
      */
     OccurrenceIterator(const Calendar &calendar,
-                       const KCalCore::Incidence::Ptr &incidence,
+                       const KCalendarCore::Incidence::Ptr &incidence,
                        const QDateTime &start = QDateTime(),
                        const QDateTime &end = QDateTime());
     ~OccurrenceIterator();

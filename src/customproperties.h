@@ -34,7 +34,7 @@
 #include <QMap>
 #include <QString>
 
-namespace KCalCore
+namespace KCalendarCore
 {
 
 /**
@@ -52,9 +52,9 @@ namespace KCalCore
 class KCALCORE_EXPORT CustomProperties
 {
     friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &s,
-            const KCalCore::CustomProperties &properties);
+            const KCalendarCore::CustomProperties &properties);
     friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &s,
-            KCalCore::CustomProperties &properties);
+            KCalendarCore::CustomProperties &properties);
 public:
     /**
       Constructs an empty custom properties instance.
@@ -208,13 +208,13 @@ private:
   Serializes the @p properties object into the @p stream.
 */
 KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
-                                        const KCalCore::CustomProperties &properties);
+                                        const KCalendarCore::CustomProperties &properties);
 
 /**
   Initializes the @p properties object from the @p stream.
 */
 KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream,
-                                        KCalCore::CustomProperties &properties);
+                                        KCalendarCore::CustomProperties &properties);
 
 }
 

@@ -36,7 +36,7 @@
 #include <QSharedDataPointer>
 #include <QMetaType>
 
-namespace KCalCore
+namespace KCalendarCore
 {
 
 /**
@@ -278,8 +278,8 @@ private:
     QSharedDataPointer<Private> d;
     //@endcond
 
-    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &s, const KCalCore::Attachment&);
-    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &s, KCalCore::Attachment&);
+    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &s, const KCalendarCore::Attachment&);
+    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &s, KCalendarCore::Attachment&);
 };
 
 /**
@@ -287,20 +287,20 @@ private:
  *
  * @since 4.12
  */
-KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalCore::Attachment&);
+KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalendarCore::Attachment&);
 
 /**
  * Attachment deserializer.
  *
  * @since 4.12
  */
-KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalCore::Attachment&);
+KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalendarCore::Attachment&);
 
 }
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO(KCalCore::Attachment, Q_MOVABLE_TYPE);
-Q_DECLARE_METATYPE(KCalCore::Attachment)
+Q_DECLARE_TYPEINFO(KCalendarCore::Attachment, Q_MOVABLE_TYPE);
+Q_DECLARE_METATYPE(KCalendarCore::Attachment)
 //@endcond
 
 #endif

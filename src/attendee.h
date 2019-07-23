@@ -35,7 +35,7 @@
 #include "kcalcore_export.h"
 #include "customproperties.h"
 
-namespace KCalCore
+namespace KCalendarCore
 {
 
 /**
@@ -361,9 +361,9 @@ private:
     //@endcond
 
     friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &s,
-            const KCalCore::Attendee &attendee);
+            const KCalendarCore::Attendee &attendee);
     friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &s,
-            KCalCore::Attendee &attendee);
+            KCalendarCore::Attendee &attendee);
 };
 
 /**
@@ -372,7 +372,7 @@ private:
   @param attendee is a pointer to a Attendee object to be serialized.
 */
 KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
-                                        const KCalCore::Attendee &attendee);
+                                        const KCalendarCore::Attendee &attendee);
 
 /**
   Initializes an Attendee object from a data stream.
@@ -380,12 +380,12 @@ KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
   @param attendee is a pointer to a Attendee object to be initialized.
 */
 KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream,
-                                        KCalCore::Attendee &attendee);
+                                        KCalendarCore::Attendee &attendee);
 }
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO(KCalCore::Attendee, Q_MOVABLE_TYPE);
-Q_DECLARE_METATYPE(KCalCore::Attendee)
+Q_DECLARE_TYPEINFO(KCalendarCore::Attendee, Q_MOVABLE_TYPE);
+Q_DECLARE_METATYPE(KCalendarCore::Attendee)
 //@endcond
 
 #endif

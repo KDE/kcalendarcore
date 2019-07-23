@@ -24,7 +24,7 @@
 
 #include <algorithm>
 
-namespace KCalCore {
+namespace KCalendarCore {
 
 template <typename T>
 inline void sortAndRemoveDuplicates(T &container)

@@ -35,14 +35,14 @@
 #include <QDateTime>
 #include <QTimeZone>
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 /**
   Private class that helps to provide binary compatibility between releases.
   @internal
 */
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalCore::Duration::Private
+class Q_DECL_HIDDEN KCalendarCore::Duration::Private
 {
 public:
     int seconds() const
@@ -55,12 +55,12 @@ public:
 //@endcond
 
 Duration::Duration()
-    : d(new KCalCore::Duration::Private())
+    : d(new KCalendarCore::Duration::Private())
 {
 }
 
 Duration::Duration(const QDateTime &start, const QDateTime &end)
-    : d(new KCalCore::Duration::Private())
+    : d(new KCalendarCore::Duration::Private())
 {
     if (start.time() == end.time() && start.timeZone() == end.timeZone()) {
         d->mDuration = start.daysTo(end);
@@ -72,7 +72,7 @@ Duration::Duration(const QDateTime &start, const QDateTime &end)
 }
 
 Duration::Duration(const QDateTime &start, const QDateTime &end, Type type)
-    : d(new KCalCore::Duration::Private())
+    : d(new KCalendarCore::Duration::Private())
 {
     if (type == Days) {
         QDateTime endSt(end.toTimeZone(start.timeZone()));
@@ -97,14 +97,14 @@ Duration::Duration(const QDateTime &start, const QDateTime &end, Type type)
 }
 
 Duration::Duration(int duration, Type type)
-    : d(new KCalCore::Duration::Private())
+    : d(new KCalendarCore::Duration::Private())
 {
     d->mDuration = duration;
     d->mDaily = (type == Days);
 }
 
 Duration::Duration(const Duration &duration)
-    : d(new KCalCore::Duration::Private(*duration.d))
+    : d(new KCalendarCore::Duration::Private(*duration.d))
 {
 }
 
@@ -218,13 +218,13 @@ bool Duration::isNull() const
     return d->mDuration == 0;
 }
 
-QDataStream &KCalCore::operator<<(QDataStream &out, const KCalCore::Duration &duration)
+QDataStream &KCalendarCore::operator<<(QDataStream &out, const KCalendarCore::Duration &duration)
 {
     out << duration.d->mDuration << duration.d->mDaily;
     return out;
 }
 
-QDataStream &KCalCore::operator>>(QDataStream &in, KCalCore::Duration &duration)
+QDataStream &KCalendarCore::operator>>(QDataStream &in, KCalendarCore::Duration &duration)
 {
     in >> duration.d->mDuration >> duration.d->mDaily;
     return in;
