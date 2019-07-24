@@ -47,8 +47,12 @@ add_library(KF5::CalendarCore ALIAS KF5CalendarCore)
 
 # backward compatibility with the old name
 # TODO: remove for KF6
-target_compile_definitions(KF5CalendarCore INTERFACE "-DKCalCore=KCalendarCore")
-target_include_directories(KF5CalendarCore INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KCalCore>")
+option(KCALENDARCORE_NO_DEPRECATED_NAMESPACE "Disable deprecated KCalCore namespace" OFF)
+if (NOT KCALENDARCORE_NO_DEPRECATED_NAMESPACE)
+    target_compile_definitions(KF5CalendarCore INTERFACE "-DKCalCore=KCalendarCore")
+endif()
+
+target_include_directories(KF5CalendarCore INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KCalendarCore>")
 target_include_directories(KF5CalendarCore PUBLIC "$<BUILD_INTERFACE:${KCalCore_SOURCE_DIR}/src;${KCalCore_BINARY_DIR}/src>")
 
 target_link_libraries(KF5CalendarCore
@@ -68,8 +72,7 @@ set_target_properties(KF5CalendarCore PROPERTIES
 install(TARGETS KF5CalendarCore EXPORT KF5CalendarCoreTargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ########### Generate Headers ###############
-ecm_generate_headers(KCalCore_CamelCase_HEADERS
-  HEADER_NAMES
+set(kcalendarcore_headers
   Alarm
   Attachment
   Attendee
@@ -80,7 +83,7 @@ ecm_generate_headers(KCalCore_CamelCase_HEADERS
   CustomProperties
   Duration
   Event
-  Exceptions # NOTE: Used to be called 'Exception' in KDE4
+  Exceptions
   FileStorage
   FreeBusy
   FreeBusyCache
@@ -100,25 +103,53 @@ ecm_generate_headers(KCalCore_CamelCase_HEADERS
   Todo
   VCalFormat
   Visitor
-
-  PREFIX KCalCore
-  REQUIRED_HEADERS KCalCore_HEADERS
 )
+
+ecm_generate_headers(KCalendarCore_CamelCase_HEADERS
+  HEADER_NAMES
+    ${kcalendarcore_headers}
+  PREFIX KCalendarCore
+  REQUIRED_HEADERS KCalendarCore_HEADERS
+)
+
+if (NOT KCALENDARCORE_NO_DEPRECATED_NAMESPACE)
+  ecm_generate_headers(KCalCore_CamelCase_HEADERS
+    HEADER_NAMES
+      ${kcalendarcore_headers}
+    PREFIX KCalCore
+    REQUIRED_HEADERS KCalCore_HEADERS
+  )
+endif()
 
 ########### install files ###############
 
 install(FILES
   ${CMAKE_CURRENT_BINARY_DIR}/kcalcore_export.h
-  ${KCalCore_HEADERS}
-  DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}/KCalCore/kcalcore
+  ${KCalendarCore_HEADERS}
+  DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}/KCalendarCore/kcalendarcore
   COMPONENT Devel
 )
 
 install(FILES
-  ${KCalCore_CamelCase_HEADERS}
-  DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}/KCalCore/KCalCore
+  ${KCalendarCore_CamelCase_HEADERS}
+  DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}/KCalendarCore/KCalendarCore
   COMPONENT Devel
 )
 
-ecm_generate_pri_file(BASE_NAME KCalCore LIB_NAME KF5CalendarCore DEPS "Core" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF5}/KCalCore/KCalCore)
+if (NOT KCALENDARCORE_NO_DEPRECATED_NAMESPACE)
+  install(FILES
+    ${CMAKE_CURRENT_BINARY_DIR}/kcalcore_export.h
+    ${KCalCore_HEADERS}
+    DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}/KCalendarCore/kcalcore
+    COMPONENT Devel
+  )
+
+  install(FILES
+    ${KCalCore_CamelCase_HEADERS}
+    DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}/KCalendarCore/KCalCore
+    COMPONENT Devel
+  )
+endif()
+
+ecm_generate_pri_file(BASE_NAME KCalendarCore LIB_NAME KF5CalendarCore DEPS "Core" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF5}/KCalendarCore/KCalendarCore)
 install(FILES ${PRI_FILENAME} DESTINATION ${ECM_MKSPECS_INSTALL_DIR})
