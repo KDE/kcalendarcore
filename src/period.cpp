@@ -31,7 +31,7 @@
 */
 
 #include "period.h"
-#include "utils.h"
+#include "utils_p.h"
 
 #include <QHash>
 #include <QTimeZone>

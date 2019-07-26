@@ -23,7 +23,7 @@
 
 #include "testperiod.h"
 #include "period.h"
-#include "utils.h"
+#include "utils_p.h"
 
 #include <QTest>
 QTEST_MAIN(PeriodTest)

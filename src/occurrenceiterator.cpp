@@ -32,7 +32,6 @@
 #include "occurrenceiterator.h"
 #include "calendar.h"
 #include "calfilter.h"
-#include "utils.h"
 
 #include <QDate>
 

@@ -45,7 +45,6 @@
 #include "memorycalendar.h"
 #include "todo.h"
 #include "visitor.h"
-#include "utils.h"
 
 #include "kcalcore_debug.h"
 

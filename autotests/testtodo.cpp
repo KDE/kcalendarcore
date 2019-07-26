@@ -22,7 +22,6 @@
 #include "todo.h"
 #include "event.h"
 #include "attachment.h"
-#include "utils.h"
 
 #include <QTest>
 QTEST_MAIN(TodoTest)

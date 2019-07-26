@@ -40,7 +40,6 @@
 #include "icaltimezones_p.h"
 #include "sorting.h"
 #include "visitor.h"
-#include "utils.h"
 
 #include "kcalcore_debug.h"
 

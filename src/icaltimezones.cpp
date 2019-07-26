@@ -25,7 +25,6 @@
 #include "recurrence.h"
 #include "recurrencerule.h"
 #include "recurrencehelper_p.h"
-#include "utils.h"
 
 #include "kcalcore_debug.h"
 

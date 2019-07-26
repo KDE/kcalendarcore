@@ -21,7 +21,6 @@
 */
 #include "testtimesininterval.h"
 #include "event.h"
-#include "utils.h"
 
 #include <QDebug>
 

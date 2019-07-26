@@ -31,7 +31,7 @@
 
 #include "event.h"
 #include "visitor.h"
-#include "utils.h"
+#include "utils_p.h"
 #include "kcalcore_debug.h"
 
 #include <QDate>

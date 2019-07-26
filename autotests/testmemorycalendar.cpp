@@ -22,7 +22,6 @@
 #include "testmemorycalendar.h"
 #include "filestorage.h"
 #include "memorycalendar.h"
-#include "utils.h"
 
 #include <QDebug>
 

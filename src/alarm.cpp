@@ -33,7 +33,7 @@
 #include "alarm.h"
 #include "duration.h"
 #include "incidence.h"
-#include "utils.h"
+#include "utils_p.h"
 
 #include <QTime>
 #include <QTimeZone>

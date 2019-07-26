@@ -34,7 +34,6 @@
 
 #include "compat_p.h"
 #include "incidence.h"
-#include "utils.h"
 
 #include "kcalcore_debug.h"
 

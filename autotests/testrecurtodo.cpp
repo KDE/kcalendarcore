@@ -20,7 +20,6 @@
 */
 #include "testrecurtodo.h"
 #include "todo.h"
-#include "utils.h"
 
 #include <QDebug>
 #include <QTest>

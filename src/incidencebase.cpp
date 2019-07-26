@@ -37,7 +37,7 @@
 #include "incidencebase.h"
 #include "calformat.h"
 #include "visitor.h"
-#include "utils.h"
+#include "utils_p.h"
 
 #include <QTime>
 #include "kcalcore_debug.h"

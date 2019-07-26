@@ -34,7 +34,7 @@
 
 #include "incidence.h"
 #include "calformat.h"
-#include "utils.h"
+#include "utils_p.h"
 
 #include <QTextDocument> // for .toHtmlEscaped() and Qt::mightBeRichText()
 #include <QStringList>

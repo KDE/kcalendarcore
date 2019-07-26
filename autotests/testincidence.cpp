@@ -20,7 +20,6 @@
 */
 #include "testincidence.h"
 #include "event.h"
-#include "utils.h"
 
 #include <QTest>
 

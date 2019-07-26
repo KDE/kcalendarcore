@@ -23,7 +23,6 @@
 #include "event.h"
 #include "journal.h"
 #include "todo.h"
-#include "utils.h"
 
 // PENDING(kdab) Review
 // The QString::compare() need to be replace by a DUI string comparisons.

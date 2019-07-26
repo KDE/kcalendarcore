@@ -39,7 +39,6 @@
 #include "event.h"
 #include "exceptions.h"
 #include "todo.h"
-#include "utils.h"
 
 #include "kcalcore_debug.h"
 
