@@ -34,7 +34,7 @@
 #include "kcalcore_export.h"
 #include "incidence.h"
 
-namespace KCalCore
+namespace KCalendarCore
 {
 
 /**
@@ -311,7 +311,7 @@ public:
     bool supportsGroupwareCommunication() const override;
 
     /**
-       Returns the Akonadi specific sub MIME type of a KCalCore::Todo.
+       Returns the Akonadi specific sub MIME type of a KCalendarCore::Todo.
     */
     Q_REQUIRED_RESULT static QLatin1String todoMimeType();
 
@@ -356,12 +356,12 @@ private:
     //@endcond
 };
 
-} // namespace KCalCore
+} // namespace KCalendarCore
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO(KCalCore::Todo::Ptr, Q_MOVABLE_TYPE);
-Q_DECLARE_METATYPE(KCalCore::Todo::Ptr)
-Q_DECLARE_METATYPE(KCalCore::Todo *)
+Q_DECLARE_TYPEINFO(KCalendarCore::Todo::Ptr, Q_MOVABLE_TYPE);
+Q_DECLARE_METATYPE(KCalendarCore::Todo::Ptr)
+Q_DECLARE_METATYPE(KCalendarCore::Todo *)
 //@endcond
 
 #endif

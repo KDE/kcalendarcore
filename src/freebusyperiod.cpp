@@ -32,10 +32,10 @@
 
 #include "freebusyperiod.h"
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalCore::FreeBusyPeriod::Private
+class Q_DECL_HIDDEN KCalendarCore::FreeBusyPeriod::Private
 {
 public:
     Private():
@@ -48,27 +48,27 @@ public:
 };
 //@endcond
 
-FreeBusyPeriod::FreeBusyPeriod() : Period(), d(new KCalCore::FreeBusyPeriod::Private())
+FreeBusyPeriod::FreeBusyPeriod() : Period(), d(new KCalendarCore::FreeBusyPeriod::Private())
 {
 }
 
 FreeBusyPeriod::FreeBusyPeriod(const QDateTime &start, const QDateTime &end)
-    : Period(start, end), d(new KCalCore::FreeBusyPeriod::Private())
+    : Period(start, end), d(new KCalendarCore::FreeBusyPeriod::Private())
 {
 }
 
 FreeBusyPeriod::FreeBusyPeriod(const QDateTime &start, const Duration &duration)
-    : Period(start, duration), d(new KCalCore::FreeBusyPeriod::Private())
+    : Period(start, duration), d(new KCalendarCore::FreeBusyPeriod::Private())
 {
 }
 
 FreeBusyPeriod::FreeBusyPeriod(const FreeBusyPeriod &period)
-    : Period(period), d(new KCalCore::FreeBusyPeriod::Private(*period.d))
+    : Period(period), d(new KCalendarCore::FreeBusyPeriod::Private(*period.d))
 {
 }
 
 FreeBusyPeriod::FreeBusyPeriod(const Period &period)
-    : Period(period), d(new KCalCore::FreeBusyPeriod::Private())
+    : Period(period), d(new KCalendarCore::FreeBusyPeriod::Private())
 {
 }
 
@@ -119,17 +119,17 @@ void FreeBusyPeriod::setType(FreeBusyPeriod::FreeBusyType type)
     d->mType = type;
 }
 
-QDataStream &KCalCore::operator<<(QDataStream &stream, const KCalCore::FreeBusyPeriod &period)
+QDataStream &KCalendarCore::operator<<(QDataStream &stream, const KCalendarCore::FreeBusyPeriod &period)
 {
-    KCalCore::Period periodParent = static_cast<KCalCore::Period>(period);
+    KCalendarCore::Period periodParent = static_cast<KCalendarCore::Period>(period);
     stream << periodParent;
     stream << period.summary() << period.location() << static_cast<int>(period.type());
     return stream;
 }
 
-QDataStream &KCalCore::operator>>(QDataStream &stream, FreeBusyPeriod &period)
+QDataStream &KCalendarCore::operator>>(QDataStream &stream, FreeBusyPeriod &period)
 {
-    KCalCore::Period periodParent;
+    KCalendarCore::Period periodParent;
     QString summary, location;
     int type;
 

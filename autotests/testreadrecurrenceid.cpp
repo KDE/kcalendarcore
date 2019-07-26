@@ -28,12 +28,12 @@ QTEST_MAIN(TestReadRecurrenceId)
 
 void TestReadRecurrenceId::testReadSingleException()
 {
-    KCalCore::ICalFormat format;
+    KCalendarCore::ICalFormat format;
     QFile file(QLatin1String(ICALTESTDATADIR) + QLatin1String("test_recurrenceid_single.ics"));
     QVERIFY(file.open(QIODevice::ReadOnly));
 //   qDebug() << file.readAll();
 
-    KCalCore::Incidence::Ptr i = format.fromString(QString::fromUtf8(file.readAll()));
+    KCalendarCore::Incidence::Ptr i = format.fromString(QString::fromUtf8(file.readAll()));
     if (!i) {
         qWarning() << "Failed to parse incidence!";
         if (format.exception()) {
@@ -46,10 +46,10 @@ void TestReadRecurrenceId::testReadSingleException()
 
 void TestReadRecurrenceId::testReadSingleExceptionWithThisAndFuture()
 {
-    KCalCore::ICalFormat format;
+    KCalendarCore::ICalFormat format;
     QFile file(QLatin1String(ICALTESTDATADIR) + QLatin1String("test_recurrenceid_thisandfuture.ics"));
     QVERIFY(file.open(QIODevice::ReadOnly));
-    KCalCore::Incidence::Ptr i = format.fromString(QString::fromUtf8(file.readAll()));
+    KCalendarCore::Incidence::Ptr i = format.fromString(QString::fromUtf8(file.readAll()));
     QVERIFY(i);
     QVERIFY(i->hasRecurrenceId());
     QVERIFY(i->thisAndFuture());
@@ -57,9 +57,9 @@ void TestReadRecurrenceId::testReadSingleExceptionWithThisAndFuture()
 
 void TestReadRecurrenceId::testReadWriteSingleExceptionWithThisAndFuture()
 {
-    KCalCore::MemoryCalendar::Ptr cal(new KCalCore::MemoryCalendar(QTimeZone::utc()));
-    KCalCore::ICalFormat format;
-    KCalCore::Incidence::Ptr inc(new KCalCore::Event);
+    KCalendarCore::MemoryCalendar::Ptr cal(new KCalendarCore::MemoryCalendar(QTimeZone::utc()));
+    KCalendarCore::ICalFormat format;
+    KCalendarCore::Incidence::Ptr inc(new KCalendarCore::Event);
     QTimeZone tz("Europe/Berlin");
     QDateTime startDate(QDate(2015, 1, 2), QTime(3, 4, 5), tz);
     inc->setDtStart(startDate);
@@ -69,7 +69,7 @@ void TestReadRecurrenceId::testReadWriteSingleExceptionWithThisAndFuture()
     const QString result = format.toString(cal, QString());
     qDebug() << result;
 
-    KCalCore::Incidence::Ptr i = format.fromString(result);
+    KCalendarCore::Incidence::Ptr i = format.fromString(result);
     QVERIFY(i);
     QVERIFY(i->hasRecurrenceId());
     QVERIFY(i->thisAndFuture());
@@ -78,8 +78,8 @@ void TestReadRecurrenceId::testReadWriteSingleExceptionWithThisAndFuture()
 
 void TestReadRecurrenceId::testReadExceptionWithMainEvent()
 {
-    KCalCore::MemoryCalendar::Ptr calendar(new KCalCore::MemoryCalendar(QTimeZone::utc()));
-    KCalCore::ICalFormat format;
+    KCalendarCore::MemoryCalendar::Ptr calendar(new KCalendarCore::MemoryCalendar(QTimeZone::utc()));
+    KCalendarCore::ICalFormat format;
     QFile file(QLatin1String(ICALTESTDATADIR) + QLatin1String("test_recurrenceid.ics"));
     QVERIFY(file.open(QIODevice::ReadOnly));
     format.fromString(calendar, QString::fromUtf8(file.readAll()));

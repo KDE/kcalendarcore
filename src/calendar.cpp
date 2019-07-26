@@ -40,7 +40,6 @@
 #include "icaltimezones_p.h"
 #include "sorting.h"
 #include "visitor.h"
-#include "utils.h"
 
 #include "kcalcore_debug.h"
 
@@ -52,7 +51,7 @@ extern "C" {
 
 #include <algorithm>  // for std::remove()
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 /**
   Make a QHash::value that returns a QVector.
@@ -140,13 +139,13 @@ private:
 //@endcond
 
 Calendar::Calendar(const QTimeZone &timeZone)
-    : d(new KCalCore::Calendar::Private)
+    : d(new KCalendarCore::Calendar::Private)
 {
     d->mTimeZone = timeZone;
 }
 
 Calendar::Calendar(const QByteArray &timeZoneId)
-    : d(new KCalCore::Calendar::Private)
+    : d(new KCalendarCore::Calendar::Private)
 {
     setTimeZoneId(timeZoneId);
 }

@@ -34,7 +34,6 @@
 
 #include "compat_p.h"
 #include "incidence.h"
-#include "utils.h"
 
 #include "kcalcore_debug.h"
 
@@ -42,7 +41,7 @@
 #include <QString>
 #include <QDate>
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 Compat *CompatFactory::createCompat(const QString &productId,
                                     const QString &implementationVersion)

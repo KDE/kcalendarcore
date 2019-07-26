@@ -31,7 +31,7 @@
 #include "todo.h"
 #include "freebusy.h"
 
-namespace KCalCore
+namespace KCalendarCore
 {
 
 /**

@@ -27,7 +27,7 @@
 
 #include <iostream>
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 int main(int, char **)
 {

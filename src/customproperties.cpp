@@ -34,7 +34,7 @@
 #include <QDataStream>
 #include "kcalcore_debug.h"
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 //@cond PRIVATE
 static bool checkName(const QByteArray &name);
@@ -252,15 +252,15 @@ bool checkName(const QByteArray &name)
 }
 //@endcond
 
-QDataStream &KCalCore::operator<<(QDataStream &stream,
-                                  const KCalCore::CustomProperties &properties)
+QDataStream &KCalendarCore::operator<<(QDataStream &stream,
+                                  const KCalendarCore::CustomProperties &properties)
 {
     return stream << properties.d->mProperties
            << properties.d->mPropertyParameters;
 }
 
-QDataStream &KCalCore::operator>>(QDataStream &stream,
-                                  KCalCore::CustomProperties &properties)
+QDataStream &KCalendarCore::operator>>(QDataStream &stream,
+                                  KCalendarCore::CustomProperties &properties)
 {
     properties.d->mVolatileProperties.clear();
     return stream >> properties.d->mProperties

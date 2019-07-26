@@ -34,14 +34,14 @@
 
 #include <QUuid>
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 /**
   Private class that helps to provide binary compatibility between releases.
   @internal
 */
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalCore::CalFormat::Private
+class Q_DECL_HIDDEN KCalendarCore::CalFormat::Private
 {
 public:
     Private() {}
@@ -61,7 +61,7 @@ QString CalFormat::Private::mProductId =
 //@endcond
 
 CalFormat::CalFormat()
-    : d(new KCalCore::CalFormat::Private)
+    : d(new KCalendarCore::CalFormat::Private)
 {
 }
 

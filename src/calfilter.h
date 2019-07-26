@@ -36,7 +36,7 @@
 #include "journal.h"
 #include "todo.h"
 
-namespace KCalCore
+namespace KCalendarCore
 {
 
 /**

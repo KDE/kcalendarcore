@@ -31,7 +31,7 @@
 
 class QTimeZone;
 
-namespace KCalCore {
+namespace KCalendarCore {
 // These two are duplicates wrt. incidencebase.h
 typedef QList<QDate> DateList;
 /* List of times */
@@ -82,8 +82,8 @@ public:
         int mPos;   // week of the day (-1 for last, 1 for first, 0 for all weeks)
         // Bounded by -366 and +366, 0 means all weeks in that period
 
-        friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalCore::RecurrenceRule::WDayPos &);
-        friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalCore::RecurrenceRule::WDayPos &);
+        friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalendarCore::RecurrenceRule::WDayPos &);
+        friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalendarCore::RecurrenceRule::WDayPos &);
     };
 
     RecurrenceRule();
@@ -325,25 +325,25 @@ private:
     Private *const d;
     //@endcond
 
-    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalCore::RecurrenceRule *);
-    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, const KCalCore::RecurrenceRule *);
+    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalendarCore::RecurrenceRule *);
+    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, const KCalendarCore::RecurrenceRule *);
 };
 
 /**
  * RecurrenceRule serializer and deserializer.
  * @since 4.12
  */
-KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalCore::RecurrenceRule *);
-KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, const KCalCore::RecurrenceRule *);
+KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalendarCore::RecurrenceRule *);
+KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, const KCalendarCore::RecurrenceRule *);
 
 /**
  * RecurrenceRule::WDayPos serializer and deserializer.
  * @since 4.12
  */
-KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalCore::RecurrenceRule::WDayPos &);
-KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalCore::RecurrenceRule::WDayPos &);
+KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalendarCore::RecurrenceRule::WDayPos &);
+KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalendarCore::RecurrenceRule::WDayPos &);
 }
 
-Q_DECLARE_TYPEINFO(KCalCore::RecurrenceRule::WDayPos, Q_MOVABLE_TYPE);
+Q_DECLARE_TYPEINFO(KCalendarCore::RecurrenceRule::WDayPos, Q_MOVABLE_TYPE);
 
 #endif

@@ -39,7 +39,7 @@
 class QDate;
 class QString;
 
-namespace KCalCore
+namespace KCalendarCore
 {
 
 class Compat;

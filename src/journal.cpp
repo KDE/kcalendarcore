@@ -34,7 +34,7 @@
 
 #include "kcalcore_debug.h"
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 Journal::Journal() : d(nullptr)
 {

@@ -25,7 +25,7 @@
 #include <QTest>
 QTEST_MAIN(ExceptionTest)
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 void ExceptionTest::testValidity()
 {

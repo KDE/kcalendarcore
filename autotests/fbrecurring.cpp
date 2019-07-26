@@ -29,7 +29,7 @@
 #include <QDate>
 #include <QTimeZone>
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 using namespace std;
 
 int main()

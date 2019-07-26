@@ -33,19 +33,19 @@
 #include "alarm.h"
 #include "duration.h"
 #include "incidence.h"
-#include "utils.h"
+#include "utils_p.h"
 
 #include <QTime>
 #include <QTimeZone>
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 /**
   Private class that helps to provide binary compatibility between releases.
   @internal
 */
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalCore::Alarm::Private
+class Q_DECL_HIDDEN KCalendarCore::Alarm::Private
 {
 public:
     Private()
@@ -86,13 +86,13 @@ public:
 };
 //@endcond
 
-Alarm::Alarm(Incidence *parent) : d(new KCalCore::Alarm::Private)
+Alarm::Alarm(Incidence *parent) : d(new KCalendarCore::Alarm::Private)
 {
     d->mParent = parent;
 }
 
 Alarm::Alarm(const Alarm &other) :
-    CustomProperties(other), d(new KCalCore::Alarm::Private(*other.d))
+    CustomProperties(other), d(new KCalendarCore::Alarm::Private(*other.d))
 {
 }
 
@@ -835,7 +835,7 @@ int Alarm::locationRadius() const
     return d->mLocationRadius;
 }
 
-QDataStream &KCalCore::operator<<(QDataStream &out, const KCalCore::Alarm::Ptr &a)
+QDataStream &KCalendarCore::operator<<(QDataStream &out, const KCalendarCore::Alarm::Ptr &a)
 {
     if (a) {
         out << ((quint32)a->d->mType)
@@ -859,7 +859,7 @@ QDataStream &KCalCore::operator<<(QDataStream &out, const KCalCore::Alarm::Ptr &
     return out;
 }
 
-QDataStream &KCalCore::operator>>(QDataStream &in, const KCalCore::Alarm::Ptr &a)
+QDataStream &KCalendarCore::operator>>(QDataStream &in, const KCalendarCore::Alarm::Ptr &a)
 {
     if (a) {
         quint32 type;

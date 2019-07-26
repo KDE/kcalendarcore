@@ -27,7 +27,7 @@
 #include <QTest>
 QTEST_MAIN(DurationTest)
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 void DurationTest::testValidity()
 {
@@ -75,7 +75,7 @@ void DurationTest::testCompare()
 
 void DurationTest::testSerializer_data()
 {
-    QTest::addColumn<KCalCore::Duration>("duration");
+    QTest::addColumn<KCalendarCore::Duration>("duration");
 
     Duration duration1;
     Duration duration2(7, Duration::Days);
@@ -92,7 +92,7 @@ void DurationTest::testSerializer_data()
 
 void DurationTest::testSerializer()
 {
-    QFETCH(KCalCore::Duration, duration);
+    QFETCH(KCalendarCore::Duration, duration);
 
     QByteArray array;
     QDataStream stream(&array, QIODevice::WriteOnly);

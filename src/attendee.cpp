@@ -37,14 +37,14 @@
 
 #include <QDataStream>
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 /**
   Private class that helps to provide binary compatibility between releases.
   @internal
 */
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalCore::Attendee::Private : public QSharedData
+class Q_DECL_HIDDEN KCalendarCore::Attendee::Private : public QSharedData
 {
 public:
     void setCuType(CuType cuType);
@@ -67,13 +67,13 @@ private:
 };
 //@endcond
 
-void KCalCore::Attendee::Private::setCuType(Attendee::CuType cuType)
+void KCalendarCore::Attendee::Private::setCuType(Attendee::CuType cuType)
 {
     mCuType = cuType;
     sCuType.clear();
 }
 
-void KCalCore::Attendee::Private::setCuType(const QString &cuType)
+void KCalendarCore::Attendee::Private::setCuType(const QString &cuType)
 {
     const QString upper = cuType.toUpper();
     if (upper == QLatin1String("INDIVIDUAL")) {
@@ -92,12 +92,12 @@ void KCalCore::Attendee::Private::setCuType(const QString &cuType)
     }
 }
 
-Attendee::CuType KCalCore::Attendee::Private::cuType() const
+Attendee::CuType KCalendarCore::Attendee::Private::cuType() const
 {
     return mCuType;
 }
 
-QString KCalCore::Attendee::Private::cuTypeStr() const
+QString KCalendarCore::Attendee::Private::cuTypeStr() const
 {
     switch (mCuType) {
     case Attendee::Individual:
@@ -149,7 +149,7 @@ bool Attendee::isNull() const
     return d->mName.isNull() && d->mEmail.isNull();
 }
 
-bool KCalCore::Attendee::operator==(const Attendee &attendee) const
+bool KCalendarCore::Attendee::operator==(const Attendee &attendee) const
 {
     return
         d->mUid == attendee.d->mUid &&
@@ -163,12 +163,12 @@ bool KCalCore::Attendee::operator==(const Attendee &attendee) const
         d->mEmail == attendee.d->mEmail;
 }
 
-bool KCalCore::Attendee::operator!=(const Attendee &attendee) const
+bool KCalendarCore::Attendee::operator!=(const Attendee &attendee) const
 {
     return !operator==(attendee);
 }
 
-Attendee &KCalCore::Attendee::operator=(const Attendee &attendee)
+Attendee &KCalendarCore::Attendee::operator=(const Attendee &attendee)
 {
     // check for self assignment
     if (&attendee == this) {
@@ -319,9 +319,9 @@ const CustomProperties &Attendee::customProperties() const
     return d->mCustomProperties;
 }
 
-QDataStream &KCalCore::operator<<(QDataStream &stream, const KCalCore::Attendee &attendee)
+QDataStream &KCalendarCore::operator<<(QDataStream &stream, const KCalendarCore::Attendee &attendee)
 {
-    KCalCore::Person p(attendee.name(), attendee.email());
+    KCalendarCore::Person p(attendee.name(), attendee.email());
     stream << p;
     return stream << attendee.d->mRSVP
            << int(attendee.d->mRole)
@@ -333,7 +333,7 @@ QDataStream &KCalCore::operator<<(QDataStream &stream, const KCalCore::Attendee 
            << attendee.d->mCustomProperties;
 }
 
-QDataStream &KCalCore::operator>>(QDataStream &stream, KCalCore::Attendee &attendee)
+QDataStream &KCalendarCore::operator>>(QDataStream &stream, KCalendarCore::Attendee &attendee)
 {
     bool RSVP;
     Attendee::Role role;
@@ -346,7 +346,7 @@ QDataStream &KCalCore::operator>>(QDataStream &stream, KCalCore::Attendee &atten
     uint role_int;
     uint status_int;
 
-    KCalCore::Person person;
+    KCalendarCore::Person person;
     stream >> person;
     stream >> RSVP
            >> role_int

@@ -27,7 +27,7 @@
 #include <QCoreApplication>
 #include <QCommandLineParser>
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 int main(int argc, char **argv)
 {

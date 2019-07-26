@@ -36,9 +36,9 @@
 #include "exceptions.h"
 #include "calformat.h"
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
-namespace KCalCore {
+namespace KCalendarCore {
 
 class ExceptionPrivate
 {

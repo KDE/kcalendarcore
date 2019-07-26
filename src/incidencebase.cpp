@@ -37,7 +37,7 @@
 #include "incidencebase.h"
 #include "calformat.h"
 #include "visitor.h"
-#include "utils.h"
+#include "utils_p.h"
 
 #include <QTime>
 #include "kcalcore_debug.h"
@@ -48,14 +48,14 @@
 #define KCALCORE_MAGIC_NUMBER 0xCA1C012E
 #define KCALCORE_SERIALIZATION_VERSION 1
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 /**
   Private class that helps to provide binary compatibility between releases.
   @internal
 */
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalCore::IncidenceBase::Private
+class Q_DECL_HIDDEN KCalendarCore::IncidenceBase::Private
 {
 public:
     Private()
@@ -120,7 +120,7 @@ void IncidenceBase::Private::init(const Private &other)
 //@endcond
 
 IncidenceBase::IncidenceBase()
-    : d(new KCalCore::IncidenceBase::Private)
+    : d(new KCalendarCore::IncidenceBase::Private)
 {
     mReadOnly = false;
     setUid(CalFormat::createUniqueId());
@@ -128,7 +128,7 @@ IncidenceBase::IncidenceBase()
 
 IncidenceBase::IncidenceBase(const IncidenceBase &i)
     : CustomProperties(i)
-    , d(new KCalCore::IncidenceBase::Private(*i.d))
+    , d(new KCalendarCore::IncidenceBase::Private(*i.d))
 {
     mReadOnly = i.mReadOnly;
 }
@@ -666,13 +666,13 @@ quint32 IncidenceBase::magicSerializationIdentifier()
     return KCALCORE_MAGIC_NUMBER;
 }
 
-QDataStream &KCalCore::operator<<(QDataStream &out, const KCalCore::IncidenceBase::Ptr &i)
+QDataStream &KCalendarCore::operator<<(QDataStream &out, const KCalendarCore::IncidenceBase::Ptr &i)
 {
     if (!i) {
         return out;
     }
 
-    out << static_cast<quint32>(KCALCORE_MAGIC_NUMBER); // Magic number to identify KCalCore data
+    out << static_cast<quint32>(KCALCORE_MAGIC_NUMBER); // Magic number to identify KCalendarCore data
     out << static_cast<quint32>(KCALCORE_SERIALIZATION_VERSION);
     out << static_cast<qint32>(i->type());
 
@@ -693,7 +693,7 @@ QDataStream &KCalCore::operator<<(QDataStream &out, const KCalCore::IncidenceBas
     return out;
 }
 
-QDataStream &KCalCore::operator>>(QDataStream &in, KCalCore::IncidenceBase::Ptr &i)
+QDataStream &KCalendarCore::operator>>(QDataStream &in, KCalendarCore::IncidenceBase::Ptr &i)
 {
     if (!i) {
         return in;

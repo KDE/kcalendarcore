@@ -21,14 +21,13 @@
 */
 #include "testtimesininterval.h"
 #include "event.h"
-#include "utils.h"
 
 #include <QDebug>
 
 #include <QTest>
 QTEST_MAIN(TimesInIntervalTest)
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 void TimesInIntervalTest::test()
 {
@@ -92,7 +91,7 @@ void TimesInIntervalTest::testSubDailyRecurrenceIntervalInclusive()
     const QDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), Qt::UTC);
     const QDateTime end(QDate(2013, 03, 10), QTime(11, 0, 0), Qt::UTC);
 
-    KCalCore::Event::Ptr event(new KCalCore::Event());
+    KCalendarCore::Event::Ptr event(new KCalendarCore::Event());
     event->setUid(QStringLiteral("event"));
     event->setDtStart(start);
     event->recurrence()->setHourly(1);
@@ -116,7 +115,7 @@ void TimesInIntervalTest::testSubDailyRecurrence2()
     const QDateTime start(QDate(2013, 03, 10), QTime(10, 2, 3), Qt::UTC);
     const QDateTime end(QDate(2013, 03, 10), QTime(13, 4, 5), Qt::UTC);
 
-    KCalCore::Event::Ptr event(new KCalCore::Event());
+    KCalendarCore::Event::Ptr event(new KCalendarCore::Event());
     event->setUid(QStringLiteral("event"));
     event->setDtStart(start);
     event->recurrence()->setHourly(1);
@@ -139,7 +138,7 @@ void TimesInIntervalTest::testSubDailyRecurrenceIntervalLimits()
     const QDateTime start(QDate(2013, 03, 10), QTime(10, 2, 3), Qt::UTC);
     const QDateTime end(QDate(2013, 03, 10), QTime(12, 2, 3), Qt::UTC);
 
-    KCalCore::Event::Ptr event(new KCalCore::Event());
+    KCalendarCore::Event::Ptr event(new KCalendarCore::Event());
     event->setUid(QStringLiteral("event"));
     event->setDtStart(start);
     event->recurrence()->setHourly(1);

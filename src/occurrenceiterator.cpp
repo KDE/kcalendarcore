@@ -32,18 +32,17 @@
 #include "occurrenceiterator.h"
 #include "calendar.h"
 #include "calfilter.h"
-#include "utils.h"
 
 #include <QDate>
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 /**
   Private class that helps to provide binary compatibility between releases.
   @internal
 */
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalCore::OccurrenceIterator::Private
+class Q_DECL_HIDDEN KCalendarCore::OccurrenceIterator::Private
 {
 public:
     Private(OccurrenceIterator *qq)
@@ -75,7 +74,7 @@ public:
     Occurrence current;
 
     /*
-     * KCalCore::CalFilter can't handle individual occurrences.
+     * KCalendarCore::CalFilter can't handle individual occurrences.
      * When filtering completed to-dos, the CalFilter doesn't hide
      * them if it's a recurring to-do.
      */
@@ -85,7 +84,7 @@ public:
     {
         if ((inc->type() == Incidence::TypeTodo) &&
                 calendar.filter() &&
-                (calendar.filter()->criteria() & KCalCore::CalFilter::HideCompletedTodos)) {
+                (calendar.filter()->criteria() & KCalendarCore::CalFilter::HideCompletedTodos)) {
             if (inc->recurs()) {
                 const Todo::Ptr todo = inc.staticCast<Todo>();
                 if (todo && (occurrenceDate < todo->dtDue())) {
@@ -178,7 +177,7 @@ public:
 OccurrenceIterator::OccurrenceIterator(const Calendar &calendar,
                                        const QDateTime &start,
                                        const QDateTime &end)
-    : d(new KCalCore::OccurrenceIterator::Private(this))
+    : d(new KCalendarCore::OccurrenceIterator::Private(this))
 {
     d->start = start;
     d->end = end;
@@ -195,7 +194,7 @@ OccurrenceIterator::OccurrenceIterator(const Calendar &calendar,
 
     Journal::List journals;
     const Journal::List allJournals = calendar.rawJournals();
-    for (const KCalCore::Journal::Ptr &journal : allJournals) {
+    for (const KCalendarCore::Journal::Ptr &journal : allJournals) {
         const QDate journalStart = journal->dtStart().toTimeZone(start.timeZone()).date();
         if (journal->dtStart().isValid() &&
                 journalStart >= start.date() &&
@@ -209,7 +208,7 @@ OccurrenceIterator::OccurrenceIterator(const Calendar &calendar,
     }
 
     const Incidence::List incidences =
-        KCalCore::Calendar::mergeIncidenceList(events, todos, journals);
+        KCalendarCore::Calendar::mergeIncidenceList(events, todos, journals);
     d->setupIterator(calendar, incidences);
 }
 
@@ -217,7 +216,7 @@ OccurrenceIterator::OccurrenceIterator(const Calendar &calendar,
                                        const Incidence::Ptr &incidence,
                                        const QDateTime &start,
                                        const QDateTime &end)
-    : d(new KCalCore::OccurrenceIterator::Private(this))
+    : d(new KCalendarCore::OccurrenceIterator::Private(this))
 {
     Q_ASSERT(incidence);
     d->start = start;

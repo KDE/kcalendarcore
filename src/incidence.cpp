@@ -34,21 +34,21 @@
 
 #include "incidence.h"
 #include "calformat.h"
-#include "utils.h"
+#include "utils_p.h"
 
 #include <QTextDocument> // for .toHtmlEscaped() and Qt::mightBeRichText()
 #include <QStringList>
 #include <QTime>
 #include <QTimeZone>
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 /**
   Private class that helps to provide binary compatibility between releases.
   @internal
 */
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalCore::Incidence::Private
+class Q_DECL_HIDDEN KCalendarCore::Incidence::Private
 {
 public:
     Private()
@@ -174,7 +174,7 @@ public:
 
 Incidence::Incidence()
     : IncidenceBase()
-    , d(new KCalCore::Incidence::Private)
+    , d(new KCalendarCore::Incidence::Private)
 {
     recreate();
     resetDirtyFields();
@@ -183,7 +183,7 @@ Incidence::Incidence()
 Incidence::Incidence(const Incidence &i)
     : IncidenceBase(i)
     , Recurrence::RecurrenceObserver()
-    , d(new KCalCore::Incidence::Private(*i.d))
+    , d(new KCalendarCore::Incidence::Private(*i.d))
 {
     d->init(this, i);
     resetDirtyFields();
@@ -564,7 +564,7 @@ Recurrence *Incidence::recurrence() const
         d->mRecurrence->setStartDateTime(dateTime(RoleRecurrenceStart), allDay());
         d->mRecurrence->setAllDay(allDay());
         d->mRecurrence->setRecurReadOnly(mReadOnly);
-        d->mRecurrence->addObserver(const_cast<KCalCore::Incidence *>(this));
+        d->mRecurrence->addObserver(const_cast<KCalendarCore::Incidence *>(this));
     }
 
     return d->mRecurrence;
@@ -1078,9 +1078,9 @@ QString Incidence::altDescription() const
 QStringList Incidence::mimeTypes()
 {
     return QStringList() << QStringLiteral("text/calendar")
-                         << KCalCore::Event::eventMimeType()
-                         << KCalCore::Todo::todoMimeType()
-                         << KCalCore::Journal::journalMimeType();
+                         << KCalendarCore::Event::eventMimeType()
+                         << KCalendarCore::Todo::todoMimeType()
+                         << KCalendarCore::Journal::journalMimeType();
 }
 
 void Incidence::serialize(QDataStream &out) const
@@ -1126,7 +1126,7 @@ void Incidence::deserialize(QDataStream &in)
 
     if (hasRecurrence) {
         d->mRecurrence = new Recurrence();
-        d->mRecurrence->addObserver(const_cast<KCalCore::Incidence *>(this));
+        d->mRecurrence->addObserver(const_cast<KCalendarCore::Incidence *>(this));
         in >> d->mRecurrence;
     }
 

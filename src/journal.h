@@ -33,7 +33,7 @@
 #include "kcalcore_export.h"
 #include "incidence.h"
 
-namespace KCalCore
+namespace KCalendarCore
 {
 
 /**
@@ -117,7 +117,7 @@ public:
     Q_REQUIRED_RESULT bool supportsGroupwareCommunication() const override;
 
     /**
-       Returns the Akonadi specific sub MIME type of a KCalCore::Journal.
+       Returns the Akonadi specific sub MIME type of a KCalendarCore::Journal.
     */
     Q_REQUIRED_RESULT static QLatin1String journalMimeType();
 
@@ -166,12 +166,12 @@ private:
     //@endcond
 };
 
-} // namespace KCalCore
+} // namespace KCalendarCore
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO(KCalCore::Journal::Ptr, Q_MOVABLE_TYPE);
-Q_DECLARE_METATYPE(KCalCore::Journal::Ptr)
-Q_DECLARE_METATYPE(KCalCore::Journal *)
+Q_DECLARE_TYPEINFO(KCalendarCore::Journal::Ptr, Q_MOVABLE_TYPE);
+Q_DECLARE_METATYPE(KCalendarCore::Journal::Ptr)
+Q_DECLARE_METATYPE(KCalendarCore::Journal *)
 //@endcond
 
 #endif

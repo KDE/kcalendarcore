@@ -29,7 +29,7 @@
 #include "journal.h"
 #include "freebusy.h"
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 Visitor::Visitor()
 {

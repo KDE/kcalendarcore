@@ -31,7 +31,7 @@
 
 QTEST_MAIN(ICalFormatTest)
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 void ICalFormatTest::testCharsets()
 {

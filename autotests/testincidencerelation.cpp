@@ -24,7 +24,7 @@
 #include <QTest>
 QTEST_MAIN(IncidenceRelationTest)
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 void IncidenceRelationTest::testRelations()
 {

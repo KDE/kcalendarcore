@@ -25,7 +25,6 @@
 #include "recurrence.h"
 #include "recurrencerule.h"
 #include "recurrencehelper_p.h"
-#include "utils.h"
 
 #include "kcalcore_debug.h"
 
@@ -37,7 +36,7 @@ extern "C" {
 #include <icaltimezone.h>
 }
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 // Minimum repetition counts for VTIMEZONE RRULEs
 static const int minRuleCount = 5;   // for any RRULE
@@ -85,7 +84,7 @@ static icaltimetype writeLocalICalDateTime(const QDateTime &utc, int offset)
     return t;
 }
 
-namespace KCalCore
+namespace KCalendarCore
 {
 
 void ICalTimeZonePhase::dump()
@@ -732,4 +731,4 @@ QByteArray ICalTimeZoneParser::vcaltimezoneFromQTimeZone(const QTimeZone &qtz,
     return result;
 }
 
-}  // namespace KCalCore
+}  // namespace KCalendarCore

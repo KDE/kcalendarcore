@@ -20,7 +20,7 @@
   Boston, MA 02110-1301, USA.
 */
 #include "recurrencerule.h"
-#include "utils.h"
+#include "utils_p.h"
 #include "kcalcore_debug.h"
 #include "recurrencehelper_p.h"
 
@@ -30,7 +30,7 @@
 #include <QTimeZone>
 #include <QVector>
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 // Maximum number of intervals to process
 const int LOOP_LIMIT = 10000;
@@ -701,7 +701,7 @@ bool Constraint::readDateTime(const QDateTime &dt, RecurrenceRule::PeriodType ty
  **************************************************************************/
 
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalCore::RecurrenceRule::Private
+class Q_DECL_HIDDEN KCalendarCore::RecurrenceRule::Private
 {
 public:
     Private(RecurrenceRule *parent)
@@ -2277,19 +2277,19 @@ QDataStream &operator>>(QDataStream &in, Constraint &c)
     return in;
 }
 
-KCALCORE_EXPORT QDataStream &KCalCore::operator<<(QDataStream &out, const KCalCore::RecurrenceRule::WDayPos &w)
+KCALCORE_EXPORT QDataStream &KCalendarCore::operator<<(QDataStream &out, const KCalendarCore::RecurrenceRule::WDayPos &w)
 {
     out << w.mDay << w.mPos;
     return out;
 }
 
-KCALCORE_EXPORT QDataStream &KCalCore::operator>>(QDataStream &in, KCalCore::RecurrenceRule::WDayPos &w)
+KCALCORE_EXPORT QDataStream &KCalendarCore::operator>>(QDataStream &in, KCalendarCore::RecurrenceRule::WDayPos &w)
 {
     in >> w.mDay >> w.mPos;
     return in;
 }
 
-KCALCORE_EXPORT QDataStream &KCalCore::operator<<(QDataStream &out, const KCalCore::RecurrenceRule *r)
+KCALCORE_EXPORT QDataStream &KCalendarCore::operator<<(QDataStream &out, const KCalendarCore::RecurrenceRule *r)
 {
     if (!r) {
         return out;
@@ -2308,7 +2308,7 @@ KCALCORE_EXPORT QDataStream &KCalCore::operator<<(QDataStream &out, const KCalCo
     return out;
 }
 
-KCALCORE_EXPORT QDataStream &KCalCore::operator>>(QDataStream &in, const KCalCore::RecurrenceRule *r)
+KCALCORE_EXPORT QDataStream &KCalendarCore::operator>>(QDataStream &in, const KCalendarCore::RecurrenceRule *r)
 {
     if (!r) {
         return in;

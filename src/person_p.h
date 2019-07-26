@@ -24,7 +24,7 @@
 
 class QString;
 
-namespace KCalCore
+namespace KCalendarCore
 {
     QString fullNameHelper(const QString &name, const QString &email);
 }

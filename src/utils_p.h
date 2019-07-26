@@ -28,12 +28,12 @@
 
 class QDataStream;
 
-namespace KCalCore {
+namespace KCalendarCore {
 
 /**
  * Helpers to retain backwards compatibility of binary serialization.
  */
-KCALCORE_EXPORT void serializeQDateTimeAsKDateTime(QDataStream &out, const QDateTime &dt);
+void serializeQDateTimeAsKDateTime(QDataStream &out, const QDateTime &dt);
 KCALCORE_EXPORT void deserializeKDateTimeAsQDateTime(QDataStream &in, QDateTime &dt);
 
 void serializeQDateTimeList(QDataStream &out, const QList<QDateTime> &list);

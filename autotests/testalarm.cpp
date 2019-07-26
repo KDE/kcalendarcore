@@ -25,7 +25,7 @@
 #include <QTest>
 QTEST_MAIN(AlarmTest)
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 void AlarmTest::testValidity()
 {
@@ -66,7 +66,7 @@ void AlarmTest::testAssignment()
 
 void AlarmTest::testSerializer_data()
 {
-    QTest::addColumn<KCalCore::Alarm::Ptr>("alarm");
+    QTest::addColumn<KCalendarCore::Alarm::Ptr>("alarm");
     Alarm::Ptr a1 = Alarm::Ptr(new Alarm(nullptr));
     Alarm::Ptr a2 = Alarm::Ptr(new Alarm(nullptr));
     Alarm::Ptr a3 = Alarm::Ptr(new Alarm(nullptr));
@@ -111,7 +111,7 @@ void AlarmTest::testSerializer_data()
 
 void AlarmTest::testSerializer()
 {
-    QFETCH(KCalCore::Alarm::Ptr, alarm);
+    QFETCH(KCalendarCore::Alarm::Ptr, alarm);
 
     QByteArray array;
     QDataStream stream(&array, QIODevice::WriteOnly);

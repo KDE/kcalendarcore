@@ -34,30 +34,30 @@
 #include "todo.h"
 #include "visitor.h"
 #include "recurrence.h"
-#include "utils.h"
+#include "utils_p.h"
 
 #include "kcalcore_debug.h"
 
 #include <QTime>
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 /**
   Private class that helps to provide binary compatibility between releases.
   @internal
 */
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalCore::Todo::Private
+class Q_DECL_HIDDEN KCalendarCore::Todo::Private
 {
 public:
     Private()
     {}
-    Private(const KCalCore::Todo::Private &other)
+    Private(const KCalendarCore::Todo::Private &other)
     {
         init(other);
     }
 
-    void init(const KCalCore::Todo::Private &other);
+    void init(const KCalendarCore::Todo::Private &other);
 
     QDateTime mDtDue;        // to-do due date (if there is one)
     // ALSO the first occurrence of a recurring to-do
@@ -71,7 +71,7 @@ public:
     bool recurTodo(Todo *todo);
 };
 
-void KCalCore::Todo::Private::init(const KCalCore::Todo::Private &other)
+void KCalendarCore::Todo::Private::init(const KCalendarCore::Todo::Private &other)
 {
     mDtDue = other.mDtDue;
     mDtRecurrence = other.mDtRecurrence;
@@ -82,19 +82,19 @@ void KCalCore::Todo::Private::init(const KCalCore::Todo::Private &other)
 //@endcond
 
 Todo::Todo()
-    : d(new KCalCore::Todo::Private)
+    : d(new KCalendarCore::Todo::Private)
 {
 }
 
 Todo::Todo(const Todo &other)
     : Incidence(other),
-      d(new KCalCore::Todo::Private(*other.d))
+      d(new KCalendarCore::Todo::Private(*other.d))
 {
 }
 
 Todo::Todo(const Incidence &other)
     : Incidence(other)
-    , d(new KCalCore::Todo::Private)
+    , d(new KCalendarCore::Todo::Private)
 {
 }
 

@@ -39,7 +39,6 @@
 #include "event.h"
 #include "exceptions.h"
 #include "todo.h"
-#include "utils.h"
 
 #include "kcalcore_debug.h"
 
@@ -53,7 +52,7 @@ extern "C" {
 #include <QTextDocument> // for .toHtmlEscaped() and Qt::mightBeRichText()
 #include <QTimeZone>
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 /**
   Private class that helps to provide binary compatibility between releases.
@@ -78,7 +77,7 @@ void removeAllVCal(QVector< QSharedPointer<K> > &c, const QSharedPointer<K> &x)
     c.remove(c.indexOf(x));
 }
 
-class Q_DECL_HIDDEN KCalCore::VCalFormat::Private
+class Q_DECL_HIDDEN KCalendarCore::VCalFormat::Private
 {
 public:
     Calendar::Ptr mCalendar;
@@ -88,7 +87,7 @@ public:
 };
 //@endcond
 
-VCalFormat::VCalFormat() : d(new KCalCore::VCalFormat::Private)
+VCalFormat::VCalFormat() : d(new KCalendarCore::VCalFormat::Private)
 {
 }
 

@@ -61,10 +61,10 @@ const char *const icalFile33
 
 void CreatedDateCompatTest::testCompat32()
 {
-    KCalCore::MemoryCalendar::Ptr cal(new KCalCore::MemoryCalendar(QTimeZone::utc()));
-    KCalCore::ICalFormat format;
+    KCalendarCore::MemoryCalendar::Ptr cal(new KCalendarCore::MemoryCalendar(QTimeZone::utc()));
+    KCalendarCore::ICalFormat format;
     QVERIFY(format.fromRawString(cal, QByteArray(icalFile32)));
-    KCalCore::Event::Ptr event = cal->event(QStringLiteral("uid"));
+    KCalendarCore::Event::Ptr event = cal->event(QStringLiteral("uid"));
     QVERIFY(event);
     QCOMPARE(event->created(),
              QDateTime(QDate(2003, 12, 13), QTime(20, 47, 53), Qt::UTC));
@@ -72,10 +72,10 @@ void CreatedDateCompatTest::testCompat32()
 
 void CreatedDateCompatTest::testCompat33()
 {
-    KCalCore::MemoryCalendar::Ptr cal(new KCalCore::MemoryCalendar(QTimeZone::utc()));
-    KCalCore::ICalFormat format;
+    KCalendarCore::MemoryCalendar::Ptr cal(new KCalendarCore::MemoryCalendar(QTimeZone::utc()));
+    KCalendarCore::ICalFormat format;
     QVERIFY(format.fromRawString(cal, QByteArray(icalFile33)));
-    KCalCore::Event::Ptr event = cal->event(QStringLiteral("uid"));
+    KCalendarCore::Event::Ptr event = cal->event(QStringLiteral("uid"));
     QVERIFY(event);
     QCOMPARE(event->created(),
              QDateTime(QDate(2003, 12, 13), QTime(20, 41, 52), Qt::UTC));

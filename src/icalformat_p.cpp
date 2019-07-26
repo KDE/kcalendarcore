@@ -45,13 +45,12 @@
 #include "memorycalendar.h"
 #include "todo.h"
 #include "visitor.h"
-#include "utils.h"
 
 #include "kcalcore_debug.h"
 
 #include <QFile>
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 static const char APP_NAME_FOR_XPROPERTIES[] = "KCALCORE";
 static const char ENABLED_ALARM_XPROPERTY[] = "ENABLED";
@@ -3065,7 +3064,7 @@ icalcomponent *ICalFormatImpl::createScheduleComponent(const IncidenceBase::Ptr 
 
     icalcomponent *inc = writeIncidence(incidence, method);
 
-    if (method != KCalCore::iTIPNoMethod) {
+    if (method != KCalendarCore::iTIPNoMethod) {
         //Not very nice, but since dtstamp changes semantics if used in scheduling, we have to adapt
         icalcomponent_set_dtstamp(
             inc, writeICalUtcDateTime(QDateTime::currentDateTimeUtc()));

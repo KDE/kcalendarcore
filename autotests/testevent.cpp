@@ -25,9 +25,9 @@
 #include <QTest>
 QTEST_MAIN(EventTest)
 
-Q_DECLARE_METATYPE(KCalCore::Incidence::DateTimeRole)
+Q_DECLARE_METATYPE(KCalendarCore::Incidence::DateTimeRole)
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 void EventTest::testSetRoles_data()
 {
@@ -35,7 +35,7 @@ void EventTest::testSetRoles_data()
     QTest::addColumn<QDateTime>("originalDtEnd");
     QTest::addColumn<bool>("allDayEvent");
 
-    QTest::addColumn<KCalCore::Incidence::DateTimeRole>("setRole");
+    QTest::addColumn<KCalendarCore::Incidence::DateTimeRole>("setRole");
     QTest::addColumn<QDateTime>("dateTimeToSet");
     QTest::addColumn<QDateTime>("expectedDtStart");
     QTest::addColumn<QDateTime>("expectedDtEnd");
@@ -43,7 +43,7 @@ void EventTest::testSetRoles_data()
     const QDateTime todayDate(QDate::currentDate(), {});   // all day event
     const QDateTime todayDateTime = QDateTime::currentDateTimeUtc();
 
-    QTest::newRow("dnd 0 duration") << todayDate << todayDate << true << KCalCore::Incidence::RoleDnD
+    QTest::newRow("dnd 0 duration") << todayDate << todayDate << true << KCalendarCore::Incidence::RoleDnD
                                     << todayDateTime << todayDateTime << todayDateTime.addSecs(3600);
 }
 
@@ -52,7 +52,7 @@ void EventTest::testSetRoles()
     QFETCH(QDateTime, originalDtStart);
     QFETCH(QDateTime, originalDtEnd);
     QFETCH(bool, allDayEvent);
-    QFETCH(KCalCore::Incidence::DateTimeRole, setRole);
+    QFETCH(KCalendarCore::Incidence::DateTimeRole, setRole);
 
     QFETCH(QDateTime, dateTimeToSet);
     QFETCH(QDateTime, expectedDtStart);
@@ -176,7 +176,7 @@ void EventTest::testAssign()
 
 void EventTest::testSerializer_data()
 {
-    QTest::addColumn<KCalCore::Event::Ptr>("event");
+    QTest::addColumn<KCalendarCore::Event::Ptr>("event");
     QDateTime today = QDateTime::currentDateTimeUtc();
     QDateTime yesterday = today.addDays(-1);
 
@@ -206,15 +206,15 @@ void EventTest::testSerializer_data()
 
 void EventTest::testSerializer()
 {
-    QFETCH(KCalCore::Event::Ptr, event);
-    IncidenceBase::Ptr incidenceBase = event.staticCast<KCalCore::IncidenceBase>();
+    QFETCH(KCalendarCore::Event::Ptr, event);
+    IncidenceBase::Ptr incidenceBase = event.staticCast<KCalendarCore::IncidenceBase>();
 
     QByteArray array;
     QDataStream stream(&array, QIODevice::WriteOnly);
     stream << incidenceBase;
 
     Event::Ptr event2 = Event::Ptr(new Event());
-    IncidenceBase::Ptr incidenceBase2 = event2.staticCast<KCalCore::IncidenceBase>();
+    IncidenceBase::Ptr incidenceBase2 = event2.staticCast<KCalendarCore::IncidenceBase>();
     QVERIFY(*event != *event2);
     QDataStream stream2(&array, QIODevice::ReadOnly);
     stream2 >> incidenceBase2;

@@ -26,7 +26,7 @@
 #include <QTimeZone>
 QTEST_MAIN(FileStorageTest)
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 void FileStorageTest::testValidity()
 {

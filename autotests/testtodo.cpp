@@ -22,12 +22,11 @@
 #include "todo.h"
 #include "event.h"
 #include "attachment.h"
-#include "utils.h"
 
 #include <QTest>
 QTEST_MAIN(TodoTest)
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 void TodoTest::initTestCase()
 {
@@ -178,7 +177,7 @@ void TodoTest::testStatus()
 
 void TodoTest::testSerializer_data()
 {
-    QTest::addColumn<KCalCore::Todo::Ptr>("todo");
+    QTest::addColumn<KCalendarCore::Todo::Ptr>("todo");
 
     QDateTime today = QDateTime::currentDateTimeUtc();
     QDateTime yesterday = today.addDays(-1);
@@ -257,15 +256,15 @@ void TodoTest::testSerializer_data()
 
 void TodoTest::testSerializer()
 {
-    QFETCH(KCalCore::Todo::Ptr, todo);
-    IncidenceBase::Ptr incidenceBase = todo.staticCast<KCalCore::IncidenceBase>();
+    QFETCH(KCalendarCore::Todo::Ptr, todo);
+    IncidenceBase::Ptr incidenceBase = todo.staticCast<KCalendarCore::IncidenceBase>();
 
     QByteArray array;
     QDataStream stream(&array, QIODevice::WriteOnly);
     stream << incidenceBase;
 
     Todo::Ptr todo2 = Todo::Ptr(new Todo());
-    IncidenceBase::Ptr incidenceBase2 = todo2.staticCast<KCalCore::IncidenceBase>();
+    IncidenceBase::Ptr incidenceBase2 = todo2.staticCast<KCalendarCore::IncidenceBase>();
     QVERIFY(*todo != *todo2);
     QDataStream stream2(&array, QIODevice::ReadOnly);
     stream2 >> incidenceBase2;

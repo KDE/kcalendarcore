@@ -22,7 +22,6 @@
 #include "testmemorycalendar.h"
 #include "filestorage.h"
 #include "memorycalendar.h"
-#include "utils.h"
 
 #include <QDebug>
 
@@ -30,7 +29,7 @@
 #include <QTimeZone>
 QTEST_MAIN(MemoryCalendarTest)
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 void MemoryCalendarTest::testValidity()
 {

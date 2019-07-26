@@ -30,7 +30,7 @@
 class QBitArray;
 class QTimeZone;
 
-namespace KCalCore
+namespace KCalendarCore
 {
 
 class RecurrenceRule;
@@ -662,16 +662,16 @@ private:
     Private *const d;
     //@endcond
 
-    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, KCalCore::Recurrence *);
-    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalCore::Recurrence *);
+    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, KCalendarCore::Recurrence *);
+    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalendarCore::Recurrence *);
 };
 
 /**
  * Recurrence serializer and deserializer.
  * @since 4.12
  */
-KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, KCalCore::Recurrence *);
-KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalCore::Recurrence *);
+KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, KCalendarCore::Recurrence *);
+KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalendarCore::Recurrence *);
 
 }
 

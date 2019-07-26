@@ -32,14 +32,14 @@
 #include "attachment.h"
 #include <QDataStream>
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 /**
   Private class that helps to provide binary compatibility between releases.
   @internal
 */
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalCore::Attachment::Private : public QSharedData
+class Q_DECL_HIDDEN KCalendarCore::Attachment::Private : public QSharedData
 {
 public:
     Private() = default;
@@ -219,7 +219,7 @@ bool Attachment::operator!=(const Attachment &a2) const
     return !(*this == a2);
 }
 
-QDataStream &KCalCore::operator<<(QDataStream &out, const KCalCore::Attachment &a)
+QDataStream &KCalendarCore::operator<<(QDataStream &out, const KCalendarCore::Attachment &a)
 {
     out << a.d->mSize
         << a.d->mMimeType
@@ -232,7 +232,7 @@ QDataStream &KCalCore::operator<<(QDataStream &out, const KCalCore::Attachment &
     return out;
 }
 
-QDataStream &KCalCore::operator>>(QDataStream &in, KCalCore::Attachment &a)
+QDataStream &KCalendarCore::operator>>(QDataStream &in, KCalendarCore::Attachment &a)
 {
     in >> a.d->mSize
         >> a.d->mMimeType

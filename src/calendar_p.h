@@ -28,7 +28,7 @@
 #include "calendar.h"
 #include "calfilter.h"
 
-namespace KCalCore {
+namespace KCalendarCore {
 
 /**
   Private class that helps to provide binary compatibility between releases.

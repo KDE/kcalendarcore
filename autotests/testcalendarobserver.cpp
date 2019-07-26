@@ -30,8 +30,8 @@
 
 QTEST_MAIN(CalendarObserverTest)
 
-using namespace KCalCore;
-Q_DECLARE_METATYPE(KCalCore::Incidence::Ptr)
+using namespace KCalendarCore;
+Q_DECLARE_METATYPE(KCalendarCore::Incidence::Ptr)
 Q_DECLARE_METATYPE(const Calendar *)
 
 class SimpleObserver : public QObject, public Calendar::CalendarObserver
@@ -46,28 +46,28 @@ public:
 
     Calendar *mCal = nullptr;
 Q_SIGNALS:
-    void incidenceAdded(const KCalCore::Incidence::Ptr &incidence);
-    void incidenceChanged(const KCalCore::Incidence::Ptr &incidence);
-    void incidenceAboutToBeDeleted(const KCalCore::Incidence::Ptr &incidence);
-    void incidenceDeleted(const KCalCore::Incidence::Ptr &incidence, const Calendar *calendar);
+    void incidenceAdded(const KCalendarCore::Incidence::Ptr &incidence);
+    void incidenceChanged(const KCalendarCore::Incidence::Ptr &incidence);
+    void incidenceAboutToBeDeleted(const KCalendarCore::Incidence::Ptr &incidence);
+    void incidenceDeleted(const KCalendarCore::Incidence::Ptr &incidence, const Calendar *calendar);
 protected:
-    void calendarIncidenceAdded(const KCalCore::Incidence::Ptr &incidence) override
+    void calendarIncidenceAdded(const KCalendarCore::Incidence::Ptr &incidence) override
     {
         Q_EMIT incidenceAdded(incidence);
     }
 
-    void calendarIncidenceChanged(const KCalCore::Incidence::Ptr &incidence) override
+    void calendarIncidenceChanged(const KCalendarCore::Incidence::Ptr &incidence) override
     {
         Q_EMIT incidenceChanged(incidence);
     }
 
-    void calendarIncidenceAboutToBeDeleted(const KCalCore::Incidence::Ptr &incidence) override
+    void calendarIncidenceAboutToBeDeleted(const KCalendarCore::Incidence::Ptr &incidence) override
     {
         QVERIFY(mCal->incidences().contains(incidence));
         Q_EMIT incidenceAboutToBeDeleted(incidence);
     }
 
-    void calendarIncidenceDeleted(const KCalCore::Incidence::Ptr &incidence, const Calendar *calendar) override
+    void calendarIncidenceDeleted(const KCalendarCore::Incidence::Ptr &incidence, const Calendar *calendar) override
     {
         QCOMPARE(calendar, mCal);
         QVERIFY(!calendar->incidences().contains(incidence));
@@ -77,7 +77,7 @@ protected:
 
 void CalendarObserverTest::testAdd()
 {
-    qRegisterMetaType<KCalCore::Incidence::Ptr>();
+    qRegisterMetaType<KCalendarCore::Incidence::Ptr>();
     MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
     SimpleObserver ob(cal.data());
     QSignalSpy spy(&ob, &SimpleObserver::incidenceAdded);
@@ -88,12 +88,12 @@ void CalendarObserverTest::testAdd()
     cal->addEvent(event1);
     QCOMPARE(spy.count(), 1);
     QList<QVariant> arguments = spy.takeFirst();
-    QCOMPARE(arguments.at(0).value<KCalCore::Incidence::Ptr>(), static_cast<KCalCore::Incidence::Ptr>(event1));
+    QCOMPARE(arguments.at(0).value<KCalendarCore::Incidence::Ptr>(), static_cast<KCalendarCore::Incidence::Ptr>(event1));
 }
 
 void CalendarObserverTest::testChange()
 {
-    qRegisterMetaType<KCalCore::Incidence::Ptr>();
+    qRegisterMetaType<KCalendarCore::Incidence::Ptr>();
     MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
     SimpleObserver ob(cal.data());
     QSignalSpy spy(&ob, &SimpleObserver::incidenceChanged);
@@ -106,12 +106,12 @@ void CalendarObserverTest::testChange()
     event1->setDescription(QStringLiteral("desc"));
     QCOMPARE(spy.count(), 1);
     QList<QVariant> arguments = spy.takeFirst();
-    QCOMPARE(arguments.at(0).value<KCalCore::Incidence::Ptr>(), static_cast<KCalCore::Incidence::Ptr>(event1));
+    QCOMPARE(arguments.at(0).value<KCalendarCore::Incidence::Ptr>(), static_cast<KCalendarCore::Incidence::Ptr>(event1));
 }
 
 void CalendarObserverTest::testDelete()
 {
-    qRegisterMetaType<KCalCore::Incidence::Ptr>();
+    qRegisterMetaType<KCalendarCore::Incidence::Ptr>();
     qRegisterMetaType<const Calendar *>();
     MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
     SimpleObserver ob(cal.data());
@@ -128,9 +128,9 @@ void CalendarObserverTest::testDelete()
     QCOMPARE(spy1.count(), 1);
     QCOMPARE(spy2.count(), 1);
     QList<QVariant> arguments = spy1.takeFirst();
-    QCOMPARE(arguments.at(0).value<KCalCore::Incidence::Ptr>(), static_cast<KCalCore::Incidence::Ptr>(event1));
+    QCOMPARE(arguments.at(0).value<KCalendarCore::Incidence::Ptr>(), static_cast<KCalendarCore::Incidence::Ptr>(event1));
     arguments = spy2.takeFirst();
-    QCOMPARE(arguments.at(0).value<KCalCore::Incidence::Ptr>(), static_cast<KCalCore::Incidence::Ptr>(event1));
+    QCOMPARE(arguments.at(0).value<KCalendarCore::Incidence::Ptr>(), static_cast<KCalendarCore::Incidence::Ptr>(event1));
     QCOMPARE(arguments.at(1).value<const Calendar *>(), cal.data());
 }
 

@@ -39,7 +39,7 @@
 
 #include <QMetaType>
 
-namespace KCalCore
+namespace KCalendarCore
 {
 
 class FreeBusy;
@@ -53,9 +53,9 @@ class FreeBusy;
 class KCALCORE_EXPORT FreeBusy : public IncidenceBase
 {
     friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &s,
-            const KCalCore::FreeBusy::Ptr &freebusy);
+            const KCalendarCore::FreeBusy::Ptr &freebusy);
     friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &s,
-            KCalCore::FreeBusy::Ptr &freebusy);
+            KCalendarCore::FreeBusy::Ptr &freebusy);
 
 public:
 
@@ -232,7 +232,7 @@ public:
     Q_REQUIRED_RESULT QLatin1String mimeType() const override;
 
     /**
-       Returns the Akonadi specific sub MIME type of a KCalCore::FreeBusy.
+       Returns the Akonadi specific sub MIME type of a KCalendarCore::FreeBusy.
     */
     Q_REQUIRED_RESULT static QLatin1String freeBusyMimeType();
 
@@ -280,17 +280,17 @@ private:
   Serializes the @p freebusy object into the @p stream.
 */
 KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
-                                        const KCalCore::FreeBusy::Ptr &freebusy);
+                                        const KCalendarCore::FreeBusy::Ptr &freebusy);
 /**
   Initializes the @p freebusy object from the @p stream.
 */
 KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream,
-                                        KCalCore::FreeBusy::Ptr &freebusy);
+                                        KCalendarCore::FreeBusy::Ptr &freebusy);
 }
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO(KCalCore::FreeBusy::Ptr, Q_MOVABLE_TYPE);
-Q_DECLARE_METATYPE(KCalCore::FreeBusy::Ptr)
+Q_DECLARE_TYPEINFO(KCalendarCore::FreeBusy::Ptr, Q_MOVABLE_TYPE);
+Q_DECLARE_METATYPE(KCalendarCore::FreeBusy::Ptr)
 //@endcond
 
 #endif

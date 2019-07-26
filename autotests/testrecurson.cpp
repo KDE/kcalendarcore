@@ -22,7 +22,6 @@
 
 #include "filestorage.h"
 #include "memorycalendar.h"
-#include "utils.h"
 
 #include <QDebug>
 #include <QDate>
@@ -33,7 +32,7 @@
 #include <QCommandLineParser>
 #include <QTimeZone>
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 int main(int argc, char **argv)
 {
