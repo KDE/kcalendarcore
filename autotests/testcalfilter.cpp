@@ -25,7 +25,7 @@
 #include <QTest>
 QTEST_MAIN(CalFilterTest)
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 void CalFilterTest::testValidity()
 {

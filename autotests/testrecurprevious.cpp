@@ -31,7 +31,7 @@
 #include <QCommandLineParser>
 #include <QTimeZone>
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 static QString dumpTime(const QDateTime &dt, const QTimeZone &viewZone);
 

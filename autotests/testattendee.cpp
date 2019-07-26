@@ -29,7 +29,7 @@
 
 QTEST_MAIN(AttendeeTest)
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 void AttendeeTest::testValidity()
 {

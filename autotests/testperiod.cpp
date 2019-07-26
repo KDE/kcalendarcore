@@ -28,7 +28,7 @@
 #include <QTest>
 QTEST_MAIN(PeriodTest)
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 void PeriodTest::testValidity()
 {

@@ -27,15 +27,15 @@ void TestRecurrenceException::testCreateTodoException()
     const QDateTime dtdue(QDate(2013, 03, 10), QTime(11, 0, 0), Qt::UTC);
     const QDateTime recurrenceId(QDateTime(dtstart).addDays(1));
 
-    KCalCore::Todo::Ptr todo(new KCalCore::Todo());
+    KCalendarCore::Todo::Ptr todo(new KCalendarCore::Todo());
     todo->setUid(QStringLiteral("todo"));
     todo->setDtStart(dtstart);
     todo->setDtDue(dtdue);
     todo->recurrence()->setDaily(1);
     todo->recurrence()->setDuration(3);
 
-    const KCalCore::Todo::Ptr exception
-        = KCalCore::MemoryCalendar::createException(todo, recurrenceId, false).staticCast<KCalCore::Todo>();
+    const KCalendarCore::Todo::Ptr exception
+        = KCalendarCore::MemoryCalendar::createException(todo, recurrenceId, false).staticCast<KCalendarCore::Todo>();
     QCOMPARE(exception->dtStart(), recurrenceId);
     QCOMPARE(exception->dtDue(), QDateTime(dtdue).addDays(1));
     //FIXME should be done on clearing the recurrence, but we can't due to BC.

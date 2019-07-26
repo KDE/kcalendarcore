@@ -25,7 +25,7 @@
 #include <QTest>
 QTEST_MAIN(AttachmentTest)
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 void AttachmentTest::testValidity()
 {
@@ -72,7 +72,7 @@ void AttachmentTest::testValidity()
 
 void AttachmentTest::testSerializer_data()
 {
-    QTest::addColumn<KCalCore::Attachment>("attachment");
+    QTest::addColumn<KCalendarCore::Attachment>("attachment");
 
     Attachment nonInline(QStringLiteral("http://www.kde.org"));
     Attachment inlineAttachment(QByteArray("foo"), QStringLiteral("image/nonsense"));
@@ -83,7 +83,7 @@ void AttachmentTest::testSerializer_data()
 
 void AttachmentTest::testSerializer()
 {
-    QFETCH(KCalCore::Attachment, attachment);
+    QFETCH(KCalendarCore::Attachment, attachment);
 
     QByteArray array;
     QDataStream stream(&array, QIODevice::WriteOnly);

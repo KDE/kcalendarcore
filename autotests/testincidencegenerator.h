@@ -24,7 +24,7 @@
 #include "../event.h"
 #include "../todo.h"
 #include "../journal.h"
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 static Event *makeTestEvent()
 {

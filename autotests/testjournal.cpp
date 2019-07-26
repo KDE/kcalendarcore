@@ -24,7 +24,7 @@
 #include <QTest>
 QTEST_MAIN(JournalTest)
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 void JournalTest::testValidity()
 {
@@ -108,7 +108,7 @@ void JournalTest::testAssign()
 
 void JournalTest::testSerializer_data()
 {
-    QTest::addColumn<KCalCore::Journal::Ptr>("journal");
+    QTest::addColumn<KCalendarCore::Journal::Ptr>("journal");
 
     Journal::Ptr journal1 = Journal::Ptr(new Journal());
 
@@ -117,15 +117,15 @@ void JournalTest::testSerializer_data()
 
 void JournalTest::testSerializer()
 {
-    QFETCH(KCalCore::Journal::Ptr, journal);
-    IncidenceBase::Ptr incidenceBase = journal.staticCast<KCalCore::IncidenceBase>();
+    QFETCH(KCalendarCore::Journal::Ptr, journal);
+    IncidenceBase::Ptr incidenceBase = journal.staticCast<KCalendarCore::IncidenceBase>();
 
     QByteArray array;
     QDataStream stream(&array, QIODevice::WriteOnly);
     stream << incidenceBase;
 
     Journal::Ptr journal2 = Journal::Ptr(new Journal());
-    IncidenceBase::Ptr incidenceBase2 = journal2.staticCast<KCalCore::IncidenceBase>();
+    IncidenceBase::Ptr incidenceBase2 = journal2.staticCast<KCalendarCore::IncidenceBase>();
     QVERIFY(*journal != *journal2);
     QDataStream stream2(&array, QIODevice::ReadOnly);
     stream2 >> incidenceBase2;

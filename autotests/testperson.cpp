@@ -29,7 +29,7 @@
 
 QTEST_MAIN(PersonTest)
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 void PersonTest::testValidity()
 {

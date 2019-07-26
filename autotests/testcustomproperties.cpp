@@ -28,7 +28,7 @@
 
 QTEST_MAIN(CustomPropertiesTest)
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 void CustomPropertiesTest::testValidity()
 {

@@ -24,7 +24,7 @@
 #include <QTest>
 QTEST_MAIN(FreeBusyTest)
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 void FreeBusyTest::testValidity()
 {

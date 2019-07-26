@@ -33,7 +33,7 @@
 #include <QCommandLineParser>
 #include <QTimeZone>
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 int main(int argc, char **argv)
 {

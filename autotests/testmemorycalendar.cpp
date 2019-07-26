@@ -30,7 +30,7 @@
 #include <QTimeZone>
 QTEST_MAIN(MemoryCalendarTest)
 
-using namespace KCalCore;
+using namespace KCalendarCore;
 
 void MemoryCalendarTest::testValidity()
 {
