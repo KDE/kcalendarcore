@@ -37,7 +37,7 @@ set(kcalcore_LIB_SRCS
   vcalformat.cpp
   visitor.cpp
 )
-ecm_qt_declare_logging_category(kcalcore_LIB_SRCS HEADER kcalcore_debug.h IDENTIFIER KCALCORE_LOG CATEGORY_NAME org.kde.pim.kcalcore)
+ecm_qt_declare_logging_category(kcalcore_LIB_SRCS HEADER kcalendarcore_debug.h IDENTIFIER KCALCORE_LOG CATEGORY_NAME org.kde.pim.kcalcore)
 
 add_library(KF5CalendarCore ${kcalcore_LIB_SRCS})
 

@@ -41,7 +41,7 @@
 #include "sorting.h"
 #include "visitor.h"
 
-#include "kcalcore_debug.h"
+#include "kcalendarcore_debug.h"
 
 #include <QTimeZone>
 

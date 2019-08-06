@@ -25,7 +25,7 @@
 #include "utils_p.h"
 #include "recurrencehelper_p.h"
 
-#include "kcalcore_debug.h"
+#include "kcalendarcore_debug.h"
 
 #include <QDataStream>
 #include <QTimeZone>

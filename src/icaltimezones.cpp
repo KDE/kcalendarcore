@@ -26,7 +26,7 @@
 #include "recurrencerule.h"
 #include "recurrencehelper_p.h"
 
-#include "kcalcore_debug.h"
+#include "kcalendarcore_debug.h"
 
 #include <QDateTime>
 #include <QByteArray>

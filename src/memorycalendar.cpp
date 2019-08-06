@@ -33,7 +33,7 @@
  */
 
 #include "memorycalendar.h"
-#include "kcalcore_debug.h"
+#include "kcalendarcore_debug.h"
 #include "calformat.h"
 
 #include <QDate>

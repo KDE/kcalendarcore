@@ -36,7 +36,7 @@
 
 #include "icalformat.h"
 
-#include "kcalcore_debug.h"
+#include "kcalendarcore_debug.h"
 #include <QTime>
 
 using namespace KCalendarCore;

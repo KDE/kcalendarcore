@@ -32,7 +32,7 @@
 #include "journal.h"
 #include "visitor.h"
 
-#include "kcalcore_debug.h"
+#include "kcalendarcore_debug.h"
 
 using namespace KCalendarCore;
 

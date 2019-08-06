@@ -35,7 +35,7 @@
 #include "compat_p.h"
 #include "incidence.h"
 
-#include "kcalcore_debug.h"
+#include "kcalendarcore_debug.h"
 
 #include <QRegExp>
 #include <QString>

@@ -21,7 +21,7 @@
 */
 #include "recurrencerule.h"
 #include "utils_p.h"
-#include "kcalcore_debug.h"
+#include "kcalendarcore_debug.h"
 #include "recurrencehelper_p.h"
 
 #include <QDataStream>
