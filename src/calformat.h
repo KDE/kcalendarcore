@@ -29,7 +29,7 @@
 #ifndef KCALCORE_CALFORMAT_H
 #define KCALCORE_CALFORMAT_H
 
-#include "kcalcore_export.h"
+#include "kcalendarcore_export.h"
 #include "calendar.h"
 
 #include <QString>
@@ -46,7 +46,7 @@ class Exception;
   This is the base class for calendar formats. It provides an interface for the
   generation/interpretation of a textual representation of a calendar.
 */
-class KCALCORE_EXPORT CalFormat
+class KCALENDARCORE_EXPORT CalFormat
 {
 public:
     /**

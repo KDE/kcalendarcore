@@ -106,7 +106,7 @@ class Visitor;
   and Incidence contains all additional properties that are common to
   Events, Todos and Journals, but are not allowed for FreeBusy entries.
 */
-class KCALCORE_EXPORT IncidenceBase : public CustomProperties
+class KCALENDARCORE_EXPORT IncidenceBase : public CustomProperties
 {
     Q_GADGET
     Q_PROPERTY(QString uid READ uid WRITE setUid)
@@ -204,7 +204,7 @@ public:
     /**
       The IncidenceObserver class.
     */
-    class KCALCORE_EXPORT IncidenceObserver
+    class KCALENDARCORE_EXPORT IncidenceObserver
     {
     public:
 
@@ -760,9 +760,9 @@ private:
     Q_DECL_HIDDEN QVariantList attendeesVariant() const;
     //@endcond
 
-    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalendarCore::IncidenceBase::Ptr &);
+    friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalendarCore::IncidenceBase::Ptr &);
 
-    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalendarCore::IncidenceBase::Ptr &);
+    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalendarCore::IncidenceBase::Ptr &);
 };
 
 /**
@@ -770,14 +770,14 @@ private:
  *
  * @since 4.12
  */
-KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalendarCore::IncidenceBase::Ptr &);
+KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalendarCore::IncidenceBase::Ptr &);
 
 /**
  * Incidence deserializer.
  *
  * @since 4.12
  */
-KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalendarCore::IncidenceBase::Ptr &);
+KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalendarCore::IncidenceBase::Ptr &);
 }
 
 Q_DECLARE_METATYPE(KCalendarCore::IncidenceBase *)

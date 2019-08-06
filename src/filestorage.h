@@ -29,7 +29,7 @@
 #ifndef KCALCORE_FILESTORAGE_H
 #define KCALCORE_FILESTORAGE_H
 
-#include "kcalcore_export.h"
+#include "kcalendarcore_export.h"
 #include "calstorage.h"
 
 namespace KCalendarCore
@@ -42,7 +42,7 @@ class Calendar;
   @brief
   This class provides a calendar storage as a local file.
 */
-class KCALCORE_EXPORT FileStorage : public CalStorage
+class KCALENDARCORE_EXPORT FileStorage : public CalStorage
 {
     Q_OBJECT
 public:

@@ -30,7 +30,7 @@
 #ifndef KCALCORE_JOURNAL_H
 #define KCALCORE_JOURNAL_H
 
-#include "kcalcore_export.h"
+#include "kcalendarcore_export.h"
 #include "incidence.h"
 
 namespace KCalendarCore
@@ -40,7 +40,7 @@ namespace KCalendarCore
   @brief
   Provides a Journal in the sense of RFC2445.
 */
-class KCALCORE_EXPORT Journal : public Incidence
+class KCALENDARCORE_EXPORT Journal : public Incidence
 {
 public:
     /**

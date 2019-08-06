@@ -48,7 +48,7 @@ This API needs serious cleaning up:
 #ifndef KCALCORE_CALENDAR_H
 #define KCALCORE_CALENDAR_H
 
-#include "kcalcore_export.h"
+#include "kcalendarcore_export.h"
 #include "event.h"
 #include "customproperties.h"
 #include "incidence.h"
@@ -129,7 +129,7 @@ enum JournalSortField {
   visible in the Calendar.  Do <em>Not</em> attempt to 'delete' any Incidence
   object you get from Calendar -- use the delete...() methods.
 */
-class KCALCORE_EXPORT Calendar : public QObject, public CustomProperties,
+class KCALENDARCORE_EXPORT Calendar : public QObject, public CustomProperties,
     public IncidenceBase::IncidenceObserver
 {
     Q_OBJECT
@@ -1210,7 +1210,7 @@ public:
 
       The CalendarObserver class.
     */
-    class KCALCORE_EXPORT CalendarObserver //krazy:exclude=dpointer
+    class KCALENDARCORE_EXPORT CalendarObserver //krazy:exclude=dpointer
     {
     public:
         /**

@@ -31,7 +31,7 @@
 #ifndef KCALCORE_FREEBUSY_H
 #define KCALCORE_FREEBUSY_H
 
-#include "kcalcore_export.h"
+#include "kcalendarcore_export.h"
 #include "event.h"
 #include "freebusyperiod.h"
 #include "incidencebase.h"
@@ -50,11 +50,11 @@ class FreeBusy;
 
   A free/busy is a collection of Periods (@see Period).
 */
-class KCALCORE_EXPORT FreeBusy : public IncidenceBase
+class KCALENDARCORE_EXPORT FreeBusy : public IncidenceBase
 {
-    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &s,
+    friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &s,
             const KCalendarCore::FreeBusy::Ptr &freebusy);
-    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &s,
+    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &s,
             KCalendarCore::FreeBusy::Ptr &freebusy);
 
 public:
@@ -279,12 +279,12 @@ private:
 /**
   Serializes the @p freebusy object into the @p stream.
 */
-KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
+KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
                                         const KCalendarCore::FreeBusy::Ptr &freebusy);
 /**
   Initializes the @p freebusy object from the @p stream.
 */
-KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream,
+KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream,
                                         KCalendarCore::FreeBusy::Ptr &freebusy);
 }
 

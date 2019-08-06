@@ -36,7 +36,7 @@
 #ifndef KCALCORE_EXCEPTIONS_H
 #define KCALCORE_EXCEPTIONS_H
 
-#include "kcalcore_export.h"
+#include "kcalendarcore_export.h"
 
 #include <QString>
 #include <QStringList>
@@ -52,7 +52,7 @@ class ExceptionPrivate;
   Exception base class, currently used as a fancy kind of error code
   and not as an C++ exception.
 */
-class KCALCORE_EXPORT Exception
+class KCALENDARCORE_EXPORT Exception
 {
 public:
 

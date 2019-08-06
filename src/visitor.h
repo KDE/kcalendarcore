@@ -41,7 +41,7 @@ namespace KCalendarCore
   on the concrete types of calendar components, without changing the
   calendar component classes.
 */
-class KCALCORE_EXPORT Visitor //krazy:exclude=dpointer
+class KCALENDARCORE_EXPORT Visitor //krazy:exclude=dpointer
 {
 public:
     /** Destruct Incidence::Visitor */

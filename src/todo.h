@@ -31,7 +31,7 @@
 #ifndef KCALCORE_TODO_H
 #define KCALCORE_TODO_H
 
-#include "kcalcore_export.h"
+#include "kcalendarcore_export.h"
 #include "incidence.h"
 
 namespace KCalendarCore
@@ -41,7 +41,7 @@ namespace KCalendarCore
   @brief
   Provides a To-do in the sense of RFC2445.
 */
-class KCALCORE_EXPORT Todo : public Incidence
+class KCALENDARCORE_EXPORT Todo : public Incidence
 {
 public:
     /**

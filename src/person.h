@@ -31,7 +31,7 @@
 #ifndef KCALCORE_PERSON_H
 #define KCALCORE_PERSON_H
 
-#include "kcalcore_export.h"
+#include "kcalendarcore_export.h"
 
 #include <QString>
 #include <QHash>
@@ -48,7 +48,7 @@ namespace KCalendarCore
   This class represents a person, with a name and an email address.
   It supports the "FirstName LastName\ <mail@domain\>" format.
 */
-class KCALCORE_EXPORT Person
+class KCALENDARCORE_EXPORT Person
 {
     Q_GADGET
     Q_PROPERTY(bool isEmpty READ isEmpty)
@@ -179,25 +179,25 @@ private:
     QSharedDataPointer<Private> d;
     //@endcond
 
-    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &s, const KCalendarCore::Person &person);
-    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &s, KCalendarCore::Person &person);
+    friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &s, const KCalendarCore::Person &person);
+    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &s, KCalendarCore::Person &person);
 };
 
 /**
   Serializes the @p person object into the @p stream.
 */
-KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalendarCore::Person &person);
+KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalendarCore::Person &person);
 
 /**
   Initializes the @p person object from the @p stream.
 */
-KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalendarCore::Person &person);
+KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalendarCore::Person &person);
 
 /**
   Return a hash value for a Person argument.
   @param key is a Person.
 */
-KCALCORE_EXPORT uint qHash(const KCalendarCore::Person &key);
+KCALENDARCORE_EXPORT uint qHash(const KCalendarCore::Person &key);
 
 }
 

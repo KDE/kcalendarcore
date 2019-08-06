@@ -31,7 +31,7 @@
 #ifndef KCALCORE_PERIOD_H
 #define KCALCORE_PERIOD_H
 
-#include "kcalcore_export.h"
+#include "kcalendarcore_export.h"
 #include "duration.h"
 
 #include <QDateTime>
@@ -48,7 +48,7 @@ namespace KCalendarCore
   The period can be defined by either a start time and an end time or
   by a start time and a duration.
 */
-class KCALCORE_EXPORT Period
+class KCALENDARCORE_EXPORT Period
 {
 public:
     /**
@@ -202,24 +202,24 @@ private:
     Private *const d;
     //@endcond
 
-    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
+    friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
             const KCalendarCore::Period &period);
 
-    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream,
+    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream,
             KCalendarCore::Period &period);
 };
 
 /** Write @p period to the datastream @p stream, in binary format. */
-KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalendarCore::Period &period);
+KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalendarCore::Period &period);
 
 /** Read a Period object into @p period from @p stream, in binary format. */
-KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalendarCore::Period &period);
+KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalendarCore::Period &period);
 
 /**
   Return a hash value for a Period argument.
   @param key is a Period.
 */
-KCALCORE_EXPORT uint qHash(const KCalendarCore::Period &key);
+KCALENDARCORE_EXPORT uint qHash(const KCalendarCore::Period &key);
 }
 
 //@cond PRIVATE

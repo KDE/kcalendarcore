@@ -30,7 +30,7 @@
 
 #include "incidence.h"
 #include "freebusy.h"
-#include "kcalcore_export.h"
+#include "kcalendarcore_export.h"
 #include "calformat.h"
 #include "schedulemessage.h"
 
@@ -54,7 +54,7 @@ class RecurrenceRule;
   check if those Incidences are loaded into the Calendar. If they are not
   loaded it will create duplicates.
 */
-class KCALCORE_EXPORT ICalFormat : public CalFormat
+class KCALENDARCORE_EXPORT ICalFormat : public CalFormat
 {
 public:
     /**

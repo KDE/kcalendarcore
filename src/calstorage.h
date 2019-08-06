@@ -29,7 +29,7 @@
 #ifndef KCALCORE_CALSTORAGE_H
 #define KCALCORE_CALSTORAGE_H
 
-#include "kcalcore_export.h"
+#include "kcalendarcore_export.h"
 #include "calendar.h"
 
 #include <QObject>
@@ -44,7 +44,7 @@ namespace KCalendarCore
   This is the base class for calendar storage. It provides an interface for the
   loading and saving of calendars.
 */
-class KCALCORE_EXPORT CalStorage : public QObject
+class KCALENDARCORE_EXPORT CalStorage : public QObject
 {
     Q_OBJECT
 

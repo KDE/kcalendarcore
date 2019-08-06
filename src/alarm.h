@@ -31,7 +31,7 @@
 #ifndef KCALCORE_ALARM_H
 #define KCALCORE_ALARM_H
 
-#include "kcalcore_export.h"
+#include "kcalendarcore_export.h"
 #include "customproperties.h"
 #include "duration.h"
 #include "person.h"
@@ -61,7 +61,7 @@ class Incidence;
 
   Alarms always belong to a parent Incidence.
 */
-class KCALCORE_EXPORT Alarm : public CustomProperties
+class KCALENDARCORE_EXPORT Alarm : public CustomProperties
 {
 public:
     /**
@@ -672,22 +672,22 @@ private:
     class Private;
     Private *const d;
     //@endcond
-    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &s, const KCalendarCore::Alarm::Ptr &);
-    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &s, const KCalendarCore::Alarm::Ptr &);
+    friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &s, const KCalendarCore::Alarm::Ptr &);
+    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &s, const KCalendarCore::Alarm::Ptr &);
 };
 /**
  * Alarm serializer.
  *
  * @since 4.12
  */
-KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalendarCore::Alarm::Ptr &);
+KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalendarCore::Alarm::Ptr &);
 
 /**
  * Alarm deserializer.
  *
  * @since 4.12
  */
-KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, const KCalendarCore::Alarm::Ptr &);
+KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &in, const KCalendarCore::Alarm::Ptr &);
 
 }
 
