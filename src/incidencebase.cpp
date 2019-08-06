@@ -40,7 +40,7 @@
 #include "utils_p.h"
 
 #include <QTime>
-#include "kcalcore_debug.h"
+#include "kcalendarcore_debug.h"
 #include <QUrl>
 
 #include <QStringList>

@@ -32,7 +32,7 @@
 #include "customproperties.h"
 
 #include <QDataStream>
-#include "kcalcore_debug.h"
+#include "kcalendarcore_debug.h"
 
 using namespace KCalendarCore;
 

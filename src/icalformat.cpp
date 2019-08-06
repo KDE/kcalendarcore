@@ -33,7 +33,7 @@
 #include "icaltimezones_p.h"
 #include "freebusy.h"
 #include "memorycalendar.h"
-#include "kcalcore_debug.h"
+#include "kcalendarcore_debug.h"
 #include "calendar_p.h"
 
 #include <QSaveFile>

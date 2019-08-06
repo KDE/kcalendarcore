@@ -40,7 +40,7 @@
 #include "exceptions.h"
 #include "todo.h"
 
-#include "kcalcore_debug.h"
+#include "kcalendarcore_debug.h"
 
 extern "C" {
 #include <libical/vcc.h>
