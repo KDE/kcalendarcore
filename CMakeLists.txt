@@ -27,7 +27,7 @@ set(QT_REQUIRED_VERSION "5.11.0")
 
 set(KCALENDARCORE_LIB_VERSION ${PIM_VERSION})
 ecm_setup_version(PROJECT VARIABLE_PREFIX KCALCORE
-  VERSION_HEADER "${KCalCore_BINARY_DIR}/kcalcore_version.h"
+  VERSION_HEADER "${KCalCore_BINARY_DIR}/kcalendarcore_version.h"
   PACKAGE_VERSION_FILE "${KCalCore_BINARY_DIR}/KF5CalendarCoreConfigVersion.cmake"
   SOVERSION 5
 )
@@ -81,7 +81,7 @@ install(EXPORT KF5CalendarCoreTargets
 )
 
 install(FILES
-  ${CMAKE_CURRENT_BINARY_DIR}/kcalcore_version.h
+  ${CMAKE_CURRENT_BINARY_DIR}/kcalendarcore_version.h
   DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5} COMPONENT Devel
 )
 
