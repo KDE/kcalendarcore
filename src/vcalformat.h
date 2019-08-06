@@ -38,7 +38,7 @@
 #ifndef KCALCORE_VCALFORMAT_H
 #define KCALCORE_VCALFORMAT_H
 
-#include "kcalcore_export.h"
+#include "kcalendarcore_export.h"
 #include "attendee.h"
 #include "calformat.h"
 #include "event.h"
@@ -70,7 +70,7 @@ class Todo;
   loading/saving/converting vCalendar format data into the internal
   representation as Calendar and Incidences.
 */
-class KCALCORE_EXPORT VCalFormat : public CalFormat
+class KCALENDARCORE_EXPORT VCalFormat : public CalFormat
 {
 public:
     /**

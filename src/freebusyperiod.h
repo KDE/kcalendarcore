@@ -32,7 +32,7 @@
 #ifndef KCALCORE_FREEBUSYPERIOD_H
 #define KCALCORE_FREEBUSYPERIOD_H
 
-#include "kcalcore_export.h"
+#include "kcalendarcore_export.h"
 #include "period.h"
 
 #include <QMetaType>
@@ -44,7 +44,7 @@ namespace KCalendarCore
   The period can be defined by either a start time and an end time or
   by a start time and a duration.
 */
-class KCALCORE_EXPORT FreeBusyPeriod : public Period
+class KCALENDARCORE_EXPORT FreeBusyPeriod : public Period
 {
 public:
     enum FreeBusyType {
@@ -156,18 +156,18 @@ private:
     Private *const d;
     //@endcond
 
-    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
+    friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
             const KCalendarCore::FreeBusyPeriod &period);
-    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream,
+    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream,
             KCalendarCore::FreeBusyPeriod &period);
 };
 
 /** Write @p period to the datastream @p stream, in binary format. */
-KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
+KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
                                         const KCalendarCore::FreeBusyPeriod &period);
 
 /** Read a Period object into @p period from @p stream, in binary format. */
-KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalendarCore::FreeBusyPeriod &period);
+KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalendarCore::FreeBusyPeriod &period);
 }
 
 //@cond PRIVATE

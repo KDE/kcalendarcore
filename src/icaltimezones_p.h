@@ -21,7 +21,7 @@
 #ifndef KCALCORE_ICALTIMEZONES_P_H
 #define KCALCORE_ICALTIMEZONES_P_H
 
-#include "kcalcore_export.h"
+#include "kcalendarcore_export.h"
 #include "incidencebase.h"
 
 #include <QTimeZone>
@@ -62,7 +62,7 @@ public:
     ICalTimeZonePhase daylight;       // DST time
 };
 
-class KCALCORE_EXPORT ICalTimeZoneCache
+class KCALENDARCORE_EXPORT ICalTimeZoneCache
 {
 public:
     explicit ICalTimeZoneCache();
@@ -77,7 +77,7 @@ private:
 
 using TimeZoneEarliestDate = QHash<QTimeZone, QDateTime>;
 
-class KCALCORE_EXPORT ICalTimeZoneParser
+class KCALENDARCORE_EXPORT ICalTimeZoneParser
 {
 public:
     explicit ICalTimeZoneParser(ICalTimeZoneCache *cache);

@@ -29,7 +29,7 @@
 #ifndef KCALCORE_FREEBUSYCACHE_H
 #define KCALCORE_FREEBUSYCACHE_H
 
-#include "kcalcore_export.h"
+#include "kcalendarcore_export.h"
 
 #include "freebusy.h"
 
@@ -45,7 +45,7 @@ class Person;
   An abstract base class to allow different implementations of storing
   free busy information, e.g. local storage or storage on a Kolab server.
 */
-class KCALCORE_EXPORT FreeBusyCache
+class KCALENDARCORE_EXPORT FreeBusyCache
 {
 public:
     /**

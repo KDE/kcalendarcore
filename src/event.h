@@ -28,7 +28,7 @@
 #ifndef KCALCORE_EVENT_H
 #define KCALCORE_EVENT_H
 
-#include "kcalcore_export.h"
+#include "kcalendarcore_export.h"
 #include "incidence.h"
 
 #include <QTimeZone>
@@ -40,7 +40,7 @@ namespace KCalendarCore
   @brief
   This class provides an Event in the sense of RFC2445.
 */
-class KCALCORE_EXPORT Event : public Incidence
+class KCALENDARCORE_EXPORT Event : public Incidence
 {
     Q_GADGET
     Q_PROPERTY(QDateTime dtEnd READ dtEnd WRITE setDtEnd)

@@ -29,7 +29,7 @@
 #ifndef KCALCORE_ATTACHMENT_H
 #define KCALCORE_ATTACHMENT_H
 
-#include "kcalcore_export.h"
+#include "kcalendarcore_export.h"
 
 #include <QHash>
 #include <QString>
@@ -57,7 +57,7 @@ namespace KCalendarCore
   This class is used to associate files (local or remote) or other resources
   with a Calendar Incidence.
 */
-class KCALCORE_EXPORT Attachment
+class KCALENDARCORE_EXPORT Attachment
 {
     Q_GADGET
     Q_PROPERTY(bool isEmpty READ isEmpty)
@@ -278,8 +278,8 @@ private:
     QSharedDataPointer<Private> d;
     //@endcond
 
-    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &s, const KCalendarCore::Attachment&);
-    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &s, KCalendarCore::Attachment&);
+    friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &s, const KCalendarCore::Attachment&);
+    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &s, KCalendarCore::Attachment&);
 };
 
 /**
@@ -287,14 +287,14 @@ private:
  *
  * @since 4.12
  */
-KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalendarCore::Attachment&);
+KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalendarCore::Attachment&);
 
 /**
  * Attachment deserializer.
  *
  * @since 4.12
  */
-KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalendarCore::Attachment&);
+KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalendarCore::Attachment&);
 
 }
 

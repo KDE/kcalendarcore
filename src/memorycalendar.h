@@ -32,7 +32,7 @@
 #ifndef KCALCORE_MEMORYCALENDAR_H
 #define KCALCORE_MEMORYCALENDAR_H
 
-#include "kcalcore_export.h"
+#include "kcalendarcore_export.h"
 #include "calendar.h"
 
 namespace KCalendarCore
@@ -41,7 +41,7 @@ namespace KCalendarCore
   @brief
   This class provides a calendar stored in memory.
 */
-class KCALCORE_EXPORT MemoryCalendar : public Calendar
+class KCALENDARCORE_EXPORT MemoryCalendar : public Calendar
 {
     Q_OBJECT
 public:

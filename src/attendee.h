@@ -32,7 +32,7 @@
 #include <QMetaType>
 #include <QSharedDataPointer>
 
-#include "kcalcore_export.h"
+#include "kcalendarcore_export.h"
 #include "customproperties.h"
 
 namespace KCalendarCore
@@ -55,7 +55,7 @@ namespace KCalendarCore
   (unique identifier) derived from a Calendar Incidence, Email Message,
   or any other thing you want.
 */
-class KCALCORE_EXPORT Attendee
+class KCALENDARCORE_EXPORT Attendee
 {
     Q_GADGET
     Q_PROPERTY(bool isNull READ isNull)
@@ -360,9 +360,9 @@ private:
     QSharedDataPointer<Private> d;
     //@endcond
 
-    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &s,
+    friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &s,
             const KCalendarCore::Attendee &attendee);
-    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &s,
+    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &s,
             KCalendarCore::Attendee &attendee);
 };
 
@@ -371,7 +371,7 @@ private:
   @param stream is a QDataStream.
   @param attendee is a pointer to a Attendee object to be serialized.
 */
-KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
+KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
                                         const KCalendarCore::Attendee &attendee);
 
 /**
@@ -379,7 +379,7 @@ KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
   @param stream is a QDataStream.
   @param attendee is a pointer to a Attendee object to be initialized.
 */
-KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream,
+KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream,
                                         KCalendarCore::Attendee &attendee);
 }
 

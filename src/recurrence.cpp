@@ -1493,7 +1493,7 @@ Recurrence::RecurrenceObserver::~RecurrenceObserver()
 {
 }
 
-KCALCORE_EXPORT QDataStream &KCalendarCore::operator<<(QDataStream &out, KCalendarCore::Recurrence *r)
+KCALENDARCORE_EXPORT QDataStream &KCalendarCore::operator<<(QDataStream &out, KCalendarCore::Recurrence *r)
 {
     if (!r) {
         return out;
@@ -1518,7 +1518,7 @@ KCALCORE_EXPORT QDataStream &KCalendarCore::operator<<(QDataStream &out, KCalend
     return out;
 }
 
-KCALCORE_EXPORT QDataStream &KCalendarCore::operator>>(QDataStream &in, KCalendarCore::Recurrence *r)
+KCALENDARCORE_EXPORT QDataStream &KCalendarCore::operator>>(QDataStream &in, KCalendarCore::Recurrence *r)
 {
     if (!r) {
         return in;

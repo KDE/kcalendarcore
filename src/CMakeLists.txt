@@ -41,7 +41,7 @@ ecm_qt_declare_logging_category(kcalcore_LIB_SRCS HEADER kcalcore_debug.h IDENTI
 
 add_library(KF5CalendarCore ${kcalcore_LIB_SRCS})
 
-generate_export_header(KF5CalendarCore BASE_NAME kcalcore)
+generate_export_header(KF5CalendarCore BASE_NAME kcalendarcore)
 
 add_library(KF5::CalendarCore ALIAS KF5CalendarCore)
 
@@ -124,7 +124,7 @@ endif()
 ########### install files ###############
 
 install(FILES
-  ${CMAKE_CURRENT_BINARY_DIR}/kcalcore_export.h
+  ${CMAKE_CURRENT_BINARY_DIR}/kcalendarcore_export.h
   ${KCalendarCore_HEADERS}
   DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}/KCalendarCore/kcalendarcore
   COMPONENT Devel
@@ -138,7 +138,7 @@ install(FILES
 
 if (NOT KCALENDARCORE_NO_DEPRECATED_NAMESPACE)
   install(FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/kcalcore_export.h
+    ${CMAKE_CURRENT_BINARY_DIR}/kcalendarcore_export.h
     ${KCalCore_HEADERS}
     DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}/KCalendarCore/kcalcore
     COMPONENT Devel

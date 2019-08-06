@@ -31,7 +31,7 @@
 #ifndef KCALCORE_DURATION_H
 #define KCALCORE_DURATION_H
 
-#include "kcalcore_export.h"
+#include "kcalendarcore_export.h"
 
 #include <QDataStream>
 #include <QHash>
@@ -54,7 +54,7 @@ namespace KCalendarCore
   seconds or in days. But it does make a difference when a duration is used to
   define a time period encompassing a daylight saving time change.
 */
-class KCALCORE_EXPORT Duration
+class KCALENDARCORE_EXPORT Duration
 {
 public:
     /**
@@ -323,8 +323,8 @@ private:
     Private *const d;
     //@endcond
 
-    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &s, const KCalendarCore::Duration &);
-    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &s, KCalendarCore::Duration &);
+    friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &s, const KCalendarCore::Duration &);
+    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &s, KCalendarCore::Duration &);
 };
 
 /**
@@ -332,14 +332,14 @@ private:
  *
  * @since 4.12
  */
-KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalendarCore::Duration &);
+KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalendarCore::Duration &);
 
 /**
  * Duration deserializer.
  *
  * @since 4.12
  */
-KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalendarCore::Duration &);
+KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalendarCore::Duration &);
 
 inline uint qHash(const Duration &duration, uint seed = 0)
 {

@@ -2277,19 +2277,19 @@ QDataStream &operator>>(QDataStream &in, Constraint &c)
     return in;
 }
 
-KCALCORE_EXPORT QDataStream &KCalendarCore::operator<<(QDataStream &out, const KCalendarCore::RecurrenceRule::WDayPos &w)
+KCALENDARCORE_EXPORT QDataStream &KCalendarCore::operator<<(QDataStream &out, const KCalendarCore::RecurrenceRule::WDayPos &w)
 {
     out << w.mDay << w.mPos;
     return out;
 }
 
-KCALCORE_EXPORT QDataStream &KCalendarCore::operator>>(QDataStream &in, KCalendarCore::RecurrenceRule::WDayPos &w)
+KCALENDARCORE_EXPORT QDataStream &KCalendarCore::operator>>(QDataStream &in, KCalendarCore::RecurrenceRule::WDayPos &w)
 {
     in >> w.mDay >> w.mPos;
     return in;
 }
 
-KCALCORE_EXPORT QDataStream &KCalendarCore::operator<<(QDataStream &out, const KCalendarCore::RecurrenceRule *r)
+KCALENDARCORE_EXPORT QDataStream &KCalendarCore::operator<<(QDataStream &out, const KCalendarCore::RecurrenceRule *r)
 {
     if (!r) {
         return out;
@@ -2308,7 +2308,7 @@ KCALCORE_EXPORT QDataStream &KCalendarCore::operator<<(QDataStream &out, const K
     return out;
 }
 
-KCALCORE_EXPORT QDataStream &KCalendarCore::operator>>(QDataStream &in, const KCalendarCore::RecurrenceRule *r)
+KCALENDARCORE_EXPORT QDataStream &KCalendarCore::operator>>(QDataStream &in, const KCalendarCore::RecurrenceRule *r)
 {
     if (!r) {
         return in;

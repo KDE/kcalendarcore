@@ -31,7 +31,7 @@
 #ifndef KCALCORE_INCIDENCE_H
 #define KCALCORE_INCIDENCE_H
 
-#include "kcalcore_export.h"
+#include "kcalendarcore_export.h"
 #include "alarm.h"
 #include "attachment.h"
 #include "incidencebase.h"
@@ -66,7 +66,7 @@ namespace KCalendarCore
   and Incidence contains all additional properties that are common to
   Events, Todos and Journals, but are not allowed for FreeBusy entries.
 */
-class KCALCORE_EXPORT Incidence
+class KCALENDARCORE_EXPORT Incidence
     : public IncidenceBase, public Recurrence::RecurrenceObserver
 {
     Q_GADGET

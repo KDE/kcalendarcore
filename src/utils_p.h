@@ -22,7 +22,7 @@
 #ifndef KCALCORE_UTILS_H
 #define KCALCORE_UTILS_H
 
-#include "kcalcore_export.h"
+#include "kcalendarcore_export.h"
 
 #include <QDateTime>
 
@@ -34,7 +34,7 @@ namespace KCalendarCore {
  * Helpers to retain backwards compatibility of binary serialization.
  */
 void serializeQDateTimeAsKDateTime(QDataStream &out, const QDateTime &dt);
-KCALCORE_EXPORT void deserializeKDateTimeAsQDateTime(QDataStream &in, QDateTime &dt);
+KCALENDARCORE_EXPORT void deserializeKDateTimeAsQDateTime(QDataStream &in, QDateTime &dt);
 
 void serializeQDateTimeList(QDataStream &out, const QList<QDateTime> &list);
 void deserializeQDateTimeList(QDataStream &in, QList<QDateTime> &list);

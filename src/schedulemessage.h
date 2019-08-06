@@ -23,7 +23,7 @@
 
 #include "incidencebase.h"
 
-#include "kcalcore_export.h"
+#include "kcalendarcore_export.h"
 
 namespace KCalendarCore
 {
@@ -52,7 +52,7 @@ enum iTIPMethod {
   This class provides an encapsulation of a scheduling message.
   It associates an incidence with an iTIPMethod and status information.
 */
-class KCALCORE_EXPORT ScheduleMessage
+class KCALENDARCORE_EXPORT ScheduleMessage
 {
 public:
     /**

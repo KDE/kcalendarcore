@@ -24,7 +24,7 @@
 #ifndef KCALCORE_RECURRENCE_H
 #define KCALCORE_RECURRENCE_H
 
-#include "kcalcore_export.h"
+#include "kcalendarcore_export.h"
 #include "recurrencerule.h"
 
 class QBitArray;
@@ -86,7 +86,7 @@ class RecurrenceRule;
   the specified type. The add* and the other set* methods will change only
   the first recurrence rule, but leave the others untouched.
 */
-class KCALCORE_EXPORT Recurrence : public RecurrenceRule::RuleObserver
+class KCALENDARCORE_EXPORT Recurrence : public RecurrenceRule::RuleObserver
 {
 public:
     class RecurrenceObserver
@@ -662,16 +662,16 @@ private:
     Private *const d;
     //@endcond
 
-    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, KCalendarCore::Recurrence *);
-    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalendarCore::Recurrence *);
+    friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &out, KCalendarCore::Recurrence *);
+    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalendarCore::Recurrence *);
 };
 
 /**
  * Recurrence serializer and deserializer.
  * @since 4.12
  */
-KCALCORE_EXPORT QDataStream &operator<<(QDataStream &out, KCalendarCore::Recurrence *);
-KCALCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalendarCore::Recurrence *);
+KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &out, KCalendarCore::Recurrence *);
+KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalendarCore::Recurrence *);
 
 }
 

@@ -31,7 +31,7 @@
 #ifndef KCALCORE_CALFILTER_H
 #define KCALCORE_CALFILTER_H
 
-#include "kcalcore_export.h"
+#include "kcalendarcore_export.h"
 #include "event.h"
 #include "journal.h"
 #include "todo.h"
@@ -53,7 +53,7 @@ namespace KCalendarCore
   - remove inactive To-dos
   - remove To-dos without a matching attendee (see setEmailList())
 */
-class KCALCORE_EXPORT CalFilter
+class KCALENDARCORE_EXPORT CalFilter
 {
 public:
     /**

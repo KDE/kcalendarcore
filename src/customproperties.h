@@ -29,7 +29,7 @@
 #ifndef KCALCORE_CUSTOMPROPERTIES_H
 #define KCALCORE_CUSTOMPROPERTIES_H
 
-#include "kcalcore_export.h"
+#include "kcalendarcore_export.h"
 
 #include <QMap>
 #include <QString>
@@ -49,11 +49,11 @@ namespace KCalendarCore
   In keeping with RFC2445, property names must be composed only of the
   characters A-Z, a-z, 0-9 and '-'.
 */
-class KCALCORE_EXPORT CustomProperties
+class KCALENDARCORE_EXPORT CustomProperties
 {
-    friend KCALCORE_EXPORT QDataStream &operator<<(QDataStream &s,
+    friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &s,
             const KCalendarCore::CustomProperties &properties);
-    friend KCALCORE_EXPORT QDataStream &operator>>(QDataStream &s,
+    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &s,
             KCalendarCore::CustomProperties &properties);
 public:
     /**
@@ -207,13 +207,13 @@ private:
 /**
   Serializes the @p properties object into the @p stream.
 */
-KCALCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
+KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
                                         const KCalendarCore::CustomProperties &properties);
 
 /**
   Initializes the @p properties object from the @p stream.
 */
-KCALCORE_EXPORT QDataStream &operator>>(QDataStream &stream,
+KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream,
                                         KCalendarCore::CustomProperties &properties);
 
 }

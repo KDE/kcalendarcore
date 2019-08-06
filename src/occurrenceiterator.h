@@ -29,7 +29,7 @@
 #ifndef KCALCORE_OCCURRENCEITERATOR_H
 #define KCALCORE_OCCURRENCEITERATOR_H
 
-#include "kcalcore_export.h"
+#include "kcalendarcore_export.h"
 #include "incidence.h"
 
 namespace KCalendarCore
@@ -44,7 +44,7 @@ class Calendar;
  * The iterator does not iterate the occurrences of all incidences chronologically.
  * @since 4.11
  */
-class KCALCORE_EXPORT OccurrenceIterator
+class KCALENDARCORE_EXPORT OccurrenceIterator
 {
 public:
     /**
