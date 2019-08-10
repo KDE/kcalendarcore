@@ -1,13 +1,13 @@
 cmake_minimum_required(VERSION 3.5)
 set(PIM_VERSION "5.12.40")
 
-project(KCalCore VERSION ${PIM_VERSION})
+project(KCalendarCore VERSION ${PIM_VERSION})
 
 # ECM setup
 set(KF5_MIN_VERSION "5.60.0")
 
 find_package(ECM ${KF5_MIN_VERSION} CONFIG REQUIRED)
-set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${KCalCore_SOURCE_DIR}/cmake)
+set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${KCalendarCore_SOURCE_DIR}/cmake)
 
 include(GenerateExportHeader)
 include(ECMGenerateHeaders)
@@ -27,8 +27,8 @@ set(QT_REQUIRED_VERSION "5.11.0")
 
 set(KCALENDARCORE_LIB_VERSION ${PIM_VERSION})
 ecm_setup_version(PROJECT VARIABLE_PREFIX KCALCORE
-  VERSION_HEADER "${KCalCore_BINARY_DIR}/kcalendarcore_version.h"
-  PACKAGE_VERSION_FILE "${KCalCore_BINARY_DIR}/KF5CalendarCoreConfigVersion.cmake"
+  VERSION_HEADER "${KCalendarCore_BINARY_DIR}/kcalendarcore_version.h"
+  PACKAGE_VERSION_FILE "${KCalendarCore_BINARY_DIR}/KF5CalendarCoreConfigVersion.cmake"
   SOVERSION 5
 )
 

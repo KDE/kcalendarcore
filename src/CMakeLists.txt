@@ -53,7 +53,7 @@ if (NOT KCALENDARCORE_NO_DEPRECATED_NAMESPACE)
 endif()
 
 target_include_directories(KF5CalendarCore INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KCalendarCore>")
-target_include_directories(KF5CalendarCore PUBLIC "$<BUILD_INTERFACE:${KCalCore_SOURCE_DIR}/src;${KCalCore_BINARY_DIR}/src>")
+target_include_directories(KF5CalendarCore PUBLIC "$<BUILD_INTERFACE:${KCalendarCore_SOURCE_DIR}/src;${KCalendarCore_BINARY_DIR}/src>")
 
 target_link_libraries(KF5CalendarCore
 PUBLIC
