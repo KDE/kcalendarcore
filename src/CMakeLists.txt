@@ -46,8 +46,6 @@ generate_export_header(KF5CalendarCore BASE_NAME kcalendarcore)
 add_library(KF5::CalendarCore ALIAS KF5CalendarCore)
 
 # backward compatibility with the old name
-# TODO: remove for KF6
-option(KCALENDARCORE_NO_DEPRECATED_NAMESPACE "Disable deprecated KCalCore namespace" OFF)
 if (NOT KCALENDARCORE_NO_DEPRECATED_NAMESPACE)
     target_compile_definitions(KF5CalendarCore INTERFACE "-DKCalCore=KCalendarCore")
 endif()

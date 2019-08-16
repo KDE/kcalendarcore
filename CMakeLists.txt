@@ -20,6 +20,9 @@ include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 include(ECMQtDeclareLoggingCategory)
 
+# TODO: remove for KF6
+option(KCALENDARCORE_NO_DEPRECATED_NAMESPACE "Disable deprecated KCalCore namespace" OFF)
+
 if(POLICY CMP0053)
   cmake_policy(SET CMP0053 NEW)
 endif()
@@ -84,6 +87,12 @@ install(FILES
   ${CMAKE_CURRENT_BINARY_DIR}/kcalendarcore_version.h
   DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5} COMPONENT Devel
 )
+if (NOT KCALENDARCORE_NO_DEPRECATED_NAMESPACE)
+  install(FILES
+    ${CMAKE_CURRENT_BINARY_DIR}/kcalendarcore_version.h
+    DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5} COMPONENT Devel RENAME kcalcore_version.h
+  )
+endif()
 
 install(FILES kcalendarcore.renamecategories kcalendarcore.categories  DESTINATION  ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
 
