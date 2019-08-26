@@ -276,7 +276,7 @@ void IncidenceBase::setOrganizer(const QString &o)
 {
     QString mail(o);
     if (mail.startsWith(QLatin1String("MAILTO:"), Qt::CaseInsensitive)) {
-        mail = mail.remove(0, 7);
+        mail.remove(0, 7);
     }
 
     // split the string into full name plus email.
