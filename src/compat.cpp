@@ -91,9 +91,9 @@ Compat *CompatFactory::createCompat(const QString &productId,
     // Older implementations lacked the implementation version,
     // so apply this fix if it is a file from kontact and the version is missing.
     if (implementationVersion.isEmpty() &&
-            (productId.contains(QStringLiteral("libkcal")) ||
-             productId.contains(QStringLiteral("KOrganizer")) ||
-             productId.contains(QStringLiteral("KAlarm")))) {
+            (productId.contains(QLatin1String("libkcal")) ||
+             productId.contains(QLatin1String("KOrganizer")) ||
+             productId.contains(QLatin1String("KAlarm")))) {
         compat = new CompatPre410(compat);
     }
 

@@ -2062,7 +2062,7 @@ void RecurrenceRule::dump() const
         for ( int i = 0, iend = list.count();  i < iend;  ++i ) {\
             lst.append( QString::number( list[i] ) );\
         }\
-        qCDebug(KCALCORE_LOG) << "  " << label << lst.join( QStringLiteral(", ") );\
+        qCDebug(KCALCORE_LOG) << "  " << label << lst.join(QLatin1String(", ") );\
     }
     dumpByIntList(d->mBySeconds, QStringLiteral("BySeconds:  "));
     dumpByIntList(d->mByMinutes, QStringLiteral("ByMinutes:  "));
@@ -2073,7 +2073,7 @@ void RecurrenceRule::dump() const
             lst.append((d->mByDays[i].pos() ? QString::number(d->mByDays[i].pos()) : QLatin1String("")) +
                        DateHelper::dayName(d->mByDays[i].day()));
         }
-        qCDebug(KCALCORE_LOG) << "   ByDays:    " << lst.join(QStringLiteral(", "));
+        qCDebug(KCALCORE_LOG) << "   ByDays:    " << lst.join(QLatin1String(", "));
     }
     dumpByIntList(d->mByMonthDays, QStringLiteral("ByMonthDays:"));
     dumpByIntList(d->mByYearDays, QStringLiteral("ByYearDays: "));
