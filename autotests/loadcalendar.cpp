@@ -61,7 +61,7 @@ int main(int argc, char **argv)
     QString result = (*todoList.begin())->customProperty(QByteArray("karm"),
                                                          QByteArray("totalTaskTime"));
     qDebug() << result;
-    if (result != QStringLiteral("a,b")) {
+    if (result != QLatin1String("a,b")) {
         qDebug() << "The string a,b was expected, but given was" << result;
         return 1;
     } else {

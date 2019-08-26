@@ -691,7 +691,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
         anEvent->setOrganizer(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo))));
         deleteStr(s);
     } else {
-        if (d->mCalendar->owner().name() != QStringLiteral("Unknown Name")) {
+        if (d->mCalendar->owner().name() != QLatin1String("Unknown Name")) {
             anEvent->setOrganizer(d->mCalendar->owner());
         }
     }
@@ -863,7 +863,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
                     while (index < last) {
                         tmpPos = tmpStr.mid(index, 1).toShort();
                         index += 1;
-                        if (tmpStr.mid(index, 1) == QStringLiteral("-")) {
+                        if (tmpStr.mid(index, 1) == QLatin1String("-")) {
                             // convert tmpPos to negative
                             tmpPos = 0 - tmpPos;
                         }
@@ -891,13 +891,13 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
                     // e.g. MD1 3 #0
                     while (index < last) {
                         int index2 = tmpStr.indexOf(QLatin1Char(' '), index);
-                        if ((tmpStr.mid((index2 - 1), 1) == QStringLiteral("-")) ||
-                                (tmpStr.mid((index2 - 1), 1) == QStringLiteral("+"))) {
+                        if ((tmpStr.mid((index2 - 1), 1) == QLatin1String("-")) ||
+                                (tmpStr.mid((index2 - 1), 1) == QLatin1String("+"))) {
                             index2 = index2 - 1;
                         }
                         short tmpDay = tmpStr.mid(index, (index2 - index)).toShort();
                         index = index2;
-                        if (tmpStr.mid(index, 1) == QStringLiteral("-")) {
+                        if (tmpStr.mid(index, 1) == QLatin1String("-")) {
                             tmpDay = 0 - tmpDay;
                         }
                         index += 2; // advance the index;
