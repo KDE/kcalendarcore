@@ -232,7 +232,7 @@ static bool extractEmailAddressAndName(const QString &aStr, QString &mail, QStri
         }
         mail = aStr.mid(i + 1);
         if (mail.endsWith(QLatin1Char('>'))) {
-            mail.truncate(mail.length() - 1);
+            mail.chop(1);
         }
 
     } else {
