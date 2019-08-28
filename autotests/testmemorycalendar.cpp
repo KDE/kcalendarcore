@@ -140,7 +140,7 @@ void MemoryCalendarTest::testRelationsCrash()
     // the incidences had special relations.
     // This test tests that scenario, and will crash if it fails.
     MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
-    FileStorage store1(cal, QLatin1Literal(ICALTESTDATADIR) + QLatin1String("test_relations.ics"));
+    FileStorage store1(cal, QLatin1String(ICALTESTDATADIR) + QLatin1String("test_relations.ics"));
     QVERIFY(store1.load());
     const Todo::List oldTodos = cal->todos();
     qDebug() << "Loaded " << oldTodos.count() << " todos into oldTodos.";

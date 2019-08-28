@@ -1422,7 +1422,7 @@ Attendee ICalFormatImpl::readAttendee(icalproperty *attendee)
 
     QString email = QString::fromUtf8(icalproperty_get_attendee(attendee));
     if (email.startsWith(QLatin1String("mailto:"), Qt::CaseInsensitive)) {
-        email = email.mid(7);
+        email.remove(0, 7);
     }
 
     // libical may return everything after ATTENDEE tag if the rest is
@@ -1559,7 +1559,7 @@ Person ICalFormatImpl::readOrganizer(icalproperty *organizer)
 {
     QString email = QString::fromUtf8(icalproperty_get_organizer(organizer));
     if (email.startsWith(QLatin1String("mailto:"), Qt::CaseInsensitive)) {
-        email = email.mid(7);
+        email.remove(0, 7);
     }
     QString cn;
 
@@ -2266,7 +2266,7 @@ void ICalFormatImpl::readAlarm(icalcomponent *alarm, const Incidence::Ptr &incid
             // Only in EMAIL alarm
             QString email = QString::fromUtf8(icalproperty_get_attendee(p));
             if (email.startsWith(QLatin1String("mailto:"), Qt::CaseInsensitive)) {
-                email = email.mid(7);
+                email.remove(0, 7);
             }
             QString name;
             icalparameter *param = icalproperty_get_first_parameter(p, ICAL_CN_PARAMETER);
