@@ -1386,7 +1386,7 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
     if ((curVO = isAPropertyOf(vcal, VCTimeZoneProp)) != nullptr) {
         char *s = fakeCString(vObjectUStringZValue(curVO));
         QString ts = QString::fromUtf8(s);
-        QString name = QStringLiteral("VCAL") + ts;
+        QString name = QLatin1String("VCAL") + ts;
         deleteStr(s);
 
         // TODO: While using the timezone-offset + vcal as timezone is is
