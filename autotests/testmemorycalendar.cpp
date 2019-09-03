@@ -127,7 +127,7 @@ void MemoryCalendarTest::testIncidences()
 
     QVERIFY(store.load());
     Todo::Ptr todo = cal->incidence(QStringLiteral("4")).staticCast<Todo>();
-    QVERIFY(todo->uid() == QLatin1String("4"));
+    QVERIFY(todo->uid() == QLatin1Char('4'));
     QVERIFY(todo->summaryIsRich());
     QVERIFY(todo->locationIsRich());
     cal->close();

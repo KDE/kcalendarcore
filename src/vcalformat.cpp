@@ -351,9 +351,9 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
             tmpStr = tmpStr.toUpper();
             // first, read the type of the recurrence
             recurrenceTypeAbbrLen = 1;
-            if (tmpStr.at(0) == QLatin1String("D")) {
+            if (tmpStr.at(0) == QLatin1Char('D')) {
                 recurrenceType = Recurrence::rDaily;
-            } else if (tmpStr.at(0) == QLatin1String("W")) {
+            } else if (tmpStr.at(0) == QLatin1Char('W')) {
                 recurrenceType = Recurrence::rWeekly;
             } else if (tmpStrLen > 1) {
                 recurrenceTypeAbbrLen = 2;
@@ -793,9 +793,9 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
             tmpStr = tmpStr.toUpper();
             // first, read the type of the recurrence
             recurrenceTypeAbbrLen = 1;
-            if (tmpStr.at(0) == QLatin1String("D")) {
+            if (tmpStr.at(0) == QLatin1Char('D')) {
                 recurrenceType = Recurrence::rDaily;
-            } else if (tmpStr.at(0) == QLatin1String("W")) {
+            } else if (tmpStr.at(0) == QLatin1Char('W')) {
                 recurrenceType = Recurrence::rWeekly;
             } else if (tmpStrLen > 1){
                 recurrenceTypeAbbrLen = 2;
