@@ -3,7 +3,7 @@
 
   Copyright (c) 1998 Preston Brown <pbrown@kde.org>
   Copyright (c) 2001,2003 Cornelius Schumacher <schumacher@kde.org>
-  Copyright (c) 2002,2006 David Jarvie <software@astrojar.org.uk>
+  Copyright (c) 2002,2006 David Jarvie <djarvie@kde.org>
   Copyright (C) 2005 Reinhold Kainhofer <reinhold@kainhofer.com>
 
   This library is free software; you can redistribute it and/or

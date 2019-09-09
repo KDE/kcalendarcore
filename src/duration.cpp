@@ -28,7 +28,7 @@
   Represents a span of time measured in seconds.
 
   @author Cornelius Schumacher \<schumacher@kde.org\>
-  @author David Jarvie \<software@astrojar.org.uk\>
+  @author David Jarvie \<djarvie@kde.org\>
 */
 #include "duration.h"
 

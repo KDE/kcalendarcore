@@ -2,7 +2,7 @@
   This file is part of the kcalcore library.
 
   Copyright (c) 2001-2003 Cornelius Schumacher <schumacher@kde.org>
-  Copyright (c) 2003 David Jarvie <software@astrojar.org.uk>
+  Copyright (c) 2003 David Jarvie <djarvie@kde.org>
   Copyright (c) 2010 Klarälvdalens Datakonsult AB, a KDAB Group company <info@kdab.net>
 
   This library is free software; you can redistribute it and/or
