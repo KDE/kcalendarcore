@@ -1,12 +1,11 @@
 cmake_minimum_required(VERSION 3.5)
-set(PIM_VERSION "5.12.40")
+set(KF5_VERSION "5.63.0") # handled by release scripts
 
-project(KCalendarCore VERSION ${PIM_VERSION})
+project(KCalendarCore VERSION ${KF5_VERSION})
 
 # ECM setup
-set(KF5_MIN_VERSION "5.61.0")
 
-find_package(ECM ${KF5_MIN_VERSION} CONFIG REQUIRED)
+find_package(ECM ${KF5_VERSION} CONFIG REQUIRED)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${KCalendarCore_SOURCE_DIR}/cmake)
 
 include(KDEInstallDirs)
@@ -29,7 +28,7 @@ if(POLICY CMP0053)
 endif()
 set(QT_REQUIRED_VERSION "5.11.0")
 
-set(KCALENDARCORE_LIB_VERSION ${PIM_VERSION})
+set(KCALENDARCORE_LIB_VERSION ${KF5_VERSION})
 ecm_setup_version(PROJECT VARIABLE_PREFIX KCALCORE
   VERSION_HEADER "${KCalendarCore_BINARY_DIR}/kcalendarcore_version.h"
   PACKAGE_VERSION_FILE "${KCalendarCore_BINARY_DIR}/KF5CalendarCoreConfigVersion.cmake"
@@ -57,9 +56,7 @@ configure_package_config_file(
 )
 
 
-if (EXISTS "${CMAKE_SOURCE_DIR}/.git")
-   add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x060000)
-endif()
+add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050d00)
 
 add_definitions(-DQT_NO_FOREACH)
 
