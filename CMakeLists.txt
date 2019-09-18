@@ -19,6 +19,10 @@ include(ECMGeneratePriFile)
 include(ECMSetupVersion)
 include(FeatureSummary)
 include(ECMQtDeclareLoggingCategory)
+include(ECMAddQch)
+
+option(BUILD_QCH "Build API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
+add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
 
 # TODO: remove for KF6
 option(KCALENDARCORE_NO_DEPRECATED_NAMESPACE "Disable deprecated KCalCore namespace" OFF)
