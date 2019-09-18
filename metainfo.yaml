@@ -13,4 +13,6 @@ libraries:
 cmakename: KF5CalendarCore
 
 public_lib: true
-group: kdepim
+group: Frameworks
+subgroup: Tier 1
+release: true
