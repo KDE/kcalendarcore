@@ -62,8 +62,8 @@ PRIVATE
 )
 
 set_target_properties(KF5CalendarCore PROPERTIES
-    VERSION ${KCALCORE_VERSION_STRING}
-    SOVERSION ${KCALCORE_SOVERSION}
+    VERSION ${KCALENDARCORE_VERSION}
+    SOVERSION ${KCALENDARCORE_SOVERSION}
     EXPORT_NAME CalendarCore
 )
 
@@ -160,7 +160,7 @@ if(BUILD_QCH)
         VERSION ${KCalendarCore_VERSION}
         ORG_DOMAIN org.kde
         SOURCES # using only public headers, to cover only public API
-            ${KCalCore_HEADERS}
+            ${KCalendarCore_HEADERS}
         MD_MAINPAGE "${CMAKE_SOURCE_DIR}/README.md"
         LINK_QCHS
             Qt5Core_QCH
