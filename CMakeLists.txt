@@ -54,12 +54,6 @@ endif()
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF5CalendarCore")
 
 if (BUILD_QCH)
-    ecm_install_qch_export(
-        TARGETS KF5CalendarCore_QCH
-        FILE KF5CalendarCoreQchTargets.cmake
-        DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
-        COMPONENT Devel
-    )
     set(PACKAGE_INCLUDE_QCHTARGETS "include(\"\${CMAKE_CURRENT_LIST_DIR}/KF5CalendarCoreQchTargets.cmake\")")
 endif()
 
@@ -97,6 +91,15 @@ install(EXPORT KF5CalendarCoreTargets
   FILE KF5CalendarCoreTargets.cmake
   NAMESPACE KF5::
 )
+
+if (BUILD_QCH)
+    ecm_install_qch_export(
+        TARGETS KF5CalendarCore_QCH
+        FILE KF5CalendarCoreQchTargets.cmake
+        DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
+        COMPONENT Devel
+    )
+endif()
 
 install(FILES
   ${CMAKE_CURRENT_BINARY_DIR}/kcalendarcore_version.h
