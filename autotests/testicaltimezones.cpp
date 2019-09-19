@@ -104,27 +104,12 @@ static const char *VTZ_other_DST
 static const char *VTZ_Prague
     = "BEGIN:VTIMEZONE\r\n"
       "TZID:Europe/Prague\r\n"
-      "BEGIN:STANDARD\r\n"
-      "TZNAME:CET\r\n"
+      "BEGIN:DAYLIGHT\r\n"
+      "TZNAME:CEST\r\n"
       "TZOFFSETFROM:+0000\r\n"
-      "TZOFFSETTO:+0100\r\n"
-      "DTSTART:19781231T230000\r\n"
-      "RDATE;VALUE=DATE-TIME:19781231T230000\r\n"
-      "END:STANDARD\r\n"
-      "BEGIN:DAYLIGHT\r\n"
-      "TZNAME:CEST\r\n"
-      "TZOFFSETFROM:+0100\r\n"
       "TZOFFSETTO:+0200\r\n"
-      "DTSTART:19810329T020000\r\n"
-      "RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3\r\n"
-      "END:DAYLIGHT\r\n"
-      "BEGIN:DAYLIGHT\r\n"
-      "TZNAME:CEST\r\n"
-      "TZOFFSETFROM:+0100\r\n"
-      "TZOFFSETTO:+0200\r\n"
-      "DTSTART:19790401T020000\r\n"
-      "RDATE;VALUE=DATE-TIME:19790401T020000\r\n"
-      "RDATE;VALUE=DATE-TIME:19800406T020000\r\n"
+      "DTSTART:19790401T010000\r\n"
+      "RDATE;VALUE=DATE-TIME:19790401T010000\r\n"
       "END:DAYLIGHT\r\n"
       "BEGIN:STANDARD\r\n"
       "TZNAME:CET\r\n"
@@ -141,6 +126,20 @@ static const char *VTZ_Prague
       "RRULE:FREQ=YEARLY;UNTIL=19961027T030000;COUNT=17;BYDAY=-1SU;BYMONTH=9\r\n"
       "RDATE;VALUE=DATE-TIME:19950924T030000\r\n"
       "END:STANDARD\r\n"
+      "BEGIN:DAYLIGHT\r\n"
+      "TZNAME:CEST\r\n"
+      "TZOFFSETFROM:+0100\r\n"
+      "TZOFFSETTO:+0200\r\n"
+      "DTSTART:19810329T020000\r\n"
+      "RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3\r\n"
+      "END:DAYLIGHT\r\n"
+      "BEGIN:DAYLIGHT\r\n"
+      "TZNAME:CEST\r\n"
+      "TZOFFSETFROM:+0100\r\n"
+      "TZOFFSETTO:+0200\r\n"
+      "DTSTART:19800406T020000\r\n"
+      "RDATE;VALUE=DATE-TIME:19800406T020000\r\n"
+      "END:DAYLIGHT\r\n"
       "END:VTIMEZONE\r\n";
 
 // CALENDAR component header and footer
@@ -212,8 +211,7 @@ void ICalTimeZonesTest::parse()
 
 void ICalTimeZonesTest::write()
 {
-    auto vtimezone = ICalTimeZoneParser::vcaltimezoneFromQTimeZone(QTimeZone("Europe/Prague"),
-                                                                   QDateTime::currentDateTimeUtc().addYears(-200));
+    auto vtimezone = ICalTimeZoneParser::vcaltimezoneFromQTimeZone(QTimeZone("Europe/Prague"), QDateTime({1970, 1, 1}, {0, 0}));
 #if defined(USE_ICAL_3)
     QCOMPARE(vtimezone, QByteArray(VTZ_Prague).replace(";VALUE=DATE-TIME", "")); //krazy:exclude=doublequote_chars
 #else
