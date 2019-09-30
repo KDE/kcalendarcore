@@ -149,8 +149,10 @@ public:
     /**
       Assignment operator.
       @param r the recurrence which will be assigned to this.
+      @deprecated Do not use, will be removed in KF6
+      @warning Broken implementation, do not use!
     */
-    Recurrence &operator=(const Recurrence &r);
+    Recurrence &operator=(const Recurrence &r); // TODO KF6 mark as deleted
 
     /** Return the start date/time of the recurrence (Time for all-day recurrences will be 0:00).
      @return the current start/time of the recurrence. */

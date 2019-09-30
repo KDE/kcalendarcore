@@ -157,6 +157,8 @@ Recurrence &Recurrence::operator=(const Recurrence &recurrence)
         return *this;
     }
 
+    // ### this copies the pointers in mExRules and mRRules eventually resulting in a double free!
+    // fortunately however this function is unused, we just can't remove it just yet, due to ABI guarantees
     *d = *recurrence.d;
     return *this;
 }
