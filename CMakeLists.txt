@@ -4,9 +4,14 @@ set(KF5_VERSION "5.63.0") # handled by release scripts
 project(KCalendarCore VERSION ${KF5_VERSION})
 
 # ECM setup
+include(FeatureSummary)
+find_package(ECM 5.62.0  NO_MODULE)
+set_package_properties(ECM PROPERTIES TYPE REQUIRED DESCRIPTION "Extra CMake Modules." URL "https://projects.kde.org/projects/kdesupport/extra-cmake-modules")
+feature_summary(WHAT REQUIRED_PACKAGES_NOT_FOUND FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
-find_package(ECM ${KF5_VERSION} CONFIG REQUIRED)
-set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${KCalendarCore_SOURCE_DIR}/cmake)
+set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+
+set(REQUIRED_QT_VERSION 5.11.0)
 
 include(KDEInstallDirs)
 include(KDECMakeSettings)
@@ -17,7 +22,6 @@ include(ECMGenerateHeaders)
 include(ECMGeneratePriFile)
 
 include(ECMSetupVersion)
-include(FeatureSummary)
 include(ECMQtDeclareLoggingCategory)
 include(ECMAddQch)
 
@@ -30,7 +34,6 @@ option(KCALENDARCORE_NO_DEPRECATED_NAMESPACE "Disable deprecated KCalCore namesp
 if(POLICY CMP0053)
   cmake_policy(SET CMP0053 NEW)
 endif()
-set(QT_REQUIRED_VERSION "5.11.0")
 
 set(KCALENDARCORE_LIB_VERSION ${KF5_VERSION})
 ecm_setup_version(PROJECT VARIABLE_PREFIX KCALENDARCORE
@@ -40,7 +43,7 @@ ecm_setup_version(PROJECT VARIABLE_PREFIX KCALENDARCORE
 )
 
 ########### Find packages ###########
-find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED Core Gui)
+find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Core Gui)
 
 set(LibIcal_MIN_VERSION "2.0")
 find_package(LibIcal ${LibIcal_MIN_VERSION})
