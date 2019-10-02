@@ -46,20 +46,8 @@ using namespace KCalendarCore;
 class Q_DECL_HIDDEN KCalendarCore::Event::Private
 {
 public:
-    Private()
-        : mTransparency(Opaque),
-          mMultiDayValid(false),
-          mMultiDay(false)
-    {}
-    Private(const KCalendarCore::Event::Private &other)
-        : mDtEnd(other.mDtEnd),
-          mTransparency(other.mTransparency),
-          mMultiDayValid(false),
-          mMultiDay(false)
-    {}
-
     QDateTime mDtEnd;
-    Transparency mTransparency;
+    Transparency mTransparency = Opaque;
     bool mMultiDayValid = false;
     bool mMultiDay = false;
 };
