@@ -40,9 +40,8 @@ Journal::Journal() : d(nullptr)
 {
 }
 
-Journal::~Journal()
-{
-}
+Journal::Journal(const Journal&) = default;
+Journal::~Journal() = default;
 
 Incidence::IncidenceType Journal::type() const
 {

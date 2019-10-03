@@ -63,6 +63,9 @@ public:
     */
     Journal();
 
+    /** Copy a journey object. */
+    Journal(const Journal&);
+
     /**
       Destroys a journal.
     */
@@ -154,7 +157,7 @@ private:
       virtual function assign().
       @param other is another Journal object to assign to this one.
      */
-    Journal &operator=(const Journal &other);
+    Journal &operator=(const Journal &other) = delete;
 
     // For polymorfic serialization
     void serialize(QDataStream &out) const override;
