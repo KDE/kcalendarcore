@@ -1409,4 +1409,6 @@ private:
 
 }
 
+Q_DECLARE_METATYPE(KCalendarCore::Calendar::Ptr)
+
 #endif
