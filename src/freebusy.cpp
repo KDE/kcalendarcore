@@ -107,10 +107,7 @@ FreeBusy::FreeBusy(const Event::List &events, const QDateTime &start, const QDat
 void FreeBusy::Private::init(const Event::List &eventList,
                              const QDateTime &start, const QDateTime &end)
 {
-    qint64 extraDays;
-    int i;
-    int x;
-    qint64 duration = start.daysTo(end);
+    const qint64 duration = start.daysTo(end);
     QDate day;
     QDateTime tmpStart;
     QDateTime tmpEnd;
@@ -152,7 +149,7 @@ void FreeBusy::Private::init(const Event::List &eventList,
         // This whole for loop is for recurring events, it loops through
         // each of the days of the freebusy request
 
-        for (i = 0; i <= duration; ++i) {
+        for (qint64 i = 0; i <= duration; ++i) {
             day = start.addDays(i).date();
             tmpStart.setDate(day);
             tmpEnd.setDate(day);
@@ -161,8 +158,8 @@ void FreeBusy::Private::init(const Event::List &eventList,
                 if (event->isMultiDay()) {
                     // FIXME: This doesn't work for sub-daily recurrences or recurrences with
                     //        a different time than the original event.
-                    extraDays = event->dtStart().daysTo(event->dtEnd());
-                    for (x = 0; x <= extraDays; ++x) {
+                    const qint64 extraDays = event->dtStart().daysTo(event->dtEnd());
+                    for (qint64 x = 0; x <= extraDays; ++x) {
                         if (event->recursOn(day.addDays(-x), start.timeZone())) {
                             tmpStart.setDate(day.addDays(-x));
                             tmpStart.setTime(event->dtStart().time());
