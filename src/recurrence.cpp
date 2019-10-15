@@ -150,6 +150,7 @@ bool Recurrence::operator==(const Recurrence &recurrence) const
     return *d == *recurrence.d;
 }
 
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 64)
 Recurrence &Recurrence::operator=(const Recurrence &recurrence)
 {
     // check for self assignment
@@ -162,6 +163,7 @@ Recurrence &Recurrence::operator=(const Recurrence &recurrence)
     *d = *recurrence.d;
     return *this;
 }
+#endif
 
 void Recurrence::addObserver(RecurrenceObserver *observer)
 {

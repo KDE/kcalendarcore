@@ -40,10 +40,17 @@ set(kcalcore_LIB_SRCS
 ecm_qt_declare_logging_category(kcalcore_LIB_SRCS HEADER kcalendarcore_debug.h IDENTIFIER KCALCORE_LOG CATEGORY_NAME org.kde.pim.kcalcore)
 
 add_library(KF5CalendarCore ${kcalcore_LIB_SRCS})
-
-generate_export_header(KF5CalendarCore BASE_NAME kcalendarcore)
-
 add_library(KF5::CalendarCore ALIAS KF5CalendarCore)
+
+ecm_generate_export_header(KF5CalendarCore
+    BASE_NAME kcalendarcore
+    # GROUP_BASE_NAME KF <- enable once all of KF modules use ecm_generate_export_header
+    VERSION ${KF5_VERSION}
+    DEPRECATED_BASE_VERSION 0
+    DEPRECATION_VERSIONS 5.64
+    EXCLUDE_DEPRECATED_BEFORE_AND_AT ${EXCLUDE_DEPRECATED_BEFORE_AND_AT}
+)
+
 
 # backward compatibility with the old name
 if (NOT KCALENDARCORE_NO_DEPRECATED_NAMESPACE)
