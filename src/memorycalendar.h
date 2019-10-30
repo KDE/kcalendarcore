@@ -72,6 +72,11 @@ public:
     void close() override;
 
     /**
+      @copydoc Calendar::doSetTimeZone()
+    */
+    void doSetTimeZone(const QTimeZone &timeZone) override;
+
+    /**
       @copydoc Calendar::deleteIncidence()
     */
     bool deleteIncidence(const Incidence::Ptr &incidence) override;

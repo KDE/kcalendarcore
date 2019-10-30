@@ -146,6 +146,21 @@ MemoryCalendar::~MemoryCalendar()
     delete d;
 }
 
+void MemoryCalendar::doSetTimeZone(const QTimeZone &timeZone)
+{
+    // Reset date based hashes before storing for the new zone.
+    d->mIncidencesForDate.clear();
+
+    for (auto it = d->mIncidences.constBegin(); it != d->mIncidences.constEnd(); ++it) {
+        for (auto incidence = it->constBegin(); incidence != it->constEnd(); ++incidence) {
+            const QDateTime dt = incidence.value()->dateTime(Incidence::RoleCalendarHashing);
+            if (dt.isValid()) {
+                d->mIncidencesForDate[incidence.value()->type()].insert(dt.toTimeZone(timeZone).date().toString(), incidence.value());
+            }
+        }
+    }
+}
+
 void MemoryCalendar::close()
 {
     setObserversEnabled(false);
@@ -186,7 +201,7 @@ bool MemoryCalendar::deleteIncidence(const Incidence::Ptr &incidence)
 
         const QDateTime dt = incidence->dateTime(Incidence::RoleCalendarHashing);
         if (dt.isValid()) {
-            d->mIncidencesForDate[type].remove(dt.date().toString(), incidence);
+            d->mIncidencesForDate[type].remove(dt.toTimeZone(timeZone()).date().toString(), incidence);
         }
         // Delete child-incidences.
         if (!incidence->hasRecurrenceId()) {
@@ -286,7 +301,7 @@ void MemoryCalendar::Private::insertIncidence(const Incidence::Ptr &incidence)
         mIncidencesByIdentifier.insert(incidence->instanceIdentifier(), incidence);
         const QDateTime dt = incidence->dateTime(Incidence::RoleCalendarHashing);
         if (dt.isValid()) {
-            mIncidencesForDate[type].insert(dt.date().toString(), incidence);
+            mIncidencesForDate[type].insert(dt.toTimeZone(q->timeZone()).date().toString(), incidence);
         }
 
     } else {
@@ -555,7 +570,7 @@ void MemoryCalendar::incidenceUpdate(const QString &uid, const QDateTime &recurr
         const QDateTime dt = inc->dateTime(Incidence::RoleCalendarHashing);
         if (dt.isValid()) {
             const Incidence::IncidenceType type = inc->type();
-            d->mIncidencesForDate[type].remove(dt.date().toString(), inc);
+            d->mIncidencesForDate[type].remove(dt.toTimeZone(timeZone()).date().toString(), inc);
         }
     }
 }
@@ -584,7 +599,7 @@ void MemoryCalendar::incidenceUpdated(const QString &uid, const QDateTime &recur
         const QDateTime dt = inc->dateTime(Incidence::RoleCalendarHashing);
         if (dt.isValid()) {
             const Incidence::IncidenceType type = inc->type();
-            d->mIncidencesForDate[type].insert(dt.date().toString(), inc);
+            d->mIncidencesForDate[type].insert(dt.toTimeZone(timeZone()).date().toString(), inc);
         }
 
         notifyIncidenceChanged(inc);
@@ -605,6 +620,12 @@ Event::List MemoryCalendar::rawEventsForDate(const QDate &date,
         return eventList;
     }
 
+    if (timeZone.isValid() && timeZone != this->timeZone()) {
+        // We cannot use the hash table on date, since time zone is different.
+        eventList = rawEvents(date, date, timeZone, false);
+        return Calendar::sortEvents(eventList, sortField, sortDirection);
+    }
+
     Event::Ptr ev;
 
     // Find the hash for the specified date
@@ -615,15 +636,7 @@ Event::List MemoryCalendar::rawEventsForDate(const QDate &date,
     const auto ts = timeZone.isValid() ? timeZone : this->timeZone();
     while (it != d->mIncidencesForDate[Incidence::TypeEvent].constEnd() && it.key() == dateStr) {
         ev = it.value().staticCast<Event>();
-        QDateTime end(ev->dtEnd().toTimeZone(ev->dtStart().timeZone()));
-        if (ev->allDay()) {
-            end.setTime(QTime());
-        } else {
-            end = end.addSecs(-1);
-        }
-        if (end.date() >= date) {
-            eventList.append(ev);
-        }
+        eventList.append(ev);
         ++it;
     }
 
@@ -648,7 +661,7 @@ Event::List MemoryCalendar::rawEventsForDate(const QDate &date,
             }
         } else {
             if (ev->isMultiDay()) {
-                if (ev->dtStart().date() <= date && ev->dtEnd().date() >= date) {
+                if (ev->dtStart().toTimeZone(ts).date() <= date && ev->dtEnd().toTimeZone(ts).date() >= date) {
                     eventList.append(ev);
                 }
             }

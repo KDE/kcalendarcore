@@ -34,6 +34,7 @@ private Q_SLOTS:
     void testRelationsCrash();
     void testRecurrenceExceptions();
     void testChangeRecurId();
+    void testRawEventsForDate();
 };
 
 #endif
