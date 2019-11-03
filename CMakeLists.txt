@@ -70,7 +70,6 @@ configure_package_config_file(
 
 
 add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050d00)
-add_definitions(-DQT_DEPRECATED_WARNINGS_SINCE=0x060000)
 
 add_definitions(-DQT_NO_FOREACH)
 
