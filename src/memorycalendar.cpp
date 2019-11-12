@@ -38,28 +38,7 @@
 
 #include <QDate>
 
-template <typename K, typename V>
-static QVector<V> values(const QMultiHash<K, V> &c)
-{
-    QVector<V> v;
-    v.reserve(c.size());
-    for (typename QMultiHash<K, V>::const_iterator it = c.begin(), end = c.end(); it != end; ++it) {
-        v.push_back(it.value());
-    }
-    return v;
-}
-
-template <typename K, typename V>
-static  QVector<V> values(const QMultiHash<K, V> &c, const K &x)
-{
-    QVector<V> v;
-    typename QMultiHash<K, V>::const_iterator it = c.find(x);
-    while (it != c.end() && it.key() == x) {
-        v.push_back(it.value());
-        ++it;
-    }
-    return v;
-}
+#include <functional>
 
 using namespace KCalendarCore;
 
@@ -70,6 +49,9 @@ using namespace KCalendarCore;
 //@cond PRIVATE
 class Q_DECL_HIDDEN KCalendarCore::MemoryCalendar::Private
 {
+private:
+    static constexpr int incidenceTypeCount = 4;
+
 public:
     Private(MemoryCalendar *qq)
         : q(qq), mFormat(nullptr)
@@ -83,11 +65,12 @@ public:
     CalFormat *mFormat;                    // calendar format
     QString mIncidenceBeingUpdated;        //  Instance identifier of Incidence currently being updated
 
+
     /**
      * List of all incidences.
      * First indexed by incidence->type(), then by incidence->uid();
      */
-    QMap<IncidenceBase::IncidenceType, QMultiHash<QString, Incidence::Ptr> > mIncidences;
+    QMultiHash<QString, Incidence::Ptr> mIncidences[incidenceTypeCount];
 
     /**
      * Has all incidences, indexed by identifier.
@@ -98,7 +81,7 @@ public:
      * List of all deleted incidences.
      * First indexed by incidence->type(), then by incidence->uid();
      */
-    QMap<IncidenceBase::IncidenceType, QMultiHash<QString, Incidence::Ptr> > mDeletedIncidences;
+    QMultiHash<QString, Incidence::Ptr> mDeletedIncidences[incidenceTypeCount];
 
     /**
      * Contains incidences ( to-dos; non-recurring, non-multiday events; journals; )
@@ -111,7 +94,7 @@ public:
      * but i merged them into one (indexed by type) because it simplifies code using
      * it. No need to if else based on type.
      */
-    QMap<IncidenceBase::IncidenceType, QMultiHash<QDate, IncidenceBase::Ptr> > mIncidencesForDate;
+    QMultiHash<QDate, Incidence::Ptr> mIncidencesForDate[incidenceTypeCount];
 
     void insertIncidence(const Incidence::Ptr &incidence);
 
@@ -124,6 +107,54 @@ public:
                                     IncidenceBase::IncidenceType type) const;
 
     void deleteAllIncidences(IncidenceBase::IncidenceType type);
+
+    template<typename IncidenceType, typename Key>
+    void forIncidences(const QMultiHash<Key, Incidence::Ptr> &incidences, const Key &key,
+                       std::function<void(const typename IncidenceType::Ptr &)> &&op) const {
+        for (auto it = incidences.constFind(key), end = incidences.cend(); it != end && it.key() == key; ++it) {
+            op(it.value().template staticCast<IncidenceType>());
+        }
+    }
+
+    template<typename IncidenceType, typename Key>
+    void forIncidences(const QMultiHash<Key, Incidence::Ptr> &incidences,
+                       std::function<void(const typename IncidenceType::Ptr &)> &&op) const {
+        for (const auto &incidence : incidences) {
+            op(incidence.template staticCast<IncidenceType>());
+        }
+    }
+
+    template<typename IncidenceType>
+    typename IncidenceType::List castIncidenceList(const QMultiHash<QString, Incidence::Ptr> &incidences) const {
+        typename IncidenceType::List list;
+        list.reserve(incidences.size());
+        std::transform(incidences.cbegin(), incidences.cend(), std::back_inserter(list),
+                       [](const Incidence::Ptr &inc) { return inc.staticCast<IncidenceType>(); });
+        return list;
+    }
+
+    template<typename IncidenceType>
+    typename IncidenceType::List incidenceInstances(IncidenceBase::IncidenceType type, const Incidence::Ptr &incidence) const {
+        typename IncidenceType::List list;
+        forIncidences<IncidenceType, QString>(mIncidences[type], incidence->uid(), [&list](const typename IncidenceType::Ptr &incidence) {
+            if (incidence->hasRecurrenceId()) {
+                list.push_back(incidence);
+            }
+        });
+        return list;
+    }
+
+    Incidence::Ptr findIncidence(const QMultiHash<QString, Incidence::Ptr> &incidences, const QString &uid, const QDateTime &recurrenceId) const {
+        for (auto it = incidences.constFind(uid), end = incidences.cend(); it != end && it.key() == uid; ++it) {
+            const auto &incidence = it.value();
+            if (recurrenceId.isNull() && !incidence->hasRecurrenceId()) {
+                return incidence;
+            } else if (!recurrenceId.isNull() && incidence->hasRecurrenceId() && recurrenceId == incidence->recurrenceId()) {
+                return incidence;
+            }
+        }
+        return {};
+    }
 
 };
 //@endcond
@@ -149,13 +180,15 @@ MemoryCalendar::~MemoryCalendar()
 void MemoryCalendar::doSetTimeZone(const QTimeZone &timeZone)
 {
     // Reset date based hashes before storing for the new zone.
-    d->mIncidencesForDate.clear();
+    for (auto &table : d->mIncidencesForDate) {
+        table.clear();
+    }
 
-    for (auto it = d->mIncidences.constBegin(); it != d->mIncidences.constEnd(); ++it) {
-        for (auto incidence = it->constBegin(); incidence != it->constEnd(); ++incidence) {
-            const QDateTime dt = incidence.value()->dateTime(Incidence::RoleCalendarHashing);
+    for (auto &table : d->mIncidences) {
+        for (const auto &incidence : table) {
+            const QDateTime dt = incidence->dateTime(Incidence::RoleCalendarHashing);
             if (dt.isValid()) {
-                d->mIncidencesForDate[incidence.value()->type()].insert(dt.toTimeZone(timeZone).date(), incidence.value());
+                d->mIncidencesForDate[incidence->type()].insert(dt.toTimeZone(timeZone).date(), incidence);
             }
         }
     }
@@ -172,7 +205,9 @@ void MemoryCalendar::close()
     d->deleteAllIncidences(Incidence::TypeJournal);
 
     d->mIncidencesByIdentifier.clear();
-    d->mDeletedIncidences.clear();
+    for (auto &table : d->mDeletedIncidences) {
+        table.clear();
+    }
 
     setModified(false);
 
@@ -187,12 +222,13 @@ bool MemoryCalendar::deleteIncidence(const Incidence::Ptr &incidence)
     removeRelations(incidence);
     const Incidence::IncidenceType type = incidence->type();
     const QString uid = incidence->uid();
-    if (d->mIncidences[type].contains(uid, incidence)) {
+    auto incidenceIt = d->mIncidences[type].constFind(uid);
+    if (incidenceIt != d->mIncidences[type].cend()) {
         // Notify while the incidence is still available,
         // this is necessary so korganizer still has time to query for exceptions
         notifyIncidenceAboutToBeDeleted(incidence);
 
-        d->mIncidences[type].remove(uid, incidence);
+        d->mIncidences[type].erase(incidenceIt);
         d->mIncidencesByIdentifier.remove(incidence->instanceIdentifier());
         setModified(true);
         if (deletionTracking()) {
@@ -217,19 +253,16 @@ bool MemoryCalendar::deleteIncidence(const Incidence::Ptr &incidence)
 
 bool MemoryCalendar::deleteIncidenceInstances(const Incidence::Ptr &incidence)
 {
-    const Incidence::IncidenceType type = incidence->type();
-    Incidence::List values = ::values(d->mIncidences[type], incidence->uid());
-    for (auto it = values.constBegin(); it != values.constEnd(); ++it) {
-        Incidence::Ptr i = *it;
-        if (i->hasRecurrenceId()) {
+    d->forIncidences<Incidence>(d->mIncidences[incidence->type()], incidence->uid(), [this](const Incidence::Ptr &incidence) {
+        if (incidence->hasRecurrenceId()) {
             qCDebug(KCALCORE_LOG) << "deleting child"
-                                  << ", type=" << int(type)
-                                  << ", uid=" << i->uid()
+                                  << ", type=" << int(incidence->type())
+                                  << ", uid=" << incidence->uid()
 //                   << ", start=" << i->dtStart()
                                   << " from calendar";
-            deleteIncidence(i);
+            deleteIncidence(incidence);
         }
-    }
+    });
 
     return true;
 }
@@ -237,11 +270,9 @@ bool MemoryCalendar::deleteIncidenceInstances(const Incidence::Ptr &incidence)
 //@cond PRIVATE
 void MemoryCalendar::Private::deleteAllIncidences(Incidence::IncidenceType incidenceType)
 {
-    QHashIterator<QString, Incidence::Ptr>i(mIncidences[incidenceType]);
-    while (i.hasNext()) {
-        i.next();
-        q->notifyIncidenceAboutToBeDeleted(i.value());
-        i.value()->unRegisterObserver(q);
+    for (auto &incidence : mIncidences[incidenceType]) {
+        q->notifyIncidenceAboutToBeDeleted(incidence);
+        incidence->unRegisterObserver(q);
     }
     mIncidences[incidenceType].clear();
     mIncidencesForDate[incidenceType].clear();
@@ -251,20 +282,7 @@ Incidence::Ptr MemoryCalendar::Private::incidence(const QString &uid,
         Incidence::IncidenceType type,
         const QDateTime &recurrenceId) const
 {
-    Incidence::List values = ::values(mIncidences[type], uid);
-    for (auto it = values.constBegin(); it != values.constEnd(); ++it) {
-        Incidence::Ptr i = *it;
-        if (recurrenceId.isNull()) {
-            if (!i->hasRecurrenceId()) {
-                return i;
-            }
-        } else {
-            if (i->hasRecurrenceId() && i->recurrenceId() == recurrenceId) {
-                return i;
-            }
-        }
-    }
-    return Incidence::Ptr();
+    return findIncidence(mIncidences[type], uid, recurrenceId);
 }
 
 Incidence::Ptr
@@ -276,20 +294,7 @@ MemoryCalendar::Private::deletedIncidence(const QString &uid,
         return Incidence::Ptr();
     }
 
-    Incidence::List values = ::values(mDeletedIncidences[type], uid);
-    for (auto it = values.constBegin(); it != values.constEnd(); ++it) {
-        Incidence::Ptr i = *it;
-        if (recurrenceId.isNull()) {
-            if (!i->hasRecurrenceId()) {
-                return i;
-            }
-        } else {
-            if (i->hasRecurrenceId() && i->recurrenceId() == recurrenceId) {
-                return i;
-            }
-        }
-    }
-    return Incidence::Ptr();
+    return findIncidence(mDeletedIncidences[type], uid, recurrenceId);
 }
 
 void MemoryCalendar::Private::insertIncidence(const Incidence::Ptr &incidence)
@@ -385,14 +390,7 @@ Todo::Ptr MemoryCalendar::deletedTodo(const QString &uid,
 Todo::List MemoryCalendar::rawTodos(TodoSortField sortField,
                                     SortDirection sortDirection) const
 {
-    Todo::List todoList;
-    todoList.reserve(d->mIncidences[Incidence::TypeTodo].count());
-    QHashIterator<QString, Incidence::Ptr>i(d->mIncidences[Incidence::TypeTodo]);
-    while (i.hasNext()) {
-        i.next();
-        todoList.append(i.value().staticCast<Todo>());
-    }
-    return Calendar::sortTodos(todoList, sortField, sortDirection);
+    return Calendar::sortTodos(d->castIncidenceList<Todo>(d->mIncidences[Incidence::TypeTodo]), sortField, sortDirection);
 }
 
 Todo::List MemoryCalendar::deletedTodos(TodoSortField sortField,
@@ -402,55 +400,30 @@ Todo::List MemoryCalendar::deletedTodos(TodoSortField sortField,
         return Todo::List();
     }
 
-    Todo::List todoList;
-    todoList.reserve(d->mDeletedIncidences[Incidence::TypeTodo].count());
-    QHashIterator<QString, Incidence::Ptr >i(d->mDeletedIncidences[Incidence::TypeTodo]);
-    while (i.hasNext()) {
-        i.next();
-        todoList.append(i.value().staticCast<Todo>());
-    }
-    return Calendar::sortTodos(todoList, sortField, sortDirection);
+    return Calendar::sortTodos(d->castIncidenceList<Todo>(d->mDeletedIncidences[Incidence::TypeTodo]), sortField, sortDirection);
 }
 
 Todo::List MemoryCalendar::todoInstances(const Incidence::Ptr &todo,
         TodoSortField sortField,
         SortDirection sortDirection) const
 {
-    Todo::List list;
-
-    Incidence::List values = ::values(d->mIncidences[Incidence::TypeTodo], todo->uid());
-    for (auto it = values.constBegin(); it != values.constEnd(); ++it) {
-        Todo::Ptr t = (*it).staticCast<Todo>();
-        if (t->hasRecurrenceId()) {
-            list.append(t);
-        }
-    }
-    return Calendar::sortTodos(list, sortField, sortDirection);
+    return Calendar::sortTodos(d->incidenceInstances<Todo>(Incidence::TypeTodo, todo), sortField, sortDirection);
 }
 
 Todo::List MemoryCalendar::rawTodosForDate(const QDate &date) const
 {
     Todo::List todoList;
-    Todo::Ptr t;
 
-    auto it = d->mIncidencesForDate[Incidence::TypeTodo].constFind(date);
-    while (it != d->mIncidencesForDate[Incidence::TypeTodo].constEnd() && it.key() == date) {
-        t = it.value().staticCast<Todo>();
-        todoList.append(t);
-        ++it;
-    }
+    d->forIncidences<Todo>(d->mIncidencesForDate[Incidence::TypeTodo], date, [&todoList](const Todo::Ptr &todo) {
+        todoList.append(todo);
+    });
 
     // Iterate over all todos. Look for recurring todoss that occur on this date
-    QHashIterator<QString, Incidence::Ptr >i(d->mIncidences[Incidence::TypeTodo]);
-    while (i.hasNext()) {
-        i.next();
-        t = i.value().staticCast<Todo>();
-        if (t->recurs()) {
-            if (t->recursOn(date, timeZone())) {
-                todoList.append(t);
-            }
+    d->forIncidences<Todo>(d->mIncidences[Incidence::TypeTodo], [this, &todoList, &date](const Todo::Ptr &todo) {
+        if (todo->recurs() && todo->recursOn(date, timeZone())) {
+            todoList.append(todo);
         }
-    }
+    });
 
     return todoList;
 }
@@ -468,11 +441,8 @@ Todo::List MemoryCalendar::rawTodos(const QDate &start,
     QDateTime nd(end, QTime(23, 59, 59, 999), ts);
 
     // Get todos
-    QHashIterator<QString, Incidence::Ptr >i(d->mIncidences[Incidence::TypeTodo]);
-    Todo::Ptr todo;
-    while (i.hasNext()) {
-        i.next();
-        todo = i.value().staticCast<Todo>();
+    for (const auto &incidence : d->mIncidences[Incidence::TypeTodo]) {
+        const auto todo = incidence.staticCast<Todo>();
         if (!isVisible(todo)) {
             continue;
         }
@@ -522,24 +492,16 @@ Alarm::List MemoryCalendar::alarms(const QDateTime &from, const QDateTime &to, b
 {
     Q_UNUSED(excludeBlockedAlarms);
     Alarm::List alarmList;
-    QHashIterator<QString, Incidence::Ptr>ie(d->mIncidences[Incidence::TypeEvent]);
-    Event::Ptr e;
-    while (ie.hasNext()) {
-        ie.next();
-        e = ie.value().staticCast<Event>();
+
+    d->forIncidences<Event>(d->mIncidences[Incidence::TypeEvent], [this, &alarmList, &from, &to](const Event::Ptr &e) {
         if (e->recurs()) {
             appendRecurringAlarms(alarmList, e, from, to);
         } else {
             appendAlarms(alarmList, e, from, to);
         }
-    }
+    });
 
-    QHashIterator<QString, Incidence::Ptr>it(d->mIncidences[Incidence::TypeTodo]);
-    Todo::Ptr t;
-    while (it.hasNext()) {
-        it.next();
-        t = it.value().staticCast<Todo>();
-
+    d->forIncidences<Todo>(d->mIncidences[IncidenceBase::TypeTodo], [this, &alarmList, &from, &to](const Todo::Ptr &t) {
         if (!t->isCompleted()) {
             appendAlarms(alarmList, t, from, to);
             if (t->recurs()) {
@@ -548,7 +510,7 @@ Alarm::List MemoryCalendar::alarms(const QDateTime &from, const QDateTime &to, b
                 appendAlarms(alarmList, t, from, to);
             }
         }
-    }
+    });
 
     return alarmList;
 }
@@ -622,24 +584,15 @@ Event::List MemoryCalendar::rawEventsForDate(const QDate &date,
         return Calendar::sortEvents(eventList, sortField, sortDirection);
     }
 
-    Event::Ptr ev;
-
-    // Find the hash for the specified date
-    const auto &eventsForDate = d->mIncidencesForDate[Incidence::TypeEvent];
-    auto it = eventsForDate.constFind(date);
     // Iterate over all non-recurring, single-day events that start on this date
-    const auto ts = timeZone.isValid() ? timeZone : this->timeZone();
-    while (it != eventsForDate.constEnd() && it.key() == date) {
-        ev = it.value().staticCast<Event>();
-        eventList.append(ev);
-        ++it;
-    }
+    d->forIncidences<Event>(d->mIncidencesForDate[Incidence::TypeEvent], date, [&eventList](const Event::Ptr &event) {
+       eventList.append(event);
+    });
 
     // Iterate over all events. Look for recurring events that occur on this date
-    QHashIterator<QString, Incidence::Ptr>i(d->mIncidences[Incidence::TypeEvent]);
-    while (i.hasNext()) {
-        i.next();
-        ev = i.value().staticCast<Event>();
+    const auto ts = timeZone.isValid() ? timeZone : this->timeZone();
+    for (const auto &event : d->mIncidences[Incidence::TypeEvent]) {
+        const auto ev = event.staticCast<Event>();
         if (ev->recurs()) {
             if (ev->isMultiDay()) {
                 int extraDays = ev->dtStart().date().daysTo(ev->dtEnd().date());
@@ -677,11 +630,8 @@ Event::List MemoryCalendar::rawEvents(const QDate &start,
     QDateTime nd(end, QTime(23, 59, 59, 999), ts);
 
     // Get non-recurring events
-    QHashIterator<QString, Incidence::Ptr>i(d->mIncidences[Incidence::TypeEvent]);
-    Event::Ptr event;
-    while (i.hasNext()) {
-        i.next();
-        event = i.value().staticCast<Event>();
+    for (const auto &e: d->mIncidences[Incidence::TypeEvent]) {
+        const auto event = e.staticCast<Event>();
         QDateTime rStart = event->dtStart();
         if (nd < rStart) {
             continue;
@@ -735,14 +685,7 @@ Event::List MemoryCalendar::rawEventsForDate(const QDateTime &kdt) const
 Event::List MemoryCalendar::rawEvents(EventSortField sortField,
                                       SortDirection sortDirection) const
 {
-    Event::List eventList;
-    eventList.reserve(d->mIncidences[Incidence::TypeEvent].count());
-    QHashIterator<QString, Incidence::Ptr> i(d->mIncidences[Incidence::TypeEvent]);
-    while (i.hasNext()) {
-        i.next();
-        eventList.append(i.value().staticCast<Event>());
-    }
-    return Calendar::sortEvents(eventList, sortField, sortDirection);
+    return Calendar::sortEvents(d->castIncidenceList<Event>(d->mIncidences[Incidence::TypeEvent]), sortField, sortDirection);
 }
 
 Event::List MemoryCalendar::deletedEvents(EventSortField sortField,
@@ -752,30 +695,14 @@ Event::List MemoryCalendar::deletedEvents(EventSortField sortField,
         return Event::List();
     }
 
-    Event::List eventList;
-    eventList.reserve(d->mDeletedIncidences[Incidence::TypeEvent].count());
-    QHashIterator<QString, Incidence::Ptr>i(d->mDeletedIncidences[Incidence::TypeEvent]);
-    while (i.hasNext()) {
-        i.next();
-        eventList.append(i.value().staticCast<Event>());
-    }
-    return Calendar::sortEvents(eventList, sortField, sortDirection);
+    return Calendar::sortEvents(d->castIncidenceList<Event>(d->mDeletedIncidences[Incidence::TypeEvent]), sortField, sortDirection);
 }
 
 Event::List MemoryCalendar::eventInstances(const Incidence::Ptr &event,
         EventSortField sortField,
         SortDirection sortDirection) const
 {
-    Event::List list;
-
-    Incidence::List values = ::values(d->mIncidences[Incidence::TypeEvent], event->uid());
-    for (auto it = values.constBegin(); it != values.constEnd(); ++it) {
-        Event::Ptr ev = (*it).staticCast<Event>();
-        if (ev->hasRecurrenceId()) {
-            list.append(ev);
-        }
-    }
-    return Calendar::sortEvents(list, sortField, sortDirection);
+    return Calendar::sortEvents(d->incidenceInstances<Event>(Incidence::TypeEvent, event), sortField, sortDirection);
 }
 
 bool MemoryCalendar::addJournal(const Journal::Ptr &journal)
@@ -807,13 +734,7 @@ Journal::Ptr MemoryCalendar::deletedJournal(const QString &uid, const QDateTime 
 Journal::List MemoryCalendar::rawJournals(JournalSortField sortField,
         SortDirection sortDirection) const
 {
-    Journal::List journalList;
-    QHashIterator<QString, Incidence::Ptr>i(d->mIncidences[Incidence::TypeJournal]);
-    while (i.hasNext()) {
-        i.next();
-        journalList.append(i.value().staticCast<Journal>());
-    }
-    return Calendar::sortJournals(journalList, sortField, sortDirection);
+    return Calendar::sortJournals(d->castIncidenceList<Journal>(d->mIncidences[Incidence::TypeJournal]), sortField, sortDirection);
 }
 
 Journal::List MemoryCalendar::deletedJournals(JournalSortField sortField,
@@ -823,43 +744,24 @@ Journal::List MemoryCalendar::deletedJournals(JournalSortField sortField,
         return Journal::List();
     }
 
-    Journal::List journalList;
-    journalList.reserve(d->mDeletedIncidences[Incidence::TypeJournal].count());
-    QHashIterator<QString, Incidence::Ptr>i(d->mDeletedIncidences[Incidence::TypeJournal]);
-    while (i.hasNext()) {
-        i.next();
-        journalList.append(i.value().staticCast<Journal>());
-    }
-    return Calendar::sortJournals(journalList, sortField, sortDirection);
+    return Calendar::sortJournals(d->castIncidenceList<Journal>(d->mDeletedIncidences[Incidence::TypeJournal]), sortField, sortDirection);
 }
 
 Journal::List MemoryCalendar::journalInstances(const Incidence::Ptr &journal,
         JournalSortField sortField,
         SortDirection sortDirection) const
 {
-    Journal::List list;
-
-    Incidence::List values = ::values(d->mIncidences[Incidence::TypeJournal], journal->uid());
-    for (auto it = values.constBegin(); it != values.constEnd(); ++it) {
-        Journal::Ptr j = (*it).staticCast<Journal>();
-        if (j->hasRecurrenceId()) {
-            list.append(j);
-        }
-    }
-    return Calendar::sortJournals(list, sortField, sortDirection);
+    return Calendar::sortJournals(d->incidenceInstances<Journal>(Incidence::TypeJournal, journal), sortField, sortDirection);
 }
 
 Journal::List MemoryCalendar::rawJournalsForDate(const QDate &date) const
 {
     Journal::List journalList;
-    Journal::Ptr j;
 
-    auto it = d->mIncidencesForDate[Incidence::TypeJournal].constFind(date);
-    while (it != d->mIncidencesForDate[Incidence::TypeJournal].constEnd() && it.key() == date) {
-        j = it.value().staticCast<Journal>();
-        journalList.append(j);
-        ++it;
-    }
+    d->forIncidences<Journal>(d->mIncidencesForDate[Incidence::TypeJournal], date, [&journalList](const Journal::Ptr &journal) {
+        journalList.append(journal);
+    });
+
     return journalList;
 }
 
