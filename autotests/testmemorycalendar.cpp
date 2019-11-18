@@ -41,6 +41,13 @@ void MemoryCalendarTest::testValidity()
     cal->close();
 }
 
+void MemoryCalendarTest::testInvalidTimeZone()
+{
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone()));
+    // On invalid time zone, fallback to system time zone.
+    QVERIFY(cal->timeZone() == QTimeZone::systemTimeZone());
+}
+
 void MemoryCalendarTest::testEvents()
 {
     MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));

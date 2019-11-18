@@ -29,6 +29,7 @@ class MemoryCalendarTest : public QObject
     Q_OBJECT
 private Q_SLOTS:
     void testValidity();
+    void testInvalidTimeZone();
     void testEvents();
     void testIncidences();
     void testRelationsCrash();

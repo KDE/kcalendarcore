@@ -141,7 +141,11 @@ private:
 Calendar::Calendar(const QTimeZone &timeZone)
     : d(new KCalendarCore::Calendar::Private)
 {
-    d->mTimeZone = timeZone;
+    if (timeZone.isValid()) {
+        d->mTimeZone = timeZone;
+    } else {
+        d->mTimeZone = QTimeZone::systemTimeZone();
+    }
 }
 
 Calendar::Calendar(const QByteArray &timeZoneId)
@@ -168,7 +172,11 @@ void Calendar::setOwner(const Person &owner)
 
 void Calendar::setTimeZone(const QTimeZone &timeZone)
 {
-    d->mTimeZone = timeZone;
+    if (timeZone.isValid()) {
+        d->mTimeZone = timeZone;
+    } else {
+        d->mTimeZone = QTimeZone::systemTimeZone();
+    }
 
     doSetTimeZone(d->mTimeZone);
 }
