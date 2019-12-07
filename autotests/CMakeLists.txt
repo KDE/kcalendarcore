@@ -77,7 +77,9 @@ else()
   file(GLOB_RECURSE compatFiles data/Compat-libical3/*.ics)
 endif()
 
-find_program(PERL_EXECUTABLE perl)
+if(WIN32)
+  find_program(PERL_EXECUTABLE perl)
+endif()
 
 macro(kcalcore_run_single_test _prefix _f _test _testarg)
   get_filename_component(_fn ${_f} NAME)
@@ -87,7 +89,10 @@ macro(kcalcore_run_single_test _prefix _f _test _testarg)
   get_filename_component(_outputPath ${_outFile} PATH)
   file(MAKE_DIRECTORY ${_outputPath})
 
-  set(_runner ${PERL_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/runsingletestcase.pl)
+  set(_runner ${CMAKE_CURRENT_SOURCE_DIR}/runsingletestcase.pl)
+  if(WIN32)
+    set(_runner ${PERL_EXECUTABLE} ${_runner})
+  endif()
   add_test(NAME ${_prefix}-${_fn} COMMAND ${_runner} $<TARGET_FILE:${_test}> ${_testarg} ${_f} ${_outFile})
 endmacro()
 
