@@ -33,6 +33,8 @@ private Q_SLOTS:
     void testSubDailyRecurrenceIntervalInclusive();
     void testSubDailyRecurrence2();
     void testSubDailyRecurrenceIntervalLimits();
+    void testLocalTimeHandlingNonAllDay();
+    void testLocalTimeHandlingAllDay();
 };
 
 #endif
