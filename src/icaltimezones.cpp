@@ -386,7 +386,6 @@ icalcomponent *ICalTimeZoneParser::icalcomponentFromQTimeZone(const QTimeZone &t
                     icalrecurrencetype r;
                     icalrecurrencetype_clear(&r);
                     r.freq = ICAL_YEARLY_RECURRENCE;
-                    r.count = (year >= 2030) ? 0 : times.count() - 1;
                     r.by_month[0] = month;
                     if (rule & DAY_OF_MONTH) {
                         r.by_month_day[0] = dayOfMonth;
