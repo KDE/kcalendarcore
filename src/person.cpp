@@ -35,8 +35,9 @@
 
 #include "person.h"
 #include "person_p.h"
-#include <QRegExp>
+
 #include <QDataStream>
+#include <QRegularExpression>
 
 using namespace KCalendarCore;
 
@@ -104,7 +105,7 @@ QString KCalendarCore::fullNameHelper(const QString &name, const QString &email)
     }
     // Taken from KContacts::Addressee::fullEmail
     QString fullName = name;
-    QRegExp needQuotes(QStringLiteral("[^ 0-9A-Za-z\\x0080-\\xFFFF]"));
+    const QRegularExpression needQuotes(QStringLiteral("[^ 0-9A-Za-z\\x{0080}-\\x{FFFF}]"));
     bool weNeedToQuote = name.indexOf(needQuotes) != -1;
     if (weNeedToQuote) {
         if (fullName[0] != QLatin1Char('"')) {

@@ -37,7 +37,7 @@
 
 #include "kcalendarcore_debug.h"
 
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QString>
 #include <QDate>
 
@@ -54,7 +54,7 @@ Compat *CompatFactory::createCompat(const QString &productId,
     if (korg >= 0) {
         int versionStart = productId.indexOf(QLatin1Char(' '), korg);
         if (versionStart >= 0) {
-            int versionStop = productId.indexOf(QRegExp(QStringLiteral("[ /]")), versionStart + 1);
+            int versionStop = productId.indexOf(QRegularExpression(QStringLiteral("[ /]")), versionStart + 1);
             if (versionStop >= 0) {
                 QString version = productId.mid(versionStart + 1,
                                                 versionStop - versionStart - 1);
@@ -117,7 +117,7 @@ void Compat::fixEmptySummary(const Incidence::Ptr &incidence)
     if (incidence->summary().isEmpty() && !(incidence->description().isEmpty())) {
         QString oldDescription = incidence->description().trimmed();
         QString newSummary(oldDescription);
-        newSummary.remove(QRegExp(QStringLiteral("\n.*")));
+        newSummary.remove(QRegularExpression(QStringLiteral("\n.*")));
         incidence->setSummary(newSummary);
         if (oldDescription == newSummary) {
             incidence->setDescription(QLatin1String(""));
