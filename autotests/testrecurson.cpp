@@ -97,7 +97,7 @@ int main(int argc, char **argv)
             int nr = 0;
             while (dt.year() <= 2020 && nr <= 500) {
                 if (incidence->recursOn(dt, viewZone)) {
-                    (*outstream) << dt.toString(Qt::ISODate) << endl;
+                    (*outstream) << dt.toString(Qt::ISODate) << '\n';
                     nr++;
                 }
                 dt = dt.addDays(1);
