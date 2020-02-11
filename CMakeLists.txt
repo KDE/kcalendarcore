@@ -120,6 +120,4 @@ if (NOT KCALENDARCORE_NO_DEPRECATED_NAMESPACE)
   )
 endif()
 
-install(FILES kcalendarcore.renamecategories kcalendarcore.categories  DESTINATION  ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
-
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

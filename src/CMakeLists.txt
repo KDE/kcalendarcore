@@ -37,7 +37,14 @@ set(kcalcore_LIB_SRCS
   vcalformat.cpp
   visitor.cpp
 )
-ecm_qt_declare_logging_category(kcalcore_LIB_SRCS HEADER kcalendarcore_debug.h IDENTIFIER KCALCORE_LOG CATEGORY_NAME org.kde.pim.kcalcore)
+ecm_qt_declare_logging_category(kcalcore_LIB_SRCS
+    HEADER kcalendarcore_debug.h
+    IDENTIFIER KCALCORE_LOG
+    CATEGORY_NAME org.kde.pim.kcalcore
+    OLD_CATEGORY_NAMES log_kcalcore
+    DESCRIPTION "kcalcore (pim lib)"
+    EXPORT KCALENDARCORE
+)
 
 add_library(KF5CalendarCore ${kcalcore_LIB_SRCS})
 add_library(KF5::CalendarCore ALIAS KF5CalendarCore)
@@ -155,6 +162,12 @@ if (NOT KCALENDARCORE_NO_DEPRECATED_NAMESPACE)
     COMPONENT Devel
   )
 endif()
+
+ecm_qt_install_logging_categories(
+    EXPORT KCALENDARCORE
+    FILE_NAME kcalendarcore.categories
+    DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR}
+)
 
 ecm_generate_pri_file(BASE_NAME KCalendarCore LIB_NAME KF5CalendarCore DEPS "Core" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF5}/KCalendarCore/KCalendarCore)
 install(FILES ${PRI_FILENAME} DESTINATION ${ECM_MKSPECS_INSTALL_DIR})
