@@ -165,7 +165,7 @@ endif()
 
 ecm_qt_install_logging_categories(
     EXPORT KCALENDARCORE
-    FILE_NAME kcalendarcore.categories
+    FILE kcalendarcore.categories
     DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR}
 )
 
