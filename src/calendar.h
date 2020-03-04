@@ -484,6 +484,13 @@ public:
     Q_REQUIRED_RESULT bool isVisible(const Incidence::Ptr &incidence) const;
 
     /**
+      Check if notebook is visible.
+      @param notebook notebook uid.
+      @return true if notebook is visible, false otherwise
+    */
+    Q_REQUIRED_RESULT bool isVisible(const QString &notebook) const;
+
+    /**
       List all notebook incidences in the memory.
 
       @param notebook is the notebook uid.

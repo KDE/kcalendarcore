@@ -307,3 +307,22 @@ void MemoryCalendarTest::testRawEventsForDate()
 
     cal->close();
 }
+
+void MemoryCalendarTest::testVisibility()
+{
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+    const QString notebook = QLatin1String("Notebook");
+
+    QVERIFY(cal->addNotebook(notebook, true));
+    QVERIFY(cal->isVisible(notebook));
+
+    Event::Ptr event = Event::Ptr(new Event());
+    QVERIFY(cal->addIncidence(event));
+    QVERIFY(cal->setNotebook(event, notebook));
+
+    QVERIFY(cal->isVisible(event));
+
+    QVERIFY(cal->updateNotebook(notebook, false));
+    QVERIFY(!cal->isVisible(notebook));
+    QVERIFY(!cal->isVisible(event));
+}
