@@ -382,7 +382,7 @@ bool Calendar::isVisible(const Incidence::Ptr &incidence) const
 
 bool Calendar::isVisible(const QString &notebook) const
 {
-    QHash<QString, bool>::ConstIterator it = d->mNotebooks.find(notebook);
+    QHash<QString, bool>::ConstIterator it = d->mNotebooks.constFind(notebook);
     return (it != d->mNotebooks.constEnd()) ? *it : true;
 }
 
