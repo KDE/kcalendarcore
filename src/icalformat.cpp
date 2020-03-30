@@ -73,19 +73,24 @@ bool ICalFormat::load(const Calendar::Ptr &calendar, const QString &fileName)
 
     QFile file(fileName);
     if (!file.open(QIODevice::ReadOnly)) {
-        qCritical() << "load error";
+        qCritical() << "load error: unable to open " << fileName;
         setException(new Exception(Exception::LoadError));
         return false;
     }
     const QByteArray text = file.readAll().trimmed();
     file.close();
 
-    if (text.isEmpty()) {
-        // empty files are valid
-        return true;
-    } else {
-        return fromRawString(calendar, text, false, fileName);
+    if (!text.isEmpty()) {
+        if (!fromRawString(calendar, text, false, fileName)) {
+            qCWarning(KCALCORE_LOG) << fileName << " is not a valid iCalendar file";
+            setException(new Exception(Exception::ParseErrorIcal));
+            return false;
+        }
     }
+
+    // Note: we consider empty files to be valid
+
+    return true;
 }
 
 bool ICalFormat::save(const Calendar::Ptr &calendar, const QString &fileName)

@@ -109,15 +109,20 @@ bool FileStorage::load()
             productId = iCal.loadedProductId();
         } else {
             if (iCal.exception()) {
-                if (iCal.exception()->code() == Exception::CalVersion1) {
-                    // Expected non vCalendar file, but detected vCalendar
-                    qCDebug(KCALCORE_LOG) << "Fallback to VCalFormat";
+                if ((iCal.exception()->code() == Exception::ParseErrorIcal) ||
+                    (iCal.exception()->code() == Exception::CalVersion1)) {
+                    // Possible vCalendar or invalid iCalendar encountered
+                    qCDebug(KCALCORE_LOG) << d->mFileName
+                                          << " is an invalid iCalendar or possibly a vCalendar.";
+                    qCDebug(KCALCORE_LOG) << "Try to load it as a vCalendar";
                     VCalFormat vCal;
                     success = vCal.load(calendar(), d->mFileName);
                     productId = vCal.loadedProductId();
                     if (!success) {
                         if (vCal.exception()) {
-                            qCWarning(KCALCORE_LOG) << "Exception while importing:" << vCal.exception()->code();
+                            qCWarning(KCALCORE_LOG) << d->mFileName
+                                                    << " is not a valid vCalendar file."
+                                                    << " exception code " << vCal.exception()->code();
                         }
                         return false;
                     }
