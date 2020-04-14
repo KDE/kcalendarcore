@@ -12,6 +12,7 @@ target_sources(KF5CalendarCore PRIVATE
   attachment.cpp
   attendee.cpp
   calendar.cpp
+  calendarplugin.cpp
   calfilter.cpp
   calformat.cpp
   calstorage.cpp
@@ -90,6 +91,7 @@ set(kcalendarcore_headers
   CalFormat
   CalStorage
   Calendar
+  CalendarPlugin
   Conference
   CustomProperties
   Duration
