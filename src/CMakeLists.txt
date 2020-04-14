@@ -6,6 +6,7 @@ set(kcalcore_LIB_SRCS
   attachment.cpp
   attendee.cpp
   calendar.cpp
+  calendarplugin.cpp
   calfilter.cpp
   calformat.cpp
   calstorage.cpp
@@ -93,6 +94,7 @@ set(kcalendarcore_headers
   CalFormat
   CalStorage
   Calendar
+  CalendarPlugin
   Conference
   CustomProperties
   Duration
