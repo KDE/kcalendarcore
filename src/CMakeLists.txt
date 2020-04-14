@@ -75,8 +75,8 @@ target_include_directories(KF5CalendarCore PUBLIC "$<BUILD_INTERFACE:${KCalendar
 target_link_libraries(KF5CalendarCore
 PUBLIC
     Qt5::Core
-PRIVATE
     Qt5::Gui
+PRIVATE
     LibIcal
 )
 

@@ -43,6 +43,7 @@ This API needs serious cleaning up:
 #include "todo.h"
 
 #include <QDateTime>
+#include <QIcon>
 #include <QObject>
 #include <QTimeZone>
 
@@ -95,6 +96,15 @@ enum JournalSortField {
 };
 
 /**
+  The calendar's access mode, i.e. whether it can be written to or is read only.
+  @since 5.85
+*/
+enum AccessMode {
+    ReadOnly,
+    ReadWrite,
+};
+
+/**
   @brief
   Represents the main calendar class.
 
@@ -121,6 +131,10 @@ class KCALENDARCORE_EXPORT Calendar : public QObject, public CustomProperties, p
     Q_OBJECT
     Q_PROPERTY(QString productId READ productId WRITE setProductId) // clazy:exclude=qproperty-without-notify
     Q_PROPERTY(KCalendarCore::Person owner READ owner WRITE setOwner)
+    Q_PROPERTY(QString id READ id WRITE setId NOTIFY idChanged)
+    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
+    Q_PROPERTY(QIcon icon READ icon WRITE setIcon NOTIFY iconChanged)
+    Q_PROPERTY(AccessMode accessMode READ accessMode WRITE setAccessMode NOTIFY accessModeChanged)
 
 public:
     /**
@@ -262,6 +276,63 @@ public:
       @see setModified()
     */
     Q_REQUIRED_RESULT bool isModified() const;
+
+    /**
+     * A unique identifier for this calendar.
+     * @since 5.85
+     * @see setId()
+     */
+    QString id() const;
+
+    /**
+     * set a unique identifier for this calendar.
+     * @since 5.85
+     * @see id()
+     */
+    void setId(const QString &id);
+
+    /**
+     * The user-visible name for this calendar.
+     * @since 5.85
+     * @see setName()
+     */
+    QString name() const;
+
+    /**
+     * Set the user-visible name for this calendar.
+     * @since 5.85
+     * @see name()
+     */
+    void setName(const QString &name);
+
+    /**
+     * This calendar's icon.
+     * @since 5.85
+     * @see setIconName()
+     */
+    QIcon icon() const;
+
+    /**
+     * Set this calendar's icon.
+     * @since 5.85
+     * @see icon()
+     */
+    void setIcon(const QIcon &icon);
+
+    /**
+     * This calendar's AccessMode, i.e. whether it is writable or read-only.
+     * Defaults to ReadWrite.
+     * @since 5.85
+     * @see setAccessMode()
+     */
+    AccessMode accessMode() const;
+
+    /**
+     * Set this calendar's AccessMode, i.e. whether it is writable or read-only.
+     * @since 5.85
+     * @see accessMode()
+     */
+    void setAccessMode(const AccessMode mode);
 
     /**
       Clears out the current calendar, freeing all used memory etc.
@@ -1346,6 +1417,34 @@ Q_SIGNALS:
       @since 4.11
      */
     void filterChanged();
+
+    /**
+     * Emitted when the id changes.
+     * @since 5.85
+     * @see id()
+     */
+    void idChanged();
+
+    /**
+     * Emitted when the name changes.
+     * @since 5.85
+     * @see name()
+     */
+    void nameChanged();
+
+    /**
+     * Emitted when the icon name changes.
+     * @since 5.85
+     * @see icon()
+     */
+    void iconChanged();
+
+    /**
+     * Emitted when the AccessMode changes.
+     * @since 5.85
+     * @see accessMode()
+     */
+    void accessModeChanged();
 
 private:
     friend class ICalFormat;

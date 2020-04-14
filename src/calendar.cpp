@@ -1352,3 +1352,53 @@ void Calendar::virtual_hook(int id, void *data)
     Q_UNUSED(data);
     Q_ASSERT(false);
 }
+
+QString Calendar::id() const
+{
+    return d->mId;
+}
+
+void Calendar::setId(const QString &id)
+{
+    if (d->mId != id) {
+        d->mId = id;
+        Q_EMIT idChanged();
+    }
+}
+
+QString Calendar::name() const
+{
+    return d->mName;
+}
+
+void Calendar::setName(const QString &name)
+{
+    if (d->mName != name) {
+        d->mName = name;
+        Q_EMIT nameChanged();
+    }
+}
+
+QIcon Calendar::icon() const
+{
+    return d->mIcon;
+}
+
+void Calendar::setIcon(const QIcon &icon)
+{
+    d->mIcon = icon;
+    Q_EMIT iconChanged();
+}
+
+AccessMode Calendar::accessMode() const
+{
+    return d->mAccessMode;
+}
+
+void Calendar::setAccessMode(const AccessMode mode)
+{
+    if (d->mAccessMode != mode) {
+        d->mAccessMode = mode;
+        Q_EMIT accessModeChanged();
+    }
+}
