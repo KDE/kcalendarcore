@@ -242,9 +242,8 @@ icalcomponent *ICalFormatImpl::writeTodo(const Todo::Ptr &todo, TimeZoneList *tz
         icalcomponent_add_property(vtodo, icalproperty_new_status(ICAL_STATUS_COMPLETED));
     }
 
-    if (todo->recurs() && todo->dtDue().isValid()) {
-        // dtDue( first = true ) returns the dtRecurrence()
-        prop = writeICalDateTimeProperty(ICAL_X_PROPERTY, todo->dtDue(), tzUsedList);
+    if (todo->recurs() && todo->dtStart(false).isValid()) {
+        prop = writeICalDateTimeProperty(ICAL_X_PROPERTY, todo->dtStart(false), tzUsedList);
         icalproperty_set_x_name(prop, "X-KDE-LIBKCAL-DTRECURRENCE");
         icalcomponent_add_property(vtodo, prop);
     }

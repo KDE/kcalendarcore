@@ -20,6 +20,7 @@ macro_unit_tests(
   testattendee
   testcalfilter
   testcustomproperties
+  testdateserialization
   testduration
   testevent
   testincidence
