@@ -240,10 +240,11 @@ public:
      */
     Q_REQUIRED_RESULT QList<QDateTime> timesInInterval(const QDateTime &start, const QDateTime &end) const;
 
-    /** Returns the date and time of the next recurrence, after the specified date/time.
+    /** Returns the start date/time of the earliest recurrence with a start date/time after
+     * the specified date/time.
      * If the recurrence has no time, the next date after the specified date is returned.
      * @param preDateTime the date/time after which to find the recurrence.
-     * @return date/time of next recurrence (strictly later than the given
+     * @return start date/time of next recurrence (strictly later than the given
      *         QDateTime), or invalid date if none.
      */
     Q_REQUIRED_RESULT QDateTime getNextDateTime(const QDateTime &preDateTime) const;

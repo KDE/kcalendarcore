@@ -21,6 +21,7 @@ private Q_SLOTS:
     void testDtStart();
     void testRecurrenceBasedOnDtStart();
     void testRecurrenceBasedOnDue();
+    void testRecurrenceExdates();
     void testRecurrenceStart();
     void testHasDueDate();
 

@@ -227,6 +227,7 @@ void RecurTodoTest::testRecurrenceBasedOnDtStart()
     todo->recurrence()->setDaily(1);
     todo->recurrence()->setDuration(3);
 
+    QCOMPARE(todo->recurrence()->getNextDateTime(dtstart.addMSecs(-1)), dtstart);
     QCOMPARE(todo->recurrence()->getNextDateTime(dtstart), dtstart.addDays(1));
     QCOMPARE(todo->recurrence()->getNextDateTime(dtstart.addDays(1)), dtstart.addDays(2));
     QCOMPARE(todo->recurrence()->getNextDateTime(dtstart.addDays(2)), QDateTime());
@@ -243,7 +244,32 @@ void RecurTodoTest::testRecurrenceBasedOnDue()
     todo->recurrence()->setDaily(1);
     todo->recurrence()->setDuration(3);
 
+    QCOMPARE(todo->recurrence()->getNextDateTime(dtdue.addMSecs(-1)), dtdue);
     QCOMPARE(todo->recurrence()->getNextDateTime(dtdue), dtdue.addDays(1));
     QCOMPARE(todo->recurrence()->getNextDateTime(dtdue.addDays(1)), dtdue.addDays(2));
     QCOMPARE(todo->recurrence()->getNextDateTime(dtdue.addDays(2)), QDateTime());
+}
+
+/** Test that occurrances specified by a recurrence rule are eliminated by
+ * exception dates.
+ */
+void RecurTodoTest::testRecurrenceExdates()
+{
+    const QDateTime dtstart(QDate(2013, 03, 10), QTime(10, 0, 0), Qt::UTC);
+    const QDateTime dtdue(QDate(2013, 03, 10), QTime(11, 0, 0), Qt::UTC);
+
+    KCalendarCore::Todo::Ptr todo(new KCalendarCore::Todo());
+    todo->setUid(QStringLiteral("todo"));
+    todo->setDtStart(dtstart);
+    todo->setDtDue(dtdue);
+    todo->recurrence()->setDaily(1);
+    todo->recurrence()->setDuration(3);
+
+    // Test for boundary errors.
+    todo->recurrence()->addExDateTime(dtstart);
+    todo->recurrence()->addExDateTime(dtstart.addDays(2));
+
+    QCOMPARE(todo->recurrence()->getNextDateTime(dtstart.addMSecs(-1)), dtstart.addDays(1));
+    QCOMPARE(todo->recurrence()->getNextDateTime(dtstart.addDays(1)), QDateTime());
+
 }
