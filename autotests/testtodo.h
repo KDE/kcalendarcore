@@ -27,6 +27,9 @@ private Q_SLOTS:
     void testSerializer_data();
     void testSerializer();
     void testRoles();
+    void testIconNameOneoff();
+    void testIconNameRecurringNeverDue();
+    void testIconNameRecurringDue();
 };
 
 #endif

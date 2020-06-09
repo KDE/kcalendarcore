@@ -271,3 +271,46 @@ void TodoTest::testRoles()
     QCOMPARE(todo.dateTime(Incidence::RoleDisplayStart), yesterday);
     QCOMPARE(todo.dateTime(Incidence::RoleDisplayEnd), yesterday);
 }
+
+void TodoTest::testIconNameOneoff()
+{
+    const QDateTime now = QDateTime::currentDateTime();
+    Todo todo;
+    todo.setDtStart(now);
+
+    QCOMPARE(todo.iconName(), QLatin1String("view-calendar-tasks"));
+    todo.setCompleted(now);
+    QCOMPARE(todo.iconName(), QLatin1String("task-complete"));
+}
+
+void TodoTest::testIconNameRecurringNeverDue()
+{
+    const QDateTime now = QDateTime::currentDateTime();
+    Todo todo;
+    todo.setDtStart(now);
+    todo.recurrence()->setDaily(1);
+
+    QCOMPARE(todo.iconName(now), QLatin1String("view-calendar-tasks"));
+
+    todo.setCompleted(now);
+    QCOMPARE(todo.iconName(now), QLatin1String("task-complete"));
+    QCOMPARE(todo.iconName(now.addDays(1)), QLatin1String("view-calendar-tasks"));
+}
+
+void TodoTest::testIconNameRecurringDue()
+{
+    const QDateTime now = QDateTime::currentDateTime();
+    const QDateTime later = now.addSecs(3600);
+    Todo todo;
+    todo.setDtStart(now);
+    todo.setDtDue(later, /*first=*/true);
+    todo.recurrence()->setDaily(1);
+
+    QCOMPARE(todo.iconName(now), QLatin1String("view-calendar-tasks"));
+    QCOMPARE(todo.iconName(later), QLatin1String("view-calendar-tasks")); // Legacy case
+
+    todo.setCompleted(now);
+    QCOMPARE(todo.iconName(now), QLatin1String("task-complete"));
+    QCOMPARE(todo.iconName(later), QLatin1String("task-complete")); // Legacy case
+    QCOMPARE(todo.iconName(now.addDays(1)), QLatin1String("view-calendar-tasks"));
+}
