@@ -121,6 +121,14 @@ bool ICalFormat::save(const Calendar::Ptr &calendar, const QString &fileName)
     // Convert to UTF8 and save
     QByteArray textUtf8 = text.toUtf8();
     file.write(textUtf8.data(), textUtf8.size());
+    // QSaveFile doesn't report a write error when the device is full (see Qt
+    // bug 75077), so check that the data can actually be written.
+    if (!file.flush()) {
+        qCDebug(KCALCORE_LOG) << "file write error (flush failed)";
+        setException(new Exception(Exception::SaveErrorSaveFile,
+                                   QStringList(fileName)));
+        return false;
+    }
 
     if (!file.commit()) {
         qCDebug(KCALCORE_LOG) << "file finalize error:" << file.errorString();
