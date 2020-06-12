@@ -200,9 +200,10 @@ void CustomProperties::setCustomProperties(const QMap<QByteArray, QString> &prop
 
 QMap<QByteArray, QString> CustomProperties::customProperties() const
 {
-    QMap<QByteArray, QString> result;
-    result.unite(d->mProperties);
-    result.unite(d->mVolatileProperties);
+    QMap<QByteArray, QString> result = d->mProperties;
+    for (auto it = d->mVolatileProperties.begin(), end = d->mVolatileProperties.end(); it != end; ++it) {
+        result.insert(it.key(), it.value());
+    }
 
     return result;
 }
