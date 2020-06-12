@@ -147,7 +147,10 @@ Recurrence &Recurrence::operator=(const Recurrence &recurrence)
 
     // ### this copies the pointers in mExRules and mRRules eventually resulting in a double free!
     // fortunately however this function is unused, we just can't remove it just yet, due to ABI guarantees
+QT_WARNING_PUSH
+QT_WARNING_DISABLE_GCC("-Wdeprecated-copy")
     *d = *recurrence.d;
+QT_WARNING_POP
     return *this;
 }
 #endif
