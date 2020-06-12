@@ -204,7 +204,11 @@ void TimesInIntervalTest::testLocalTimeHandlingAllDay()
                           : QTimeZone(QByteArray("America/Toronto")));
     Event event;
     event.setAllDay(true);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+    event.setDtStart(QDate(2019, 10, 11).startOfDay());
+#else
     event.setDtStart(QDateTime(QDate(2019, 10, 11)));
+#endif
 
     RecurrenceRule * const rule = new RecurrenceRule();
     rule->setRecurrenceType(RecurrenceRule::rDaily);
@@ -223,7 +227,11 @@ void TimesInIntervalTest::testLocalTimeHandlingAllDay()
     // A simple date, will apply.
     recurrence->addExDate(QDate(2019, 10, 14));
     // A date only local time, will apply.
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+    recurrence->addExDateTime(QDate(2019, 10, 15).startOfDay());
+#else
     recurrence->addExDateTime(QDateTime(QDate(2019, 10, 15)));
+#endif
     // A date time starting at 00:00 in another zone, will not apply.
     recurrence->addExDateTime(QDateTime(QDate(2019, 10, 17), QTime(), anotherZone));
     // A date time starting at 00:00 in the system time zone, will apply.
@@ -238,7 +246,11 @@ void TimesInIntervalTest::testLocalTimeHandlingAllDay()
     // nor either of the exception date times.
     const QList<int> expectedDays { 11, 16, 17, 18, 21, 22, 23, 25 };
     for (int day : expectedDays) {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+        QVERIFY(timesInInterval.contains(QDate(2019, 10, day).startOfDay()));
+#else
         QVERIFY(timesInInterval.contains(QDateTime(QDate(2019, 10, day))));
+#endif
     }
     QCOMPARE(timesInInterval.size(), expectedDays.size());
 }

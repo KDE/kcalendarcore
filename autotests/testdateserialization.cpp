@@ -20,7 +20,11 @@ using namespace KCalendarCore;
 // See bug 345498.
 void TestDateSerialization::testNewRecurringTodo()
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+    QDateTime startDate = QDate(2015, 3, 24).startOfDay();
+#else
     QDateTime startDate { QDate(2015, 3, 24) };
+#endif
     QDateTime dueDate   { startDate.addDays(1) };
 
     Todo::Ptr todo(new Todo);
@@ -51,7 +55,11 @@ void TestDateSerialization::testNewRecurringTodo()
 // See bug 345565.
 void TestDateSerialization::testTodoCompletedOnce()
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+    QDateTime startDate = QDate::currentDate().startOfDay();
+#else
     QDateTime startDate { QDate::currentDate() };
+#endif
     QDateTime dueDate   { startDate.addDays(1) };
 
     Todo::Ptr todo(new Todo);
