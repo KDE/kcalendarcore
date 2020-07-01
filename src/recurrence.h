@@ -152,9 +152,9 @@ public:
     /** Return the start date/time of the recurrence */
     Q_REQUIRED_RESULT QDate startDate() const;
     /** Set start of recurrence.
-       If @p start is date-only, the recurrence is set to all-day. Otherwise, the
-       start is set to a date and time, and the recurrence is set to non-all-day.
        @param start the new start date or date/time of the recurrence.
+       @param isAllDay if true, the recurrence is set to all-day.  Otherwise the recurrence is set
+       to non-all-day.
     */
     void setStartDateTime(const QDateTime &start, bool isAllDay);
 
