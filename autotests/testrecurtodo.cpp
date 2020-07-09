@@ -15,13 +15,26 @@ QTEST_MAIN(RecurTodoTest)
 
 using namespace KCalendarCore;
 
+void RecurTodoTest::setTimeZone(const char* zonename)
+{
+    QVERIFY(QTimeZone(zonename).isValid());
+    qputenv("TZ", zonename);
+    const QDateTime currentDateTime = QDateTime::currentDateTime();
+    QVERIFY(currentDateTime.timeZone().isValid());
+    QCOMPARE(currentDateTime.timeZoneAbbreviation(), QString::fromLatin1(zonename));
+}
+
+
 void RecurTodoTest::testAllDay()
 {
-    qputenv("TZ", "GMT");
+    setTimeZone("UTC");
     const QDate currentDate = QDate::currentDate();
     const QDateTime currentUtcDateTime = QDateTime::currentDateTimeUtc();
 
     const QDate dueDate(QDate::currentDate());
+    QCOMPARE(currentDate, dueDate);
+    QCOMPARE(currentDate, currentUtcDateTime.date());
+
     Todo *todo = new Todo();
     todo->setDtStart(QDateTime(dueDate.addDays(-1), {}));
     todo->setDtDue(QDateTime(dueDate, {}));
@@ -29,14 +42,17 @@ void RecurTodoTest::testAllDay()
     todo->setAllDay(true);
 
     QCOMPARE(todo->dtStart().daysTo(todo->dtDue()), 1);
+    QVERIFY(!todo->recurs());
 
     Recurrence *recurrence = todo->recurrence();
     recurrence->unsetRecurs();
     recurrence->setDaily(1);
     QCOMPARE(todo->dtDue(), QDateTime(dueDate, {}));
+    QCOMPARE(todo->percentComplete(), 0);
+    QVERIFY(todo->recurs());  // Previously it did not recur
     todo->setCompleted(currentUtcDateTime);
     QVERIFY(todo->recurs());
-    QVERIFY(todo->percentComplete() == 0);
+    QCOMPARE(todo->percentComplete(), 0);  // It is still not done
     const QDate newStartDate = todo->dtStart().date();
     const QDate newDueDate = todo->dtDue().date();
     QCOMPARE(newStartDate, currentDate);
@@ -50,7 +66,7 @@ void RecurTodoTest::testAllDay()
 
 void RecurTodoTest::testRecurrenceStart()
 {
-    qputenv("TZ", "GMT");
+    setTimeZone("UTC");
     const QDateTime currentDateTime = QDateTime::currentDateTime();
     const QDate currentDate = currentDateTime.date();
     const QTime currentTimeWithMS = currentDateTime.time();
@@ -73,7 +89,7 @@ void RecurTodoTest::testRecurrenceStart()
 
 void RecurTodoTest::testNonAllDay()
 {
-    qputenv("TZ", "GMT");
+    setTimeZone("UTC");
     const QDateTime currentDateTime = QDateTime::currentDateTime();
     const QDate currentDate = currentDateTime.date();
     const QTime currentTimeWithMS = currentDateTime.time();

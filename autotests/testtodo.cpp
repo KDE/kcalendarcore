@@ -17,7 +17,7 @@ using namespace KCalendarCore;
 
 void TodoTest::initTestCase()
 {
-    qputenv("TZ", "GMT");
+    qputenv("TZ", "UTC");
 }
 
 void TodoTest::testValidity()
