@@ -40,9 +40,9 @@ set(kcalcore_LIB_SRCS
 ecm_qt_declare_logging_category(kcalcore_LIB_SRCS
     HEADER kcalendarcore_debug.h
     IDENTIFIER KCALCORE_LOG
-    CATEGORY_NAME org.kde.pim.kcalcore
-    OLD_CATEGORY_NAMES log_kcalcore
-    DESCRIPTION "kcalcore (pim lib)"
+    CATEGORY_NAME kf.calendarcore
+    OLD_CATEGORY_NAMES log_kcalcore org.kde.pim.kcalcore
+    DESCRIPTION "KCalendarCore"
     EXPORT KCALENDARCORE
 )
 
