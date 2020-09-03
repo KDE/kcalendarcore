@@ -128,6 +128,51 @@ static const char *VTZ_Prague
       "RDATE;VALUE=DATE-TIME:19800406T020000\r\n"
       "END:DAYLIGHT\r\n"
       "END:VTIMEZONE\r\n";
+      
+// When there's an extra transition from +0000 to +0100
+// in 1978 (FreeBSD and old Debian), we get one more
+// transition and slightly different RRULEs
+static const char *VTZ_PragueExtra
+    = "BEGIN:VTIMEZONE\r\n"
+      "TZID:Europe/Prague\r\n"
+      "BEGIN:STANDARD\r\n"
+      "TZNAME:CET\r\n"
+      "TZOFFSETFROM:+0000\r\n"
+      "TZOFFSETTO:+0100\r\n"
+      "DTSTART:19781231T230000\r\n"
+      "RDATE:19781231T230000\r\n"
+      "END:STANDARD\r\n"
+      "BEGIN:DAYLIGHT\r\n"
+      "TZNAME:CEST\r\n"
+      "TZOFFSETFROM:+0100\r\n"
+      "TZOFFSETTO:+0200\r\n"
+      "DTSTART:19810329T020000\r\n"
+      "RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3\r\n"
+      "END:DAYLIGHT\r\n"
+      "BEGIN:DAYLIGHT\r\n"
+      "TZNAME:CEST\r\n"
+      "TZOFFSETFROM:+0100\r\n"
+      "TZOFFSETTO:+0200\r\n"
+      "DTSTART:19790401T020000\r\n"
+      "RDATE:19790401T020000\r\n"
+      "RDATE:19800406T020000\r\n"
+      "END:DAYLIGHT\r\n"
+      "BEGIN:STANDARD\r\n"
+      "TZNAME:CET\r\n"
+      "TZOFFSETFROM:+0200\r\n"
+      "TZOFFSETTO:+0100\r\n"
+      "DTSTART:19971026T030000\r\n"
+      "RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10\r\n"
+      "END:STANDARD\r\n"
+      "BEGIN:STANDARD\r\n"
+      "TZNAME:CET\r\n"
+      "TZOFFSETFROM:+0200\r\n"
+      "TZOFFSETTO:+0100\r\n"
+      "DTSTART:19790930T030000\r\n"
+      "RRULE:FREQ=YEARLY;UNTIL=19961027T030000;BYDAY=-1SU;BYMONTH=9\r\n"
+      "RDATE:19950924T030000\r\n"
+      "END:STANDARD\r\n"
+      "END:VTIMEZONE\r\n";
 
 // CALENDAR component header and footer
 static const char *calendarHeader
@@ -198,12 +243,40 @@ void ICalTimeZonesTest::parse()
 
 void ICalTimeZonesTest::write()
 {
-    auto vtimezone = ICalTimeZoneParser::vcaltimezoneFromQTimeZone(QTimeZone("Europe/Prague"), QDateTime({1970, 1, 1}, {0, 0}));
+    /* By picking a date close to the TZ transition, we avoid
+     * picking up FreeBSD's spurious transition at the end of
+     * 1978 (see testPragueTransitions, below). The starting date
+     * **was** 1970, which ought to get a starting TZ transition in
+     * 1979 (the previous one was 1949, which is out-of-scope).
+     * However, that gets one extra transition of FreeBSD,
+     * which fails the test.
+     */
+    {
+    auto vtimezone = ICalTimeZoneParser::vcaltimezoneFromQTimeZone(QTimeZone("Europe/Prague"), QDateTime({1979, 2, 1}, {0, 0}));
 #if defined(USE_ICAL_3)
     QCOMPARE(vtimezone, QByteArray(VTZ_Prague).replace(";VALUE=DATE-TIME", "")); //krazy:exclude=doublequote_chars
 #else
     QCOMPARE(vtimezone, QByteArray(VTZ_Prague));
 #endif
+    }
+    
+    /* By picking a date which overlaps the spurious TZ transition,
+     * we get a different output, but only on FreeBSD (and old Debian).
+     */
+    {
+    auto vtimezone = ICalTimeZoneParser::vcaltimezoneFromQTimeZone(QTimeZone("Europe/Prague"), QDateTime({1970, 1, 1}, {0, 0}));
+#ifdef Q_OS_FREEBSD
+    // The result is quite different: besides the extra
+    // transition, the RRULEs that are generated differ as well.
+    auto expect = QByteArray(VTZ_PragueExtra);
+#else
+    auto expect = QByteArray(VTZ_Prague);
+#endif
+#if defined(USE_ICAL_3)
+    expect.replace(";VALUE=DATE-TIME", ""); //krazy:exclude=doublequote_chars
+#endif
+    QCOMPARE(vtimezone, expect);
+    }
 }
 
 icalcomponent *loadCALENDAR(const char *vcal)
@@ -216,4 +289,71 @@ icalcomponent *loadCALENDAR(const char *vcal)
         icalcomponent_free(calendar);
     }
     return nullptr;
+}
+
+void ICalTimeZonesTest::testPragueTransitions()
+{
+    QTimeZone prague("Europe/Prague");
+    QVERIFY(prague.isValid());
+
+/* The transitions for Prague, according to tzdata version 2020a,
+ * from 1949 to 1979, are the following, from the command
+ *      `cd /usr/share/zoneinfo ; zdump -v Europe/Prague | grep 19[47]9`
+ * It was manually verified that there were no transitions in
+ * intermediate years.
+ *
+ * There are therefore 2 transitions between june 1949 and june 1979:
+ *  - fall back to CET in october 1949
+ *  - spring forward to CEST in april 1979
+ */
+/*
+Europe/Prague  Sat Apr  9 00:59:59 1949 UTC = Sat Apr  9 01:59:59 1949 CET isdst=0 gmtoff=3600
+Europe/Prague  Sat Apr  9 01:00:00 1949 UTC = Sat Apr  9 03:00:00 1949 CEST isdst=1 gmtoff=7200
+Europe/Prague  Sun Oct  2 00:59:59 1949 UTC = Sun Oct  2 02:59:59 1949 CEST isdst=1 gmtoff=7200
+Europe/Prague  Sun Oct  2 01:00:00 1949 UTC = Sun Oct  2 02:00:00 1949 CET isdst=0 gmtoff=3600
+Europe/Prague  Sun Apr  1 00:59:59 1979 UTC = Sun Apr  1 01:59:59 1979 CET isdst=0 gmtoff=3600
+Europe/Prague  Sun Apr  1 01:00:00 1979 UTC = Sun Apr  1 03:00:00 1979 CEST isdst=1 gmtoff=7200
+Europe/Prague  Sun Sep 30 00:59:59 1979 UTC = Sun Sep 30 02:59:59 1979 CEST isdst=1 gmtoff=7200
+Europe/Prague  Sun Sep 30 01:00:00 1979 UTC = Sun Sep 30 02:00:00 1979 CET isdst=0 gmtoff=3600
+*/
+
+    const auto& transitions = prague.transitions(QDateTime({1949, 6, 6}, {0, 0}), QDateTime({1979, 6, 6}, {0, 0}));
+    QVERIFY(transitions.count() > 0);
+    const auto& earliest = transitions.first().atUtc;
+    QCOMPARE(earliest.date(), QDate(1949, 10, 2));
+    QCOMPARE(transitions.last().atUtc.date(), QDate(1979, 4, 1));
+    
+    bool occursIn1978 = false;
+    for (const auto& transition : transitions) {
+        if(transition.atUtc.date().year() == 1978) {
+            occursIn1978 = true;
+        }
+    }
+    
+/* Except that the FreeBSD zic (zone-info-compiler, which is separate from 
+ * zdump) produces a slightly different output file than zic on Linux,
+ * for instance they have different sizes:
+ *  2312 Prague-freebsd
+ *  2338 Prague-linux
+ * The `zdump -v` output is the same for the two files. The Linux version
+ * contains one extra tzh_ttisgmtcnt and one extra tzh_ttisstdcnt entry.
+ * 
+ * Whatever the precise cause, on loading the TZ file, on FreeBSD
+ * Qt deduces an extra transition, at the end of 1978, with no change in
+ * offzet or zone name:
+ *  QDateTime(1949-10-02 01:00:00.000 UTC Qt::UTC) "CET" 3600
+ *  QDateTime(1978-12-31 23:00:00.000 UTC Qt::UTC) "CET" 3600
+ *  QDateTime(1979-04-01 01:00:00.000 UTC Qt::UTC) "CEST" 7200
+ * 
+ * This additional transition makes the test fail.
+ */
+#ifdef Q_OS_FREEBSD
+    QEXPECT_FAIL( "", "FreeBSD (and old Debian) zic produces extra transition", Continue );
+#endif
+    QCOMPARE(transitions.count(), 2);
+    
+#ifdef Q_OS_FREEBSD
+    QEXPECT_FAIL( "", "FreeBSD (and old Debian) zic produces extra transition", Continue );
+#endif
+    QVERIFY(!occursIn1978);
 }
