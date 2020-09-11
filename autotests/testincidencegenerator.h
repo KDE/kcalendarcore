@@ -3,7 +3,7 @@
 
   SPDX-FileCopyrightText: 2004 Till Adam <adam@kde.org>
 
-  SPDX-License-Identifier: LGPL-2.0-only
+  SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
 #ifndef TESTINCIDENCEGENERATOR_H
