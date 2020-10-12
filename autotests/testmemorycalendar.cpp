@@ -326,3 +326,52 @@ void MemoryCalendarTest::testVisibility()
     QVERIFY(!cal->isVisible(notebook));
     QVERIFY(!cal->isVisible(event));
 }
+
+void MemoryCalendarTest::testRawEvents()
+{
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+
+    Event::Ptr event = Event::Ptr(new Event());
+    // This event span in 20201011T2330Z - 20201012T2330Z
+    event->setDtStart(QDateTime(QDate(2020, 10, 12), QTime(1, 30),
+                                QTimeZone("Europe/Paris")));
+    event->setDtEnd(QDateTime(QDate(2020, 10, 13), QTime(1, 30),
+                                QTimeZone("Europe/Paris")));
+
+    QVERIFY(cal->addEvent(event));
+
+    // Not full-event inclusive by default, UTC timezone.
+    QCOMPARE(cal->rawEvents(QDate(2020, 10, 1), QDate(2020, 10, 10)).count(), 0);
+    QCOMPARE(cal->rawEvents(QDate(2020, 10, 11), QDate(2020, 10, 11)).count(), 1);
+    QCOMPARE(cal->rawEvents(QDate(2020, 10, 12), QDate(2020, 10, 12)).count(), 1);
+    QCOMPARE(cal->rawEvents(QDate(2020, 10, 13), QDate(2020, 10, 31)).count(), 0);
+    QCOMPARE(cal->rawEvents(QDate(), QDate(2020, 10, 10)).count(), 0);
+    QCOMPARE(cal->rawEvents(QDate(), QDate(2020, 10, 11)).count(), 1);
+    QCOMPARE(cal->rawEvents(QDate(2020, 10, 13), QDate()).count(), 0);
+    QCOMPARE(cal->rawEvents(QDate(2020, 10, 12), QDate()).count(), 1);
+
+    // Changing the time zone we are considering the dates in.
+    QCOMPARE(cal->rawEvents(QDate(2020, 10, 1), QDate(2020, 10, 11), QTimeZone("Europe/Paris")).count(), 0);
+    QCOMPARE(cal->rawEvents(QDate(2020, 10, 12), QDate(2020, 10, 12), QTimeZone("Europe/Paris")).count(), 1);
+    QCOMPARE(cal->rawEvents(QDate(2020, 10, 13), QDate(2020, 10, 13), QTimeZone("Europe/Paris")).count(), 1);
+    QCOMPARE(cal->rawEvents(QDate(2020, 10, 14), QDate(2020, 10, 31), QTimeZone("Europe/Paris")).count(), 0);
+    QCOMPARE(cal->rawEvents(QDate(), QDate(2020, 10, 11), QTimeZone("Europe/Paris")).count(), 0);
+    QCOMPARE(cal->rawEvents(QDate(), QDate(2020, 10, 12), QTimeZone("Europe/Paris")).count(), 1);
+    QCOMPARE(cal->rawEvents(QDate(2020, 10, 14), QDate(), QTimeZone("Europe/Paris")).count(), 0);
+    QCOMPARE(cal->rawEvents(QDate(2020, 10, 13), QDate(), QTimeZone("Europe/Paris")).count(), 1);
+
+    // Full event must be in the span.
+    QCOMPARE(cal->rawEvents(QDate(2020, 10, 1), QDate(2020, 10, 10), QTimeZone(), true).count(), 0);
+    QCOMPARE(cal->rawEvents(QDate(2020, 10, 11), QDate(2020, 10, 11), QTimeZone(), true).count(), 0);
+    QCOMPARE(cal->rawEvents(QDate(2020, 10, 12), QDate(2020, 10, 12), QTimeZone(), true).count(), 0);
+    QCOMPARE(cal->rawEvents(QDate(2020, 10, 11), QDate(2020, 10, 12), QTimeZone(), true).count(), 1);
+    QCOMPARE(cal->rawEvents(QDate(2020, 10, 13), QDate(2020, 10, 31), QTimeZone(), true).count(), 0);
+    QCOMPARE(cal->rawEvents(QDate(), QDate(2020, 10, 10), QTimeZone(), true).count(), 0);
+    QCOMPARE(cal->rawEvents(QDate(), QDate(2020, 10, 11), QTimeZone(), true).count(), 0);
+    QCOMPARE(cal->rawEvents(QDate(), QDate(2020, 10, 12), QTimeZone(), true).count(), 1);
+    QCOMPARE(cal->rawEvents(QDate(2020, 10, 13), QDate(), QTimeZone(), true).count(), 0);
+    QCOMPARE(cal->rawEvents(QDate(2020, 10, 12), QDate(), QTimeZone(), true).count(), 0);
+    QCOMPARE(cal->rawEvents(QDate(2020, 10, 11), QDate(), QTimeZone(), true).count(), 1);
+
+    cal->close();
+}

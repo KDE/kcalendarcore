@@ -22,6 +22,7 @@ private Q_SLOTS:
     void testRelationsCrash();
     void testRecurrenceExceptions();
     void testChangeRecurId();
+    void testRawEvents();
     void testRawEventsForDate();
     void testVisibility();
 };

@@ -620,19 +620,19 @@ Event::List MemoryCalendar::rawEvents(const QDate &start,
     for (const auto &e: d->mIncidences[Incidence::TypeEvent]) {
         const auto event = e.staticCast<Event>();
         QDateTime rStart = event->dtStart();
-        if (nd < rStart) {
+        if (nd.isValid() && nd < rStart) {
             continue;
         }
-        if (inclusive && rStart < st) {
+        if (inclusive && st.isValid() && rStart < st) {
             continue;
         }
 
         if (!event->recurs()) {   // non-recurring events
             QDateTime rEnd = event->dtEnd();
-            if (rEnd < st) {
+            if (st.isValid() && rEnd < st) {
                 continue;
             }
-            if (inclusive && nd < rEnd) {
+            if (inclusive && nd.isValid() && nd < rEnd) {
                 continue;
             }
         } else { // recurring events
@@ -648,10 +648,10 @@ Event::List MemoryCalendar::rawEvents(const QDate &start,
                 if (!rEnd.isValid()) {
                     continue;
                 }
-                if (rEnd < st) {
+                if (st.isValid() && rEnd < st) {
                     continue;
                 }
-                if (inclusive && nd < rEnd) {
+                if (inclusive && nd.isValid() && nd < rEnd) {
                     continue;
                 }
                 break;
