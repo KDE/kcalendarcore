@@ -65,7 +65,7 @@ void ICalFormatTest::testDeserializeSerialize()
     Recurrence *recur = parent->recurrence();
     QVERIFY(recur->recurs());
     QCOMPARE(recur->duration(), 4);
-    QCOMPARE(recur->recurrenceType(), Recurrence::rDaily);
+    QCOMPARE(recur->recurrenceType(), static_cast<ushort>(Recurrence::rDaily));
 
     Incidence::Ptr occurrence = calendar->incidence(uid, start.addDays(1));
     QVERIFY(occurrence);
@@ -78,7 +78,7 @@ void ICalFormatTest::testDeserializeSerialize()
     QVERIFY(occurrence->hasRecurrenceId());
     QCOMPARE(occurrence->recurrenceId(), start.addDays(1));
 
-    const QString serialization = format.toString(calendar);
+    const QString serialization = format.toString(calendar, QString());
     QVERIFY(!serialization.isEmpty());
     MemoryCalendar::Ptr check = MemoryCalendar::Ptr(new MemoryCalendar(QTimeZone::utc()));
     QVERIFY(format.fromString(check, serialization));
