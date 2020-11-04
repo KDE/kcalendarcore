@@ -530,6 +530,12 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent,
         icalcomponent_add_property(parent, icalproperty_new_class(secClass));
     }
 
+    // color
+    if (!incidence->color().isEmpty()) {
+        icalcomponent_add_property(
+            parent, icalproperty_new_color(incidence->color().toUtf8().constData()));
+    }
+
     // geo
     if (incidence->hasGeo()) {
         icalgeotype geo;
@@ -1879,6 +1885,10 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent, const Incidence::Ptr &
 
         case ICAL_ATTACH_PROPERTY:  // attachments
             incidence->addAttachment(readAttachment(p));
+            break;
+
+        case ICAL_COLOR_PROPERTY:
+            incidence->setColor(QString::fromUtf8(icalproperty_get_color(p)));
             break;
 
         default:

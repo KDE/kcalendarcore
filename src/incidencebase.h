@@ -185,7 +185,8 @@ public:
         FieldComment,         ///> Field representing the COMMENT component.
         FieldUid,             ///> Field representing the UID component.
         FieldUnknown,         ///> Something changed. Always set when you use the assignment operator.
-        FieldUrl              ///> Field representing the URL component.
+        FieldUrl,             ///> Field representing the URL component.
+        FieldColor            ///> Field representing the COLOR component.
     };
 
     /**
