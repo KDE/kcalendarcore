@@ -254,3 +254,45 @@ void TimesInIntervalTest::testLocalTimeHandlingAllDay()
     }
     QCOMPARE(timesInInterval.size(), expectedDays.size());
 }
+
+//Test that the recurrence dtStart is used for calculation and not the interval start date
+void TimesInIntervalTest::testByDayRecurrence()
+{
+    const int days = 7;
+    const QDateTime start(QDate(2020, 11, 6), QTime(2, 0, 0), Qt::UTC);
+    const QDateTime intervalEnd = start.addDays(days);
+    const QDateTime intervalStart = start.addDays(-days);
+
+    Event::Ptr event(new Event());
+    event->setDtStart(start);
+    event->setDtEnd(start.addSecs(3600));
+
+    RecurrenceRule * const rule = new RecurrenceRule();
+    rule->setRecurrenceType(RecurrenceRule::rWeekly);
+    rule->setStartDt(event->dtStart()); // the start day is a Friday
+    rule->setFrequency(1);
+    rule->setByDays(QList<RecurrenceRule::WDayPos>()
+            << RecurrenceRule::WDayPos(0, 2)   // Tuesday
+            << RecurrenceRule::WDayPos(0, 3)   // Wednesday
+            << RecurrenceRule::WDayPos(0, 4)   // Thursday
+            << RecurrenceRule::WDayPos(0, 5)); // Friday
+    event->recurrence()->addRRule(rule);
+
+    QList<QDateTime> expectedEventOccurrences;
+    for (int i = 0; i <= days; ++i) {
+        const QDateTime dt = start.addDays(i);
+        if (dt.date().dayOfWeek() < 6 && dt.date().dayOfWeek() > 1) {
+            expectedEventOccurrences << dt;
+        }
+    }
+
+    QCOMPARE(event->recurrence()->getNextDateTime(intervalStart), start);
+    QCOMPARE(event->recurrence()->getNextDateTime(start.addDays(1)), start.addDays(4));
+
+    const QList<QDateTime> timesInInterval = event->recurrence()->timesInInterval(intervalStart, intervalEnd);
+    for (const QDateTime &dt : timesInInterval) {
+        QCOMPARE(expectedEventOccurrences.removeAll(dt), 1);
+    }
+
+    QCOMPARE(expectedEventOccurrences.size(), 0);
+}

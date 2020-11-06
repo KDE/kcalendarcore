@@ -1772,7 +1772,7 @@ QList<QDateTime> RecurrenceRule::timesInInterval(const QDateTime &dtStart,
         return result;
     }
 
-    QDateTime st = start;
+    QDateTime st = start < d->mDateStart ? d->mDateStart : start;
     bool done = false;
     if (d->mDuration > 0) {
         if (!d->mCached) {
