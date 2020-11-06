@@ -314,3 +314,39 @@ void ICalFormatTest::testRDate()
     QVERIFY(output.contains(QString::fromLatin1("RDATE;VALUE=PERIOD:20211027T100000Z/20211027T110000Z")));
     QVERIFY(output.contains(QString::fromLatin1("RDATE;VALUE=PERIOD:20211215T110000Z/PT2H")));
 }
+
+void ICalFormatTest::testDateTime_data()
+{
+    QTest::addColumn<QByteArray>("dtStartData");
+    QTest::addColumn<QDateTime>("dtStart");
+
+    QTest::newRow("clock time")
+        << QByteArray("DTSTART:20191113T130000")
+        << QDateTime(QDate(2019, 11, 13), QTime(13, 00), Qt::LocalTime);
+    QTest::newRow("date")
+        << QByteArray("DTSTART;VALUE=DATE:20191113")
+        << QDate(2019, 11, 13).startOfDay();
+    QTest::newRow("UTC time")
+        << QByteArray("DTSTART:20191113T130000Z")
+        << QDateTime(QDate(2019, 11, 13), QTime(13, 00), Qt::UTC);
+    QTest::newRow("time zone time")
+        << QByteArray("DTSTART;TZID=Europe/Paris:20191113T130000")
+        << QDateTime(QDate(2019, 11, 13), QTime(13, 00), QTimeZone("Europe/Paris"));
+}
+
+void ICalFormatTest::testDateTime()
+{
+    QFETCH(QByteArray, dtStartData);
+    QFETCH(QDateTime, dtStart);
+
+    // test fromString(QString)
+    const QByteArray serializedCalendar
+        = "BEGIN:VCALENDAR\nPRODID:-//K Desktop Environment//NONSGML libkcal 3.2//EN\nVERSION:2.0\nBEGIN:VEVENT\nUID:12345\n"
+          + dtStartData
+          + "\nEND:VEVENT\nEND:VCALENDAR";
+
+    ICalFormat format;
+    Incidence::Ptr event = format.fromString(QString::fromUtf8(serializedCalendar));
+    QVERIFY(event);
+    QCOMPARE(dtStart, event->dtStart());
+}

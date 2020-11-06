@@ -2385,7 +2385,7 @@ icalproperty *ICalFormatImpl::writeICalDateTimeProperty(const icalproperty_kind 
     }
 
     QTimeZone qtz;
-    if (!icaltime_is_utc(t)) {
+    if (!icaltime_is_utc(t) && dt.timeSpec() == Qt::TimeZone) {
         qtz = dt.timeZone();
     }
 
@@ -2426,20 +2426,21 @@ QDateTime ICalFormatImpl::readICalDateTime(icalproperty *p, const icaltimetype &
             // First try to get the timezone from cache
             timeZone = tzCache->tzForTime(QDateTime({t.year, t.month, t.day}, {}), tzid);
         }
-        if (!timeZone.isValid()) {
+        if (!timeZone.isValid() && !tzid.isEmpty()) {
             // Fallback to trying to match against Qt timezone
             timeZone = QTimeZone(tzid);
         }
-        if (!timeZone.isValid()) {
-            // Finally, give up and assume local timezone
-            timeZone = QTimeZone::systemTimeZone();
-        }
+        // If Time zone is still invalid, we will use LocalTime as TimeSpec.
+    }
+    QTime resultTime;
+    if (!t.is_date) {
+        resultTime = QTime(t.hour, t.minute, t.second);
     }
     QDateTime result;
-    if (t.is_date) {
-        result = QDateTime(QDate(t.year, t.month, t.day), {}, timeZone);
+    if (timeZone.isValid()) {
+        result = QDateTime(QDate(t.year, t.month, t.day), resultTime, timeZone);
     } else {
-        result = QDateTime(QDate(t.year, t.month, t.day), QTime(t.hour, t.minute, t.second), timeZone);
+        result = QDateTime(QDate(t.year, t.month, t.day), resultTime);
     }
     return utc ? result.toUTC() : result;
 }

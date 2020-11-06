@@ -118,7 +118,7 @@ QTimeZone ICalTimeZoneCache::tzForTime(const QDateTime &dt, const QByteArray &tz
 
     const ICalTimeZone tz = mCache.value(tzid);
     if (!tz.qZone.isValid()) {
-        return QTimeZone::systemTimeZone();
+        return QTimeZone();
     }
 
     // If the matched timezone is one of the UTC offset timezones, we need to make
