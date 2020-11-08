@@ -16,7 +16,6 @@ class ICalFormatTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
-    void testDeserializeSerialize();
     void testCharsets();
     void testVolatileProperties();
     void testCuType();
