@@ -20,6 +20,80 @@ QTEST_MAIN(ICalFormatTest)
 
 using namespace KCalendarCore;
 
+void ICalFormatTest::testDeserializeSerialize()
+{
+    ICalFormat format;
+
+    const QString serializedCalendar
+        = QLatin1String("BEGIN:VCALENDAR\n"
+                        "PRODID:-//IDN nextcloud.com//Calendar app 2.0.4//EN\n"
+                        "VERSION:2.0\n"
+                        "BEGIN:VEVENT\n"
+                        "CREATED:20201103T161248Z\n"
+                        "DTSTAMP:20201103T161340Z\n"
+                        "LAST-MODIFIED:20201103T161340Z\n"
+                        "SEQUENCE:2\n"
+                        "UID:bd1d299d-3b03-4514-be69-e680ad2ff884\n"
+                        "DTSTART;TZID=Europe/Paris:20201103T100000\n"
+                        "DTEND;TZID=Europe/Paris:20201103T110000\n"
+                        "SUMMARY:test recur\n"
+                        "RRULE:FREQ=DAILY;COUNT=4\n"
+                        "END:VEVENT\n"
+                        "BEGIN:VEVENT\n"
+                        "CREATED:20201103T161823Z\n"
+                        "DTSTAMP:20201103T161823Z\n"
+                        "LAST-MODIFIED:20201103T161823Z\n"
+                        "SEQUENCE:1\n"
+                        "UID:bd1d299d-3b03-4514-be69-e680ad2ff884\n"
+                        "DTSTART;TZID=Europe/Paris:20201104T111500\n"
+                        "DTEND;TZID=Europe/Paris:20201104T121500\n"
+                        "SUMMARY:test recur\n"
+                        "COLOR:khaki\n"
+                        "RECURRENCE-ID;TZID=Europe/Paris:20201104T100000\n"
+                        "END:VEVENT\n"
+                        "END:VCALENDAR");
+    MemoryCalendar::Ptr calendar = MemoryCalendar::Ptr(new MemoryCalendar(QTimeZone::utc()));
+    QVERIFY(format.fromString(calendar, serializedCalendar));
+    const QString uid = QString::fromLatin1("bd1d299d-3b03-4514-be69-e680ad2ff884");
+    Incidence::Ptr parent = calendar->incidence(uid);
+    QVERIFY(parent);
+    const QDateTime start(QDate(2020, 11, 3), QTime(9,0), QTimeZone::utc());
+    QCOMPARE(parent->dtStart(), start);
+    QCOMPARE(parent.staticCast<Event>()->dtEnd(), start.addSecs(3600));
+    QCOMPARE(parent->summary(), QString::fromLatin1("test recur"));
+    QCOMPARE(parent->revision(), 2);
+    Recurrence *recur = parent->recurrence();
+    QVERIFY(recur->recurs());
+    QCOMPARE(recur->duration(), 4);
+    QCOMPARE(recur->recurrenceType(), static_cast<ushort>(Recurrence::rDaily));
+
+    Incidence::Ptr occurrence = calendar->incidence(uid, start.addDays(1));
+    QVERIFY(occurrence);
+    const QDateTime startOcc(QDate(2020, 11, 4), QTime(10,15), QTimeZone::utc());
+    QCOMPARE(occurrence->dtStart(), startOcc);
+    QCOMPARE(occurrence.staticCast<Event>()->dtEnd(), startOcc.addSecs(3600));
+#if defined(USE_ICAL_3)
+    QCOMPARE(occurrence->color(), QString::fromLatin1("khaki"));
+#else
+    QVERIFY(occurrence->color().isEmpty());
+#endif
+    QCOMPARE(occurrence->summary(), QString::fromLatin1("test recur"));
+    QCOMPARE(occurrence->revision(), 1);
+    QVERIFY(occurrence->hasRecurrenceId());
+    QCOMPARE(occurrence->recurrenceId(), start.addDays(1));
+
+    const QString serialization = format.toString(calendar, QString());
+    QVERIFY(!serialization.isEmpty());
+    MemoryCalendar::Ptr check = MemoryCalendar::Ptr(new MemoryCalendar(QTimeZone::utc()));
+    QVERIFY(format.fromString(check, serialization));
+    Incidence::Ptr reparent = check->incidence(uid);
+    QVERIFY(reparent);
+    QCOMPARE(*parent, *reparent);
+    Incidence::Ptr reoccurence = check->incidence(uid, start.addDays(1));
+    QVERIFY(reoccurence);
+    QCOMPARE(*occurrence, *reoccurence);
+}
+
 void ICalFormatTest::testCharsets()
 {
     ICalFormat format;

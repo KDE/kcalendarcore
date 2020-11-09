@@ -399,6 +399,22 @@ public:
     */
     Q_REQUIRED_RESULT QString relatedTo(RelType relType = RelTypeParent) const;
 
+    /**
+      Set the incidence color, as added in RFC7986.
+
+      @param colorName a named color as defined in CSS3 color name, see
+       https://www.w3.org/TR/css-color-3/#svg-color.
+      @since: 5.76
+     */
+    void setColor(const QString &colorName);
+
+    /**
+      Returns the color, if any is defined, for this incidence.
+
+      @since: 5.76
+     */
+    Q_REQUIRED_RESULT QString color() const;
+
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // %%%%%  Convenience wrappers for property handling
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

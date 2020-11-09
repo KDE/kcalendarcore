@@ -186,7 +186,8 @@ public:
         FieldUid,             ///> Field representing the UID component.
         FieldUnknown,         ///> Something changed. Always set when you use the assignment operator.
         FieldUrl,             ///> Field representing the URL component.
-        FieldConferences      ///> Field representing the CONFERENCE component.
+        FieldConferences,     ///> Field representing the CONFERENCE component.
+        FieldColor            ///> Field representing the COLOR component.
     };
 
     /**

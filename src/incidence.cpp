@@ -74,6 +74,7 @@ public:
         , mPriority(p.mPriority)
         , mStatus(p.mStatus)
         , mSecrecy(p.mSecrecy)
+        , mColor(p.mColor)
         , mDescriptionIsRich(p.mDescriptionIsRich)
         , mSummaryIsRich(p.mSummaryIsRich)
         , mLocationIsRich(p.mLocationIsRich)
@@ -153,6 +154,7 @@ public:
     int mPriority;                      // priority: 1 = highest, 2 = less, etc.
     Status mStatus;                     // status
     Secrecy mSecrecy;                   // secrecy
+    QString mColor;                     // background color
     bool mDescriptionIsRich = false;            // description string is richtext.
     bool mSummaryIsRich = false;                // summary string is richtext.
     bool mLocationIsRich = false;               // location string is richtext.
@@ -287,6 +289,7 @@ bool Incidence::equals(const IncidenceBase &incidence) const
         && secrecy() == i2->secrecy()
         && priority() == i2->priority()
         && stringCompare(location(), i2->location())
+        && stringCompare(color(), i2->color())
         && stringCompare(schedulingID(), i2->schedulingID())
         && recurrenceId() == i2->recurrenceId()
         && conferences() == i2->conferences()
@@ -544,6 +547,24 @@ void Incidence::setRelatedTo(const QString &relatedToUid, RelType relType)
 QString Incidence::relatedTo(RelType relType) const
 {
     return d->mRelatedToUid.value(relType);
+}
+
+void Incidence::setColor(const QString &colorName)
+{
+    if (mReadOnly) {
+        return;
+    }
+    if (!stringCompare(d->mColor, colorName)) {
+        update();
+        d->mColor = colorName;
+        setFieldDirty(FieldColor);
+        updated();
+    }
+}
+
+QString Incidence::color() const
+{
+    return d->mColor;
 }
 
 // %%%%%%%%%%%%  Recurrence-related methods %%%%%%%%%%%%%%%%%%%%
