@@ -66,6 +66,7 @@ public:
         , mSchedulingID(p.mSchedulingID)
         , mRelatedToUid(p.mRelatedToUid)
         , mRecurrenceId(p.mRecurrenceId)
+        , mConferences(p.mConferences)
         , mGeoLatitude(p.mGeoLatitude)
         , mGeoLongitude(p.mGeoLongitude)
         , mRecurrence(nullptr)
@@ -108,6 +109,7 @@ public:
         mGeoLongitude = src.d->mGeoLongitude;
         mHasGeo = src.d->mHasGeo;
         mRecurrenceId = src.d->mRecurrenceId;
+        mConferences = src.d->mConferences;
         mThisAndFuture = src.d->mThisAndFuture;
         mLocalOnly = src.d->mLocalOnly;
 
@@ -142,6 +144,7 @@ public:
     QString mSchedulingID;              // ID for scheduling mails
     QMap<RelType, QString> mRelatedToUid; // incidence uid this is related to, for each relType
     QDateTime mRecurrenceId;            // recurrenceId
+    Conference::List mConferences;      // conference list
 
     float mGeoLatitude;                 // Specifies latitude in decimal degrees
     float mGeoLongitude;                // Specifies longitude in decimal degrees
@@ -286,6 +289,7 @@ bool Incidence::equals(const IncidenceBase &incidence) const
         && stringCompare(location(), i2->location())
         && stringCompare(schedulingID(), i2->schedulingID())
         && recurrenceId() == i2->recurrenceId()
+        && conferences() == i2->conferences()
         && thisAndFuture() == i2->thisAndFuture();
 }
 
@@ -873,6 +877,35 @@ bool Incidence::hasEnabledAlarms() const
     return false;
 }
 
+Conference::List Incidence::conferences() const
+{
+    return d->mConferences;
+}
+
+void Incidence::addConference(const Conference &conference)
+{
+    update();
+    d->mConferences.push_back(conference);
+    setFieldDirty(FieldConferences);
+    updated();
+}
+
+void Incidence::setConferences(const Conference::List &conferences)
+{
+    update();
+    d->mConferences = conferences;
+    setFieldDirty(FieldConferences);
+    updated();
+}
+
+void Incidence::clearConferences()
+{
+    update();
+    d->mConferences.clear();
+    setFieldDirty(FieldConferences);
+    updated();
+}
+
 void Incidence::setLocation(const QString &location, bool isRich)
 {
     if (mReadOnly) {
@@ -1080,7 +1113,8 @@ void Incidence::serialize(QDataStream &out) const
     serializeQDateTimeAsKDateTime(out, d->mRecurrenceId);
     out << d->mThisAndFuture
         << d->mLocalOnly << d->mStatus << d->mSecrecy << (d->mRecurrence ? true : false)
-        << d->mAttachments.count() << d->mAlarms.count() << d->mRelatedToUid;
+        << d->mAttachments.count() << d->mAlarms.count() << d->mConferences.count()
+        << d->mRelatedToUid;
 
     if (d->mRecurrence) {
         out << d->mRecurrence;
@@ -1093,13 +1127,17 @@ void Incidence::serialize(QDataStream &out) const
     for (const Alarm::Ptr &alarm : qAsConst(d->mAlarms)) {
         out << alarm;
     }
+
+    for (const Conference &conf : qAsConst(d->mConferences)) {
+        out << conf;
+    }
 }
 
 void Incidence::deserialize(QDataStream &in)
 {
     quint32 status, secrecy;
     bool hasRecurrence;
-    int attachmentCount, alarmCount;
+    int attachmentCount, alarmCount, conferencesCount;
     QMap<int, QString> relatedToUid;
     deserializeKDateTimeAsQDateTime(in, d->mCreated);
     in >> d->mRevision >> d->mDescription >> d->mDescriptionIsRich >> d->mSummary
@@ -1108,7 +1146,7 @@ void Incidence::deserialize(QDataStream &in)
     >> d->mGeoLatitude >> d->mGeoLongitude >> d->mHasGeo;
     deserializeKDateTimeAsQDateTime(in, d->mRecurrenceId);
     in >> d->mThisAndFuture
-    >> d->mLocalOnly >> status >> secrecy >> hasRecurrence >> attachmentCount >> alarmCount
+    >> d->mLocalOnly >> status >> secrecy >> hasRecurrence >> attachmentCount >> alarmCount >> conferencesCount
     >> relatedToUid;
 
     if (hasRecurrence) {
@@ -1119,6 +1157,7 @@ void Incidence::deserialize(QDataStream &in)
 
     d->mAttachments.clear();
     d->mAlarms.clear();
+    d->mConferences.clear();
 
     d->mAttachments.reserve(attachmentCount);
     for (int i = 0; i < attachmentCount; ++i) {
@@ -1134,6 +1173,13 @@ void Incidence::deserialize(QDataStream &in)
         d->mAlarms.append(alarm);
     }
 
+    d->mConferences.reserve(conferencesCount);
+    for (int i = 0; i < conferencesCount; ++i) {
+        Conference conf;
+        in >> conf;
+        d->mConferences.push_back(conf);
+    }
+
     d->mStatus = static_cast<Incidence::Status>(status);
     d->mSecrecy = static_cast<Incidence::Secrecy>(secrecy);
 
@@ -1145,10 +1191,25 @@ void Incidence::deserialize(QDataStream &in)
     }
 }
 
-QVariantList Incidence::attachmentsVariant() const
+namespace {
+template<typename T>
+QVariantList toVariantList(int size, typename QVector<T>::ConstIterator begin, typename QVector<T>::ConstIterator end)
 {
     QVariantList l;
-    l.reserve(d->mAttachments.size());
-    std::transform(d->mAttachments.begin(), d->mAttachments.end(), std::back_inserter(l), [](const Attachment &att) { return QVariant::fromValue(att); });
+    l.reserve(size);
+    std::transform(begin, end, std::back_inserter(l), [](const T &val) { return QVariant::fromValue(val); });
     return l;
+}
+
+} // namespace
+
+
+QVariantList Incidence::attachmentsVariant() const
+{
+    return toVariantList<Attachment>(d->mAttachments.size(), d->mAttachments.cbegin(), d->mAttachments.cend());
+}
+
+QVariantList Incidence::conferencesVariant() const
+{
+    return toVariantList<Conference>(d->mConferences.size(), d->mConferences.cbegin(), d->mConferences.cend());
 }

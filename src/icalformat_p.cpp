@@ -620,6 +620,14 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent,
         icalcomponent_add_component(parent, writeAlarm(*it));
     }
 
+#if defined(USE_ICAL_3)
+    // conferences
+    const auto conferences = incidence->conferences();
+    for (const auto &conf : conferences) {
+        icalcomponent_add_property(parent, writeConference(conf));
+    }
+#endif
+
     // duration
     if (incidence->hasDuration()) {
         icaldurationtype duration;
@@ -1155,6 +1163,18 @@ icalcomponent *ICalFormatImpl::writeAlarm(const Alarm::Ptr &alarm)
 
     return a;
 }
+
+#if defined(USE_ICAL_3)
+icalproperty *ICalFormatImpl::writeConference(const Conference &conference)
+{
+    icalproperty *p = icalproperty_new_conference(conference.uri().toString().toUtf8().constData());
+    icalproperty_set_parameter_from_string(p, "VALUE", "URI");
+    icalproperty_set_parameter_from_string(p, "FEATURE", conference.features().join(QLatin1Char(',')).toUtf8().constData());
+    icalproperty_set_parameter_from_string(p, "LABEL", conference.label().toUtf8().constData());
+
+    return p;
+}
+#endif
 
 Todo::Ptr ICalFormatImpl::readTodo(icalcomponent *vtodo, const ICalTimeZoneCache *tzlist)
 {
@@ -1914,6 +1934,18 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent, const Incidence::Ptr &
         readAlarm(alarm, incidence);
     }
 
+#if defined(USE_ICAL_3)
+    // iterate through all conferences
+    Conference::List conferences;
+    for (auto *conf = icalcomponent_get_first_property(parent, ICAL_CONFERENCE_PROPERTY);
+            conf;
+            conf = icalcomponent_get_next_property(parent, ICAL_CONFERENCE_PROPERTY)) {
+        conferences.push_back(readConference(conf));
+    }
+    incidence->setConferences(conferences);
+#endif
+
+
     if (d->mCompat) {
         // Fix incorrect alarm settings by other applications (like outloook 9)
         d->mCompat->fixAlarms(incidence);
@@ -2318,6 +2350,18 @@ icaldatetimeperiodtype ICalFormatImpl::writeICalDatePeriod(const QDate &date)
     t.period = icalperiodtype_null_period();
     return t;
 }
+
+#if defined(USE_ICAL_3)
+Conference ICalFormatImpl::readConference(icalproperty *prop)
+{
+    Conference conf;
+    conf.setUri(QUrl(QString::fromUtf8(icalproperty_get_conference(prop))));
+    conf.setLabel(QString::fromUtf8(icalproperty_get_parameter_as_string(prop, "LABEL")));
+    conf.setFeatures(QString::fromUtf8(icalproperty_get_parameter_as_string(prop, "FEATURE")).split(QLatin1Char(',')));
+    conf.setLanguage(QString::fromUtf8(icalproperty_get_parameter_as_string(prop, "LANGUAGE")));
+    return conf;
+}
+#endif
 
 icaltimetype ICalFormatImpl::writeICalDate(const QDate &date)
 {

@@ -23,6 +23,7 @@
 #include "attachment.h"
 #include "incidencebase.h"
 #include "recurrence.h"
+#include "conference.h"
 
 #include <QMetaType>
 
@@ -69,6 +70,7 @@ class KCALENDARCORE_EXPORT Incidence
     Q_PROPERTY(KCalendarCore::Incidence::Secrecy secrecy READ secrecy WRITE setSecrecy)
     Q_PROPERTY(KCalendarCore::Incidence::Status status READ status WRITE setStatus)
     Q_PROPERTY(QVariantList attachments READ attachmentsVariant)
+    Q_PROPERTY(QVariantList conferences READ conferencesVariant)
 public:
 
     /**
@@ -736,6 +738,39 @@ public:
     */
     Q_REQUIRED_RESULT bool hasEnabledAlarms() const;
 
+
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// %%%%% Conferences-related method
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    /**
+     * Returns list of all incidence conferencing methods.
+     * @since 5.77
+     */
+    Q_REQUIRED_RESULT Conference::List conferences() const;
+
+    /**
+     * Replaces all conferences in the incidence with given @p conferences
+     *
+     * @param conferences New conferences to store in the incidence.
+     * @since 5.77
+     */
+    void setConferences(const Conference::List &conferences);
+
+    /**
+     * Adds a conference to the incidence.
+     *
+     * @param conferene A conference to add.
+     * @since 5.77
+     */
+    void addConference(const Conference &conference);
+
+    /**
+     * Removes all conferences from the incidence.
+     * @since 5.77
+     */
+    void clearConferences();
+
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // %%%%%  Other methods
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -842,6 +877,7 @@ private:
     Incidence &operator=(const Incidence &other);
 
     Q_DECL_HIDDEN QVariantList attachmentsVariant() const;
+    Q_DECL_HIDDEN QVariantList conferencesVariant() const;
 
     //@cond PRIVATE
     class Private;

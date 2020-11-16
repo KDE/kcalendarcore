@@ -10,6 +10,7 @@ set(kcalcore_LIB_SRCS
   calformat.cpp
   calstorage.cpp
   compat.cpp
+  conference.cpp
   customproperties.cpp
   duration.cpp
   event.cpp
@@ -92,6 +93,7 @@ set(kcalendarcore_headers
   CalFormat
   CalStorage
   Calendar
+  Conference
   CustomProperties
   Duration
   Event
