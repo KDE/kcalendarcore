@@ -291,7 +291,7 @@ public:
       @param to is the ending timestamp.
       @return the list of Alarms occurring before the specified QDateTime.
     */
-    Q_REQUIRED_RESULT Alarm::List alarmsTo(const QDateTime &to) const;
+    Q_REQUIRED_RESULT Alarm::List alarmsTo(const QDateTime &to) const; // TODO KF6 remove, already defined in Calendar
 
     /**
       @copydoc Calendar::incidenceUpdate(const QString &,const QDateTime &)

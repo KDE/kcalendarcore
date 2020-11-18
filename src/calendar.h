@@ -1197,6 +1197,16 @@ public:
     */
     virtual Alarm::List alarms(const QDateTime &from, const QDateTime &to, bool excludeBlockedAlarms = false) const = 0;
 
+    /**
+      Return a list of Alarms that occur before the specified timestamp.
+
+      @param to is the ending timestamp.
+      @return the list of Alarms occurring before the specified QDateTime.
+      @since 5.77
+    */
+    Q_REQUIRED_RESULT Alarm::List alarmsTo(const QDateTime &to) const;
+
+
     // Observer Specific Methods //
 
     /**

@@ -1366,6 +1366,11 @@ bool Calendar::deletionTracking() const
     return d->mDeletionTracking;
 }
 
+Alarm::List Calendar::alarmsTo(const QDateTime &to) const
+{
+    return alarms(QDateTime(QDate(1900, 1, 1), QTime(0, 0, 0)), to);
+}
+
 void Calendar::virtual_hook(int id, void *data)
 {
     Q_UNUSED(id);
