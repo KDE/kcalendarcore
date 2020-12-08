@@ -47,13 +47,11 @@ ecm_setup_version(PROJECT VARIABLE_PREFIX KCALENDARCORE
 ########### Find packages ###########
 find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Core Gui)
 
-set(LibIcal_MIN_VERSION "2.0")
+set(LibIcal_MIN_VERSION "3.0")
 find_package(LibIcal ${LibIcal_MIN_VERSION})
 set_package_properties(LibIcal PROPERTIES TYPE REQUIRED)
-if(LibIcal_VERSION VERSION_GREATER "2.98")
-  set(HAVE_ICAL_3 TRUE)
-  add_definitions(-DUSE_ICAL_3)
-endif()
+set(HAVE_ICAL_3 TRUE)
+add_definitions(-DUSE_ICAL_3)
 
 ########### CMake Config Files ###########
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF5CalendarCore")
