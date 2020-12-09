@@ -216,6 +216,7 @@ bool MemoryCalendar::deleteIncidence(const Incidence::Ptr &incidence)
     // Notify while the incidence is still available,
     // this is necessary so korganizer still has time to query for exceptions
     notifyIncidenceAboutToBeDeleted(incidence);
+    incidence->unRegisterObserver(this);
     const Incidence::IncidenceType type = incidence->type();
     const QString &uid = incidence->uid();
     bool deleted = d->deleteIncidence(uid, type, incidence->recurrenceId());
