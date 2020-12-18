@@ -217,11 +217,7 @@ void ICalFormatTest::testAlarm()
     ICalFormat format;
 
     Event::Ptr event(new Event);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
     event->setDtStart(QDate(2017, 03, 24).startOfDay());
-#else
-    event->setDtStart(QDateTime(QDate(2017, 03, 24)));
-#endif
     Alarm::Ptr alarm = event->newAlarm();
     alarm->setType(Alarm::Display);
     alarm->setStartOffset(Duration(0));
