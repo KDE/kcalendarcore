@@ -404,3 +404,47 @@ void MemoryCalendarTest::testRawEvents()
 
     cal->close();
 }
+
+void MemoryCalendarTest::testDeleteIncidence()
+{
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+
+    Event::Ptr event = Event::Ptr(new Event());
+    event->setDtStart(QDateTime(QDate(2021, 1, 4), QTime(10, 13),
+                                QTimeZone("Europe/Paris")));
+
+    QVERIFY(cal->addEvent(event));
+    QVERIFY(cal->instance(event->instanceIdentifier()));
+
+    QVERIFY(cal->deleteIncidence(event));
+    QVERIFY(cal->instance(event->instanceIdentifier()).isNull());
+
+    event->recurrence()->setDaily(1);
+    event->recurrence()->setDuration(3);
+    QVERIFY(cal->addEvent(event));
+    QVERIFY(cal->instance(event->instanceIdentifier()));
+
+    Event::Ptr exception = Event::Ptr(event->clone());
+    exception->recurrence()->clear();
+    exception->setRecurrenceId(event->dtStart().addDays(1));
+    exception->setDtStart(event->dtStart().addDays(1).addSecs(3600));
+    QVERIFY(cal->addEvent(exception));
+    QVERIFY(cal->instance(exception->instanceIdentifier()));
+
+    Event::Ptr exception2 = Event::Ptr(event->clone());
+    exception2->recurrence()->clear();
+    exception2->setRecurrenceId(event->dtStart().addDays(2));
+    exception2->setDtStart(event->dtStart().addDays(2).addSecs(-3600));
+    QVERIFY(cal->addEvent(exception2));
+    QVERIFY(cal->instance(exception2->instanceIdentifier()));
+
+    QVERIFY(cal->deleteIncidence(exception));
+    QVERIFY(cal->incidence(event->uid(), exception->recurrenceId()).isNull());
+    QVERIFY(!cal->deleteIncidence(exception));
+    QVERIFY(cal->incidence(event->uid(), exception2->recurrenceId()));
+    QVERIFY(cal->incidence(event->uid()));
+
+    QVERIFY(cal->deleteIncidence(event));
+    QVERIFY(cal->incidence(event->uid(), exception2->recurrenceId()).isNull());
+    QVERIFY(cal->incidence(event->uid()).isNull());
+}

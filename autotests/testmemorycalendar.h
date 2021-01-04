@@ -26,6 +26,7 @@ private Q_SLOTS:
     void testRawEvents();
     void testRawEventsForDate();
     void testVisibility();
+    void testDeleteIncidence();
 };
 
 #endif

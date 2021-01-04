@@ -89,6 +89,10 @@ public:
                              IncidenceBase::IncidenceType type,
                              const QDateTime &recurrenceId = {}) const;
 
+    bool deleteIncidence(const QString &uid,
+                         IncidenceBase::IncidenceType type,
+                         const QDateTime &recurrenceId = {});
+
     Incidence::Ptr deletedIncidence(const QString &uid,
                                     const QDateTime &recurrenceId,
                                     IncidenceBase::IncidenceType type) const;
@@ -209,54 +213,74 @@ bool MemoryCalendar::deleteIncidence(const Incidence::Ptr &incidence)
     // relations is an Incidence's property, not a Todo's, so
     // we remove relations in deleteIncidence, not in deleteTodo.
     removeRelations(incidence);
+    // Notify while the incidence is still available,
+    // this is necessary so korganizer still has time to query for exceptions
+    notifyIncidenceAboutToBeDeleted(incidence);
     const Incidence::IncidenceType type = incidence->type();
-    const QString uid = incidence->uid();
-    auto incidenceIt = d->mIncidences[type].constFind(uid);
-    if (incidenceIt != d->mIncidences[type].cend()) {
-        // Notify while the incidence is still available,
-        // this is necessary so korganizer still has time to query for exceptions
-        notifyIncidenceAboutToBeDeleted(incidence);
-
-        d->mIncidences[type].erase(incidenceIt);
-        d->mIncidencesByIdentifier.remove(incidence->instanceIdentifier());
+    const QString &uid = incidence->uid();
+    bool deleted = d->deleteIncidence(uid, type, incidence->recurrenceId());
+    if (deleted) {
         setModified(true);
         if (deletionTracking()) {
             d->mDeletedIncidences[type].insert(uid, incidence);
         }
 
-        const QDateTime dt = incidence->dateTime(Incidence::RoleCalendarHashing);
-        if (dt.isValid()) {
-            d->mIncidencesForDate[type].remove(dt.toTimeZone(timeZone()).date(), incidence);
-        }
         // Delete child-incidences.
-        if (!incidence->hasRecurrenceId()) {
+        if (!incidence->hasRecurrenceId() && incidence->recurs()) {
             deleteIncidenceInstances(incidence);
         }
-        notifyIncidenceDeleted(incidence);
-        return true;
     } else {
         qCWarning(KCALCORE_LOG) << incidence->typeStr() << " not found. uid=" << uid;
-        return false;
     }
+    notifyIncidenceDeleted(incidence);
+    return deleted;
 }
 
 bool MemoryCalendar::deleteIncidenceInstances(const Incidence::Ptr &incidence)
 {
-    d->forIncidences<Incidence>(d->mIncidences[incidence->type()], incidence->uid(), [this](const Incidence::Ptr &incidence) {
-        if (incidence->hasRecurrenceId()) {
+    Incidence::List instances;
+    for (auto it = d->mIncidences[incidence->type()].constFind(incidence->uid()), end = d->mIncidences[incidence->type()].constEnd(); it != end && it.key() == incidence->uid(); ++it) {
+        if (it.value()->hasRecurrenceId()) {
             qCDebug(KCALCORE_LOG) << "deleting child"
                                   << ", type=" << int(incidence->type())
                                   << ", uid=" << incidence->uid()
 //                   << ", start=" << i->dtStart()
                                   << " from calendar";
-            deleteIncidence(incidence);
+            // Don't call deleteIncidence() now since it's modifying the
+            // mIncidences map we're iterating over.
+            instances.append(it.value());
         }
-    });
+    }
+    for (Incidence::Ptr instance : instances) {
+        deleteIncidence(instance);
+    }
 
     return true;
 }
 
 //@cond PRIVATE
+bool MemoryCalendar::Private::deleteIncidence(const QString &uid,
+                                              IncidenceBase::IncidenceType type,
+                                              const QDateTime &recurrenceId)
+{
+    for (auto it = mIncidences[type].find(uid), end = mIncidences[type].end(); it != end && it.key() == uid; ++it) {
+        Incidence::Ptr incidence = it.value();
+        if (recurrenceId.isNull() && incidence->hasRecurrenceId()) {
+            continue;
+        } else if (!recurrenceId.isNull() && (!incidence->hasRecurrenceId() || recurrenceId != incidence->recurrenceId())) {
+            continue;
+        }
+        mIncidences[type].erase(it);
+        mIncidencesByIdentifier.remove(incidence->instanceIdentifier());
+        const QDateTime dt = incidence->dateTime(Incidence::RoleCalendarHashing);
+        if (dt.isValid()) {
+            mIncidencesForDate[type].remove(dt.toTimeZone(q->timeZone()).date(), incidence);
+        }
+        return true;
+    }
+    return false;
+}
+
 void MemoryCalendar::Private::deleteAllIncidences(Incidence::IncidenceType incidenceType)
 {
     for (auto &incidence : mIncidences[incidenceType]) {
