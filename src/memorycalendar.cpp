@@ -196,6 +196,8 @@ void MemoryCalendar::close()
         table.clear();
     }
 
+    clearNotebookAssociations();
+
     setModified(false);
 
     setObserversEnabled(true);

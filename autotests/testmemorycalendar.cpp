@@ -18,6 +18,35 @@ QTEST_MAIN(MemoryCalendarTest)
 
 using namespace KCalendarCore;
 
+void MemoryCalendarTest::testClose()
+{
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+
+    Event::Ptr event1(new Event);
+    cal->addIncidence(event1);
+
+    const QString nbuid = QString::fromLatin1("test-notebook");
+    QVERIFY(cal->addNotebook(nbuid, true));
+
+    Event::Ptr event2(new Event);
+    cal->addIncidence(event2);
+    cal->setNotebook(event2, nbuid);
+
+    QCOMPARE(cal->incidences().count(), 2);
+    QVERIFY(cal->instance(event1->instanceIdentifier()));
+    QVERIFY(cal->instance(event2->instanceIdentifier()));
+    QVERIFY(cal->event(event1->uid()));
+    QVERIFY(cal->event(event2->uid()));
+    QCOMPARE(cal->incidences(nbuid).count(), 1);
+
+    cal->close();
+
+    QVERIFY(!cal->event(event1->uid()));
+    QVERIFY(!cal->event(event2->uid()));
+    QVERIFY(cal->incidences().isEmpty());
+    QVERIFY(cal->incidences(nbuid).isEmpty());
+}
+
 void MemoryCalendarTest::testValidity()
 {
     MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
