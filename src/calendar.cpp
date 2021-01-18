@@ -227,7 +227,7 @@ void Calendar::setFilter(CalFilter *filter)
     } else {
         d->mFilter = d->mDefaultFilter;
     }
-    emit filterChanged();
+    Q_EMIT filterChanged();
 }
 
 CalFilter *Calendar::filter() const
