@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
-set(KF5_VERSION "5.79.0") # handled by release scripts
+set(KF_VERSION "5.79.0") # handled by release scripts
 
-project(KCalendarCore VERSION ${KF5_VERSION})
+project(KCalendarCore VERSION ${KF_VERSION})
 
 # ECM setup
 include(FeatureSummary)
@@ -37,7 +37,7 @@ if(POLICY CMP0053)
   cmake_policy(SET CMP0053 NEW)
 endif()
 
-set(KCALENDARCORE_LIB_VERSION ${KF5_VERSION})
+set(KCALENDARCORE_LIB_VERSION ${KF_VERSION})
 ecm_setup_version(PROJECT VARIABLE_PREFIX KCALENDARCORE
   VERSION_HEADER "${KCalendarCore_BINARY_DIR}/kcalendarcore_version.h"
   PACKAGE_VERSION_FILE "${KCalendarCore_BINARY_DIR}/KF5CalendarCoreConfigVersion.cmake"
