@@ -153,41 +153,41 @@ public:
       The different types of incidence fields.
     */
     enum Field {
-        FieldDtStart,         ///> Field representing the DTSTART component.
-        FieldDtEnd,           ///> Field representing the DTEND component.
-        FieldLastModified,    ///> Field representing the LAST-MODIFIED component.
-        FieldDescription,     ///> Field representing the DESCRIPTION component.
-        FieldSummary,         ///> Field representing the SUMMARY component.
-        FieldLocation,        ///> Field representing the LOCATION component.
-        FieldCompleted,       ///> Field representing the COMPLETED component.
-        FieldPercentComplete, ///> Field representing the PERCENT-COMPLETE component.
-        FieldDtDue,           ///> Field representing the DUE component.
-        FieldCategories,      ///> Field representing the CATEGORIES component.
-        FieldRelatedTo,       ///> Field representing the RELATED-TO component.
-        FieldRecurrence,      ///> Field representing the EXDATE, EXRULE, RDATE, and RRULE components.
-        FieldAttachment,      ///> Field representing the ATTACH component.
-        FieldSecrecy,         ///> Field representing the CLASS component.
-        FieldStatus,          ///> Field representing the STATUS component.
-        FieldTransparency,    ///> Field representing the TRANSPARENCY component.
-        FieldResources,       ///> Field representing the RESOURCES component.
-        FieldPriority,        ///> Field representing the PRIORITY component.
-        FieldGeoLatitude,     ///> Field representing the latitude part of the GEO component.
-        FieldGeoLongitude,    ///> Field representing the longitude part of the GEO component.
-        FieldRecurrenceId,    ///> Field representing the RECURRENCE-ID component.
-        FieldAlarms,          ///> Field representing the VALARM component.
-        FieldSchedulingId,    ///> Field representing the X-KDE-LIBKCAL-ID component.
-        FieldAttendees,       ///> Field representing the ATTENDEE component.
-        FieldOrganizer,       ///> Field representing the ORGANIZER component.
-        FieldCreated,         ///> Field representing the CREATED component.
-        FieldRevision,        ///> Field representing the SEQUENCE component.
-        FieldDuration,        ///> Field representing the DURATION component.
-        FieldContact,         ///> Field representing the CONTACT component.
-        FieldComment,         ///> Field representing the COMMENT component.
-        FieldUid,             ///> Field representing the UID component.
-        FieldUnknown,         ///> Something changed. Always set when you use the assignment operator.
-        FieldUrl,             ///> Field representing the URL component.
-        FieldConferences,     ///> Field representing the CONFERENCE component.
-        FieldColor            ///> Field representing the COLOR component.
+        FieldDtStart,         ///< Field representing the DTSTART component.
+        FieldDtEnd,           ///< Field representing the DTEND component.
+        FieldLastModified,    ///< Field representing the LAST-MODIFIED component.
+        FieldDescription,     ///< Field representing the DESCRIPTION component.
+        FieldSummary,         ///< Field representing the SUMMARY component.
+        FieldLocation,        ///< Field representing the LOCATION component.
+        FieldCompleted,       ///< Field representing the COMPLETED component.
+        FieldPercentComplete, ///< Field representing the PERCENT-COMPLETE component.
+        FieldDtDue,           ///< Field representing the DUE component.
+        FieldCategories,      ///< Field representing the CATEGORIES component.
+        FieldRelatedTo,       ///< Field representing the RELATED-TO component.
+        FieldRecurrence,      ///< Field representing the EXDATE, EXRULE, RDATE, and RRULE components.
+        FieldAttachment,      ///< Field representing the ATTACH component.
+        FieldSecrecy,         ///< Field representing the CLASS component.
+        FieldStatus,          ///< Field representing the STATUS component.
+        FieldTransparency,    ///< Field representing the TRANSPARENCY component.
+        FieldResources,       ///< Field representing the RESOURCES component.
+        FieldPriority,        ///< Field representing the PRIORITY component.
+        FieldGeoLatitude,     ///< Field representing the latitude part of the GEO component.
+        FieldGeoLongitude,    ///< Field representing the longitude part of the GEO component.
+        FieldRecurrenceId,    ///< Field representing the RECURRENCE-ID component.
+        FieldAlarms,          ///< Field representing the VALARM component.
+        FieldSchedulingId,    ///< Field representing the X-KDE-LIBKCAL-ID component.
+        FieldAttendees,       ///< Field representing the ATTENDEE component.
+        FieldOrganizer,       ///< Field representing the ORGANIZER component.
+        FieldCreated,         ///< Field representing the CREATED component.
+        FieldRevision,        ///< Field representing the SEQUENCE component.
+        FieldDuration,        ///< Field representing the DURATION component.
+        FieldContact,         ///< Field representing the CONTACT component.
+        FieldComment,         ///< Field representing the COMMENT component.
+        FieldUid,             ///< Field representing the UID component.
+        FieldUnknown,         ///< Something changed. Always set when you use the assignment operator.
+        FieldUrl,             ///< Field representing the URL component.
+        FieldConferences,     ///< Field representing the CONFERENCE component.
+        FieldColor            ///< Field representing the COLOR component.
     };
 
     /**
