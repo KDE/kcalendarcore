@@ -448,3 +448,50 @@ void MemoryCalendarTest::testDeleteIncidence()
     QVERIFY(cal->incidence(event->uid(), exception2->recurrenceId()).isNull());
     QVERIFY(cal->incidence(event->uid()).isNull());
 }
+
+void MemoryCalendarTest::testUpdateIncidence()
+{
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+
+    const QDateTime dt(QDate(2021, 02, 25), QTime(14, 0), Qt::UTC);
+    Event::Ptr event(new Event());
+    event->setCreated(dt);
+    event->setLastModified(dt);
+    event->setDtStart(dt);
+    event->setDtEnd(dt.addSecs(3600));
+
+    // Adding event to cal, makes cal an observer of event.
+    QVERIFY(cal->addIncidence(event));
+    QCOMPARE(cal->rawEventsForDate(dt).count(), 1);
+
+    QVERIFY(cal->updateLastModifiedOnChange());
+
+    const QDateTime now = QDateTime::currentDateTimeUtc();
+
+    // Any single modfication is updating the lastModified field.
+    event->setSummary(QString::fromLatin1("test"));
+    QVERIFY(event->lastModified().secsTo(now) < 5);
+
+    // Reset lastModified field.
+    event->setLastModified(dt);
+    QCOMPARE(event->lastModified(), dt);
+
+    // Any modification within a startUpdates()/endUpdates() should not touch
+    // lastModified field, before the changes are completed.
+    event->startUpdates();
+    QVERIFY(cal->rawEventsForDate(dt).isEmpty());
+    event->setSummary(QString::fromLatin1("test again"));
+    QCOMPARE(event->lastModified(), dt);
+    event->endUpdates();
+    QVERIFY(event->lastModified().secsTo(now) < 5);
+    QCOMPARE(cal->rawEventsForDate(dt).count(), 1);
+
+    // Reset lastModified field.
+    event->setLastModified(dt);
+    QCOMPARE(event->lastModified(), dt);
+
+    // Don't update lastModified on change.
+    cal->setUpdateLastModifiedOnChange(false);
+    event->setSummary(QString::fromLatin1("last test"));
+    QCOMPARE(event->lastModified(), dt);
+}

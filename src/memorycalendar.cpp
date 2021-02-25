@@ -41,7 +41,7 @@ private:
 
 public:
     Private(MemoryCalendar *qq)
-        : q(qq), mFormat(nullptr)
+        : q(qq), mFormat(nullptr), mUpdateLastModified(true)
     {
     }
     ~Private()
@@ -51,6 +51,7 @@ public:
     MemoryCalendar *q;
     CalFormat *mFormat;                    // calendar format
     QString mIncidenceBeingUpdated;        //  Instance identifier of Incidence currently being updated
+    bool mUpdateLastModified;              // Call setLastModified() on incidence modific ations
 
 
     /**
@@ -529,6 +530,16 @@ Alarm::List MemoryCalendar::alarms(const QDateTime &from, const QDateTime &to, b
     return alarmList;
 }
 
+bool MemoryCalendar::updateLastModifiedOnChange() const
+{
+    return d->mUpdateLastModified;
+}
+
+void MemoryCalendar::setUpdateLastModifiedOnChange(bool update)
+{
+    d->mUpdateLastModified = update;
+}
+
 void MemoryCalendar::incidenceUpdate(const QString &uid, const QDateTime &recurrenceId)
 {
     Incidence::Ptr inc = incidence(uid, recurrenceId);
@@ -564,7 +575,9 @@ void MemoryCalendar::incidenceUpdated(const QString &uid, const QDateTime &recur
 
         d->mIncidenceBeingUpdated = QString();
 
-        inc->setLastModified(QDateTime::currentDateTimeUtc());
+        if (d->mUpdateLastModified) {
+            inc->setLastModified(QDateTime::currentDateTimeUtc());
+        }
         // we should probably update the revision number here,
         // or internally in the Event itself when certain things change.
         // need to verify with ical documentation.

@@ -294,6 +294,25 @@ public:
     Q_REQUIRED_RESULT Alarm::List alarmsTo(const QDateTime &to) const; // TODO KF6 remove, already defined in Calendar
 
     /**
+      Return true if the memory calendar is updating the lastModified field
+      of incidence owned by the calendar on any incidence change.
+
+      @since 5.80
+    */
+    bool updateLastModifiedOnChange() const;
+
+    /**
+      Govern if the memory calendar is changing the lastModified field of incidence
+      it owns, on incidence updates.
+
+      @param update, when true, the lastModified field of an incidence owned by the
+      calendar is set to the current date time on any change of the incidence.
+
+      @since 5.80
+    */
+    void setUpdateLastModifiedOnChange(bool update);
+
+    /**
       @copydoc Calendar::incidenceUpdate(const QString &,const QDateTime &)
     */
     void incidenceUpdate(const QString &uid, const QDateTime &recurrenceId) override;
