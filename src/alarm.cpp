@@ -126,13 +126,13 @@ static bool compareMailAddresses(const Person::List &list1, const Person::List &
 
 bool Alarm::operator==(const Alarm &rhs) const
 {
-    if (d->mType != rhs.d->mType ||
-            d->mAlarmSnoozeTime != rhs.d->mAlarmSnoozeTime ||
-            d->mAlarmRepeatCount != rhs.d->mAlarmRepeatCount ||
-            d->mAlarmEnabled != rhs.d->mAlarmEnabled ||
-            d->mHasTime != rhs.d->mHasTime ||
-            d->mHasLocationRadius != rhs.d->mHasLocationRadius ||
-            d->mLocationRadius != rhs.d->mLocationRadius) {
+    if (d->mType != rhs.d->mType //
+        || d->mAlarmSnoozeTime != rhs.d->mAlarmSnoozeTime //
+        || d->mAlarmRepeatCount != rhs.d->mAlarmRepeatCount //
+        || d->mAlarmEnabled != rhs.d->mAlarmEnabled //
+        || d->mHasTime != rhs.d->mHasTime //
+        || d->mHasLocationRadius != rhs.d->mHasLocationRadius //
+        || d->mLocationRadius != rhs.d->mLocationRadius) {
         return false;
     }
 
@@ -151,10 +151,10 @@ bool Alarm::operator==(const Alarm &rhs) const
         return d->mDescription == rhs.d->mDescription;
 
     case Email:
-        return d->mDescription == rhs.d->mDescription &&
-               d->mMailAttachFiles == rhs.d->mMailAttachFiles &&
-               compareMailAddresses(d->mMailAddresses, rhs.d->mMailAddresses) &&
-               d->mMailSubject == rhs.d->mMailSubject;
+        return d->mDescription == rhs.d->mDescription //
+            && d->mMailAttachFiles == rhs.d->mMailAttachFiles //
+            && compareMailAddresses(d->mMailAddresses, rhs.d->mMailAddresses) //
+            && d->mMailSubject == rhs.d->mMailSubject;
 
     case Procedure:
         return d->mFile == rhs.d->mFile &&

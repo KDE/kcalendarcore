@@ -2154,6 +2154,7 @@ void ICalFormatImpl::readRecurrence(const struct icalrecurrencetype &r, Recurren
     int i;
     int index = 0;
 
+// clang-format off
 //@cond PRIVATE
 #define readSetByList( rrulecomp, setfunc )                             \
     index = 0;                                                            \
@@ -2165,6 +2166,7 @@ void ICalFormatImpl::readRecurrence(const struct icalrecurrencetype &r, Recurren
         recur->setfunc( lst );                                              \
     }
 //@endcond
+// clang-format on
 
     // BYSECOND, MINUTE and HOUR, MONTHDAY, YEARDAY, WEEKNUMBER, MONTH
     // and SETPOS are standard int lists, so we can treat them with the

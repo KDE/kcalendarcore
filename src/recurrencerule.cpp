@@ -439,6 +439,7 @@ QDateTime Constraint::intervalDateTime(RecurrenceRule::PeriodType type) const
 
 bool Constraint::merge(const Constraint &interval)
 {
+// clang-format off
 #define mergeConstraint( name, cmparison ) \
     if ( interval.name cmparison ) { \
         if ( !( name cmparison ) ) { \
@@ -447,6 +448,7 @@ bool Constraint::merge(const Constraint &interval)
             return false;\
         } \
     }
+// clang-format on
 
     useCachedDt = false;
 
@@ -1194,6 +1196,7 @@ void RecurrenceRule::Private::buildConstraints()
     int i, iend;
     Constraint::List tmp;
 
+// clang-format off
 #define intConstraint( list, setElement ) \
     if ( !list.isEmpty() ) { \
         mNoByRules = false; \
@@ -1215,6 +1218,7 @@ void RecurrenceRule::Private::buildConstraints()
             tmp.clear(); \
         } \
     }
+// clang-format on
 
     intConstraint(mBySeconds, setSecond);
     intConstraint(mByMinutes, setMinute);
@@ -1240,12 +1244,14 @@ void RecurrenceRule::Private::buildConstraints()
         tmp.clear();
     }
 
+// clang-format off
 #define fixConstraint( setElement, value ) \
     { \
         for ( c = 0, cend = mConstraints.count();  c < cend;  ++c ) { \
             mConstraints[c].setElement( value );                        \
         } \
     }
+// clang-format on
     // Now determine missing values from DTSTART. This can speed up things,
     // because we have more restrictions and save some loops.
 
@@ -2042,7 +2048,7 @@ void RecurrenceRule::dump() const
     qCDebug(KCALCORE_LOG) << "   #occurrences:" << duration();
     qCDebug(KCALCORE_LOG) << "   start date:" << dumpTime(startDt(), allDay())
                           << ", end date:" << dumpTime(endDt(), allDay());
-
+// clang-format off
 #define dumpByIntList(list,label) \
     if ( !list.isEmpty() ) {\
         QStringList lst;\
@@ -2051,6 +2057,7 @@ void RecurrenceRule::dump() const
         }\
         qCDebug(KCALCORE_LOG) << "  " << label << lst.join(QLatin1String(", ") );\
     }
+// clang-format on
     dumpByIntList(d->mBySeconds, QStringLiteral("BySeconds:  "));
     dumpByIntList(d->mByMinutes, QStringLiteral("ByMinutes:  "));
     dumpByIntList(d->mByHours, QStringLiteral("ByHours:    "));

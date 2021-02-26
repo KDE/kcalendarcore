@@ -192,13 +192,13 @@ Attachment &Attachment::operator=(const Attachment &other) = default;
 
 bool Attachment::operator==(const Attachment &a2) const
 {
-    return uri()          == a2.uri() &&
-           d->mLabel      == a2.label() &&
-           d->mLocal      == a2.isLocal() &&
-           d->mBinary     == a2.isBinary() &&
-           d->mShowInline == a2.showInline() &&
-           size()         == a2.size() &&
-           decodedData()  == a2.decodedData();
+    return uri() == a2.uri() //
+        && d->mLabel == a2.label() //
+        && d->mLocal == a2.isLocal() //
+        && d->mBinary == a2.isBinary() //
+        && d->mShowInline == a2.showInline() //
+        && size() == a2.size() //
+        && decodedData() == a2.decodedData();
 }
 
 bool Attachment::operator!=(const Attachment &a2) const

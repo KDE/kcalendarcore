@@ -275,7 +275,7 @@ bool Incidence::equals(const IncidenceBase &incidence) const
     } else {
         return false;
     }
-
+    // clang-format off
     return
         recurrenceEqual
         && created() == i2->created()
@@ -294,6 +294,7 @@ bool Incidence::equals(const IncidenceBase &incidence) const
         && recurrenceId() == i2->recurrenceId()
         && conferences() == i2->conferences()
         && thisAndFuture() == i2->thisAndFuture();
+    // clang-format on
 }
 
 QString Incidence::instanceIdentifier() const
