@@ -29,7 +29,7 @@ enum iTIPMethod {
     iTIPRefresh,       /**< Event or to-do description update request */
     iTIPCounter,       /**< Event or to-do submit counter proposal */
     iTIPDeclineCounter,/**< Event or to-do decline a counter proposal */
-    iTIPNoMethod       /**< No method */
+    iTIPNoMethod,      /**< No method */
 };
 
 /**
@@ -51,7 +51,7 @@ public:
         Obsolete,        /**< obsolete */
         RequestNew,      /**< Request new message posting */
         RequestUpdate,   /**< Request updated message */
-        Unknown          /**< No status */
+        Unknown,         /**< No status */
     };
 
     /**

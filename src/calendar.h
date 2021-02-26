@@ -59,7 +59,7 @@ class ICalFormat;
 */
 enum SortDirection {
     SortDirectionAscending,  /**< Sort in ascending order (first to last) */
-    SortDirectionDescending  /**< Sort in descending order (last to first) */
+    SortDirectionDescending, /**< Sort in descending order (last to first) */
 };
 
 /**
@@ -69,7 +69,7 @@ enum EventSortField {
     EventSortUnsorted,       /**< Do not sort Events */
     EventSortStartDate,      /**< Sort Events chronologically, by start date */
     EventSortEndDate,        /**< Sort Events chronologically, by end date */
-    EventSortSummary         /**< Sort Events alphabetically, by summary */
+    EventSortSummary,        /**< Sort Events alphabetically, by summary */
 };
 
 /**
@@ -82,7 +82,7 @@ enum TodoSortField {
     TodoSortPriority,        /**< Sort Todos by priority */
     TodoSortPercentComplete, /**< Sort Todos by percentage completed */
     TodoSortSummary,         /**< Sort Todos alphabetically, by summary */
-    TodoSortCreated          /**< Sort Todos chronologically, by creation date */
+    TodoSortCreated,         /**< Sort Todos chronologically, by creation date */
 };
 
 /**
@@ -91,7 +91,7 @@ enum TodoSortField {
 enum JournalSortField {
     JournalSortUnsorted,     /**< Do not sort Journals */
     JournalSortDate,         /**< Sort Journals chronologically by date */
-    JournalSortSummary       /**< Sort Journals alphabetically, by summary */
+    JournalSortSummary,      /**< Sort Journals alphabetically, by summary */
 };
 
 /**

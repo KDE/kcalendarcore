@@ -70,7 +70,7 @@ public:
         Delegated,       /**< Event or to-do delegated */
         Completed,       /**< To-do completed */
         InProcess,       /**< To-do in process of being completed */
-        None
+        None,
     };
     Q_ENUM(PartStat)
 
@@ -81,7 +81,7 @@ public:
         ReqParticipant,  /**< Participation is required (default) */
         OptParticipant,  /**< Participation is optional */
         NonParticipant,  /**< Non-Participant; copied for information purposes */
-        Chair            /**< Chairperson */
+        Chair,           /**< Chairperson */
     };
     Q_ENUM(Role)
 
@@ -95,7 +95,7 @@ public:
         Group,            /**< A group of individuals */
         Resource,         /**< A physical resource */
         Room,             /**< A room resource */
-        Unknown           /**< Otherwise not known */
+        Unknown,          /**< Otherwise not known */
         /**
          * Parameters that have to set via the QString variant of @setCuType() and @cuType()
          * x-name         ; Experimental cuType

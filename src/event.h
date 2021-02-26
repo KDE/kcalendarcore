@@ -38,7 +38,7 @@ public:
     */
     enum Transparency {
         Opaque,      /**< Event appears in free/busy time */
-        Transparent  /**< Event does @b not appear in free/busy time */
+        Transparent, /**< Event does @b not appear in free/busy time */
     };
     Q_ENUM(Transparency)
 

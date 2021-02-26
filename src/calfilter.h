@@ -51,7 +51,7 @@ public:
         HideCompletedTodos = 2,/**< Remove completed to-dos */
         ShowCategories = 4,    /**< Show incidences with at least one matching category */
         HideInactiveTodos = 8, /**< Remove to-dos that haven't started yet */
-        HideNoMatchingAttendeeTodos = 16 /**< Remove to-dos without a matching attendee */
+        HideNoMatchingAttendeeTodos = 16, /**< Remove to-dos without a matching attendee */
     };
 
     /**

@@ -49,7 +49,7 @@ public:
     */
     enum Type {
         Seconds,   /**< duration is a number of seconds */
-        Days       /**< duration is a number of days */
+        Days,      /**< duration is a number of days */
     };
 
     /**

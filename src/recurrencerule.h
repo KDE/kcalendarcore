@@ -48,7 +48,7 @@ public:
         rDaily,
         rWeekly,
         rMonthly,
-        rYearly
+        rYearly,
     };
 
     /** structure for describing the n-th weekday of the month/year. */

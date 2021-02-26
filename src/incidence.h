@@ -87,7 +87,7 @@ public:
         StatusInProcess,      /**< to-do in process */
         StatusDraft,          /**< journal is draft */
         StatusFinal,          /**< journal is final */
-        StatusX               /**< a non-standard status string */
+        StatusX,              /**< a non-standard status string */
     };
     Q_ENUM(Status)
 
@@ -97,7 +97,7 @@ public:
     enum Secrecy {
         SecrecyPublic,      /**< Not secret (default) */
         SecrecyPrivate,     /**< Secret to the owner */
-        SecrecyConfidential /**< Secret to the owner and some others */
+        SecrecyConfidential,/**< Secret to the owner and some others */
     };
     Q_ENUM(Secrecy)
 
@@ -108,7 +108,7 @@ public:
     enum RelType {
         RelTypeParent,  /**< The related incidence is a parent. */
         RelTypeChild,   /**< The related incidence is a child. */
-        RelTypeSibling  /**< The related incidence is a peer. */
+        RelTypeSibling, /**< The related incidence is a peer. */
     };
 
     /**

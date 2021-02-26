@@ -69,7 +69,7 @@ enum DateTimeComparison {
         *   and ends after the end of the other,
         *   i.e. s1 = s2, e1 > e2.
         */
-    EndsAt = Before | AtStart | Inside | AtEnd
+    EndsAt = Before | AtStart | Inside | AtEnd,
                 /**< The first QDateTime starts before the start of the other,
                 *   and ends at the same time as the other,
                 *   i.e. s1 < s2, e1 = e2.

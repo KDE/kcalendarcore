@@ -59,7 +59,7 @@ public:
         Display,   /**< Display a dialog box */
         Procedure, /**< Call a script */
         Email,     /**< Send email */
-        Audio      /**< Play an audio file */
+        Audio,     /**< Play an audio file */
     };
 
     /**

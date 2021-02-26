@@ -39,7 +39,7 @@ public:
         Busy,
         BusyUnavailable,
         BusyTentative,
-        Unknown
+        Unknown,
     };
 
     /**

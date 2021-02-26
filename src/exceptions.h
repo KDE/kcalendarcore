@@ -67,7 +67,7 @@ public:
         ParseErrorNotIncidence,
         ParseErrorEmptyMessage,
         ParseErrorUnableToParse,
-        ParseErrorMethodProperty
+        ParseErrorMethodProperty,
     };
 
     /**

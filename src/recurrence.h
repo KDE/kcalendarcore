@@ -97,7 +97,7 @@ public:
         rYearlyDay = 0x0008,
         rYearlyPos = 0x0009,
         rOther = 0x000A,
-        rMax = 0x00FF
+        rMax = 0x00FF,
     };
 
     /**

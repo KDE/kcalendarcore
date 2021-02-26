@@ -118,7 +118,7 @@ public:
         TypeTodo,                /**< Type is a to-do */
         TypeJournal,             /**< Type is a journal */
         TypeFreeBusy,            /**< Type is a free/busy */
-        TypeUnknown              /**< Type unknown */
+        TypeUnknown,             /**< Type unknown */
     };
 
     /**
@@ -146,7 +146,7 @@ public:
                                     This is one place KCalendarCore isn't compliant with RFC2445) */
         RoleDisplayStart,        /**< Role for display purposes, represents the start boundary of an
                                     incidence. To-dos return dtDue here, for historical reasons */
-        RoleDnD                  /**< Role for determining new start and end dates after a DnD */
+        RoleDnD,                 /**< Role for determining new start and end dates after a DnD */
     };
 
     /**
@@ -187,7 +187,7 @@ public:
         FieldUnknown,         ///< Something changed. Always set when you use the assignment operator.
         FieldUrl,             ///< Field representing the URL component.
         FieldConferences,     ///< Field representing the CONFERENCE component.
-        FieldColor            ///< Field representing the COLOR component.
+        FieldColor,           ///< Field representing the COLOR component.
     };
 
     /**

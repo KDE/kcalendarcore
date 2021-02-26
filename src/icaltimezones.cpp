@@ -185,7 +185,7 @@ icalcomponent *ICalTimeZoneParser::icalcomponentFromQTimeZone(const QTimeZone &t
     enum {
         DAY_OF_MONTH          = 0x01,
         WEEKDAY_OF_MONTH      = 0x02,
-        LAST_WEEKDAY_OF_MONTH = 0x04
+        LAST_WEEKDAY_OF_MONTH = 0x04,
     };
 
     // Write the time zone data into an iCal component
