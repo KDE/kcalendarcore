@@ -18,11 +18,11 @@
 #ifndef KCALCORE_PERIOD_H
 #define KCALCORE_PERIOD_H
 
-#include "kcalendarcore_export.h"
 #include "duration.h"
+#include "kcalendarcore_export.h"
 
-#include <QDateTime>
 #include <QDataStream>
+#include <QDateTime>
 #include <QMetaType>
 #include <QVector>
 
@@ -30,7 +30,6 @@ class QTimeZone;
 
 namespace KCalendarCore
 {
-
 /**
   The period can be defined by either a start time and an end time or
   by a start time and a duration.
@@ -93,7 +92,7 @@ public:
     */
     bool operator>(const Period &other) const
     {
-        return other.operator < (*this);
+        return other.operator<(*this);
     }
 
     /**
@@ -189,11 +188,9 @@ private:
     Private *const d;
     //@endcond
 
-    friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
-            const KCalendarCore::Period &period);
+    friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalendarCore::Period &period);
 
-    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream,
-            KCalendarCore::Period &period);
+    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalendarCore::Period &period);
 };
 
 /** Write @p period to the datastream @p stream, in binary format. */

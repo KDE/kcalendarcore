@@ -32,7 +32,6 @@
 
 namespace KCalendarCore
 {
-
 class ExceptionPrivate;
 
 /**
@@ -42,22 +41,21 @@ class ExceptionPrivate;
 class KCALENDARCORE_EXPORT Exception
 {
 public:
-
     /**
       The different types of error codes
     */
     enum ErrorCode {
-        LoadError,         /**< Load error */
-        SaveError,         /**< Save error */
-        ParseErrorIcal,    /**< Parse error in libical */
-        ParseErrorKcal,    /**< Parse error in libkcal */
-        NoCalendar,        /**< No calendar component found */
-        CalVersion1,       /**< vCalendar v1.0 detected */
-        CalVersion2,       /**< iCalendar v2.0 detected */
+        LoadError, /**< Load error */
+        SaveError, /**< Save error */
+        ParseErrorIcal, /**< Parse error in libical */
+        ParseErrorKcal, /**< Parse error in libkcal */
+        NoCalendar, /**< No calendar component found */
+        CalVersion1, /**< vCalendar v1.0 detected */
+        CalVersion2, /**< iCalendar v2.0 detected */
         CalVersionUnknown, /**< Unknown calendar format detected */
-        Restriction,       /**< Restriction violation */
-        UserCancel,        /**< User canceled the operation */
-        NoWritableFound,   /**< No writable resource is available */
+        Restriction, /**< Restriction violation */
+        UserCancel, /**< User canceled the operation */
+        NoWritableFound, /**< No writable resource is available */
         SaveErrorOpenFile,
         SaveErrorSaveFile,
         LibICalError,
@@ -77,8 +75,7 @@ public:
              to an i18n engine to help build a descriptive message for the user, a common
              argument is for example the filename where the error occurred.
     */
-    explicit Exception(const ErrorCode code,
-                       const QStringList &arguments = QStringList());
+    explicit Exception(const ErrorCode code, const QStringList &arguments = QStringList());
 
     /**
       Destructor.

@@ -18,23 +18,22 @@
 #ifndef KCALCORE_INCIDENCE_H
 #define KCALCORE_INCIDENCE_H
 
-#include "kcalendarcore_export.h"
 #include "alarm.h"
 #include "attachment.h"
-#include "incidencebase.h"
-#include "recurrence.h"
 #include "conference.h"
+#include "incidencebase.h"
+#include "kcalendarcore_export.h"
+#include "recurrence.h"
 
 #include <QMetaType>
 
 //@cond PRIVATE
 // Value used to signal invalid/unset latitude or longitude.
-#define INVALID_LATLON 255.0 //krazy:exclude=defines (part of the API)
+#define INVALID_LATLON 255.0 // krazy:exclude=defines (part of the API)
 //@endcond
 
 namespace KCalendarCore
 {
-
 /**
   @brief
   Provides the abstract base class common to non-FreeBusy (Events, To-dos,
@@ -54,8 +53,7 @@ namespace KCalendarCore
   and Incidence contains all additional properties that are common to
   Events, Todos and Journals, but are not allowed for FreeBusy entries.
 */
-class KCALENDARCORE_EXPORT Incidence
-    : public IncidenceBase, public Recurrence::RecurrenceObserver
+class KCALENDARCORE_EXPORT Incidence : public IncidenceBase, public Recurrence::RecurrenceObserver
 {
     Q_GADGET
     Q_PROPERTY(QString description READ description WRITE setDescription)
@@ -72,22 +70,21 @@ class KCALENDARCORE_EXPORT Incidence
     Q_PROPERTY(QVariantList attachments READ attachmentsVariant)
     Q_PROPERTY(QVariantList conferences READ conferencesVariant)
 public:
-
     /**
       The different types of overall incidence status or confirmation.
       The meaning is specific to the incidence type in context.
     */
     enum Status {
-        StatusNone,           /**< No status */
-        StatusTentative,      /**< event is tentative */
-        StatusConfirmed,      /**< event is definite */
-        StatusCompleted,      /**< to-do completed */
-        StatusNeedsAction,    /**< to-do needs action */
-        StatusCanceled,       /**< event or to-do canceled; journal removed */
-        StatusInProcess,      /**< to-do in process */
-        StatusDraft,          /**< journal is draft */
-        StatusFinal,          /**< journal is final */
-        StatusX,              /**< a non-standard status string */
+        StatusNone, /**< No status */
+        StatusTentative, /**< event is tentative */
+        StatusConfirmed, /**< event is definite */
+        StatusCompleted, /**< to-do completed */
+        StatusNeedsAction, /**< to-do needs action */
+        StatusCanceled, /**< event or to-do canceled; journal removed */
+        StatusInProcess, /**< to-do in process */
+        StatusDraft, /**< journal is draft */
+        StatusFinal, /**< journal is final */
+        StatusX, /**< a non-standard status string */
     };
     Q_ENUM(Status)
 
@@ -95,9 +92,9 @@ public:
       The different types of incidence access classifications.
     */
     enum Secrecy {
-        SecrecyPublic,      /**< Not secret (default) */
-        SecrecyPrivate,     /**< Secret to the owner */
-        SecrecyConfidential,/**< Secret to the owner and some others */
+        SecrecyPublic, /**< Not secret (default) */
+        SecrecyPrivate, /**< Secret to the owner */
+        SecrecyConfidential, /**< Secret to the owner and some others */
     };
     Q_ENUM(Secrecy)
 
@@ -106,8 +103,8 @@ public:
        Only RelTypeParent is supported for now.
     */
     enum RelType {
-        RelTypeParent,  /**< The related incidence is a parent. */
-        RelTypeChild,   /**< The related incidence is a child. */
+        RelTypeParent, /**< The related incidence is a parent. */
+        RelTypeChild, /**< The related incidence is a child. */
         RelTypeSibling, /**< The related incidence is a peer. */
     };
 
@@ -415,9 +412,9 @@ public:
      */
     Q_REQUIRED_RESULT QString color() const;
 
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// %%%%%  Convenience wrappers for property handling
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    // %%%%%  Convenience wrappers for property handling
+    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     /**
        Returns true if the alternative (=text/html) description is
        available.
@@ -439,9 +436,9 @@ public:
     */
     Q_REQUIRED_RESULT QString altDescription() const;
 
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// %%%%%  Recurrence-related methods
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    // %%%%%  Recurrence-related methods
+    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     /**
       Returns the recurrence rule associated with this incidence. If there is
@@ -485,8 +482,7 @@ public:
       given date; an empty list if the incidence does not overlap with the
       date at all.
     */
-    virtual QList<QDateTime> startDateTimesForDate(const QDate &date,
-                                                   const QTimeZone &timeZone) const;
+    virtual QList<QDateTime> startDateTimesForDate(const QDate &date, const QTimeZone &timeZone) const;
 
     /**
       Calculates the start date/time for all recurrences that happen at the
@@ -510,9 +506,9 @@ public:
     */
     Q_REQUIRED_RESULT virtual QDateTime endDateForStart(const QDateTime &startDt) const;
 
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// %%%%%  Attachment-related methods
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    // %%%%%  Attachment-related methods
+    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     /**
       Adds an attachment to the incidence.
@@ -550,9 +546,9 @@ public:
     */
     void clearAttachments();
 
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// %%%%%  Secrecy and Status methods
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    // %%%%%  Secrecy and Status methods
+    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     /**
       Sets the incidence #Secrecy.
@@ -598,9 +594,9 @@ public:
     */
     Q_REQUIRED_RESULT Status status() const;
 
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// %%%%%  Other methods
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    // %%%%%  Other methods
+    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     /**
       Sets a list of incidence resources. (Note: resources in this context
@@ -713,9 +709,9 @@ public:
     */
     Q_REQUIRED_RESULT bool thisAndFuture() const;
 
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// %%%%%  Alarm-related methods
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    // %%%%%  Alarm-related methods
+    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     /**
       Returns a list of all incidence alarms.
@@ -754,10 +750,9 @@ public:
     */
     Q_REQUIRED_RESULT bool hasEnabledAlarms() const;
 
-
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// %%%%% Conferences-related method
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    // %%%%% Conferences-related method
+    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     /**
      * Returns list of all incidence conferencing methods.
@@ -787,9 +782,9 @@ public:
      */
     void clearConferences();
 
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// %%%%%  Other methods
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    // %%%%%  Other methods
+    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     /**
       Set the incidence scheduling ID. Do _not_ use with journals.
@@ -815,8 +810,7 @@ public:
              is ignored.
       @see schedulingID().
     */
-    void setSchedulingID(const QString &sid,
-                         const QString &uid = QString());
+    void setSchedulingID(const QString &sid, const QString &uid = QString());
 
     /**
       Returns the incidence scheduling ID. Do _not_ use with journals.
@@ -861,7 +855,6 @@ public:
     Q_REQUIRED_RESULT static QStringList mimeTypes();
 
 protected:
-
     /**
       Copy constructor.
       @param other is the incidence to copy.

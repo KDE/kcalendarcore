@@ -8,11 +8,11 @@
 #ifndef KCALCORE_ICALTIMEZONES_P_H
 #define KCALCORE_ICALTIMEZONES_P_H
 
-#include "kcalendarcore_export.h"
 #include "incidencebase.h"
+#include "kcalendarcore_export.h"
 
-#include <QTimeZone>
 #include <QHash>
+#include <QTimeZone>
 #include <QVector>
 
 #ifndef ICALCOMPONENT_H
@@ -20,12 +20,11 @@ typedef struct icalcomponent_impl icalcomponent;
 #endif
 #ifndef ICALTIMEZONE_DEFINED
 #define ICALTIMEZONE_DEFINED
-typedef struct _icaltimezone  icaltimezone;
+typedef struct _icaltimezone icaltimezone;
 #endif
 
 namespace KCalendarCore
 {
-
 class ICalTimeZonePhase;
 
 class ICalTimeZonePhase
@@ -33,9 +32,9 @@ class ICalTimeZonePhase
 public:
     void dump();
 
-    QSet<QByteArray> abbrevs;         // abbreviations of the phase
-    int utcOffset = 0;                // UTC offset of the phase
-    QVector<QDateTime> transitions;   // times on which transition into this phase occurs
+    QSet<QByteArray> abbrevs; // abbreviations of the phase
+    int utcOffset = 0; // UTC offset of the phase
+    QVector<QDateTime> transitions; // times on which transition into this phase occurs
 };
 
 class ICalTimeZone
@@ -43,10 +42,10 @@ class ICalTimeZone
 public:
     void dump();
 
-    QByteArray id;                    // original TZID
-    QTimeZone qZone;                  // QTimeZone mapped from TZID
-    ICalTimeZonePhase standard;       // standard time
-    ICalTimeZonePhase daylight;       // DST time
+    QByteArray id; // original TZID
+    QTimeZone qZone; // QTimeZone mapped from TZID
+    ICalTimeZonePhase standard; // standard time
+    ICalTimeZonePhase daylight; // DST time
 };
 
 class KCALENDARCORE_EXPORT ICalTimeZoneCache
@@ -71,17 +70,13 @@ public:
 
     void parse(icalcomponent *calendar);
 
-    static void updateTzEarliestDate(const IncidenceBase::Ptr &incidence,
-                                     TimeZoneEarliestDate *earliestDate);
+    static void updateTzEarliestDate(const IncidenceBase::Ptr &incidence, TimeZoneEarliestDate *earliestDate);
 
-    static icaltimezone *icaltimezoneFromQTimeZone(const QTimeZone &qtz,
-                                                   const QDateTime &earliest);
-    static QByteArray vcaltimezoneFromQTimeZone(const QTimeZone &qtz,
-                                                const QDateTime &earliest);
+    static icaltimezone *icaltimezoneFromQTimeZone(const QTimeZone &qtz, const QDateTime &earliest);
+    static QByteArray vcaltimezoneFromQTimeZone(const QTimeZone &qtz, const QDateTime &earliest);
 
 private:
-    static icalcomponent *icalcomponentFromQTimeZone(const QTimeZone &qtz,
-                                                     const QDateTime &earliest);
+    static icalcomponent *icalcomponentFromQTimeZone(const QTimeZone &qtz, const QDateTime &earliest);
 
     ICalTimeZone parseTimeZone(icalcomponent *zone);
     bool parsePhase(icalcomponent *c, bool daylight, ICalTimeZonePhase &phase);

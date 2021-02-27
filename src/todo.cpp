@@ -19,9 +19,9 @@
 */
 
 #include "todo.h"
-#include "visitor.h"
 #include "recurrence.h"
 #include "utils_p.h"
+#include "visitor.h"
 
 #include "kcalendarcore_debug.h"
 
@@ -38,7 +38,8 @@ class Q_DECL_HIDDEN KCalendarCore::Todo::Private
 {
 public:
     Private()
-    {}
+    {
+    }
     Private(const KCalendarCore::Todo::Private &other)
     {
         init(other);
@@ -46,11 +47,11 @@ public:
 
     void init(const KCalendarCore::Todo::Private &other);
 
-    QDateTime mDtDue;        // to-do due date (if there is one)
+    QDateTime mDtDue; // to-do due date (if there is one)
     // ALSO the first occurrence of a recurring to-do
     QDateTime mDtRecurrence; // next occurrence (for recurring to-dos)
-    QDateTime mCompleted;    // to-do completion date (if it has been completed)
-    int mPercentComplete = 0;    // to-do percent complete [0,100]
+    QDateTime mCompleted; // to-do completion date (if it has been completed)
+    int mPercentComplete = 0; // to-do percent complete [0,100]
 
     /**
       Returns true if the todo got a new date, else false will be returned.
@@ -74,8 +75,8 @@ Todo::Todo()
 }
 
 Todo::Todo(const Todo &other)
-    : Incidence(other),
-      d(new KCalendarCore::Todo::Private(*other.d))
+    : Incidence(other)
+    , d(new KCalendarCore::Todo::Private(*other.d))
 {
 }
 
@@ -112,14 +113,9 @@ bool Todo::equals(const IncidenceBase &todo) const
     } else {
         // If they weren't the same type IncidenceBase::equals would had returned false already
         const Todo *t = static_cast<const Todo *>(&todo);
-        return ((dtDue() == t->dtDue()) ||
-                (!dtDue().isValid() && !t->dtDue().isValid())) &&
-               hasDueDate() == t->hasDueDate() &&
-               hasStartDate() == t->hasStartDate() &&
-               ((completed() == t->completed()) ||
-                (!completed().isValid() && !t->completed().isValid())) &&
-               hasCompletedDate() == t->hasCompletedDate() &&
-               percentComplete() == t->percentComplete();
+        return ((dtDue() == t->dtDue()) || (!dtDue().isValid() && !t->dtDue().isValid())) && hasDueDate() == t->hasDueDate()
+            && hasStartDate() == t->hasStartDate() && ((completed() == t->completed()) || (!completed().isValid() && !t->completed().isValid()))
+            && hasCompletedDate() == t->hasCompletedDate() && percentComplete() == t->percentComplete();
     }
 }
 
@@ -136,7 +132,7 @@ void Todo::setDtDue(const QDateTime &dtDue, bool first)
 {
     startUpdates();
 
-    //int diffsecs = d->mDtDue.secsTo(dtDue);
+    // int diffsecs = d->mDtDue.secsTo(dtDue);
 
     /*if (mReadOnly) return;
     const Alarm::List& alarms = alarms();
@@ -316,7 +312,6 @@ bool Todo::isOpenEnded() const
         return true;
     }
     return false;
-
 }
 
 bool Todo::isNotStarted(bool first) const
@@ -370,10 +365,7 @@ QDateTime Todo::dtRecurrence() const
 bool Todo::recursOn(const QDate &date, const QTimeZone &timeZone) const
 {
     QDate today = QDate::currentDate();
-    return
-        Incidence::recursOn(date, timeZone) &&
-        !(date < today && d->mDtRecurrence.date() < today &&
-          d->mDtRecurrence > recurrence()->startDateTime());
+    return Incidence::recursOn(date, timeZone) && !(date < today && d->mDtRecurrence.date() < today && d->mDtRecurrence > recurrence()->startDateTime());
 }
 
 bool Todo::isOverdue() const
@@ -382,8 +374,7 @@ bool Todo::isOverdue() const
         return false; // if it's never due, it can't be overdue
     }
 
-    const bool inPast = allDay() ? dtDue().date() < QDate::currentDate()
-                        : dtDue() < QDateTime::currentDateTimeUtc();
+    const bool inPast = allDay() ? dtDue().date() < QDate::currentDate() : dtDue() < QDateTime::currentDateTimeUtc();
 
     return inPast && !isCompleted();
 }
@@ -406,12 +397,9 @@ bool Todo::Private::recurTodo(Todo *todo)
         const QDateTime recurrenceEndDateTime = r->endDateTime();
         QDateTime nextOccurrenceDateTime = r->getNextDateTime(todo->dtStart());
 
-        if ((r->duration() == -1 ||
-                (nextOccurrenceDateTime.isValid() && recurrenceEndDateTime.isValid() &&
-                 nextOccurrenceDateTime <= recurrenceEndDateTime))) {
+        if ((r->duration() == -1 || (nextOccurrenceDateTime.isValid() && recurrenceEndDateTime.isValid() && nextOccurrenceDateTime <= recurrenceEndDateTime))) {
             // We convert to the same timeSpec so we get the correct .date()
-            const auto rightNow =
-                QDateTime::currentDateTimeUtc().toTimeZone(nextOccurrenceDateTime.timeZone());
+            const auto rightNow = QDateTime::currentDateTimeUtc().toTimeZone(nextOccurrenceDateTime.timeZone());
             const bool isDateOnly = todo->allDay();
 
             /* Now we search for the occurrence that's _after_ the currentUtcDateTime, or
@@ -420,12 +408,9 @@ bool Todo::Private::recurTodo(Todo *todo)
              * if it's date only, the user can still complete that ocurrence today, so that's
              * the current ocurrence that needs completing.
              */
-            while (!todo->recursAt(nextOccurrenceDateTime)                ||
-                    (!isDateOnly && nextOccurrenceDateTime <= rightNow)    ||
-                    (isDateOnly && nextOccurrenceDateTime.date() < rightNow.date())) {
-
-                if (!nextOccurrenceDateTime.isValid() ||
-                        (nextOccurrenceDateTime > recurrenceEndDateTime && r->duration() != -1)) {
+            while (!todo->recursAt(nextOccurrenceDateTime) || (!isDateOnly && nextOccurrenceDateTime <= rightNow)
+                   || (isDateOnly && nextOccurrenceDateTime.date() < rightNow.date())) {
+                if (!nextOccurrenceDateTime.isValid() || (nextOccurrenceDateTime > recurrenceEndDateTime && r->duration() != -1)) {
                     return false;
                 }
                 nextOccurrenceDateTime = r->getNextDateTime(nextOccurrenceDateTime);
@@ -488,8 +473,8 @@ QDateTime Todo::dateTime(DateTimeRole role) const
         if (dtStart().isValid()) {
             return dtStart();
         }
-        return dtDue(); //For the sake of backwards compatibility
-    //where we calculated recurrences based on dtDue
+        return dtDue(); // For the sake of backwards compatibility
+    // where we calculated recurrences based on dtDue
     case RoleEnd:
         return dtDue();
     default:
@@ -529,9 +514,7 @@ QLatin1String Todo::todoMimeType()
 
 QLatin1String Todo::iconName(const QDateTime &recurrenceId) const
 {
-    const bool usesCompletedTaskPixmap =
-        isCompleted() ||
-        (recurs() && recurrenceId.isValid() && (recurrenceId < dtStart(/*first=*/false)));
+    const bool usesCompletedTaskPixmap = isCompleted() || (recurs() && recurrenceId.isValid() && (recurrenceId < dtStart(/*first=*/false)));
 
     if (usesCompletedTaskPixmap) {
         return QLatin1String("task-complete");

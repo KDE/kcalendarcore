@@ -23,11 +23,11 @@
 
 #include "incidencebase.h"
 #include "calformat.h"
-#include "visitor.h"
 #include "utils_p.h"
+#include "visitor.h"
 
-#include <QTime>
 #include "kcalendarcore_debug.h"
+#include <QTime>
 #include <QUrl>
 
 #include <QStringList>
@@ -68,22 +68,22 @@ public:
 
     void init(const Private &other);
 
-    QDateTime mLastModified;     // incidence last modified date
-    QDateTime mDtStart;          // incidence start time
-    Person mOrganizer;           // incidence person (owner)
-    QString mUid;                // incidence unique id
-    Duration mDuration;          // incidence duration
-    int mUpdateGroupLevel;       // if non-zero, suppresses update() calls
-    bool mUpdatedPending = false;        // true if an update has occurred since startUpdates()
-    bool mAllDay = false;                // true if the incidence is all-day
-    bool mHasDuration = false;           // true if the incidence has a duration
-    Attendee::List mAttendees;   // list of incidence attendees
-    QStringList mComments;       // list of incidence comments
-    QStringList mContacts;       // list of incidence contacts
+    QDateTime mLastModified; // incidence last modified date
+    QDateTime mDtStart; // incidence start time
+    Person mOrganizer; // incidence person (owner)
+    QString mUid; // incidence unique id
+    Duration mDuration; // incidence duration
+    int mUpdateGroupLevel; // if non-zero, suppresses update() calls
+    bool mUpdatedPending = false; // true if an update has occurred since startUpdates()
+    bool mAllDay = false; // true if the incidence is all-day
+    bool mHasDuration = false; // true if the incidence has a duration
+    Attendee::List mAttendees; // list of incidence attendees
+    QStringList mComments; // list of incidence comments
+    QStringList mContacts; // list of incidence contacts
     QList<IncidenceObserver *> mObservers; // list of incidence observers
-    QSet<Field> mDirtyFields;    // Fields that changed since last time the incidence was created
+    QSet<Field> mDirtyFields; // Fields that changed since last time the incidence was created
     // or since resetDirtyFlags() was called
-    QUrl mUrl;                   // incidence url property
+    QUrl mUrl; // incidence url property
 };
 
 void IncidenceBase::Private::init(const Private &other)
@@ -173,8 +173,8 @@ bool IncidenceBase::equals(const IncidenceBase &i2) const
     Attendee::List al2 = i2.attendees();
     Attendee::List::ConstIterator a1 = al1.constBegin();
     Attendee::List::ConstIterator a2 = al2.constBegin();
-    //TODO Does the order of attendees in the list really matter?
-    //Please delete this comment if you know it's ok, kthx
+    // TODO Does the order of attendees in the list really matter?
+    // Please delete this comment if you know it's ok, kthx
     for (; a1 != al1.constEnd() && a2 != al2.constEnd(); ++a1, ++a2) {
         if (!(*a1 == *a2)) {
             // qCDebug(KCALCORE_LOG) << "Attendees are different";
@@ -199,7 +199,7 @@ bool IncidenceBase::equals(const IncidenceBase &i2) const
     bool f = hasDuration() == i2.hasDuration();
     bool g = url() == i2.url();
 
-    //qCDebug(KCALCORE_LOG) << a << b << c << d << e << f << g;
+    // qCDebug(KCALCORE_LOG) << a << b << c << d << e << f << g;
     return a && b && c && d && e && f && g;
 }
 
@@ -288,7 +288,7 @@ bool IncidenceBase::isReadOnly() const
 
 void IncidenceBase::setDtStart(const QDateTime &dtStart)
 {
-//  if ( mReadOnly ) return;
+    //  if ( mReadOnly ) return;
 
     if (!dtStart.isValid() && type() != IncidenceBase::TypeTodo) {
         qCWarning(KCALCORE_LOG) << "Invalid dtStart";
@@ -666,8 +666,7 @@ QDataStream &KCalendarCore::operator<<(QDataStream &out, const KCalendarCore::In
     out << *(static_cast<CustomProperties *>(i.data()));
     serializeQDateTimeAsKDateTime(out, i->d->mLastModified);
     serializeQDateTimeAsKDateTime(out, i->d->mDtStart);
-    out << i->organizer() << i->d->mUid << i->d->mDuration
-        << i->d->mAllDay << i->d->mHasDuration << i->d->mComments << i->d->mContacts
+    out << i->organizer() << i->d->mUid << i->d->mDuration << i->d->mAllDay << i->d->mHasDuration << i->d->mComments << i->d->mContacts
         << i->d->mAttendees.count() << i->d->mUrl;
 
     for (const Attendee &attendee : qAsConst(i->d->mAttendees)) {
@@ -708,9 +707,8 @@ QDataStream &KCalendarCore::operator>>(QDataStream &in, KCalendarCore::Incidence
     in >> *(static_cast<CustomProperties *>(i.data()));
     deserializeKDateTimeAsQDateTime(in, i->d->mLastModified);
     deserializeKDateTimeAsQDateTime(in, i->d->mDtStart);
-    in >> i->d->mOrganizer >> i->d->mUid >> i->d->mDuration
-    >> i->d->mAllDay >> i->d->mHasDuration >> i->d->mComments >> i->d->mContacts >> attendeeCount
-    >> i->d->mUrl;
+    in >> i->d->mOrganizer >> i->d->mUid >> i->d->mDuration >> i->d->mAllDay >> i->d->mHasDuration >> i->d->mComments >> i->d->mContacts >> attendeeCount
+        >> i->d->mUrl;
 
     i->d->mAttendees.clear();
     i->d->mAttendees.reserve(attendeeCount);
@@ -734,6 +732,8 @@ QVariantList IncidenceBase::attendeesVariant() const
 {
     QVariantList l;
     l.reserve(d->mAttendees.size());
-    std::transform(d->mAttendees.begin(), d->mAttendees.end(), std::back_inserter(l), [](const Attendee &a) { return QVariant::fromValue(a); });
+    std::transform(d->mAttendees.begin(), d->mAttendees.end(), std::back_inserter(l), [](const Attendee &a) {
+        return QVariant::fromValue(a);
+    });
     return l;
 }

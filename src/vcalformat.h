@@ -25,12 +25,12 @@
 #ifndef KCALCORE_VCALFORMAT_H
 #define KCALCORE_VCALFORMAT_H
 
-#include "kcalendarcore_export.h"
 #include "attendee.h"
 #include "calformat.h"
 #include "event.h"
-#include "todo.h"
 #include "journal.h"
+#include "kcalendarcore_export.h"
+#include "todo.h"
 
 struct VObject;
 
@@ -39,13 +39,12 @@ class QDate;
 #define _VCAL_VERSION "1.0"
 
 /* extensions for iMIP / iTIP */
-#define ICOrganizerProp       "X-ORGANIZER"
-#define ICMethodProp          "X-METHOD"
-#define ICRequestStatusProp   "X-REQUEST-STATUS"
+#define ICOrganizerProp "X-ORGANIZER"
+#define ICMethodProp "X-METHOD"
+#define ICRequestStatusProp "X-REQUEST-STATUS"
 
 namespace KCalendarCore
 {
-
 class Event;
 class Todo;
 
@@ -86,22 +85,20 @@ public:
       @copydoc
       CalFormat::fromString()
     */
-    Q_REQUIRED_RESULT bool fromString(const Calendar::Ptr &calendar, const QString &string,
-                    bool deleted = false, const QString &notebook = QString()) override;
+    Q_REQUIRED_RESULT bool fromString(const Calendar::Ptr &calendar, const QString &string, bool deleted = false, const QString &notebook = QString()) override;
 
     /**
       @copydoc
       CalFormat::toString()
     */
-    Q_REQUIRED_RESULT QString toString(const Calendar::Ptr &calendar, const QString &notebook = QString(),
-                     bool deleted = false) override;
+    Q_REQUIRED_RESULT QString toString(const Calendar::Ptr &calendar, const QString &notebook = QString(), bool deleted = false) override;
 
     /**
       @copydoc
       CalFormat::fromRawString()
     */
-    Q_REQUIRED_RESULT bool fromRawString(const Calendar::Ptr &calendar, const QByteArray &string,
-                       bool deleted = false, const QString &notebook = QString()) override;
+    Q_REQUIRED_RESULT bool
+    fromRawString(const Calendar::Ptr &calendar, const QByteArray &string, bool deleted = false, const QString &notebook = QString()) override;
 
 protected:
     /**

@@ -37,7 +37,7 @@ public:
         return mDaily ? mDuration * 86400 : mDuration;
     }
     int mDuration; // number of seconds or days in the duration
-    bool mDaily = false;   // specified in terms of days rather than seconds
+    bool mDaily = false; // specified in terms of days rather than seconds
 };
 //@endcond
 
@@ -130,8 +130,7 @@ bool Duration::operator==(const Duration &other) const
     // Note: daily and non-daily durations are always unequal, since a day's
     // duration may differ from 24 hours if it happens to span a daylight saving
     // time change.
-    return d->mDuration == other.d->mDuration &&
-           d->mDaily == other.d->mDaily;
+    return d->mDuration == other.d->mDuration && d->mDaily == other.d->mDaily;
 }
 
 Duration &Duration::operator+=(const Duration &other)
@@ -171,8 +170,7 @@ Duration &Duration::operator/=(int value)
 
 QDateTime Duration::end(const QDateTime &start) const
 {
-    return d->mDaily ? start.addDays(d->mDuration)
-           : start.addSecs(d->mDuration);
+    return d->mDaily ? start.addDays(d->mDuration) : start.addSecs(d->mDuration);
 }
 
 Duration::Type Duration::type() const

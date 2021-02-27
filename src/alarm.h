@@ -18,24 +18,23 @@
 #ifndef KCALCORE_ALARM_H
 #define KCALCORE_ALARM_H
 
-#include "kcalendarcore_export.h"
 #include "customproperties.h"
 #include "duration.h"
+#include "kcalendarcore_export.h"
 #include "person.h"
 
+#include <QDataStream>
 #include <QDateTime>
+#include <QMetaType>
+#include <QSharedPointer>
 #include <QString>
 #include <QStringList>
 #include <QVector>
-#include <QDataStream>
-#include <QMetaType>
-#include <QSharedPointer>
 
 class QTimeZone;
 
 namespace KCalendarCore
 {
-
 class Incidence;
 
 /**
@@ -55,11 +54,11 @@ public:
       The different types of alarms.
     */
     enum Type {
-        Invalid,   /**< Invalid, or no alarm */
-        Display,   /**< Display a dialog box */
+        Invalid, /**< Invalid, or no alarm */
+        Display, /**< Display a dialog box */
         Procedure, /**< Call a script */
-        Email,     /**< Send email */
-        Audio,     /**< Play an audio file */
+        Email, /**< Send email */
+        Audio, /**< Play an audio file */
     };
 
     /**
@@ -220,8 +219,7 @@ public:
       @see setProgramFile(), programFile(),
       setProgramArguments(), programArguments()
     */
-    void setProcedureAlarm(const QString &programFile,
-                           const QString &arguments = QString());
+    void setProcedureAlarm(const QString &programFile, const QString &arguments = QString());
 
     /**
       Sets the program file to execute when the alarm is triggered.
@@ -278,9 +276,7 @@ public:
       @see setMailSubject(), setMailText(), setMailAddresses(),
       setMailAttachments()
     */
-    void setEmailAlarm(const QString &subject, const QString &text,
-                       const Person::List &addressees,
-                       const QStringList &attachments = QStringList());
+    void setEmailAlarm(const QString &subject, const QString &text, const Person::List &addressees, const QStringList &attachments = QStringList());
 
     /**
       Sets the email address of an #Email type alarm.

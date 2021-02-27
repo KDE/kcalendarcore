@@ -15,7 +15,7 @@ class RecurTodoTest : public QObject
 {
     Q_OBJECT
 private:
-    void setTimeZone(const char* zonename);
+    void setTimeZone(const char *zonename);
 private Q_SLOTS:
     void testAllDay();
     void testNonAllDay();

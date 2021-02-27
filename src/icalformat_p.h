@@ -20,14 +20,14 @@
 #ifndef KCALCORE_ICALFORMAT_P_H
 #define KCALCORE_ICALFORMAT_P_H
 
+#include "calendar.h"
+#include "event.h"
 #include "exceptions.h"
 #include "freebusy.h"
-#include "todo.h"
 #include "journal.h"
-#include "event.h"
 #include "person.h"
-#include "calendar.h"
 #include "schedulemessage.h"
+#include "todo.h"
 
 #include <libical/ical.h>
 
@@ -35,7 +35,6 @@ class QDate;
 
 namespace KCalendarCore
 {
-
 class Alarm;
 class Attachment;
 class Attendee;
@@ -94,14 +93,11 @@ public:
       existing in @p calendar are not affected except that if a new incidence
       with the same UID is found, the existing incidence is replaced.
     */
-    bool populate(const Calendar::Ptr &calendar, icalcomponent *fs,
-                  bool deleted = false, const QString &notebook = QString());
+    bool populate(const Calendar::Ptr &calendar, icalcomponent *fs, bool deleted = false, const QString &notebook = QString());
 
     Incidence::Ptr readOneIncidence(icalcomponent *calendar, const ICalTimeZoneCache *tzlist);
 
-    icalcomponent *writeIncidence(const IncidenceBase::Ptr &incidence,
-                                  iTIPMethod method = iTIPRequest,
-                                  TimeZoneList *tzUsedList = nullptr);
+    icalcomponent *writeIncidence(const IncidenceBase::Ptr &incidence, iTIPMethod method = iTIPRequest, TimeZoneList *tzUsedList = nullptr);
 
     icalcomponent *writeTodo(const Todo::Ptr &todo, TimeZoneList *tzUsedList = nullptr);
 
@@ -109,8 +105,7 @@ public:
 
     icalcomponent *writeJournal(const Journal::Ptr &journal, TimeZoneList *tzUsedList = nullptr);
 
-    icalcomponent *writeFreeBusy(const FreeBusy::Ptr &freebusy,
-                                 iTIPMethod method = iTIPPublish);
+    icalcomponent *writeFreeBusy(const FreeBusy::Ptr &freebusy, iTIPMethod method = iTIPPublish);
 
     void writeIncidence(icalcomponent *parent, const Incidence::Ptr &incidence, TimeZoneList *tzUsedList = nullptr);
 
@@ -172,9 +167,7 @@ public:
       @return property, or null if error. It is the caller's responsibility
       to free the returned property.
     */
-    static icalproperty *writeICalDateTimeProperty(const icalproperty_kind kind,
-                                                   const QDateTime &dt,
-                                                   TimeZoneList *tzUsedList = nullptr);
+    static icalproperty *writeICalDateTimeProperty(const icalproperty_kind kind, const QDateTime &dt, TimeZoneList *tzUsedList = nullptr);
 
     /**
       Converts a date/time from ICal format.
@@ -184,9 +177,7 @@ public:
       @param utc    UTC date/time is expected
       @return date/time, converted to UTC if @p utc is @c true
     */
-    static QDateTime readICalDateTime(icalproperty *p, const icaltimetype &t,
-                                      const ICalTimeZoneCache *tzList,
-                                      bool utc = false);
+    static QDateTime readICalDateTime(icalproperty *p, const icaltimetype &t, const ICalTimeZoneCache *tzList, bool utc = false);
 
     /**
       Converts a UTC date/time from ICal format.
@@ -196,8 +187,7 @@ public:
       @param t ICal format date/time
       @return date/time, or invalid if @p t is not UTC
     */
-    static QDateTime readICalUtcDateTime(icalproperty *p, icaltimetype &t,
-                                         const ICalTimeZoneCache *tzList = nullptr)
+    static QDateTime readICalUtcDateTime(icalproperty *p, icaltimetype &t, const ICalTimeZoneCache *tzList = nullptr)
     {
         return readICalDateTime(p, t, tzList, true);
     }
@@ -211,16 +201,13 @@ public:
       @return date or date/time, or invalid if property doesn't contain
       a time value.
     */
-    static QDateTime readICalDateTimeProperty(icalproperty *p,
-                                              const ICalTimeZoneCache *tzList,
-                                              bool utc = false, bool *allDay = nullptr);
+    static QDateTime readICalDateTimeProperty(icalproperty *p, const ICalTimeZoneCache *tzList, bool utc = false, bool *allDay = nullptr);
 
     /**
       Reads a UTC date/time value from a property.
       @param p is a pointer to a valid icalproperty structure.
     */
-    static QDateTime readICalUtcDateTimeProperty(icalproperty *p, const ICalTimeZoneCache *tzList,
-                                                 bool *allDay = nullptr)
+    static QDateTime readICalUtcDateTimeProperty(icalproperty *p, const ICalTimeZoneCache *tzList, bool *allDay = nullptr)
     {
         return readICalDateTimeProperty(p, tzList, true, allDay);
     }
@@ -233,8 +220,7 @@ public:
 
     icalcomponent *createCalendarComponent(const Calendar::Ptr &calendar = Calendar::Ptr());
 
-    icalcomponent *createScheduleComponent(const IncidenceBase::Ptr &incidence,
-                                           iTIPMethod method);
+    icalcomponent *createScheduleComponent(const IncidenceBase::Ptr &incidence, iTIPMethod method);
 
 protected:
     // void dumpIcalRecurrence( const icalrecurrencetype &r );

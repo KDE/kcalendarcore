@@ -10,11 +10,11 @@
 #include "filestorage.h"
 #include "memorycalendar.h"
 
+#include <QCommandLineParser>
+#include <QCoreApplication>
 #include <QDebug>
 #include <QFile>
 #include <QTextStream>
-#include <QCoreApplication>
-#include <QCommandLineParser>
 #include <QTimeZone>
 
 using namespace KCalendarCore;

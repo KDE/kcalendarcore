@@ -21,7 +21,7 @@ using namespace KCalendarCore;
 void TestDateSerialization::testNewRecurringTodo()
 {
     QDateTime startDate = QDate(2015, 3, 24).startOfDay();
-    QDateTime dueDate   { startDate.addDays(1) };
+    QDateTime dueDate{startDate.addDays(1)};
 
     Todo::Ptr todo(new Todo);
     todo->setDtStart(startDate);
@@ -29,7 +29,7 @@ void TestDateSerialization::testNewRecurringTodo()
     todo->setAllDay(true);
     todo->recurrence()->setMonthly(1);
 
-    MemoryCalendar::Ptr cal { new MemoryCalendar(QTimeZone::utc()) };
+    MemoryCalendar::Ptr cal{new MemoryCalendar(QTimeZone::utc())};
     cal->addIncidence(todo);
 
     ICalFormat format;
@@ -52,7 +52,7 @@ void TestDateSerialization::testNewRecurringTodo()
 void TestDateSerialization::testTodoCompletedOnce()
 {
     QDateTime startDate = QDate::currentDate().startOfDay();
-    QDateTime dueDate   { startDate.addDays(1) };
+    QDateTime dueDate{startDate.addDays(1)};
 
     Todo::Ptr todo(new Todo);
     todo->setDtStart(startDate);
@@ -60,7 +60,7 @@ void TestDateSerialization::testTodoCompletedOnce()
     todo->setAllDay(true);
     todo->recurrence()->setMonthly(1);
 
-    MemoryCalendar::Ptr cal { new MemoryCalendar(QTimeZone::utc()) };
+    MemoryCalendar::Ptr cal{new MemoryCalendar(QTimeZone::utc())};
     cal->addIncidence(todo);
 
     ICalFormat format;
@@ -72,7 +72,7 @@ void TestDateSerialization::testTodoCompletedOnce()
     todo = i.staticCast<Todo>();
     todo->setCompleted(dueDate);
 
-    cal = MemoryCalendar::Ptr {new MemoryCalendar(QTimeZone::utc()) };
+    cal = MemoryCalendar::Ptr{new MemoryCalendar(QTimeZone::utc())};
     cal->addIncidence(todo);
     result = format.toString(cal, QString());
 

@@ -33,9 +33,10 @@ class Q_DECL_HIDDEN KCalendarCore::FileStorage::Private
 {
 public:
     Private(const QString &fileName, CalFormat *format)
-        : mFileName(fileName),
-          mSaveFormat(format)
-    {}
+        : mFileName(fileName)
+        , mSaveFormat(format)
+    {
+    }
     ~Private()
     {
         delete mSaveFormat;
@@ -46,10 +47,9 @@ public:
 };
 //@endcond
 
-FileStorage::FileStorage(const Calendar::Ptr &cal, const QString &fileName,
-                         CalFormat *format)
-    : CalStorage(cal),
-      d(new Private(fileName, format))
+FileStorage::FileStorage(const Calendar::Ptr &cal, const QString &fileName, CalFormat *format)
+    : CalStorage(cal)
+    , d(new Private(fileName, format))
 {
 }
 
@@ -109,19 +109,16 @@ bool FileStorage::load()
             productId = iCal.loadedProductId();
         } else {
             if (iCal.exception()) {
-                if ((iCal.exception()->code() == Exception::ParseErrorIcal) ||
-                    (iCal.exception()->code() == Exception::CalVersion1)) {
+                if ((iCal.exception()->code() == Exception::ParseErrorIcal) || (iCal.exception()->code() == Exception::CalVersion1)) {
                     // Possible vCalendar or invalid iCalendar encountered
-                    qCDebug(KCALCORE_LOG) << d->mFileName
-                                          << " is an invalid iCalendar or possibly a vCalendar.";
+                    qCDebug(KCALCORE_LOG) << d->mFileName << " is an invalid iCalendar or possibly a vCalendar.";
                     qCDebug(KCALCORE_LOG) << "Try to load it as a vCalendar";
                     VCalFormat vCal;
                     success = vCal.load(calendar(), d->mFileName);
                     productId = vCal.loadedProductId();
                     if (!success) {
                         if (vCal.exception()) {
-                            qCWarning(KCALCORE_LOG) << d->mFileName
-                                                    << " is not a valid vCalendar file."
+                            qCWarning(KCALCORE_LOG) << d->mFileName << " is not a valid vCalendar file."
                                                     << " exception code " << vCal.exception()->code();
                         }
                         return false;

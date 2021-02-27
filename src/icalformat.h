@@ -15,15 +15,14 @@
 #ifndef KCALCORE_ICALFORMAT_H
 #define KCALCORE_ICALFORMAT_H
 
-#include "incidence.h"
-#include "freebusy.h"
-#include "kcalendarcore_export.h"
 #include "calformat.h"
+#include "freebusy.h"
+#include "incidence.h"
+#include "kcalendarcore_export.h"
 #include "schedulemessage.h"
 
 namespace KCalendarCore
 {
-
 class FreeBusy;
 class Incidence;
 class IncidenceBase;
@@ -72,8 +71,7 @@ public:
 
       @note The notebook is ignored and the default one is used
     */
-    bool fromString(const Calendar::Ptr &calendar, const QString &string,
-                    bool deleted = false, const QString &notebook = QString()) override;
+    bool fromString(const Calendar::Ptr &calendar, const QString &string, bool deleted = false, const QString &notebook = QString()) override;
 
     /**
       Parses a string, returning the first iCal component as an Incidence.
@@ -111,15 +109,14 @@ public:
       @copydoc
       CalFormat::fromRawString()
     */
-    Q_REQUIRED_RESULT bool fromRawString(const Calendar::Ptr &calendar, const QByteArray &string,
-                       bool deleted = false, const QString &notebook = QString()) override;
+    Q_REQUIRED_RESULT bool
+    fromRawString(const Calendar::Ptr &calendar, const QByteArray &string, bool deleted = false, const QString &notebook = QString()) override;
 
     /**
       @copydoc
       CalFormat::toString()
     */
-    Q_REQUIRED_RESULT QString toString(const Calendar::Ptr &calendar,
-                     const QString &notebook = QString(), bool deleted = false) override;
+    Q_REQUIRED_RESULT QString toString(const Calendar::Ptr &calendar, const QString &notebook = QString(), bool deleted = false) override;
 
     /**
       Converts an Incidence to a QString.
@@ -166,8 +163,7 @@ public:
 
       @return a QString containing the message if successful; 0 otherwise.
     */
-    Q_REQUIRED_RESULT QString createScheduleMessage(const IncidenceBase::Ptr &incidence,
-                                  iTIPMethod method);
+    Q_REQUIRED_RESULT QString createScheduleMessage(const IncidenceBase::Ptr &incidence, iTIPMethod method);
 
     /**
       Parses a Calendar scheduling message string into ScheduleMessage object.
@@ -179,8 +175,7 @@ public:
       @return a pointer to a ScheduleMessage object if successful; 0 otherwise.
       The calling routine may later free the return memory.
     */
-    ScheduleMessage::Ptr parseScheduleMessage(const Calendar::Ptr &calendar,
-            const QString &string);
+    ScheduleMessage::Ptr parseScheduleMessage(const Calendar::Ptr &calendar, const QString &string);
 
     /**
       Converts a QString into a FreeBusy object.

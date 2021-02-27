@@ -25,9 +25,10 @@ using namespace KCalendarCore;
 class Q_DECL_HIDDEN KCalendarCore::FreeBusyPeriod::Private
 {
 public:
-    Private():
-        mType(Unknown)
-    {}
+    Private()
+        : mType(Unknown)
+    {
+    }
 
     QString mSummary;
     QString mLocation;
@@ -35,27 +36,33 @@ public:
 };
 //@endcond
 
-FreeBusyPeriod::FreeBusyPeriod() : Period(), d(new KCalendarCore::FreeBusyPeriod::Private())
+FreeBusyPeriod::FreeBusyPeriod()
+    : Period()
+    , d(new KCalendarCore::FreeBusyPeriod::Private())
 {
 }
 
 FreeBusyPeriod::FreeBusyPeriod(const QDateTime &start, const QDateTime &end)
-    : Period(start, end), d(new KCalendarCore::FreeBusyPeriod::Private())
+    : Period(start, end)
+    , d(new KCalendarCore::FreeBusyPeriod::Private())
 {
 }
 
 FreeBusyPeriod::FreeBusyPeriod(const QDateTime &start, const Duration &duration)
-    : Period(start, duration), d(new KCalendarCore::FreeBusyPeriod::Private())
+    : Period(start, duration)
+    , d(new KCalendarCore::FreeBusyPeriod::Private())
 {
 }
 
 FreeBusyPeriod::FreeBusyPeriod(const FreeBusyPeriod &period)
-    : Period(period), d(new KCalendarCore::FreeBusyPeriod::Private(*period.d))
+    : Period(period)
+    , d(new KCalendarCore::FreeBusyPeriod::Private(*period.d))
 {
 }
 
 FreeBusyPeriod::FreeBusyPeriod(const Period &period)
-    : Period(period), d(new KCalendarCore::FreeBusyPeriod::Private())
+    : Period(period)
+    , d(new KCalendarCore::FreeBusyPeriod::Private())
 {
 }
 
@@ -128,4 +135,3 @@ QDataStream &KCalendarCore::operator>>(QDataStream &stream, FreeBusyPeriod &peri
     period.setType(static_cast<FreeBusyPeriod::FreeBusyType>(type));
     return stream;
 }
-

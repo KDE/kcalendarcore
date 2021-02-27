@@ -28,7 +28,6 @@ class QString;
 
 namespace KCalendarCore
 {
-
 class Compat;
 
 /**

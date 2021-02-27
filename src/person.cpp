@@ -36,12 +36,13 @@ using namespace KCalendarCore;
 class Q_DECL_HIDDEN KCalendarCore::Person::Private : public QSharedData
 {
 public:
-    QString mName;   // person name
-    QString mEmail;  // person email address
+    QString mName; // person name
+    QString mEmail; // person email address
 };
 //@endcond
 
-Person::Person() : d(new KCalendarCore::Person::Private)
+Person::Person()
+    : d(new KCalendarCore::Person::Private)
 {
 }
 
@@ -61,9 +62,7 @@ Person::~Person() = default;
 
 bool KCalendarCore::Person::operator==(const Person &person) const
 {
-    return
-        d->mName == person.d->mName &&
-        d->mEmail == person.d->mEmail;
+    return d->mName == person.d->mName && d->mEmail == person.d->mEmail;
 }
 
 bool KCalendarCore::Person::operator!=(const Person &person) const
@@ -98,7 +97,7 @@ QString KCalendarCore::fullNameHelper(const QString &name, const QString &email)
         if (fullName[0] != QLatin1Char('"')) {
             fullName.prepend(QLatin1Char('"'));
         }
-        if (fullName[ fullName.length() - 1 ] != QLatin1Char('"')) {
+        if (fullName[fullName.length() - 1] != QLatin1Char('"')) {
             fullName.append(QLatin1Char('"'));
         }
     }
@@ -152,10 +151,7 @@ uint KCalendarCore::qHash(const KCalendarCore::Person &key)
 
 QDataStream &KCalendarCore::operator<<(QDataStream &stream, const KCalendarCore::Person &person)
 {
-    return stream
-           << person.d->mName
-           << person.d->mEmail
-           << (int)(0);
+    return stream << person.d->mName << person.d->mEmail << (int)(0);
 }
 
 QDataStream &KCalendarCore::operator>>(QDataStream &stream, Person &person)
@@ -238,7 +234,7 @@ static bool extractEmailAddressAndName(const QString &aStr, QString &mail, QStri
                     }
                     bInComment = false;
                 } else {
-                    name.prepend(c);   // all comment stuff is part of the name
+                    name.prepend(c); // all comment stuff is part of the name
                 }
             } else if (bInQuotesOutsideOfEmail) {
                 if (QLatin1Char(cQuotes) == c) {
@@ -304,14 +300,14 @@ static bool extractEmailAddressAndName(const QString &aStr, QString &mail, QStri
                         }
                     } else {
                         // nested ")", add it
-                        name.append(QLatin1Char(')'));   // name can't be empty here
+                        name.append(QLatin1Char(')')); // name can't be empty here
                     }
                 } else {
                     if (QLatin1Char('(') == c) {
                         // nested "("
                         ++parenthesesNesting;
                     }
-                    name.append(c);   // all comment stuff is part of the name
+                    name.append(c); // all comment stuff is part of the name
                 }
             } else if (bInQuotesOutsideOfEmail) {
                 if (QLatin1Char(cQuotes) == c) {

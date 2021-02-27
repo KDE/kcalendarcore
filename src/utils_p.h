@@ -15,8 +15,8 @@
 
 class QDataStream;
 
-namespace KCalendarCore {
-
+namespace KCalendarCore
+{
 /**
  * Helpers to retain backwards compatibility of binary serialization.
  */

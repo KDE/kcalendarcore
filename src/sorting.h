@@ -10,15 +10,17 @@
 #define KCALCORE_SORTING_H
 
 #include "event.h"
-#include "journal.h"
-#include "todo.h"
 #include "freebusy.h"
+#include "journal.h"
 #include "person.h"
+#include "todo.h"
 
 #include "kcalendarcore_export.h"
 
-namespace KCalendarCore {
-namespace Events {
+namespace KCalendarCore
+{
+namespace Events
+{
 KCALENDARCORE_EXPORT bool startDateLessThan(const Event::Ptr &e1, const Event::Ptr &e2);
 
 KCALENDARCORE_EXPORT bool summaryLessThan(const Event::Ptr &e1, const Event::Ptr &e2);
@@ -32,7 +34,8 @@ KCALENDARCORE_EXPORT bool endDateLessThan(const Event::Ptr &e1, const Event::Ptr
 KCALENDARCORE_EXPORT bool endDateMoreThan(const Event::Ptr &e1, const Event::Ptr &e2);
 }
 
-namespace Todos {
+namespace Todos
+{
 KCALENDARCORE_EXPORT bool startDateLessThan(const Todo::Ptr &t1, const Todo::Ptr &t2);
 
 KCALENDARCORE_EXPORT bool startDateMoreThan(const Todo::Ptr &t1, const Todo::Ptr &t2);
@@ -58,7 +61,8 @@ KCALENDARCORE_EXPORT bool createdLessThan(const Todo::Ptr &t1, const Todo::Ptr &
 KCALENDARCORE_EXPORT bool createdMoreThan(const Todo::Ptr &t1, const Todo::Ptr &t2);
 }
 
-namespace Journals {
+namespace Journals
+{
 KCALENDARCORE_EXPORT bool dateLessThan(const Journal::Ptr &j1, const Journal::Ptr &j2);
 
 KCALENDARCORE_EXPORT bool dateMoreThan(const Journal::Ptr &j1, const Journal::Ptr &j2);
@@ -68,7 +72,8 @@ KCALENDARCORE_EXPORT bool summaryLessThan(const Journal::Ptr &j1, const Journal:
 KCALENDARCORE_EXPORT bool summaryMoreThan(const Journal::Ptr &j1, const Journal::Ptr &j2);
 }
 
-namespace Incidences {
+namespace Incidences
+{
 KCALENDARCORE_EXPORT bool dateLessThan(const Incidence::Ptr &i1, const Incidence::Ptr &i2);
 
 KCALENDARCORE_EXPORT bool dateMoreThan(const Incidence::Ptr &i1, const Incidence::Ptr &i2);

@@ -16,14 +16,13 @@
 #ifndef KCALCORE_CALSTORAGE_H
 #define KCALCORE_CALSTORAGE_H
 
-#include "kcalendarcore_export.h"
 #include "calendar.h"
+#include "kcalendarcore_export.h"
 
 #include <QObject>
 
 namespace KCalendarCore
 {
-
 /**
   @brief
   An abstract base class that provides a calendar storage interface.

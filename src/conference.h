@@ -13,12 +13,11 @@
 #include <QSharedDataPointer>
 #include <QUrl>
 
-#include "kcalendarcore_export.h"
 #include "customproperties.h"
+#include "kcalendarcore_export.h"
 
 namespace KCalendarCore
 {
-
 /**
   @brief
   Represents information related to a conference information of an Calendar
@@ -54,9 +53,7 @@ public:
       @param features Features of this particular conference method.
       @param language Language of the information present in other fields.
     */
-    Conference(const QUrl &uri, const QString &label,
-               const QStringList &features = {},
-               const QString &language = {});
+    Conference(const QUrl &uri, const QString &label, const QStringList &features = {}, const QString &language = {});
 
     /**
       Constructs a conference by copying another conference.

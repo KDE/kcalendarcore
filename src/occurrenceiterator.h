@@ -16,12 +16,11 @@
 #ifndef KCALCORE_OCCURRENCEITERATOR_H
 #define KCALCORE_OCCURRENCEITERATOR_H
 
-#include "kcalendarcore_export.h"
 #include "incidence.h"
+#include "kcalendarcore_export.h"
 
 namespace KCalendarCore
 {
-
 class Calendar;
 /**
  * Iterate over calendar items in a calendar.
@@ -38,9 +37,7 @@ public:
      * Creates iterator that iterates over all occurrences of all incidences
      * between @param start and @param end (inclusive)
      */
-    explicit OccurrenceIterator(const Calendar &calendar,
-                                const QDateTime &start = QDateTime(),
-                                const QDateTime &end = QDateTime());
+    explicit OccurrenceIterator(const Calendar &calendar, const QDateTime &start = QDateTime(), const QDateTime &end = QDateTime());
 
     /**
      * Creates iterator that iterates over all occurrences
@@ -87,6 +84,6 @@ private:
     //@endcond
 };
 
-} //namespace
+} // namespace
 
 #endif

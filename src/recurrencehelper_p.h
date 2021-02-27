@@ -11,16 +11,16 @@
 
 #include <algorithm>
 
-namespace KCalendarCore {
-
-template <typename T>
+namespace KCalendarCore
+{
+template<typename T>
 inline void sortAndRemoveDuplicates(T &container)
 {
     std::sort(container.begin(), container.end());
     container.erase(std::unique(container.begin(), container.end()), container.end());
 }
 
-template <typename T>
+template<typename T>
 inline void inplaceSetDifference(T &set1, const T &set2)
 {
     auto beginIt = set1.begin();
@@ -32,7 +32,7 @@ inline void inplaceSetDifference(T &set1, const T &set2)
     }
 }
 
-template <typename Container, typename Value>
+template<typename Container, typename Value>
 inline void setInsert(Container &c, const Value &v)
 {
     const auto it = std::lower_bound(c.begin(), c.end(), v);
@@ -41,7 +41,7 @@ inline void setInsert(Container &c, const Value &v)
     }
 }
 
-template <typename It, typename Value>
+template<typename It, typename Value>
 inline It strictLowerBound(It begin, It end, const Value &v)
 {
     const auto it = std::lower_bound(begin, end, v);

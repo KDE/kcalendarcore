@@ -48,17 +48,18 @@
 #include "duration.h"
 #include "person.h"
 
-#include <QDateTime>
-#include <QSharedPointer>
-#include <QSet>
-#include <QUrl>
 #include <QDataStream>
+#include <QDateTime>
+#include <QSet>
+#include <QSharedPointer>
+#include <QUrl>
 
 class QUrl;
 class QDate;
 class QTimeZone;
 
-namespace KCalendarCore {
+namespace KCalendarCore
+{
 /** List of dates */
 typedef QList<QDate> DateList;
 
@@ -114,11 +115,11 @@ public:
       @see type(), typeStr()
     */
     enum IncidenceType {
-        TypeEvent = 0,           /**< Type is an event */
-        TypeTodo,                /**< Type is a to-do */
-        TypeJournal,             /**< Type is a journal */
-        TypeFreeBusy,            /**< Type is a free/busy */
-        TypeUnknown,             /**< Type unknown */
+        TypeEvent = 0, /**< Type is an event */
+        TypeTodo, /**< Type is a to-do */
+        TypeJournal, /**< Type is a journal */
+        TypeFreeBusy, /**< Type is a free/busy */
+        TypeUnknown, /**< Type unknown */
     };
 
     /**
@@ -126,68 +127,68 @@ public:
       @see dateTime()
     */
     enum DateTimeRole {
-        RoleAlarmStartOffset = 0,/**< Role for an incidence alarm's starting offset date/time */
-        RoleAlarmEndOffset,      /**< Role for an incidence alarm's ending offset date/time */
-        RoleSort,                /**< Role for an incidence's date/time used when sorting */
-        RoleCalendarHashing,     /**< Role for looking up an incidence in a Calendar */
-        RoleStartTimeZone,       /**< Role for determining an incidence's starting timezone */
-        RoleEndTimeZone,         /**< Role for determining an incidence's ending timezone */
+        RoleAlarmStartOffset = 0, /**< Role for an incidence alarm's starting offset date/time */
+        RoleAlarmEndOffset, /**< Role for an incidence alarm's ending offset date/time */
+        RoleSort, /**< Role for an incidence's date/time used when sorting */
+        RoleCalendarHashing, /**< Role for looking up an incidence in a Calendar */
+        RoleStartTimeZone, /**< Role for determining an incidence's starting timezone */
+        RoleEndTimeZone, /**< Role for determining an incidence's ending timezone */
         RoleEndRecurrenceBase,
-        RoleEnd,                 /**< Role for determining an incidence's dtEnd, will return
-                                    an invalid QDateTime if the incidence does not support dtEnd */
-        RoleDisplayEnd,          /**< Role used for display purposes, represents the end boundary
-                                    if an incidence supports dtEnd */
-        RoleAlarm,               /**< Role for determining the date/time of the first alarm.
-                                    Returns invalid time if the incidence doesn't have any alarm */
-        RoleRecurrenceStart,     /**< Role for determining the start of the recurrence.
-                                    Currently that's DTSTART for an event and DTDUE for a to-do.
-                                    (NOTE: If the incidence is a to-do, recurrence should be
-                                    calculated having DTSTART for a reference, not DT-DUE.
-                                    This is one place KCalendarCore isn't compliant with RFC2445) */
-        RoleDisplayStart,        /**< Role for display purposes, represents the start boundary of an
-                                    incidence. To-dos return dtDue here, for historical reasons */
-        RoleDnD,                 /**< Role for determining new start and end dates after a DnD */
+        RoleEnd, /**< Role for determining an incidence's dtEnd, will return
+                    an invalid QDateTime if the incidence does not support dtEnd */
+        RoleDisplayEnd, /**< Role used for display purposes, represents the end boundary
+                           if an incidence supports dtEnd */
+        RoleAlarm, /**< Role for determining the date/time of the first alarm.
+                      Returns invalid time if the incidence doesn't have any alarm */
+        RoleRecurrenceStart, /**< Role for determining the start of the recurrence.
+                                Currently that's DTSTART for an event and DTDUE for a to-do.
+                                (NOTE: If the incidence is a to-do, recurrence should be
+                                calculated having DTSTART for a reference, not DT-DUE.
+                                This is one place KCalendarCore isn't compliant with RFC2445) */
+        RoleDisplayStart, /**< Role for display purposes, represents the start boundary of an
+                             incidence. To-dos return dtDue here, for historical reasons */
+        RoleDnD, /**< Role for determining new start and end dates after a DnD */
     };
 
     /**
       The different types of incidence fields.
     */
     enum Field {
-        FieldDtStart,         ///< Field representing the DTSTART component.
-        FieldDtEnd,           ///< Field representing the DTEND component.
-        FieldLastModified,    ///< Field representing the LAST-MODIFIED component.
-        FieldDescription,     ///< Field representing the DESCRIPTION component.
-        FieldSummary,         ///< Field representing the SUMMARY component.
-        FieldLocation,        ///< Field representing the LOCATION component.
-        FieldCompleted,       ///< Field representing the COMPLETED component.
+        FieldDtStart, ///< Field representing the DTSTART component.
+        FieldDtEnd, ///< Field representing the DTEND component.
+        FieldLastModified, ///< Field representing the LAST-MODIFIED component.
+        FieldDescription, ///< Field representing the DESCRIPTION component.
+        FieldSummary, ///< Field representing the SUMMARY component.
+        FieldLocation, ///< Field representing the LOCATION component.
+        FieldCompleted, ///< Field representing the COMPLETED component.
         FieldPercentComplete, ///< Field representing the PERCENT-COMPLETE component.
-        FieldDtDue,           ///< Field representing the DUE component.
-        FieldCategories,      ///< Field representing the CATEGORIES component.
-        FieldRelatedTo,       ///< Field representing the RELATED-TO component.
-        FieldRecurrence,      ///< Field representing the EXDATE, EXRULE, RDATE, and RRULE components.
-        FieldAttachment,      ///< Field representing the ATTACH component.
-        FieldSecrecy,         ///< Field representing the CLASS component.
-        FieldStatus,          ///< Field representing the STATUS component.
-        FieldTransparency,    ///< Field representing the TRANSPARENCY component.
-        FieldResources,       ///< Field representing the RESOURCES component.
-        FieldPriority,        ///< Field representing the PRIORITY component.
-        FieldGeoLatitude,     ///< Field representing the latitude part of the GEO component.
-        FieldGeoLongitude,    ///< Field representing the longitude part of the GEO component.
-        FieldRecurrenceId,    ///< Field representing the RECURRENCE-ID component.
-        FieldAlarms,          ///< Field representing the VALARM component.
-        FieldSchedulingId,    ///< Field representing the X-KDE-LIBKCAL-ID component.
-        FieldAttendees,       ///< Field representing the ATTENDEE component.
-        FieldOrganizer,       ///< Field representing the ORGANIZER component.
-        FieldCreated,         ///< Field representing the CREATED component.
-        FieldRevision,        ///< Field representing the SEQUENCE component.
-        FieldDuration,        ///< Field representing the DURATION component.
-        FieldContact,         ///< Field representing the CONTACT component.
-        FieldComment,         ///< Field representing the COMMENT component.
-        FieldUid,             ///< Field representing the UID component.
-        FieldUnknown,         ///< Something changed. Always set when you use the assignment operator.
-        FieldUrl,             ///< Field representing the URL component.
-        FieldConferences,     ///< Field representing the CONFERENCE component.
-        FieldColor,           ///< Field representing the COLOR component.
+        FieldDtDue, ///< Field representing the DUE component.
+        FieldCategories, ///< Field representing the CATEGORIES component.
+        FieldRelatedTo, ///< Field representing the RELATED-TO component.
+        FieldRecurrence, ///< Field representing the EXDATE, EXRULE, RDATE, and RRULE components.
+        FieldAttachment, ///< Field representing the ATTACH component.
+        FieldSecrecy, ///< Field representing the CLASS component.
+        FieldStatus, ///< Field representing the STATUS component.
+        FieldTransparency, ///< Field representing the TRANSPARENCY component.
+        FieldResources, ///< Field representing the RESOURCES component.
+        FieldPriority, ///< Field representing the PRIORITY component.
+        FieldGeoLatitude, ///< Field representing the latitude part of the GEO component.
+        FieldGeoLongitude, ///< Field representing the longitude part of the GEO component.
+        FieldRecurrenceId, ///< Field representing the RECURRENCE-ID component.
+        FieldAlarms, ///< Field representing the VALARM component.
+        FieldSchedulingId, ///< Field representing the X-KDE-LIBKCAL-ID component.
+        FieldAttendees, ///< Field representing the ATTENDEE component.
+        FieldOrganizer, ///< Field representing the ORGANIZER component.
+        FieldCreated, ///< Field representing the CREATED component.
+        FieldRevision, ///< Field representing the SEQUENCE component.
+        FieldDuration, ///< Field representing the DURATION component.
+        FieldContact, ///< Field representing the CONTACT component.
+        FieldComment, ///< Field representing the COMMENT component.
+        FieldUid, ///< Field representing the UID component.
+        FieldUnknown, ///< Something changed. Always set when you use the assignment operator.
+        FieldUrl, ///< Field representing the URL component.
+        FieldConferences, ///< Field representing the CONFERENCE component.
+        FieldColor, ///< Field representing the COLOR component.
     };
 
     /**
@@ -196,7 +197,6 @@ public:
     class KCALENDARCORE_EXPORT IncidenceObserver
     {
     public:
-
         /**
           Destroys the IncidenceObserver.
         */
@@ -675,7 +675,6 @@ public:
     Q_REQUIRED_RESULT static quint32 magicSerializationIdentifier();
 
 protected:
-
     /**
        Marks Field @p field as dirty.
        @param field is the Field type to mark as dirty.

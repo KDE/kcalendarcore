@@ -18,12 +18,11 @@
 #ifndef KCALCORE_TODO_H
 #define KCALCORE_TODO_H
 
-#include "kcalendarcore_export.h"
 #include "incidence.h"
+#include "kcalendarcore_export.h"
 
 namespace KCalendarCore
 {
-
 /**
   @brief
   Provides a To-do in the sense of RFC2445.
@@ -63,7 +62,7 @@ public:
       @param other is the incidence to copy.
       @since 4.14
      */
-    Todo(const Incidence &other); //krazy:exclude=explicit (copy ctor)
+    Todo(const Incidence &other); // krazy:exclude=explicit (copy ctor)
 
     /**
       Destroys a to-do.

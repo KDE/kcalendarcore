@@ -24,14 +24,13 @@
 
 #include "kcalendarcore_debug.h"
 
+#include <QDate>
 #include <QRegularExpression>
 #include <QString>
-#include <QDate>
 
 using namespace KCalendarCore;
 
-Compat *CompatFactory::createCompat(const QString &productId,
-                                    const QString &implementationVersion)
+Compat *CompatFactory::createCompat(const QString &productId, const QString &implementationVersion)
 {
     Compat *compat = nullptr;
 
@@ -43,12 +42,10 @@ Compat *CompatFactory::createCompat(const QString &productId,
         if (versionStart >= 0) {
             int versionStop = productId.indexOf(QRegularExpression(QStringLiteral("[ /]")), versionStart + 1);
             if (versionStop >= 0) {
-                QString version = productId.mid(versionStart + 1,
-                                                versionStop - versionStart - 1);
+                QString version = productId.mid(versionStart + 1, versionStop - versionStart - 1);
 
-                int versionNum = version.section(QLatin1Char('.'), 0, 0).toInt() * 10000 +
-                                 version.section(QLatin1Char('.'), 1, 1).toInt() * 100 +
-                                 version.section(QLatin1Char('.'), 2, 2).toInt();
+                int versionNum = version.section(QLatin1Char('.'), 0, 0).toInt() * 10000 + version.section(QLatin1Char('.'), 1, 1).toInt() * 100
+                    + version.section(QLatin1Char('.'), 2, 2).toInt();
                 int releaseStop = productId.indexOf(QLatin1Char('/'), versionStop);
                 QString release;
                 if (releaseStop > versionStop) {
@@ -77,17 +74,16 @@ Compat *CompatFactory::createCompat(const QString &productId,
     }
     // Older implementations lacked the implementation version,
     // so apply this fix if it is a file from kontact and the version is missing.
-    if (implementationVersion.isEmpty() &&
-            (productId.contains(QLatin1String("libkcal")) ||
-             productId.contains(QLatin1String("KOrganizer")) ||
-             productId.contains(QLatin1String("KAlarm")))) {
+    if (implementationVersion.isEmpty()
+        && (productId.contains(QLatin1String("libkcal")) || productId.contains(QLatin1String("KOrganizer")) || productId.contains(QLatin1String("KAlarm")))) {
         compat = new CompatPre410(compat);
     }
 
     return compat;
 }
 
-Compat::Compat() : d(nullptr)
+Compat::Compat()
+    : d(nullptr)
 {
 }
 
@@ -193,13 +189,13 @@ bool CompatDecorator::useTimeZoneShift() const
     return d->compat->useTimeZoneShift();
 }
 
-void CompatDecorator::setCreatedToDtStamp(const Incidence::Ptr &incidence,
-        const QDateTime &dtstamp)
+void CompatDecorator::setCreatedToDtStamp(const Incidence::Ptr &incidence, const QDateTime &dtstamp)
 {
     d->compat->setCreatedToDtStamp(incidence, dtstamp);
 }
 
-CompatPre35::CompatPre35() : d(nullptr)
+CompatPre35::CompatPre35()
+    : d(nullptr)
 {
 }
 
@@ -223,7 +219,8 @@ void CompatPre35::fixRecurrence(const Incidence::Ptr &incidence)
     Compat::fixRecurrence(incidence);
 }
 
-CompatPre34::CompatPre34() : d(nullptr)
+CompatPre34::CompatPre34()
+    : d(nullptr)
 {
 }
 
@@ -241,7 +238,8 @@ int CompatPre34::fixPriority(int priority)
     }
 }
 
-CompatPre32::CompatPre32() : d(nullptr)
+CompatPre32::CompatPre32()
+    : d(nullptr)
 {
 }
 
@@ -252,14 +250,15 @@ CompatPre32::~CompatPre32()
 void CompatPre32::fixRecurrence(const Incidence::Ptr &incidence)
 {
     Recurrence *recurrence = incidence->recurrence();
-    if (recurrence->recurs() &&  recurrence->duration() > 0) {
+    if (recurrence->recurs() && recurrence->duration() > 0) {
         recurrence->setDuration(recurrence->duration() + incidence->recurrence()->exDates().count());
     }
     // Call base class method now that everything else is done
     CompatPre35::fixRecurrence(incidence);
 }
 
-CompatPre31::CompatPre31() : d(nullptr)
+CompatPre31::CompatPre31()
+    : d(nullptr)
 {
 }
 
@@ -312,8 +311,7 @@ void CompatPre31::fixRecurrence(const Incidence::Ptr &incidence)
                 break;
             }
             if (!doNothing) {
-                duration = r->durationTo(
-                               QDateTime(end, QTime(0, 0, 0), incidence->dtStart().timeZone()));
+                duration = r->durationTo(QDateTime(end, QTime(0, 0, 0), incidence->dtStart().timeZone()));
                 r->setDuration(duration);
             }
         }
@@ -325,8 +323,7 @@ void CompatPre31::fixRecurrence(const Incidence::Ptr &incidence)
         if (!days.isEmpty()) {
             QList<int> months = r->byMonths();
             for (int i = 0; i < months.size(); ++i) {
-                int newmonth =
-                    QDate(r->startDt().date().year(), 1, 1).addDays(months.at(i) - 1).month();
+                int newmonth = QDate(r->startDt().date().year(), 1, 1).addDays(months.at(i) - 1).month();
                 if (!months.contains(newmonth)) {
                     months.append(newmonth);
                 }
@@ -339,7 +336,8 @@ void CompatPre31::fixRecurrence(const Incidence::Ptr &incidence)
     }
 }
 
-CompatOutlook9::CompatOutlook9() : d(nullptr)
+CompatOutlook9::CompatOutlook9()
+    : d(nullptr)
 {
 }
 
@@ -367,7 +365,8 @@ void CompatOutlook9::fixAlarms(const Incidence::Ptr &incidence)
     }
 }
 
-Compat32PrereleaseVersions::Compat32PrereleaseVersions() : d(nullptr)
+Compat32PrereleaseVersions::Compat32PrereleaseVersions()
+    : d(nullptr)
 {
 }
 

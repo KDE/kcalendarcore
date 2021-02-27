@@ -14,22 +14,21 @@
 
 namespace KCalendarCore
 {
-
 class IncidenceBase;
 
 /**
    iTIP methods.
 */
 enum iTIPMethod {
-    iTIPPublish,       /**< Event, to-do, journal or freebusy posting */
-    iTIPRequest,       /**< Event, to-do or freebusy scheduling request */
-    iTIPReply,         /**< Event, to-do or freebusy reply to request */
-    iTIPAdd,           /**< Event, to-do or journal additional property request */
-    iTIPCancel,        /**< Event, to-do or journal cancellation notice */
-    iTIPRefresh,       /**< Event or to-do description update request */
-    iTIPCounter,       /**< Event or to-do submit counter proposal */
-    iTIPDeclineCounter,/**< Event or to-do decline a counter proposal */
-    iTIPNoMethod,      /**< No method */
+    iTIPPublish, /**< Event, to-do, journal or freebusy posting */
+    iTIPRequest, /**< Event, to-do or freebusy scheduling request */
+    iTIPReply, /**< Event, to-do or freebusy reply to request */
+    iTIPAdd, /**< Event, to-do or journal additional property request */
+    iTIPCancel, /**< Event, to-do or journal cancellation notice */
+    iTIPRefresh, /**< Event or to-do description update request */
+    iTIPCounter, /**< Event or to-do submit counter proposal */
+    iTIPDeclineCounter, /**< Event or to-do decline a counter proposal */
+    iTIPNoMethod, /**< No method */
 };
 
 /**
@@ -46,12 +45,12 @@ public:
       Message status.
     */
     enum Status {
-        PublishNew,      /**< New message posting */
-        PublishUpdate,   /**< Updated message */
-        Obsolete,        /**< obsolete */
-        RequestNew,      /**< Request new message posting */
-        RequestUpdate,   /**< Request updated message */
-        Unknown,         /**< No status */
+        PublishNew, /**< New message posting */
+        PublishUpdate, /**< Updated message */
+        Obsolete, /**< obsolete */
+        RequestNew, /**< Request new message posting */
+        RequestUpdate, /**< Request updated message */
+        Unknown, /**< No status */
     };
 
     /**

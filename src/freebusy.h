@@ -18,17 +18,16 @@
 #ifndef KCALCORE_FREEBUSY_H
 #define KCALCORE_FREEBUSY_H
 
-#include "kcalendarcore_export.h"
 #include "event.h"
 #include "freebusyperiod.h"
 #include "incidencebase.h"
+#include "kcalendarcore_export.h"
 #include "period.h"
 
 #include <QMetaType>
 
 namespace KCalendarCore
 {
-
 class FreeBusy;
 
 /**
@@ -39,13 +38,10 @@ class FreeBusy;
 */
 class KCALENDARCORE_EXPORT FreeBusy : public IncidenceBase
 {
-    friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &s,
-            const KCalendarCore::FreeBusy::Ptr &freebusy);
-    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &s,
-            KCalendarCore::FreeBusy::Ptr &freebusy);
+    friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &s, const KCalendarCore::FreeBusy::Ptr &freebusy);
+    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &s, KCalendarCore::FreeBusy::Ptr &freebusy);
 
 public:
-
     /**
       A shared pointer to a FreeBusy object.
     */
@@ -266,13 +262,11 @@ private:
 /**
   Serializes the @p freebusy object into the @p stream.
 */
-KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
-                                        const KCalendarCore::FreeBusy::Ptr &freebusy);
+KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalendarCore::FreeBusy::Ptr &freebusy);
 /**
   Initializes the @p freebusy object from the @p stream.
 */
-KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream,
-                                        KCalendarCore::FreeBusy::Ptr &freebusy);
+KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalendarCore::FreeBusy::Ptr &freebusy);
 }
 
 //@cond PRIVATE

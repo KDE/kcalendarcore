@@ -55,8 +55,7 @@ bool Conference::isNull() const
 
 bool KCalendarCore::Conference::operator==(const Conference &other) const
 {
-    return std::tie(d->label, d->language, d->features, d->uri)
-            == std::tie(other.d->label, other.d->language, other.d->features, other.d->uri);
+    return std::tie(d->label, d->language, d->features, d->uri) == std::tie(other.d->label, other.d->language, other.d->features, other.d->uri);
 }
 
 bool KCalendarCore::Conference::operator!=(const Conference &other) const
@@ -133,21 +132,13 @@ const CustomProperties &Conference::customProperties() const
 
 QDataStream &KCalendarCore::operator<<(QDataStream &stream, const KCalendarCore::Conference &conference)
 {
-    return stream << conference.d->uri
-                  << conference.d->label
-                  << conference.d->features
-                  << conference.d->language
-                  << conference.d->customProperties;
+    return stream << conference.d->uri << conference.d->label << conference.d->features << conference.d->language << conference.d->customProperties;
 }
 
 QDataStream &KCalendarCore::operator>>(QDataStream &stream, KCalendarCore::Conference &conference)
 {
     Conference conf;
-    stream >> conf.d->uri
-           >> conf.d->label
-           >> conf.d->features
-           >> conf.d->language
-           >> conf.d->customProperties;
+    stream >> conf.d->uri >> conf.d->label >> conf.d->features >> conf.d->language >> conf.d->customProperties;
     conference = conf;
 
     return stream;

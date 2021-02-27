@@ -17,9 +17,9 @@
 */
 
 #include "event.h"
-#include "visitor.h"
-#include "utils_p.h"
 #include "kcalendarcore_debug.h"
+#include "utils_p.h"
+#include "visitor.h"
 
 #include <QDate>
 
@@ -46,7 +46,8 @@ Event::Event()
 }
 
 Event::Event(const Event &other)
-    : Incidence(other), d(new KCalendarCore::Event::Private(*other.d))
+    : Incidence(other)
+    , d(new KCalendarCore::Event::Private(*other.d))
 {
 }
 
@@ -83,10 +84,7 @@ bool Event::equals(const IncidenceBase &event) const
     } else {
         // If they weren't the same type IncidenceBase::equals would had returned false already
         const Event *e = static_cast<const Event *>(&event);
-        return
-            ((dtEnd() == e->dtEnd()) ||
-             (!dtEnd().isValid() && !e->dtEnd().isValid())) &&
-            transparency() == e->transparency();
+        return ((dtEnd() == e->dtEnd()) || (!dtEnd().isValid() && !e->dtEnd().isValid())) && transparency() == e->transparency();
     }
 }
 

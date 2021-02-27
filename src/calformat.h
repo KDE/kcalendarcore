@@ -16,14 +16,13 @@
 #ifndef KCALCORE_CALFORMAT_H
 #define KCALCORE_CALFORMAT_H
 
-#include "kcalendarcore_export.h"
 #include "calendar.h"
+#include "kcalendarcore_export.h"
 
 #include <QString>
 
 namespace KCalendarCore
 {
-
 class Exception;
 
 /**
@@ -77,8 +76,7 @@ public:
       @return true if successful; false otherwise.
       @see fromRawString(), toString().
     */
-    virtual bool fromString(const Calendar::Ptr &calendar, const QString &string,
-                            bool deleted = false, const QString &notebook = QString()) = 0;
+    virtual bool fromString(const Calendar::Ptr &calendar, const QString &string, bool deleted = false, const QString &notebook = QString()) = 0;
 
     /**
       Parses a utf8 encoded string, returning the first iCal component
@@ -94,8 +92,7 @@ public:
       @return true if successful; false otherwise.
       @see fromString(), toString().
     */
-    virtual bool fromRawString(const Calendar::Ptr &calendar, const QByteArray &string,
-                               bool deleted = false, const QString &notebook = QString()) = 0;
+    virtual bool fromRawString(const Calendar::Ptr &calendar, const QByteArray &string, bool deleted = false, const QString &notebook = QString()) = 0;
 
     /**
       Returns the calendar as a string.
@@ -107,8 +104,7 @@ public:
       an empty string otherwise.
       @see fromString(), fromRawString().
     */
-    virtual QString toString(const Calendar::Ptr &calendar,
-                             const QString &notebook = QString(), bool deleted = false) = 0;
+    virtual QString toString(const Calendar::Ptr &calendar, const QString &notebook = QString(), bool deleted = false) = 0;
 
     /**
       Clears the exception status.
@@ -128,18 +124,17 @@ public:
       @param application is a string containing the application name.
       @param productID is a string containing the product identifier.
     */
-    static void setApplication(const QString &application,
-                               const QString &productID);
+    static void setApplication(const QString &application, const QString &productID);
 
     /**
       Returns the application name used in unique IDs and error messages.
     */
-    static const QString &application(); //krazy:exclude=constref
+    static const QString &application(); // krazy:exclude=constref
 
     /**
       Returns the our library's PRODID string to write into calendar files.
     */
-    static const QString &productId(); //krazy:exclude=constref
+    static const QString &productId(); // krazy:exclude=constref
 
     /**
       Returns the PRODID string loaded from calendar file.

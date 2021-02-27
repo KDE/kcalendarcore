@@ -31,20 +31,21 @@ using namespace KCalendarCore;
 class Q_DECL_HIDDEN KCalendarCore::CalFormat::Private
 {
 public:
-    Private() {}
+    Private()
+    {
+    }
     ~Private()
     {
         delete mException;
     }
     static QString mApplication; // Name of application, for creating unique ID strings
-    static QString mProductId;   // PRODID string to write to calendar files
-    QString mLoadedProductId;    // PRODID string loaded from calendar file
+    static QString mProductId; // PRODID string to write to calendar files
+    QString mLoadedProductId; // PRODID string loaded from calendar file
     Exception *mException = nullptr;
 };
 
 QString CalFormat::Private::mApplication = QStringLiteral("libkcal");
-QString CalFormat::Private::mProductId =
-    QStringLiteral("-//K Desktop Environment//NONSGML libkcal 4.3//EN");
+QString CalFormat::Private::mProductId = QStringLiteral("-//K Desktop Environment//NONSGML libkcal 4.3//EN");
 //@endcond
 
 CalFormat::CalFormat()
@@ -75,8 +76,7 @@ Exception *CalFormat::exception() const
     return d->mException;
 }
 
-void CalFormat::setApplication(const QString &application,
-                               const QString &productID)
+void CalFormat::setApplication(const QString &application, const QString &productID)
 {
     Private::mApplication = application;
     Private::mProductId = productID;

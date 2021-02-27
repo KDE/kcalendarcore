@@ -11,10 +11,10 @@
 #include "memorycalendar.h"
 #include "vcalformat.h"
 
+#include <QCommandLineParser>
+#include <QCoreApplication>
 #include <QDebug>
 #include <QFileInfo>
-#include <QCoreApplication>
-#include <QCommandLineParser>
 #include <QTimeZone>
 
 using namespace KCalendarCore;

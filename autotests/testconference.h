@@ -10,7 +10,7 @@
 
 #include <QObject>
 
-class ConferenceTest: public QObject
+class ConferenceTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:

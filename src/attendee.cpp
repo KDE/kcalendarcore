@@ -48,6 +48,7 @@ public:
     CustomProperties mCustomProperties;
     QString mName;
     QString mEmail;
+
 private:
     QString sCuType;
     CuType mCuType;
@@ -110,8 +111,7 @@ Attendee::Attendee()
 {
 }
 
-Attendee::Attendee(const QString &name, const QString &email, bool rsvp,
-                   Attendee::PartStat status, Attendee::Role role, const QString &uid)
+Attendee::Attendee(const QString &name, const QString &email, bool rsvp, Attendee::PartStat status, Attendee::Role role, const QString &uid)
     : d(new Attendee::Private)
 {
     setName(name);
@@ -138,16 +138,9 @@ bool Attendee::isNull() const
 
 bool KCalendarCore::Attendee::operator==(const Attendee &attendee) const
 {
-    return
-        d->mUid == attendee.d->mUid &&
-        d->mRSVP == attendee.d->mRSVP &&
-        d->mRole == attendee.d->mRole &&
-        d->mStatus == attendee.d->mStatus &&
-        d->mDelegate == attendee.d->mDelegate &&
-        d->mDelegator == attendee.d->mDelegator &&
-        d->cuTypeStr() == attendee.d->cuTypeStr() &&
-        d->mName == attendee.d->mName &&
-        d->mEmail == attendee.d->mEmail;
+    return d->mUid == attendee.d->mUid && d->mRSVP == attendee.d->mRSVP && d->mRole == attendee.d->mRole && d->mStatus == attendee.d->mStatus
+        && d->mDelegate == attendee.d->mDelegate && d->mDelegator == attendee.d->mDelegator && d->cuTypeStr() == attendee.d->cuTypeStr()
+        && d->mName == attendee.d->mName && d->mEmail == attendee.d->mEmail;
 }
 
 bool KCalendarCore::Attendee::operator!=(const Attendee &attendee) const
@@ -310,14 +303,8 @@ QDataStream &KCalendarCore::operator<<(QDataStream &stream, const KCalendarCore:
 {
     KCalendarCore::Person p(attendee.name(), attendee.email());
     stream << p;
-    return stream << attendee.d->mRSVP
-           << int(attendee.d->mRole)
-           << int(attendee.d->mStatus)
-           << attendee.d->mUid
-           << attendee.d->mDelegate
-           << attendee.d->mDelegator
-           << attendee.d->cuTypeStr()
-           << attendee.d->mCustomProperties;
+    return stream << attendee.d->mRSVP << int(attendee.d->mRole) << int(attendee.d->mStatus) << attendee.d->mUid << attendee.d->mDelegate
+                  << attendee.d->mDelegator << attendee.d->cuTypeStr() << attendee.d->mCustomProperties;
 }
 
 QDataStream &KCalendarCore::operator>>(QDataStream &stream, KCalendarCore::Attendee &attendee)
@@ -335,14 +322,7 @@ QDataStream &KCalendarCore::operator>>(QDataStream &stream, KCalendarCore::Atten
 
     KCalendarCore::Person person;
     stream >> person;
-    stream >> RSVP
-           >> role_int
-           >> status_int
-           >> uid
-           >> delegate
-           >> delegator
-           >> cuType
-           >> customProperties;
+    stream >> RSVP >> role_int >> status_int >> uid >> delegate >> delegator >> cuType >> customProperties;
 
     role = Attendee::Role(role_int);
     status = Attendee::PartStat(status_int);

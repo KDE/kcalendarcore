@@ -10,8 +10,8 @@
 #define TESTINCIDENCEGENERATOR_H
 
 #include "../event.h"
-#include "../todo.h"
 #include "../journal.h"
+#include "../todo.h"
 using namespace KCalendarCore;
 
 static Event *makeTestEvent()

@@ -24,40 +24,40 @@ void ICalFormatTest::testDeserializeSerialize()
 {
     ICalFormat format;
 
-    const QString serializedCalendar
-        = QLatin1String("BEGIN:VCALENDAR\n"
-                        "PRODID:-//IDN nextcloud.com//Calendar app 2.0.4//EN\n"
-                        "VERSION:2.0\n"
-                        "BEGIN:VEVENT\n"
-                        "CREATED:20201103T161248Z\n"
-                        "DTSTAMP:20201103T161340Z\n"
-                        "LAST-MODIFIED:20201103T161340Z\n"
-                        "SEQUENCE:2\n"
-                        "UID:bd1d299d-3b03-4514-be69-e680ad2ff884\n"
-                        "DTSTART;TZID=Europe/Paris:20201103T100000\n"
-                        "DTEND;TZID=Europe/Paris:20201103T110000\n"
-                        "SUMMARY:test recur\n"
-                        "RRULE:FREQ=DAILY;COUNT=4\n"
-                        "END:VEVENT\n"
-                        "BEGIN:VEVENT\n"
-                        "CREATED:20201103T161823Z\n"
-                        "DTSTAMP:20201103T161823Z\n"
-                        "LAST-MODIFIED:20201103T161823Z\n"
-                        "SEQUENCE:1\n"
-                        "UID:bd1d299d-3b03-4514-be69-e680ad2ff884\n"
-                        "DTSTART;TZID=Europe/Paris:20201104T111500\n"
-                        "DTEND;TZID=Europe/Paris:20201104T121500\n"
-                        "SUMMARY:test recur\n"
-                        "COLOR:khaki\n"
-                        "RECURRENCE-ID;TZID=Europe/Paris:20201104T100000\n"
-                        "END:VEVENT\n"
-                        "END:VCALENDAR");
+    const QString serializedCalendar = QLatin1String(
+        "BEGIN:VCALENDAR\n"
+        "PRODID:-//IDN nextcloud.com//Calendar app 2.0.4//EN\n"
+        "VERSION:2.0\n"
+        "BEGIN:VEVENT\n"
+        "CREATED:20201103T161248Z\n"
+        "DTSTAMP:20201103T161340Z\n"
+        "LAST-MODIFIED:20201103T161340Z\n"
+        "SEQUENCE:2\n"
+        "UID:bd1d299d-3b03-4514-be69-e680ad2ff884\n"
+        "DTSTART;TZID=Europe/Paris:20201103T100000\n"
+        "DTEND;TZID=Europe/Paris:20201103T110000\n"
+        "SUMMARY:test recur\n"
+        "RRULE:FREQ=DAILY;COUNT=4\n"
+        "END:VEVENT\n"
+        "BEGIN:VEVENT\n"
+        "CREATED:20201103T161823Z\n"
+        "DTSTAMP:20201103T161823Z\n"
+        "LAST-MODIFIED:20201103T161823Z\n"
+        "SEQUENCE:1\n"
+        "UID:bd1d299d-3b03-4514-be69-e680ad2ff884\n"
+        "DTSTART;TZID=Europe/Paris:20201104T111500\n"
+        "DTEND;TZID=Europe/Paris:20201104T121500\n"
+        "SUMMARY:test recur\n"
+        "COLOR:khaki\n"
+        "RECURRENCE-ID;TZID=Europe/Paris:20201104T100000\n"
+        "END:VEVENT\n"
+        "END:VCALENDAR");
     MemoryCalendar::Ptr calendar = MemoryCalendar::Ptr(new MemoryCalendar(QTimeZone::utc()));
     QVERIFY(format.fromString(calendar, serializedCalendar));
     const QString uid = QString::fromLatin1("bd1d299d-3b03-4514-be69-e680ad2ff884");
     Incidence::Ptr parent = calendar->incidence(uid);
     QVERIFY(parent);
-    const QDateTime start(QDate(2020, 11, 3), QTime(9,0), QTimeZone::utc());
+    const QDateTime start(QDate(2020, 11, 3), QTime(9, 0), QTimeZone::utc());
     QCOMPARE(parent->dtStart(), start);
     QCOMPARE(parent.staticCast<Event>()->dtEnd(), start.addSecs(3600));
     QCOMPARE(parent->summary(), QString::fromLatin1("test recur"));
@@ -69,7 +69,7 @@ void ICalFormatTest::testDeserializeSerialize()
 
     Incidence::Ptr occurrence = calendar->incidence(uid, start.addDays(1));
     QVERIFY(occurrence);
-    const QDateTime startOcc(QDate(2020, 11, 4), QTime(10,15), QTimeZone::utc());
+    const QDateTime startOcc(QDate(2020, 11, 4), QTime(10, 15), QTimeZone::utc());
     QCOMPARE(occurrence->dtStart(), startOcc);
     QCOMPARE(occurrence.staticCast<Event>()->dtEnd(), startOcc.addSecs(3600));
 #if defined(USE_ICAL_3)
@@ -105,27 +105,24 @@ void ICalFormatTest::testCharsets()
     event->setAllDay(true);
 
     // ü
-    const QChar latin1_umlaut[] = { 0xFC, QLatin1Char('\0') };
+    const QChar latin1_umlaut[] = {0xFC, QLatin1Char('\0')};
     event->setSummary(QString(latin1_umlaut));
 
     // Test if toString( Incidence ) didn't mess charsets
     const QString serialized = format.toString(event.staticCast<Incidence>());
-    const QChar utf_umlaut[] = { 0xC3, 0XBC, QLatin1Char('\0') };
+    const QChar utf_umlaut[] = {0xC3, 0XBC, QLatin1Char('\0')};
     QVERIFY(serialized.toUtf8().contains(QString(utf_umlaut).toLatin1().constData()));
     QVERIFY(!serialized.toUtf8().contains(QString(latin1_umlaut).toLatin1().constData()));
     QVERIFY(serialized.toLatin1().contains(QString(latin1_umlaut).toLatin1().constData()));
     QVERIFY(!serialized.toLatin1().contains(QString(utf_umlaut).toLatin1().constData()));
 
     // test fromString( QString )
-    const QString serializedCalendar
-        = QLatin1String("BEGIN:VCALENDAR\nPRODID:-//K Desktop Environment//NONSGML libkcal 3.2//EN\nVERSION:2.0\n")
-          +serialized
-          +QLatin1String("\nEND:VCALENDAR");
+    const QString serializedCalendar = QLatin1String("BEGIN:VCALENDAR\nPRODID:-//K Desktop Environment//NONSGML libkcal 3.2//EN\nVERSION:2.0\n") + serialized
+        + QLatin1String("\nEND:VCALENDAR");
 
     Incidence::Ptr event2 = format.fromString(serializedCalendar);
     QVERIFY(event->summary() == event2->summary());
-    QVERIFY(event2->summary().toUtf8()
-            == QByteArray(QString(utf_umlaut).toLatin1().constData()));
+    QVERIFY(event2->summary().toUtf8() == QByteArray(QString(utf_umlaut).toLatin1().constData()));
 
     // test save()
     MemoryCalendar::Ptr calendar(new MemoryCalendar(QTimeZone::utc()));
@@ -150,8 +147,7 @@ void ICalFormatTest::testCharsets()
     // qDebug() << format.toString( calendar2->incidences().at(0) );
 
     Event::Ptr loadedEvent = calendar2->incidences().at(0).staticCast<Event>();
-    QVERIFY(loadedEvent->summary().toUtf8()
-            == QByteArray(QString(utf_umlaut).toLatin1().constData()));
+    QVERIFY(loadedEvent->summary().toUtf8() == QByteArray(QString(utf_umlaut).toLatin1().constData()));
     QVERIFY(*loadedEvent == *event);
 
     // Test fromRawString()
@@ -199,10 +195,8 @@ void ICalFormatTest::testCuType()
     const QString serialized = format.toString(event.staticCast<Incidence>());
 
     // test fromString(QString)
-    const QString serializedCalendar
-        = QLatin1String("BEGIN:VCALENDAR\nPRODID:-//K Desktop Environment//NONSGML libkcal 3.2//EN\nVERSION:2.0\n")
-          +serialized
-          +QLatin1String("\nEND:VCALENDAR");
+    const QString serializedCalendar = QLatin1String("BEGIN:VCALENDAR\nPRODID:-//K Desktop Environment//NONSGML libkcal 3.2//EN\nVERSION:2.0\n") + serialized
+        + QLatin1String("\nEND:VCALENDAR");
 
     Incidence::Ptr event2 = format.fromString(serializedCalendar);
     QVERIFY(event2->attendeeCount() == 1);
@@ -222,10 +216,8 @@ void ICalFormatTest::testAlarm()
     alarm->setType(Alarm::Display);
     alarm->setStartOffset(Duration(0));
 
-    const QString serialized
-        = QLatin1String("BEGIN:VCALENDAR\nPRODID:-//K Desktop Environment//NONSGML libkcal 3.2//EN\nVERSION:2.0\n")
-        + format.toString(event.staticCast<Incidence>())
-        + QLatin1String("\nEND:VCALENDAR");
+    const QString serialized = QLatin1String("BEGIN:VCALENDAR\nPRODID:-//K Desktop Environment//NONSGML libkcal 3.2//EN\nVERSION:2.0\n")
+        + format.toString(event.staticCast<Incidence>()) + QLatin1String("\nEND:VCALENDAR");
 
     Incidence::Ptr event2 = format.fromString(serialized);
     Alarm::Ptr alarm2 = event2->alarms()[0];

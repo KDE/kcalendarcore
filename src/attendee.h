@@ -19,12 +19,11 @@
 #include <QMetaType>
 #include <QSharedDataPointer>
 
-#include "kcalendarcore_export.h"
 #include "customproperties.h"
+#include "kcalendarcore_export.h"
 
 namespace KCalendarCore
 {
-
 /**
   @brief
   Represents information related to an attendee of an Calendar Incidence,
@@ -63,13 +62,13 @@ public:
       The meaning is specific to the incidence type in context.
     */
     enum PartStat {
-        NeedsAction,     /**< Event, to-do or journal needs action (default) */
-        Accepted,        /**< Event, to-do or journal accepted */
-        Declined,        /**< Event, to-do or journal declined */
-        Tentative,       /**< Event or to-do tentatively accepted */
-        Delegated,       /**< Event or to-do delegated */
-        Completed,       /**< To-do completed */
-        InProcess,       /**< To-do in process of being completed */
+        NeedsAction, /**< Event, to-do or journal needs action (default) */
+        Accepted, /**< Event, to-do or journal accepted */
+        Declined, /**< Event, to-do or journal declined */
+        Tentative, /**< Event or to-do tentatively accepted */
+        Delegated, /**< Event or to-do delegated */
+        Completed, /**< To-do completed */
+        InProcess, /**< To-do in process of being completed */
         None,
     };
     Q_ENUM(PartStat)
@@ -78,10 +77,10 @@ public:
       The different types of participation roles.
     */
     enum Role {
-        ReqParticipant,  /**< Participation is required (default) */
-        OptParticipant,  /**< Participation is optional */
-        NonParticipant,  /**< Non-Participant; copied for information purposes */
-        Chair,           /**< Chairperson */
+        ReqParticipant, /**< Participation is required (default) */
+        OptParticipant, /**< Participation is optional */
+        NonParticipant, /**< Non-Participant; copied for information purposes */
+        Chair, /**< Chairperson */
     };
     Q_ENUM(Role)
 
@@ -91,11 +90,11 @@ public:
      * @since 4.14
      */
     enum CuType {
-        Individual,       /**< An individual (default) */
-        Group,            /**< A group of individuals */
-        Resource,         /**< A physical resource */
-        Room,             /**< A room resource */
-        Unknown,          /**< Otherwise not known */
+        Individual, /**< An individual (default) */
+        Group, /**< A group of individuals */
+        Resource, /**< A physical resource */
+        Room, /**< A room resource */
+        Unknown, /**< Otherwise not known */
         /**
          * Parameters that have to set via the QString variant of @setCuType() and @cuType()
          * x-name         ; Experimental cuType
@@ -124,9 +123,7 @@ public:
       @param role is the #Role of the attendee.
       @param uid is the @acronym UID of the attendee.
     */
-    Attendee(const QString &name, const QString &email,
-             bool rsvp = false, PartStat status = None,
-             Role role = ReqParticipant, const QString &uid = QString());
+    Attendee(const QString &name, const QString &email, bool rsvp = false, PartStat status = None, Role role = ReqParticipant, const QString &uid = QString());
 
     /**
       Constructs an attendee by copying another attendee.
@@ -347,10 +344,8 @@ private:
     QSharedDataPointer<Private> d;
     //@endcond
 
-    friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &s,
-            const KCalendarCore::Attendee &attendee);
-    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &s,
-            KCalendarCore::Attendee &attendee);
+    friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &s, const KCalendarCore::Attendee &attendee);
+    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &s, KCalendarCore::Attendee &attendee);
 };
 
 /**
@@ -358,16 +353,14 @@ private:
   @param stream is a QDataStream.
   @param attendee is a pointer to a Attendee object to be serialized.
 */
-KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
-                                        const KCalendarCore::Attendee &attendee);
+KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalendarCore::Attendee &attendee);
 
 /**
   Initializes an Attendee object from a data stream.
   @param stream is a QDataStream.
   @param attendee is a pointer to a Attendee object to be initialized.
 */
-KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream,
-                                        KCalendarCore::Attendee &attendee);
+KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalendarCore::Attendee &attendee);
 }
 
 //@cond PRIVATE

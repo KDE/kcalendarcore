@@ -6,8 +6,8 @@
 */
 
 #include "testattachment.h"
-#include "event.h"
 #include "attachment.h"
+#include "event.h"
 
 #include <QTest>
 QTEST_MAIN(AttachmentTest)

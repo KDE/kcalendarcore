@@ -13,7 +13,7 @@ class QString;
 
 namespace KCalendarCore
 {
-    QString fullNameHelper(const QString &name, const QString &email);
+QString fullNameHelper(const QString &name, const QString &email);
 }
 
 #endif

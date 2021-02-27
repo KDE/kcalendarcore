@@ -9,9 +9,9 @@
 #include "filestorage.h"
 #include "memorycalendar.h"
 
-#include <QDebug>
-#include <QCoreApplication>
 #include <QCommandLineParser>
+#include <QCoreApplication>
+#include <QDebug>
 #include <QTimeZone>
 
 using namespace KCalendarCore;
@@ -45,8 +45,7 @@ int main(int argc, char **argv)
     }
 
     qDebug() << (*todoList.begin())->uid();
-    QString result = (*todoList.begin())->customProperty(QByteArray("karm"),
-                                                         QByteArray("totalTaskTime"));
+    QString result = (*todoList.begin())->customProperty(QByteArray("karm"), QByteArray("totalTaskTime"));
     qDebug() << result;
     if (result != QLatin1String("a,b")) {
         qDebug() << "The string a,b was expected, but given was" << result;

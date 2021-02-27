@@ -80,8 +80,7 @@ void FreeBusyTest::testAssign()
 void FreeBusyTest::testDataStream()
 {
     const QDateTime firstDateTime(QDate(2007, 7, 23), QTime(7, 0, 0), Qt::UTC);
-    FreeBusy::Ptr fb1(new FreeBusy(firstDateTime,
-                                   QDateTime(QDate(2007, 7, 23), QTime(8, 0, 0), Qt::UTC)));
+    FreeBusy::Ptr fb1(new FreeBusy(firstDateTime, QDateTime(QDate(2007, 7, 23), QTime(8, 0, 0), Qt::UTC)));
 
     QByteArray byteArray;
     QDataStream out_stream(&byteArray, QIODevice::WriteOnly);
@@ -96,5 +95,5 @@ void FreeBusyTest::testDataStream()
 
     QCOMPARE(fb1->dtEnd(), fb2->dtEnd());
     QCOMPARE(fb1->busyPeriods(), fb2->busyPeriods());
-//   QVERIFY( *fb1 == *fb2 );
+    //   QVERIFY( *fb1 == *fb2 );
 }

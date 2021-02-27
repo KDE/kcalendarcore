@@ -31,9 +31,10 @@ class Q_DECL_HIDDEN KCalendarCore::Attachment::Private : public QSharedData
 public:
     Private() = default;
     Private(const QString &mime, bool binary)
-        : mMimeType(mime),
-          mBinary(binary)
-    {}
+        : mMimeType(mime)
+        , mBinary(binary)
+    {
+    }
     Private(const Private &other) = default;
 
     ~Private()
@@ -208,26 +209,12 @@ bool Attachment::operator!=(const Attachment &a2) const
 
 QDataStream &KCalendarCore::operator<<(QDataStream &out, const KCalendarCore::Attachment &a)
 {
-    out << a.d->mSize
-        << a.d->mMimeType
-        << a.d->mUri
-        << a.d->mEncodedData
-        << a.d->mLabel
-        << a.d->mBinary
-        << a.d->mLocal
-        << a.d->mShowInline;
+    out << a.d->mSize << a.d->mMimeType << a.d->mUri << a.d->mEncodedData << a.d->mLabel << a.d->mBinary << a.d->mLocal << a.d->mShowInline;
     return out;
 }
 
 QDataStream &KCalendarCore::operator>>(QDataStream &in, KCalendarCore::Attachment &a)
 {
-    in >> a.d->mSize
-        >> a.d->mMimeType
-        >> a.d->mUri
-        >> a.d->mEncodedData
-        >> a.d->mLabel
-        >> a.d->mBinary
-        >> a.d->mLocal
-        >> a.d->mShowInline;
+    in >> a.d->mSize >> a.d->mMimeType >> a.d->mUri >> a.d->mEncodedData >> a.d->mLabel >> a.d->mBinary >> a.d->mLocal >> a.d->mShowInline;
     return in;
 }

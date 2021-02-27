@@ -5,13 +5,13 @@
  */
 
 #include "testreadrecurrenceid.h"
-#include "memorycalendar.h"
-#include "icalformat.h"
 #include "exceptions.h"
+#include "icalformat.h"
+#include "memorycalendar.h"
 
 #include <QDebug>
-#include <QTimeZone>
 #include <QTest>
+#include <QTimeZone>
 
 QTEST_MAIN(TestReadRecurrenceId)
 
@@ -20,7 +20,7 @@ void TestReadRecurrenceId::testReadSingleException()
     KCalendarCore::ICalFormat format;
     QFile file(QLatin1String(ICALTESTDATADIR) + QLatin1String("test_recurrenceid_single.ics"));
     QVERIFY(file.open(QIODevice::ReadOnly));
-//   qDebug() << file.readAll();
+    //   qDebug() << file.readAll();
 
     KCalendarCore::Incidence::Ptr i = format.fromString(QString::fromUtf8(file.readAll()));
     if (!i) {

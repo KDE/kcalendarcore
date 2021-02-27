@@ -20,14 +20,13 @@
 
 #include "kcalendarcore_export.h"
 
-#include <QString>
 #include <QHash>
 #include <QMetaType>
 #include <QSharedDataPointer>
+#include <QString>
 
 namespace KCalendarCore
 {
-
 /**
   @brief
   Represents a person, by name and email address.

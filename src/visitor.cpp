@@ -12,9 +12,9 @@
 
 #include "visitor.h"
 #include "event.h"
-#include "todo.h"
-#include "journal.h"
 #include "freebusy.h"
+#include "journal.h"
+#include "todo.h"
 
 using namespace KCalendarCore;
 

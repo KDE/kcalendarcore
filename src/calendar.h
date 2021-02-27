@@ -35,21 +35,20 @@ This API needs serious cleaning up:
 #ifndef KCALCORE_CALENDAR_H
 #define KCALCORE_CALENDAR_H
 
-#include "kcalendarcore_export.h"
-#include "event.h"
 #include "customproperties.h"
+#include "event.h"
 #include "incidence.h"
 #include "journal.h"
+#include "kcalendarcore_export.h"
 #include "todo.h"
 
-#include <QObject>
 #include <QDateTime>
+#include <QObject>
 #include <QTimeZone>
 
 /** Namespace for all KCalendarCore types. */
 namespace KCalendarCore
 {
-
 class CalFilter;
 class Person;
 class ICalFormat;
@@ -58,7 +57,7 @@ class ICalFormat;
   Calendar Incidence sort directions.
 */
 enum SortDirection {
-    SortDirectionAscending,  /**< Sort in ascending order (first to last) */
+    SortDirectionAscending, /**< Sort in ascending order (first to last) */
     SortDirectionDescending, /**< Sort in descending order (last to first) */
 };
 
@@ -66,32 +65,32 @@ enum SortDirection {
   Calendar Event sort keys.
 */
 enum EventSortField {
-    EventSortUnsorted,       /**< Do not sort Events */
-    EventSortStartDate,      /**< Sort Events chronologically, by start date */
-    EventSortEndDate,        /**< Sort Events chronologically, by end date */
-    EventSortSummary,        /**< Sort Events alphabetically, by summary */
+    EventSortUnsorted, /**< Do not sort Events */
+    EventSortStartDate, /**< Sort Events chronologically, by start date */
+    EventSortEndDate, /**< Sort Events chronologically, by end date */
+    EventSortSummary, /**< Sort Events alphabetically, by summary */
 };
 
 /**
   Calendar Todo sort keys.
 */
 enum TodoSortField {
-    TodoSortUnsorted,        /**< Do not sort Todos */
-    TodoSortStartDate,       /**< Sort Todos chronologically, by start date */
-    TodoSortDueDate,         /**< Sort Todos chronologically, by due date */
-    TodoSortPriority,        /**< Sort Todos by priority */
+    TodoSortUnsorted, /**< Do not sort Todos */
+    TodoSortStartDate, /**< Sort Todos chronologically, by start date */
+    TodoSortDueDate, /**< Sort Todos chronologically, by due date */
+    TodoSortPriority, /**< Sort Todos by priority */
     TodoSortPercentComplete, /**< Sort Todos by percentage completed */
-    TodoSortSummary,         /**< Sort Todos alphabetically, by summary */
-    TodoSortCreated,         /**< Sort Todos chronologically, by creation date */
+    TodoSortSummary, /**< Sort Todos alphabetically, by summary */
+    TodoSortCreated, /**< Sort Todos chronologically, by creation date */
 };
 
 /**
   Calendar Journal sort keys.
 */
 enum JournalSortField {
-    JournalSortUnsorted,     /**< Do not sort Journals */
-    JournalSortDate,         /**< Sort Journals chronologically by date */
-    JournalSortSummary,      /**< Sort Journals alphabetically, by summary */
+    JournalSortUnsorted, /**< Do not sort Journals */
+    JournalSortDate, /**< Sort Journals chronologically by date */
+    JournalSortSummary, /**< Sort Journals alphabetically, by summary */
 };
 
 /**
@@ -116,15 +115,13 @@ enum JournalSortField {
   visible in the Calendar.  Do <em>Not</em> attempt to 'delete' any Incidence
   object you get from Calendar -- use the delete...() methods.
 */
-class KCALENDARCORE_EXPORT Calendar : public QObject, public CustomProperties,
-    public IncidenceBase::IncidenceObserver
+class KCALENDARCORE_EXPORT Calendar : public QObject, public CustomProperties, public IncidenceBase::IncidenceObserver
 {
     Q_OBJECT
-    Q_PROPERTY(QString productId READ productId WRITE setProductId) //clazy:exclude=qproperty-without-notify
+    Q_PROPERTY(QString productId READ productId WRITE setProductId) // clazy:exclude=qproperty-without-notify
     Q_PROPERTY(KCalendarCore::Person owner READ owner WRITE setOwner)
 
 public:
-
     /**
       A shared pointer to a Calendar
     */
@@ -515,8 +512,7 @@ public:
       @return a pointer to the Incidence.
       A null pointer is returned if no such Incidence exists.
     */
-    Incidence::Ptr incidence(const QString &uid,
-                             const QDateTime &recurrenceId = {}) const;
+    Incidence::Ptr incidence(const QString &uid, const QDateTime &recurrenceId = {}) const;
 
     /**
       Returns the deleted Incidence associated with the given unique identifier.
@@ -564,9 +560,7 @@ public:
 
       @return a list of merged Incidences.
     */
-    static Incidence::List mergeIncidenceList(const Event::List &events,
-            const Todo::List &todos,
-            const Journal::List &journals);
+    static Incidence::List mergeIncidenceList(const Event::List &events, const Todo::List &todos, const Journal::List &journals);
 
     /**
       Flag that a change to a Calendar Incidence is starting.
@@ -594,9 +588,7 @@ public:
       @return a pointer to a new exception incidence with @param recurrenceId set.
       @since 4.11
     */
-    static Incidence::Ptr createException(const Incidence::Ptr &incidence,
-                                          const QDateTime &recurrenceId,
-                                          bool thisAndFuture = false);
+    static Incidence::Ptr createException(const Incidence::Ptr &incidence, const QDateTime &recurrenceId, bool thisAndFuture = false);
 
     // Event Specific Methods //
 
@@ -639,9 +631,7 @@ public:
 
       @return a list of Events sorted as specified.
     */
-    static Event::List sortEvents(const Event::List &eventList,
-                                  EventSortField sortField,
-                                  SortDirection sortDirection);
+    static Event::List sortEvents(const Event::List &eventList, EventSortField sortField, SortDirection sortDirection);
     /**
       Returns a sorted, filtered list of all Events for this Calendar.
 
@@ -650,8 +640,7 @@ public:
 
       @return the list of all filtered Events sorted as specified.
     */
-    virtual Event::List events(EventSortField sortField = EventSortUnsorted,
-                               SortDirection sortDirection = SortDirectionAscending) const;
+    virtual Event::List events(EventSortField sortField = EventSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const;
 
     /**
       Returns a filtered list of all Events which occur on the given timestamp.
@@ -675,9 +664,7 @@ public:
       @return the list of filtered Events occurring within the specified
       date range.
     */
-    Q_REQUIRED_RESULT Event::List events(const QDate &start, const QDate &end,
-                       const QTimeZone &timeZone = {},
-                       bool inclusive = false) const;
+    Q_REQUIRED_RESULT Event::List events(const QDate &start, const QDate &end, const QTimeZone &timeZone = {}, bool inclusive = false) const;
 
     /**
       Returns a sorted, filtered list of all Events which occur on the given
@@ -693,9 +680,9 @@ public:
       @return the list of sorted, filtered Events occurring on @a date.
     */
     Q_REQUIRED_RESULT Event::List events(const QDate &date,
-                       const QTimeZone &timeZone = {},
-                       EventSortField sortField = EventSortUnsorted,
-                       SortDirection sortDirection = SortDirectionAscending) const;
+                                         const QTimeZone &timeZone = {},
+                                         EventSortField sortField = EventSortUnsorted,
+                                         SortDirection sortDirection = SortDirectionAscending) const;
 
     /**
       Returns a sorted, unfiltered list of all Events for this Calendar.
@@ -705,9 +692,7 @@ public:
 
       @return the list of all unfiltered Events sorted as specified.
     */
-    virtual Event::List rawEvents(
-        EventSortField sortField = EventSortUnsorted,
-        SortDirection sortDirection = SortDirectionAscending) const = 0;
+    virtual Event::List rawEvents(EventSortField sortField = EventSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const = 0;
 
     /**
       Returns an unfiltered list of all Events which occur on the given
@@ -733,9 +718,7 @@ public:
       @return the list of unfiltered Events occurring within the specified
       date range.
     */
-    virtual Event::List rawEvents(const QDate &start, const QDate &end,
-                                  const QTimeZone &timeZone = {},
-                                  bool inclusive = false) const = 0;
+    virtual Event::List rawEvents(const QDate &start, const QDate &end, const QTimeZone &timeZone = {}, bool inclusive = false) const = 0;
 
     /**
       Returns a sorted, unfiltered list of all Events which occur on the given
@@ -750,11 +733,10 @@ public:
 
       @return the list of sorted, unfiltered Events occurring on @p date
     */
-    virtual Event::List rawEventsForDate(
-        const QDate &date,
-        const QTimeZone &timeZone = {},
-        EventSortField sortField = EventSortUnsorted,
-        SortDirection sortDirection = SortDirectionAscending) const = 0;
+    virtual Event::List rawEventsForDate(const QDate &date,
+                                         const QTimeZone &timeZone = {},
+                                         EventSortField sortField = EventSortUnsorted,
+                                         SortDirection sortDirection = SortDirectionAscending) const = 0;
 
     /**
       Returns the Event associated with the given unique identifier.
@@ -765,8 +747,7 @@ public:
       @return a pointer to the Event.
       A null pointer is returned if no such Event exists.
     */
-    virtual Event::Ptr event(const QString &uid,
-                             const QDateTime &recurrenceId = {}) const = 0;
+    virtual Event::Ptr event(const QString &uid, const QDateTime &recurrenceId = {}) const = 0;
 
     /**
       Returns the deleted Event associated with the given unique identifier.
@@ -780,8 +761,7 @@ public:
 
       @see deletionTracking()
     */
-    virtual Event::Ptr deletedEvent(const QString &uid,
-                                    const QDateTime &recurrenceId = {}) const = 0;
+    virtual Event::Ptr deletedEvent(const QString &uid, const QDateTime &recurrenceId = {}) const = 0;
 
     /**
       Returns a sorted, unfiltered list of all deleted Events for this Calendar.
@@ -794,9 +774,7 @@ public:
 
       @see deletionTracking()
     */
-    virtual Event::List deletedEvents(
-        EventSortField sortField = EventSortUnsorted,
-        SortDirection sortDirection = SortDirectionAscending) const = 0;
+    virtual Event::List deletedEvents(EventSortField sortField = EventSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const = 0;
 
     /**
       Returns a sorted, unfiltered list of all possible instances for this recurring Event.
@@ -807,10 +785,8 @@ public:
 
       @return the list of all unfiltered event instances sorted as specified.
     */
-    virtual Event::List eventInstances(
-        const Incidence::Ptr &event,
-        EventSortField sortField = EventSortUnsorted,
-        SortDirection sortDirection = SortDirectionAscending) const = 0;
+    virtual Event::List
+    eventInstances(const Incidence::Ptr &event, EventSortField sortField = EventSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const = 0;
 
     // Todo Specific Methods //
 
@@ -852,9 +828,7 @@ public:
 
       @return a list of Todos sorted as specified.
     */
-    static Todo::List sortTodos(const Todo::List &todoList,
-                                TodoSortField sortField,
-                                SortDirection sortDirection);
+    static Todo::List sortTodos(const Todo::List &todoList, TodoSortField sortField, SortDirection sortDirection);
 
     /**
       Returns a sorted, filtered list of all Todos for this Calendar.
@@ -864,8 +838,7 @@ public:
 
       @return the list of all filtered Todos sorted as specified.
     */
-    virtual Todo::List todos(TodoSortField sortField = TodoSortUnsorted,
-                             SortDirection sortDirection = SortDirectionAscending) const;
+    virtual Todo::List todos(TodoSortField sortField = TodoSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const;
 
     /**
       Returns a filtered list of all Todos which are due on the specified date.
@@ -889,9 +862,7 @@ public:
       @return the list of filtered Todos occurring within the specified
       date range.
     */
-    virtual Todo::List todos(const QDate &start, const QDate &end,
-                             const QTimeZone &timeZone = {},
-                             bool inclusive = false) const;
+    virtual Todo::List todos(const QDate &start, const QDate &end, const QTimeZone &timeZone = {}, bool inclusive = false) const;
 
     /**
       Returns a sorted, unfiltered list of all Todos for this Calendar.
@@ -901,9 +872,7 @@ public:
 
       @return the list of all unfiltered Todos sorted as specified.
     */
-    virtual Todo::List rawTodos(
-        TodoSortField sortField = TodoSortUnsorted,
-        SortDirection sortDirection = SortDirectionAscending) const = 0;
+    virtual Todo::List rawTodos(TodoSortField sortField = TodoSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const = 0;
 
     /**
       Returns an unfiltered list of all Todos which due on the specified date.
@@ -927,9 +896,7 @@ public:
       @return the list of unfiltered Todos occurring within the specified
       date range.
     */
-    virtual Todo::List rawTodos(const QDate &start, const QDate &end,
-                                const QTimeZone &timeZone = {},
-                                bool inclusive = false) const = 0;
+    virtual Todo::List rawTodos(const QDate &start, const QDate &end, const QTimeZone &timeZone = {}, bool inclusive = false) const = 0;
 
     /**
       Returns the Todo associated with the given unique identifier.
@@ -940,8 +907,7 @@ public:
       @return a pointer to the Todo.
       A null pointer is returned if no such Todo exists.
     */
-    virtual Todo::Ptr todo(const QString &uid,
-                           const QDateTime &recurrenceId = {}) const = 0;
+    virtual Todo::Ptr todo(const QString &uid, const QDateTime &recurrenceId = {}) const = 0;
 
     /**
       Returns the deleted Todo associated with the given unique identifier.
@@ -955,8 +921,7 @@ public:
 
       @see deletionTracking()
     */
-    virtual Todo::Ptr deletedTodo(const QString &uid,
-                                  const QDateTime &recurrenceId = {}) const = 0;
+    virtual Todo::Ptr deletedTodo(const QString &uid, const QDateTime &recurrenceId = {}) const = 0;
 
     /**
       Returns a sorted, unfiltered list of all deleted Todos for this Calendar.
@@ -969,9 +934,7 @@ public:
 
       @see deletionTracking()
     */
-    virtual Todo::List deletedTodos(
-        TodoSortField sortField = TodoSortUnsorted,
-        SortDirection sortDirection = SortDirectionAscending) const = 0;
+    virtual Todo::List deletedTodos(TodoSortField sortField = TodoSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const = 0;
 
     /**
       Returns a sorted, unfiltered list of all possible instances for this recurring Todo.
@@ -982,10 +945,8 @@ public:
 
       @return the list of all unfiltered todo instances sorted as specified.
     */
-    virtual Todo::List todoInstances(
-        const Incidence::Ptr &todo,
-        TodoSortField sortField = TodoSortUnsorted,
-        SortDirection sortDirection = SortDirectionAscending) const = 0;
+    virtual Todo::List
+    todoInstances(const Incidence::Ptr &todo, TodoSortField sortField = TodoSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const = 0;
 
     // Journal Specific Methods //
 
@@ -1028,9 +989,7 @@ public:
 
       @return a list of Journals sorted as specified.
     */
-    static Journal::List sortJournals(const Journal::List &journalList,
-                                      JournalSortField sortField,
-                                      SortDirection sortDirection);
+    static Journal::List sortJournals(const Journal::List &journalList, JournalSortField sortField, SortDirection sortDirection);
     /**
       Returns a sorted, filtered list of all Journals for this Calendar.
 
@@ -1039,9 +998,7 @@ public:
 
       @return the list of all filtered Journals sorted as specified.
     */
-    virtual Journal::List journals(
-        JournalSortField sortField = JournalSortUnsorted,
-        SortDirection sortDirection = SortDirectionAscending) const;
+    virtual Journal::List journals(JournalSortField sortField = JournalSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const;
 
     /**
       Returns a filtered list of all Journals for on the specified date.
@@ -1060,9 +1017,7 @@ public:
 
       @return the list of all unfiltered Journals sorted as specified.
     */
-    virtual Journal::List rawJournals(
-        JournalSortField sortField = JournalSortUnsorted,
-        SortDirection sortDirection = SortDirectionAscending) const = 0;
+    virtual Journal::List rawJournals(JournalSortField sortField = JournalSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const = 0;
 
     /**
       Returns an unfiltered list of all Journals for on the specified date.
@@ -1082,8 +1037,7 @@ public:
       @return a pointer to the Journal.
       A null pointer is returned if no such Journal exists.
     */
-    virtual Journal::Ptr journal(const QString &uid,
-                                 const QDateTime &recurrenceId = {}) const = 0;
+    virtual Journal::Ptr journal(const QString &uid, const QDateTime &recurrenceId = {}) const = 0;
 
     /**
       Returns the deleted Journal associated with the given unique identifier.
@@ -1097,8 +1051,7 @@ public:
 
       @see deletionTracking()
     */
-    virtual Journal::Ptr deletedJournal(const QString &uid,
-                                        const QDateTime &recurrenceId = {}) const = 0;
+    virtual Journal::Ptr deletedJournal(const QString &uid, const QDateTime &recurrenceId = {}) const = 0;
 
     /**
       Returns a sorted, unfiltered list of all deleted Journals for this Calendar.
@@ -1111,9 +1064,7 @@ public:
 
       @see deletionTracking()
     */
-    virtual Journal::List deletedJournals(
-        JournalSortField sortField = JournalSortUnsorted,
-        SortDirection sortDirection = SortDirectionAscending) const = 0;
+    virtual Journal::List deletedJournals(JournalSortField sortField = JournalSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const = 0;
 
     /**
       Returns a sorted, unfiltered list of all instances for this recurring Journal.
@@ -1124,10 +1075,9 @@ public:
 
       @return the list of all unfiltered journal instances sorted as specified.
     */
-    virtual Journal::List journalInstances(
-        const Incidence::Ptr &journal,
-        JournalSortField sortField = JournalSortUnsorted,
-        SortDirection sortDirection = SortDirectionAscending) const = 0;
+    virtual Journal::List journalInstances(const Incidence::Ptr &journal,
+                                           JournalSortField sortField = JournalSortUnsorted,
+                                           SortDirection sortDirection = SortDirectionAscending) const = 0;
 
     // Relations Specific Methods //
 
@@ -1150,8 +1100,7 @@ public:
       @param ancestor is the incidence we are testing to be an ancestor.
       @param incidence is the incidence we are testing to be descended from @p ancestor.
     */
-    bool isAncestorOf(const Incidence::Ptr &ancestor,
-                      const Incidence::Ptr &incidence) const;
+    bool isAncestorOf(const Incidence::Ptr &ancestor, const Incidence::Ptr &incidence) const;
 
     /**
        Returns a list of incidences that have a relation of RELTYPE parent
@@ -1206,7 +1155,6 @@ public:
     */
     Q_REQUIRED_RESULT Alarm::List alarmsTo(const QDateTime &to) const;
 
-
     // Observer Specific Methods //
 
     /**
@@ -1214,7 +1162,7 @@ public:
 
       The CalendarObserver class.
     */
-    class KCALENDARCORE_EXPORT CalendarObserver //krazy:exclude=dpointer
+    class KCALENDARCORE_EXPORT CalendarObserver // krazy:exclude=dpointer
     {
     public:
         /**
@@ -1285,7 +1233,7 @@ public:
      */
     void unregisterObserver(CalendarObserver *observer);
 
-    using QObject::event;   // prevent warning about hidden virtual method
+    using QObject::event; // prevent warning about hidden virtual method
 
 protected:
     /**
@@ -1355,8 +1303,7 @@ protected:
       @param from is the lower range of the next Alarm repitition.
       @param to is the upper range of the next Alarm repitition.
     */
-    void appendAlarms(Alarm::List &alarms, const Incidence::Ptr &incidence,
-                      const QDateTime &from, const QDateTime &to) const;
+    void appendAlarms(Alarm::List &alarms, const Incidence::Ptr &incidence, const QDateTime &from, const QDateTime &to) const;
 
     /**
       Appends alarms of recurring events in interval to list of alarms.
@@ -1367,8 +1314,7 @@ protected:
       @param from is the lower range of the next Alarm repitition.
       @param to is the upper range of the next Alarm repitition.
     */
-    void appendRecurringAlarms(Alarm::List &alarms, const Incidence::Ptr &incidence,
-                               const QDateTime &from, const QDateTime &to) const;
+    void appendRecurringAlarms(Alarm::List &alarms, const Incidence::Ptr &incidence, const QDateTime &from, const QDateTime &to) const;
 
     /**
       Enables or disabled deletion tracking.

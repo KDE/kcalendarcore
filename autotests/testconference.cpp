@@ -7,8 +7,8 @@
 
 #include "testconference.h"
 #include "conference.h"
-#include "memorycalendar.h"
 #include "filestorage.h"
+#include "memorycalendar.h"
 
 #include <QDataStream>
 #include <QTest>
@@ -25,18 +25,14 @@ void ConferenceTest::testValidity()
     }
 
     {
-        Conference test(QUrl(QStringLiteral("tel:000326870")),
-                        QStringLiteral("Phone call for conference"));
+        Conference test(QUrl(QStringLiteral("tel:000326870")), QStringLiteral("Phone call for conference"));
         QVERIFY(!test.isNull());
     }
 }
 
 void ConferenceTest::testCompare()
 {
-    Conference conf1{QUrl{QStringLiteral("tel:123456789")},
-                     QStringLiteral("Conference call"),
-                     {QStringLiteral("PHONE")},
-                     QStringLiteral("en")};
+    Conference conf1{QUrl{QStringLiteral("tel:123456789")}, QStringLiteral("Conference call"), {QStringLiteral("PHONE")}, QStringLiteral("en")};
     Conference conf2{QUrl{QStringLiteral("xmpp:conference@conference.conference")},
                      QStringLiteral("Conference chat"),
                      {QStringLiteral("CHAT")},

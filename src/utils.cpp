@@ -8,8 +8,8 @@
 
 #include "utils_p.h"
 
-#include <QTimeZone>
 #include <QDataStream>
+#include <QTimeZone>
 
 // To remain backwards compatible we need to (de)serialize QDateTime the way KDateTime
 // was (de)serialized
@@ -95,7 +95,6 @@ void KCalendarCore::deserializeSpecAsQTimeZone(QDataStream &in, QTimeZone &tz)
         tz = QTimeZone::systemTimeZone();
         break;
     }
-
 }
 
 void KCalendarCore::serializeQDateTimeList(QDataStream &out, const QList<QDateTime> &list)

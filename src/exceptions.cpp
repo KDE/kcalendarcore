@@ -25,8 +25,8 @@
 
 using namespace KCalendarCore;
 
-namespace KCalendarCore {
-
+namespace KCalendarCore
+{
 class ExceptionPrivate
 {
 public:

@@ -18,7 +18,8 @@
 
 class QTimeZone;
 
-namespace KCalendarCore {
+namespace KCalendarCore
+{
 // These two are duplicates wrt. incidencebase.h
 typedef QList<QDate> DateList;
 /* List of times */
@@ -52,7 +53,7 @@ public:
     };
 
     /** structure for describing the n-th weekday of the month/year. */
-    class KCALENDARCORE_EXPORT WDayPos //krazy:exclude=dpointer
+    class KCALENDARCORE_EXPORT WDayPos // krazy:exclude=dpointer
     {
     public:
         explicit WDayPos(int ps = 0, short dy = 0);
@@ -66,7 +67,7 @@ public:
 
     protected:
         short mDay; // Weekday, 1=monday, 7=sunday
-        int mPos;   // week of the day (-1 for last, 1 for first, 0 for all weeks)
+        int mPos; // week of the day (-1 for last, 1 for first, 0 for all weeks)
         // Bounded by -366 and +366, 0 means all weeks in that period
 
         friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalendarCore::RecurrenceRule::WDayPos &);

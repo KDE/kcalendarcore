@@ -16,12 +16,11 @@
 #ifndef KCALCORE_FILESTORAGE_H
 #define KCALCORE_FILESTORAGE_H
 
-#include "kcalendarcore_export.h"
 #include "calstorage.h"
+#include "kcalendarcore_export.h"
 
 namespace KCalendarCore
 {
-
 class CalFormat;
 class Calendar;
 
@@ -33,7 +32,6 @@ class KCALENDARCORE_EXPORT FileStorage : public CalStorage
 {
     Q_OBJECT
 public:
-
     /**
       A shared pointer to a FileStorage.
     */
@@ -50,9 +48,7 @@ public:
       memory for @p format is deleted by this destructor. If no format is
       specified, then iCalendar format is assumed.
     */
-    explicit FileStorage(const Calendar::Ptr &calendar,
-                         const QString &fileName = QString(),
-                         KCalendarCore::CalFormat *format = nullptr);
+    explicit FileStorage(const Calendar::Ptr &calendar, const QString &fileName = QString(), KCalendarCore::CalFormat *format = nullptr);
 
     /**
       Destructor.

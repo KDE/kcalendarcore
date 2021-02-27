@@ -14,13 +14,12 @@
 #define KCALCORE_VISITOR_H
 
 #include "event.h"
+#include "freebusy.h"
 #include "journal.h"
 #include "todo.h"
-#include "freebusy.h"
 
 namespace KCalendarCore
 {
-
 /**
   This class provides the interface for a visitor of calendar components.
   It serves as base class for concrete visitors, which implement certain
@@ -28,7 +27,7 @@ namespace KCalendarCore
   on the concrete types of calendar components, without changing the
   calendar component classes.
 */
-class KCALENDARCORE_EXPORT Visitor //krazy:exclude=dpointer
+class KCALENDARCORE_EXPORT Visitor // krazy:exclude=dpointer
 {
 public:
     /** Destruct Incidence::Visitor */

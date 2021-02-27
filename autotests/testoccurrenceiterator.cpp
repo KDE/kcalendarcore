@@ -5,9 +5,9 @@
  */
 
 #include "testoccurrenceiterator.h"
-#include "occurrenceiterator.h"
-#include "memorycalendar.h"
 #include "calfilter.h"
+#include "memorycalendar.h"
+#include "occurrenceiterator.h"
 
 #include <QDebug>
 #include <QTest>
@@ -61,12 +61,12 @@ void TestOccurrenceIterator::testIterationWithExceptions()
             QCOMPARE(rIt.occurrenceStartDate(), start.addDays(2));
             QCOMPARE(rIt.incidence()->summary(), event1->summary());
         }
-//     qDebug() << occurrence;
-//     qDebug() << "occurrence: " << rIt.occurrenceStartDate().toString();
-//     qDebug() << "uid: " << rIt.incidence()->uid();
-//     qDebug() << "summary: " << rIt.incidence()->summary();
-//     qDebug() << "start: " << rIt.incidence()->dtStart().toString();
-//     qDebug();
+        //     qDebug() << occurrence;
+        //     qDebug() << "occurrence: " << rIt.occurrenceStartDate().toString();
+        //     qDebug() << "uid: " << rIt.incidence()->uid();
+        //     qDebug() << "summary: " << rIt.incidence()->summary();
+        //     qDebug() << "start: " << rIt.incidence()->dtStart().toString();
+        //     qDebug();
     }
     QCOMPARE(occurrence, 3);
 }
@@ -207,12 +207,12 @@ void TestOccurrenceIterator::testWithExceptionThisAndFuture()
     while (rIt.hasNext()) {
         rIt.next();
         occurrence++;
-//     qDebug() << occurrence;
-//     qDebug() << "occurrence: " << rIt.occurrenceStartDate().toString();
-//     qDebug() << "uid: " << rIt.incidence()->uid();
-//     qDebug() << "summary: " << rIt.incidence()->summary();
-//     qDebug() << "start: " << rIt.incidence()->dtStart().toString();
-//     qDebug();
+        //     qDebug() << occurrence;
+        //     qDebug() << "occurrence: " << rIt.occurrenceStartDate().toString();
+        //     qDebug() << "uid: " << rIt.incidence()->uid();
+        //     qDebug() << "summary: " << rIt.incidence()->summary();
+        //     qDebug() << "start: " << rIt.incidence()->dtStart().toString();
+        //     qDebug();
         QCOMPARE(rIt.recurrenceId(), start.addDays(occurrence - 1));
         if (occurrence == 1) {
             QCOMPARE(rIt.occurrenceStartDate(), start);

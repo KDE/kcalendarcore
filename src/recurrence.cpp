@@ -9,15 +9,15 @@
   SPDX-License-Identifier: LGPL-2.0-or-later
 */
 #include "recurrence.h"
-#include "utils_p.h"
 #include "recurrencehelper_p.h"
+#include "utils_p.h"
 
 #include "kcalendarcore_debug.h"
 
-#include <QDataStream>
-#include <QTimeZone>
 #include <QBitArray>
+#include <QDataStream>
 #include <QTime>
+#include <QTimeZone>
 
 using namespace KCalendarCore;
 
@@ -26,21 +26,21 @@ class Q_DECL_HIDDEN KCalendarCore::Recurrence::Private
 {
 public:
     Private()
-        : mCachedType(rMax),
-          mAllDay(false),
-          mRecurReadOnly(false)
+        : mCachedType(rMax)
+        , mAllDay(false)
+        , mRecurReadOnly(false)
     {
     }
 
     Private(const Private &p)
-        : mRDateTimes(p.mRDateTimes),
-          mRDates(p.mRDates),
-          mExDateTimes(p.mExDateTimes),
-          mExDates(p.mExDates),
-          mStartDateTime(p.mStartDateTime),
-          mCachedType(p.mCachedType),
-          mAllDay(p.mAllDay),
-          mRecurReadOnly(p.mRecurReadOnly)
+        : mRDateTimes(p.mRDateTimes)
+        , mRDates(p.mRDates)
+        , mExDateTimes(p.mExDateTimes)
+        , mExDates(p.mExDates)
+        , mStartDateTime(p.mStartDateTime)
+        , mCachedType(p.mCachedType)
+        , mAllDay(p.mAllDay)
+        , mRecurReadOnly(p.mRecurReadOnly)
     {
     }
 
@@ -52,38 +52,33 @@ public:
     DateList mRDates;
     QList<QDateTime> mExDateTimes;
     DateList mExDates;
-    QDateTime mStartDateTime;    // date/time of first recurrence
+    QDateTime mStartDateTime; // date/time of first recurrence
     QList<RecurrenceObserver *> mObservers;
 
     // Cache the type of the recurrence with the old system (e.g. MonthlyPos)
     mutable ushort mCachedType;
 
-    bool mAllDay = false;                // the recurrence has no time, just a date
+    bool mAllDay = false; // the recurrence has no time, just a date
     bool mRecurReadOnly = false;
 };
 
 bool Recurrence::Private::operator==(const Recurrence::Private &p) const
 {
-//   qCDebug(KCALCORE_LOG) << mStartDateTime << p.mStartDateTime;
-    if ((mStartDateTime != p.mStartDateTime &&
-            (mStartDateTime.isValid() || p.mStartDateTime.isValid())) ||
-            mAllDay != p.mAllDay ||
-            mRecurReadOnly != p.mRecurReadOnly ||
-            mExDates != p.mExDates ||
-            mExDateTimes != p.mExDateTimes ||
-            mRDates != p.mRDates ||
-            mRDateTimes != p.mRDateTimes) {
+    //   qCDebug(KCALCORE_LOG) << mStartDateTime << p.mStartDateTime;
+    if ((mStartDateTime != p.mStartDateTime && (mStartDateTime.isValid() || p.mStartDateTime.isValid())) || mAllDay != p.mAllDay
+        || mRecurReadOnly != p.mRecurReadOnly || mExDates != p.mExDates || mExDateTimes != p.mExDateTimes || mRDates != p.mRDates
+        || mRDateTimes != p.mRDateTimes) {
         return false;
     }
 
-// Compare the rrules, exrules! Assume they have the same order... This only
-// matters if we have more than one rule (which shouldn't be the default anyway)
+    // Compare the rrules, exrules! Assume they have the same order... This only
+    // matters if we have more than one rule (which shouldn't be the default anyway)
     int i;
     int end = mRRules.count();
     if (end != p.mRRules.count()) {
         return false;
     }
-    for (i = 0;  i < end;  ++i) {
+    for (i = 0; i < end; ++i) {
         if (*mRRules[i] != *p.mRRules[i]) {
             return false;
         }
@@ -92,7 +87,7 @@ bool Recurrence::Private::operator==(const Recurrence::Private &p) const
     if (end != p.mExRules.count()) {
         return false;
     }
-    for (i = 0;  i < end;  ++i) {
+    for (i = 0; i < end; ++i) {
         if (*mExRules[i] != *p.mExRules[i]) {
             return false;
         }
@@ -107,18 +102,18 @@ Recurrence::Recurrence()
 }
 
 Recurrence::Recurrence(const Recurrence &r)
-    : RecurrenceRule::RuleObserver(),
-      d(new KCalendarCore::Recurrence::Private(*r.d))
+    : RecurrenceRule::RuleObserver()
+    , d(new KCalendarCore::Recurrence::Private(*r.d))
 {
     int i, end;
     d->mRRules.reserve(r.d->mRRules.count());
-    for (i = 0, end = r.d->mRRules.count();  i < end;  ++i) {
+    for (i = 0, end = r.d->mRRules.count(); i < end; ++i) {
         RecurrenceRule *rule = new RecurrenceRule(*r.d->mRRules[i]);
         d->mRRules.append(rule);
         rule->addObserver(this);
     }
     d->mExRules.reserve(r.d->mExRules.count());
-    for (i = 0, end = r.d->mExRules.count();  i < end;  ++i) {
+    for (i = 0, end = r.d->mExRules.count(); i < end; ++i) {
         RecurrenceRule *rule = new RecurrenceRule(*r.d->mExRules[i]);
         d->mExRules.append(rule);
         rule->addObserver(this);
@@ -147,10 +142,10 @@ Recurrence &Recurrence::operator=(const Recurrence &recurrence)
 
     // ### this copies the pointers in mExRules and mRRules eventually resulting in a double free!
     // fortunately however this function is unused, we just can't remove it just yet, due to ABI guarantees
-QT_WARNING_PUSH
-QT_WARNING_DISABLE_GCC("-Wdeprecated-copy")
+    QT_WARNING_PUSH
+    QT_WARNING_DISABLE_GCC("-Wdeprecated-copy")
     *d = *recurrence.d;
-QT_WARNING_POP
+    QT_WARNING_POP
     return *this;
 }
 #endif
@@ -184,10 +179,10 @@ void Recurrence::setAllDay(bool allDay)
     }
 
     d->mAllDay = allDay;
-    for (int i = 0, end = d->mRRules.count();  i < end;  ++i) {
+    for (int i = 0, end = d->mRRules.count(); i < end; ++i) {
         d->mRRules[i]->setAllDay(allDay);
     }
-    for (int i = 0, end = d->mExRules.count();  i < end;  ++i) {
+    for (int i = 0, end = d->mExRules.count(); i < end; ++i) {
         d->mExRules[i]->setAllDay(allDay);
     }
     updated();
@@ -217,7 +212,7 @@ void Recurrence::updated()
 {
     // recurrenceType() re-calculates the type if it's rMax
     d->mCachedType = rMax;
-    for (int i = 0, end = d->mObservers.count();  i < end;  ++i) {
+    for (int i = 0, end = d->mObservers.count(); i < end; ++i) {
         if (d->mObservers[i]) {
             d->mObservers[i]->recurrenceUpdated(this);
         }
@@ -245,9 +240,7 @@ ushort Recurrence::recurrenceType(const RecurrenceRule *rrule)
     RecurrenceRule::PeriodType type = rrule->recurrenceType();
 
     // BYSETPOS, BYWEEKNUMBER and BYSECOND were not supported in old versions
-    if (!rrule->bySetPos().isEmpty() ||
-            !rrule->bySeconds().isEmpty() ||
-            !rrule->byWeekNumbers().isEmpty()) {
+    if (!rrule->bySetPos().isEmpty() || !rrule->bySeconds().isEmpty() || !rrule->byWeekNumbers().isEmpty()) {
         return rOther;
     }
 
@@ -262,14 +255,11 @@ ushort Recurrence::recurrenceType(const RecurrenceRule *rrule)
     // BYMONTHDAY: with MONTHLY, YEARLY
     // BYMONTH: with YEARLY
     // BYYEARDAY: with YEARLY
-    if ((!rrule->byYearDays().isEmpty() && type != RecurrenceRule::rYearly) ||
-            (!rrule->byMonths().isEmpty() && type != RecurrenceRule::rYearly)) {
+    if ((!rrule->byYearDays().isEmpty() && type != RecurrenceRule::rYearly) || (!rrule->byMonths().isEmpty() && type != RecurrenceRule::rYearly)) {
         return rOther;
     }
     if (!rrule->byDays().isEmpty()) {
-        if (type != RecurrenceRule::rYearly &&
-                type != RecurrenceRule::rMonthly &&
-                type != RecurrenceRule::rWeekly) {
+        if (type != RecurrenceRule::rYearly && type != RecurrenceRule::rMonthly && type != RecurrenceRule::rWeekly) {
             return rOther;
         }
     }
@@ -338,7 +328,7 @@ bool Recurrence::recursOn(const QDate &qd, const QTimeZone &timeZone) const
     // For all-day events a matching exrule excludes the whole day
     // since exclusions take precedence over inclusions, we know it can't occur on that day.
     if (allDay()) {
-        for (i = 0, end = d->mExRules.count();  i < end;  ++i) {
+        for (i = 0, end = d->mExRules.count(); i < end; ++i) {
             if (d->mExRules[i]->recursOn(qd, timeZone)) {
                 return false;
             }
@@ -351,10 +341,10 @@ bool Recurrence::recursOn(const QDate &qd, const QTimeZone &timeZone) const
 
     // Check if it might recur today at all.
     bool recurs = (startDate() == qd);
-    for (i = 0, end = d->mRDateTimes.count();  i < end && !recurs;  ++i) {
+    for (i = 0, end = d->mRDateTimes.count(); i < end && !recurs; ++i) {
         recurs = (d->mRDateTimes[i].toTimeZone(timeZone).date() == qd);
     }
-    for (i = 0, end = d->mRRules.count();  i < end && !recurs;  ++i) {
+    for (i = 0, end = d->mRRules.count(); i < end && !recurs; ++i) {
         recurs = d->mRRules[i]->recursOn(qd, timeZone);
     }
     // If the event wouldn't recur at all, simply return false, don't check ex*
@@ -364,11 +354,11 @@ bool Recurrence::recursOn(const QDate &qd, const QTimeZone &timeZone) const
 
     // Check if there are any times for this day excluded, either by exdate or exrule:
     bool exon = false;
-    for (i = 0, end = d->mExDateTimes.count();  i < end && !exon;  ++i) {
+    for (i = 0, end = d->mExDateTimes.count(); i < end && !exon; ++i) {
         exon = (d->mExDateTimes[i].toTimeZone(timeZone).date() == qd);
     }
-    if (!allDay()) {       // we have already checked all-day times above
-        for (i = 0, end = d->mExRules.count();  i < end && !exon;  ++i) {
+    if (!allDay()) { // we have already checked all-day times above
+        for (i = 0, end = d->mExRules.count(); i < end && !exon; ++i) {
             exon = d->mExRules[i]->recursOn(qd, timeZone);
         }
     }
@@ -379,8 +369,8 @@ bool Recurrence::recursOn(const QDate &qd, const QTimeZone &timeZone) const
     } else {
         // Harder part: I don't think there is any way other than to calculate the
         // whole list of items for that day.
-//TODO: consider whether it would be more efficient to call
-//      Rule::recurTimesOn() instead of Rule::recursOn() from the start
+        // TODO: consider whether it would be more efficient to call
+        //      Rule::recurTimesOn() instead of Rule::recursOn() from the start
         TimeList timesForDay(recurTimesOn(qd, timeZone));
         return !timesForDay.isEmpty();
     }
@@ -392,23 +382,22 @@ bool Recurrence::recursAt(const QDateTime &dt) const
     const auto dtrecur = dt.toTimeZone(d->mStartDateTime.timeZone());
 
     // if it's excluded anyway, don't bother to check if it recurs at all.
-    if (std::binary_search(d->mExDateTimes.constBegin(), d->mExDateTimes.constEnd(), dtrecur) ||
-        std::binary_search(d->mExDates.constBegin(), d->mExDates.constEnd(), dtrecur.date())) {
+    if (std::binary_search(d->mExDateTimes.constBegin(), d->mExDateTimes.constEnd(), dtrecur)
+        || std::binary_search(d->mExDates.constBegin(), d->mExDates.constEnd(), dtrecur.date())) {
         return false;
     }
     int i, end;
-    for (i = 0, end = d->mExRules.count();  i < end;  ++i) {
+    for (i = 0, end = d->mExRules.count(); i < end; ++i) {
         if (d->mExRules[i]->recursAt(dtrecur)) {
             return false;
         }
     }
 
     // Check explicit recurrences, then rrules.
-    if (startDateTime() == dtrecur ||
-        std::binary_search(d->mRDateTimes.constBegin(), d->mRDateTimes.constEnd(), dtrecur)) {
+    if (startDateTime() == dtrecur || std::binary_search(d->mRDateTimes.constBegin(), d->mRDateTimes.constEnd(), dtrecur)) {
         return true;
     }
-    for (i = 0, end = d->mRRules.count();  i < end;  ++i) {
+    for (i = 0, end = d->mRRules.count(); i < end; ++i) {
         if (d->mRRules[i]->recursAt(dtrecur)) {
             return true;
         }
@@ -430,7 +419,7 @@ QDateTime Recurrence::endDateTime() const
     if (!d->mRDateTimes.isEmpty()) {
         dts << d->mRDateTimes.last();
     }
-    for (int i = 0, end = d->mRRules.count();  i < end;  ++i) {
+    for (int i = 0, end = d->mRRules.count(); i < end; ++i) {
         auto rl = d->mRRules[i]->endDt();
         // if any of the rules is infinite, the whole recurrence is
         if (!rl.isValid()) {
@@ -531,18 +520,18 @@ void Recurrence::shiftTimes(const QTimeZone &oldTz, const QTimeZone &newTz)
     d->mStartDateTime.setTimeZone(newTz);
 
     int i, end;
-    for (i = 0, end = d->mRDateTimes.count();  i < end;  ++i) {
+    for (i = 0, end = d->mRDateTimes.count(); i < end; ++i) {
         d->mRDateTimes[i] = d->mRDateTimes[i].toTimeZone(oldTz);
         d->mRDateTimes[i].setTimeZone(newTz);
     }
-    for (i = 0, end = d->mExDateTimes.count();  i < end;  ++i) {
+    for (i = 0, end = d->mExDateTimes.count(); i < end; ++i) {
         d->mExDateTimes[i] = d->mExDateTimes[i].toTimeZone(oldTz);
         d->mExDateTimes[i].setTimeZone(newTz);
     }
-    for (i = 0, end = d->mRRules.count();  i < end;  ++i) {
+    for (i = 0, end = d->mRRules.count(); i < end; ++i) {
         d->mRRules[i]->shiftTimes(oldTz, newTz);
     }
-    for (i = 0, end = d->mExRules.count();  i < end;  ++i) {
+    for (i = 0, end = d->mExRules.count(); i < end; ++i) {
         d->mExRules[i]->shiftTimes(oldTz, newTz);
     }
 }
@@ -595,13 +584,13 @@ void Recurrence::setStartDateTime(const QDateTime &start, bool isAllDay)
         return;
     }
     d->mStartDateTime = start;
-    setAllDay(isAllDay);               // set all RRULEs and EXRULEs
+    setAllDay(isAllDay); // set all RRULEs and EXRULEs
 
     int i, end;
-    for (i = 0, end = d->mRRules.count();  i < end;  ++i) {
+    for (i = 0, end = d->mRRules.count(); i < end; ++i) {
         d->mRRules[i]->setStartDt(start);
     }
-    for (i = 0, end = d->mExRules.count();  i < end;  ++i) {
+    for (i = 0, end = d->mExRules.count(); i < end; ++i) {
         d->mExRules[i]->setStartDt(start);
     }
     updated();
@@ -830,7 +819,7 @@ void Recurrence::setMonthlyPos(const QList<RecurrenceRule::WDayPos> &monthlyDays
         return;
     }
 
-    //TODO: sort lists
+    // TODO: sort lists
     // the position inside the list has no meaning, so sort the list before testing if it changed
 
     if (monthlyDays != rrule->byDays()) {
@@ -857,7 +846,7 @@ void Recurrence::addMonthlyDate(short day)
     }
 }
 
-void Recurrence::setMonthlyDate(const QList< int > &monthlyDays)
+void Recurrence::setMonthlyDate(const QList<int> &monthlyDays)
 {
     if (d->mRecurReadOnly) {
         return;
@@ -890,7 +879,7 @@ void Recurrence::setYearly(int freq)
 // Daynumber within year
 void Recurrence::addYearlyDay(int day)
 {
-    RecurrenceRule *rrule = defaultRRule(false);   // It must already exist!
+    RecurrenceRule *rrule = defaultRRule(false); // It must already exist!
     if (!rrule) {
         return;
     }
@@ -904,7 +893,7 @@ void Recurrence::addYearlyDay(int day)
 
 void Recurrence::setYearlyDay(const QList<int> &days)
 {
-    RecurrenceRule *rrule = defaultRRule(false);   // It must already exist!
+    RecurrenceRule *rrule = defaultRRule(false); // It must already exist!
     if (!rrule) {
         return;
     }
@@ -987,7 +976,7 @@ void Recurrence::setYearlyMonth(const QList<int> &months)
 
 TimeList Recurrence::recurTimesOn(const QDate &date, const QTimeZone &timeZone) const
 {
-// qCDebug(KCALCORE_LOG) << "recurTimesOn(" << date << ")";
+    // qCDebug(KCALCORE_LOG) << "recurTimesOn(" << date << ")";
     int i, end;
     TimeList times;
 
@@ -999,7 +988,7 @@ TimeList Recurrence::recurTimesOn(const QDate &date, const QTimeZone &timeZone) 
     // EXRULE takes precedence over RDATE entries, so for all-day events,
     // a matching excule also excludes the whole day automatically
     if (allDay()) {
-        for (i = 0, end = d->mExRules.count();  i < end;  ++i) {
+        for (i = 0, end = d->mExRules.count(); i < end; ++i) {
             if (d->mExRules[i]->recursOn(date, timeZone)) {
                 return times;
             }
@@ -1012,7 +1001,7 @@ TimeList Recurrence::recurTimesOn(const QDate &date, const QTimeZone &timeZone) 
     }
 
     bool foundDate = false;
-    for (i = 0, end = d->mRDateTimes.count();  i < end;  ++i) {
+    for (i = 0, end = d->mRDateTimes.count(); i < end; ++i) {
         dt = d->mRDateTimes[i].toTimeZone(timeZone);
         if (dt.date() == date) {
             times << dt.time();
@@ -1021,14 +1010,14 @@ TimeList Recurrence::recurTimesOn(const QDate &date, const QTimeZone &timeZone) 
             break; // <= Assume that the rdatetime list is sorted
         }
     }
-    for (i = 0, end = d->mRRules.count();  i < end;  ++i) {
+    for (i = 0, end = d->mRRules.count(); i < end; ++i) {
         times += d->mRRules[i]->recurTimesOn(date, timeZone);
     }
     sortAndRemoveDuplicates(times);
 
     foundDate = false;
     TimeList extimes;
-    for (i = 0, end = d->mExDateTimes.count();  i < end;  ++i) {
+    for (i = 0, end = d->mExDateTimes.count(); i < end; ++i) {
         dt = d->mExDateTimes[i].toTimeZone(timeZone);
         if (dt.date() == date) {
             extimes << dt.time();
@@ -1037,8 +1026,8 @@ TimeList Recurrence::recurTimesOn(const QDate &date, const QTimeZone &timeZone) 
             break;
         }
     }
-    if (!allDay()) {       // we have already checked all-day times above
-        for (i = 0, end = d->mExRules.count();  i < end;  ++i) {
+    if (!allDay()) { // we have already checked all-day times above
+        for (i = 0, end = d->mExRules.count(); i < end; ++i) {
             extimes += d->mExRules[i]->recurTimesOn(date, timeZone);
         }
     }
@@ -1051,12 +1040,12 @@ QList<QDateTime> Recurrence::timesInInterval(const QDateTime &start, const QDate
 {
     int i, count;
     QList<QDateTime> times;
-    for (i = 0, count = d->mRRules.count();  i < count;  ++i) {
+    for (i = 0, count = d->mRRules.count(); i < count; ++i) {
         times += d->mRRules[i]->timesInInterval(start, end);
     }
 
     // add rdatetimes that fit in the interval
-    for (i = 0, count = d->mRDateTimes.count();  i < count;  ++i) {
+    for (i = 0, count = d->mRDateTimes.count(); i < count; ++i) {
         if (d->mRDateTimes[i] >= start && d->mRDateTimes[i] <= end) {
             times += d->mRDateTimes[i];
         }
@@ -1064,7 +1053,7 @@ QList<QDateTime> Recurrence::timesInInterval(const QDateTime &start, const QDate
 
     // add rdates that fit in the interval
     QDateTime kdt = d->mStartDateTime;
-    for (i = 0, count = d->mRDates.count();  i < count;  ++i) {
+    for (i = 0, count = d->mRDates.count(); i < count; ++i) {
         kdt.setDate(d->mRDates[i]);
         if (kdt >= start && kdt <= end) {
             times += kdt;
@@ -1076,10 +1065,7 @@ QList<QDateTime> Recurrence::timesInInterval(const QDateTime &start, const QDate
     // mStartDateTime.
     // So, If we have rdates/rdatetimes but don't have any rrule we must explicitly
     // add mStartDateTime to the list, otherwise we won't see the first occurrence.
-    if ((!d->mRDates.isEmpty() || !d->mRDateTimes.isEmpty()) &&
-            d->mRRules.isEmpty() &&
-            start <= d->mStartDateTime &&
-            end >= d->mStartDateTime) {
+    if ((!d->mRDates.isEmpty() || !d->mRDateTimes.isEmpty()) && d->mRRules.isEmpty() && start <= d->mStartDateTime && end >= d->mStartDateTime) {
         times += d->mStartDateTime;
     }
 
@@ -1088,7 +1074,7 @@ QList<QDateTime> Recurrence::timesInInterval(const QDateTime &start, const QDate
     // Remove excluded times
     int idt = 0;
     int enddt = times.count();
-    for (i = 0, count = d->mExDates.count();  i < count && idt < enddt;  ++i) {
+    for (i = 0, count = d->mExDates.count(); i < count && idt < enddt; ++i) {
         while (idt < enddt && times[idt].date() < d->mExDates[i]) {
             ++idt;
         }
@@ -1098,7 +1084,7 @@ QList<QDateTime> Recurrence::timesInInterval(const QDateTime &start, const QDate
         }
     }
     QList<QDateTime> extimes;
-    for (i = 0, count = d->mExRules.count();  i < count;  ++i) {
+    for (i = 0, count = d->mExRules.count(); i < count; ++i) {
         extimes += d->mExRules[i]->timesInInterval(start, end);
     }
     extimes += d->mExDateTimes;
@@ -1113,8 +1099,8 @@ QDateTime Recurrence::getNextDateTime(const QDateTime &preDateTime) const
     // prevent infinite loops, e.g. when an exrule extinguishes an rrule (e.g.
     // the exrule is identical to the rrule). If an occurrence is found, break
     // out of the loop by returning that QDateTime
-// TODO_Recurrence: Is a loop counter of 1000 really okay? I mean for secondly
-// recurrence, an exdate might exclude more than 1000 intervals!
+    // TODO_Recurrence: Is a loop counter of 1000 really okay? I mean for secondly
+    // recurrence, an exdate might exclude more than 1000 intervals!
     int loop = 0;
     while (loop < 1000) {
         // Outline of the algo:
@@ -1165,8 +1151,8 @@ QDateTime Recurrence::getNextDateTime(const QDateTime &preDateTime) const
         nextDT = dates.first();
 
         // Check if that date/time is excluded explicitly or by an exrule:
-        if (!std::binary_search(d->mExDates.constBegin(), d->mExDates.constEnd(), nextDT.date()) &&
-            !std::binary_search(d->mExDateTimes.constBegin(), d->mExDateTimes.constEnd(), nextDT)) {
+        if (!std::binary_search(d->mExDates.constBegin(), d->mExDates.constEnd(), nextDT.date())
+            && !std::binary_search(d->mExDateTimes.constBegin(), d->mExDateTimes.constEnd(), nextDT)) {
             bool allowed = true;
             for (const auto &rule : qAsConst(d->mExRules)) {
                 allowed = allowed && !rule->recursAt(nextDT);
@@ -1235,8 +1221,8 @@ QDateTime Recurrence::getPreviousDateTime(const QDateTime &afterDateTime) const
         prevDT = dates.last();
 
         // Check if that date/time is excluded explicitly or by an exrule:
-        if (!std::binary_search(d->mExDates.constBegin(), d->mExDates.constEnd(), prevDT.date()) &&
-            !std::binary_search(d->mExDateTimes.constBegin(), d->mExDateTimes.constEnd(), prevDT)) {
+        if (!std::binary_search(d->mExDates.constBegin(), d->mExDates.constEnd(), prevDT.date())
+            && !std::binary_search(d->mExDateTimes.constBegin(), d->mExDateTimes.constEnd(), prevDT)) {
             bool allowed = true;
             for (const auto &rule : qAsConst(d->mExRules)) {
                 allowed = allowed && !rule->recursAt(prevDT);
@@ -1450,35 +1436,35 @@ void Recurrence::dump() const
     int i;
     int count = d->mRRules.count();
     qCDebug(KCALCORE_LOG) << "  -)" << count << "RRULEs:";
-    for (i = 0;  i < count;  ++i) {
+    for (i = 0; i < count; ++i) {
         qCDebug(KCALCORE_LOG) << "    -) RecurrenceRule: ";
         d->mRRules[i]->dump();
     }
     count = d->mExRules.count();
     qCDebug(KCALCORE_LOG) << "  -)" << count << "EXRULEs:";
-    for (i = 0;  i < count;  ++i) {
+    for (i = 0; i < count; ++i) {
         qCDebug(KCALCORE_LOG) << "    -) ExceptionRule :";
         d->mExRules[i]->dump();
     }
 
     count = d->mRDates.count();
     qCDebug(KCALCORE_LOG) << "  -)" << count << "Recurrence Dates:";
-    for (i = 0;  i < count;  ++i) {
+    for (i = 0; i < count; ++i) {
         qCDebug(KCALCORE_LOG) << "    " << d->mRDates[i];
     }
     count = d->mRDateTimes.count();
     qCDebug(KCALCORE_LOG) << "  -)" << count << "Recurrence Date/Times:";
-    for (i = 0;  i < count;  ++i) {
+    for (i = 0; i < count; ++i) {
         qCDebug(KCALCORE_LOG) << "    " << d->mRDateTimes[i];
     }
     count = d->mExDates.count();
     qCDebug(KCALCORE_LOG) << "  -)" << count << "Exceptions Dates:";
-    for (i = 0;  i < count;  ++i) {
+    for (i = 0; i < count; ++i) {
         qCDebug(KCALCORE_LOG) << "    " << d->mExDates[i];
     }
     count = d->mExDateTimes.count();
     qCDebug(KCALCORE_LOG) << "  -)" << count << "Exception Date/Times:";
-    for (i = 0;  i < count;  ++i) {
+    for (i = 0; i < count; ++i) {
         qCDebug(KCALCORE_LOG) << "    " << d->mExDateTimes[i];
     }
 }
@@ -1497,9 +1483,7 @@ KCALENDARCORE_EXPORT QDataStream &KCalendarCore::operator<<(QDataStream &out, KC
     serializeQDateTimeList(out, r->d->mExDateTimes);
     out << r->d->mRDates;
     serializeQDateTimeAsKDateTime(out, r->d->mStartDateTime);
-    out << r->d->mCachedType
-        << r->d->mAllDay << r->d->mRecurReadOnly << r->d->mExDates
-        << r->d->mExRules.count() << r->d->mRRules.count();
+    out << r->d->mCachedType << r->d->mAllDay << r->d->mRecurReadOnly << r->d->mExDates << r->d->mExRules.count() << r->d->mRRules.count();
 
     for (RecurrenceRule *rule : qAsConst(r->d->mExRules)) {
         out << rule;
@@ -1524,9 +1508,7 @@ KCALENDARCORE_EXPORT QDataStream &KCalendarCore::operator>>(QDataStream &in, KCa
     deserializeQDateTimeList(in, r->d->mExDateTimes);
     in >> r->d->mRDates;
     deserializeKDateTimeAsQDateTime(in, r->d->mStartDateTime);
-    in >> r->d->mCachedType
-       >> r->d->mAllDay >> r->d->mRecurReadOnly >> r->d->mExDates
-       >> exruleCount >> rruleCount;
+    in >> r->d->mCachedType >> r->d->mAllDay >> r->d->mRecurReadOnly >> r->d->mExDates >> exruleCount >> rruleCount;
 
     r->d->mExRules.clear();
     r->d->mRRules.clear();

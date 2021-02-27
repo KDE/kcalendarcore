@@ -15,7 +15,7 @@ QTEST_MAIN(RecurTodoTest)
 
 using namespace KCalendarCore;
 
-void RecurTodoTest::setTimeZone(const char* zonename)
+void RecurTodoTest::setTimeZone(const char *zonename)
 {
     QVERIFY(QTimeZone(zonename).isValid());
     qputenv("TZ", zonename);
@@ -23,7 +23,6 @@ void RecurTodoTest::setTimeZone(const char* zonename)
     QVERIFY(currentDateTime.timeZone().isValid());
     QCOMPARE(currentDateTime.timeZoneAbbreviation(), QString::fromLatin1(zonename));
 }
-
 
 void RecurTodoTest::testAllDay()
 {
@@ -49,10 +48,10 @@ void RecurTodoTest::testAllDay()
     recurrence->setDaily(1);
     QCOMPARE(todo->dtDue(), QDateTime(dueDate, {}));
     QCOMPARE(todo->percentComplete(), 0);
-    QVERIFY(todo->recurs());  // Previously it did not recur
+    QVERIFY(todo->recurs()); // Previously it did not recur
     todo->setCompleted(currentUtcDateTime);
     QVERIFY(todo->recurs());
-    QCOMPARE(todo->percentComplete(), 0);  // It is still not done
+    QCOMPARE(todo->percentComplete(), 0); // It is still not done
     const QDate newStartDate = todo->dtStart().date();
     const QDate newDueDate = todo->dtDue().date();
     QCOMPARE(newStartDate, currentDate);
@@ -116,8 +115,7 @@ void RecurTodoTest::testNonAllDay()
     const bool equal = todo->dtStart() == QDateTime(currentDate, currentTime, todo->dtStart().timeZone()).addDays(1);
     if (!equal) {
         qDebug() << "Test Failed. dtDue = " << todo->dtDue().toString() << "OriginalDtDue:" << originalDtDue.toString()
-                 <<  "QDateTime:"
-                 << QDateTime(currentDate, currentTime, todo->dtDue().timeZone()).addDays(1).toString();
+                 << "QDateTime:" << QDateTime(currentDate, currentTime, todo->dtDue().timeZone()).addDays(1).toString();
     }
 
     QVERIFY(equal);
@@ -197,7 +195,7 @@ void RecurTodoTest::testRecurTodo()
         QVERIFY(!todo->dtStart().isValid());
         QCOMPARE(todo->dtDue(), dtdue.addDays(1));
 
-        QCOMPARE(todo->dtDue(/**first=*/ true), dtdue);
+        QCOMPARE(todo->dtDue(/**first=*/true), dtdue);
     } else {
         QVERIFY(todo->dtStart().isValid());
         QVERIFY(!(todo->dtDue().isValid() ^ dtdue.isValid()));
@@ -208,7 +206,7 @@ void RecurTodoTest::testRecurTodo()
             QCOMPARE(todo->dtStart().daysTo(todo->dtDue()), delta);
         }
 
-        QCOMPARE(todo->dtStart(/**first=*/ true), dtstart);
+        QCOMPARE(todo->dtStart(/**first=*/true), dtstart);
     }
 }
 
@@ -249,7 +247,7 @@ void RecurTodoTest::testRecurrenceBasedOnDtStart()
     QCOMPARE(todo->recurrence()->getNextDateTime(dtstart.addDays(2)), QDateTime());
 }
 
-//For backwards compatibility only
+// For backwards compatibility only
 void RecurTodoTest::testRecurrenceBasedOnDue()
 {
     const QDateTime dtdue(QDate(2013, 03, 10), QTime(11, 0, 0), Qt::UTC);
@@ -287,5 +285,4 @@ void RecurTodoTest::testRecurrenceExdates()
 
     QCOMPARE(todo->recurrence()->getNextDateTime(dtstart.addMSecs(-1)), dtstart.addDays(1));
     QCOMPARE(todo->recurrence()->getNextDateTime(dtstart.addDays(1)), QDateTime());
-
 }

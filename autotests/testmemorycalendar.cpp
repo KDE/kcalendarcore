@@ -228,10 +228,10 @@ void MemoryCalendarTest::testRecurrenceExceptions()
     QCOMPARE(cal->event(event1->uid(), recurrenceId), exception1);
 
     const Event::List incidences = cal->rawEvents(start.date(), start.addDays(3).date(), start.timeZone());
-    //Contains incidence and exception
+    // Contains incidence and exception
     QCOMPARE(incidences.size(), 2);
 
-    //Returns only exceptions for an event
+    // Returns only exceptions for an event
     const Event::List exceptions = cal->eventInstances(event1);
     QCOMPARE(exceptions.size(), 1);
     QCOMPARE(exceptions.first()->uid(), event1->uid());
@@ -304,32 +304,26 @@ void MemoryCalendarTest::testRawEventsForDate()
     MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
 
     Event::Ptr event = Event::Ptr(new Event());
-    event->setDtStart(QDateTime(QDate(2019, 10, 29), QTime(1, 30),
-                                QTimeZone("Asia/Ho_Chi_Minh")));
+    event->setDtStart(QDateTime(QDate(2019, 10, 29), QTime(1, 30), QTimeZone("Asia/Ho_Chi_Minh")));
 
     QVERIFY(cal->addEvent(event));
 
     QCOMPARE(cal->rawEventsForDate(QDate(2019, 10, 28)).count(), 1);
-    QCOMPARE(cal->rawEventsForDate(QDate(2019, 10, 29),
-                                   QTimeZone("Asia/Ho_Chi_Minh")).count(), 1);
+    QCOMPARE(cal->rawEventsForDate(QDate(2019, 10, 29), QTimeZone("Asia/Ho_Chi_Minh")).count(), 1);
 
     cal->setTimeZoneId("Asia/Ho_Chi_Minh");
     QCOMPARE(cal->rawEventsForDate(QDate(2019, 10, 29)).count(), 1);
-    QCOMPARE(cal->rawEventsForDate(QDate(2019, 10, 28),
-                                   QTimeZone::utc()).count(), 1);
+    QCOMPARE(cal->rawEventsForDate(QDate(2019, 10, 28), QTimeZone::utc()).count(), 1);
 
-    event->setDtStart(QDateTime(QDate(2019, 10, 30), QTime(23, 00),
-                                QTimeZone::utc()));
+    event->setDtStart(QDateTime(QDate(2019, 10, 30), QTime(23, 00), QTimeZone::utc()));
     QCOMPARE(cal->rawEventsForDate(QDate(2019, 10, 31)).count(), 1);
-    QCOMPARE(cal->rawEventsForDate(QDate(2019, 10, 30),
-                                   QTimeZone::utc()).count(), 1);
+    QCOMPARE(cal->rawEventsForDate(QDate(2019, 10, 30), QTimeZone::utc()).count(), 1);
 
     QVERIFY(cal->deleteIncidence(event));
     QCOMPARE(cal->rawEventsForDate(QDate(2019, 10, 31)).count(), 0);
 
     // Multi-days events are treated differently.
-    event->setDtEnd(QDateTime(QDate(2019, 10, 31), QTime(23, 00),
-                              QTimeZone::utc()));
+    event->setDtEnd(QDateTime(QDate(2019, 10, 31), QTime(23, 00), QTimeZone::utc()));
     QVERIFY(cal->addEvent(event));
     QCOMPARE(cal->rawEventsForDate(QDate(2019, 10, 31)).count(), 1);
     QCOMPARE(cal->rawEventsForDate(QDate(2019, 11, 1)).count(), 1);
@@ -362,10 +356,8 @@ void MemoryCalendarTest::testRawEvents()
 
     Event::Ptr event = Event::Ptr(new Event());
     // This event span in 20201011T2330Z - 20201012T2330Z
-    event->setDtStart(QDateTime(QDate(2020, 10, 12), QTime(1, 30),
-                                QTimeZone("Europe/Paris")));
-    event->setDtEnd(QDateTime(QDate(2020, 10, 13), QTime(1, 30),
-                                QTimeZone("Europe/Paris")));
+    event->setDtStart(QDateTime(QDate(2020, 10, 12), QTime(1, 30), QTimeZone("Europe/Paris")));
+    event->setDtEnd(QDateTime(QDate(2020, 10, 13), QTime(1, 30), QTimeZone("Europe/Paris")));
 
     QVERIFY(cal->addEvent(event));
 
@@ -410,8 +402,7 @@ void MemoryCalendarTest::testDeleteIncidence()
     MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
 
     Event::Ptr event = Event::Ptr(new Event());
-    event->setDtStart(QDateTime(QDate(2021, 1, 4), QTime(10, 13),
-                                QTimeZone("Europe/Paris")));
+    event->setDtStart(QDateTime(QDate(2021, 1, 4), QTime(10, 13), QTimeZone("Europe/Paris")));
 
     QVERIFY(cal->addEvent(event));
     QVERIFY(cal->instance(event->instanceIdentifier()));

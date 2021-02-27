@@ -10,13 +10,13 @@
 #include "filestorage.h"
 #include "memorycalendar.h"
 
-#include <QDebug>
+#include <QCommandLineParser>
+#include <QCoreApplication>
 #include <QDate>
+#include <QDebug>
 #include <QFile>
 #include <QStandardPaths>
 #include <QTextStream>
-#include <QCoreApplication>
-#include <QCommandLineParser>
 #include <QTimeZone>
 
 using namespace KCalendarCore;
@@ -26,14 +26,11 @@ int main(int argc, char **argv)
     qputenv("TZ", "GMT");
 
     QCommandLineParser parser;
-    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"),
-                                        QStringLiteral("Verbose output")));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), QStringLiteral("Verbose output")));
 
-    parser.addPositionalArgument(QStringLiteral("input"),
-                                 QStringLiteral("Name of input file"));
+    parser.addPositionalArgument(QStringLiteral("input"), QStringLiteral("Name of input file"));
 
-    parser.addPositionalArgument(QStringLiteral("output"),
-                                 QStringLiteral("optional name of output file for the recurrence dates"));
+    parser.addPositionalArgument(QStringLiteral("output"), QStringLiteral("optional name of output file for the recurrence dates"));
 
     QCoreApplication app(argc, argv);
     QCoreApplication::setApplicationName(QStringLiteral("testrecurson"));
@@ -52,11 +49,11 @@ int main(int argc, char **argv)
     QString fn;
     if (parsedArgs.count() > 1) {
         fn = parsedArgs[1];
-//     qDebug() << "We have a file name given:" << fn;
+        //     qDebug() << "We have a file name given:" << fn;
     }
     QFile outfile(fn);
     if (!fn.isEmpty() && outfile.open(QIODevice::WriteOnly)) {
-//     qDebug() << "Opened output file!!!";
+        //     qDebug() << "Opened output file!!!";
         outstream = new QTextStream(&outfile);
     }
 
@@ -74,9 +71,9 @@ int main(int argc, char **argv)
     for (Incidence::List::Iterator it = inc.begin(); it != inc.end(); ++it) {
         Incidence::Ptr incidence = *it;
 
-//     qDebug() << " ->" << incidence->summary() << "<-";
+        //     qDebug() << " ->" << incidence->summary() << "<-";
 
-//     incidence->recurrence()->dump();
+        //     incidence->recurrence()->dump();
 
         QDate dt(1996, 7, 1);
         if (outstream) {

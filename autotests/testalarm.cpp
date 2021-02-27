@@ -6,8 +6,8 @@
 */
 
 #include "testalarm.h"
-#include "event.h"
 #include "alarm.h"
+#include "event.h"
 
 #include <QTest>
 QTEST_MAIN(AlarmTest)
@@ -73,8 +73,7 @@ void AlarmTest::testSerializer_data()
     a1->setMailSubject(QStringLiteral("empty subject"));
 
     Person::List persons;
-    persons << Person(QStringLiteral("a"), QStringLiteral("a@a.pt"))
-            << Person(QStringLiteral("b"), QStringLiteral("b@b.pt"));
+    persons << Person(QStringLiteral("a"), QStringLiteral("a@a.pt")) << Person(QStringLiteral("b"), QStringLiteral("b@b.pt"));
     a1->setMailAddresses(persons);
     a1->setMailAttachment(QStringLiteral("foo attachment"));
     a1->setMailText(QStringLiteral("mail body"));
@@ -105,7 +104,7 @@ void AlarmTest::testSerializer()
     stream << alarm; // Serialize
 
     Alarm::Ptr alarm2 = Alarm::Ptr(new Alarm(nullptr));
-    //QVERIFY(*alarm != *alarm2);
+    // QVERIFY(*alarm != *alarm2);
     QDataStream stream2(&array, QIODevice::ReadOnly);
     stream2 >> alarm2; // deserialize
     QVERIFY(*alarm == *alarm2);

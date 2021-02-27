@@ -36,36 +36,37 @@ class Q_DECL_HIDDEN KCalendarCore::Alarm::Private
 {
 public:
     Private()
-        : mParent(nullptr),
-          mType(Alarm::Invalid),
-          mAlarmSnoozeTime(5),
-          mAlarmRepeatCount(0),
-          mEndOffset(false),
-          mHasTime(false),
-          mAlarmEnabled(false),
-          mHasLocationRadius(false),
-          mLocationRadius(0)
-    {}
+        : mParent(nullptr)
+        , mType(Alarm::Invalid)
+        , mAlarmSnoozeTime(5)
+        , mAlarmRepeatCount(0)
+        , mEndOffset(false)
+        , mHasTime(false)
+        , mAlarmEnabled(false)
+        , mHasLocationRadius(false)
+        , mLocationRadius(0)
+    {
+    }
 
-    Incidence *mParent = nullptr;  // the incidence which this alarm belongs to
+    Incidence *mParent = nullptr; // the incidence which this alarm belongs to
 
-    Type mType;          // type of alarm
-    QString mDescription;// text to display/email body/procedure arguments
-    QString mFile;       // program to run/optional audio file to play
-    QString mMailSubject;// subject of email
+    Type mType; // type of alarm
+    QString mDescription; // text to display/email body/procedure arguments
+    QString mFile; // program to run/optional audio file to play
+    QString mMailSubject; // subject of email
     QStringList mMailAttachFiles; // filenames to attach to email
-    Person::List mMailAddresses;  // who to mail for reminder
+    Person::List mMailAddresses; // who to mail for reminder
 
-    QDateTime mAlarmTime;// time at which to trigger the alarm
+    QDateTime mAlarmTime; // time at which to trigger the alarm
     Duration mAlarmSnoozeTime; // how long after alarm to snooze before
     // triggering again
-    int mAlarmRepeatCount;// number of times for alarm to repeat
+    int mAlarmRepeatCount; // number of times for alarm to repeat
     // after the initial time
 
-    Duration mOffset;    // time relative to incidence DTSTART
+    Duration mOffset; // time relative to incidence DTSTART
     // to trigger the alarm
-    bool mEndOffset;     // if true, mOffset relates to DTEND, not DTSTART
-    bool mHasTime;       // use mAlarmTime, not mOffset
+    bool mEndOffset; // if true, mOffset relates to DTEND, not DTSTART
+    bool mHasTime; // use mAlarmTime, not mOffset
     bool mAlarmEnabled;
 
     bool mHasLocationRadius;
@@ -73,13 +74,15 @@ public:
 };
 //@endcond
 
-Alarm::Alarm(Incidence *parent) : d(new KCalendarCore::Alarm::Private)
+Alarm::Alarm(Incidence *parent)
+    : d(new KCalendarCore::Alarm::Private)
 {
     d->mParent = parent;
 }
 
-Alarm::Alarm(const Alarm &other) :
-    CustomProperties(other), d(new KCalendarCore::Alarm::Private(*other.d))
+Alarm::Alarm(const Alarm &other)
+    : CustomProperties(other)
+    , d(new KCalendarCore::Alarm::Private(*other.d))
 {
 }
 
@@ -157,8 +160,7 @@ bool Alarm::operator==(const Alarm &rhs) const
             && d->mMailSubject == rhs.d->mMailSubject;
 
     case Procedure:
-        return d->mFile == rhs.d->mFile &&
-               d->mDescription == rhs.d->mDescription;
+        return d->mFile == rhs.d->mFile && d->mDescription == rhs.d->mDescription;
 
     case Audio:
         return d->mFile == rhs.d->mFile;
@@ -249,8 +251,7 @@ QString Alarm::audioFile() const
     return (d->mType == Audio) ? d->mFile : QString();
 }
 
-void Alarm::setProcedureAlarm(const QString &programFile,
-                              const QString &arguments)
+void Alarm::setProcedureAlarm(const QString &programFile, const QString &arguments)
 {
     if (d->mParent) {
         d->mParent->update();
@@ -299,9 +300,7 @@ QString Alarm::programArguments() const
     return (d->mType == Procedure) ? d->mDescription : QString();
 }
 
-void Alarm::setEmailAlarm(const QString &subject, const QString &text,
-                          const Person::List &addressees,
-                          const QStringList &attachments)
+void Alarm::setEmailAlarm(const QString &subject, const QString &text, const Person::List &addressees, const QStringList &attachments)
 {
     if (d->mParent) {
         d->mParent->update();
@@ -619,8 +618,7 @@ int Alarm::repeatCount() const
 
 Duration Alarm::duration() const
 {
-    return Duration(d->mAlarmSnoozeTime.value() * d->mAlarmRepeatCount,
-                    d->mAlarmSnoozeTime.type());
+    return Duration(d->mAlarmSnoozeTime.value() * d->mAlarmRepeatCount, d->mAlarmSnoozeTime.type());
 }
 
 QDateTime Alarm::nextRepetition(const QDateTime &preTime) const
@@ -649,8 +647,7 @@ QDateTime Alarm::nextRepetition(const QDateTime &preTime) const
         // all repetitions have finished before the specified time
         return QDateTime();
     }
-    return daily ? at.addDays(int(repetition * interval))
-           : at.addSecs(repetition * interval);
+    return daily ? at.addDays(int(repetition * interval)) : at.addSecs(repetition * interval);
 }
 
 QDateTime Alarm::previousRepetition(const QDateTime &afterTime) const
@@ -678,8 +675,7 @@ QDateTime Alarm::previousRepetition(const QDateTime &afterTime) const
     if (repetition > d->mAlarmRepeatCount) {
         repetition = d->mAlarmRepeatCount;
     }
-    return daily ? at.addDays(int(repetition * interval))
-           : at.addSecs(repetition * interval);
+    return daily ? at.addDays(int(repetition * interval)) : at.addSecs(repetition * interval);
 }
 
 QDateTime Alarm::endTime() const
@@ -825,23 +821,12 @@ int Alarm::locationRadius() const
 QDataStream &KCalendarCore::operator<<(QDataStream &out, const KCalendarCore::Alarm::Ptr &a)
 {
     if (a) {
-        out << ((quint32)a->d->mType)
-            << a->d->mAlarmSnoozeTime
-            << a->d->mAlarmRepeatCount
-            << a->d->mEndOffset
-            << a->d->mHasTime
-            << a->d->mAlarmEnabled
-            << a->d->mHasLocationRadius
-            << a->d->mLocationRadius
-            << a->d->mOffset;
+        out << ((quint32)a->d->mType) << a->d->mAlarmSnoozeTime << a->d->mAlarmRepeatCount << a->d->mEndOffset << a->d->mHasTime << a->d->mAlarmEnabled
+            << a->d->mHasLocationRadius << a->d->mLocationRadius << a->d->mOffset;
 
         serializeQDateTimeAsKDateTime(out, a->d->mAlarmTime);
 
-        out << a->d->mFile
-            << a->d->mMailSubject
-            << a->d->mDescription
-            << a->d->mMailAttachFiles
-            << a->d->mMailAddresses;
+        out << a->d->mFile << a->d->mMailSubject << a->d->mDescription << a->d->mMailAttachFiles << a->d->mMailAddresses;
     }
     return out;
 }
@@ -852,8 +837,8 @@ QDataStream &KCalendarCore::operator>>(QDataStream &in, const KCalendarCore::Ala
         quint32 type;
         in >> type;
         a->d->mType = static_cast<Alarm::Type>(type);
-        in >> a->d->mAlarmSnoozeTime >> a->d->mAlarmRepeatCount >> a->d->mEndOffset >> a->d->mHasTime
-           >> a->d->mAlarmEnabled >> a->d->mHasLocationRadius >> a->d->mLocationRadius >> a->d->mOffset;
+        in >> a->d->mAlarmSnoozeTime >> a->d->mAlarmRepeatCount >> a->d->mEndOffset >> a->d->mHasTime >> a->d->mAlarmEnabled >> a->d->mHasLocationRadius
+            >> a->d->mLocationRadius >> a->d->mOffset;
         deserializeKDateTimeAsQDateTime(in, a->d->mAlarmTime);
         in >> a->d->mFile >> a->d->mMailSubject >> a->d->mDescription >> a->d->mMailAttachFiles >> a->d->mMailAddresses;
     }

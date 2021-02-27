@@ -19,13 +19,12 @@
 #include "kcalendarcore_export.h"
 
 #include <QHash>
-#include <QString>
-#include <QSharedDataPointer>
 #include <QMetaType>
+#include <QSharedDataPointer>
+#include <QString>
 
 namespace KCalendarCore
 {
-
 /**
   @brief
   Represents information related to an attachment for a Calendar Incidence.
@@ -83,8 +82,7 @@ public:
       @param base64 is the binary data in base64 format for the attachment.
       @param mime is the (optional) @acronym MIME type of the attachment
     */
-    explicit Attachment(const QByteArray &base64,
-                        const QString &mime = QString());
+    explicit Attachment(const QByteArray &base64, const QString &mime = QString());
 
     /**
       Constructs an attachment by copying another attachment.
@@ -265,8 +263,8 @@ private:
     QSharedDataPointer<Private> d;
     //@endcond
 
-    friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &s, const KCalendarCore::Attachment&);
-    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &s, KCalendarCore::Attachment&);
+    friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &s, const KCalendarCore::Attachment &);
+    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &s, KCalendarCore::Attachment &);
 };
 
 /**
@@ -274,14 +272,14 @@ private:
  *
  * @since 4.12
  */
-KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalendarCore::Attachment&);
+KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalendarCore::Attachment &);
 
 /**
  * Attachment deserializer.
  *
  * @since 4.12
  */
-KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalendarCore::Attachment&);
+KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalendarCore::Attachment &);
 
 }
 

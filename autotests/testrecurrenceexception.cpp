@@ -23,12 +23,11 @@ void TestRecurrenceException::testCreateTodoException()
     todo->recurrence()->setDaily(1);
     todo->recurrence()->setDuration(3);
 
-    const KCalendarCore::Todo::Ptr exception
-        = KCalendarCore::MemoryCalendar::createException(todo, recurrenceId, false).staticCast<KCalendarCore::Todo>();
+    const KCalendarCore::Todo::Ptr exception = KCalendarCore::MemoryCalendar::createException(todo, recurrenceId, false).staticCast<KCalendarCore::Todo>();
     QCOMPARE(exception->dtStart(), recurrenceId);
     QCOMPARE(exception->dtDue(), QDateTime(dtdue).addDays(1));
-    //FIXME should be done on clearing the recurrence, but we can't due to BC.
-    //Probably not that important as long as dtRecurrence is ignored if the todo is not recurring
-    //QCOMPARE(exception->dtRecurrence(), QDateTime());
-    //TODO dtCompleted
+    // FIXME should be done on clearing the recurrence, but we can't due to BC.
+    // Probably not that important as long as dtRecurrence is ignored if the todo is not recurring
+    // QCOMPARE(exception->dtRecurrence(), QDateTime());
+    // TODO dtCompleted
 }

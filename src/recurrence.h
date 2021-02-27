@@ -19,7 +19,6 @@ class QTimeZone;
 
 namespace KCalendarCore
 {
-
 class RecurrenceRule;
 
 /**
@@ -498,7 +497,7 @@ public:
      */
     void addYearlyMonth(short _rNum);
 
-    void setYearlyMonth(const QList< int > &months);
+    void setYearlyMonth(const QList<int> &months);
 
     /** Adds position within month/year within a yearly recurrence. If months
      *  are specified (via addYearlyMonth()), the parameters are understood as

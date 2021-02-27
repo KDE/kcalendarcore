@@ -15,8 +15,8 @@
 #include "calendar.h"
 #include "calfilter.h"
 
-namespace KCalendarCore {
-
+namespace KCalendarCore
+{
 /**
   Private class that helps to provide binary compatibility between releases.
   @internal
@@ -25,13 +25,13 @@ namespace KCalendarCore {
 class Q_DECL_HIDDEN Calendar::Private
 {
 public:
-    Private() :
-          mModified(false),
-          mNewObserver(false),
-          mObserversEnabled(true),
-          mDefaultFilter(new CalFilter),
-          batchAddingInProgress(false),
-          mDeletionTracking(true)
+    Private()
+        : mModified(false)
+        , mNewObserver(false)
+        , mObserversEnabled(true)
+        , mDefaultFilter(new CalFilter)
+        , batchAddingInProgress(false)
+        , mDeletionTracking(true)
     {
         // Setup default filter, which does nothing
         mFilter = mDefaultFilter;
@@ -67,12 +67,12 @@ public:
     QMultiHash<QString, Incidence::Ptr> mOrphanUids;
 
     // Lists for associating incidences to notebooks
-    QMultiHash<QString, Incidence::Ptr > mNotebookIncidences;
+    QMultiHash<QString, Incidence::Ptr> mNotebookIncidences;
     QHash<QString, QString> mUidToNotebook;
     QHash<QString, bool> mNotebooks; // name to visibility
     QHash<Incidence::Ptr, bool> mIncidenceVisibility; // incidence -> visibility
     QString mDefaultNotebook; // uid of default notebook
-    QMap<QString, Incidence::List > mIncidenceRelations;
+    QMap<QString, Incidence::List> mIncidenceRelations;
     bool batchAddingInProgress = false;
     bool mDeletionTracking = false;
 };

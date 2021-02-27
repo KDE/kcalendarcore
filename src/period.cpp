@@ -29,21 +29,27 @@ using namespace KCalendarCore;
 class Q_DECL_HIDDEN KCalendarCore::Period::Private
 {
 public:
-    Private() : mHasDuration(false), mDailyDuration(false)  {}
+    Private()
+        : mHasDuration(false)
+        , mDailyDuration(false)
+    {
+    }
     Private(const QDateTime &start, const QDateTime &end, bool hasDuration)
-        : mStart(start),
-          mEnd(end),
-          mHasDuration(hasDuration),
-          mDailyDuration(false)
-    {}
-    QDateTime mStart;    // period starting date/time
-    QDateTime mEnd;      // period ending date/time
-    bool mHasDuration = false;   // does period have a duration?
+        : mStart(start)
+        , mEnd(end)
+        , mHasDuration(hasDuration)
+        , mDailyDuration(false)
+    {
+    }
+    QDateTime mStart; // period starting date/time
+    QDateTime mEnd; // period ending date/time
+    bool mHasDuration = false; // does period have a duration?
     bool mDailyDuration = false; // duration is defined as number of days, not seconds
 };
 //@endcond
 
-Period::Period() : d(new KCalendarCore::Period::Private())
+Period::Period()
+    : d(new KCalendarCore::Period::Private())
 {
 }
 
@@ -75,12 +81,8 @@ bool Period::operator<(const Period &other) const
 
 bool Period::operator==(const Period &other) const
 {
-    return
-        ((d->mStart == other.d->mStart) ||
-         (!d->mStart.isValid() && !other.d->mStart.isValid())) &&
-        ((d->mEnd == other.d->mEnd) ||
-         (!d->mEnd.isValid() && !other.d->mEnd.isValid())) &&
-        d->mHasDuration == other.d->mHasDuration;
+    return ((d->mStart == other.d->mStart) || (!d->mStart.isValid() && !other.d->mStart.isValid()))
+        && ((d->mEnd == other.d->mEnd) || (!d->mEnd.isValid() && !other.d->mEnd.isValid())) && d->mHasDuration == other.d->mHasDuration;
 }
 
 Period &Period::operator=(const Period &other)
@@ -107,8 +109,7 @@ QDateTime Period::end() const
 Duration Period::duration() const
 {
     if (d->mHasDuration) {
-        return Duration(d->mStart, d->mEnd,
-                        d->mDailyDuration ? Duration::Days : Duration::Seconds);
+        return Duration(d->mStart, d->mEnd, d->mDailyDuration ? Duration::Days : Duration::Seconds);
     } else {
         return Duration(d->mStart, d->mEnd);
     }
@@ -138,16 +139,14 @@ QDataStream &KCalendarCore::operator<<(QDataStream &stream, const KCalendarCore:
 {
     serializeQDateTimeAsKDateTime(stream, period.d->mStart);
     serializeQDateTimeAsKDateTime(stream, period.d->mEnd);
-    return stream << period.d->mDailyDuration
-                  << period.d->mHasDuration;
+    return stream << period.d->mDailyDuration << period.d->mHasDuration;
 }
 
 QDataStream &KCalendarCore::operator>>(QDataStream &stream, KCalendarCore::Period &period)
 {
     deserializeKDateTimeAsQDateTime(stream, period.d->mStart);
     deserializeKDateTimeAsQDateTime(stream, period.d->mEnd);
-    stream >> period.d->mDailyDuration
-           >> period.d->mHasDuration;
+    stream >> period.d->mDailyDuration >> period.d->mHasDuration;
     return stream;
 }
 

@@ -20,8 +20,7 @@ void DurationTest::testValidity()
 {
     const QDateTime firstDateTime(QDate(2006, 8, 3), QTime(7, 0, 0), Qt::UTC);
 
-    Duration d(firstDateTime,
-               QDateTime(QDate(2006, 8, 3), QTime(8, 0, 0), Qt::UTC));
+    Duration d(firstDateTime, QDateTime(QDate(2006, 8, 3), QTime(8, 0, 0), Qt::UTC));
 
     QCOMPARE(d.asSeconds(), 1 * 60 * 60);
 }
@@ -30,13 +29,12 @@ void DurationTest::testCompare()
 {
     const QDateTime firstDateTime(QDate(2006, 8, 3), QTime(7, 0, 0), Qt::UTC);
 
-    Duration d1(firstDateTime,
-                QDateTime(QDate(2006, 8, 3), QTime(8, 0, 0), Qt::UTC));
-    //d1 has 1hr duration
+    Duration d1(firstDateTime, QDateTime(QDate(2006, 8, 3), QTime(8, 0, 0), Qt::UTC));
+    // d1 has 1hr duration
 
-    Duration d2(2 * 60 * 60);   // 2hr duration
+    Duration d2(2 * 60 * 60); // 2hr duration
 
-    Duration d1copy(d1);   // test copy constructor
+    Duration d1copy(d1); // test copy constructor
     Duration d1assign = d1; // test operator=
 
     QVERIFY(d1 < d2);
@@ -46,7 +44,7 @@ void DurationTest::testCompare()
 
     Duration d3(7, Duration::Days);
     Duration d4(7 * 24 * 60 * 60, Duration::Seconds);
-    QVERIFY(d3 != d4);   // cannot compare days durations with seconds durations
+    QVERIFY(d3 != d4); // cannot compare days durations with seconds durations
 
     QVERIFY(d3 > d2);
     QVERIFY(-d3 < d2);

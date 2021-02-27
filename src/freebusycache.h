@@ -24,7 +24,6 @@ class QString;
 
 namespace KCalendarCore
 {
-
 class Person;
 
 /**

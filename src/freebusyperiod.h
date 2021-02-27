@@ -26,7 +26,6 @@
 
 namespace KCalendarCore
 {
-
 /**
   The period can be defined by either a start time and an end time or
   by a start time and a duration.
@@ -82,7 +81,7 @@ public:
       @param period the period to copy
      */
 
-    FreeBusyPeriod(const Period &period);   //krazy:exclude=explicit
+    FreeBusyPeriod(const Period &period); // krazy:exclude=explicit
 
     /**
       Destroys a period.
@@ -143,15 +142,12 @@ private:
     Private *const d;
     //@endcond
 
-    friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
-            const KCalendarCore::FreeBusyPeriod &period);
-    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream,
-            KCalendarCore::FreeBusyPeriod &period);
+    friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalendarCore::FreeBusyPeriod &period);
+    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalendarCore::FreeBusyPeriod &period);
 };
 
 /** Write @p period to the datastream @p stream, in binary format. */
-KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
-                                        const KCalendarCore::FreeBusyPeriod &period);
+KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalendarCore::FreeBusyPeriod &period);
 
 /** Read a Period object into @p period from @p stream, in binary format. */
 KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalendarCore::FreeBusyPeriod &period);

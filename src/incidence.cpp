@@ -23,8 +23,8 @@
 #include "calformat.h"
 #include "utils_p.h"
 
-#include <QTextDocument> // for .toHtmlEscaped() and Qt::mightBeRichText()
 #include <QStringList>
+#include <QTextDocument> // for .toHtmlEscaped() and Qt::mightBeRichText()
 #include <QTime>
 #include <QTimeZone>
 
@@ -133,34 +133,34 @@ public:
         }
     }
 
-    QDateTime mCreated;                 // creation datetime
-    QString mDescription;               // description string
-    QString mSummary;                   // summary string
-    QString mLocation;                  // location string
-    QStringList mCategories;            // category list
-    Attachment::List mAttachments;      // attachments list
-    Alarm::List mAlarms;                // alarms list
-    QStringList mResources;             // resources list (not calendar resources)
-    QString mStatusString;              // status string, for custom status
-    QString mSchedulingID;              // ID for scheduling mails
+    QDateTime mCreated; // creation datetime
+    QString mDescription; // description string
+    QString mSummary; // summary string
+    QString mLocation; // location string
+    QStringList mCategories; // category list
+    Attachment::List mAttachments; // attachments list
+    Alarm::List mAlarms; // alarms list
+    QStringList mResources; // resources list (not calendar resources)
+    QString mStatusString; // status string, for custom status
+    QString mSchedulingID; // ID for scheduling mails
     QMap<RelType, QString> mRelatedToUid; // incidence uid this is related to, for each relType
-    QDateTime mRecurrenceId;            // recurrenceId
-    Conference::List mConferences;      // conference list
+    QDateTime mRecurrenceId; // recurrenceId
+    Conference::List mConferences; // conference list
 
-    float mGeoLatitude;                 // Specifies latitude in decimal degrees
-    float mGeoLongitude;                // Specifies longitude in decimal degrees
-    mutable Recurrence *mRecurrence;    // recurrence
-    int mRevision;                      // revision number
-    int mPriority;                      // priority: 1 = highest, 2 = less, etc.
-    Status mStatus;                     // status
-    Secrecy mSecrecy;                   // secrecy
-    QString mColor;                     // background color
-    bool mDescriptionIsRich = false;            // description string is richtext.
-    bool mSummaryIsRich = false;                // summary string is richtext.
-    bool mLocationIsRich = false;               // location string is richtext.
-    bool mHasGeo = false;                       // if incidence has geo data
+    float mGeoLatitude; // Specifies latitude in decimal degrees
+    float mGeoLongitude; // Specifies longitude in decimal degrees
+    mutable Recurrence *mRecurrence; // recurrence
+    int mRevision; // revision number
+    int mPriority; // priority: 1 = highest, 2 = less, etc.
+    Status mStatus; // status
+    Secrecy mSecrecy; // secrecy
+    QString mColor; // background color
+    bool mDescriptionIsRich = false; // description string is richtext.
+    bool mSummaryIsRich = false; // summary string is richtext.
+    bool mLocationIsRich = false; // location string is richtext.
+    bool mHasGeo = false; // if incidence has geo data
     bool mThisAndFuture = false;
-    bool mLocalOnly = false;                    // allow changes that won't go to the server
+    bool mLocalOnly = false; // allow changes that won't go to the server
 };
 //@endcond
 
@@ -204,7 +204,7 @@ IncidenceBase &Incidence::assign(const IncidenceBase &other)
 {
     if (&other != this) {
         d->clear();
-        //TODO: should relations be cleared out, as in destructor???
+        // TODO: should relations be cleared out, as in destructor???
         IncidenceBase::assign(other);
         const Incidence *i = static_cast<const Incidence *>(&other);
         d->init(this, *i);
@@ -262,14 +262,11 @@ bool Incidence::equals(const IncidenceBase &incidence) const
     if (!recurrenceEqual) {
         recurrence(); // create if doesn't exist
         i2->recurrence(); // create if doesn't exist
-        recurrenceEqual = d->mRecurrence != nullptr &&
-                          i2->d->mRecurrence != nullptr &&
-                          *d->mRecurrence == *i2->d->mRecurrence;
+        recurrenceEqual = d->mRecurrence != nullptr && i2->d->mRecurrence != nullptr && *d->mRecurrence == *i2->d->mRecurrence;
     }
 
     if (d->mHasGeo == i2->d->mHasGeo) {
-        if (d->mHasGeo && (!qFuzzyCompare(d->mGeoLatitude, i2->d->mGeoLatitude) ||
-          !qFuzzyCompare(d->mGeoLongitude, i2->d->mGeoLongitude))) {
+        if (d->mHasGeo && (!qFuzzyCompare(d->mGeoLatitude, i2->d->mGeoLatitude) || !qFuzzyCompare(d->mGeoLongitude, i2->d->mGeoLongitude))) {
             return false;
         }
     } else {
@@ -312,7 +309,7 @@ void Incidence::recreate()
 
     setSchedulingID(QString(), CalFormat::createUniqueId());
     setRevision(0);
-    setLastModified(nowUTC); //NOLINT false clang-analyzer-optin.cplusplus.VirtualCall
+    setLastModified(nowUTC); // NOLINT false clang-analyzer-optin.cplusplus.VirtualCall
 }
 
 void Incidence::setLastModified(const QDateTime &lm)
@@ -366,8 +363,8 @@ void Incidence::setCreated(const QDateTime &created)
     d->mCreated.setTime(QTime(ct.hour(), ct.minute(), ct.second()));
     setFieldDirty(FieldCreated);
 
-// FIXME: Shouldn't we call updated for the creation date, too?
-//  updated();
+    // FIXME: Shouldn't we call updated for the creation date, too?
+    //  updated();
 }
 
 QDateTime Incidence::created() const
@@ -1101,9 +1098,7 @@ void Incidence::setAltDescription(const QString &altdescription)
     if (altdescription.isEmpty()) {
         removeNonKDECustomProperty(ALT_DESC_FIELD);
     } else {
-        setNonKDECustomProperty(ALT_DESC_FIELD,
-                                altdescription,
-                                ALT_DESC_PARAMETERS);
+        setNonKDECustomProperty(ALT_DESC_FIELD, altdescription, ALT_DESC_PARAMETERS);
     }
 }
 
@@ -1119,24 +1114,18 @@ QString Incidence::altDescription() const
 /** static */
 QStringList Incidence::mimeTypes()
 {
-    return QStringList() << QStringLiteral("text/calendar")
-                         << KCalendarCore::Event::eventMimeType()
-                         << KCalendarCore::Todo::todoMimeType()
+    return QStringList() << QStringLiteral("text/calendar") << KCalendarCore::Event::eventMimeType() << KCalendarCore::Todo::todoMimeType()
                          << KCalendarCore::Journal::journalMimeType();
 }
 
 void Incidence::serialize(QDataStream &out) const
 {
     serializeQDateTimeAsKDateTime(out, d->mCreated);
-    out << d->mRevision << d->mDescription << d->mDescriptionIsRich << d->mSummary
-        << d->mSummaryIsRich << d->mLocation << d->mLocationIsRich << d->mCategories
-        << d->mResources << d->mStatusString << d->mPriority << d->mSchedulingID
-        << d->mGeoLatitude << d->mGeoLongitude << d->mHasGeo;
+    out << d->mRevision << d->mDescription << d->mDescriptionIsRich << d->mSummary << d->mSummaryIsRich << d->mLocation << d->mLocationIsRich << d->mCategories
+        << d->mResources << d->mStatusString << d->mPriority << d->mSchedulingID << d->mGeoLatitude << d->mGeoLongitude << d->mHasGeo;
     serializeQDateTimeAsKDateTime(out, d->mRecurrenceId);
-    out << d->mThisAndFuture
-        << d->mLocalOnly << d->mStatus << d->mSecrecy << (d->mRecurrence ? true : false)
-        << d->mAttachments.count() << d->mAlarms.count() << d->mConferences.count()
-        << d->mRelatedToUid;
+    out << d->mThisAndFuture << d->mLocalOnly << d->mStatus << d->mSecrecy << (d->mRecurrence ? true : false) << d->mAttachments.count() << d->mAlarms.count()
+        << d->mConferences.count() << d->mRelatedToUid;
 
     if (d->mRecurrence) {
         out << d->mRecurrence;
@@ -1162,14 +1151,10 @@ void Incidence::deserialize(QDataStream &in)
     int attachmentCount, alarmCount, conferencesCount;
     QMap<int, QString> relatedToUid;
     deserializeKDateTimeAsQDateTime(in, d->mCreated);
-    in >> d->mRevision >> d->mDescription >> d->mDescriptionIsRich >> d->mSummary
-    >> d->mSummaryIsRich >> d->mLocation >> d->mLocationIsRich >> d->mCategories
-    >> d->mResources >> d->mStatusString >> d->mPriority >> d->mSchedulingID
-    >> d->mGeoLatitude >> d->mGeoLongitude >> d->mHasGeo;
+    in >> d->mRevision >> d->mDescription >> d->mDescriptionIsRich >> d->mSummary >> d->mSummaryIsRich >> d->mLocation >> d->mLocationIsRich >> d->mCategories
+        >> d->mResources >> d->mStatusString >> d->mPriority >> d->mSchedulingID >> d->mGeoLatitude >> d->mGeoLongitude >> d->mHasGeo;
     deserializeKDateTimeAsQDateTime(in, d->mRecurrenceId);
-    in >> d->mThisAndFuture
-    >> d->mLocalOnly >> status >> secrecy >> hasRecurrence >> attachmentCount >> alarmCount >> conferencesCount
-    >> relatedToUid;
+    in >> d->mThisAndFuture >> d->mLocalOnly >> status >> secrecy >> hasRecurrence >> attachmentCount >> alarmCount >> conferencesCount >> relatedToUid;
 
     if (hasRecurrence) {
         d->mRecurrence = new Recurrence();
@@ -1213,18 +1198,20 @@ void Incidence::deserialize(QDataStream &in)
     }
 }
 
-namespace {
+namespace
+{
 template<typename T>
 QVariantList toVariantList(int size, typename QVector<T>::ConstIterator begin, typename QVector<T>::ConstIterator end)
 {
     QVariantList l;
     l.reserve(size);
-    std::transform(begin, end, std::back_inserter(l), [](const T &val) { return QVariant::fromValue(val); });
+    std::transform(begin, end, std::back_inserter(l), [](const T &val) {
+        return QVariant::fromValue(val);
+    });
     return l;
 }
 
 } // namespace
-
 
 QVariantList Incidence::attachmentsVariant() const
 {

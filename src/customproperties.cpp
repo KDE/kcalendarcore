@@ -18,8 +18,8 @@
 
 #include "customproperties.h"
 
-#include <QDataStream>
 #include "kcalendarcore_debug.h"
+#include <QDataStream>
 
 using namespace KCalendarCore;
 
@@ -30,7 +30,7 @@ class Q_DECL_HIDDEN CustomProperties::Private
 {
 public:
     bool operator==(const Private &other) const;
-    QMap<QByteArray, QString> mProperties;   // custom calendar properties
+    QMap<QByteArray, QString> mProperties; // custom calendar properties
     QMap<QByteArray, QString> mPropertyParameters;
 
     // Volatile properties are not written back to the serialized format and are not compared in operator==
@@ -49,18 +49,14 @@ bool CustomProperties::Private::operator==(const CustomProperties::Private &othe
         // qCDebug(KCALCORE_LOG) << "Property count is different:" << mProperties << other.mProperties;
         return false;
     }
-    for (QMap<QByteArray, QString>::ConstIterator it = mProperties.begin();
-            it != mProperties.end(); ++it) {
-        QMap<QByteArray, QString>::ConstIterator itOther =
-            other.mProperties.find(it.key());
+    for (QMap<QByteArray, QString>::ConstIterator it = mProperties.begin(); it != mProperties.end(); ++it) {
+        QMap<QByteArray, QString>::ConstIterator itOther = other.mProperties.find(it.key());
         if (itOther == other.mProperties.end() || itOther.value() != it.value()) {
             return false;
         }
     }
-    for (QMap<QByteArray, QString>::ConstIterator it = mPropertyParameters.begin();
-            it != mPropertyParameters.end(); ++it) {
-        QMap<QByteArray, QString>::ConstIterator itOther =
-            other.mPropertyParameters.find(it.key());
+    for (QMap<QByteArray, QString>::ConstIterator it = mPropertyParameters.begin(); it != mPropertyParameters.end(); ++it) {
+        QMap<QByteArray, QString>::ConstIterator itOther = other.mPropertyParameters.find(it.key());
         if (itOther == other.mPropertyParameters.end() || itOther.value() != it.value()) {
             return false;
         }
@@ -100,8 +96,7 @@ bool CustomProperties::operator==(const CustomProperties &other) const
     return *d == *other.d;
 }
 
-void CustomProperties::setCustomProperty(const QByteArray &app, const QByteArray &key,
-        const QString &value)
+void CustomProperties::setCustomProperty(const QByteArray &app, const QByteArray &key, const QString &value)
 {
     if (value.isNull() || key.isEmpty() || app.isEmpty()) {
         return;
@@ -112,7 +107,7 @@ void CustomProperties::setCustomProperty(const QByteArray &app, const QByteArray
     }
     customPropertyUpdate();
 
-    if (d->isVolatileProperty(QLatin1String(property)))  {
+    if (d->isVolatileProperty(QLatin1String(property))) {
         d->mVolatileProperties[property] = value;
     } else {
         d->mProperties[property] = value;
@@ -140,8 +135,7 @@ QByteArray CustomProperties::customPropertyName(const QByteArray &app, const QBy
     return property;
 }
 
-void CustomProperties::setNonKDECustomProperty(const QByteArray &name, const QString &value,
-        const QString &parameters)
+void CustomProperties::setNonKDECustomProperty(const QByteArray &name, const QString &value, const QString &parameters)
 {
     if (value.isNull() || !checkName(name)) {
         return;
@@ -182,8 +176,7 @@ QString CustomProperties::nonKDECustomPropertyParameters(const QByteArray &name)
 void CustomProperties::setCustomProperties(const QMap<QByteArray, QString> &properties)
 {
     bool changed = false;
-    for (QMap<QByteArray, QString>::ConstIterator it = properties.begin();
-            it != properties.end();  ++it) {
+    for (QMap<QByteArray, QString>::ConstIterator it = properties.begin(); it != properties.end(); ++it) {
         // Validate the property name and convert any null string to empty string
         if (checkName(it.key())) {
             if (d->isVolatileProperty(QLatin1String(it.key()))) {
@@ -227,35 +220,27 @@ bool checkName(const QByteArray &name)
     // only the permitted characters
     const char *n = name.constData();
     int len = name.length();
-    if (len < 2 ||  n[0] != 'X' || n[1] != '-') {
+    if (len < 2 || n[0] != 'X' || n[1] != '-') {
         return false;
     }
-    for (int i = 2;  i < len;  ++i) {
+    for (int i = 2; i < len; ++i) {
         char ch = n[i];
-        if ((ch >= 'A' && ch <= 'Z') ||
-                (ch >= 'a' && ch <= 'z') ||
-                (ch >= '0' && ch <= '9') ||
-                ch == '-') {
+        if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z') || (ch >= '0' && ch <= '9') || ch == '-') {
             continue;
         }
-        return false;   // invalid character found
+        return false; // invalid character found
     }
     return true;
 }
 //@endcond
 
-QDataStream &KCalendarCore::operator<<(QDataStream &stream,
-                                  const KCalendarCore::CustomProperties &properties)
+QDataStream &KCalendarCore::operator<<(QDataStream &stream, const KCalendarCore::CustomProperties &properties)
 {
-    return stream << properties.d->mProperties
-           << properties.d->mPropertyParameters;
+    return stream << properties.d->mProperties << properties.d->mPropertyParameters;
 }
 
-QDataStream &KCalendarCore::operator>>(QDataStream &stream,
-                                  KCalendarCore::CustomProperties &properties)
+QDataStream &KCalendarCore::operator>>(QDataStream &stream, KCalendarCore::CustomProperties &properties)
 {
     properties.d->mVolatileProperties.clear();
-    return stream >> properties.d->mProperties
-           >> properties.d->mPropertyParameters;
+    return stream >> properties.d->mProperties >> properties.d->mPropertyParameters;
 }
-

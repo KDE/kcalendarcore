@@ -6,13 +6,13 @@
   SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#include "icalformat.h"
 #include "event.h"
+#include "icalformat.h"
 #include "todo.h"
 
-#include <QDebug>
-#include <QCoreApplication>
 #include <QCommandLineParser>
+#include <QCoreApplication>
+#include <QDebug>
 
 using namespace KCalendarCore;
 

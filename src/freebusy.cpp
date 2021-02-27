@@ -18,8 +18,8 @@
   @author Reinhold Kainhofer \<reinhold@kainhofer.com\>
 */
 #include "freebusy.h"
-#include "visitor.h"
 #include "utils_p.h"
+#include "visitor.h"
 
 #include "icalformat.h"
 
@@ -33,23 +33,29 @@ class Q_DECL_HIDDEN KCalendarCore::FreeBusy::Private
 {
 private:
     FreeBusy *q;
-public:
-    Private(FreeBusy *qq) : q(qq)
-    {}
 
-    Private(const KCalendarCore::FreeBusy::Private &other, FreeBusy *qq) : q(qq)
+public:
+    Private(FreeBusy *qq)
+        : q(qq)
+    {
+    }
+
+    Private(const KCalendarCore::FreeBusy::Private &other, FreeBusy *qq)
+        : q(qq)
     {
         init(other);
     }
 
     Private(const FreeBusyPeriod::List &busyPeriods, FreeBusy *qq)
-        : q(qq), mBusyPeriods(busyPeriods)
-    {}
+        : q(qq)
+        , mBusyPeriods(busyPeriods)
+    {
+    }
 
     void init(const KCalendarCore::FreeBusy::Private &other);
     void init(const Event::List &events, const QDateTime &start, const QDateTime &end);
 
-    QDateTime mDtEnd;                  // end datetime
+    QDateTime mDtEnd; // end datetime
     FreeBusyPeriod::List mBusyPeriods; // list of periods
 
     // This is used for creating a freebusy object for the current user
@@ -69,30 +75,29 @@ FreeBusy::FreeBusy()
 }
 
 FreeBusy::FreeBusy(const FreeBusy &other)
-    : IncidenceBase(other),
-      d(new KCalendarCore::FreeBusy::Private(*other.d, this))
+    : IncidenceBase(other)
+    , d(new KCalendarCore::FreeBusy::Private(*other.d, this))
 {
 }
 
 FreeBusy::FreeBusy(const QDateTime &start, const QDateTime &end)
     : d(new KCalendarCore::FreeBusy::Private(this))
 {
-    setDtStart(start); //NOLINT false clang-analyzer-optin.cplusplus.VirtualCall
-    setDtEnd(end);     //NOLINT false clang-analyzer-optin.cplusplus.VirtualCall
+    setDtStart(start); // NOLINT false clang-analyzer-optin.cplusplus.VirtualCall
+    setDtEnd(end); // NOLINT false clang-analyzer-optin.cplusplus.VirtualCall
 }
 
 FreeBusy::FreeBusy(const Event::List &events, const QDateTime &start, const QDateTime &end)
     : d(new KCalendarCore::FreeBusy::Private(this))
 {
-    setDtStart(start); //NOLINT false clang-analyzer-optin.cplusplus.VirtualCall
-    setDtEnd(end);     //NOLINT false clang-analyzer-optin.cplusplus.VirtualCall
+    setDtStart(start); // NOLINT false clang-analyzer-optin.cplusplus.VirtualCall
+    setDtEnd(end); // NOLINT false clang-analyzer-optin.cplusplus.VirtualCall
 
     d->init(events, start, end);
 }
 
 //@cond PRIVATE
-void FreeBusy::Private::init(const Event::List &eventList,
-                             const QDateTime &start, const QDateTime &end)
+void FreeBusy::Private::init(const Event::List &eventList, const QDateTime &start, const QDateTime &end)
 {
     const qint64 duration = start.daysTo(end);
     QDate day;
@@ -314,9 +319,7 @@ bool FreeBusy::equals(const IncidenceBase &freeBusy) const
     } else {
         // If they weren't the same type IncidenceBase::equals would had returned false already
         const FreeBusy *fb = static_cast<const FreeBusy *>(&freeBusy);
-        return
-            dtEnd() == fb->dtEnd() &&
-            d->mBusyPeriods == fb->d->mBusyPeriods;
+        return dtEnd() == fb->dtEnd() && d->mBusyPeriods == fb->d->mBusyPeriods;
     }
 }
 
@@ -346,20 +349,15 @@ void FreeBusy::virtual_hook(VirtualHook id, void *data)
 }
 
 //@cond PRIVATE
-bool FreeBusy::Private::addLocalPeriod(FreeBusy *fb,
-                                       const QDateTime &eventStart,
-                                       const QDateTime &eventEnd)
+bool FreeBusy::Private::addLocalPeriod(FreeBusy *fb, const QDateTime &eventStart, const QDateTime &eventEnd)
 {
     QDateTime tmpStart;
     QDateTime tmpEnd;
 
-    //Check to see if the start *or* end of the event is
-    //between the start and end of the freebusy dates.
+    // Check to see if the start *or* end of the event is
+    // between the start and end of the freebusy dates.
     QDateTime start = fb->dtStart();
-    if (!(((start.secsTo(eventStart) >= 0) &&
-            (eventStart.secsTo(mDtEnd) >= 0)) ||
-            ((start.secsTo(eventEnd) >= 0) &&
-             (eventEnd.secsTo(mDtEnd) >= 0)))) {
+    if (!(((start.secsTo(eventStart) >= 0) && (eventStart.secsTo(mDtEnd) >= 0)) || ((start.secsTo(eventEnd) >= 0) && (eventEnd.secsTo(mDtEnd) >= 0)))) {
         return false;
     }
 
@@ -414,4 +412,3 @@ QDataStream &KCalendarCore::operator>>(QDataStream &stream, KCalendarCore::FreeB
 
     return stream;
 }
-

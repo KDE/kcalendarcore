@@ -18,14 +18,13 @@
 #ifndef KCALCORE_CALFILTER_H
 #define KCALCORE_CALFILTER_H
 
-#include "kcalendarcore_export.h"
 #include "event.h"
 #include "journal.h"
+#include "kcalendarcore_export.h"
 #include "todo.h"
 
 namespace KCalendarCore
 {
-
 /**
   @brief
   Provides a filter for calendars.
@@ -47,9 +46,9 @@ public:
       Filtering Criteria.
     */
     enum Criteria {
-        HideRecurring = 1,     /**< Remove incidences that recur */
-        HideCompletedTodos = 2,/**< Remove completed to-dos */
-        ShowCategories = 4,    /**< Show incidences with at least one matching category */
+        HideRecurring = 1, /**< Remove incidences that recur */
+        HideCompletedTodos = 2, /**< Remove completed to-dos */
+        ShowCategories = 4, /**< Show incidences with at least one matching category */
         HideInactiveTodos = 8, /**< Remove to-dos that haven't started yet */
         HideNoMatchingAttendeeTodos = 16, /**< Remove to-dos without a matching attendee */
     };

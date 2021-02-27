@@ -18,20 +18,22 @@ using namespace KCalendarCore;
 class Q_DECL_HIDDEN KCalendarCore::ScheduleMessage::Private
 {
 public:
-    Private() {}
+    Private()
+    {
+    }
 
     IncidenceBase::Ptr mIncidence;
     iTIPMethod mMethod;
     Status mStatus;
     QString mError;
 
-    ~Private() {}
+    ~Private()
+    {
+    }
 };
 //@endcond
 
-ScheduleMessage::ScheduleMessage(const IncidenceBase::Ptr &incidence,
-                                 iTIPMethod method,
-                                 ScheduleMessage::Status status)
+ScheduleMessage::ScheduleMessage(const IncidenceBase::Ptr &incidence, iTIPMethod method, ScheduleMessage::Status status)
     : d(new KCalendarCore::ScheduleMessage::Private)
 {
     d->mIncidence = incidence;

@@ -30,7 +30,8 @@ class Q_DECL_HIDDEN KCalendarCore::CalStorage::Private
 public:
     Private(const Calendar::Ptr &cal)
         : mCalendar(cal)
-    {}
+    {
+    }
     Calendar::Ptr mCalendar;
 };
 //@endcond

@@ -23,7 +23,6 @@
 
 namespace KCalendarCore
 {
-
 /**
   @brief
   A class to manage custom calendar properties.
@@ -38,10 +37,9 @@ namespace KCalendarCore
 */
 class KCALENDARCORE_EXPORT CustomProperties
 {
-    friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &s,
-            const KCalendarCore::CustomProperties &properties);
-    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &s,
-            KCalendarCore::CustomProperties &properties);
+    friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &s, const KCalendarCore::CustomProperties &properties);
+    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &s, KCalendarCore::CustomProperties &properties);
+
 public:
     /**
       Constructs an empty custom properties instance.
@@ -75,8 +73,7 @@ public:
       will be ignored.
       @see removeCustomProperty().
     */
-    void setCustomProperty(const QByteArray &app, const QByteArray &key,
-                           const QString &value);
+    void setCustomProperty(const QByteArray &app, const QByteArray &key, const QString &value);
 
     /**
       Delete a custom calendar property.
@@ -119,8 +116,7 @@ public:
       through as-is albeit they can be of course parsed if need be.
       @see removeNonKDECustomProperty().
     */
-    void setNonKDECustomProperty(const QByteArray &name, const QString &value,
-                                 const QString &parameters = QString());
+    void setNonKDECustomProperty(const QByteArray &name, const QString &value, const QString &parameters = QString());
 
     /**
       Delete a non-KDE or non-standard custom calendar property.
@@ -184,6 +180,7 @@ protected:
       to perform change processing.
     */
     virtual void customPropertyUpdated();
+
 private:
     //@cond PRIVATE
     class Private;
@@ -194,14 +191,12 @@ private:
 /**
   Serializes the @p properties object into the @p stream.
 */
-KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &stream,
-                                        const KCalendarCore::CustomProperties &properties);
+KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalendarCore::CustomProperties &properties);
 
 /**
   Initializes the @p properties object from the @p stream.
 */
-KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream,
-                                        KCalendarCore::CustomProperties &properties);
+KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalendarCore::CustomProperties &properties);
 
 }
 

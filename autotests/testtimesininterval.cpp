@@ -72,7 +72,7 @@ void TimesInIntervalTest::test()
     //------------------------------------------------------------------------------------------------
 }
 
-//Test that interval start and end are inclusive
+// Test that interval start and end are inclusive
 void TimesInIntervalTest::testSubDailyRecurrenceIntervalInclusive()
 {
     const QDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), Qt::UTC);
@@ -88,15 +88,15 @@ void TimesInIntervalTest::testSubDailyRecurrenceIntervalInclusive()
     expectedEventOccurrences << start << start.addSecs(60 * 60);
 
     const auto timesInInterval = event->recurrence()->timesInInterval(start, end);
-//   qDebug() << "timesInInterval " << timesInInterval;
+    //   qDebug() << "timesInInterval " << timesInInterval;
     for (const auto &dt : timesInInterval) {
-//     qDebug() << dt;
+        //     qDebug() << dt;
         QCOMPARE(expectedEventOccurrences.removeAll(dt), 1);
     }
     QCOMPARE(expectedEventOccurrences.size(), 0);
 }
 
-//Test that the recurrence dtStart is used for calculation and not the interval start date
+// Test that the recurrence dtStart is used for calculation and not the interval start date
 void TimesInIntervalTest::testSubDailyRecurrence2()
 {
     const QDateTime start(QDate(2013, 03, 10), QTime(10, 2, 3), Qt::UTC);
@@ -112,9 +112,9 @@ void TimesInIntervalTest::testSubDailyRecurrence2()
     expectedEventOccurrences << start << start.addSecs(60 * 60);
 
     const auto timesInInterval = event->recurrence()->timesInInterval(start.addSecs(-20), end.addSecs(20));
-//   qDebug() << "timesInInterval " << timesInInterval;
+    //   qDebug() << "timesInInterval " << timesInInterval;
     for (const auto &dt : timesInInterval) {
-//     qDebug() << dt;
+        //     qDebug() << dt;
         QCOMPARE(expectedEventOccurrences.removeAll(dt), 1);
     }
     QCOMPARE(expectedEventOccurrences.size(), 0);
@@ -135,9 +135,9 @@ void TimesInIntervalTest::testSubDailyRecurrenceIntervalLimits()
     expectedEventOccurrences << start.addSecs(60 * 60);
 
     const auto timesInInterval = event->recurrence()->timesInInterval(start.addSecs(1), end.addSecs(-1));
-//   qDebug() << "timesInInterval " << timesInInterval;
+    //   qDebug() << "timesInInterval " << timesInInterval;
     for (const auto &dt : timesInInterval) {
-//     qDebug() << dt;
+        //     qDebug() << dt;
         QCOMPARE(expectedEventOccurrences.removeAll(dt), 1);
     }
     QCOMPARE(expectedEventOccurrences.size(), 0);
@@ -149,45 +149,39 @@ void TimesInIntervalTest::testLocalTimeHandlingNonAllDay()
     // starting from Friday the 11th of October, from 12 pm until 1 pm, clock time,
     // and lasts for two weeks, with three exception datetimes,
     // (only two of which will apply).
-    QTimeZone anotherZone(QTimeZone::systemTimeZoneId().contains("Toronto")
-                          ? QTimeZone(QByteArray("Pacific/Midway"))
-                          : QTimeZone(QByteArray("America/Toronto")));
+    QTimeZone anotherZone(QTimeZone::systemTimeZoneId().contains("Toronto") ? QTimeZone(QByteArray("Pacific/Midway"))
+                                                                            : QTimeZone(QByteArray("America/Toronto")));
     Event event;
     event.setAllDay(false);
     event.setDtStart(QDateTime(QDate(2019, 10, 11), QTime(12, 0), Qt::LocalTime));
 
-    RecurrenceRule * const rule = new RecurrenceRule();
+    RecurrenceRule *const rule = new RecurrenceRule();
     rule->setRecurrenceType(RecurrenceRule::rDaily);
     rule->setStartDt(event.dtStart());
     rule->setFrequency(1);
     rule->setDuration(14);
-    rule->setByDays(QList<RecurrenceRule::WDayPos>()
-                    << RecurrenceRule::WDayPos(0, 1)   // Monday
-                    << RecurrenceRule::WDayPos(0, 2)   // Tuesday
-                    << RecurrenceRule::WDayPos(0, 3)   // Wednesday
-                    << RecurrenceRule::WDayPos(0, 4)   // Thursday
-                    << RecurrenceRule::WDayPos(0, 5)); // Friday
+    rule->setByDays(QList<RecurrenceRule::WDayPos>() << RecurrenceRule::WDayPos(0, 1) // Monday
+                                                     << RecurrenceRule::WDayPos(0, 2) // Tuesday
+                                                     << RecurrenceRule::WDayPos(0, 3) // Wednesday
+                                                     << RecurrenceRule::WDayPos(0, 4) // Thursday
+                                                     << RecurrenceRule::WDayPos(0, 5)); // Friday
 
     Recurrence *recurrence = event.recurrence();
     recurrence->addRRule(rule);
     // 12 o'clock in local time, will apply.
-    recurrence->addExDateTime(QDateTime(QDate(2019, 10, 15), QTime(12, 0),
-                                        Qt::LocalTime));
+    recurrence->addExDateTime(QDateTime(QDate(2019, 10, 15), QTime(12, 0), Qt::LocalTime));
     // 12 o'clock in another time zone, will not apply.
-    recurrence->addExDateTime(QDateTime(QDate(2019, 10, 17), QTime(12, 0),
-                                        anotherZone));
+    recurrence->addExDateTime(QDateTime(QDate(2019, 10, 17), QTime(12, 0), anotherZone));
     // The time in another time zone, corresponding to 12 o'clock in the system time zone, will apply.
-    recurrence->addExDateTime(QDateTime(QDate(2019, 10, 24), QTime(12, 00),
-                                        QTimeZone::systemTimeZone()).toTimeZone(anotherZone));
+    recurrence->addExDateTime(QDateTime(QDate(2019, 10, 24), QTime(12, 00), QTimeZone::systemTimeZone()).toTimeZone(anotherZone));
 
     // Expand the events and within a wide interval
     const DateTimeList timesInInterval =
-        recurrence->timesInInterval(QDateTime(QDate(2019, 10, 05), QTime(0, 0)),
-                                    QDateTime(QDate(2019, 10, 25), QTime(23, 59)));
+        recurrence->timesInInterval(QDateTime(QDate(2019, 10, 05), QTime(0, 0)), QDateTime(QDate(2019, 10, 25), QTime(23, 59)));
 
     // ensure that the expansion does not include weekend days,
     // nor either of the exception date times.
-    const QList<int> expectedDays { 11, 14, 16, 17, 18, 21, 22, 23, 25 };
+    const QList<int> expectedDays{11, 14, 16, 17, 18, 21, 22, 23, 25};
     for (int day : expectedDays) {
         QVERIFY(timesInInterval.contains(QDateTime(QDate(2019, 10, day), QTime(12, 0), Qt::LocalTime)));
     }
@@ -199,24 +193,22 @@ void TimesInIntervalTest::testLocalTimeHandlingAllDay()
     // Create an event which occurs every weekday of every week,
     // starting from Friday the 11th of October, and lasts for two weeks,
     // with four exception datetimes (only three of which will apply).
-    QTimeZone anotherZone(QTimeZone::systemTimeZoneId().contains("Toronto")
-                          ? QTimeZone(QByteArray("Pacific/Midway"))
-                          : QTimeZone(QByteArray("America/Toronto")));
+    QTimeZone anotherZone(QTimeZone::systemTimeZoneId().contains("Toronto") ? QTimeZone(QByteArray("Pacific/Midway"))
+                                                                            : QTimeZone(QByteArray("America/Toronto")));
     Event event;
     event.setAllDay(true);
     event.setDtStart(QDate(2019, 10, 11).startOfDay());
 
-    RecurrenceRule * const rule = new RecurrenceRule();
+    RecurrenceRule *const rule = new RecurrenceRule();
     rule->setRecurrenceType(RecurrenceRule::rDaily);
     rule->setStartDt(event.dtStart());
     rule->setFrequency(1);
     rule->setDuration(14);
-    rule->setByDays(QList<RecurrenceRule::WDayPos>()
-                    << RecurrenceRule::WDayPos(0, 1)   // Monday
-                    << RecurrenceRule::WDayPos(0, 2)   // Tuesday
-                    << RecurrenceRule::WDayPos(0, 3)   // Wednesday
-                    << RecurrenceRule::WDayPos(0, 4)   // Thursday
-                    << RecurrenceRule::WDayPos(0, 5)); // Friday
+    rule->setByDays(QList<RecurrenceRule::WDayPos>() << RecurrenceRule::WDayPos(0, 1) // Monday
+                                                     << RecurrenceRule::WDayPos(0, 2) // Tuesday
+                                                     << RecurrenceRule::WDayPos(0, 3) // Wednesday
+                                                     << RecurrenceRule::WDayPos(0, 4) // Thursday
+                                                     << RecurrenceRule::WDayPos(0, 5)); // Friday
 
     Recurrence *recurrence = event.recurrence();
     recurrence->addRRule(rule);
@@ -231,19 +223,18 @@ void TimesInIntervalTest::testLocalTimeHandlingAllDay()
 
     // Expand the events and within a wide interval
     const DateTimeList timesInInterval =
-        recurrence->timesInInterval(QDateTime(QDate(2019, 10, 05), QTime(0, 0)),
-                                    QDateTime(QDate(2019, 10, 25), QTime(23, 59)));
+        recurrence->timesInInterval(QDateTime(QDate(2019, 10, 05), QTime(0, 0)), QDateTime(QDate(2019, 10, 25), QTime(23, 59)));
 
     // ensure that the expansion does not include weekend days,
     // nor either of the exception date times.
-    const QList<int> expectedDays { 11, 16, 17, 18, 21, 22, 23, 25 };
+    const QList<int> expectedDays{11, 16, 17, 18, 21, 22, 23, 25};
     for (int day : expectedDays) {
         QVERIFY(timesInInterval.contains(QDate(2019, 10, day).startOfDay()));
     }
     QCOMPARE(timesInInterval.size(), expectedDays.size());
 }
 
-//Test that the recurrence dtStart is used for calculation and not the interval start date
+// Test that the recurrence dtStart is used for calculation and not the interval start date
 void TimesInIntervalTest::testByDayRecurrence()
 {
     const int days = 7;
@@ -255,15 +246,14 @@ void TimesInIntervalTest::testByDayRecurrence()
     event->setDtStart(start);
     event->setDtEnd(start.addSecs(3600));
 
-    RecurrenceRule * const rule = new RecurrenceRule();
+    RecurrenceRule *const rule = new RecurrenceRule();
     rule->setRecurrenceType(RecurrenceRule::rWeekly);
     rule->setStartDt(event->dtStart()); // the start day is a Friday
     rule->setFrequency(1);
-    rule->setByDays(QList<RecurrenceRule::WDayPos>()
-            << RecurrenceRule::WDayPos(0, 2)   // Tuesday
-            << RecurrenceRule::WDayPos(0, 3)   // Wednesday
-            << RecurrenceRule::WDayPos(0, 4)   // Thursday
-            << RecurrenceRule::WDayPos(0, 5)); // Friday
+    rule->setByDays(QList<RecurrenceRule::WDayPos>() << RecurrenceRule::WDayPos(0, 2) // Tuesday
+                                                     << RecurrenceRule::WDayPos(0, 3) // Wednesday
+                                                     << RecurrenceRule::WDayPos(0, 4) // Thursday
+                                                     << RecurrenceRule::WDayPos(0, 5)); // Friday
     event->recurrence()->addRRule(rule);
 
     QList<QDateTime> expectedEventOccurrences;

@@ -46,8 +46,8 @@ using namespace KCalendarCore;
   @internal
 */
 //@cond PRIVATE
-template <typename K>
-void removeAllVCal(QVector< QSharedPointer<K> > &c, const QSharedPointer<K> &x)
+template<typename K>
+void removeAllVCal(QVector<QSharedPointer<K>> &c, const QSharedPointer<K> &x)
 {
     if (c.count() < 1) {
         return;
@@ -55,8 +55,7 @@ void removeAllVCal(QVector< QSharedPointer<K> > &c, const QSharedPointer<K> &x)
 
     int cnt = c.count(x);
     if (cnt != 1) {
-        qCritical() << "There number of relatedTos for this incidence is "
-                    << cnt << " (there must be 1 relatedTo only)";
+        qCritical() << "There number of relatedTos for this incidence is " << cnt << " (there must be 1 relatedTo only)";
         Q_ASSERT_X(false, "removeAllVCal", "Count is not 1.");
         return;
     }
@@ -68,13 +67,14 @@ class Q_DECL_HIDDEN KCalendarCore::VCalFormat::Private
 {
 public:
     Calendar::Ptr mCalendar;
-    Event::List mEventsRelate;  // Events with relations
-    Todo::List mTodosRelate;    // To-dos with relations
+    Event::List mEventsRelate; // Events with relations
+    Todo::List mTodosRelate; // To-dos with relations
     QSet<QByteArray> mManuallyWrittenExtensionFields; // X- fields that are manually dumped
 };
 //@endcond
 
-VCalFormat::VCalFormat() : d(new KCalendarCore::VCalFormat::Private)
+VCalFormat::VCalFormat()
+    : d(new KCalendarCore::VCalFormat::Private)
 {
 }
 
@@ -120,14 +120,12 @@ bool VCalFormat::save(const Calendar::Ptr &calendar, const QString &fileName)
     return false;
 }
 
-bool VCalFormat::fromString(const Calendar::Ptr &calendar, const QString &string,
-                            bool deleted, const QString &notebook)
+bool VCalFormat::fromString(const Calendar::Ptr &calendar, const QString &string, bool deleted, const QString &notebook)
 {
     return fromRawString(calendar, string.toUtf8(), deleted, notebook);
 }
 
-bool VCalFormat::fromRawString(const Calendar::Ptr &calendar, const QByteArray &string,
-                               bool deleted, const QString &notebook)
+bool VCalFormat::fromRawString(const Calendar::Ptr &calendar, const QByteArray &string, bool deleted, const QString &notebook)
 {
     d->mCalendar = calendar;
 
@@ -155,8 +153,7 @@ bool VCalFormat::fromRawString(const Calendar::Ptr &calendar, const QByteArray &
     return true;
 }
 
-QString VCalFormat::toString(const Calendar::Ptr &calendar,
-                             const QString &notebook, bool deleted)
+QString VCalFormat::toString(const Calendar::Ptr &calendar, const QString &notebook, bool deleted)
 {
     Q_UNUSED(calendar);
     Q_UNUSED(notebook);
@@ -303,9 +300,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
     if ((vo = isAPropertyOf(vtodo, VCDueProp)) != nullptr) {
         anEvent->setDtDue(ISOToQDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo)))));
         deleteStr(s);
-        if (anEvent->dtDue().time().hour() == 0 &&
-                anEvent->dtDue().time().minute() == 0 &&
-                anEvent->dtDue().time().second() == 0) {
+        if (anEvent->dtDue().time().hour() == 0 && anEvent->dtDue().time().minute() == 0 && anEvent->dtDue().time().second() == 0) {
             anEvent->setAllDay(true);
         }
     } else {
@@ -316,9 +311,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
     if ((vo = isAPropertyOf(vtodo, VCDTstartProp)) != nullptr) {
         anEvent->setDtStart(ISOToQDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo)))));
         deleteStr(s);
-        if (anEvent->dtStart().time().hour() == 0 &&
-                anEvent->dtStart().time().minute() == 0 &&
-                anEvent->dtStart().time().second() == 0) {
+        if (anEvent->dtStart().time().hour() == 0 && anEvent->dtStart().time().minute() == 0 && anEvent->dtStart().time().second() == 0) {
             anEvent->setAllDay(true);
         }
     } else {
@@ -359,7 +352,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
         if (recurrenceType != Recurrence::rNone) {
             // Immediately after the type is the frequency
             int index = tmpStr.indexOf(QLatin1Char(' '));
-            int last = tmpStr.lastIndexOf(QLatin1Char(' ')) + 1;   // find last entry
+            int last = tmpStr.lastIndexOf(QLatin1Char(' ')) + 1; // find last entry
             int rFreq = tmpStr.midRef(recurrenceTypeAbbrLen, (index - 1)).toInt();
             ++index; // advance to beginning of stuff after freq
 
@@ -420,7 +413,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
                         }
                         anEvent->recurrence()->addMonthlyPos(tmpPos, qba);
                         qba.detach();
-                        qba.fill(false);   // clear out
+                        qba.fill(false); // clear out
                     } // while != "#"
                 }
                 break;
@@ -436,8 +429,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
                     // e.g. MD1 3 #0
                     while (index < last) {
                         int index2 = tmpStr.indexOf(QLatin1Char(' '), index);
-                        if ((tmpStr.mid((index2 - 1), 1) == QLatin1String("-")) ||
-                                (tmpStr.mid((index2 - 1), 1) == QLatin1String("+"))) {
+                        if ((tmpStr.mid((index2 - 1), 1) == QLatin1String("-")) || (tmpStr.mid((index2 - 1), 1) == QLatin1String("+"))) {
                             index2 = index2 - 1;
                         }
                         short tmpDay = tmpStr.mid(index, (index2 - index)).toShort();
@@ -516,9 +508,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
         QStringList::ConstIterator it;
         for (it = exDates.constBegin(); it != exDates.constEnd(); ++it) {
             QDateTime exDate = ISOToQDateTime(*it);
-            if (exDate.time().hour() == 0 &&
-                    exDate.time().minute() == 0 &&
-                    exDate.time().second() == 0) {
+            if (exDate.time().hour() == 0 && exDate.time().minute() == 0 && exDate.time().second() == 0) {
                 anEvent->recurrence()->addExDate(ISOToQDate(*it));
             } else {
                 anEvent->recurrence()->addExDateTime(exDate);
@@ -737,9 +727,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
         anEvent->setDtStart(ISOToQDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo)))));
         deleteStr(s);
 
-        if (anEvent->dtStart().time().hour() == 0 &&
-                anEvent->dtStart().time().minute() == 0 &&
-                anEvent->dtStart().time().second() == 0) {
+        if (anEvent->dtStart().time().hour() == 0 && anEvent->dtStart().time().minute() == 0 && anEvent->dtStart().time().second() == 0) {
             anEvent->setAllDay(true);
         }
     }
@@ -749,9 +737,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
         anEvent->setDtEnd(ISOToQDateTime(QString::fromUtf8(s = fakeCString(vObjectUStringZValue(vo)))));
         deleteStr(s);
 
-        if (anEvent->dtEnd().time().hour() == 0 &&
-                anEvent->dtEnd().time().minute() == 0 &&
-                anEvent->dtEnd().time().second() == 0) {
+        if (anEvent->dtEnd().time().hour() == 0 && anEvent->dtEnd().time().minute() == 0 && anEvent->dtEnd().time().second() == 0) {
             anEvent->setAllDay(true);
         }
     }
@@ -761,7 +747,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
     if (!isAPropertyOf(vevent, VCDTstartProp)) {
         anEvent->setDtStart(anEvent->dtEnd());
     }
-    if (! isAPropertyOf(vevent, VCDTendProp)) {
+    if (!isAPropertyOf(vevent, VCDTendProp)) {
         anEvent->setDtEnd(anEvent->dtStart());
     }
 
@@ -784,7 +770,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
                 recurrenceType = Recurrence::rDaily;
             } else if (tmpStr.at(0) == QLatin1Char('W')) {
                 recurrenceType = Recurrence::rWeekly;
-            } else if (tmpStrLen > 1){
+            } else if (tmpStrLen > 1) {
                 recurrenceTypeAbbrLen = 2;
                 if (tmpStr.leftRef(2) == QLatin1String("MP")) {
                     recurrenceType = Recurrence::rMonthlyPos;
@@ -801,7 +787,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
         if (recurrenceType != Recurrence::rNone) {
             // Immediately after the type is the frequency
             int index = tmpStr.indexOf(QLatin1Char(' '));
-            int last = tmpStr.lastIndexOf(QLatin1Char(' ')) + 1;   // find last entry
+            int last = tmpStr.lastIndexOf(QLatin1Char(' ')) + 1; // find last entry
             int rFreq = tmpStr.midRef(recurrenceTypeAbbrLen, (index - 1)).toInt();
             ++index; // advance to beginning of stuff after freq
 
@@ -862,7 +848,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
                         }
                         anEvent->recurrence()->addMonthlyPos(tmpPos, qba);
                         qba.detach();
-                        qba.fill(false);   // clear out
+                        qba.fill(false); // clear out
                     } // while != "#"
                 }
                 break;
@@ -878,8 +864,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
                     // e.g. MD1 3 #0
                     while (index < last) {
                         int index2 = tmpStr.indexOf(QLatin1Char(' '), index);
-                        if ((tmpStr.mid((index2 - 1), 1) == QLatin1String("-")) ||
-                                (tmpStr.mid((index2 - 1), 1) == QLatin1String("+"))) {
+                        if ((tmpStr.mid((index2 - 1), 1) == QLatin1String("-")) || (tmpStr.mid((index2 - 1), 1) == QLatin1String("+"))) {
                             index2 = index2 - 1;
                         }
                         short tmpDay = tmpStr.mid(index, (index2 - index)).toShort();
@@ -946,7 +931,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
                 QDateTime rEndDate = ISOToQDateTime(tmpStr.mid(index, tmpStr.length() - index));
                 anEvent->recurrence()->setEndDateTime(rEndDate);
             }
-// anEvent->recurrence()->dump();
+            // anEvent->recurrence()->dump();
 
         } else {
             qCDebug(KCALCORE_LOG) << "we don't understand this type of recurrence!";
@@ -960,9 +945,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
         QStringList::ConstIterator it;
         for (it = exDates.constBegin(); it != exDates.constEnd(); ++it) {
             QDateTime exDate = ISOToQDateTime(*it);
-            if (exDate.time().hour() == 0 &&
-                    exDate.time().minute() == 0 &&
-                    exDate.time().second() == 0) {
+            if (exDate.time().hour() == 0 && exDate.time().minute() == 0 && exDate.time().second() == 0) {
                 anEvent->recurrence()->addExDate(ISOToQDate(*it));
             } else {
                 anEvent->recurrence()->addExDateTime(exDate);
@@ -983,8 +966,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
         s = fakeCString(vObjectUStringZValue(vo));
         bool isRich = Qt::mightBeRichText(QString::fromUtf8(s));
         if (!anEvent->description().isEmpty()) {
-            anEvent->setDescription(
-                anEvent->description() + QLatin1Char('\n') + QString::fromUtf8(s), isRich);
+            anEvent->setDescription(anEvent->description() + QLatin1Char('\n') + QString::fromUtf8(s), isRich);
         } else {
             anEvent->setDescription(QString::fromUtf8(s), isRich);
         }
@@ -1190,11 +1172,7 @@ QString VCalFormat::parseDst(QByteArray &timezone) const
     QString sEnd = QString::fromUtf8(timezone.mid(0, (timezone.indexOf("COMMENT:"))));
     sEnd.chop(2);
 
-    return
-        QStringLiteral("TRUE;") +
-        sOffset + QLatin1Char(';') +
-        sStart + QLatin1Char(';') +
-        sEnd + QLatin1String(";;");
+    return QStringLiteral("TRUE;") + sOffset + QLatin1Char(';') + sStart + QLatin1Char(';') + sEnd + QLatin1String(";;");
 }
 
 QString VCalFormat::qDateToISO(const QDate &qd)
@@ -1219,9 +1197,12 @@ QString VCalFormat::qDateTimeToISO(const QDateTime &dt, bool zulu)
         tmpDT = dt.toTimeZone(d->mCalendar->timeZone());
     }
     QString tmpStr = QString::asprintf("%.2d%.2d%.2dT%.2d%.2d%.2d",
-                                        tmpDT.date().year(), tmpDT.date().month(),
-                                        tmpDT.date().day(), tmpDT.time().hour(),
-                                        tmpDT.time().minute(), tmpDT.time().second());
+                                       tmpDT.date().year(),
+                                       tmpDT.date().month(),
+                                       tmpDT.date().day(),
+                                       tmpDT.time().hour(),
+                                       tmpDT.time().minute(),
+                                       tmpDT.time().second());
     if (zulu || dt.timeZone() == QTimeZone::utc()) {
         tmpStr += QLatin1Char('Z');
     }
@@ -1339,8 +1320,8 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
     VObjectIterator i;
     VObject *curVO;
     Event::Ptr anEvent;
-    bool hasTimeZone = false; //The calendar came with a TZ and not UTC
-    QTimeZone previousZone; //If we add a new TZ we should leave the spec as it was before
+    bool hasTimeZone = false; // The calendar came with a TZ and not UTC
+    QTimeZone previousZone; // If we add a new TZ we should leave the spec as it was before
 
     if ((curVO = isAPropertyOf(vcal, ICMethodProp)) != nullptr) {
         char *methodType = fakeCString(vObjectUStringZValue(curVO));
@@ -1363,8 +1344,7 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
     if ((curVO = isAPropertyOf(vcal, VCVersionProp)) != nullptr) {
         char *s = fakeCString(vObjectUStringZValue(curVO));
         if (!s || strcmp(_VCAL_VERSION, s) != 0) {
-            qCDebug(KCALCORE_LOG) << "This vCalendar file has version" << s
-                                  << "We only support" << _VCAL_VERSION;
+            qCDebug(KCALCORE_LOG) << "This vCalendar file has version" << s << "We only support" << _VCAL_VERSION;
         }
         deleteStr(s);
     }
@@ -1414,7 +1394,6 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
                     }
 
                     if (parseTZOffsetISO8601(argl[1], utcOffsetDst)) {
-
                         // qCDebug(KCALCORE_LOG) << "got DST offset" << argl[1] << utcOffsetDst;
                         // standard
                         QString strEndDate = argl[3];
@@ -1434,12 +1413,10 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
                             realEndDate = startDate;
                             realStartDate = endDate;
                         }
-                        tz = QStringLiteral("%1;%2;false;%3").
-                             arg(strRealEndDate, QString::number(utcOffset), realEndDate.toString());
+                        tz = QStringLiteral("%1;%2;false;%3").arg(strRealEndDate, QString::number(utcOffset), realEndDate.toString());
                         tzList.append(tz);
 
-                        tz = QStringLiteral("%1;%2;true;%3").
-                             arg(strRealStartDate, QString::number(utcOffsetDst), realStartDate.toString());
+                        tz = QStringLiteral("%1;%2;true;%3").arg(strRealStartDate, QString::number(utcOffsetDst), realStartDate.toString());
                         tzList.append(tz);
                     } else {
                         qCDebug(KCALCORE_LOG) << "unable to parse dst" << argl[1];
@@ -1472,9 +1449,7 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
 
         // now, check to see that the object is an event or todo.
         if (strcmp(vObjectName(curVO), VCEventProp) == 0) {
-
-            if (!isAPropertyOf(curVO, VCDTstartProp) &&
-                    !isAPropertyOf(curVO, VCDTendProp)) {
+            if (!isAPropertyOf(curVO, VCDTstartProp) && !isAPropertyOf(curVO, VCDTendProp)) {
                 qCDebug(KCALCORE_LOG) << "found a VEvent with no DTSTART and no DTEND! Skipping...";
                 goto SKIP;
             }
@@ -1482,10 +1457,10 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
             anEvent = VEventToEvent(curVO);
             if (anEvent) {
                 if (hasTimeZone && !anEvent->allDay() && anEvent->dtStart().timeZone() == QTimeZone::utc()) {
-                    //This sounds stupid but is how others are doing it, so here
-                    //we go. If there is a TZ in the VCALENDAR even if the dtStart
-                    //and dtend are in UTC, clients interpret it using also the TZ defined
-                    //in the Calendar. I know it sounds braindead but oh well
+                    // This sounds stupid but is how others are doing it, so here
+                    // we go. If there is a TZ in the VCALENDAR even if the dtStart
+                    // and dtend are in UTC, clients interpret it using also the TZ defined
+                    // in the Calendar. I know it sounds braindead but oh well
                     int utcOffSet = anEvent->dtStart().offsetFromUtc();
                     QDateTime dtStart(anEvent->dtStart().addSecs(utcOffSet));
                     dtStart.setTimeZone(d->mCalendar->timeZone());
@@ -1494,39 +1469,37 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
                     anEvent->setDtStart(dtStart);
                     anEvent->setDtEnd(dtEnd);
                 }
-                Event::Ptr old = !anEvent->hasRecurrenceId() ?
-                                 d->mCalendar->event(anEvent->uid()) :
-                                 d->mCalendar->event(anEvent->uid(), anEvent->recurrenceId());
+                Event::Ptr old =
+                    !anEvent->hasRecurrenceId() ? d->mCalendar->event(anEvent->uid()) : d->mCalendar->event(anEvent->uid(), anEvent->recurrenceId());
 
                 if (old) {
                     if (deleted) {
-                        d->mCalendar->deleteEvent(old);   // move old to deleted
+                        d->mCalendar->deleteEvent(old); // move old to deleted
                         removeAllVCal(d->mEventsRelate, old);
                     } else if (anEvent->revision() > old->revision()) {
-                        d->mCalendar->deleteEvent(old);   // move old to deleted
+                        d->mCalendar->deleteEvent(old); // move old to deleted
                         removeAllVCal(d->mEventsRelate, old);
-                        d->mCalendar->addEvent(anEvent);   // and replace it with this one
+                        d->mCalendar->addEvent(anEvent); // and replace it with this one
                     }
                 } else if (deleted) {
-                    old = !anEvent->hasRecurrenceId() ?
-                          d->mCalendar->deletedEvent(anEvent->uid()) :
-                          d->mCalendar->deletedEvent(anEvent->uid(), anEvent->recurrenceId());
+                    old = !anEvent->hasRecurrenceId() ? d->mCalendar->deletedEvent(anEvent->uid())
+                                                      : d->mCalendar->deletedEvent(anEvent->uid(), anEvent->recurrenceId());
                     if (!old) {
-                        d->mCalendar->addEvent(anEvent);   // add this one
-                        d->mCalendar->deleteEvent(anEvent);   // and move it to deleted
+                        d->mCalendar->addEvent(anEvent); // add this one
+                        d->mCalendar->deleteEvent(anEvent); // and move it to deleted
                     }
                 } else {
-                    d->mCalendar->addEvent(anEvent);   // just add this one
+                    d->mCalendar->addEvent(anEvent); // just add this one
                 }
             }
         } else if (strcmp(vObjectName(curVO), VCTodoProp) == 0) {
             Todo::Ptr aTodo = VTodoToEvent(curVO);
             if (aTodo) {
-                if (hasTimeZone && !aTodo->allDay()  && aTodo->dtStart().timeZone() == QTimeZone::utc()) {
-                    //This sounds stupid but is how others are doing it, so here
-                    //we go. If there is a TZ in the VCALENDAR even if the dtStart
-                    //and dtend are in UTC, clients interpret it usint alse the TZ defined
-                    //in the Calendar. I know it sounds braindead but oh well
+                if (hasTimeZone && !aTodo->allDay() && aTodo->dtStart().timeZone() == QTimeZone::utc()) {
+                    // This sounds stupid but is how others are doing it, so here
+                    // we go. If there is a TZ in the VCALENDAR even if the dtStart
+                    // and dtend are in UTC, clients interpret it usint alse the TZ defined
+                    // in the Calendar. I know it sounds braindead but oh well
                     int utcOffSet = aTodo->dtStart().offsetFromUtc();
                     QDateTime dtStart(aTodo->dtStart().addSecs(utcOffSet));
                     dtStart.setTimeZone(d->mCalendar->timeZone());
@@ -1537,31 +1510,28 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
                         aTodo->setDtDue(dtDue);
                     }
                 }
-                Todo::Ptr old = !aTodo->hasRecurrenceId() ?
-                                d->mCalendar->todo(aTodo->uid()) :
-                                d->mCalendar->todo(aTodo->uid(), aTodo->recurrenceId());
+                Todo::Ptr old = !aTodo->hasRecurrenceId() ? d->mCalendar->todo(aTodo->uid()) : d->mCalendar->todo(aTodo->uid(), aTodo->recurrenceId());
                 if (old) {
                     if (deleted) {
-                        d->mCalendar->deleteTodo(old);   // move old to deleted
+                        d->mCalendar->deleteTodo(old); // move old to deleted
                         removeAllVCal(d->mTodosRelate, old);
                     } else if (aTodo->revision() > old->revision()) {
-                        d->mCalendar->deleteTodo(old);   // move old to deleted
+                        d->mCalendar->deleteTodo(old); // move old to deleted
                         removeAllVCal(d->mTodosRelate, old);
-                        d->mCalendar->addTodo(aTodo);   // and replace it with this one
+                        d->mCalendar->addTodo(aTodo); // and replace it with this one
                     }
                 } else if (deleted) {
                     old = d->mCalendar->deletedTodo(aTodo->uid(), aTodo->recurrenceId());
                     if (!old) {
-                        d->mCalendar->addTodo(aTodo);   // add this one
-                        d->mCalendar->deleteTodo(aTodo);   // and move it to deleted
+                        d->mCalendar->addTodo(aTodo); // add this one
+                        d->mCalendar->deleteTodo(aTodo); // and move it to deleted
                     }
                 } else {
-                    d->mCalendar->addTodo(aTodo);   // just add this one
+                    d->mCalendar->addTodo(aTodo); // just add this one
                 }
             }
-        } else if ((strcmp(vObjectName(curVO), VCVersionProp) == 0) ||
-                   (strcmp(vObjectName(curVO), VCProdIdProp) == 0) ||
-                   (strcmp(vObjectName(curVO), VCTimeZoneProp) == 0)) {
+        } else if ((strcmp(vObjectName(curVO), VCVersionProp) == 0) || (strcmp(vObjectName(curVO), VCProdIdProp) == 0)
+                   || (strcmp(vObjectName(curVO), VCTimeZoneProp) == 0)) {
             // do nothing, we know these properties and we want to skip them.
             // we have either already processed them or are ignoring them.
             ;
@@ -1571,8 +1541,7 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
         } else {
             qCDebug(KCALCORE_LOG) << "Ignoring unknown vObject \"" << vObjectName(curVO) << "\"";
         }
-    SKIP:
-        ;
+    SKIP:;
     } // while
 
     // Post-Process list of events with relations, put Event objects in relation
@@ -1585,7 +1554,7 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
         (*tIt)->setRelatedTo((*tIt)->relatedTo());
     }
 
-    //Now lets put the TZ back as it was if we have changed it.
+    // Now lets put the TZ back as it was if we have changed it.
     if (hasTimeZone) {
         d->mCalendar->setTimeZone(previousZone);
     }
@@ -1681,12 +1650,10 @@ void VCalFormat::readCustomProperties(VObject *o, const Incidence::Ptr &i)
         VObject *cur = nextVObject(&iter);
         const char *curname = vObjectName(cur);
         Q_ASSERT(curname);
-        if ((curname[0] == 'X' && curname[1] == '-') &&
-                strcmp(curname, ICOrganizerProp) != 0) {
+        if ((curname[0] == 'X' && curname[1] == '-') && strcmp(curname, ICOrganizerProp) != 0) {
             // TODO - for the time being, we ignore the parameters part
             // and just do the value handling here
-            i->setNonKDECustomProperty(
-                curname, QString::fromUtf8(s = fakeCString(vObjectUStringZValue(cur))));
+            i->setNonKDECustomProperty(curname, QString::fromUtf8(s = fakeCString(vObjectUStringZValue(cur))));
             deleteStr(s);
         }
     }
@@ -1695,10 +1662,8 @@ void VCalFormat::readCustomProperties(VObject *o, const Incidence::Ptr &i)
 void VCalFormat::writeCustomProperties(VObject *o, const Incidence::Ptr &i)
 {
     const QMap<QByteArray, QString> custom = i->customProperties();
-    for (QMap<QByteArray, QString>::ConstIterator c = custom.begin();
-            c != custom.end();  ++c) {
-        if (d->mManuallyWrittenExtensionFields.contains(c.key()) ||
-                c.key().startsWith("X-KDE-VOLATILE")) { //krazy:exclude=strings
+    for (QMap<QByteArray, QString>::ConstIterator c = custom.begin(); c != custom.end(); ++c) {
+        if (d->mManuallyWrittenExtensionFields.contains(c.key()) || c.key().startsWith("X-KDE-VOLATILE")) { // krazy:exclude=strings
             continue;
         }
 

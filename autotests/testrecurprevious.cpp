@@ -10,11 +10,11 @@
 #include "filestorage.h"
 #include "memorycalendar.h"
 
+#include <QCommandLineParser>
+#include <QCoreApplication>
 #include <QDebug>
 #include <QFile>
 #include <QTextStream>
-#include <QCoreApplication>
-#include <QCommandLineParser>
 #include <QTimeZone>
 
 using namespace KCalendarCore;
@@ -26,14 +26,11 @@ int main(int argc, char **argv)
     qputenv("TZ", "GMT");
 
     QCommandLineParser parser;
-    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"),
-                                        QStringLiteral("Verbose output")));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), QStringLiteral("Verbose output")));
 
-    parser.addPositionalArgument(QStringLiteral("input"),
-                                 QStringLiteral("Name of input file"));
+    parser.addPositionalArgument(QStringLiteral("input"), QStringLiteral("Name of input file"));
 
-    parser.addPositionalArgument(QStringLiteral("output"),
-                                 QStringLiteral("optional name of output file for the recurrence dates"));
+    parser.addPositionalArgument(QStringLiteral("output"), QStringLiteral("optional name of output file for the recurrence dates"));
 
     QCoreApplication app(argc, argv);
     QCoreApplication::setApplicationName(QStringLiteral("testrecurrencenew"));

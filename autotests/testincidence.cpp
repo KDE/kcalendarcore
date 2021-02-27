@@ -30,30 +30,22 @@ void IncidenceTest::testDtStartChange()
     QVERIFY(inc.dirtyFields().empty());
 
     inc.setDtStart(QDateTime(dt, t));
-    QCOMPARE(inc.dirtyFields(),
-             QSet<IncidenceBase::Field>()
-             << IncidenceBase::FieldDtStart << IncidenceBase::FieldRecurrence);
+    QCOMPARE(inc.dirtyFields(), QSet<IncidenceBase::Field>() << IncidenceBase::FieldDtStart << IncidenceBase::FieldRecurrence);
     QCOMPARE(inc.recurrence()->startDateTime().time(), t);
     inc.resetDirtyFields();
 
     inc.setDtStart(QDateTime(dt, {}).addDays(1));
-    QCOMPARE(inc.dirtyFields(),
-             QSet<IncidenceBase::Field>()
-             << IncidenceBase::FieldDtStart << IncidenceBase::FieldRecurrence);
+    QCOMPARE(inc.dirtyFields(), QSet<IncidenceBase::Field>() << IncidenceBase::FieldDtStart << IncidenceBase::FieldRecurrence);
     QCOMPARE(inc.recurrence()->startDateTime(), QDateTime(dt, {}).addDays(1));
     inc.resetDirtyFields();
 
     inc.setDtStart(QDateTime());
-    QCOMPARE(inc.dirtyFields(),
-             QSet<IncidenceBase::Field>()
-             << IncidenceBase::FieldDtStart << IncidenceBase::FieldRecurrence);
+    QCOMPARE(inc.dirtyFields(), QSet<IncidenceBase::Field>() << IncidenceBase::FieldDtStart << IncidenceBase::FieldRecurrence);
     QCOMPARE(inc.recurrence()->startDateTime(), QDateTime());
     inc.resetDirtyFields();
 
     inc.setDtStart(QDateTime(dt, {}).addDays(1));
-    QCOMPARE(inc.dirtyFields(),
-             QSet<IncidenceBase::Field>()
-             << IncidenceBase::FieldDtStart << IncidenceBase::FieldRecurrence);
+    QCOMPARE(inc.dirtyFields(), QSet<IncidenceBase::Field>() << IncidenceBase::FieldDtStart << IncidenceBase::FieldRecurrence);
     QCOMPARE(inc.recurrence()->startDateTime(), QDateTime(dt, {}).addDays(1));
 }
 
@@ -227,7 +219,7 @@ void IncidenceTest::testRecurrenceMonthlyPos()
     r->setMonthlyPos(QList<RecurrenceRule::WDayPos>() << pos1 << pos2);
     inc.resetDirtyFields();
 
-    //TODO: test sorting
+    // TODO: test sorting
     r->setMonthlyPos(QList<RecurrenceRule::WDayPos>() << pos1 << pos2);
     QVERIFY(inc.dirtyFields().empty());
 

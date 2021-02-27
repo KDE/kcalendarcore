@@ -7,8 +7,8 @@
 */
 
 #include "testcalendarobserver.h"
-#include "filestorage.h"
 #include "calendar.h"
+#include "filestorage.h"
 #include "memorycalendar.h"
 
 #include <QSignalSpy>
@@ -37,6 +37,7 @@ Q_SIGNALS:
     void incidenceChanged(const KCalendarCore::Incidence::Ptr &incidence);
     void incidenceAboutToBeDeleted(const KCalendarCore::Incidence::Ptr &incidence);
     void incidenceDeleted(const KCalendarCore::Incidence::Ptr &incidence, const Calendar *calendar);
+
 protected:
     void calendarIncidenceAdded(const KCalendarCore::Incidence::Ptr &incidence) override
     {

@@ -28,7 +28,6 @@ class QDateTime;
 
 namespace KCalendarCore
 {
-
 /**
   @brief
   Represents a span of time measured in seconds or days.
@@ -48,8 +47,8 @@ public:
       The unit of time used to define the duration.
     */
     enum Type {
-        Seconds,   /**< duration is a number of seconds */
-        Days,      /**< duration is a number of days */
+        Seconds, /**< duration is a number of seconds */
+        Days, /**< duration is a number of days */
     };
 
     /**
@@ -90,7 +89,7 @@ public:
       @param type the unit of time to use (seconds or days)
     */
     // Keep the following implicit since instances are often used in integer evaluations.
-    Duration(int duration, Type type = Seconds);   //krazy:exclude=explicit
+    Duration(int duration, Type type = Seconds); // krazy:exclude=explicit
 
     /**
       Constructs a duration by copying another duration object.
@@ -136,7 +135,7 @@ public:
     */
     bool operator<=(const Duration &other) const
     {
-        return !other.operator < (*this);
+        return !other.operator<(*this);
     }
 
     /**
@@ -145,7 +144,7 @@ public:
     */
     bool operator>(const Duration &other) const
     {
-        return other.operator < (*this);
+        return other.operator<(*this);
     }
 
     /**

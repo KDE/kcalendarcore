@@ -17,12 +17,11 @@
 #ifndef KCALCORE_JOURNAL_H
 #define KCALCORE_JOURNAL_H
 
-#include "kcalendarcore_export.h"
 #include "incidence.h"
+#include "kcalendarcore_export.h"
 
 namespace KCalendarCore
 {
-
 /**
   @brief
   Provides a Journal in the sense of RFC2445.
@@ -51,7 +50,7 @@ public:
     Journal();
 
     /** Copy a journey object. */
-    Journal(const Journal&);
+    Journal(const Journal &);
 
     /**
       Destroys a journal.

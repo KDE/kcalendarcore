@@ -15,14 +15,13 @@
 #ifndef KCALCORE_EVENT_H
 #define KCALCORE_EVENT_H
 
-#include "kcalendarcore_export.h"
 #include "incidence.h"
+#include "kcalendarcore_export.h"
 
 #include <QTimeZone>
 
 namespace KCalendarCore
 {
-
 /**
   @brief
   This class provides an Event in the sense of RFC2445.
@@ -37,7 +36,7 @@ public:
       The different Event transparency types.
     */
     enum Transparency {
-        Opaque,      /**< Event appears in free/busy time */
+        Opaque, /**< Event appears in free/busy time */
         Transparent, /**< Event does @b not appear in free/busy time */
     };
     Q_ENUM(Transparency)
@@ -74,7 +73,7 @@ public:
       @param other is the incidence to copy.
       @since 4.14
     */
-    Event(const Incidence &other); //krazy:exclude=explicit (copy ctor)
+    Event(const Incidence &other); // krazy:exclude=explicit (copy ctor)
 
     /**
       Destroys the event.

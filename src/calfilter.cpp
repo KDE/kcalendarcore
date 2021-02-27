@@ -33,18 +33,19 @@ class Q_DECL_HIDDEN KCalendarCore::CalFilter::Private
 {
 public:
     Private()
-    {}
-    QString mName;   // filter name
+    {
+    }
+    QString mName; // filter name
     QStringList mCategoryList;
     QStringList mEmailList;
     int mCriteria = 0;
     int mCompletedTimeSpan = 0;
     bool mEnabled = true;
-
 };
 //@endcond
 
-CalFilter::CalFilter() : d(new KCalendarCore::CalFilter::Private)
+CalFilter::CalFilter()
+    : d(new KCalendarCore::CalFilter::Private)
 {
 }
 
@@ -61,11 +62,8 @@ CalFilter::~CalFilter()
 
 bool KCalendarCore::CalFilter::operator==(const CalFilter &filter) const
 {
-    return d->mName == filter.d->mName &&
-           d->mCriteria == filter.d->mCriteria &&
-           d->mCategoryList == filter.d->mCategoryList &&
-           d->mEmailList == filter.d->mEmailList &&
-           d->mCompletedTimeSpan == filter.d->mCompletedTimeSpan;
+    return d->mName == filter.d->mName && d->mCriteria == filter.d->mCriteria && d->mCategoryList == filter.d->mCategoryList
+        && d->mEmailList == filter.d->mEmailList && d->mCompletedTimeSpan == filter.d->mCompletedTimeSpan;
 }
 
 void CalFilter::apply(Event::List *eventList) const
@@ -127,16 +125,12 @@ bool CalFilter::filterIncidence(const Incidence::Ptr &incidence) const
     if (todo) {
         if ((d->mCriteria & HideCompletedTodos) && todo->isCompleted()) {
             // Check if completion date is suffently long ago:
-            if (todo->completed().addDays(d->mCompletedTimeSpan) <
-                    QDateTime::currentDateTimeUtc()) {
+            if (todo->completed().addDays(d->mCompletedTimeSpan) < QDateTime::currentDateTimeUtc()) {
                 return false;
             }
         }
 
-        if ((d->mCriteria & HideInactiveTodos) &&
-                ((todo->hasStartDate() &&
-                  QDateTime::currentDateTimeUtc() < todo->dtStart()) ||
-                 todo->isCompleted())) {
+        if ((d->mCriteria & HideInactiveTodos) && ((todo->hasStartDate() && QDateTime::currentDateTimeUtc() < todo->dtStart()) || todo->isCompleted())) {
             return false;
         }
 
@@ -168,11 +162,9 @@ bool CalFilter::filterIncidence(const Incidence::Ptr &incidence) const
     }
 
     if (d->mCriteria & ShowCategories) {
-        for (QStringList::ConstIterator it = d->mCategoryList.constBegin();
-                it != d->mCategoryList.constEnd(); ++it) {
+        for (QStringList::ConstIterator it = d->mCategoryList.constBegin(); it != d->mCategoryList.constEnd(); ++it) {
             QStringList incidenceCategories = incidence->categories();
-            for (QStringList::ConstIterator it2 = incidenceCategories.constBegin();
-                    it2 != incidenceCategories.constEnd(); ++it2) {
+            for (QStringList::ConstIterator it2 = incidenceCategories.constBegin(); it2 != incidenceCategories.constEnd(); ++it2) {
                 if ((*it) == (*it2)) {
                     return true;
                 }
@@ -180,11 +172,9 @@ bool CalFilter::filterIncidence(const Incidence::Ptr &incidence) const
         }
         return false;
     } else {
-        for (QStringList::ConstIterator it = d->mCategoryList.constBegin();
-                it != d->mCategoryList.constEnd(); ++it) {
+        for (QStringList::ConstIterator it = d->mCategoryList.constBegin(); it != d->mCategoryList.constEnd(); ++it) {
             QStringList incidenceCategories = incidence->categories();
-            for (QStringList::ConstIterator it2 = incidenceCategories.constBegin();
-                    it2 != incidenceCategories.constEnd(); ++it2) {
+            for (QStringList::ConstIterator it2 = incidenceCategories.constBegin(); it2 != incidenceCategories.constEnd(); ++it2) {
                 if ((*it) == (*it2)) {
                     return false;
                 }
