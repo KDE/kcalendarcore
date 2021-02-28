@@ -88,9 +88,7 @@ void TimesInIntervalTest::testSubDailyRecurrenceIntervalInclusive()
     expectedEventOccurrences << start << start.addSecs(60 * 60);
 
     const auto timesInInterval = event->recurrence()->timesInInterval(start, end);
-    //   qDebug() << "timesInInterval " << timesInInterval;
     for (const auto &dt : timesInInterval) {
-        //     qDebug() << dt;
         QCOMPARE(expectedEventOccurrences.removeAll(dt), 1);
     }
     QCOMPARE(expectedEventOccurrences.size(), 0);
@@ -135,9 +133,7 @@ void TimesInIntervalTest::testSubDailyRecurrenceIntervalLimits()
     expectedEventOccurrences << start.addSecs(60 * 60);
 
     const auto timesInInterval = event->recurrence()->timesInInterval(start.addSecs(1), end.addSecs(-1));
-    //   qDebug() << "timesInInterval " << timesInInterval;
     for (const auto &dt : timesInInterval) {
-        //     qDebug() << dt;
         QCOMPARE(expectedEventOccurrences.removeAll(dt), 1);
     }
     QCOMPARE(expectedEventOccurrences.size(), 0);

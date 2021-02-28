@@ -143,9 +143,6 @@ void ICalFormatTest::testCharsets()
     QVERIFY(format.load(calendar2, QLatin1String("hommer.ics")));
     QVERIFY(calendar2->incidences().count() == 1);
 
-    // qDebug() << format.toString( event.staticCast<Incidence>() );
-    // qDebug() << format.toString( calendar2->incidences().at(0) );
-
     Event::Ptr loadedEvent = calendar2->incidences().at(0).staticCast<Event>();
     QVERIFY(loadedEvent->summary().toUtf8() == QByteArray(QString(utf_umlaut).toLatin1().constData()));
     QVERIFY(*loadedEvent == *event);

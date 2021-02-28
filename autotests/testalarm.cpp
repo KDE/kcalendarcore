@@ -104,7 +104,6 @@ void AlarmTest::testSerializer()
     stream << alarm; // Serialize
 
     Alarm::Ptr alarm2 = Alarm::Ptr(new Alarm(nullptr));
-    // QVERIFY(*alarm != *alarm2);
     QDataStream stream2(&array, QIODevice::ReadOnly);
     stream2 >> alarm2; // deserialize
     QVERIFY(*alarm == *alarm2);

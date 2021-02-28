@@ -49,11 +49,9 @@ int main(int argc, char **argv)
     QString fn;
     if (parsedArgs.count() > 1) {
         fn = parsedArgs[1];
-        //     qDebug() << "We have a file name given:" << fn;
     }
     QFile outfile(fn);
     if (!fn.isEmpty() && outfile.open(QIODevice::WriteOnly)) {
-        //     qDebug() << "Opened output file!!!";
         outstream = new QTextStream(&outfile);
     }
 
