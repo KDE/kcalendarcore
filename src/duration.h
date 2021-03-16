@@ -330,7 +330,10 @@ KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalendarCore::Dur
 
 inline uint qHash(const Duration &duration, uint seed = 0)
 {
-    return qHash(qMakePair(duration.isDaily(), duration.asSeconds()), seed);
+    QtPrivate::QHashCombine hash;
+    seed = hash(seed, duration.isDaily());
+    seed = hash(seed, duration.asSeconds());
+    return seed;
 }
 
 }
