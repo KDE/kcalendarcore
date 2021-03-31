@@ -9,6 +9,7 @@
 #include "kcalendarcore_export.h"
 
 #include <KCalendarCore/Calendar>
+#include <KCalendarCore/CalendarMetadata>
 
 namespace KCalendarCore
 {
@@ -19,7 +20,7 @@ namespace KCalendarCore
   It allows calendar applications to consume data provided by multiple
   sources, e.g. local ical files or remote calendars.
 
-  @since 5.81
+  @since 5.83
 
 */
 class KCALENDARCORE_EXPORT CalendarPlugin : public QObject
@@ -31,9 +32,19 @@ public:
     /**
      * The set of calendars defined by this plugin.
      *
-     * @return QVector of calendars.
+     * @return QHash of calendars and their respective metadata.
      */
-    virtual QVector<Calendar::Ptr> calendars() const = 0;
+    virtual QHash<Calendar::Ptr, CalendarMetadata::ConstPtr> calendars() const = 0;
+    
+    /**
+     * Fetch metadata for an incidence inside a calendar provided by the
+     * plugin. This is usefull when the CalendarMetadata provided calendars()
+     * are null.
+     * @param incidence The incidence for which we want more information.
+     * @param calendar The calendar containing the incidence.
+     */
+    virtual CalendarMetadata::ConstPtr fetchMetadata(const Incidence::Ptr &incidence,
+                                                     const Calendar::Ptr &calendar) = 0;
 
 Q_SIGNALS:
     /**
