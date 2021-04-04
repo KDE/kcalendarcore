@@ -1,6 +1,6 @@
 include(ECMMarkAsTest)
 
-find_package(Qt5Test ${QT_REQUIRED_VERSION} CONFIG REQUIRED)
+find_package(Qt5Test ${REQUIRED_QT_VERSION} CONFIG REQUIRED)
 
 # needed by loadcalendar
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/cal DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

@@ -76,7 +76,7 @@ add_definitions(-DQT_NO_FOREACH)
 add_subdirectory(src)
 
 if(BUILD_TESTING)
-  find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED Test)
+  find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Test)
   add_subdirectory(autotests)
 endif()
 
