@@ -2334,13 +2334,11 @@ icaltimetype ICalFormatImpl::writeICalDateTime(const QDateTime &datetime, bool d
         t.second = datetime.time().second();
     }
     t.zone = nullptr; // zone is NOT set
-#if defined(USE_ICAL_3)
-    if (datetime.timeSpec() == Qt::UTC || (datetime.timeSpec() == Qt::OffsetFromUTC && datetime.offsetFromUtc() == 0)) {
+    if (datetime.timeSpec() == Qt::UTC ||
+        (datetime.timeSpec() == Qt::TimeZone && datetime.timeZone() == QTimeZone::utc()) ||
+        (datetime.timeSpec() == Qt::OffsetFromUTC && datetime.offsetFromUtc() == 0)) {
         t = icaltime_convert_to_zone(t, icaltimezone_get_utc_timezone());
     }
-#else
-    t.is_utc = datetime.timeSpec() == Qt::UTC || (datetime.timeSpec() == Qt::OffsetFromUTC && datetime.offsetFromUtc() == 0);
-#endif
     return t;
 }
 

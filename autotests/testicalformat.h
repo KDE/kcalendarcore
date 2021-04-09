@@ -21,6 +21,8 @@ private Q_SLOTS:
     void testVolatileProperties();
     void testCuType();
     void testAlarm();
+    void testDateTimeSerialization_data();
+    void testDateTimeSerialization();
 };
 
 #endif

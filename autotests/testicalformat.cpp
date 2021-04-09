@@ -220,3 +220,40 @@ void ICalFormatTest::testAlarm()
     Alarm::Ptr alarm2 = event2->alarms()[0];
     QCOMPARE(*alarm, *alarm2);
 }
+
+void ICalFormatTest::testDateTimeSerialization_data()
+{
+    QTest::addColumn<QDateTime>("dtStart");
+    QTest::addColumn<QByteArray>("dtStartData");
+
+    QTest::newRow("UTC time spec")
+        << QDateTime(QDate(2021, 4, 9), QTime(12, 00), Qt::UTC)
+        << QByteArray("DTSTART:20210409T120000Z");
+    QTest::newRow("UTC time zone")
+        << QDateTime(QDate(2021, 4, 9), QTime(12, 00), QTimeZone::utc())
+        << QByteArray("DTSTART:20210409T120000Z");
+    QTest::newRow("named time zone")
+        << QDateTime(QDate(2021, 4, 9), QTime(14, 00), QTimeZone("Europe/Paris"))
+        << QByteArray("DTSTART;TZID=Europe/Paris:20210409T140000");
+}
+
+void ICalFormatTest::testDateTimeSerialization()
+{
+    QFETCH(QDateTime, dtStart);
+    QFETCH(QByteArray, dtStartData);
+
+    Incidence::Ptr event(new Event);
+    QVERIFY(event);
+    event->setDtStart(dtStart);
+    QCOMPARE(event->dtStart(), dtStart);
+
+    ICalFormat format;
+    const QByteArray output = format.toRawString(event);
+    const QList<QByteArray> lines = output.split('\n');
+    for (const QByteArray &line: lines) {
+        if (line.startsWith(QByteArray("DTSTART"))) {
+            QCOMPARE(line.chopped(1), dtStartData);
+            break;
+        }
+    }
+}
