@@ -72,13 +72,7 @@ endif()
 
 file(GLOB_RECURSE testFiles data/RecurrenceRule/*.ics)
 file(GLOB_RECURSE vCalFiles data/vCalendar/*.vcs)
-#libical v3 (and above) compatibility is slighty changed from older libical versions.
-#keep 2 sets of reference data, for now.
-if(NOT HAVE_ICAL_3)
-  file(GLOB_RECURSE compatFiles data/Compat/*.ics)
-else()
-  file(GLOB_RECURSE compatFiles data/Compat-libical3/*.ics)
-endif()
+file(GLOB_RECURSE compatFiles data/Compat/*.ics)
 
 find_program(PERL_EXECUTABLE perl)
 
@@ -108,15 +102,9 @@ foreach(file ${testFiles})
   kcalcore_run_single_test(RecursOn ${file} testrecurson "recurson")
 endforeach()
 
-if(NOT HAVE_ICAL_3)
-  foreach(file ${compatFiles})
-    kcalcore_run_single_test(Compat ${file} readandwrite "ical")
-  endforeach()
-else()
-  foreach(file ${compatFiles})
-    kcalcore_run_single_test(Compat-libical3 ${file} readandwrite "ical")
-  endforeach()
-endif()
+foreach(file ${compatFiles})
+  kcalcore_run_single_test(Compat ${file} readandwrite "ical")
+endforeach()
 
 foreach(file ${vCalFiles})
   kcalcore_run_single_test(VCalIn ${file} readandwrite "ical")

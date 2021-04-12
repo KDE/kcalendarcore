@@ -118,9 +118,7 @@ public:
     icalproperty *writeRecurrenceRule(Recurrence *);
     icalrecurrencetype writeRecurrenceRule(RecurrenceRule *recur);
     icalcomponent *writeAlarm(const Alarm::Ptr &alarm);
-#if defined(USE_ICAL_3)
     icalproperty *writeConference(const Conference &conference);
-#endif
 
     QString extractErrorProperty(icalcomponent *);
     Todo::Ptr readTodo(icalcomponent *vtodo, const ICalTimeZoneCache *tzList);
@@ -135,9 +133,7 @@ public:
     void readExceptionRule(icalproperty *rrule, const Incidence::Ptr &incidence);
     void readRecurrence(const struct icalrecurrencetype &r, RecurrenceRule *recur);
     void readAlarm(icalcomponent *alarm, const Incidence::Ptr &incidence);
-#if defined(USE_ICAL_3)
     Conference readConference(icalproperty *conference);
-#endif
 
     /**
       Returns the PRODID string loaded from calendar file.

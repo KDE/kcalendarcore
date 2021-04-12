@@ -34,11 +34,7 @@ static QDateTime toQDateTime(const icaltimetype &t)
 {
     return QDateTime(QDate(t.year, t.month, t.day),
                      QTime(t.hour, t.minute, t.second),
-#if defined(USE_ICAL_3)
                      (icaltime_is_utc(t) ? Qt::UTC : Qt::LocalTime));
-#else
-                     (t.is_utc ? Qt::UTC : Qt::LocalTime));
-#endif
 }
 
 // Maximum date for time zone data.
@@ -65,9 +61,6 @@ static icaltimetype writeLocalICalDateTime(const QDateTime &utc, int offset)
     t.second = local.time().second();
     t.is_date = 0;
     t.zone = nullptr;
-#if !defined(USE_ICAL_3)
-    t.is_utc = 0;
-#endif
     return t;
 }
 
@@ -591,11 +584,7 @@ bool ICalTimeZoneParser::parsePhase(icalcomponent *c, bool daylight, ICalTimeZon
     // Convert DTSTART to QDateTime, and from local time to UTC
     const QDateTime localStart = toQDateTime(dtstart); // local time
     dtstart.second -= prevOffset;
-#if defined(USE_ICAL_3)
     dtstart = icaltime_convert_to_zone(dtstart, icaltimezone_get_utc_timezone());
-#else
-    dtstart.is_utc = 1;
-#endif
     const QDateTime utcStart = toQDateTime(icaltime_normalize(dtstart)); // UTC
 
     phase.abbrevs.unite(abbrevs);
@@ -621,24 +610,13 @@ bool ICalTimeZoneParser::parsePhase(icalcomponent *c, bool daylight, ICalTimeZon
                     t.hour = dtstart.hour;
                     t.minute = dtstart.minute;
                     t.second = dtstart.second;
-#if !defined(USE_ICAL_3)
-                    t.is_utc = 0; // dtstart is in local time
-#endif
                     t.is_date = 0;
                 }
                 // RFC2445 states that RDATE must be in local time,
                 // but we support UTC as well to be safe.
-#if defined(USE_ICAL_3)
                 if (!icaltime_is_utc(t)) {
-#else
-                if (!t.is_utc) {
-#endif
                     t.second -= prevOffset; // convert to UTC
-#if defined(USE_ICAL_3)
                     t = icaltime_convert_to_zone(t, icaltimezone_get_utc_timezone());
-#else
-                    t.is_utc = 1;
-#endif
                     t = icaltime_normalize(t);
                 }
                 phase.transitions += toQDateTime(t);

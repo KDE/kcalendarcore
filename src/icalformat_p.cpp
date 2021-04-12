@@ -72,18 +72,6 @@ void removeAllICal(QVector<QSharedPointer<K>> &c, const QSharedPointer<K> &x)
     c.remove(c.indexOf(x));
 }
 
-#if !defined(USE_ICAL_3)
-static QString quoteForParam(const QString &text)
-{
-    QString tmp = text;
-    tmp.remove(QLatin1Char('"'));
-    if (tmp.contains(QLatin1Char(';')) || tmp.contains(QLatin1Char(':')) || tmp.contains(QLatin1Char(','))) {
-        return tmp; // libical quotes in this case already, see icalparameter_as_ical_string()
-    }
-    return QStringLiteral("\"") + tmp + QStringLiteral("\"");
-}
-#endif
-
 const int gSecondsPerMinute = 60;
 const int gSecondsPerHour = gSecondsPerMinute * 60;
 const int gSecondsPerDay = gSecondsPerHour * 24;
@@ -515,12 +503,10 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent, const Incidence::Ptr 
         icalcomponent_add_property(parent, icalproperty_new_class(secClass));
     }
 
-#if defined(USE_ICAL_3)
     // color
     if (!incidence->color().isEmpty()) {
         icalcomponent_add_property(parent, icalproperty_new_color(incidence->color().toUtf8().constData()));
     }
-#endif
 
     // geo
     if (incidence->hasGeo()) {
@@ -601,13 +587,11 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent, const Incidence::Ptr 
         icalcomponent_add_component(parent, writeAlarm(*it));
     }
 
-#if defined(USE_ICAL_3)
     // conferences
     const auto conferences = incidence->conferences();
     for (const auto &conf : conferences) {
         icalcomponent_add_property(parent, writeConference(conf));
     }
-#endif
 
     // duration
     if (incidence->hasDuration()) {
@@ -702,11 +686,7 @@ icalproperty *ICalFormatImpl::writeOrganizer(const Person &organizer)
 
     if (!organizer.name().isEmpty()) {
         icalproperty_add_parameter(p,
-#if defined(USE_ICAL_3)
                                    icalparameter_new_cn(organizer.name().toUtf8().constData()));
-#else
-                                   icalparameter_new_cn(quoteForParam(organizer.name()).toUtf8().constData()));
-#endif
     }
     // TODO: Write dir, sent-by and language
 
@@ -750,11 +730,7 @@ icalproperty *ICalFormatImpl::writeAttendee(const Attendee &attendee)
 
     if (!attendee.name().isEmpty()) {
         icalproperty_add_parameter(p,
-#if defined(USE_ICAL_3)
                                    icalparameter_new_cn(attendee.name().toUtf8().constData()));
-#else
-                                   icalparameter_new_cn(quoteForParam(attendee.name()).toUtf8().constData()));
-#endif
     }
 
     icalproperty_add_parameter(p, icalparameter_new_rsvp(attendee.RSVP() ? ICAL_RSVP_TRUE : ICAL_RSVP_FALSE));
@@ -1050,11 +1026,7 @@ icalcomponent *ICalFormatImpl::writeAlarm(const Alarm::Ptr &alarm)
                 icalproperty *p = icalproperty_new_attendee(QByteArray(QByteArray("MAILTO:") + (*ad).email().toUtf8()).constData());
                 if (!(*ad).name().isEmpty()) {
                     icalproperty_add_parameter(p,
-#if defined(USE_ICAL_3)
                                                icalparameter_new_cn((*ad).name().toUtf8().constData()));
-#else
-                                               icalparameter_new_cn(quoteForParam((*ad).name()).toUtf8().constData()));
-#endif
                 }
                 icalcomponent_add_property(a, p);
             }
@@ -1122,7 +1094,6 @@ icalcomponent *ICalFormatImpl::writeAlarm(const Alarm::Ptr &alarm)
     return a;
 }
 
-#if defined(USE_ICAL_3)
 icalproperty *ICalFormatImpl::writeConference(const Conference &conference)
 {
     icalproperty *p = icalproperty_new_conference(conference.uri().toString().toUtf8().constData());
@@ -1132,7 +1103,6 @@ icalproperty *ICalFormatImpl::writeConference(const Conference &conference)
 
     return p;
 }
-#endif
 
 Todo::Ptr ICalFormatImpl::readTodo(icalcomponent *vtodo, const ICalTimeZoneCache *tzlist)
 {
@@ -1841,11 +1811,9 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent, const Incidence::Ptr &
             incidence->addAttachment(readAttachment(p));
             break;
 
-#if defined(USE_ICAL_3)
         case ICAL_COLOR_PROPERTY:
             incidence->setColor(QString::fromUtf8(icalproperty_get_color(p)));
             break;
-#endif
 
         default:
             // TODO: do something about unknown properties?
@@ -1879,7 +1847,6 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent, const Incidence::Ptr &
         readAlarm(alarm, incidence);
     }
 
-#if defined(USE_ICAL_3)
     // iterate through all conferences
     Conference::List conferences;
     for (auto *conf = icalcomponent_get_first_property(parent, ICAL_CONFERENCE_PROPERTY); conf;
@@ -1887,7 +1854,6 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent, const Incidence::Ptr &
         conferences.push_back(readConference(conf));
     }
     incidence->setConferences(conferences);
-#endif
 
     if (d->mCompat) {
         // Fix incorrect alarm settings by other applications (like outloook 9)
@@ -2285,7 +2251,6 @@ icaldatetimeperiodtype ICalFormatImpl::writeICalDatePeriod(const QDate &date)
     return t;
 }
 
-#if defined(USE_ICAL_3)
 Conference ICalFormatImpl::readConference(icalproperty *prop)
 {
     Conference conf;
@@ -2295,7 +2260,6 @@ Conference ICalFormatImpl::readConference(icalproperty *prop)
     conf.setLanguage(QString::fromUtf8(icalproperty_get_parameter_as_string(prop, "LANGUAGE")));
     return conf;
 }
-#endif
 
 icaltimetype ICalFormatImpl::writeICalDate(const QDate &date)
 {
@@ -2310,9 +2274,6 @@ icaltimetype ICalFormatImpl::writeICalDate(const QDate &date)
     t.second = 0;
 
     t.is_date = 1;
-#if !defined(USE_ICAL_3)
-    t.is_utc = 0;
-#endif
     t.zone = nullptr;
 
     return t;
@@ -2404,11 +2365,7 @@ icalproperty *ICalFormatImpl::writeICalDateTimeProperty(const icalproperty_kind 
     }
 
     QTimeZone qtz;
-#if defined(USE_ICAL_3)
     if (!icaltime_is_utc(t)) {
-#else
-    if (!t.is_utc) {
-#endif
         qtz = dt.timeZone();
     }
 
@@ -2430,11 +2387,7 @@ QDateTime ICalFormatImpl::readICalDateTime(icalproperty *p, const icaltimetype &
     //  _dumpIcaltime( t );
 
     QTimeZone timeZone;
-#if defined(USE_ICAL_3)
     if (icaltime_is_utc(t) || t.zone == icaltimezone_get_utc_timezone()) {
-#else
-    if (t.is_utc || t.zone == icaltimezone_get_utc_timezone()) {
-#endif
         timeZone = QTimeZone::utc(); // the time zone is UTC
         utc = false; // no need to convert to UTC
     } else {

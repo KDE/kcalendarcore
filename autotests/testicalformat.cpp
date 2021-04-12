@@ -72,11 +72,7 @@ void ICalFormatTest::testDeserializeSerialize()
     const QDateTime startOcc(QDate(2020, 11, 4), QTime(10, 15), QTimeZone::utc());
     QCOMPARE(occurrence->dtStart(), startOcc);
     QCOMPARE(occurrence.staticCast<Event>()->dtEnd(), startOcc.addSecs(3600));
-#if defined(USE_ICAL_3)
     QCOMPARE(occurrence->color(), QString::fromLatin1("khaki"));
-#else
-    QVERIFY(occurrence->color().isEmpty());
-#endif
     QCOMPARE(occurrence->summary(), QString::fromLatin1("test recur"));
     QCOMPARE(occurrence->revision(), 1);
     QVERIFY(occurrence->hasRecurrenceId());
