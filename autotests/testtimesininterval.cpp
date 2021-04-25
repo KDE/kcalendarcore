@@ -19,18 +19,18 @@ using namespace KCalendarCore;
 void TimesInIntervalTest::test()
 {
     const QDateTime currentDate(QDate::currentDate(), {});
-    Event *event = new Event();
-    event->setDtStart(currentDate);
-    event->setDtEnd(currentDate.addDays(1));
-    event->setAllDay(true);
-    event->setSummary(QStringLiteral("Event1 Summary"));
+    Event event;
+    event.setDtStart(currentDate);
+    event.setDtEnd(currentDate.addDays(1));
+    event.setAllDay(true);
+    event.setSummary(QStringLiteral("Event1 Summary"));
 
-    event->recurrence()->setDaily(1);
+    event.recurrence()->setDaily(1);
 
     //------------------------------------------------------------------------------------------------
     // Just to warm up
-    QVERIFY(event->recurs());
-    QVERIFY(event->recursAt(currentDate));
+    QVERIFY(event.recurs());
+    QVERIFY(event.recursAt(currentDate));
 
     //------------------------------------------------------------------------------------------------
     // Daily recurrence that never stops.
@@ -41,22 +41,22 @@ void TimesInIntervalTest::test()
 
     start.setTime(QTime(0, 0, 0));
     end.setTime(QTime(23, 59, 59));
-    auto dateList = event->recurrence()->timesInInterval(start, end);
+    auto dateList = event.recurrence()->timesInInterval(start, end);
     QVERIFY(dateList.count() == numDaysInInterval + 1);
 
     //------------------------------------------------------------------------------------------------
     // start == end == first day of the recurrence, should only return 1 occurrence
     end = start;
     end.setTime(QTime(23, 59, 59));
-    dateList = event->recurrence()->timesInInterval(start, end);
+    dateList = event.recurrence()->timesInInterval(start, end);
     QVERIFY(dateList.count() == 1);
 
     //------------------------------------------------------------------------------------------------
     // Test daily recurrence that only lasts X days
     const int recurrenceDuration = 3;
-    event->recurrence()->setDuration(recurrenceDuration);
+    event.recurrence()->setDuration(recurrenceDuration);
     end = start.addDays(100);
-    dateList = event->recurrence()->timesInInterval(start, end);
+    dateList = event.recurrence()->timesInInterval(start, end);
     QVERIFY(dateList.count() == recurrenceDuration);
     //------------------------------------------------------------------------------------------------
     // Test daily recurrence that only lasts X days, and give start == end == last day of
@@ -66,7 +66,7 @@ void TimesInIntervalTest::test()
     start.setTime(QTime(0, 0, 0));
     end.setTime(QTime(23, 59, 59));
 
-    dateList = event->recurrence()->timesInInterval(start, end);
+    dateList = event.recurrence()->timesInInterval(start, end);
     QVERIFY(dateList.count() == 1);
 
     //------------------------------------------------------------------------------------------------

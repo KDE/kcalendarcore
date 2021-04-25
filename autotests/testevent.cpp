@@ -58,16 +58,16 @@ void EventTest::testSetRoles()
 void EventTest::testValidity()
 {
     QDate dt = QDate::currentDate();
-    Event *event = new Event();
-    event->setDtStart(QDateTime(dt, {}));
-    event->setDtEnd(QDateTime(dt, {}).addDays(1));
-    event->setSummary(QStringLiteral("Event1 Summary"));
-    event->setDescription(QStringLiteral("This is a description of the first event"));
-    event->setLocation(QStringLiteral("the place"));
+    Event event;
+    event.setDtStart(QDateTime(dt, {}));
+    event.setDtEnd(QDateTime(dt, {}).addDays(1));
+    event.setSummary(QStringLiteral("Event1 Summary"));
+    event.setDescription(QStringLiteral("This is a description of the first event"));
+    event.setLocation(QStringLiteral("the place"));
 
-    QCOMPARE(event->summary(), QStringLiteral("Event1 Summary"));
-    QCOMPARE(event->location(), QStringLiteral("the place"));
-    QCOMPARE(event->type(), Incidence::TypeEvent);
+    QCOMPARE(event.summary(), QStringLiteral("Event1 Summary"));
+    QCOMPARE(event.location(), QStringLiteral("the place"));
+    QCOMPARE(event.type(), Incidence::TypeEvent);
 }
 
 void EventTest::testCompare()
@@ -108,6 +108,7 @@ void EventTest::testClone()
     QCOMPARE(event1.dtEnd(), event2->dtEnd());
     QCOMPARE(event1.description(), event2->description());
     QCOMPARE(event1.location(), event2->location());
+    delete event2;
 }
 
 void EventTest::testCopy()

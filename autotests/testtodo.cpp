@@ -23,17 +23,17 @@ void TodoTest::initTestCase()
 void TodoTest::testValidity()
 {
     QDate dt = QDate::currentDate();
-    Todo *todo = new Todo();
-    todo->setDtStart(QDateTime(dt, {}));
-    todo->setDtDue(QDateTime(dt, {}).addDays(1));
-    todo->setSummary(QStringLiteral("To-do1 Summary"));
-    todo->setDescription(QStringLiteral("This is a description of the first to-do"));
-    todo->setLocation(QStringLiteral("the place"));
-    todo->setPercentComplete(5);
+    Todo todo;
+    todo.setDtStart(QDateTime(dt, {}));
+    todo.setDtDue(QDateTime(dt, {}).addDays(1));
+    todo.setSummary(QStringLiteral("To-do1 Summary"));
+    todo.setDescription(QStringLiteral("This is a description of the first to-do"));
+    todo.setLocation(QStringLiteral("the place"));
+    todo.setPercentComplete(5);
 
-    QCOMPARE(todo->summary(), QStringLiteral("To-do1 Summary"));
-    QCOMPARE(todo->location(), QStringLiteral("the place"));
-    QCOMPARE(todo->percentComplete(), 5);
+    QCOMPARE(todo.summary(), QStringLiteral("To-do1 Summary"));
+    QCOMPARE(todo.location(), QStringLiteral("the place"));
+    QCOMPARE(todo.percentComplete(), 5);
 }
 
 void TodoTest::testCompare()
@@ -78,6 +78,7 @@ void TodoTest::testClone()
     QCOMPARE(todo1.description(), todo2->description());
     QCOMPARE(todo1.location(), todo2->location());
     QCOMPARE(todo1.isCompleted(), todo2->isCompleted());
+    delete todo2;
 }
 
 void TodoTest::testCopyIncidence()

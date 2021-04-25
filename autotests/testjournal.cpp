@@ -16,15 +16,15 @@ using namespace KCalendarCore;
 void JournalTest::testValidity()
 {
     QDate dt = QDate::currentDate();
-    Journal *journal = new Journal();
-    journal->setDtStart(QDateTime(dt, {}));
-    journal->setAllDay(true);
-    journal->setSummary(QStringLiteral("Journal Summary"));
-    journal->setDescription(QStringLiteral("This is a description of my journal"));
-    journal->setLocation(QStringLiteral("the place"));
-    QCOMPARE(journal->typeStr(), QByteArray("Journal"));
-    QVERIFY(journal->summary() == QLatin1String("Journal Summary"));
-    QVERIFY(journal->location() == QLatin1String("the place"));
+    Journal journal;
+    journal.setDtStart(QDateTime(dt, {}));
+    journal.setAllDay(true);
+    journal.setSummary(QStringLiteral("Journal Summary"));
+    journal.setDescription(QStringLiteral("This is a description of my journal"));
+    journal.setLocation(QStringLiteral("the place"));
+    QCOMPARE(journal.typeStr(), QByteArray("Journal"));
+    QVERIFY(journal.summary() == QLatin1String("Journal Summary"));
+    QVERIFY(journal.location() == QLatin1String("the place"));
 }
 
 void JournalTest::testCompare()
@@ -63,6 +63,7 @@ void JournalTest::testClone()
     QVERIFY(journal1.dtStart() == journal2->dtStart());
     QVERIFY(journal1.description() == journal2->description());
     QVERIFY(journal1.location() == journal2->location());
+    delete journal2;
 }
 
 void JournalTest::testRich()

@@ -60,6 +60,7 @@ int main(int argc, char **argv)
     QTimeZone viewZone;
     FileStorage store(cal, input);
     if (!store.load()) {
+        delete outstream;
         return 1;
     }
     QString tz = cal->nonKDECustomProperty("X-LibKCal-Testsuite-OutTZ");
