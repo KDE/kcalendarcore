@@ -22,7 +22,8 @@ using namespace KCalendarCore;
 int main(int argc, char **argv)
 {
     qSetGlobalQHashSeed(0); // Disable QHash randomness
-    qputenv("TZ", "GM");
+    qputenv("TZ", "GMT");
+    qSetGlobalQHashSeed(0); // Ensure predictable QHash listing order.
 
     QCommandLineParser parser;
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("verbose"), QStringLiteral("Verbose output")));
