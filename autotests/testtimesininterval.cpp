@@ -145,11 +145,14 @@ void TimesInIntervalTest::testLocalTimeHandlingNonAllDay()
     // starting from Friday the 11th of October, from 12 pm until 1 pm, clock time,
     // and lasts for two weeks, with three exception datetimes,
     // (only two of which will apply).
-    QTimeZone anotherZone(QTimeZone::systemTimeZoneId().contains("Toronto") ? QTimeZone(QByteArray("Pacific/Midway"))
-                                                                            : QTimeZone(QByteArray("America/Toronto")));
+    const QDateTime startDt(QDate(2019, 10, 11), QTime(12, 0), Qt::LocalTime);
+    QTimeZone anotherZone("America/Toronto");
+    if (anotherZone.offsetFromUtc(startDt) == QTimeZone::systemTimeZone().offsetFromUtc(startDt)) {
+        anotherZone = QTimeZone(QByteArray("Pacific/Midway"));
+    }
     Event event;
     event.setAllDay(false);
-    event.setDtStart(QDateTime(QDate(2019, 10, 11), QTime(12, 0), Qt::LocalTime));
+    event.setDtStart(startDt);
 
     RecurrenceRule *const rule = new RecurrenceRule();
     rule->setRecurrenceType(RecurrenceRule::rDaily);
@@ -189,11 +192,14 @@ void TimesInIntervalTest::testLocalTimeHandlingAllDay()
     // Create an event which occurs every weekday of every week,
     // starting from Friday the 11th of October, and lasts for two weeks,
     // with four exception datetimes (only three of which will apply).
-    QTimeZone anotherZone(QTimeZone::systemTimeZoneId().contains("Toronto") ? QTimeZone(QByteArray("Pacific/Midway"))
-                                                                            : QTimeZone(QByteArray("America/Toronto")));
+    const QDateTime startDt(QDate(2019, 10, 11).startOfDay());
+    QTimeZone anotherZone("America/Toronto");
+    if (anotherZone.offsetFromUtc(startDt) == QTimeZone::systemTimeZone().offsetFromUtc(startDt)) {
+        anotherZone = QTimeZone(QByteArray("Pacific/Midway"));
+    }
     Event event;
     event.setAllDay(true);
-    event.setDtStart(QDate(2019, 10, 11).startOfDay());
+    event.setDtStart(startDt);
 
     RecurrenceRule *const rule = new RecurrenceRule();
     rule->setRecurrenceType(RecurrenceRule::rDaily);
