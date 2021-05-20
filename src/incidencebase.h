@@ -360,8 +360,6 @@ public:
 
     /**
       Sets the incidence's starting date/time with a QDateTime.
-      The incidence's all-day status is set according to whether @p dtStart
-      is a date/time (not all-day) or date-only (all-day).
 
       @param dtStart is the incidence start date/time.
       @see dtStart().
