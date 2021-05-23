@@ -68,7 +68,6 @@ configure_package_config_file(
 
 add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050f00)
 
-add_definitions(-DQT_NO_FOREACH)
 
 ########### Targets ###########
 add_subdirectory(src)
