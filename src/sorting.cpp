@@ -412,3 +412,23 @@ bool KCalendarCore::Incidences::summaryMoreThan(const Incidence::Ptr &i1, const 
 {
     return QString::compare(i1->summary(), i2->summary(), Qt::CaseInsensitive) > 0;
 }
+
+bool KCalendarCore::Incidences::categoriesLessThan(const Incidence::Ptr &i1, const Incidence::Ptr &i2)
+{
+    const auto res = QString::compare(i1->categoriesStr(), i2->categoriesStr(), Qt::CaseSensitive);
+    if (res == 0) {
+        return Incidences::summaryLessThan(i1, i2);
+    } else {
+        return res < 0;
+    }
+}
+
+bool KCalendarCore::Incidences::categoriesMoreThan(const Incidence::Ptr &i1, const Incidence::Ptr &i2)
+{
+    const auto res = QString::compare(i1->categoriesStr(), i2->categoriesStr(), Qt::CaseSensitive);
+    if (res == 0) {
+        return Incidences::summaryMoreThan(i1, i2);
+    } else {
+        return res > 0;
+    }
+}

@@ -728,6 +728,14 @@ Todo::List Calendar::sortTodos(const Todo::List &todoList, TodoSortField sortFie
             std::sort(todoListSorted.begin(), todoListSorted.end(), Todos::createdMoreThan);
         }
         break;
+
+    case TodoSortCategories:
+        if (sortDirection == SortDirectionAscending) {
+            std::sort(todoListSorted.begin(), todoListSorted.end(), Incidences::categoriesLessThan);
+        } else {
+            std::sort(todoListSorted.begin(), todoListSorted.end(), Incidences::categoriesMoreThan);
+        }
+        break;
     }
 
     return todoListSorted;

@@ -82,6 +82,7 @@ enum TodoSortField {
     TodoSortPercentComplete, /**< Sort Todos by percentage completed */
     TodoSortSummary, /**< Sort Todos alphabetically, by summary */
     TodoSortCreated, /**< Sort Todos chronologically, by creation date */
+    TodoSortCategories, /**< Sort Todos by categories (tags) @since 5.83 */
 };
 
 /**

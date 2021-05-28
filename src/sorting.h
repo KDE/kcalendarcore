@@ -85,6 +85,20 @@ KCALENDARCORE_EXPORT bool createdMoreThan(const Incidence::Ptr &i1, const Incide
 KCALENDARCORE_EXPORT bool summaryLessThan(const Incidence::Ptr &i1, const Incidence::Ptr &i2);
 
 KCALENDARCORE_EXPORT bool summaryMoreThan(const Incidence::Ptr &i1, const Incidence::Ptr &i2);
+
+/**
+ * Compare the categories (tags) of two incidences, as returned by categoriesStr().
+ * If they are equal, return summaryLessThan().
+ * @since 5.83
+ */
+KCALENDARCORE_EXPORT bool categoriesLessThan(const Incidence::Ptr &i1, const Incidence::Ptr &i2);
+
+/**
+ * Compare the categories (tags) of two incidences, as returned by categoriesStr().
+ * If they are equal, return summaryMoreThan().
+ * @since 5.83
+ */
+KCALENDARCORE_EXPORT bool categoriesMoreThan(const Incidence::Ptr &i1, const Incidence::Ptr &i2);
 }
 
 }

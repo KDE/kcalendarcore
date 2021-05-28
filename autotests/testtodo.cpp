@@ -8,6 +8,7 @@
 #include "testtodo.h"
 #include "attachment.h"
 #include "event.h"
+#include "sorting.h"
 #include "todo.h"
 
 #include <QTest>
@@ -310,4 +311,31 @@ void TodoTest::testIconNameRecurringDue()
     QCOMPARE(todo.iconName(now), QLatin1String("task-complete"));
     QCOMPARE(todo.iconName(later), QLatin1String("task-complete")); // Legacy case
     QCOMPARE(todo.iconName(now.addDays(1)), QLatin1String("view-calendar-tasks"));
+}
+
+void TodoTest::testCategoriesComparison()
+{
+    QSharedPointer<Todo> small(new Todo);
+    small->setCategories({QStringLiteral("alpha")});
+    small->setSummary(QStringLiteral("alpha"));
+
+    QSharedPointer<Todo> medium(new Todo);
+    medium->setCategories({QStringLiteral("beta")});
+    medium->setSummary(QStringLiteral("beta 1"));
+
+    QSharedPointer<Todo> large(new Todo);
+    large->setCategories({QStringLiteral("beta")});
+    large->setSummary(QStringLiteral("beta 2"));
+
+    QVERIFY(Incidences::categoriesLessThan(small, medium));
+    QVERIFY(!Incidences::categoriesLessThan(medium, small));
+    QVERIFY(Incidences::categoriesLessThan(medium, large));
+    QVERIFY(!Incidences::categoriesLessThan(large, medium));
+    QVERIFY(!Incidences::categoriesLessThan(small, small));
+
+    QVERIFY(!Incidences::categoriesMoreThan(small, medium));
+    QVERIFY(Incidences::categoriesMoreThan(medium, small));
+    QVERIFY(!Incidences::categoriesMoreThan(medium, large));
+    QVERIFY(Incidences::categoriesMoreThan(large, medium));
+    QVERIFY(!Incidences::categoriesMoreThan(small, small));
 }
