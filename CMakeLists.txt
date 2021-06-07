@@ -21,6 +21,7 @@ include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 include(ECMGenerateExportHeader)
 include(ECMGenerateHeaders)
 include(ECMGeneratePriFile)
+include(ECMGeneratePkgConfigFile)
 
 include(ECMSetupVersion)
 include(ECMQtDeclareLoggingCategory)
@@ -114,6 +115,13 @@ if (NOT KCALENDARCORE_NO_DEPRECATED_NAMESPACE)
     ${CMAKE_CURRENT_BINARY_DIR}/kcalcore_version.h
     DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5} COMPONENT Devel
   )
+endif()
+
+if (NOT WIN32)
+    ecm_generate_pkgconfig_file(BASE_NAME KF5CalendarCore
+      INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR}/KCalendarCore/
+      DEPS Qt5Core
+    INSTALL)
 endif()
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
