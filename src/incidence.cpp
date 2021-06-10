@@ -629,7 +629,7 @@ QList<QDateTime> Incidence::startDateTimesForDate(const QDate &date, const QTime
     // if the incidence doesn't recur,
     QDateTime kdate(date, {}, timeZone);
     if (!recurs()) {
-        if (!(start > kdate || end < kdate)) {
+        if (start.date() <= date && end.date() >= date) {
             result << start;
         }
         return result;
