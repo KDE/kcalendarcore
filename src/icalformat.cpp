@@ -17,7 +17,6 @@
 */
 #include "icalformat.h"
 #include "calendar_p.h"
-#include "freebusy.h"
 #include "icalformat_p.h"
 #include "icaltimezones_p.h"
 #include "kcalendarcore_debug.h"

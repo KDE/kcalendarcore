@@ -28,7 +28,6 @@
 
 #include "kcalendarcore_debug.h"
 #include <QTime>
-#include <QUrl>
 
 #include <QStringList>
 

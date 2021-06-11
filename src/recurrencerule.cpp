@@ -14,7 +14,6 @@
 #include <QDataStream>
 #include <QStringList>
 #include <QTime>
-#include <QTimeZone>
 #include <QVector>
 
 using namespace KCalendarCore;

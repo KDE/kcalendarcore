@@ -23,14 +23,10 @@
 
 #include "icalformat_p.h"
 #include "compat_p.h"
-#include "event.h"
-#include "freebusy.h"
 #include "icalformat.h"
 #include "icaltimezones_p.h"
 #include "incidencebase.h"
-#include "journal.h"
 #include "memorycalendar.h"
-#include "todo.h"
 #include "visitor.h"
 
 #include "kcalendarcore_debug.h"

@@ -8,7 +8,6 @@
 */
 
 #include "schedulemessage.h"
-#include "incidencebase.h"
 
 #include <QString>
 

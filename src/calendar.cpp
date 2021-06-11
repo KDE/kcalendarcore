@@ -30,7 +30,6 @@
 
 #include "kcalendarcore_debug.h"
 
-#include <QTimeZone>
 
 extern "C" {
 #include <icaltimezone.h>

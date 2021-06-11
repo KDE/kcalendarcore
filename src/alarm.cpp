@@ -18,7 +18,6 @@
   @author Cornelius Schumacher \<schumacher@kde.org\>
 */
 #include "alarm.h"
-#include "duration.h"
 #include "incidence.h"
 #include "utils_p.h"
 

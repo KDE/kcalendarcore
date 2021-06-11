@@ -11,10 +11,6 @@
 */
 
 #include "visitor.h"
-#include "event.h"
-#include "freebusy.h"
-#include "journal.h"
-#include "todo.h"
 
 using namespace KCalendarCore;
 

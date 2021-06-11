@@ -7,9 +7,6 @@
   SPDX-License-Identifier: LGPL-2.0-or-later
 */
 #include "sorting.h"
-#include "event.h"
-#include "journal.h"
-#include "todo.h"
 
 // PENDING(kdab) Review
 // The QString::compare() need to be replace by a DUI string comparisons.

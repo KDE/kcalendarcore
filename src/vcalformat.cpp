@@ -23,9 +23,7 @@
 */
 #include "vcalformat.h"
 #include "calendar.h"
-#include "event.h"
 #include "exceptions.h"
-#include "todo.h"
 
 #include "kcalendarcore_debug.h"
 
