@@ -12,7 +12,6 @@
 #include "icalformat.h"
 #include "memorycalendar.h"
 
-#include <QDebug>
 #include <QTest>
 #include <QTimeZone>
 

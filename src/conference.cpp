@@ -9,7 +9,6 @@
 #include "conference.h"
 
 #include <QDataStream>
-#include <QDebug>
 
 using namespace KCalendarCore;
 
