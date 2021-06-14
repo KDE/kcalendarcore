@@ -268,6 +268,12 @@ bool KCalendarCore::Todos::startDateMoreThan(const Todo::Ptr &t1, const Todo::Pt
 
 bool KCalendarCore::Todos::dueDateLessThan(const Todo::Ptr &t1, const Todo::Ptr &t2)
 {
+    if (!t1->hasDueDate() ) {
+        return false;
+    }
+    if (!t2->hasDueDate()) {
+        return true;
+    }
     DateTimeComparison res = compare(t1->dtDue(), t1->allDay(), t2->dtDue(), t2->allDay());
     if (res == Equal) {
         return Todos::summaryLessThan(t1, t2);
@@ -278,6 +284,12 @@ bool KCalendarCore::Todos::dueDateLessThan(const Todo::Ptr &t1, const Todo::Ptr 
 
 bool KCalendarCore::Todos::dueDateMoreThan(const Todo::Ptr &t1, const Todo::Ptr &t2)
 {
+    if (!t2->hasDueDate()) {
+        return false;
+    }
+    if (!t1->hasDueDate()) {
+        return true;
+    }
     DateTimeComparison res = compare(t1->dtDue(), t1->allDay(), t2->dtDue(), t2->allDay());
     if (res == Equal) {
         return Todos::summaryMoreThan(t1, t2);

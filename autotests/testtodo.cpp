@@ -339,3 +339,48 @@ void TodoTest::testCategoriesComparison()
     QVERIFY(Incidences::categoriesMoreThan(large, medium));
     QVERIFY(!Incidences::categoriesMoreThan(small, small));
 }
+
+void TodoTest::testDtDueComparison()
+{
+    auto now = QDateTime::currentDateTime();
+    auto later = now.addSecs(1);
+
+    QSharedPointer<Todo> small(new Todo);
+    small->setDtDue(now);
+    small->setAllDay(false);
+    small->setSummary(QStringLiteral("now"));
+
+    QSharedPointer<Todo> medium(new Todo);
+    medium->setDtDue(later);
+    medium->setAllDay(false);
+    medium->setSummary(QStringLiteral("later 1"));
+
+    QSharedPointer<Todo> large(new Todo);
+    large->setDtDue(later);
+    large->setAllDay(false);
+    large->setSummary(QStringLiteral("later 2"));
+
+    QSharedPointer<Todo> never(new Todo);
+    never->setDtDue(QDateTime());
+    never->setAllDay(false);
+    never->setSummary(QStringLiteral("never"));
+
+    QVERIFY(Todos::dueDateLessThan(small, medium));
+    QVERIFY(!Todos::dueDateLessThan(medium, small));
+    QVERIFY(Todos::dueDateLessThan(medium, large));
+    QVERIFY(!Todos::dueDateLessThan(large, medium));
+    QVERIFY(Todos::dueDateLessThan(large, never));
+    QVERIFY(!Todos::dueDateLessThan(never, large));
+    QVERIFY(!Todos::dueDateLessThan(small, small));
+    QVERIFY(!Todos::dueDateLessThan(never, never));
+
+    QVERIFY(!Todos::dueDateMoreThan(small, medium));
+    QVERIFY(Todos::dueDateMoreThan(medium, small));
+    QVERIFY(!Todos::dueDateMoreThan(medium, large));
+    QVERIFY(Todos::dueDateMoreThan(large, medium));
+    QVERIFY(!Todos::dueDateMoreThan(large, never));
+    QVERIFY(Todos::dueDateMoreThan(never, large));
+    QVERIFY(!Todos::dueDateMoreThan(small, small));
+    QVERIFY(!Todos::dueDateLessThan(never, never));
+}
+

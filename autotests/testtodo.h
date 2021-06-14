@@ -31,6 +31,7 @@ private Q_SLOTS:
     void testIconNameRecurringNeverDue();
     void testIconNameRecurringDue();
     void testCategoriesComparison();
+    void testDtDueComparison();
 };
 
 #endif
