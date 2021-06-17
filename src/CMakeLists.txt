@@ -1,7 +1,13 @@
+add_library(KF5CalendarCore)
+add_library(KF5::CalendarCore ALIAS KF5CalendarCore)
 
-########### next target ###############
+set_target_properties(KF5CalendarCore PROPERTIES
+    VERSION     ${KCALENDARCORE_VERSION}
+    SOVERSION   ${KCALENDARCORE_SOVERSION}
+    EXPORT_NAME CalendarCore
+)
 
-set(kcalcore_LIB_SRCS
+target_sources(KF5CalendarCore PRIVATE
   alarm.cpp
   attachment.cpp
   attendee.cpp
@@ -38,7 +44,7 @@ set(kcalcore_LIB_SRCS
   vcalformat.cpp
   visitor.cpp
 )
-ecm_qt_declare_logging_category(kcalcore_LIB_SRCS
+ecm_qt_declare_logging_category(KF5CalendarCore
     HEADER kcalendarcore_debug.h
     IDENTIFIER KCALCORE_LOG
     CATEGORY_NAME kf.calendarcore
@@ -46,9 +52,6 @@ ecm_qt_declare_logging_category(kcalcore_LIB_SRCS
     DESCRIPTION "KCalendarCore"
     EXPORT KCALENDARCORE
 )
-
-add_library(KF5CalendarCore ${kcalcore_LIB_SRCS})
-add_library(KF5::CalendarCore ALIAS KF5CalendarCore)
 
 ecm_generate_export_header(KF5CalendarCore
     BASE_NAME kcalendarcore
@@ -74,12 +77,6 @@ PUBLIC
 PRIVATE
     Qt5::Gui
     LibIcal
-)
-
-set_target_properties(KF5CalendarCore PROPERTIES
-    VERSION ${KCALENDARCORE_VERSION}
-    SOVERSION ${KCALENDARCORE_SOVERSION}
-    EXPORT_NAME CalendarCore
 )
 
 install(TARGETS KF5CalendarCore EXPORT KF5CalendarCoreTargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS})
