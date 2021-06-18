@@ -97,7 +97,9 @@ public:
         mRevision = src.d->mRevision;
         mCreated = src.d->mCreated;
         mDescription = src.d->mDescription;
+        mDescriptionIsRich = src.d->mDescriptionIsRich;
         mSummary = src.d->mSummary;
+        mSummaryIsRich = src.d->mSummaryIsRich;
         mCategories = src.d->mCategories;
         mRelatedToUid = src.d->mRelatedToUid;
         mResources = src.d->mResources;
@@ -106,6 +108,7 @@ public:
         mSecrecy = src.d->mSecrecy;
         mPriority = src.d->mPriority;
         mLocation = src.d->mLocation;
+        mLocationIsRich = src.d->mLocationIsRich;
         mGeoLatitude = src.d->mGeoLatitude;
         mGeoLongitude = src.d->mGeoLongitude;
         mHasGeo = src.d->mHasGeo;
@@ -113,6 +116,7 @@ public:
         mConferences = src.d->mConferences;
         mThisAndFuture = src.d->mThisAndFuture;
         mLocalOnly = src.d->mLocalOnly;
+        mColor = src.d->mColor;
 
         // Alarms and Attachments are stored in ListBase<...>, which is a QValueList<...*>.
         // We need to really duplicate the objects stored therein, otherwise deleting
@@ -277,7 +281,9 @@ bool Incidence::equals(const IncidenceBase &incidence) const
         recurrenceEqual
         && created() == i2->created()
         && stringCompare(description(), i2->description())
+        && descriptionIsRich() == i2->descriptionIsRich()
         && stringCompare(summary(), i2->summary())
+        && summaryIsRich() == i2->summaryIsRich()
         && categories() == i2->categories()
         && stringCompare(relatedTo(), i2->relatedTo())
         && resources() == i2->resources()
@@ -286,6 +292,7 @@ bool Incidence::equals(const IncidenceBase &incidence) const
         && secrecy() == i2->secrecy()
         && priority() == i2->priority()
         && stringCompare(location(), i2->location())
+        && locationIsRich() == i2->locationIsRich()
         && stringCompare(color(), i2->color())
         && stringCompare(schedulingID(), i2->schedulingID())
         && recurrenceId() == i2->recurrenceId()

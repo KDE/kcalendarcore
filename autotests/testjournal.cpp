@@ -87,10 +87,14 @@ void JournalTest::testAssign()
     journal1.setDtStart(QDateTime(dt, {}));
     journal1.setAllDay(true);
     journal1.setSummary(QStringLiteral("Journal1 Summary"));
-    journal1.setDescription(QStringLiteral("This is a description of the first journal"));
+    journal1.setDescription(QStringLiteral("This is a description of the first journal"), true);
     journal1.setLocation(QStringLiteral("the place"));
 
-    Journal journal2 = journal1;
+    Journal journal2;
+    IncidenceBase *ib1 = & journal1;
+    IncidenceBase *ib2 = & journal2;
+    *ib2 = *ib1;
+    QVERIFY(journal2.descriptionIsRich());
     QVERIFY(journal1 == journal2);
 }
 
