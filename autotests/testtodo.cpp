@@ -142,6 +142,27 @@ void TodoTest::testSetCompleted()
     QVERIFY(!todo2.isCompleted());
 }
 
+void TodoTest::testSetPercent()
+{
+    Todo t;
+    t.setPercentComplete(100);
+    t.setStatus(Incidence::StatusCompleted);
+    t.setCompleted(QDateTime::currentDateTimeUtc());
+
+    // Completion reset if necessary.
+    QVERIFY(t.hasCompletedDate());
+    t.resetDirtyFields();
+    t.setPercentComplete(99);
+    QVERIFY(!t.hasCompletedDate());
+    QVERIFY(t.status() != Incidence::StatusCompleted);
+    QVERIFY(t.dirtyFields() == QSet({Incidence::FieldPercentComplete, Incidence::FieldCompleted, Incidence::FieldStatus}));
+
+    t.resetDirtyFields();
+    t.setPercentComplete(0);
+    QVERIFY(t.status() != Incidence::StatusCompleted);
+    QVERIFY(t.dirtyFields() == QSet({Incidence::FieldPercentComplete}));
+}
+
 void TodoTest::testStatus()
 {
     QDateTime today = QDateTime::currentDateTimeUtc();

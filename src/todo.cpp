@@ -271,12 +271,18 @@ void Todo::setPercentComplete(int percent)
     }
 
     update();
-    d->mPercentComplete = percent;
-    if (percent != 100) {
-        d->mCompleted = QDateTime();
+    if (percent != d->mPercentComplete) {
+        d->mPercentComplete = percent;
+        setFieldDirty(FieldPercentComplete);
     }
-    setFieldDirty(FieldPercentComplete);
+    if (percent != 100 && d->mCompleted.isValid()) {
+        d->mCompleted = QDateTime();
+        setFieldDirty(FieldCompleted);
+    }
     updated();
+    if (percent != 100 && status() == Incidence::StatusCompleted) {
+        setStatus(Incidence::StatusNone);   // Calls update()/updated().
+    }
 }
 
 bool Todo::isInProgress(bool first) const
