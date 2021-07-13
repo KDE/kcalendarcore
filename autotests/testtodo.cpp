@@ -113,12 +113,44 @@ void TodoTest::testAssign()
     QVERIFY(todo1 == todo2);
 }
 
+void TodoTest::testSetCompletedWithDate()
+{
+    Todo t;
+    t.setStatus(Incidence::StatusNone);
+    QVERIFY(!t.isCompleted());
+    QVERIFY(!t.hasCompletedDate());
+    QVERIFY(t.status() != Incidence::StatusCompleted);
+    QVERIFY(t.percentComplete() != 100);
+
+    const auto now = QDateTime::currentDateTimeUtc();
+    t.setCompleted(now);
+    QVERIFY(t.isCompleted());
+    QVERIFY(t.completed() == now);
+    QVERIFY(t.hasCompletedDate());
+    QVERIFY(t.status() == Incidence::StatusNone);
+    QVERIFY(t.percentComplete() == 100);
+}
+
+void TodoTest::testSetCompletedWithoutDate()
+{
+    Todo t;
+    t.setStatus(Incidence::StatusNeedsAction);
+    QVERIFY(!t.isCompleted());
+    QVERIFY(!t.hasCompletedDate());
+    QVERIFY(t.status() != Incidence::StatusCompleted);
+    QVERIFY(t.percentComplete() != 100);
+
+    t.setCompleted(QDateTime());
+    QVERIFY(t.isCompleted());
+    QVERIFY(!t.hasCompletedDate());
+    QVERIFY(t.status() == Incidence::StatusCompleted);
+    QVERIFY(t.percentComplete() == 100);
+}
+
 void TodoTest::testSetCompleted()
 {
-    Todo todo1, todo2, todo3;
+    Todo todo1;
     todo1.setSummary(QStringLiteral("Todo Summary"));
-    todo2.setSummary(QStringLiteral("Todo Summary"));
-    todo3.setSummary(QStringLiteral("Todo Summary"));
     QDateTime today = QDateTime::currentDateTimeUtc();
 
     // due yesterday
@@ -128,39 +160,61 @@ void TodoTest::testSetCompleted()
     todo1.setDtDue(originalDueDate);
     todo1.recurrence()->setDaily(1);
     todo1.setCompleted(today);
-
-    todo2.setCompleted(true);
-
-    todo3.setStatus(Incidence::StatusCompleted);
-
     QVERIFY(originalDueDate != todo1.dtDue());
     QVERIFY(!todo1.isCompleted());
-    QVERIFY(todo2.isCompleted());
-    QCOMPARE(todo2.status(), Incidence::StatusCompleted);
-    QVERIFY(todo3.isCompleted());
-    todo2.setCompleted(false);
-    QVERIFY(!todo2.isCompleted());
+}
+
+void TodoTest::testSetCompletedBool()
+{
+    Todo t;
+    QVERIFY(!t.isCompleted());
+    QVERIFY(!t.hasCompletedDate());
+    QVERIFY(t.status() != Incidence::StatusCompleted);
+    QVERIFY(t.percentComplete() != 100);
+
+    t.setCompleted(true);
+    QVERIFY(t.isCompleted());
+    QVERIFY(!t.hasCompletedDate());
+    QVERIFY(t.status() == Incidence::StatusCompleted);
+    QVERIFY(t.percentComplete() == 100);
+
+    const auto yesterday = QDateTime::currentDateTimeUtc().addDays(-1);
+    t.setCompleted(yesterday);
+    t.setCompleted(true);
+    QVERIFY(t.isCompleted());
+    QVERIFY(t.completed() == yesterday);
+    QVERIFY(t.status() == Incidence::StatusCompleted);
+    QVERIFY(t.percentComplete() == 100);
+
+    t.setCompleted(false);
+    QVERIFY(!t.isCompleted());
+    QVERIFY(!t.hasCompletedDate());
+    QVERIFY(t.status() == Incidence::StatusNone);
+    QVERIFY(t.percentComplete() == 0);
 }
 
 void TodoTest::testSetPercent()
 {
     Todo t;
-    t.setPercentComplete(100);
     t.setStatus(Incidence::StatusCompleted);
     t.setCompleted(QDateTime::currentDateTimeUtc());
+    t.setPercentComplete(100);
+    QVERIFY(t.percentComplete() == 100);
+    QVERIFY(t.isCompleted());
 
     // Completion reset if necessary.
     QVERIFY(t.hasCompletedDate());
-    t.resetDirtyFields();
     t.setPercentComplete(99);
+    QVERIFY(t.percentComplete() == 99);
+    QVERIFY(!t.isCompleted());
     QVERIFY(!t.hasCompletedDate());
     QVERIFY(t.status() != Incidence::StatusCompleted);
-    QVERIFY(t.dirtyFields() == QSet({Incidence::FieldPercentComplete, Incidence::FieldCompleted, Incidence::FieldStatus}));
 
-    t.resetDirtyFields();
     t.setPercentComplete(0);
+    QVERIFY(t.percentComplete() == 0);
+    QVERIFY(!t.isCompleted());
+    QVERIFY(!t.hasCompletedDate());
     QVERIFY(t.status() != Incidence::StatusCompleted);
-    QVERIFY(t.dirtyFields() == QSet({Incidence::FieldPercentComplete}));
 }
 
 void TodoTest::testStatus()

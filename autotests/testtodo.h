@@ -23,6 +23,9 @@ private Q_SLOTS:
     void testCopyIncidence();
     void testAssign();
     void testSetCompleted();
+    void testSetCompletedWithDate();
+    void testSetCompletedWithoutDate();
+    void testSetCompletedBool();
     void testSetPercent();
     void testStatus();
     void testSerializer_data();

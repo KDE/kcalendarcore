@@ -137,8 +137,9 @@ public:
     Q_REQUIRED_RESULT QDateTime dtStart(bool first) const;
 
     /**
-      Returns if the todo is 100% completed.
-      @return true if the todo is 100% completed; false otherwise.
+      Returns whether the todo is completed or not.
+      @return true if the todo is 100% completed, has status @c StatusCompleted,
+      or has a completed date; false otherwise.
 
       @see isOverdue, isInProgress(), isOpenEnded(), isNotStarted(bool),
       setCompleted(), percentComplete()
@@ -146,12 +147,15 @@ public:
     Q_REQUIRED_RESULT bool isCompleted() const;
 
     /**
-      Sets completed state.
+      Sets completion percentage and status.
 
-      @param completed If true set completed state to 100%, if false set
-      completed state to 0%.
+      @param completed If  @c true, percentage complete is set to 100%, and
+      status is set to @c StatusCompleted;  the completion date is @b not set or cleared.
+      If @c false, percentage complete is set to 0%,
+      status is set to @c StatusNone, and the completion date is cleared.
 
-      @see isCompleted(), percentComplete()
+
+      @see isCompleted(), percentComplete(), hasCompletedDate()
     */
     void setCompleted(bool completed);
 
@@ -163,11 +167,13 @@ public:
     Q_REQUIRED_RESULT int percentComplete() const;
 
     /**
-      Sets what percentage of the to-do is completed. Valid values are in the
-      range from 0 to 100.
+      Sets what percentage of the to-do is completed.
 
-      @param percent is the completion percentage, which as integer value
-      between 0 and 100, inclusive.
+      To prevent inconsistency, if @p percent is not 100, completed() is cleared,
+      and if status() is StatusCompleted it is reset to StatusNone.
+
+      @param percent is the completion percentage.  Values greater than 100 are
+      treated as 100; values less than p are treated as 0.
 
       @see isCompleted(), setCompleted()
     */
@@ -182,7 +188,17 @@ public:
     Q_REQUIRED_RESULT QDateTime completed() const;
 
     /**
-      Sets date and time of completion.
+      Marks this Todo, or its current recurrence, as completed.
+
+      If the todo does not recur, its completion percentage is set to 100%,
+      and its completion date is set to @p completeDate.  If its status is not
+      StatusNone, it is set to StatusCompleted.
+
+      @note
+      If @p completeDate is invalid, the completion date is cleared, but the
+      todo is still "complete".
+
+      If the todo recurs, the first incomplete recurrence is marked complete.
 
       @param completeDate is the to-do completion date.
       @see completed(), hasCompletedDate()

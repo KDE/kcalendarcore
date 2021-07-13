@@ -213,7 +213,7 @@ QDateTime Todo::dtStart(bool first) const
 
 bool Todo::isCompleted() const
 {
-    return d->mPercentComplete == 100 || status() == StatusCompleted;
+    return d->mPercentComplete == 100 || status() == StatusCompleted || hasCompletedDate();
 }
 
 void Todo::setCompleted(bool completed)
@@ -221,15 +221,17 @@ void Todo::setCompleted(bool completed)
     update();
     if (completed) {
         d->mPercentComplete = 100;
-        setStatus(StatusCompleted);
     } else {
         d->mPercentComplete = 0;
-        d->mCompleted = QDateTime();
-        setStatus(StatusNone);
+        if (hasCompletedDate()) {
+            d->mCompleted = QDateTime();
+            setFieldDirty(FieldCompleted);
+        }
     }
-    setFieldDirty(FieldCompleted);
-    setFieldDirty(FieldStatus);
+    setFieldDirty(FieldPercentComplete);
     updated();
+
+    setStatus(completed ? StatusCompleted : StatusNone);    // Calls update()/updated().
 }
 
 QDateTime Todo::completed() const
@@ -245,11 +247,19 @@ void Todo::setCompleted(const QDateTime &completed)
 {
     update();
     if (!d->recurTodo(this)) {
-        d->mPercentComplete = 100;
-        d->mCompleted = completed.toUTC();
-        setFieldDirty(FieldCompleted);
+        if (d->mPercentComplete != 100) {
+            d->mPercentComplete = 100;
+            setFieldDirty(FieldPercentComplete);
+        }
+        if (d->mCompleted.isValid() != completed.isValid()) {
+            d->mCompleted = completed.toUTC();
+            setFieldDirty(FieldCompleted);
+        }
     }
     updated();
+    if (status() != StatusNone) {
+        setStatus(StatusCompleted); // Calls update()/updated()
+    }
 }
 
 bool Todo::hasCompletedDate() const
