@@ -310,7 +310,7 @@ public:
     virtual void startBatchAdding();
 
     /**
-       Tells the Calendar that you stoped adding a batch of incidences.
+       Tells the Calendar that you stopped adding a batch of incidences.
 
         @see startBatchAdding()
      */
@@ -1107,7 +1107,7 @@ public:
        Returns a list of incidences that have a relation of RELTYPE parent
        to incidence @p uid.
 
-       @param uid The parent identifier whos children we want to obtain.
+       @param uid The parent identifier whose children we want to obtain.
     */
     Incidence::List relations(const QString &uid) const;
 
@@ -1301,8 +1301,8 @@ protected:
       @param alarms is a List of Alarms to be appended onto.
       @param incidence is a pointer to an Incidence containing the Alarm
       to be appended.
-      @param from is the lower range of the next Alarm repitition.
-      @param to is the upper range of the next Alarm repitition.
+      @param from is the lower range of the next Alarm repetition.
+      @param to is the upper range of the next Alarm repetition.
     */
     void appendAlarms(Alarm::List &alarms, const Incidence::Ptr &incidence, const QDateTime &from, const QDateTime &to) const;
 
@@ -1312,8 +1312,8 @@ protected:
       @param alarms is a List of Alarms to be appended onto.
       @param incidence is a pointer to an Incidence containing the Alarm
       to be appended.
-      @param from is the lower range of the next Alarm repitition.
-      @param to is the upper range of the next Alarm repitition.
+      @param from is the lower range of the next Alarm repetition.
+      @param to is the upper range of the next Alarm repetition.
     */
     void appendRecurringAlarms(Alarm::List &alarms, const Incidence::Ptr &incidence, const QDateTime &from, const QDateTime &to) const;
 

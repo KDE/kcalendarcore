@@ -153,7 +153,7 @@ bool FileStorage::save()
         calendar()->setModified(false);
     } else {
         if (!format->exception()) {
-            qCDebug(KCALCORE_LOG) << "Error. There should be an expection set.";
+            qCDebug(KCALCORE_LOG) << "Error. There should be an exception set.";
         } else {
             qCDebug(KCALCORE_LOG) << int(format->exception()->code());
         }

@@ -1111,7 +1111,7 @@ void RecurrenceRule::shiftTimes(const QTimeZone &oldTz, const QTimeZone &newTz)
 //    * The following recurrences may never occur:
 //    * - For rMonthlyDay: if the frequency is a whole number of years.
 //    * - For rMonthlyPos: if the frequency is an even whole number of years.
-//    * - For rYearlyDay, rYearlyMonth: if the frequeny is a multiple of 4 years.
+//    * - For rYearlyDay, rYearlyMonth: if the frequency is a multiple of 4 years.
 //    * - For rYearlyPos: if the frequency is an even number of years.
 //    * The maximum number of iterations needed, assuming that it does actually occur,
 //    * was found empirically.
@@ -1955,7 +1955,7 @@ QList<QDateTime> RecurrenceRule::Private::datesForInterval(const Constraint &int
         if (merged.merge(mConstraints[i])) {
             // If the information is incomplete, we can't use this constraint
             if (merged.year > 0 && merged.hour >= 0 && merged.minute >= 0 && merged.second >= 0) {
-                // We have a valid constraint, so get all datetimes that match it andd
+                // We have a valid constraint, so get all datetimes that match it and
                 // append it to all date/times of this interval
                 QList<QDateTime> lstnew = merged.dateTimes(type);
                 lst += lstnew;

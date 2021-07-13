@@ -46,7 +46,7 @@ public:
     /**
       Constructs a conference consisting of a @p uri, description of
       the URI (@p label), list of features of the conference (@p features)
-      and @p langauge.
+      and @p language.
 
       @param uri Uri to join the conference.
       @param label Label of the URI.

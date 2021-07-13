@@ -888,8 +888,8 @@ void Calendar::removeRelations(const Incidence::Ptr &incidence)
         // Since the mOrphans dict might contain the same key (with different
         // child incidence pointers!) multiple times, take care that we remove
         // the correct one. So we need to remove all items with the given
-        // parent UID, and readd those that are not for this item. Also, there
-        // might be other entries with differnet UID that point to this
+        // parent UID, and re-add those that are not for this item. Also, there
+        // might be other entries with different UID that point to this
         // incidence (this might happen when the relatedTo of the item is
         // changed before its parent is inserted. This might happen with
         // groupware servers....). Remove them, too
@@ -915,7 +915,7 @@ void Calendar::removeRelations(const Incidence::Ptr &incidence)
                     tempList.append(i);
                 }
             }
-            // Readd those that point to a different orphan incidence
+            // Re-add those that point to a different orphan incidence
             for (Incidence::List::Iterator incit = tempList.begin(); incit != tempList.end(); ++incit) {
                 d->mOrphans.insert(*uidit, *incit);
             }
@@ -1261,7 +1261,7 @@ void Calendar::appendRecurringAlarms(Alarm::List &alarms, const Incidence::Ptr &
                 }
 
                 // Adjust the 'alarmStart' date/time and find the next recurrence at or after it.
-                // Treate the two offsets separately in case one is daily and the other not.
+                // Treat the two offsets separately in case one is daily and the other not.
                 dt = incidence->recurrence()->getNextDateTime(baseStart.addSecs(-1));
                 if (!dt.isValid() || (dt = endOffset.end(offset.end(dt))) > to) { // adjust 'dt' to get the alarm time
                     // The next recurrence is too late.

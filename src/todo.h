@@ -176,7 +176,7 @@ public:
     /**
       Returns the to-do was completion datetime.
 
-      @return A QDateTime for the completeion datetime of the to-do.
+      @return A QDateTime for the completion datetime of the to-do.
       @see hasCompletedDate()
     */
     Q_REQUIRED_RESULT QDateTime completed() const;

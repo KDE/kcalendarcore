@@ -97,7 +97,7 @@ enum DateTimeComparison {
     * the result cannot be guaranteed to be correct, since by definition they
     * contain no information about time zones or daylight savings changes.
     *
-    * @return DateTimeComparison indicating teh relationship of dt1 to dt2
+    * @return DateTimeComparison indicating the relationship of dt1 to dt2
     * @see operator==(), operator!=(), operator<(), operator<=(), operator>=(), operator>()
     */
 

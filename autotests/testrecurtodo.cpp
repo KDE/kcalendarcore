@@ -60,7 +60,7 @@ void RecurTodoTest::testAllDay()
     todo.setCompleted(currentUtcDateTime);
 
     QCOMPARE(newDueDate, currentDate.addDays(1));
-    QCOMPARE(todo.dtDue(true /*first ocurrence*/).date(), dueDate);
+    QCOMPARE(todo.dtDue(true /*first occurrence*/).date(), dueDate);
 }
 
 void RecurTodoTest::testRecurrenceStart()
@@ -122,7 +122,7 @@ void RecurTodoTest::testNonAllDay()
 
     todo.setCompleted(QDateTime::currentDateTimeUtc());
     QCOMPARE(todo.dtStart(), QDateTime(currentDate, currentTime, todo.dtStart().timeZone()).addDays(2));
-    QCOMPARE(todo.dtDue(true /*first ocurrence*/), QDateTime(treeDaysAgo, currentTime));
+    QCOMPARE(todo.dtDue(true /*first occurrence*/), QDateTime(treeDaysAgo, currentTime));
 }
 
 void RecurTodoTest::testIsAllDay()
@@ -264,7 +264,7 @@ void RecurTodoTest::testRecurrenceBasedOnDue()
     QCOMPARE(todo->recurrence()->getNextDateTime(dtdue.addDays(2)), QDateTime());
 }
 
-/** Test that occurrances specified by a recurrence rule are eliminated by
+/** Test that occurrences specified by a recurrence rule are eliminated by
  * exception dates.
  */
 void RecurTodoTest::testRecurrenceExdates()

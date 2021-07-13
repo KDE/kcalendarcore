@@ -966,7 +966,7 @@ icalrecurrencetype ICalFormatImpl::writeRecurrenceRule(RecurrenceRule *recur)
     r.week_start = static_cast<icalrecurrencetype_weekday>(recur->weekStart() % 7 + 1);
 
     if (recur->frequency() > 1) {
-        // Dont' write out INTERVAL=1, because that's the default anyway
+        // Don't write out INTERVAL=1, because that's the default anyway
         r.interval = static_cast<short>(recur->frequency());
     }
 

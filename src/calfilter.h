@@ -109,7 +109,7 @@ public:
 
     /**
       Applies the filter to a list of To-dos. All to-dos not matching the
-      filter criterias are removed from the list.
+      filter criteria are removed from the list.
 
       @param todoList is a list of To-dos to filter.
     */
@@ -117,7 +117,7 @@ public:
 
     /**
       Applies the filter to a list of Journals. All journals not matching the
-      filter criterias are removed from the list.
+      filter criteria are removed from the list.
 
       @param journalList is a list of Journals to filter.
     */
@@ -162,7 +162,7 @@ public:
 
     /**
       Sets the list of email addresses to be considered when filtering
-      incidences according ot the #HideNoMatchingAttendeeTodos criteria.
+      incidences according to the #HideNoMatchingAttendeeTodos criteria.
 
       @param emailList is a QStringList of email addresses.
       @see emailList().

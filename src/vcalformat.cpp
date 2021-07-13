@@ -1496,7 +1496,7 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
                 if (hasTimeZone && !aTodo->allDay() && aTodo->dtStart().timeZone() == QTimeZone::utc()) {
                     // This sounds stupid but is how others are doing it, so here
                     // we go. If there is a TZ in the VCALENDAR even if the dtStart
-                    // and dtend are in UTC, clients interpret it usint alse the TZ defined
+                    // and dtend are in UTC, clients interpret it using also the TZ defined
                     // in the Calendar. I know it sounds braindead but oh well
                     int utcOffSet = aTodo->dtStart().offsetFromUtc();
                     QDateTime dtStart(aTodo->dtStart().addSecs(utcOffSet));

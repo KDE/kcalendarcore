@@ -410,9 +410,9 @@ bool Todo::Private::recurTodo(Todo *todo)
 
             /* Now we search for the occurrence that's _after_ the currentUtcDateTime, or
              * if it's dateOnly, the occurrrence that's _during or after today_.
-             * The reason we use "<" for date only, but "<=" for ocurrences with time is that
-             * if it's date only, the user can still complete that ocurrence today, so that's
-             * the current ocurrence that needs completing.
+             * The reason we use "<" for date only, but "<=" for occurrences with time is that
+             * if it's date only, the user can still complete that occurrence today, so that's
+             * the current occurrence that needs completing.
              */
             while (!todo->recursAt(nextOccurrenceDateTime) || (!isDateOnly && nextOccurrenceDateTime <= rightNow)
                    || (isDateOnly && nextOccurrenceDateTime.date() < rightNow.date())) {

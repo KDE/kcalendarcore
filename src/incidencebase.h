@@ -271,7 +271,7 @@ public:
      </pre>
 
      @param v is a reference to a Visitor object.
-     @param incidence is a valid IncidenceBase object for visting.
+     @param incidence is a valid IncidenceBase object for visiting.
     */
     virtual bool accept(Visitor &v, const IncidenceBase::Ptr &incidence);
 

@@ -459,7 +459,7 @@ void MemoryCalendarTest::testUpdateIncidence()
 
     const QDateTime now = QDateTime::currentDateTimeUtc();
 
-    // Any single modfication is updating the lastModified field.
+    // Any single modification is updating the lastModified field.
     event->setSummary(QString::fromLatin1("test"));
     QVERIFY(event->lastModified().secsTo(now) < 5);
 
