@@ -66,6 +66,41 @@ void KCalendarCore::deserializeKDateTimeAsQDateTime(QDataStream &in, QDateTime &
     in >> flags;
 }
 
+QDateTime KCalendarCore::deserializeKDateTimeAsQDateTime(QDataStream &in)
+{
+    QDateTime dt;
+    QDate date;
+    QTime time;
+    quint8 ts, flags;
+
+    in >> date >> time >> ts;
+    switch (static_cast<uchar>(ts)) {
+    case 'u':
+        dt = QDateTime(date, time, Qt::UTC);
+        break;
+    case 'o': {
+        int offset;
+        in >> offset;
+        dt = QDateTime(date, time, Qt::OffsetFromUTC, offset);
+        break;
+    }
+    case 'z': {
+        QString tzid;
+        in >> tzid;
+        dt = QDateTime(date, time, QTimeZone(tzid.toUtf8()));
+        break;
+    }
+    case 'c':
+        dt = QDateTime(date, time, Qt::LocalTime);
+        break;
+    }
+
+    // unused, we don't have a special handling for date-only QDateTime
+    in >> flags;
+
+    return dt;
+}
+
 void KCalendarCore::serializeQTimeZoneAsSpec(QDataStream &out, const QTimeZone &tz)
 {
     out << static_cast<quint8>('z') << (tz.isValid() ? QString::fromUtf8(tz.id()) : QString());

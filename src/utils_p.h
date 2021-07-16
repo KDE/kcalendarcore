@@ -22,6 +22,7 @@ namespace KCalendarCore
  */
 void serializeQDateTimeAsKDateTime(QDataStream &out, const QDateTime &dt);
 KCALENDARCORE_EXPORT void deserializeKDateTimeAsQDateTime(QDataStream &in, QDateTime &dt);
+KCALENDARCORE_EXPORT QDateTime deserializeKDateTimeAsQDateTime(QDataStream &in);
 
 void serializeQDateTimeList(QDataStream &out, const QList<QDateTime> &list);
 void deserializeQDateTimeList(QDataStream &in, QList<QDateTime> &list);
