@@ -166,8 +166,11 @@ Person Calendar::owner() const
 
 void Calendar::setOwner(const Person &owner)
 {
-    d->mOwner = owner;
-    setModified(true);
+    if (owner != d->mOwner) {
+        d->mOwner = owner;
+        setModified(true);
+        Q_EMIT ownerChanged();
+    }
 }
 
 void Calendar::setTimeZone(const QTimeZone &timeZone)

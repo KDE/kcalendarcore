@@ -130,7 +130,7 @@ class KCALENDARCORE_EXPORT Calendar : public QObject, public CustomProperties, p
 {
     Q_OBJECT
     Q_PROPERTY(QString productId READ productId WRITE setProductId) // clazy:exclude=qproperty-without-notify
-    Q_PROPERTY(KCalendarCore::Person owner READ owner WRITE setOwner)
+    Q_PROPERTY(KCalendarCore::Person owner READ owner WRITE setOwner NOTIFY ownerChanged)
     Q_PROPERTY(QString id READ id WRITE setId NOTIFY idChanged)
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QIcon icon READ icon WRITE setIcon NOTIFY iconChanged)
@@ -1445,6 +1445,13 @@ Q_SIGNALS:
      * @see accessMode()
      */
     void accessModeChanged();
+
+    /**
+     * Emitted when the owner changes.
+     * @since 5.85
+     * @see owner()
+     */
+    void ownerChanged();
 
 private:
     friend class ICalFormat;
