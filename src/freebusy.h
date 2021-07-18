@@ -34,7 +34,9 @@ class FreeBusy;
   @brief
   Provides information about the free/busy time of a calendar.
 
-  A free/busy is a collection of Periods (@see Period).
+  A free/busy is a collection of Periods.
+  
+  @see Period.
 */
 class KCALENDARCORE_EXPORT FreeBusy : public IncidenceBase
 {
