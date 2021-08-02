@@ -119,7 +119,7 @@ endif()
 
 if (NOT WIN32)
     ecm_generate_pkgconfig_file(BASE_NAME KF5CalendarCore
-      INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR}/KCalendarCore/
+      INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF5}/KCalendarCore/
       DEPS Qt5Core
     INSTALL)
 endif()
