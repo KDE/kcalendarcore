@@ -33,6 +33,7 @@ class Q_DECL_HIDDEN KCalendarCore::FreeBusy::Private
 {
 private:
     FreeBusy *q;
+    QDateTime mDtEnd; // end datetime
 
 public:
     Private(FreeBusy *qq)
@@ -52,10 +53,20 @@ public:
     {
     }
 
+    // Default copy constructor would copy q.
+    Private(Private &p) = delete;
+
     void init(const KCalendarCore::FreeBusy::Private &other);
     void init(const Event::List &events, const QDateTime &start, const QDateTime &end);
 
-    QDateTime mDtEnd; // end datetime
+    void setDtEnd(const QDateTime &);
+    QDateTime dtEnd() const
+    {
+        return mDtEnd;
+    }
+
+    void shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone);
+
     FreeBusyPeriod::List mBusyPeriods; // list of periods
 
     // This is used for creating a freebusy object for the current user
@@ -178,6 +189,23 @@ void FreeBusy::Private::init(const Event::List &eventList, const QDateTime &star
 
     q->sortList();
 }
+
+void FreeBusy::Private::setDtEnd(const QDateTime &dtEnd)
+{
+    if (mDtEnd != dtEnd) {
+        mDtEnd = dtEnd;
+        q->setFieldDirty(FieldDtEnd);
+    }
+}
+
+void FreeBusy::Private::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
+{
+    if (mDtEnd.isValid()) {
+        mDtEnd = mDtEnd.toTimeZone(oldZone);
+        mDtEnd.setTimeZone(newZone);
+        q->setFieldDirty(FieldDtEnd);
+    }
+}
 //@endcond
 
 FreeBusy::FreeBusy(const Period::List &busyPeriods)
@@ -209,17 +237,18 @@ QByteArray FreeBusy::typeStr() const
 void FreeBusy::setDtStart(const QDateTime &start)
 {
     IncidenceBase::setDtStart(start.toUTC());
-    updated();
 }
 
 void FreeBusy::setDtEnd(const QDateTime &end)
 {
-    d->mDtEnd = end;
+    update();
+    d->setDtEnd(end);
+    updated();
 }
 
 QDateTime FreeBusy::dtEnd() const
 {
-    return d->mDtEnd;
+    return d->dtEnd();
 }
 
 Period::List FreeBusy::busyPeriods() const
@@ -294,8 +323,9 @@ void FreeBusy::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
 {
     if (oldZone.isValid() && newZone.isValid() && oldZone != newZone) {
         IncidenceBase::shiftTimes(oldZone, newZone);
-        d->mDtEnd = d->mDtEnd.toTimeZone(oldZone);
-        d->mDtEnd.setTimeZone(newZone);
+        update();
+        d->shiftTimes(oldZone, newZone);
+        updated();
         for (FreeBusyPeriod p : qAsConst(d->mBusyPeriods)) {
             p.shiftTimes(oldZone, newZone);
         }
