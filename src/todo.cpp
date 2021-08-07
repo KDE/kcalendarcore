@@ -38,7 +38,8 @@ class Q_DECL_HIDDEN KCalendarCore::Todo::Private
 {
     Todo *const q;
 
-    QDateTime mDtDue; // to-do due date (if there is one); also the first occurrence of a recurring to-do
+    // Due date of the to-do or its first recurrence if it recurs;  invalid() <=> no defined due date.
+    QDateTime mDtDue;
     QDateTime mDtRecurrence; // next occurrence (for recurring to-dos)
     QDateTime mCompleted; // to-do completion date (if it has been completed)
     int mPercentComplete = 0; // to-do percent complete [0,100]
@@ -50,11 +51,14 @@ public:
     {
     }
 
-    Private(Todo * todo, const KCalendarCore::Todo::Private &other)
+    Private(const KCalendarCore::Todo::Private &other, Todo * todo)
         : q(todo)
     {
         init(other);
     }
+
+    // Default copy constructor would copy q.
+    Private(Private &p) = delete;
 
     void init(const KCalendarCore::Todo::Private &other);
 
@@ -86,6 +90,8 @@ public:
       Returns true if the todo got a new date, else false will be returned.
     */
     bool recurTodo(Todo *todo);
+
+    void deserialize(QDataStream &in);
 };
 
 void Todo::Private::setDtDue(const QDateTime dd)
@@ -137,7 +143,7 @@ Todo::Todo()
 
 Todo::Todo(const Todo &other)
     : Incidence(other)
-    , d(new KCalendarCore::Todo::Private(*other.d))
+    , d(new KCalendarCore::Todo::Private(*other.d, this))
 {
 }
 
@@ -598,16 +604,18 @@ void Todo::serialize(QDataStream &out) const
     out << d->percentComplete();
 }
 
+void Todo::Private::deserialize(QDataStream &in)
+{
+    deserializeKDateTimeAsQDateTime(in, mDtDue);
+    deserializeKDateTimeAsQDateTime(in, mDtRecurrence);
+    deserializeKDateTimeAsQDateTime(in, mCompleted);
+    in >> mPercentComplete;
+}
+
 void Todo::deserialize(QDataStream &in)
 {
     Incidence::deserialize(in);
-    d->setDtDue(deserializeKDateTimeAsQDateTime(in));
-    d->setDtRecurrence(deserializeKDateTimeAsQDateTime(in));
-    d->setCompleted(deserializeKDateTimeAsQDateTime(in));
-    int pc;
-    in >> pc;
-    d->setPercentComplete(pc);
-    resetDirtyFields();
+    d->deserialize(in);
 }
 
 bool Todo::supportsGroupwareCommunication() const
