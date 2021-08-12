@@ -102,8 +102,10 @@ public:
                     }
                 }
                 const auto occurrences = inc->recurrence()->timesInInterval(start, end);
-                Incidence::Ptr incidence(inc), lastInc(inc);
-                qint64 offset(0), lastOffset(0);
+                Incidence::Ptr incidence(inc);
+                Incidence::Ptr lastInc(inc);
+                qint64 offset(0);
+                qint64 lastOffset(0);
                 QDateTime occurrenceStartDate;
                 for (const auto &recurrenceId : qAsConst(occurrences)) {
                     occurrenceStartDate = recurrenceId;

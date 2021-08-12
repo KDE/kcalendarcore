@@ -174,7 +174,10 @@ static bool extractEmailAddressAndName(const QString &aStr, QString &mail, QStri
 
     bool bInComment = false;
     bool bInQuotesOutsideOfEmail = false;
-    int i = 0, iAd = 0, iMailStart = 0, iMailEnd = 0;
+    int i = 0;
+    int iAd = 0;
+    int iMailStart = 0;
+    int iMailEnd = 0;
     QChar c;
     unsigned int commentstack = 0;
 
@@ -358,7 +361,8 @@ static bool extractEmailAddressAndName(const QString &aStr, QString &mail, QStri
 
 Person Person::fromFullName(const QString &fullName)
 {
-    QString email, name;
+    QString email;
+    QString name;
     extractEmailAddressAndName(fullName, email, name);
     return Person(name, email);
 }

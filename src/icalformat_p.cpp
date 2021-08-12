@@ -1578,7 +1578,8 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent, const Incidence::Ptr &
     icalproperty *p = icalcomponent_get_first_property(parent, ICAL_ANY_PROPERTY);
 
     const char *text;
-    int intvalue, inttext;
+    int intvalue;
+    int inttext;
     icaldurationtype icalduration;
     QDateTime kdt;
     QDateTime dtstamp;
@@ -1917,7 +1918,8 @@ void ICalFormatImpl::Private::readIncidenceBase(icalcomponent *parent, const Inc
 void ICalFormatImpl::Private::readCustomProperties(icalcomponent *parent, CustomProperties *properties)
 {
     QByteArray property;
-    QString value, parameters;
+    QString value;
+    QString parameters;
     icalproperty *p = icalcomponent_get_first_property(parent, ICAL_X_PROPERTY);
     icalparameter *param = nullptr;
 

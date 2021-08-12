@@ -498,7 +498,8 @@ QList<QDateTime> Constraint::dateTimes(RecurrenceRule::PeriodType type) const
         uint mstart = (month > 0) ? month : 1;
         uint mend = (month <= 0) ? 12 : month;
         for (uint m = mstart; m <= mend; ++m) {
-            uint dstart, dend;
+            uint dstart;
+            uint dend;
             if (day > 0) {
                 dstart = dend = day;
             } else if (day < 0) {
@@ -1168,8 +1169,10 @@ void RecurrenceRule::Private::buildConstraints()
     }
     mConstraints.append(con);
 
-    int c, cend;
-    int i, iend;
+    int c;
+    int cend;
+    int i;
+    int iend;
     Constraint::List tmp;
 
 // clang-format off
@@ -1358,7 +1361,8 @@ bool RecurrenceRule::dateMatchesRules(const QDateTime &kdt) const
 
 bool RecurrenceRule::recursOn(const QDate &qd, const QTimeZone &timeZone) const
 {
-    int i, iend;
+    int i;
+    int iend;
 
     if (!qd.isValid() || !d->mDateStart.isValid()) {
         // There can't be recurrences on invalid dates

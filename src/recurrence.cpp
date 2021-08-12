@@ -105,7 +105,8 @@ Recurrence::Recurrence(const Recurrence &r)
     : RecurrenceRule::RuleObserver()
     , d(new KCalendarCore::Recurrence::Private(*r.d))
 {
-    int i, end;
+    int i;
+    int end;
     d->mRRules.reserve(r.d->mRRules.count());
     for (i = 0, end = r.d->mRRules.count(); i < end; ++i) {
         RecurrenceRule *rule = new RecurrenceRule(*r.d->mRRules[i]);
@@ -324,7 +325,8 @@ bool Recurrence::recursOn(const QDate &qd, const QTimeZone &timeZone) const
         return false;
     }
 
-    int i, end;
+    int i;
+    int end;
     // For all-day events a matching exrule excludes the whole day
     // since exclusions take precedence over inclusions, we know it can't occur on that day.
     if (allDay()) {
@@ -386,7 +388,8 @@ bool Recurrence::recursAt(const QDateTime &dt) const
         || std::binary_search(d->mExDates.constBegin(), d->mExDates.constEnd(), dtrecur.date())) {
         return false;
     }
-    int i, end;
+    int i;
+    int end;
     for (i = 0, end = d->mExRules.count(); i < end; ++i) {
         if (d->mExRules[i]->recursAt(dtrecur)) {
             return false;
@@ -519,7 +522,8 @@ void Recurrence::shiftTimes(const QTimeZone &oldTz, const QTimeZone &newTz)
     d->mStartDateTime = d->mStartDateTime.toTimeZone(oldTz);
     d->mStartDateTime.setTimeZone(newTz);
 
-    int i, end;
+    int i;
+    int end;
     for (i = 0, end = d->mRDateTimes.count(); i < end; ++i) {
         d->mRDateTimes[i] = d->mRDateTimes[i].toTimeZone(oldTz);
         d->mRDateTimes[i].setTimeZone(newTz);
@@ -586,7 +590,8 @@ void Recurrence::setStartDateTime(const QDateTime &start, bool isAllDay)
     d->mStartDateTime = start;
     setAllDay(isAllDay); // set all RRULEs and EXRULEs
 
-    int i, end;
+    int i;
+    int end;
     for (i = 0, end = d->mRRules.count(); i < end; ++i) {
         d->mRRules[i]->setStartDt(start);
     }
@@ -977,7 +982,8 @@ void Recurrence::setYearlyMonth(const QList<int> &months)
 TimeList Recurrence::recurTimesOn(const QDate &date, const QTimeZone &timeZone) const
 {
     // qCDebug(KCALCORE_LOG) << "recurTimesOn(" << date << ")";
-    int i, end;
+    int i;
+    int end;
     TimeList times;
 
     // The whole day is excepted
@@ -1038,7 +1044,8 @@ TimeList Recurrence::recurTimesOn(const QDate &date, const QTimeZone &timeZone) 
 
 QList<QDateTime> Recurrence::timesInInterval(const QDateTime &start, const QDateTime &end) const
 {
-    int i, count;
+    int i;
+    int count;
     QList<QDateTime> times;
     for (i = 0, count = d->mRRules.count(); i < count; ++i) {
         times += d->mRRules[i]->timesInInterval(start, end);
@@ -1502,7 +1509,8 @@ KCALENDARCORE_EXPORT QDataStream &KCalendarCore::operator>>(QDataStream &in, KCa
         return in;
     }
 
-    int rruleCount, exruleCount;
+    int rruleCount;
+    int exruleCount;
 
     deserializeQDateTimeList(in, r->d->mRDateTimes);
     deserializeQDateTimeList(in, r->d->mExDateTimes);

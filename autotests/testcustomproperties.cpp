@@ -47,7 +47,8 @@ void CustomPropertiesTest::testValidity()
 
 void CustomPropertiesTest::testCompare()
 {
-    CustomProperties cp1, cp2;
+    CustomProperties cp1;
+    CustomProperties cp2;
 
     QByteArray app("KORG");
     QByteArray key("TEXT");
@@ -111,7 +112,8 @@ void CustomPropertiesTest::testMapCompare()
     cpmap.insert("X-key4", QStringLiteral("val4"));
     cpmap.insert("X-key5", QStringLiteral("val5"));
 
-    CustomProperties cp1, cp2;
+    CustomProperties cp1;
+    CustomProperties cp2;
     cp1.setCustomProperties(cpmap);
     cp1 = cp2;
     QVERIFY(cp1 == cp2);
@@ -212,7 +214,8 @@ void CustomPropertiesTest::testDataStreamOut()
     cpmap.insert("X-key4", QStringLiteral("val4"));
     cpmap.insert("X-key5", QStringLiteral("val5"));
 
-    CustomProperties cp, cp2;
+    CustomProperties cp;
+    CustomProperties cp2;
     cp.setCustomProperties(cpmap);
     QByteArray byteArray;
     QDataStream out_stream(&byteArray, QIODevice::WriteOnly);

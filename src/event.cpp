@@ -164,7 +164,8 @@ bool Event::isMultiDay(const QTimeZone &zone) const
     }
 
     // Not in cache -> do it the hard way
-    QDateTime start, end;
+    QDateTime start;
+    QDateTime end;
 
     if (!zone.isValid()) {
         start = dtStart();

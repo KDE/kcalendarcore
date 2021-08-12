@@ -103,7 +103,8 @@ enum DateTimeComparison {
 
 DateTimeComparison compare(const QDateTime &dt1, bool isAllDay1, const QDateTime &dt2, bool isAllDay2)
 {
-    QDateTime start1, start2;
+    QDateTime start1;
+    QDateTime start2;
     // FIXME When secondOccurrence is available in QDateTime
     // const bool conv = (!d->equalSpec(*other.d) || d->secondOccurrence() != other.d->secondOccurrence());
     const bool conv = dt1.timeSpec() != dt2.timeSpec() || (dt1.timeSpec() == Qt::OffsetFromUTC && dt1.offsetFromUtc() != dt2.offsetFromUtc())
@@ -121,7 +122,8 @@ DateTimeComparison compare(const QDateTime &dt1, bool isAllDay1, const QDateTime
     if (isAllDay1 || isAllDay2) {
         // At least one of the instances is date-only, so we need to compare
         // time periods rather than just times.
-        QDateTime end1, end2;
+        QDateTime end1;
+        QDateTime end2;
         if (conv) {
             if (isAllDay1) {
                 QDateTime dt(dt1);

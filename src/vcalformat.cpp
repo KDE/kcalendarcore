@@ -1212,7 +1212,12 @@ QDateTime VCalFormat::ISOToQDateTime(const QString &dtStr)
     QDate tmpDate;
     QTime tmpTime;
     QString tmpStr;
-    int year, month, day, hour, minute, second;
+    int year;
+    int month;
+    int day;
+    int hour;
+    int minute;
+    int second;
 
     tmpStr = dtStr;
     year = tmpStr.leftRef(4).toInt();
@@ -1238,7 +1243,9 @@ QDateTime VCalFormat::ISOToQDateTime(const QString &dtStr)
 
 QDate VCalFormat::ISOToQDate(const QString &dateStr)
 {
-    int year, month, day;
+    int year;
+    int month;
+    int day;
 
     year = dateStr.leftRef(4).toInt();
     month = dateStr.midRef(4, 2).toInt();

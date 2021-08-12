@@ -1153,9 +1153,12 @@ void Incidence::serialize(QDataStream &out) const
 
 void Incidence::deserialize(QDataStream &in)
 {
-    quint32 status, secrecy;
+    quint32 status;
+    quint32 secrecy;
     bool hasRecurrence;
-    int attachmentCount, alarmCount, conferencesCount;
+    int attachmentCount;
+    int alarmCount;
+    int conferencesCount;
     QMap<int, QString> relatedToUid;
     deserializeKDateTimeAsQDateTime(in, d->mCreated);
     in >> d->mRevision >> d->mDescription >> d->mDescriptionIsRich >> d->mSummary >> d->mSummaryIsRich >> d->mLocation >> d->mLocationIsRich >> d->mCategories
@@ -1199,7 +1202,8 @@ void Incidence::deserialize(QDataStream &in)
 
     d->mRelatedToUid.clear();
 
-    auto it = relatedToUid.cbegin(), end = relatedToUid.cend();
+    auto it = relatedToUid.cbegin();
+    auto end = relatedToUid.cend();
     for (; it != end; ++it) {
         d->mRelatedToUid.insert(static_cast<Incidence::RelType>(it.key()), it.value());
     }

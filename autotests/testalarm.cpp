@@ -24,8 +24,10 @@ void AlarmTest::testValidity()
 
 void AlarmTest::testCompare()
 {
-    Event inc1, inc2;
-    Alarm alarm1(&inc1), alarm2(&inc2);
+    Event inc1;
+    Event inc2;
+    Alarm alarm1(&inc1);
+    Alarm alarm2(&inc2);
     alarm1.setType(Alarm::Email);
     alarm2.setType(Alarm::Email);
 

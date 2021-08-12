@@ -250,7 +250,10 @@ icalcomponent *ICalTimeZoneParser::icalcomponentFromQTimeZone(const QTimeZone &t
         // if the list can be reduced to an RRULE instead of multiple RDATEs.
         QTime time;
         QDate date;
-        int year = 0, month = 0, daysInMonth = 0, dayOfMonth = 0; // avoid compiler warnings
+        int year = 0;
+        int month = 0;
+        int daysInMonth = 0;
+        int dayOfMonth = 0; // avoid compiler warnings
         int dayOfWeek = 0; // Monday = 1
         int nthFromStart = 0; // nth (weekday) of month
         int nthFromEnd = 0; // nth last (weekday) of month

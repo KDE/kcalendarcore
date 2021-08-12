@@ -684,8 +684,10 @@ QDataStream &KCalendarCore::operator>>(QDataStream &in, KCalendarCore::Incidence
         return in;
     }
 
-    qint32 attendeeCount, type;
-    quint32 magic, version;
+    qint32 attendeeCount;
+    qint32 type;
+    quint32 magic;
+    quint32 version;
 
     in >> magic;
 

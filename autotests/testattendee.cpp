@@ -137,11 +137,15 @@ void AttendeeTest::testDataStreamOut()
 
     Person person;
     bool rsvp;
-    QString delegate, delegator, cuType, uid;
+    QString delegate;
+    QString delegator;
+    QString cuType;
+    QString uid;
     CustomProperties customProperties;
     Attendee::Role role;
     Attendee::PartStat status;
-    uint role_int, status_int;
+    uint role_int;
+    uint status_int;
 
     in_stream >> person;
     QVERIFY(person.name() == attendee1.name());

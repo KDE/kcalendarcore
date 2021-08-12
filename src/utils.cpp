@@ -38,7 +38,8 @@ void KCalendarCore::deserializeKDateTimeAsQDateTime(QDataStream &in, QDateTime &
 {
     QDate date;
     QTime time;
-    quint8 ts, flags;
+    quint8 ts;
+    quint8 flags;
 
     in >> date >> time >> ts;
     switch (static_cast<uchar>(ts)) {
@@ -71,7 +72,8 @@ QDateTime KCalendarCore::deserializeKDateTimeAsQDateTime(QDataStream &in)
     QDateTime dt;
     QDate date;
     QTime time;
-    quint8 ts, flags;
+    quint8 ts;
+    quint8 flags;
 
     in >> date >> time >> ts;
     switch (static_cast<uchar>(ts)) {

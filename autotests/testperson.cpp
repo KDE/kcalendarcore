@@ -66,7 +66,8 @@ void PersonTest::testDataStreamIn()
 
     QDataStream in_stream(&byteArray, QIODevice::ReadOnly);
 
-    QString name, email;
+    QString name;
+    QString email;
     int count;
 
     in_stream >> name;

@@ -21,13 +21,15 @@ void CalFilterTest::testValidity()
     QVERIFY(f.name() == QLatin1String("testfilter"));
     CalFilter g(QStringLiteral("fredfilter"));
     QVERIFY(g.name() == QLatin1String("fredfilter"));
-    CalFilter f1, f2;
+    CalFilter f1;
+    CalFilter f2;
     QVERIFY(f1 == f2);
 }
 
 void CalFilterTest::testCats()
 {
-    CalFilter f1, f2;
+    CalFilter f1;
+    CalFilter f2;
     QStringList cats;
     cats << QStringLiteral("a") << QStringLiteral("b") << QStringLiteral("c");
     f1.setCategoryList(cats);

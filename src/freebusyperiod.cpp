@@ -124,7 +124,8 @@ QDataStream &KCalendarCore::operator<<(QDataStream &stream, const KCalendarCore:
 QDataStream &KCalendarCore::operator>>(QDataStream &stream, FreeBusyPeriod &period)
 {
     KCalendarCore::Period periodParent;
-    QString summary, location;
+    QString summary;
+    QString location;
     int type;
 
     stream >> periodParent >> summary >> location >> type;

@@ -219,7 +219,8 @@ void Calendar::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
 {
     setTimeZone(newZone);
 
-    int i, end;
+    int i;
+    int end;
     Event::List ev = events();
     for (i = 0, end = ev.count(); i < end; ++i) {
         ev[i]->shiftTimes(oldZone, newZone);
@@ -254,7 +255,8 @@ CalFilter *Calendar::filter() const
 QStringList Calendar::categories() const
 {
     Incidence::List rawInc(rawIncidences());
-    QStringList cats, thisCats;
+    QStringList cats;
+    QStringList thisCats;
     // @TODO: For now just iterate over all incidences. In the future,
     // the list of categories should be built when reading the file.
     for (Incidence::List::ConstIterator i = rawInc.constBegin(); i != rawInc.constEnd(); ++i) {
@@ -340,8 +342,9 @@ bool Calendar::updateNotebook(const QString &notebook, bool isVisible)
         const QList<Incidence::Ptr> incidences = d->mNotebookIncidences.values(notebook);
         for (Incidence::Ptr incidence : incidences) {
             QHash<Incidence::Ptr, bool>::Iterator it = d->mIncidenceVisibility.find(incidence);
-            if (it != d->mIncidenceVisibility.end())
+            if (it != d->mIncidenceVisibility.end()) {
                 *it = isVisible;
+            }
         }
         return true;
     }
@@ -1171,7 +1174,8 @@ Incidence::List Calendar::mergeIncidenceList(const Event::List &events, const To
     Incidence::List incidences;
     incidences.reserve(events.count() + todos.count() + journals.count());
 
-    int i, end;
+    int i;
+    int end;
     for (i = 0, end = events.count(); i < end; ++i) {
         incidences.append(events[i]);
     }
