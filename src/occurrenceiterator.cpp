@@ -47,16 +47,19 @@ public:
         {
         }
 
-        Occurrence(const Incidence::Ptr &i, const QDateTime &recurrenceId, const QDateTime &startDate)
+        Occurrence(const Incidence::Ptr &i, const QDateTime &recurrenceId,
+                   const QDateTime &startDate, const QDateTime &endDate)
             : incidence(i)
             , recurrenceId(recurrenceId)
             , startDate(startDate)
+            , endDate(endDate)
         {
         }
 
         Incidence::Ptr incidence;
         QDateTime recurrenceId;
         QDateTime startDate;
+        QDateTime endDate;
     };
     QList<Occurrence> occurrenceList;
     QListIterator<Occurrence> occurrenceIt;
@@ -83,6 +86,20 @@ public:
             }
         }
         return false;
+    }
+
+    QDateTime occurrenceEnd(const Incidence::Ptr &inc, const QDateTime &start)
+    {
+        if (inc->hasDuration()) {
+            return inc->duration().end(start);
+        } else {
+            const QDateTime end = inc->dateTime(Incidence::RoleEnd);
+            if (end.isValid()) {
+                const Duration elapsed(inc->dtStart(), end, Duration::Seconds);
+                return elapsed.end(start);
+            }
+        }
+        return QDateTime();
     }
 
     void setupIterator(const Calendar &calendar, const Incidence::List &incidences)
@@ -131,7 +148,12 @@ public:
                     }
 
                     if (!occurrenceIsHidden(calendar, incidence, occurrenceStartDate)) {
-                        occurrenceList << Private::Occurrence(incidence, recurrenceId, occurrenceStartDate);
+                        const Period period = inc->recurrence()->rDateTimePeriod(occurrenceStartDate);
+                        if (period.isValid()) {
+                            occurrenceList << Private::Occurrence(incidence, recurrenceId, occurrenceStartDate, period.end());
+                        } else {
+                            occurrenceList << Private::Occurrence(incidence, recurrenceId, occurrenceStartDate, occurrenceEnd(incidence, occurrenceStartDate));
+                        }
                     }
 
                     if (resetIncidence) {
@@ -140,7 +162,8 @@ public:
                     }
                 }
             } else {
-                occurrenceList << Private::Occurrence(inc, {}, inc->dtStart());
+                occurrenceList << Private::Occurrence(inc, {}, inc->dtStart(),
+                                                      inc->dateTime(Incidence::RoleEnd));
             }
         }
         occurrenceIt = QListIterator<Private::Occurrence>(occurrenceList);
@@ -223,6 +246,11 @@ Incidence::Ptr OccurrenceIterator::incidence() const
 QDateTime OccurrenceIterator::occurrenceStartDate() const
 {
     return d->current.startDate;
+}
+
+QDateTime OccurrenceIterator::occurrenceEndDate() const
+{
+    return d->current.endDate;
 }
 
 QDateTime OccurrenceIterator::recurrenceId() const

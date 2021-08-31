@@ -276,3 +276,31 @@ void TimesInIntervalTest::testByDayRecurrence()
 
     QCOMPARE(expectedEventOccurrences.size(), 0);
 }
+
+void TimesInIntervalTest::testRDatePeriod()
+{
+    const QDateTime start(QDate(2021, 8, 30), QTime(11, 14));
+    const QDateTime end(QDate(2021, 8, 30), QTime(11, 42));
+    const QDateTime other(QDate(2021, 8, 30), QTime(12, 00));
+    const QDateTime later(QDate(2021, 8, 30), QTime(15, 00));
+    Recurrence recur;
+
+    QVERIFY(!recur.recurs());
+    QVERIFY(!recur.rDateTimePeriod(start).isValid());
+
+    recur.addRDateTimePeriod(Period(start, end));
+    QVERIFY(recur.recurs());
+    QCOMPARE(recur.rDateTimePeriod(start), Period(start, end));
+
+    const QList<QDateTime> timesInInterval = recur.timesInInterval(start.addDays(-1),
+                                                                   start.addDays(+1));
+    QCOMPARE(timesInInterval, QList<QDateTime>() << start);
+
+    recur.addRDateTime(other);
+    QCOMPARE(recur.rDateTimes(), QList<QDateTime>() << start << other);
+    QCOMPARE(recur.rDateTimePeriod(start), Period(start, end));
+
+    recur.setRDateTimes(QList<QDateTime>() << other << later);
+    QCOMPARE(recur.rDateTimes(), QList<QDateTime>() << other << later);
+    QVERIFY(!recur.rDateTimePeriod(start).isValid());
+}

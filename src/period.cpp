@@ -96,6 +96,11 @@ Period &Period::operator=(const Period &other)
     return *this;
 }
 
+bool Period::isValid() const
+{
+    return d->mStart.isValid();
+}
+
 QDateTime Period::start() const
 {
     return d->mStart;

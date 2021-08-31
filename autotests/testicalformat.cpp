@@ -11,6 +11,7 @@
 #include "event.h"
 #include "icalformat.h"
 #include "memorycalendar.h"
+#include "occurrenceiterator.h"
 
 #include <QTest>
 #include <QTimeZone>
@@ -251,4 +252,65 @@ void ICalFormatTest::testDateTimeSerialization()
             break;
         }
     }
+}
+
+void ICalFormatTest::testRDate()
+{
+    ICalFormat format;
+
+    const QString serializedCalendar = QLatin1String(
+        "BEGIN:VCALENDAR\n"
+        "VERSION:2.0\n"
+        "PRODID:-//Lotus Development Corporation//NONSGML Notes 9.0.1//EN_C\n"
+        "METHOD:PUBLISH\n"
+        "BEGIN:VEVENT\n"
+        "DTSTART:20210630T100000Z\n"
+        "DTEND:20210630T110000Z\n"
+        "TRANSP:OPAQUE\n"
+        "RDATE;VALUE=PERIOD:20210630T100000Z/20210630T110000Z\n"
+        " ,20210825T100000Z/20210825T110000Z,20211027T100000Z/20211027T110000Z\n"
+        " ,20211215T110000Z/PT2H\n"
+        "LAST-MODIFIED:20210601T094627Z\n"
+        "DTSTAMP:20210601T092939Z\n"
+        "UID:5FC21473F5CC80CCC12586E70033ED9C-Lotus_Notes_Generated\n"
+        "END:VEVENT\n"
+        "END:VCALENDAR\n");
+    MemoryCalendar::Ptr calendar(new MemoryCalendar(QTimeZone::utc()));
+    QVERIFY(format.fromString(calendar, serializedCalendar));
+    const QString uid = QString::fromLatin1("5FC21473F5CC80CCC12586E70033ED9C-Lotus_Notes_Generated");
+    Incidence::Ptr event = calendar->incidence(uid);
+    QVERIFY(event);
+    QVERIFY(event->recurs());
+
+    const QDateTime ev1(QDate(2021, 6, 30), QTime(10, 0), Qt::UTC);
+    const QDateTime ev2(QDate(2021, 8, 25), QTime(10, 0), Qt::UTC);
+    const QDateTime ev3(QDate(2021, 10, 27), QTime(10, 0), Qt::UTC);
+    const QDateTime ev4(QDate(2021, 12, 15), QTime(11, 0), Qt::UTC);
+    QCOMPARE(event->recurrence()->rDateTimes(),
+             QList<QDateTime>() << ev1 << ev2 << ev3 << ev4);
+
+    OccurrenceIterator it(*calendar, QDateTime(QDate(2021, 6, 1), QTime(0, 0)),
+                          QDateTime(QDate(2021, 12, 31), QTime(0, 0)));
+    QVERIFY(it.hasNext());
+    it.next();
+    QCOMPARE(it.occurrenceStartDate(), ev1);
+    QCOMPARE(it.occurrenceEndDate(), ev1.addSecs(3600));
+    QVERIFY(it.hasNext());
+    it.next();
+    QCOMPARE(it.occurrenceStartDate(), ev2);
+    QCOMPARE(it.occurrenceEndDate(), ev2.addSecs(3600));
+    QVERIFY(it.hasNext());
+    it.next();
+    QCOMPARE(it.occurrenceStartDate(), ev3);
+    QCOMPARE(it.occurrenceEndDate(), ev3.addSecs(3600));
+    QVERIFY(it.hasNext());
+    it.next();
+    QCOMPARE(it.occurrenceStartDate(), ev4);
+    QCOMPARE(it.occurrenceEndDate(), ev4.addSecs(7200));
+
+    const QStringList output = format.toString(calendar, QString()).split(QString::fromLatin1("\r\n"));
+    QVERIFY(output.contains(QString::fromLatin1("RDATE;VALUE=PERIOD:20210630T100000Z/20210630T110000Z")));
+    QVERIFY(output.contains(QString::fromLatin1("RDATE;VALUE=PERIOD:20210825T100000Z/20210825T110000Z")));
+    QVERIFY(output.contains(QString::fromLatin1("RDATE;VALUE=PERIOD:20211027T100000Z/20211027T110000Z")));
+    QVERIFY(output.contains(QString::fromLatin1("RDATE;VALUE=PERIOD:20211215T110000Z/PT2H")));
 }

@@ -124,6 +124,12 @@ public:
     Period &operator=(const Period &other);
 
     /**
+      Returns true if the Period is not empty.
+      @since 5.87
+    */
+    Q_REQUIRED_RESULT bool isValid() const;
+
+    /**
       Returns when this period starts.
     */
     Q_REQUIRED_RESULT QDateTime start() const;

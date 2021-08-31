@@ -23,6 +23,7 @@ private Q_SLOTS:
     void testAlarm();
     void testDateTimeSerialization_data();
     void testDateTimeSerialization();
+    void testRDate();
 };
 
 #endif

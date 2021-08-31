@@ -23,6 +23,7 @@ private Q_SLOTS:
     void testLocalTimeHandlingNonAllDay();
     void testLocalTimeHandlingAllDay();
     void testByDayRecurrence();
+    void testRDatePeriod();
 };
 
 #endif

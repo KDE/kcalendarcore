@@ -567,7 +567,21 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent, const Incidence::Ptr 
     }
     dateTimeList = incidence->recurrence()->rDateTimes();
     for (auto rdtIt = dateTimeList.constBegin(); rdtIt != dateTimeList.constEnd(); ++rdtIt) {
-        icalcomponent_add_property(parent, writeICalDateTimeProperty(ICAL_RDATE_PROPERTY, *rdtIt, tzUsedList));
+        Period period = incidence->recurrence()->rDateTimePeriod(*rdtIt);
+        if (period.isValid()) {
+            icaldatetimeperiodtype tp;
+            tp.time = icaltime_null_time();
+            tp.period = icalperiodtype_null_period();
+            tp.period.start = writeICalDateTime(period.start());
+            if (period.hasDuration()) {
+                tp.period.duration = writeICalDuration(period.duration());
+            } else {
+                tp.period.end = writeICalDateTime(period.end());
+            }
+            icalcomponent_add_property(parent, icalproperty_new_rdate(tp));
+        } else {
+            icalcomponent_add_property(parent, writeICalDateTimeProperty(ICAL_RDATE_PROPERTY, *rdtIt, tzUsedList));
+        }
     }
 
     // attachments
@@ -1773,7 +1787,15 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent, const Incidence::Ptr &
                     incidence->recurrence()->addRDateTime(kdt);
                 }
             } else {
-                // TODO: RDates as period are not yet implemented!
+                icaldatetimeperiodtype tp = icalproperty_get_rdate(p);
+                const QDateTime start = readICalDateTime(p, tp.period.start, tzlist, false);
+                if (icaltime_is_null_time(tp.period.end)) {
+                    Period period(start, readICalDuration(tp.period.duration));
+                    incidence->recurrence()->addRDateTimePeriod(period);
+                } else {
+                    Period period(start, readICalDateTime(p, tp.period.end, tzlist, false));
+                    incidence->recurrence()->addRDateTimePeriod(period);
+                }
             }
             break;
         }

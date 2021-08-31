@@ -273,3 +273,51 @@ void TestOccurrenceIterator::testJournals()
     KCalendarCore::OccurrenceIterator rIt2(calendar, tomorrow, tomorrow.addDays(1));
     QVERIFY(!rIt2.hasNext());
 }
+
+void TestOccurrenceIterator::testEndDate()
+{
+    const QDateTime start(QDate(2021, 8, 30), QTime(10, 0, 0));
+    const QDateTime end(QDate(2021, 8, 30), QTime(11, 0, 0));
+
+    const QDateTime start2(QDate(2021, 8, 30), QTime(15, 0, 0));
+    const QDateTime end2(QDate(2021, 8, 30), QTime(18, 0, 0));
+
+    KCalendarCore::MemoryCalendar calendar(QTimeZone::utc());
+
+    KCalendarCore::Event::Ptr event(new KCalendarCore::Event);
+    event->setUid(QStringLiteral("event"));
+    event->setSummary(QStringLiteral("event"));
+    event->setDtStart(start);
+    event->setDtEnd(end);
+    event->recurrence()->setDaily(1);
+    event->recurrence()->addRDateTimePeriod(KCalendarCore::Period(start2, end2));
+    calendar.addEvent(event);
+
+    KCalendarCore::Journal::Ptr journal(new KCalendarCore::Journal);
+    journal->setUid(QStringLiteral("journal"));
+    journal->setDtStart(start);
+    calendar.addJournal(journal);
+
+    KCalendarCore::OccurrenceIterator rIt(calendar, start, start.addDays(1));
+    // The base event.
+    QVERIFY(rIt.hasNext());
+    rIt.next();
+    QCOMPARE(rIt.occurrenceStartDate(), start);
+    QCOMPARE(rIt.occurrenceEndDate(), end);
+    // The additional occurrence with a longer duration.
+    QVERIFY(rIt.hasNext());
+    rIt.next();
+    QCOMPARE(rIt.occurrenceStartDate(), start2);
+    QCOMPARE(rIt.occurrenceEndDate(), end2);
+    // The recurring occurrence with the base duration.
+    QVERIFY(rIt.hasNext());
+    rIt.next();
+    QCOMPARE(rIt.occurrenceStartDate(), start.addDays(1));
+    QCOMPARE(rIt.occurrenceEndDate(), end.addDays(1));
+    // The journal.
+    QVERIFY(rIt.hasNext());
+    rIt.next();
+    QCOMPARE(rIt.occurrenceStartDate(), start);
+    QVERIFY(!rIt.occurrenceEndDate().isValid());
+    QVERIFY(!rIt.hasNext());
+}

@@ -13,6 +13,7 @@
 
 #include "kcalendarcore_export.h"
 #include "recurrencerule.h"
+#include "period.h"
 
 class QBitArray;
 class QTimeZone;
@@ -612,10 +613,26 @@ public:
     // RDATE
     Q_REQUIRED_RESULT QList<QDateTime> rDateTimes() const;
     Q_REQUIRED_RESULT DateList rDates() const;
+    /**
+      Inquire if the given RDATE is associated to a PERIOD.
+      @param rdate a given RDATE in date time format.
+      @return a Period, invalid if there is no period associated to @param rdate.
+      @since 5.87
+     */
+    Q_REQUIRED_RESULT Period rDateTimePeriod(const QDateTime &rdate) const;
     void setRDateTimes(const QList<QDateTime> &rdates);
     void setRDates(const DateList &rdates);
     void addRDateTime(const QDateTime &rdate);
     void addRDate(const QDate &rdate);
+    /**
+      Add a RDATE defined as a PERIOD. The start date-time of the period is added
+      to the recurring date time list, and will be listed by a call to
+      rDateTimes(). Use then rDateTimePeriod() to fetch the associated
+      period defintion.
+      @param period a given RDATE in period defintion.
+      @since 5.87
+     */
+    void addRDateTimePeriod(const Period &period);
 
     // ExDATE
     Q_REQUIRED_RESULT QList<QDateTime> exDateTimes() const;

@@ -19,6 +19,7 @@ private Q_SLOTS:
     void testWithExceptionThisAndFuture();
     void testSubDailyRecurrences();
     void testJournals();
+    void testEndDate();
 };
 
 #endif // TESTOCCURRENCEITERATOR_H

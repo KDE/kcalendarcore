@@ -69,6 +69,17 @@ public:
     QDateTime occurrenceStartDate() const;
 
     /**
+     * Returns the end date of the occurrence
+     *
+     * For incidence that supports end date (events and due date for todos),
+     * this is computed from the duration or directly the end date of
+     * the occurrence or an exception overriding that occurrence. For incidences
+     * without end date, an invalid date is returned.
+     * @since 5.87
+     */
+    QDateTime occurrenceEndDate() const;
+
+    /**
      * Returns the recurrence Id.
      *
      * This is the date where the occurrence starts without exceptions,
