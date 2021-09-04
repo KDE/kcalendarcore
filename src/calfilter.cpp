@@ -72,14 +72,10 @@ void CalFilter::apply(Event::List *eventList) const
         return;
     }
 
-    Event::List::Iterator it = eventList->begin();
-    while (it != eventList->end()) {
-        if (!filterIncidence(*it)) {
-            it = eventList->erase(it);
-        } else {
-            ++it;
-        }
-    }
+    auto it = std::remove_if(eventList->begin(), eventList->end(), [=](const Incidence::Ptr &incidence) {
+        return !filterIncidence(incidence);
+    });
+    eventList->erase(it, eventList->end());
 }
 
 // TODO: avoid duplicating apply() code
@@ -89,14 +85,10 @@ void CalFilter::apply(Todo::List *todoList) const
         return;
     }
 
-    Todo::List::Iterator it = todoList->begin();
-    while (it != todoList->end()) {
-        if (!filterIncidence(*it)) {
-            it = todoList->erase(it);
-        } else {
-            ++it;
-        }
-    }
+    auto it = std::remove_if(todoList->begin(), todoList->end(), [=](const Incidence::Ptr &incidence) {
+        return !filterIncidence(incidence);
+    });
+    todoList->erase(it, todoList->end());
 }
 
 void CalFilter::apply(Journal::List *journalList) const
@@ -105,14 +97,10 @@ void CalFilter::apply(Journal::List *journalList) const
         return;
     }
 
-    Journal::List::Iterator it = journalList->begin();
-    while (it != journalList->end()) {
-        if (!filterIncidence(*it)) {
-            it = journalList->erase(it);
-        } else {
-            ++it;
-        }
-    }
+    auto it = std::remove_if(journalList->begin(), journalList->end(), [=](const Incidence::Ptr &incidence) {
+        return !filterIncidence(incidence);
+    });
+    journalList->erase(it, journalList->end());
 }
 
 bool CalFilter::filterIncidence(const Incidence::Ptr &incidence) const
