@@ -132,6 +132,7 @@ static const char *VTZ_Prague =
 // When there's an extra transition from +0000 to +0100
 // in 1978 (FreeBSD and old Debian), we get one more
 // transition and slightly different RRULEs
+#ifdef Q_OS_FREEBSD
 static const char *VTZ_PragueExtra =
     "BEGIN:VTIMEZONE\r\n"
     "TZID:Europe/Prague\r\n"
@@ -173,6 +174,7 @@ static const char *VTZ_PragueExtra =
     "RDATE:19950924T030000\r\n"
     "END:STANDARD\r\n"
     "END:VTIMEZONE\r\n";
+#endif
 
 // CALENDAR component header and footer
 static const char *calendarHeader =
