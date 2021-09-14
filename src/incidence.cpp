@@ -372,6 +372,7 @@ void Incidence::setCreated(const QDateTime &created)
 
     // FIXME: Shouldn't we call updated for the creation date, too?
     //  updated();
+    Q_EMIT createdChanged();
 }
 
 QDateTime Incidence::created() const
@@ -426,6 +427,7 @@ void Incidence::setDescription(const QString &description, bool isRich)
     d->mDescriptionIsRich = isRich;
     setFieldDirty(FieldDescription);
     updated();
+    Q_EMIT descriptionChanged();
 }
 
 void Incidence::setDescription(const QString &description)
@@ -463,6 +465,7 @@ void Incidence::setSummary(const QString &summary, bool isRich)
         d->mSummaryIsRich = isRich;
         setFieldDirty(FieldSummary);
         updated();
+        Q_EMIT summaryChanged();
     }
 }
 
@@ -499,6 +502,7 @@ void Incidence::setCategories(const QStringList &categories)
     update();
     d->mCategories = categories;
     updated();
+    Q_EMIT categoriesChanged();
 }
 
 void Incidence::setCategories(const QString &catStr)
@@ -790,6 +794,7 @@ void Incidence::setPriority(int priority)
     d->mPriority = priority;
     setFieldDirty(FieldPriority);
     updated();
+    Q_EMIT priorityChanged();
 }
 
 int Incidence::priority() const
@@ -808,6 +813,7 @@ void Incidence::setStatus(Incidence::Status status)
     d->mStatusString.clear();
     setFieldDirty(FieldStatus);
     updated();
+    Q_EMIT statusChanged();
 }
 
 void Incidence::setCustomStatus(const QString &status)
@@ -847,6 +853,7 @@ void Incidence::setSecrecy(Incidence::Secrecy secrecy)
     d->mSecrecy = secrecy;
     setFieldDirty(FieldSecrecy);
     updated();
+    Q_EMIT secrecyChanged();
 }
 
 Incidence::Secrecy Incidence::secrecy() const
@@ -944,6 +951,7 @@ void Incidence::setLocation(const QString &location, bool isRich)
         d->mLocationIsRich = isRich;
         setFieldDirty(FieldLocation);
         updated();
+        Q_EMIT locationChanged();
     }
 }
 
@@ -1011,6 +1019,7 @@ void Incidence::setHasGeo(bool hasGeo)
     setFieldDirty(FieldGeoLatitude);
     setFieldDirty(FieldGeoLongitude);
     updated();
+    Q_EMIT hasGeoChanged();
 }
 
 float Incidence::geoLatitude() const
@@ -1028,6 +1037,7 @@ void Incidence::setGeoLatitude(float geolatitude)
     d->mGeoLatitude = geolatitude;
     setFieldDirty(FieldGeoLatitude);
     updated();
+    Q_EMIT geoLatitudeChanged();
 }
 
 float Incidence::geoLongitude() const
@@ -1042,6 +1052,7 @@ void Incidence::setGeoLongitude(float geolongitude)
         d->mGeoLongitude = geolongitude;
         setFieldDirty(FieldGeoLongitude);
         updated();
+        Q_EMIT geoLongitudeChanged();
     }
 }
 
