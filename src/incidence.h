@@ -56,17 +56,17 @@ namespace KCalendarCore
 class KCALENDARCORE_EXPORT Incidence : public IncidenceBase, public Recurrence::RecurrenceObserver
 {
     Q_GADGET
-    Q_PROPERTY(QString description READ description WRITE setDescription)
-    Q_PROPERTY(QString summary READ summary WRITE setSummary)
-    Q_PROPERTY(QString location READ location WRITE setLocation)
-    Q_PROPERTY(bool hasGeo READ hasGeo WRITE setHasGeo)
-    Q_PROPERTY(float geoLatitude READ geoLatitude WRITE setGeoLatitude)
-    Q_PROPERTY(float geoLongitude READ geoLongitude WRITE setGeoLongitude)
-    Q_PROPERTY(QStringList categories READ categories WRITE setCategories)
-    Q_PROPERTY(int priority READ priority WRITE setPriority)
-    Q_PROPERTY(QDateTime created READ created WRITE setCreated)
-    Q_PROPERTY(KCalendarCore::Incidence::Secrecy secrecy READ secrecy WRITE setSecrecy)
-    Q_PROPERTY(KCalendarCore::Incidence::Status status READ status WRITE setStatus)
+    Q_PROPERTY(QString description READ description WRITE setDescription NOTIFY descriptionChanged)
+    Q_PROPERTY(QString summary READ summary WRITE setSummary NOTIFY summaryChanged)
+    Q_PROPERTY(QString location READ location WRITE setLocation NOTIFY locationChanged)
+    Q_PROPERTY(bool hasGeo READ hasGeo WRITE setHasGeo NOTIFY hasGeoChanged)
+    Q_PROPERTY(float geoLatitude READ geoLatitude WRITE setGeoLatitude NOTIFY geoLatitudeChanged)
+    Q_PROPERTY(float geoLongitude READ geoLongitude WRITE setGeoLongitude NOTIFY geoLongitudeChanged)
+    Q_PROPERTY(QStringList categories READ categories WRITE setCategories NOTIFY categoriesChanged)
+    Q_PROPERTY(int priority READ priority WRITE setPriority NOTIFY priorityChanged)
+    Q_PROPERTY(QDateTime created READ created WRITE setCreated NOTIFY createdChanged)
+    Q_PROPERTY(KCalendarCore::Incidence::Secrecy secrecy READ secrecy WRITE setSecrecy NOTIFY secrecyChanged)
+    Q_PROPERTY(KCalendarCore::Incidence::Status status READ status WRITE setStatus NOTIFY statusChanged)
     Q_PROPERTY(QVariantList attachments READ attachmentsVariant)
     Q_PROPERTY(QVariantList conferences READ conferencesVariant)
 public:
@@ -853,6 +853,19 @@ public:
       @since 4.12
      */
     Q_REQUIRED_RESULT static QStringList mimeTypes();
+
+Q_SIGNALS:
+  void descriptionChanged()
+  void summaryChanged()
+  void locationChanged()
+  void hasGeoChanged()
+  void geoLatitudeChanged()
+  void geoLongitudeChanged()
+  void categoriesChanged()
+  void priorityChanged()
+  void createdChanged()
+  void secrecyChanged()
+  void statusChanged()
 
 protected:
     /**
