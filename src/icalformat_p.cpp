@@ -1559,6 +1559,12 @@ Attachment ICalFormatImpl::readAttachment(icalproperty *attach)
             attachment.setMimeType(QLatin1String(icalparameter_get_fmttype(p)));
         }
 
+        /* Support FILENAME property (Caldav). see https://datatracker.ietf.org/doc/html/rfc8607 */
+        p = icalproperty_get_first_parameter(attach, ICAL_FILENAME_PARAMETER);
+        if (p) {
+            attachment.setLabel(QString::fromUtf8(icalparameter_get_xvalue(p)));
+        }
+
         p = icalproperty_get_first_parameter(attach, ICAL_X_PARAMETER);
         while (p) {
             QString xname = QString::fromLatin1(icalparameter_get_xname(p)).toUpper();
