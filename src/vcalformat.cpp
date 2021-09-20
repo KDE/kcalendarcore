@@ -502,12 +502,11 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
     // recurrence exceptions
     if ((vo = isAPropertyOf(vtodo, VCExpDateProp)) != nullptr) {
         s = fakeCString(vObjectUStringZValue(vo));
-        QStringList exDates = QString::fromUtf8(s).split(QLatin1Char(','));
-        QStringList::ConstIterator it;
-        for (it = exDates.constBegin(); it != exDates.constEnd(); ++it) {
-            QDateTime exDate = ISOToQDateTime(*it);
+        const QStringList exDates = QString::fromUtf8(s).split(QLatin1Char(','));
+        for (const auto &date : exDates) {
+            const QDateTime exDate = ISOToQDateTime(date);
             if (exDate.time().hour() == 0 && exDate.time().minute() == 0 && exDate.time().second() == 0) {
-                anEvent->recurrence()->addExDate(ISOToQDate(*it));
+                anEvent->recurrence()->addExDate(ISOToQDate(date));
             } else {
                 anEvent->recurrence()->addExDateTime(exDate);
             }
@@ -939,12 +938,11 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
     // recurrence exceptions
     if ((vo = isAPropertyOf(vevent, VCExpDateProp)) != nullptr) {
         s = fakeCString(vObjectUStringZValue(vo));
-        QStringList exDates = QString::fromUtf8(s).split(QLatin1Char(','));
-        QStringList::ConstIterator it;
-        for (it = exDates.constBegin(); it != exDates.constEnd(); ++it) {
-            QDateTime exDate = ISOToQDateTime(*it);
+        const QStringList exDates = QString::fromUtf8(s).split(QLatin1Char(','));
+        for (const auto &date : exDates) {
+            const QDateTime exDate = ISOToQDateTime(date);
             if (exDate.time().hour() == 0 && exDate.time().minute() == 0 && exDate.time().second() == 0) {
-                anEvent->recurrence()->addExDate(ISOToQDate(*it));
+                anEvent->recurrence()->addExDate(ISOToQDate(date));
             } else {
                 anEvent->recurrence()->addExDateTime(exDate);
             }
@@ -1550,13 +1548,12 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
     } // while
 
     // Post-Process list of events with relations, put Event objects in relation
-    Event::List::ConstIterator eIt;
-    for (eIt = d->mEventsRelate.constBegin(); eIt != d->mEventsRelate.constEnd(); ++eIt) {
-        (*eIt)->setRelatedTo((*eIt)->relatedTo());
+    for (const auto &eventPtr : std::as_const(d->mEventsRelate)) {
+        eventPtr->setRelatedTo(eventPtr->relatedTo());
     }
-    Todo::List::ConstIterator tIt;
-    for (tIt = d->mTodosRelate.constBegin(); tIt != d->mTodosRelate.constEnd(); ++tIt) {
-        (*tIt)->setRelatedTo((*tIt)->relatedTo());
+
+    for (const auto &todoPtr : std::as_const(d->mTodosRelate)) {
+        todoPtr->setRelatedTo(todoPtr->relatedTo());
     }
 
     // Now lets put the TZ back as it was if we have changed it.
@@ -1667,12 +1664,13 @@ void VCalFormat::readCustomProperties(VObject *o, const Incidence::Ptr &i)
 void VCalFormat::writeCustomProperties(VObject *o, const Incidence::Ptr &i)
 {
     const QMap<QByteArray, QString> custom = i->customProperties();
-    for (QMap<QByteArray, QString>::ConstIterator c = custom.begin(); c != custom.end(); ++c) {
-        if (d->mManuallyWrittenExtensionFields.contains(c.key()) || c.key().startsWith("X-KDE-VOLATILE")) { // krazy:exclude=strings
+    for (auto cIt = custom.cbegin(); cIt != custom.cend(); ++cIt) {
+        const QByteArray property = cIt.key();
+        if (d->mManuallyWrittenExtensionFields.contains(property) || property.startsWith("X-KDE-VOLATILE")) { // krazy:exclude=strings
             continue;
         }
 
-        addPropValue(o, c.key().constData(), c.value().toUtf8().constData());
+        addPropValue(o, property.constData(), cIt.value().toUtf8().constData());
     }
 }
 

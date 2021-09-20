@@ -49,15 +49,15 @@ bool CustomProperties::Private::operator==(const CustomProperties::Private &othe
         // qCDebug(KCALCORE_LOG) << "Property count is different:" << mProperties << other.mProperties;
         return false;
     }
-    for (QMap<QByteArray, QString>::ConstIterator it = mProperties.begin(); it != mProperties.end(); ++it) {
-        QMap<QByteArray, QString>::ConstIterator itOther = other.mProperties.find(it.key());
-        if (itOther == other.mProperties.end() || itOther.value() != it.value()) {
+    for (auto it = mProperties.cbegin(); it != mProperties.cend(); ++it) {
+        auto itOther = other.mProperties.constFind(it.key());
+        if (itOther == other.mProperties.cend() || itOther.value() != it.value()) {
             return false;
         }
     }
-    for (QMap<QByteArray, QString>::ConstIterator it = mPropertyParameters.begin(); it != mPropertyParameters.end(); ++it) {
-        QMap<QByteArray, QString>::ConstIterator itOther = other.mPropertyParameters.find(it.key());
-        if (itOther == other.mPropertyParameters.end() || itOther.value() != it.value()) {
+    for (auto it = mPropertyParameters.cbegin(); it != mPropertyParameters.cend(); ++it) {
+        auto itOther = other.mPropertyParameters.constFind(it.key());
+        if (itOther == other.mPropertyParameters.cend() || itOther.value() != it.value()) {
             return false;
         }
     }
@@ -176,7 +176,7 @@ QString CustomProperties::nonKDECustomPropertyParameters(const QByteArray &name)
 void CustomProperties::setCustomProperties(const QMap<QByteArray, QString> &properties)
 {
     bool changed = false;
-    for (QMap<QByteArray, QString>::ConstIterator it = properties.begin(); it != properties.end(); ++it) {
+    for (auto it = properties.cbegin(); it != properties.cend(); ++it) {
         // Validate the property name and convert any null string to empty string
         if (checkName(it.key())) {
             if (d->isVolatileProperty(QLatin1String(it.key()))) {

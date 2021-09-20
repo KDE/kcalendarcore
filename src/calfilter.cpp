@@ -149,27 +149,16 @@ bool CalFilter::filterIncidence(const Incidence::Ptr &incidence) const
         }
     }
 
-    if (d->mCriteria & ShowCategories) {
-        for (QStringList::ConstIterator it = d->mCategoryList.constBegin(); it != d->mCategoryList.constEnd(); ++it) {
-            QStringList incidenceCategories = incidence->categories();
-            for (QStringList::ConstIterator it2 = incidenceCategories.constBegin(); it2 != incidenceCategories.constEnd(); ++it2) {
-                if ((*it) == (*it2)) {
-                    return true;
-                }
-            }
+    const QStringList incidenceCategories = incidence->categories();
+    bool isFound = false;
+    for (const auto &category : std::as_const(d->mCategoryList)) {
+        if (incidenceCategories.contains(category)) {
+            isFound = true;
+            break;
         }
-        return false;
-    } else {
-        for (QStringList::ConstIterator it = d->mCategoryList.constBegin(); it != d->mCategoryList.constEnd(); ++it) {
-            QStringList incidenceCategories = incidence->categories();
-            for (QStringList::ConstIterator it2 = incidenceCategories.constBegin(); it2 != incidenceCategories.constEnd(); ++it2) {
-                if ((*it) == (*it2)) {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
+
+    return d->mCriteria & ShowCategories ? isFound : !isFound;
 }
 
 void CalFilter::setName(const QString &name)

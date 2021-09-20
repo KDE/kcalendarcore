@@ -350,10 +350,9 @@ void CompatOutlook9::fixAlarms(const Incidence::Ptr &incidence)
     if (!incidence) {
         return;
     }
-    Alarm::List alarms = incidence->alarms();
-    Alarm::List::Iterator end(alarms.end());
-    for (Alarm::List::Iterator it = alarms.begin(); it != end; ++it) {
-        Alarm::Ptr al = *it;
+
+    const Alarm::List alarms = incidence->alarms();
+    for (const Alarm::Ptr &al : alarms) {
         if (al && al->hasStartOffset()) {
             Duration offsetDuration = al->startOffset();
             int offs = offsetDuration.asSeconds();

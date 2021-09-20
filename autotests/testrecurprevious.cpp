@@ -70,10 +70,9 @@ int main(int argc, char **argv)
         viewZone = QTimeZone(tz.toUtf8());
     }
     qDebug() << viewZone.id();
-    Incidence::List inc = cal->incidences();
+    const Incidence::List inc = cal->incidences();
 
-    for (Incidence::List::Iterator it = inc.begin(); it != inc.end(); ++it) {
-        Incidence::Ptr incidence = *it;
+    for (const Incidence::Ptr &incidence : inc) {
         qDebug() << "*+*+*+*+*+*+*+*+*+*";
         qDebug() << " ->" << incidence->summary() << "<-";
 

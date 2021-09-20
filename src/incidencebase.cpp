@@ -437,12 +437,9 @@ Attendee IncidenceBase::attendeeByMails(const QStringList &emails, const QString
         mails.append(email);
     }
 
-    Attendee::List::ConstIterator itA;
-    for (itA = d->mAttendees.constBegin(); itA != d->mAttendees.constEnd(); ++itA) {
-        for (QStringList::const_iterator it = mails.constBegin(); it != mails.constEnd(); ++it) {
-            if ((*itA).email() == (*it)) {
-                return *itA;
-            }
+    for (const auto &attendee : std::as_const(d->mAttendees)) {
+        if (mails.contains(attendee.email())) {
+            return attendee;
         }
     }
 

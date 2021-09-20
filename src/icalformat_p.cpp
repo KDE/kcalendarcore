@@ -537,37 +537,33 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent, const Incidence::Ptr 
         icalcomponent_add_property(parent, p);
     }
 
-    RecurrenceRule::List rrules(incidence->recurrence()->rRules());
-    RecurrenceRule::List::ConstIterator rit;
-    for (rit = rrules.constBegin(); rit != rrules.constEnd(); ++rit) {
-        icalcomponent_add_property(parent, icalproperty_new_rrule(writeRecurrenceRule((*rit))));
+    const RecurrenceRule::List rrules(incidence->recurrence()->rRules());
+    for (RecurrenceRule *rule : rrules) {
+        icalcomponent_add_property(parent, icalproperty_new_rrule(writeRecurrenceRule(rule)));
     }
 
-    RecurrenceRule::List exrules(incidence->recurrence()->exRules());
-    RecurrenceRule::List::ConstIterator exit;
-    for (exit = exrules.constBegin(); exit != exrules.constEnd(); ++exit) {
-        icalcomponent_add_property(parent, icalproperty_new_exrule(writeRecurrenceRule((*exit))));
+    const RecurrenceRule::List exrules(incidence->recurrence()->exRules());
+    for (RecurrenceRule *rule : exrules) {
+        icalcomponent_add_property(parent, icalproperty_new_exrule(writeRecurrenceRule(rule)));
     }
 
     DateList dateList = incidence->recurrence()->exDates();
-    DateList::ConstIterator exIt;
-    for (exIt = dateList.constBegin(); exIt != dateList.constEnd(); ++exIt) {
-        icalcomponent_add_property(parent, icalproperty_new_exdate(writeICalDate(*exIt)));
+    for (const auto &date : std::as_const(dateList)) {
+        icalcomponent_add_property(parent, icalproperty_new_exdate(writeICalDate(date)));
     }
 
     auto dateTimeList = incidence->recurrence()->exDateTimes();
-    for (auto extIt = dateTimeList.constBegin(); extIt != dateTimeList.constEnd(); ++extIt) {
-        icalcomponent_add_property(parent, writeICalDateTimeProperty(ICAL_EXDATE_PROPERTY, *extIt, tzUsedList));
+    for (const auto &dt : std::as_const(dateTimeList)) {
+        icalcomponent_add_property(parent, writeICalDateTimeProperty(ICAL_EXDATE_PROPERTY, dt, tzUsedList));
     }
 
     dateList = incidence->recurrence()->rDates();
-    DateList::ConstIterator rdIt;
-    for (rdIt = dateList.constBegin(); rdIt != dateList.constEnd(); ++rdIt) {
-        icalcomponent_add_property(parent, icalproperty_new_rdate(writeICalDatePeriod(*rdIt)));
+    for (const auto &date : std::as_const(dateList)) {
+        icalcomponent_add_property(parent, icalproperty_new_rdate(writeICalDatePeriod(date)));
     }
     dateTimeList = incidence->recurrence()->rDateTimes();
-    for (auto rdtIt = dateTimeList.constBegin(); rdtIt != dateTimeList.constEnd(); ++rdtIt) {
-        Period period = incidence->recurrence()->rDateTimePeriod(*rdtIt);
+    for (const auto &dt : std::as_const(dateTimeList)) {
+        Period period = incidence->recurrence()->rDateTimePeriod(dt);
         if (period.isValid()) {
             icaldatetimeperiodtype tp;
             tp.time = icaltime_null_time();
@@ -580,15 +576,14 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent, const Incidence::Ptr 
             }
             icalcomponent_add_property(parent, icalproperty_new_rdate(tp));
         } else {
-            icalcomponent_add_property(parent, writeICalDateTimeProperty(ICAL_RDATE_PROPERTY, *rdtIt, tzUsedList));
+            icalcomponent_add_property(parent, writeICalDateTimeProperty(ICAL_RDATE_PROPERTY, dt, tzUsedList));
         }
     }
 
     // attachments
-    Attachment::List attachments = incidence->attachments();
-    Attachment::List::ConstIterator atIt;
-    for (atIt = attachments.constBegin(); atIt != attachments.constEnd(); ++atIt) {
-        icalcomponent_add_property(parent, writeAttachment(*atIt));
+    const Attachment::List attachments = incidence->attachments();
+    for (const auto &at : attachments) {
+        icalcomponent_add_property(parent, writeAttachment(at));
     }
 
     // alarms
@@ -636,15 +631,15 @@ void ICalFormatImpl::Private::writeIncidenceBase(icalcomponent *parent, const In
     }
 
     // contacts
-    QStringList contacts = incidenceBase->contacts();
-    for (QStringList::const_iterator it = contacts.constBegin(); it != contacts.constEnd(); ++it) {
-        icalcomponent_add_property(parent, icalproperty_new_contact((*it).toUtf8().constData()));
+    const QStringList contacts = incidenceBase->contacts();
+    for (const auto &contact : contacts) {
+        icalcomponent_add_property(parent, icalproperty_new_contact(contact.toUtf8().constData()));
     }
 
     // comments
-    QStringList comments = incidenceBase->comments();
-    for (QStringList::const_iterator it = comments.constBegin(); it != comments.constEnd(); ++it) {
-        icalcomponent_add_property(parent, icalproperty_new_comment((*it).toUtf8().constData()));
+    const QStringList comments = incidenceBase->comments();
+    for (const auto &comment : comments) {
+        icalcomponent_add_property(parent, icalproperty_new_comment(comment.toUtf8().constData()));
     }
 
     // url
@@ -660,7 +655,7 @@ void ICalFormatImpl::Private::writeIncidenceBase(icalcomponent *parent, const In
 void ICalFormatImpl::Private::writeCustomProperties(icalcomponent *parent, CustomProperties *properties)
 {
     const QMap<QByteArray, QString> custom = properties->customProperties();
-    for (QMap<QByteArray, QString>::ConstIterator c = custom.begin(); c != custom.end(); ++c) {
+    for (auto c = custom.cbegin(); c != custom.cend(); ++c) {
         if (c.key().startsWith("X-KDE-VOLATILE")) { // krazy:exclude=strings
             // We don't write these properties to disk to disk
             continue;
@@ -966,13 +961,14 @@ icalrecurrencetype ICalFormatImpl::writeRecurrenceRule(RecurrenceRule *recur)
     const QList<RecurrenceRule::WDayPos> &byd = recur->byDays();
     int day;
     index = 0;
-    for (QList<RecurrenceRule::WDayPos>::ConstIterator dit = byd.constBegin(); dit != byd.constEnd(); ++dit) {
-        day = (*dit).day() % 7 + 1; // convert from Monday=1 to Sunday=1
-        if ((*dit).pos() < 0) {
-            day += (-(*dit).pos()) * 8;
+    for (auto it = byd.cbegin(); it != byd.cend(); ++it) {
+        const auto &reRule = *it;
+        day = (reRule.day() % 7) + 1; // convert from Monday=1 to Sunday=1
+        if (reRule.pos() < 0) {
+            day += (-reRule.pos()) * 8;
             day = -day;
         } else {
-            day += (*dit).pos() * 8;
+            day += reRule.pos() * 8;
         }
         r.by_day[index++] = static_cast<short>(day);
     }
@@ -1031,12 +1027,11 @@ icalcomponent *ICalFormatImpl::writeAlarm(const Alarm::Ptr &alarm)
     case Alarm::Email: {
         action = ICAL_ACTION_EMAIL;
         const Person::List addresses = alarm->mailAddresses();
-        for (Person::List::ConstIterator ad = addresses.constBegin(); ad != addresses.constEnd(); ++ad) {
-            if (!(*ad).email().isEmpty()) {
-                icalproperty *p = icalproperty_new_attendee(QByteArray(QByteArray("MAILTO:") + (*ad).email().toUtf8()).constData());
-                if (!(*ad).name().isEmpty()) {
-                    icalproperty_add_parameter(p,
-                                               icalparameter_new_cn((*ad).name().toUtf8().constData()));
+        for (const auto &ad : addresses) {
+            if (!ad.email().isEmpty()) {
+                icalproperty *p = icalproperty_new_attendee(QByteArray(QByteArray("MAILTO:") + ad.email().toUtf8()).constData());
+                if (!ad.name().isEmpty()) {
+                    icalproperty_add_parameter(p, icalparameter_new_cn(ad.name().toUtf8().constData()));
                 }
                 icalcomponent_add_property(a, p);
             }
@@ -1045,8 +1040,8 @@ icalcomponent *ICalFormatImpl::writeAlarm(const Alarm::Ptr &alarm)
         icalcomponent_add_property(a, icalproperty_new_description(alarm->mailText().toUtf8().constData()));
         const QStringList attachments = alarm->mailAttachments();
         if (!attachments.isEmpty()) {
-            for (QStringList::const_iterator at = attachments.constBegin(), end = attachments.constEnd(); at != end; ++at) {
-                attach = icalattach_new_from_url(QFile::encodeName(*at).data());
+            for (const auto &at : attachments) {
+                attach = icalattach_new_from_url(QFile::encodeName(at).constData());
                 icalcomponent_add_property(a, icalproperty_new_attach(attach));
             }
         }
@@ -1093,7 +1088,7 @@ icalcomponent *ICalFormatImpl::writeAlarm(const Alarm::Ptr &alarm)
 
     // Custom properties
     const QMap<QByteArray, QString> custom = alarm->customProperties();
-    for (QMap<QByteArray, QString>::ConstIterator c = custom.begin(); c != custom.end(); ++c) {
+    for (auto c = custom.cbegin(); c != custom.cend(); ++c) {
         icalproperty *p = icalproperty_new_x(c.value().toUtf8().constData());
         icalproperty_set_x_name(p, c.key().constData());
         icalcomponent_add_property(a, p);

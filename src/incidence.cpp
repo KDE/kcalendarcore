@@ -467,9 +467,8 @@ void Incidence::setCategories(const QString &catStr)
 
     d->mCategories = catStr.split(QLatin1Char(','));
 
-    QStringList::Iterator it;
-    for (it = d->mCategories.begin(); it != d->mCategories.end(); ++it) {
-        *it = (*it).trimmed();
+    for (auto &category : d->mCategories) {
+        category = category.trimmed();
     }
 
     updated();

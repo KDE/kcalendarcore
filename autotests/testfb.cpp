@@ -41,13 +41,13 @@ int main(int, char **)
     ICalFormat format;
     FreeBusy::Ptr fb = format.parseFreeBusy(fbString);
     qDebug() << fb->fullBusyPeriods().count() << " " << fb->dtStart().toString();
-    const FreeBusyPeriod::List l = fb->fullBusyPeriods();
-    for (FreeBusyPeriod::List::ConstIterator it = l.begin(); it != l.end(); ++it) {
-        qDebug() << (*it).start().toString() << " " << (*it).end().toString() << "+ " << (*it).summary() << ":" << (*it).location();
+    const FreeBusyPeriod::List lst = fb->fullBusyPeriods();
+    for (const auto &freebusy : lst) {
+        qDebug() << freebusy.start().toString() << " " << freebusy.end().toString() << "+ " << freebusy.summary() << ":" << freebusy.location();
     }
-    typedef QMap<QByteArray, QString> FooMap;
-    const FooMap props = fb->customProperties();
-    for (FooMap::ConstIterator it = props.begin(); it != props.end(); ++it) {
+
+    const QMap<QByteArray, QString> props = fb->customProperties();
+    for (auto it = props.cbegin(); it != props.cend(); ++it) {
         qDebug() << it.key() << ": " << it.value();
     }
 }

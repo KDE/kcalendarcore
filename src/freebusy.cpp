@@ -105,10 +105,7 @@ void FreeBusyPrivate::init(const Event::List &eventList, const QDateTime &start,
     QDateTime tmpEnd;
 
     // Loops through every event in the calendar
-    Event::List::ConstIterator it;
-    for (it = eventList.constBegin(); it != eventList.constEnd(); ++it) {
-        Event::Ptr event = *it;
-
+    for (auto event : eventList) {
         // If this event is transparent it shouldn't be in the freebusy list.
         if (event->transparency() == Event::Transparent) {
             continue;
@@ -283,11 +280,10 @@ void FreeBusy::merge(const FreeBusy::Ptr &freeBusy)
         setDtEnd(freeBusy->dtEnd());
     }
 
-    Period::List periods = freeBusy->busyPeriods();
-    Period::List::ConstIterator it;
+    const Period::List periods = freeBusy->busyPeriods();
     d->mBusyPeriods.reserve(d->mBusyPeriods.count() + periods.count());
-    for (it = periods.constBegin(); it != periods.constEnd(); ++it) {
-        d->mBusyPeriods.append(FreeBusyPeriod((*it).start(), (*it).end()));
+    for (const auto &p : periods) {
+        d->mBusyPeriods.append(FreeBusyPeriod(p.start(), p.end()));
     }
     sortList();
 }

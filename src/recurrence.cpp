@@ -526,24 +526,27 @@ void Recurrence::shiftTimes(const QTimeZone &oldTz, const QTimeZone &newTz)
     d->mStartDateTime.setTimeZone(newTz);
 
     QHash<QDateTime, Period> oldPeriods = d->mRDateTimePeriods;
-    int i;
-    int end;
-    for (i = 0, end = d->mRDateTimes.count(); i < end; ++i) {
-        QHash<QDateTime, Period>::Iterator period = oldPeriods.find(d->mRDateTimes[i]);
-        period->shiftTimes(oldTz, newTz);
-        d->mRDateTimes[i] = d->mRDateTimes[i].toTimeZone(oldTz);
-        d->mRDateTimes[i].setTimeZone(newTz);
-        d->mRDateTimePeriods.insert(d->mRDateTimes[i], *period);
+
+    for (auto &rDt : d->mRDateTimes) {
+        auto periodIt = oldPeriods.find(rDt);
+        periodIt->shiftTimes(oldTz, newTz);
+        rDt = rDt.toTimeZone(oldTz);
+        rDt.setTimeZone(newTz);
+        // Now there are QDateTime objects in the hash? is this shifting times?
+        d->mRDateTimePeriods.insert(rDt, *periodIt);
     }
-    for (i = 0, end = d->mExDateTimes.count(); i < end; ++i) {
-        d->mExDateTimes[i] = d->mExDateTimes[i].toTimeZone(oldTz);
-        d->mExDateTimes[i].setTimeZone(newTz);
+
+    for (auto &exDt : d->mExDateTimes) {
+        exDt = exDt.toTimeZone(oldTz);
+        exDt.setTimeZone(newTz);
     }
-    for (i = 0, end = d->mRRules.count(); i < end; ++i) {
-        d->mRRules[i]->shiftTimes(oldTz, newTz);
+
+    for (auto &rr : d->mRRules) {
+        rr->shiftTimes(oldTz, newTz);
     }
-    for (i = 0, end = d->mExRules.count(); i < end; ++i) {
-        d->mExRules[i]->shiftTimes(oldTz, newTz);
+
+    for (auto exR : d->mExRules) {
+        exR->shiftTimes(oldTz, newTz);
     }
 }
 
@@ -1513,8 +1516,7 @@ KCALENDARCORE_EXPORT QDataStream &KCalendarCore::operator<<(QDataStream &out, KC
 
     serializeQDateTimeList(out, r->d->mRDateTimes);
     out << r->d->mRDateTimePeriods.size();
-    for (QHash<QDateTime, Period>::ConstIterator it = r->d->mRDateTimePeriods.constBegin();
-         it != r->d->mRDateTimePeriods.constEnd(); ++it) {
+    for (auto it = r->d->mRDateTimePeriods.cbegin(); it != r->d->mRDateTimePeriods.cend(); ++it) {
         out << it.key() << it.value();
     }
     serializeQDateTimeList(out, r->d->mExDateTimes);

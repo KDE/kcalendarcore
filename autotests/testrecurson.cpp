@@ -64,11 +64,8 @@ int main(int argc, char **argv)
     QString tz = cal->nonKDECustomProperty("X-LibKCal-Testsuite-OutTZ");
     const auto viewZone = tz.isEmpty() ? cal->timeZone() : QTimeZone(tz.toUtf8());
 
-    Incidence::List inc = cal->incidences();
-
-    for (Incidence::List::Iterator it = inc.begin(); it != inc.end(); ++it) {
-        Incidence::Ptr incidence = *it;
-
+    const Incidence::List inc = cal->incidences();
+    for (const Incidence::Ptr &incidence : inc) {
         //     qDebug() << " ->" << incidence->summary() << "<-";
 
         //     incidence->recurrence()->dump();
