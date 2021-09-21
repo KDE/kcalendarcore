@@ -309,20 +309,17 @@ Incidence::List Calendar::instances(const Incidence::Ptr &incidence) const
 
 Incidence::List Calendar::duplicates(const Incidence::Ptr &incidence)
 {
-    if (incidence) {
-        Incidence::List list;
-        Incidence::List vals = values(d->mNotebookIncidences);
-        Incidence::List::const_iterator it;
-        for (it = vals.constBegin(); it != vals.constEnd(); ++it) {
-            if (((incidence->dtStart() == (*it)->dtStart()) || (!incidence->dtStart().isValid() && !(*it)->dtStart().isValid()))
-                && (incidence->summary() == (*it)->summary())) {
-                list.append(*it);
-            }
-        }
-        return list;
-    } else {
-        return Incidence::List();
+    if (!incidence) {
+        return {};
     }
+
+    Incidence::List list;
+    const Incidence::List vals = values(d->mNotebookIncidences);
+    std::copy_if(vals.cbegin(), vals.cend(), std::back_inserter(list), [&](const Incidence::Ptr &in) {
+        return (incidence->dtStart() == in->dtStart() || (!incidence->dtStart().isValid() && !in->dtStart().isValid()))
+            && incidence->summary() == in->summary();
+    });
+    return list;
 }
 
 bool Calendar::addNotebook(const QString &notebook, bool isVisible)
@@ -647,27 +644,21 @@ Incidence::List Calendar::incidencesFromSchedulingID(const QString &sid) const
 {
     Incidence::List result;
     const Incidence::List incidences = rawIncidences();
-    Incidence::List::const_iterator it = incidences.begin();
-    for (; it != incidences.end(); ++it) {
-        if ((*it)->schedulingID() == sid) {
-            result.append(*it);
-        }
-    }
+    std::copy_if(incidences.cbegin(), incidences.cend(), std::back_inserter(result), [&sid](const Incidence::Ptr &in) {
+        return in->schedulingID() == sid;
+    });
     return result;
 }
 
 Incidence::Ptr Calendar::incidenceFromSchedulingID(const QString &uid) const
 {
     const Incidence::List incidences = rawIncidences();
-    Incidence::List::const_iterator it = incidences.begin();
-    for (; it != incidences.end(); ++it) {
-        if ((*it)->schedulingID() == uid) {
-            // Touchdown, and the crowd goes wild
-            return *it;
-        }
-    }
-    // Not found
-    return Incidence::Ptr();
+    const auto itEnd = incidences.cend();
+    auto it = std::find_if(incidences.cbegin(), itEnd, [&uid](const Incidence::Ptr &in) {
+        return in->schedulingID() == uid;
+    });
+
+    return it != itEnd ? *it : Incidence::Ptr();
 }
 
 /** static */

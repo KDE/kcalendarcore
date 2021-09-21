@@ -175,40 +175,29 @@ bool Incidence::equals(const IncidenceBase &incidence) const
     // If they weren't the same type IncidenceBase::equals would had returned false already
     const Incidence *i2 = static_cast<const Incidence *>(&incidence);
 
-    const auto alarmList = alarms();
-    const auto otherAlarmsList = i2->alarms();
+    const Alarm::List alarmList = alarms();
+    const Alarm::List otherAlarmsList = i2->alarms();
     if (alarmList.count() != otherAlarmsList.count()) {
         return false;
     }
 
-    Alarm::List::ConstIterator a1 = alarmList.constBegin();
-    Alarm::List::ConstIterator a1end = alarmList.constEnd();
-    Alarm::List::ConstIterator a2 = otherAlarmsList.constBegin();
-    Alarm::List::ConstIterator a2end = otherAlarmsList.constEnd();
-    for (; a1 != a1end && a2 != a2end; ++a1, ++a2) {
-        if (**a1 == **a2) {
-            continue;
-        } else {
-            return false;
-        }
+    const auto [it1, it2] = std::mismatch(alarmList.cbegin(), alarmList.cend(), otherAlarmsList.cbegin(), otherAlarmsList.cend());
+    // Checking the iterator from one list only, since both lists are the same size
+    if (it1 != alarmList.cend()) {
+        return false;
     }
 
-    const auto attachmentList = attachments();
-    const auto otherAttachmentList = i2->attachments();
+    const Attachment::List attachmentList = attachments();
+    const Attachment::List otherAttachmentList = i2->attachments();
     if (attachmentList.count() != otherAttachmentList.count()) {
         return false;
     }
 
-    Attachment::List::ConstIterator att1 = attachmentList.constBegin();
-    const Attachment::List::ConstIterator att1end = attachmentList.constEnd();
-    Attachment::List::ConstIterator att2 = otherAttachmentList.constBegin();
-    const Attachment::List::ConstIterator att2end = otherAttachmentList.constEnd();
-    for (; att1 != att1end && att2 != att2end; ++att1, ++att2) {
-        if (*att1 == *att2) {
-            continue;
-        } else {
-            return false;
-        }
+    const auto [at1, at2] = std::mismatch(attachmentList.cbegin(), attachmentList.cend(), otherAttachmentList.cbegin(), otherAttachmentList.cend());
+
+    // Checking the iterator from one list only, since both lists are the same size
+    if (at1 != attachmentList.cend()) {
+        return false;
     }
 
     bool recurrenceEqual = (d->mRecurrence == nullptr && i2->d->mRecurrence == nullptr);
@@ -677,16 +666,11 @@ void Incidence::addAttachment(const Attachment &attachment)
 
 void Incidence::deleteAttachments(const QString &mime)
 {
-    Attachment::List result;
-    Attachment::List::Iterator it = d->mAttachments.begin();
-    while (it != d->mAttachments.end()) {
-        if ((*it).mimeType() != mime) {
-            result += *it;
-        }
-        ++it;
-    }
-    update();
-    d->mAttachments = result;
+    auto it = std::remove_if(d->mAttachments.begin(), d->mAttachments.end(), [&mime](const Attachment &a) {
+        return a.mimeType() == mime;
+    });
+    d->mAttachments.erase(it, d->mAttachments.end());
+
     setFieldDirty(FieldAttachment);
     updated();
 }

@@ -114,27 +114,32 @@ bool IncidenceBase::operator!=(const IncidenceBase &i2) const
     return !operator==(i2);
 }
 
-bool IncidenceBase::equals(const IncidenceBase &i2) const
+bool IncidenceBase::equals(const IncidenceBase &other) const
 {
-    if (attendees().count() != i2.attendees().count()) {
+    if (attendees().count() != other.attendees().count()) {
         // qCDebug(KCALCORE_LOG) << "Attendee count is different";
         return false;
     }
 
-    Attendee::List al1 = attendees();
-    Attendee::List al2 = i2.attendees();
-    Attendee::List::ConstIterator a1 = al1.constBegin();
-    Attendee::List::ConstIterator a2 = al2.constBegin();
     // TODO Does the order of attendees in the list really matter?
     // Please delete this comment if you know it's ok, kthx
-    for (; a1 != al1.constEnd() && a2 != al2.constEnd(); ++a1, ++a2) {
-        if (!(*a1 == *a2)) {
-            // qCDebug(KCALCORE_LOG) << "Attendees are different";
-            return false;
-        }
+    const Attendee::List list = attendees();
+    const Attendee::List otherList = other.attendees();
+
+    if (list.size() != otherList.size()) {
+        return false;
     }
 
-    if (!CustomProperties::operator==(i2)) {
+    auto [it1, it2] = std::mismatch(list.cbegin(), list.cend(), otherList.cbegin(), otherList.cend());
+
+    // Checking the iterator from one list only, since we've already checked
+    // they are the same size
+    if (it1 != list.cend()) {
+        // qCDebug(KCALCORE_LOG) << "Attendees are different";
+        return false;
+    }
+
+    if (!CustomProperties::operator==(other)) {
         // qCDebug(KCALCORE_LOG) << "Properties are different";
         return false;
     }
@@ -143,13 +148,13 @@ bool IncidenceBase::equals(const IncidenceBase &i2) const
     // of much use. We are not comparing for identity, after all.
     // no need to compare mObserver
 
-    bool a = ((dtStart() == i2.dtStart()) || (!dtStart().isValid() && !i2.dtStart().isValid()));
-    bool b = organizer() == i2.organizer();
-    bool c = uid() == i2.uid();
-    bool d = allDay() == i2.allDay();
-    bool e = duration() == i2.duration();
-    bool f = hasDuration() == i2.hasDuration();
-    bool g = url() == i2.url();
+    bool a = ((dtStart() == other.dtStart()) || (!dtStart().isValid() && !other.dtStart().isValid()));
+    bool b = organizer() == other.organizer();
+    bool c = uid() == other.uid();
+    bool d = allDay() == other.allDay();
+    bool e = duration() == other.duration();
+    bool f = hasDuration() == other.hasDuration();
+    bool g = url() == other.url();
 
     // qCDebug(KCALCORE_LOG) << a << b << c << d << e << f << g;
     return a && b && c && d && e && f && g;
@@ -334,6 +339,7 @@ bool IncidenceBase::removeContact(const QString &contact)
 {
     const auto i = d->mContacts.indexOf(contact);
     bool found = i >= 0;
+
     if (found) {
         update();
         d->mContacts.removeAt(i);
@@ -420,14 +426,11 @@ void IncidenceBase::clearAttendees()
 
 Attendee IncidenceBase::attendeeByMail(const QString &email) const
 {
-    Attendee::List::ConstIterator it;
-    for (it = d->mAttendees.constBegin(); it != d->mAttendees.constEnd(); ++it) {
-        if ((*it).email() == email) {
-            return *it;
-        }
-    }
+    auto it = std::find_if(d->mAttendees.cbegin(), d->mAttendees.cend(), [&email](const Attendee &att) {
+        return att.email() == email;
+    });
 
-    return {};
+    return it != d->mAttendees.cend() ? *it : Attendee{};
 }
 
 Attendee IncidenceBase::attendeeByMails(const QStringList &emails, const QString &email) const
@@ -448,14 +451,10 @@ Attendee IncidenceBase::attendeeByMails(const QStringList &emails, const QString
 
 Attendee IncidenceBase::attendeeByUid(const QString &uid) const
 {
-    Attendee::List::ConstIterator it;
-    for (it = d->mAttendees.constBegin(); it != d->mAttendees.constEnd(); ++it) {
-        if ((*it).uid() == uid) {
-            return *it;
-        }
-    }
-
-    return {};
+    auto it = std::find_if(d->mAttendees.cbegin(), d->mAttendees.cend(), [&uid](const Attendee &a) {
+        return a.uid() == uid;
+    });
+    return it != d->mAttendees.cend() ? *it : Attendee{};
 }
 
 void IncidenceBase::setDuration(const Duration &duration)

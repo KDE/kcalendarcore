@@ -125,14 +125,10 @@ bool CalFilter::filterIncidence(const Incidence::Ptr &incidence) const
         if (d->mCriteria & HideNoMatchingAttendeeTodos) {
             bool iAmOneOfTheAttendees = false;
             const Attendee::List &attendees = todo->attendees();
-            if (!todo->attendees().isEmpty()) {
-                Attendee::List::ConstIterator it;
-                for (it = attendees.begin(); it != attendees.end(); ++it) {
-                    if (d->mEmailList.contains((*it).email())) {
-                        iAmOneOfTheAttendees = true;
-                        break;
-                    }
-                }
+            if (!attendees.isEmpty()) {
+                iAmOneOfTheAttendees = std::any_of(attendees.cbegin(), attendees.cend(), [this](const Attendee &att) {
+                    return d->mEmailList.contains(att.email());
+                });
             } else {
                 // no attendees, must be me only
                 iAmOneOfTheAttendees = true;
