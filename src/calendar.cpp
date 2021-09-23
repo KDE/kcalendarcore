@@ -5,6 +5,7 @@
   SPDX-FileCopyrightText: 2000-2004 Cornelius Schumacher <schumacher@kde.org>
   SPDX-FileCopyrightText: 2003-2004 Reinhold Kainhofer <reinhold@kainhofer.com>
   SPDX-FileCopyrightText: 2006 David Jarvie <djarvie@kde.org>
+  SPDX-FileCopyrightText: 2021 Boris Shmarin <b.shmarin@omp.ru>
 
   SPDX-License-Identifier: LGPL-2.0-or-later
 */
@@ -583,7 +584,9 @@ Incidence::Ptr Calendar::createException(const Incidence::Ptr &incidence, const 
     }
 
     Incidence::Ptr newInc(incidence->clone());
-    newInc->setCreated(QDateTime::currentDateTimeUtc());
+    const QDateTime current = QDateTime::currentDateTimeUtc();
+    newInc->setCreated(current);
+    newInc->setLastModified(current);
     newInc->setRevision(0);
     // Recurring exceptions are not support for now
     newInc->clearRecurrence();
