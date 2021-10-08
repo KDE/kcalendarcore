@@ -9,7 +9,7 @@ find_package(ECM 5.87.0  NO_MODULE)
 set_package_properties(ECM PROPERTIES TYPE REQUIRED DESCRIPTION "Extra CMake Modules." URL "https://commits.kde.org/extra-cmake-modules")
 feature_summary(WHAT REQUIRED_PACKAGES_NOT_FOUND FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
-set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
+set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
 set(REQUIRED_QT_VERSION 5.15.2)
 
@@ -78,7 +78,7 @@ if(BUILD_TESTING)
   add_subdirectory(autotests)
 endif()
 
-add_subdirectory(cmake)
+#add_subdirectory(cmake)
 
 ########### Install Files ###########
 install(FILES

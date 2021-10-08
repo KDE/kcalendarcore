@@ -77,7 +77,8 @@ PUBLIC
     Qt5::Core
     Qt5::Gui
 PRIVATE
-    LibIcal
+    icalss
+    icalvcal
 )
 
 install(TARGETS KF5CalendarCore EXPORT KF5CalendarCoreTargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS})

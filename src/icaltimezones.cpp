@@ -19,8 +19,8 @@
 #include <QDateTime>
 
 extern "C" {
-#include <icaltimezone.h>
 #include <libical/ical.h>
+#include <libical/icaltimezone.h>
 }
 
 using namespace KCalendarCore;
