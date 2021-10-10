@@ -21,6 +21,7 @@ private Q_SLOTS:
     void testCompare();
     void testClone();
     void testCopyIncidence();
+    void testCopyConstructor();
     void testAssign();
     void testSetCompleted();
     void testSetCompletedWithDate();

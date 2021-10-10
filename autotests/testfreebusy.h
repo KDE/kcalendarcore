@@ -18,6 +18,7 @@ private Q_SLOTS:
     void testValidity();
     void testAddSort();
     void testAssign();
+    void testCopyConstructor();
     void testDataStream();
 };
 

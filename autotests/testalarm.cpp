@@ -47,10 +47,18 @@ void AlarmTest::testAssignment()
 {
     Alarm alarm1(nullptr);
     alarm1.setType(Alarm::Display);
-    Alarm alarm2 = alarm1;
+    Alarm alarm2(nullptr);
+    QCOMPARE(alarm2.type(), Alarm::Invalid);
+    alarm2 = alarm1;
     QVERIFY(alarm1 == alarm2);
-    Alarm alarm3 = Alarm(alarm1);
-    QVERIFY(alarm2 == alarm3);
+}
+
+void AlarmTest::testCopyConstructor()
+{
+    Alarm alarm1(nullptr);
+    alarm1.setType(Alarm::Display);
+    Alarm alarm3 {alarm1};
+    QVERIFY(alarm1 == alarm3);
 }
 
 void AlarmTest::testSerializer_data()

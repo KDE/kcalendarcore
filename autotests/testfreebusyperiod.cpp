@@ -48,10 +48,29 @@ void FreeBusyPeriodTest::testAssign()
 
     QVERIFY(p2.hasDuration());
     QVERIFY(p2.duration().asSeconds() == 60);
-    QVERIFY(p2.start() == QDateTime(QDate(2006, 8, 30), QTime(7, 0, 0), Qt::UTC));
+    QVERIFY(p2.start() == p1DateTime);
     QCOMPARE(p1.summary(), summary);
     QCOMPARE(p1.location(), location);
 }
+
+void FreeBusyPeriodTest::testCopyConstructor()
+{
+    const QDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), Qt::UTC);
+    FreeBusyPeriod p1(p1DateTime, Duration(60));
+    QString summary = QStringLiteral("I can haz summary?");
+    QString location = QStringLiteral("The Moon");
+    p1.setSummary(summary);
+    p1.setLocation(location);
+
+    FreeBusyPeriod p2 {p1};
+
+    QVERIFY(p2.hasDuration());
+    QVERIFY(p2.duration().asSeconds() == 60);
+    QVERIFY(p2.start() == p1DateTime);
+    QCOMPARE(p1.summary(), summary);
+    QCOMPARE(p1.location(), location);
+}
+
 
 void FreeBusyPeriodTest::testDataStreamOut()
 {

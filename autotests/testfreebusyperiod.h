@@ -18,6 +18,7 @@ class FreeBusyPeriodTest : public QObject
 private Q_SLOTS:
     void testValidity();
     void testAssign();
+    void testCopyConstructor();
     void testDataStreamOut();
     void testDataStreamIn();
 };

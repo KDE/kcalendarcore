@@ -20,7 +20,7 @@ private Q_SLOTS:
     void testValidity();
     void testCompare();
     void testClone();
-    void testCopy();
+    void testCopyConstructor();
     void testCopyIncidence();
     void testAssign();
     void testSerializer_data();

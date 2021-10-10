@@ -16,6 +16,7 @@ class ConferenceTest : public QObject
 private Q_SLOTS:
     void testValidity();
     void testCompare();
+    void testCopyConstructor();
     void testAssign();
     void testDataStream();
     void testLoading();

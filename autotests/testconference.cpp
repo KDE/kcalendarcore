@@ -50,13 +50,18 @@ void ConferenceTest::testCompare()
 void ConferenceTest::testAssign()
 {
     Conference conf1{QUrl{QStringLiteral("sip:1234-5678@sip.example")}, QStringLiteral("SIP Call")};
-    Conference conf2 = conf1;
+    Conference conf2;
+    conf2 = conf1;
     QCOMPARE(conf1, conf2);
 
     conf2.setLanguage(QStringLiteral("en"));
     QVERIFY(!(conf1 == conf2));
+}
 
-    Conference conf3(conf1);
+void ConferenceTest::testCopyConstructor()
+{
+    Conference conf1{QUrl{QStringLiteral("sip:1234-5678@sip.example")}, QStringLiteral("SIP Call")};
+    Conference conf3 {conf1};
     QCOMPARE(conf3, conf1);
 }
 

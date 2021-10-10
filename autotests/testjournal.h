@@ -19,6 +19,7 @@ private Q_SLOTS:
     void testCompare();
     void testClone();
     void testRich();
+    void testCopyConstructor();
     void testAssign();
     void testSerializer_data();
     void testSerializer();

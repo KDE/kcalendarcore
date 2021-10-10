@@ -21,6 +21,7 @@ private Q_SLOTS:
     void testCompare();
     void testCompareType();
     void testAssign();
+    void testCopyConstructor();
     void testDataStreamOut();
     void testDataStreamIn();
     void testUid();

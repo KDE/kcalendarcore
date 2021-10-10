@@ -99,6 +99,20 @@ void TodoTest::testCopyIncidence()
     QCOMPARE(todo.location(), event.location());
 }
 
+void TodoTest::testCopyConstructor()
+{
+    QDate dt = QDate::currentDate();
+    Todo todo1;
+    todo1.setDtStart(QDateTime(dt, {}));
+    todo1.setDtDue(QDateTime(dt, {}).addDays(1));
+    todo1.setSummary(QStringLiteral("Todo1 Summary"));
+    todo1.setDescription(QStringLiteral("This is a description of the first todo"));
+    todo1.setLocation(QStringLiteral("the place"));
+
+    Todo todo2 {todo1};
+    QVERIFY(todo1 == todo2);
+}
+
 void TodoTest::testAssign()
 {
     QDate dt = QDate::currentDate();
@@ -109,8 +123,9 @@ void TodoTest::testAssign()
     todo1.setDescription(QStringLiteral("This is a description of the first todo"));
     todo1.setLocation(QStringLiteral("the place"));
 
-    Todo todo2 = todo1;
-    QVERIFY(todo1 == todo2);
+    IncidenceBase *todo2 = new Todo;
+    *todo2 = todo1;     // Use IncidenceBase's virtual assignment.
+    QVERIFY(todo1 == *todo2);
 }
 
 void TodoTest::testSetCompletedWithDate()

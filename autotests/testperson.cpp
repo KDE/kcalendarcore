@@ -29,8 +29,9 @@ void PersonTest::testCompare()
     Person person1(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com"));
     Person person2(QStringLiteral("wilma"), QStringLiteral("wilma@flintstone.com"));
     Person person3 = Person::fromFullName(QStringLiteral("fred <fred@flintstone.com>"));
-    Person person1copy(person1); // test copy constructor
-    Person person1assign = person1; // test operator=
+    Person person1copy {person1}; // test copy constructor
+    Person person1assign;
+    person1assign = person1; // test operator=
 
     QVERIFY(!(person1 == person2));
     QVERIFY(person1 == person3);

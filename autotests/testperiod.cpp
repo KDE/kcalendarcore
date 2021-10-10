@@ -49,9 +49,10 @@ void PeriodTest::testCompare()
     Period p2(p2DateTime, Duration(23 * 60 * 60));
     const QDateTime p3DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), Qt::UTC);
     Period p3(p3DateTime, Duration(24 * 60 * 60));
-    Period p1copy(p1); // test copy constructor
-    Period p1assign = p1; // test operator=
-    Period p3copy(p3);
+    Period p1copy {p1}; // test copy constructor
+    Period p1assign;
+    p1assign = p1; // test operator=
+    Period p3copy {p3};
     Period p3assign = p3;
 
     QVERIFY(p2 < p1);

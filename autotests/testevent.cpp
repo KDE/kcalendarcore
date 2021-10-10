@@ -111,7 +111,7 @@ void EventTest::testClone()
     delete event2;
 }
 
-void EventTest::testCopy()
+void EventTest::testCopyConstructor()
 {
     QDate dt = QDate::currentDate();
     Event event1;
@@ -122,7 +122,7 @@ void EventTest::testCopy()
     event1.setLocation(QStringLiteral("the place"));
     event1.setTransparency(Event::Transparent);
 
-    Event event2 = event1;
+    Event event2 {event1};
     QCOMPARE(event1.summary(), event2.summary());
     QCOMPARE(event1.dtStart(), event2.dtStart());
     QCOMPARE(event1.dtEnd(), event2.dtEnd());
@@ -158,8 +158,9 @@ void EventTest::testAssign()
     event1.setLocation(QStringLiteral("the place"));
     event1.setTransparency(Event::Transparent);
 
-    Event event2 = event1;
-    QCOMPARE(event1, event2);
+    IncidenceBase *event2 = new Event;
+    *event2 = event1;     // Use IncidenceBase's virtual assignment.
+    QCOMPARE(event1, *event2);
 }
 
 void EventTest::testSerializer_data()

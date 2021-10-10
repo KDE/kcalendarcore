@@ -106,12 +106,17 @@ void AttendeeTest::testCompareType()
 void AttendeeTest::testAssign()
 {
     Attendee attendee1(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com"));
-    Attendee attendee2 = attendee1;
+    Attendee attendee2;
+    attendee2 = attendee1;
     QVERIFY(attendee1 == attendee2);
 
     attendee2.setRole(Attendee::NonParticipant);
     QVERIFY(!(attendee1 == attendee2));
+}
 
+void AttendeeTest::testCopyConstructor()
+{
+    Attendee attendee1(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com"));
     Attendee attendee3(attendee1);
     QVERIFY(attendee3 == attendee1);
 }
