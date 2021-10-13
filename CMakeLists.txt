@@ -9,7 +9,7 @@ find_package(ECM 5.87.0  NO_MODULE)
 set_package_properties(ECM PROPERTIES TYPE REQUIRED DESCRIPTION "Extra CMake Modules." URL "https://commits.kde.org/extra-cmake-modules")
 feature_summary(WHAT REQUIRED_PACKAGES_NOT_FOUND FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
-set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
 set(REQUIRED_QT_VERSION 5.15.2)
 
@@ -50,6 +50,10 @@ ecm_setup_version(PROJECT VARIABLE_PREFIX KCALENDARCORE
 find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Core Gui)
 
 set(LibIcal_MIN_VERSION "3.0")
+# TODO remove our FindLibIcal.cmake in favor of upstream LibIcalConfig.cmake once the following issues are resolved:
+# https://github.com/libical/libical/pull/510
+# https://bugs.launchpad.net/ubuntu/+source/libical3/+bug/1946963
+# https://bugs.launchpad.net/ubuntu/+source/libical/+bug/1920587
 find_package(LibIcal ${LibIcal_MIN_VERSION})
 set_package_properties(LibIcal PROPERTIES TYPE REQUIRED)
 
@@ -77,8 +81,6 @@ if(BUILD_TESTING)
   find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Test)
   add_subdirectory(autotests)
 endif()
-
-#add_subdirectory(cmake)
 
 ########### Install Files ###########
 install(FILES
