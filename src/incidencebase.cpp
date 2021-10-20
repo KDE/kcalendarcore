@@ -44,19 +44,9 @@ using namespace KCalendarCore;
 class KCalendarCore::IncidenceBasePrivate
 {
 public:
-    IncidenceBasePrivate()
-        : mUpdateGroupLevel(0)
-        , mUpdatedPending(false)
-        , mAllDay(false)
-        , mHasDuration(false)
-    {
-    }
+    IncidenceBasePrivate() = default;
 
     IncidenceBasePrivate(const IncidenceBasePrivate &other)
-        : mUpdateGroupLevel(0)
-        , mUpdatedPending(false)
-        , mAllDay(true)
-        , mHasDuration(false)
     {
         init(other);
     }
@@ -72,7 +62,7 @@ public:
     Person mOrganizer; // incidence person (owner)
     QString mUid; // incidence unique id
     Duration mDuration; // incidence duration
-    int mUpdateGroupLevel; // if non-zero, suppresses update() calls
+    int mUpdateGroupLevel = 0; // if non-zero, suppresses update() calls
     bool mUpdatedPending = false; // true if an update has occurred since startUpdates()
     bool mAllDay = false; // true if the incidence is all-day
     bool mHasDuration = false; // true if the incidence has a duration
