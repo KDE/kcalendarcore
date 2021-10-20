@@ -29,30 +29,30 @@
 using namespace KCalendarCore;
 
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalendarCore::FreeBusy::Private
+class KCalendarCore::FreeBusyPrivate
 {
 private:
     FreeBusy *q;
 
 public:
-    Private(FreeBusy *qq)
+    FreeBusyPrivate(FreeBusy *qq)
         : q(qq)
     {
     }
 
-    Private(const KCalendarCore::FreeBusy::Private &other, FreeBusy *qq)
+    FreeBusyPrivate(const FreeBusyPrivate &other, FreeBusy *qq)
         : q(qq)
     {
         init(other);
     }
 
-    Private(const FreeBusyPeriod::List &busyPeriods, FreeBusy *qq)
+    FreeBusyPrivate(const FreeBusyPeriod::List &busyPeriods, FreeBusy *qq)
         : q(qq)
         , mBusyPeriods(busyPeriods)
     {
     }
 
-    void init(const KCalendarCore::FreeBusy::Private &other);
+    void init(const FreeBusyPrivate &other);
     void init(const Event::List &events, const QDateTime &start, const QDateTime &end);
 
     QDateTime mDtEnd; // end datetime
@@ -62,7 +62,7 @@ public:
     bool addLocalPeriod(FreeBusy *fb, const QDateTime &start, const QDateTime &end);
 };
 
-void KCalendarCore::FreeBusy::Private::init(const KCalendarCore::FreeBusy::Private &other)
+void FreeBusyPrivate::init(const FreeBusyPrivate &other)
 {
     mDtEnd = other.mDtEnd;
     mBusyPeriods = other.mBusyPeriods;
@@ -70,25 +70,25 @@ void KCalendarCore::FreeBusy::Private::init(const KCalendarCore::FreeBusy::Priva
 //@endcond
 
 FreeBusy::FreeBusy()
-    : d(new KCalendarCore::FreeBusy::Private(this))
+    : d(new FreeBusyPrivate(this))
 {
 }
 
 FreeBusy::FreeBusy(const FreeBusy &other)
     : IncidenceBase(other)
-    , d(new KCalendarCore::FreeBusy::Private(*other.d, this))
+    , d(new FreeBusyPrivate(*other.d, this))
 {
 }
 
 FreeBusy::FreeBusy(const QDateTime &start, const QDateTime &end)
-    : d(new KCalendarCore::FreeBusy::Private(this))
+    : d(new FreeBusyPrivate(this))
 {
     setDtStart(start); // NOLINT false clang-analyzer-optin.cplusplus.VirtualCall
     setDtEnd(end); // NOLINT false clang-analyzer-optin.cplusplus.VirtualCall
 }
 
 FreeBusy::FreeBusy(const Event::List &events, const QDateTime &start, const QDateTime &end)
-    : d(new KCalendarCore::FreeBusy::Private(this))
+    : d(new FreeBusyPrivate(this))
 {
     setDtStart(start); // NOLINT false clang-analyzer-optin.cplusplus.VirtualCall
     setDtEnd(end); // NOLINT false clang-analyzer-optin.cplusplus.VirtualCall
@@ -97,7 +97,7 @@ FreeBusy::FreeBusy(const Event::List &events, const QDateTime &start, const QDat
 }
 
 //@cond PRIVATE
-void FreeBusy::Private::init(const Event::List &eventList, const QDateTime &start, const QDateTime &end)
+void FreeBusyPrivate::init(const Event::List &eventList, const QDateTime &start, const QDateTime &end)
 {
     const qint64 duration = start.daysTo(end);
     QDate day;
@@ -181,13 +181,13 @@ void FreeBusy::Private::init(const Event::List &eventList, const QDateTime &star
 //@endcond
 
 FreeBusy::FreeBusy(const Period::List &busyPeriods)
-    : d(new KCalendarCore::FreeBusy::Private(this))
+    : d(new FreeBusyPrivate(this))
 {
     addPeriods(busyPeriods);
 }
 
 FreeBusy::FreeBusy(const FreeBusyPeriod::List &busyPeriods)
-    : d(new KCalendarCore::FreeBusy::Private(busyPeriods, this))
+    : d(new FreeBusyPrivate(busyPeriods, this))
 {
 }
 
@@ -349,7 +349,7 @@ void FreeBusy::virtual_hook(VirtualHook id, void *data)
 }
 
 //@cond PRIVATE
-bool FreeBusy::Private::addLocalPeriod(FreeBusy *fb, const QDateTime &eventStart, const QDateTime &eventEnd)
+bool FreeBusyPrivate::addLocalPeriod(FreeBusy *fb, const QDateTime &eventStart, const QDateTime &eventEnd)
 {
     QDateTime tmpStart;
     QDateTime tmpEnd;

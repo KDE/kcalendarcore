@@ -23,6 +23,9 @@
 
 namespace KCalendarCore
 {
+
+class TodoPrivate;
+
 /**
   @brief
   Provides a To-do in the sense of RFC2445.
@@ -353,8 +356,8 @@ private:
     void deserialize(QDataStream &in) override;
 
     //@cond PRIVATE
-    class Private;
-    Private *const d;
+    friend class TodoPrivate;
+    TodoPrivate *const d;
     //@endcond
 };
 

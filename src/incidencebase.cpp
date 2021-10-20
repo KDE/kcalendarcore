@@ -41,10 +41,10 @@ using namespace KCalendarCore;
   @internal
 */
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalendarCore::IncidenceBase::Private
+class KCalendarCore::IncidenceBasePrivate
 {
 public:
-    Private()
+    IncidenceBasePrivate()
         : mUpdateGroupLevel(0)
         , mUpdatedPending(false)
         , mAllDay(false)
@@ -52,7 +52,7 @@ public:
     {
     }
 
-    Private(const Private &other)
+    IncidenceBasePrivate(const IncidenceBasePrivate &other)
         : mUpdateGroupLevel(0)
         , mUpdatedPending(false)
         , mAllDay(true)
@@ -61,11 +61,11 @@ public:
         init(other);
     }
 
-    ~Private()
+    ~IncidenceBasePrivate()
     {
     }
 
-    void init(const Private &other);
+    void init(const IncidenceBasePrivate &other);
 
     QDateTime mLastModified; // incidence last modified date
     QDateTime mDtStart; // incidence start time
@@ -79,13 +79,13 @@ public:
     Attendee::List mAttendees; // list of incidence attendees
     QStringList mComments; // list of incidence comments
     QStringList mContacts; // list of incidence contacts
-    QList<IncidenceObserver *> mObservers; // list of incidence observers
-    QSet<Field> mDirtyFields; // Fields that changed since last time the incidence was created
+    QList<IncidenceBase::IncidenceObserver *> mObservers; // list of incidence observers
+    QSet<IncidenceBase::Field> mDirtyFields; // Fields that changed since last time the incidence was created
     // or since resetDirtyFlags() was called
     QUrl mUrl; // incidence url property
 };
 
-void IncidenceBase::Private::init(const Private &other)
+void IncidenceBasePrivate::init(const IncidenceBasePrivate &other)
 {
     mLastModified = other.mLastModified;
     mDtStart = other.mDtStart;
@@ -106,7 +106,7 @@ void IncidenceBase::Private::init(const Private &other)
 //@endcond
 
 IncidenceBase::IncidenceBase()
-    : d(new KCalendarCore::IncidenceBase::Private)
+    : d(new KCalendarCore::IncidenceBasePrivate)
 {
     mReadOnly = false;
     setUid(CalFormat::createUniqueId());
@@ -114,7 +114,7 @@ IncidenceBase::IncidenceBase()
 
 IncidenceBase::IncidenceBase(const IncidenceBase &i)
     : CustomProperties(i)
-    , d(new KCalendarCore::IncidenceBase::Private(*i.d))
+    , d(new KCalendarCore::IncidenceBasePrivate(*i.d))
 {
     mReadOnly = i.mReadOnly;
 }

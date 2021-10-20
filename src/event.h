@@ -22,6 +22,9 @@
 
 namespace KCalendarCore
 {
+
+class EventPrivate;
+
 /**
   @brief
   This class provides an Event in the sense of RFC2445.
@@ -251,8 +254,7 @@ private:
     void deserialize(QDataStream &in) override;
 
     //@cond PRIVATE
-    class Private;
-    Private *const d;
+    EventPrivate *const d;
     //@endcond
 };
 

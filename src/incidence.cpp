@@ -35,17 +35,17 @@ using namespace KCalendarCore;
   @internal
 */
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalendarCore::Incidence::Private
+class KCalendarCore::IncidencePrivate
 {
 public:
-    Private()
+    IncidencePrivate()
         : mGeoLatitude(INVALID_LATLON)
         , mGeoLongitude(INVALID_LATLON)
         , mRecurrence(nullptr)
         , mRevision(0)
         , mPriority(0)
-        , mStatus(StatusNone)
-        , mSecrecy(SecrecyPublic)
+        , mStatus(Incidence::StatusNone)
+        , mSecrecy(Incidence::SecrecyPublic)
         , mDescriptionIsRich(false)
         , mSummaryIsRich(false)
         , mLocationIsRich(false)
@@ -55,7 +55,7 @@ public:
     {
     }
 
-    Private(const Private &p)
+    IncidencePrivate(const IncidencePrivate &p)
         : mCreated(p.mCreated)
         , mDescription(p.mDescription)
         , mSummary(p.mSummary)
@@ -147,7 +147,7 @@ public:
     QStringList mResources; // resources list (not calendar resources)
     QString mStatusString; // status string, for custom status
     QString mSchedulingID; // ID for scheduling mails
-    QMap<RelType, QString> mRelatedToUid; // incidence uid this is related to, for each relType
+    QMap<Incidence::RelType, QString> mRelatedToUid; // incidence uid this is related to, for each relType
     QDateTime mRecurrenceId; // recurrenceId
     Conference::List mConferences; // conference list
 
@@ -156,8 +156,8 @@ public:
     mutable Recurrence *mRecurrence; // recurrence
     int mRevision; // revision number
     int mPriority; // priority: 1 = highest, 2 = less, etc.
-    Status mStatus; // status
-    Secrecy mSecrecy; // secrecy
+    Incidence::Status mStatus; // status
+    Incidence::Secrecy mSecrecy; // secrecy
     QString mColor; // background color
     bool mDescriptionIsRich = false; // description string is richtext.
     bool mSummaryIsRich = false; // summary string is richtext.
@@ -170,7 +170,7 @@ public:
 
 Incidence::Incidence()
     : IncidenceBase()
-    , d(new KCalendarCore::Incidence::Private)
+    , d(new KCalendarCore::IncidencePrivate)
 {
     recreate();
     resetDirtyFields();
@@ -179,7 +179,7 @@ Incidence::Incidence()
 Incidence::Incidence(const Incidence &i)
     : IncidenceBase(i)
     , Recurrence::RecurrenceObserver()
-    , d(new KCalendarCore::Incidence::Private(*i.d))
+    , d(new KCalendarCore::IncidencePrivate(*i.d))
 {
     d->init(this, i);
     resetDirtyFields();

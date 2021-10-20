@@ -71,6 +71,7 @@ class Todo;
 class Journal;
 class FreeBusy;
 class Visitor;
+class IncidenceBasePrivate;
 
 /**
   @brief
@@ -740,8 +741,7 @@ protected:
 
 private:
     //@cond PRIVATE
-    class Private;
-    Private *const d;
+    IncidenceBasePrivate *const d;
 
     Q_DECL_HIDDEN QVariantList attendeesVariant() const;
     //@endcond

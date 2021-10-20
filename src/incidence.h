@@ -34,6 +34,9 @@
 
 namespace KCalendarCore
 {
+
+class IncidencePrivate;
+
 /**
   @brief
   Provides the abstract base class common to non-FreeBusy (Events, To-dos,
@@ -888,9 +891,9 @@ private:
     Q_DECL_HIDDEN QVariantList attachmentsVariant() const;
     Q_DECL_HIDDEN QVariantList conferencesVariant() const;
 
-    //@cond PRIVATE
-    class Private;
-    Private *const d;
+    //@cond PRIVATE:
+    friend class IncidencePrivate;
+    IncidencePrivate *const d;
     //@endcond
 };
 

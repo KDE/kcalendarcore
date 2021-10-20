@@ -34,7 +34,7 @@ using namespace KCalendarCore;
   @internal
 */
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalendarCore::Todo::Private
+class KCalendarCore::TodoPrivate
 {
     Todo *const q;
 
@@ -46,21 +46,21 @@ class Q_DECL_HIDDEN KCalendarCore::Todo::Private
 
 public:
 
-    Private(Todo *todo)
+    TodoPrivate(Todo *todo)
         : q(todo)
     {
     }
 
-    Private(const KCalendarCore::Todo::Private &other, Todo * todo)
+    TodoPrivate(const TodoPrivate &other, Todo * todo)
         : q(todo)
     {
         init(other);
     }
 
     // Default copy constructor would copy q.
-    Private(Private &p) = delete;
+    TodoPrivate(TodoPrivate &p) = delete;
 
-    void init(const KCalendarCore::Todo::Private &other);
+    void init(const TodoPrivate &other);
 
     void setDtDue(const QDateTime dd);
     QDateTime dtDue() const
@@ -94,39 +94,39 @@ public:
     void deserialize(QDataStream &in);
 };
 
-void Todo::Private::setDtDue(const QDateTime dd)
+void TodoPrivate::setDtDue(const QDateTime dd)
 {
     if (dd != mDtDue) {
         mDtDue = dd;
-        q->setFieldDirty(FieldDtDue);
+        q->setFieldDirty(IncidenceBase::FieldDtDue);
     }
 }
 
-void Todo::Private::setDtRecurrence(const QDateTime dr)
+void TodoPrivate::setDtRecurrence(const QDateTime dr)
 {
     if (dr != mDtRecurrence) {
         mDtRecurrence = dr;
-        q->setFieldDirty(FieldRecurrenceId);
+        q->setFieldDirty(IncidenceBase::FieldRecurrenceId);
     }
 }
 
-void Todo::Private::setCompleted(const QDateTime dc)
+void TodoPrivate::setCompleted(const QDateTime dc)
 {
     if (dc != mCompleted) {
         mCompleted = dc.toUTC();
-        q->setFieldDirty(FieldCompleted);
+        q->setFieldDirty(IncidenceBase::FieldCompleted);
     }
 }
 
-void Todo::Private::setPercentComplete(const int pc)
+void TodoPrivate::setPercentComplete(const int pc)
 {
     if (pc != mPercentComplete) {
         mPercentComplete = pc;
-        q->setFieldDirty(FieldPercentComplete);
+        q->setFieldDirty(IncidenceBase::FieldPercentComplete);
     }
 }
 
-void KCalendarCore::Todo::Private::init(const KCalendarCore::Todo::Private &other)
+void TodoPrivate::init(const TodoPrivate &other)
 {
     mDtDue = other.mDtDue;
     mDtRecurrence = other.mDtRecurrence;
@@ -137,19 +137,19 @@ void KCalendarCore::Todo::Private::init(const KCalendarCore::Todo::Private &othe
 //@endcond
 
 Todo::Todo()
-    : d(new KCalendarCore::Todo::Private(this))
+    : d(new TodoPrivate(this))
 {
 }
 
 Todo::Todo(const Todo &other)
     : Incidence(other)
-    , d(new KCalendarCore::Todo::Private(*other.d, this))
+    , d(new TodoPrivate(*other.d, this))
 {
 }
 
 Todo::Todo(const Incidence &other)
     : Incidence(other)
-    , d(new KCalendarCore::Todo::Private(this))
+    , d(new TodoPrivate(this))
 {
 }
 
@@ -462,7 +462,7 @@ void Todo::setAllDay(bool allday)
 }
 
 //@cond PRIVATE
-bool Todo::Private::recurTodo(Todo *todo)
+bool TodoPrivate::recurTodo(Todo *todo)
 {
     if (todo && todo->recurs()) {
         Recurrence *r = todo->recurrence();
@@ -604,7 +604,7 @@ void Todo::serialize(QDataStream &out) const
     out << d->percentComplete();
 }
 
-void Todo::Private::deserialize(QDataStream &in)
+void TodoPrivate::deserialize(QDataStream &in)
 {
     deserializeKDateTimeAsQDateTime(in, mDtDue);
     deserializeKDateTimeAsQDateTime(in, mDtRecurrence);

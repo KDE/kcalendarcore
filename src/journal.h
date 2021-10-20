@@ -22,6 +22,9 @@
 
 namespace KCalendarCore
 {
+
+class JournalPrivate;
+
 /**
   @brief
   Provides a Journal in the sense of RFC2445.
@@ -150,8 +153,7 @@ private:
     void deserialize(QDataStream &in) override;
 
     //@cond PRIVATE
-    class Private;
-    Private *const d;
+    JournalPrivate *const d;
     //@endcond
 };
 

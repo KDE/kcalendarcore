@@ -28,7 +28,8 @@
 
 namespace KCalendarCore
 {
-class FreeBusy;
+
+class FreeBusyPrivate;
 
 /**
   @brief
@@ -256,8 +257,7 @@ private:
     FreeBusy &operator=(const FreeBusy &other);
 
     //@cond PRIVATE
-    class Private;
-    Private *const d;
+    FreeBusyPrivate *const d;
     //@endcond
 };
 
