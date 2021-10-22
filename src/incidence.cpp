@@ -327,14 +327,13 @@ void Incidence::setCreated(const QDateTime &created)
         return;
     }
 
+    update();
     d->mCreated = created.toUTC();
     const auto ct = d->mCreated.time();
     // Remove milliseconds
     d->mCreated.setTime(QTime(ct.hour(), ct.minute(), ct.second()));
     setFieldDirty(FieldCreated);
-
-    // FIXME: Shouldn't we call updated for the creation date, too?
-    //  updated();
+    updated();
 }
 
 QDateTime Incidence::created() const
@@ -349,7 +348,6 @@ void Incidence::setRevision(int rev)
     }
 
     update();
-
     d->mRevision = rev;
     setFieldDirty(FieldRevision);
     updated();
@@ -374,8 +372,13 @@ void Incidence::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
     if (d->mRecurrence) {
         d->mRecurrence->shiftTimes(oldZone, newZone);
     }
-    for (int i = 0, end = d->mAlarms.count(); i < end; ++i) {
-        d->mAlarms[i]->shiftTimes(oldZone, newZone);
+    if (d->mAlarms.count() > 0) {
+        update();
+        for (auto alarm : d->mAlarms) {
+            alarm->shiftTimes(oldZone, newZone);
+        }
+        setFieldDirty(FieldAlarms);
+        updated();
     }
 }
 
@@ -461,6 +464,7 @@ void Incidence::setCategories(const QStringList &categories)
 
     update();
     d->mCategories = categories;
+    setFieldDirty(FieldCategories);
     updated();
 }
 
@@ -700,8 +704,10 @@ void Incidence::deleteAttachments(const QString &mime)
         }
         ++it;
     }
+    update();
     d->mAttachments = result;
     setFieldDirty(FieldAttachment);
+    updated();
 }
 
 Attachment::List Incidence::attachments() const
@@ -722,8 +728,10 @@ Attachment::List Incidence::attachments(const QString &mime) const
 
 void Incidence::clearAttachments()
 {
+    update();
     setFieldDirty(FieldAttachment);
     d->mAttachments.clear();
+    updated();
 }
 
 void Incidence::setResources(const QStringList &resources)
@@ -825,7 +833,7 @@ Alarm::List Incidence::alarms() const
 Alarm::Ptr Incidence::newAlarm()
 {
     Alarm::Ptr alarm(new Alarm(this));
-    d->mAlarms.append(alarm);
+    addAlarm(alarm);
     return alarm;
 }
 
@@ -940,8 +948,10 @@ void Incidence::setSchedulingID(const QString &sid, const QString &uid)
         setUid(uid);
     }
     if (sid != d->mSchedulingID) {
+        update();
         d->mSchedulingID = sid;
         setFieldDirty(FieldSchedulingId);
+        updated();
     }
 }
 
