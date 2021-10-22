@@ -283,38 +283,36 @@ void IncidenceBase::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZon
     d->mDtStart = d->mDtStart.toTimeZone(oldZone);
     d->mDtStart.setTimeZone(newZone);
     d->mDirtyFields.insert(FieldDtStart);
-    d->mDirtyFields.insert(FieldDtEnd);
     updated();
 }
 
 void IncidenceBase::addComment(const QString &comment)
 {
+    update();
     d->mComments += comment;
+    d->mDirtyFields.insert(FieldComment);
+    updated();
 }
 
 bool IncidenceBase::removeComment(const QString &comment)
 {
-    bool found = false;
-    QStringList::Iterator i;
-
-    for (i = d->mComments.begin(); !found && i != d->mComments.end(); ++i) {
-        if ((*i) == comment) {
-            found = true;
-            d->mComments.erase(i);
-        }
-    }
-
+    const auto i = d->mComments.indexOf(comment);
+    bool found = i >= 0;
     if (found) {
+        update();
+        d->mComments.removeAt(i);
         d->mDirtyFields.insert(FieldComment);
+        updated();
     }
-
     return found;
 }
 
 void IncidenceBase::clearComments()
 {
+    update();
     d->mDirtyFields.insert(FieldComment);
     d->mComments.clear();
+    updated();
 }
 
 QStringList IncidenceBase::comments() const
@@ -325,34 +323,32 @@ QStringList IncidenceBase::comments() const
 void IncidenceBase::addContact(const QString &contact)
 {
     if (!contact.isEmpty()) {
+        update();
         d->mContacts += contact;
         d->mDirtyFields.insert(FieldContact);
+        updated();
     }
 }
 
 bool IncidenceBase::removeContact(const QString &contact)
 {
-    bool found = false;
-    QStringList::Iterator i;
-
-    for (i = d->mContacts.begin(); !found && i != d->mContacts.end(); ++i) {
-        if ((*i) == contact) {
-            found = true;
-            d->mContacts.erase(i);
-        }
-    }
-
+    const auto i = d->mContacts.indexOf(contact);
+    bool found = i >= 0;
     if (found) {
+        update();
+        d->mContacts.removeAt(i);
         d->mDirtyFields.insert(FieldContact);
+        updated();
     }
-
     return found;
 }
 
 void IncidenceBase::clearContacts()
 {
+    update();
     d->mDirtyFields.insert(FieldContact);
     d->mContacts.clear();
+    updated();
 }
 
 QStringList IncidenceBase::contacts() const
@@ -416,8 +412,10 @@ void IncidenceBase::clearAttendees()
     if (mReadOnly) {
         return;
     }
+    update();
     d->mDirtyFields.insert(FieldAttendees);
     d->mAttendees.clear();
+    updated();
 }
 
 Attendee IncidenceBase::attendeeByMail(const QString &email) const
@@ -489,8 +487,10 @@ bool IncidenceBase::hasDuration() const
 
 void IncidenceBase::setUrl(const QUrl &url)
 {
+    update();
     d->mDirtyFields.insert(FieldUrl);
     d->mUrl = url;
+    updated();
 }
 
 QUrl IncidenceBase::url() const

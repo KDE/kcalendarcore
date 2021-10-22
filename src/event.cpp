@@ -197,6 +197,7 @@ void Event::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
     if (d->mDtEnd.isValid()) {
         d->mDtEnd = d->mDtEnd.toTimeZone(oldZone);
         d->mDtEnd.setTimeZone(newZone);
+        setFieldDirty(FieldDtEnd);
     }
 }
 
