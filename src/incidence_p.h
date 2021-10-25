@@ -1,0 +1,66 @@
+/*
+  This file is part of the kcalcore library.
+
+  SPDX-FileCopyrightText: 2001-2003 Cornelius Schumacher <schumacher@kde.org>
+  SPDX-FileCopyrightText: 2003-2004 Reinhold Kainhofer <reinhold@kainhofer.com>
+
+  SPDX-License-Identifier: LGPL-2.0-or-later
+*/
+
+#ifndef KCALCORE_INCIDENCE_P_H
+#define KCALCORE_INCIDENCE_P_H
+
+namespace KCalendarCore
+{
+
+//@cond PRIVATE
+/**
+  Private class that helps to provide binary compatibility between releases.
+  @internal
+*/
+
+class Incidence;
+
+class IncidencePrivate
+{
+public:
+    IncidencePrivate();
+    IncidencePrivate(const IncidencePrivate &p);
+    void clear();
+    void init(Incidence *dest, const Incidence &src);
+
+    QDateTime mCreated; // creation datetime
+    QString mDescription; // description string
+    QString mSummary; // summary string
+    QString mLocation; // location string
+    QStringList mCategories; // category list
+    Attachment::List mAttachments; // attachments list
+    Alarm::List mAlarms; // alarms list
+    QStringList mResources; // resources list (not calendar resources)
+    QString mStatusString; // status string, for custom status
+    QString mSchedulingID; // ID for scheduling mails
+    QMap<Incidence::RelType, QString> mRelatedToUid; // incidence uid this is related to, for each relType
+    QDateTime mRecurrenceId; // recurrenceId
+    Conference::List mConferences; // conference list
+
+    float mGeoLatitude; // Specifies latitude in decimal degrees
+    float mGeoLongitude; // Specifies longitude in decimal degrees
+    mutable Recurrence *mRecurrence; // recurrence
+    int mRevision; // revision number
+    int mPriority; // priority: 1 = highest, 2 = less, etc.
+    Incidence::Status mStatus; // status
+    Incidence::Secrecy mSecrecy; // secrecy
+    QString mColor; // background color
+    bool mDescriptionIsRich = false; // description string is richtext.
+    bool mSummaryIsRich = false; // summary string is richtext.
+    bool mLocationIsRich = false; // location string is richtext.
+    bool mHasGeo = false; // if incidence has geo data
+    bool mThisAndFuture = false;
+    bool mLocalOnly = false; // allow changes that won't go to the server
+};
+//@endcond
+
+}
+
+#endif
+

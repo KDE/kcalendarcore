@@ -22,6 +22,7 @@
 */
 
 #include "incidencebase.h"
+#include "incidencebase_p.h"
 #include "calformat.h"
 #include "utils_p.h"
 #include "visitor.h"
@@ -36,45 +37,7 @@
 
 using namespace KCalendarCore;
 
-/**
-  Private class that helps to provide binary compatibility between releases.
-  @internal
-*/
 //@cond PRIVATE
-class KCalendarCore::IncidenceBasePrivate
-{
-public:
-    IncidenceBasePrivate() = default;
-
-    IncidenceBasePrivate(const IncidenceBasePrivate &other)
-    {
-        init(other);
-    }
-
-    ~IncidenceBasePrivate()
-    {
-    }
-
-    void init(const IncidenceBasePrivate &other);
-
-    QDateTime mLastModified; // incidence last modified date
-    QDateTime mDtStart; // incidence start time
-    Person mOrganizer; // incidence person (owner)
-    QString mUid; // incidence unique id
-    Duration mDuration; // incidence duration
-    int mUpdateGroupLevel = 0; // if non-zero, suppresses update() calls
-    bool mUpdatedPending = false; // true if an update has occurred since startUpdates()
-    bool mAllDay = false; // true if the incidence is all-day
-    bool mHasDuration = false; // true if the incidence has a duration
-    Attendee::List mAttendees; // list of incidence attendees
-    QStringList mComments; // list of incidence comments
-    QStringList mContacts; // list of incidence contacts
-    QList<IncidenceBase::IncidenceObserver *> mObservers; // list of incidence observers
-    QSet<IncidenceBase::Field> mDirtyFields; // Fields that changed since last time the incidence was created
-    // or since resetDirtyFlags() was called
-    QUrl mUrl; // incidence url property
-};
-
 void IncidenceBasePrivate::init(const IncidenceBasePrivate &other)
 {
     mLastModified = other.mLastModified;

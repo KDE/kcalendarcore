@@ -20,6 +20,7 @@
 */
 
 #include "incidence.h"
+#include "incidence_p.h"
 #include "calformat.h"
 #include "utils_p.h"
 
@@ -30,142 +31,104 @@
 
 using namespace KCalendarCore;
 
-/**
-  Private class that helps to provide binary compatibility between releases.
-  @internal
-*/
-//@cond PRIVATE
-class KCalendarCore::IncidencePrivate
+IncidencePrivate::IncidencePrivate()
+    : mGeoLatitude(INVALID_LATLON)
+    , mGeoLongitude(INVALID_LATLON)
+    , mRecurrence(nullptr)
+    , mRevision(0)
+    , mPriority(0)
+    , mStatus(Incidence::StatusNone)
+    , mSecrecy(Incidence::SecrecyPublic)
+    , mDescriptionIsRich(false)
+    , mSummaryIsRich(false)
+    , mLocationIsRich(false)
+    , mHasGeo(false)
+    , mThisAndFuture(false)
+    , mLocalOnly(false)
 {
-public:
-    IncidencePrivate()
-        : mGeoLatitude(INVALID_LATLON)
-        , mGeoLongitude(INVALID_LATLON)
-        , mRecurrence(nullptr)
-        , mRevision(0)
-        , mPriority(0)
-        , mStatus(Incidence::StatusNone)
-        , mSecrecy(Incidence::SecrecyPublic)
-        , mDescriptionIsRich(false)
-        , mSummaryIsRich(false)
-        , mLocationIsRich(false)
-        , mHasGeo(false)
-        , mThisAndFuture(false)
-        , mLocalOnly(false)
-    {
+}
+
+IncidencePrivate::IncidencePrivate(const IncidencePrivate &p)
+    : mCreated(p.mCreated)
+    , mDescription(p.mDescription)
+    , mSummary(p.mSummary)
+    , mLocation(p.mLocation)
+    , mCategories(p.mCategories)
+    , mResources(p.mResources)
+    , mStatusString(p.mStatusString)
+    , mSchedulingID(p.mSchedulingID)
+    , mRelatedToUid(p.mRelatedToUid)
+    , mRecurrenceId(p.mRecurrenceId)
+    , mConferences(p.mConferences)
+    , mGeoLatitude(p.mGeoLatitude)
+    , mGeoLongitude(p.mGeoLongitude)
+    , mRecurrence(nullptr)
+    , mRevision(p.mRevision)
+    , mPriority(p.mPriority)
+    , mStatus(p.mStatus)
+    , mSecrecy(p.mSecrecy)
+    , mColor(p.mColor)
+    , mDescriptionIsRich(p.mDescriptionIsRich)
+    , mSummaryIsRich(p.mSummaryIsRich)
+    , mLocationIsRich(p.mLocationIsRich)
+    , mHasGeo(p.mHasGeo)
+    , mThisAndFuture(p.mThisAndFuture)
+    , mLocalOnly(false)
+{
+}
+
+void IncidencePrivate::clear()
+{
+    mAlarms.clear();
+    mAttachments.clear();
+    delete mRecurrence;
+    mRecurrence = nullptr;
+}
+
+void IncidencePrivate::init(Incidence *dest, const Incidence &src)
+{
+    mRevision = src.d->mRevision;
+    mCreated = src.d->mCreated;
+    mDescription = src.d->mDescription;
+    mDescriptionIsRich = src.d->mDescriptionIsRich;
+    mSummary = src.d->mSummary;
+    mSummaryIsRich = src.d->mSummaryIsRich;
+    mCategories = src.d->mCategories;
+    mRelatedToUid = src.d->mRelatedToUid;
+    mResources = src.d->mResources;
+    mStatusString = src.d->mStatusString;
+    mStatus = src.d->mStatus;
+    mSecrecy = src.d->mSecrecy;
+    mPriority = src.d->mPriority;
+    mLocation = src.d->mLocation;
+    mLocationIsRich = src.d->mLocationIsRich;
+    mGeoLatitude = src.d->mGeoLatitude;
+    mGeoLongitude = src.d->mGeoLongitude;
+    mHasGeo = src.d->mHasGeo;
+    mRecurrenceId = src.d->mRecurrenceId;
+    mConferences = src.d->mConferences;
+    mThisAndFuture = src.d->mThisAndFuture;
+    mLocalOnly = src.d->mLocalOnly;
+    mColor = src.d->mColor;
+
+    // Alarms and Attachments are stored in ListBase<...>, which is a QValueList<...*>.
+    // We need to really duplicate the objects stored therein, otherwise deleting
+    // i will also delete all attachments from this object (setAutoDelete...)
+    mAlarms.reserve(src.d->mAlarms.count());
+    for (const Alarm::Ptr &alarm : qAsConst(src.d->mAlarms)) {
+        Alarm::Ptr b(new Alarm(*alarm.data()));
+        b->setParent(dest);
+        mAlarms.append(b);
     }
 
-    IncidencePrivate(const IncidencePrivate &p)
-        : mCreated(p.mCreated)
-        , mDescription(p.mDescription)
-        , mSummary(p.mSummary)
-        , mLocation(p.mLocation)
-        , mCategories(p.mCategories)
-        , mResources(p.mResources)
-        , mStatusString(p.mStatusString)
-        , mSchedulingID(p.mSchedulingID)
-        , mRelatedToUid(p.mRelatedToUid)
-        , mRecurrenceId(p.mRecurrenceId)
-        , mConferences(p.mConferences)
-        , mGeoLatitude(p.mGeoLatitude)
-        , mGeoLongitude(p.mGeoLongitude)
-        , mRecurrence(nullptr)
-        , mRevision(p.mRevision)
-        , mPriority(p.mPriority)
-        , mStatus(p.mStatus)
-        , mSecrecy(p.mSecrecy)
-        , mColor(p.mColor)
-        , mDescriptionIsRich(p.mDescriptionIsRich)
-        , mSummaryIsRich(p.mSummaryIsRich)
-        , mLocationIsRich(p.mLocationIsRich)
-        , mHasGeo(p.mHasGeo)
-        , mThisAndFuture(p.mThisAndFuture)
-        , mLocalOnly(false)
-    {
-    }
-
-    void clear()
-    {
-        mAlarms.clear();
-        mAttachments.clear();
-        delete mRecurrence;
+    mAttachments = src.d->mAttachments;
+    if (src.d->mRecurrence) {
+        mRecurrence = new Recurrence(*(src.d->mRecurrence));
+        mRecurrence->addObserver(dest);
+    } else {
         mRecurrence = nullptr;
     }
-
-    void init(Incidence *dest, const Incidence &src)
-    {
-        mRevision = src.d->mRevision;
-        mCreated = src.d->mCreated;
-        mDescription = src.d->mDescription;
-        mDescriptionIsRich = src.d->mDescriptionIsRich;
-        mSummary = src.d->mSummary;
-        mSummaryIsRich = src.d->mSummaryIsRich;
-        mCategories = src.d->mCategories;
-        mRelatedToUid = src.d->mRelatedToUid;
-        mResources = src.d->mResources;
-        mStatusString = src.d->mStatusString;
-        mStatus = src.d->mStatus;
-        mSecrecy = src.d->mSecrecy;
-        mPriority = src.d->mPriority;
-        mLocation = src.d->mLocation;
-        mLocationIsRich = src.d->mLocationIsRich;
-        mGeoLatitude = src.d->mGeoLatitude;
-        mGeoLongitude = src.d->mGeoLongitude;
-        mHasGeo = src.d->mHasGeo;
-        mRecurrenceId = src.d->mRecurrenceId;
-        mConferences = src.d->mConferences;
-        mThisAndFuture = src.d->mThisAndFuture;
-        mLocalOnly = src.d->mLocalOnly;
-        mColor = src.d->mColor;
-
-        // Alarms and Attachments are stored in ListBase<...>, which is a QValueList<...*>.
-        // We need to really duplicate the objects stored therein, otherwise deleting
-        // i will also delete all attachments from this object (setAutoDelete...)
-        mAlarms.reserve(src.d->mAlarms.count());
-        for (const Alarm::Ptr &alarm : qAsConst(src.d->mAlarms)) {
-            Alarm::Ptr b(new Alarm(*alarm.data()));
-            b->setParent(dest);
-            mAlarms.append(b);
-        }
-
-        mAttachments = src.d->mAttachments;
-        if (src.d->mRecurrence) {
-            mRecurrence = new Recurrence(*(src.d->mRecurrence));
-            mRecurrence->addObserver(dest);
-        } else {
-            mRecurrence = nullptr;
-        }
-    }
-
-    QDateTime mCreated; // creation datetime
-    QString mDescription; // description string
-    QString mSummary; // summary string
-    QString mLocation; // location string
-    QStringList mCategories; // category list
-    Attachment::List mAttachments; // attachments list
-    Alarm::List mAlarms; // alarms list
-    QStringList mResources; // resources list (not calendar resources)
-    QString mStatusString; // status string, for custom status
-    QString mSchedulingID; // ID for scheduling mails
-    QMap<Incidence::RelType, QString> mRelatedToUid; // incidence uid this is related to, for each relType
-    QDateTime mRecurrenceId; // recurrenceId
-    Conference::List mConferences; // conference list
-
-    float mGeoLatitude; // Specifies latitude in decimal degrees
-    float mGeoLongitude; // Specifies longitude in decimal degrees
-    mutable Recurrence *mRecurrence; // recurrence
-    int mRevision; // revision number
-    int mPriority; // priority: 1 = highest, 2 = less, etc.
-    Incidence::Status mStatus; // status
-    Incidence::Secrecy mSecrecy; // secrecy
-    QString mColor; // background color
-    bool mDescriptionIsRich = false; // description string is richtext.
-    bool mSummaryIsRich = false; // summary string is richtext.
-    bool mLocationIsRich = false; // location string is richtext.
-    bool mHasGeo = false; // if incidence has geo data
-    bool mThisAndFuture = false;
-    bool mLocalOnly = false; // allow changes that won't go to the server
-};
+}
 //@endcond
 
 Incidence::Incidence()
