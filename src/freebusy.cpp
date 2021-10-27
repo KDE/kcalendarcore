@@ -209,12 +209,14 @@ QByteArray FreeBusy::typeStr() const
 void FreeBusy::setDtStart(const QDateTime &start)
 {
     IncidenceBase::setDtStart(start.toUTC());
-    updated();
 }
 
 void FreeBusy::setDtEnd(const QDateTime &end)
 {
+    update();
     d->mDtEnd = end;
+    setFieldDirty(FieldDtEnd);
+    updated();
 }
 
 QDateTime FreeBusy::dtEnd() const
@@ -294,11 +296,14 @@ void FreeBusy::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
 {
     if (oldZone.isValid() && newZone.isValid() && oldZone != newZone) {
         IncidenceBase::shiftTimes(oldZone, newZone);
+        update();
         d->mDtEnd = d->mDtEnd.toTimeZone(oldZone);
         d->mDtEnd.setTimeZone(newZone);
         for (FreeBusyPeriod p : qAsConst(d->mBusyPeriods)) {
             p.shiftTimes(oldZone, newZone);
         }
+        setFieldDirty(FieldDtEnd);
+        updated();
     }
 }
 

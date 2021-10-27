@@ -195,9 +195,11 @@ void Event::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
 {
     Incidence::shiftTimes(oldZone, newZone);
     if (d->mDtEnd.isValid()) {
+        update();
         d->mDtEnd = d->mDtEnd.toTimeZone(oldZone);
         d->mDtEnd.setTimeZone(newZone);
         setFieldDirty(FieldDtEnd);
+        updated();
     }
 }
 
@@ -219,6 +221,7 @@ Event::Transparency Event::transparency() const
 
 void Event::setDuration(const Duration &duration)
 {
+    // These both call update()/updated() and setFieldDirty().
     setDtEnd(QDateTime());
     Incidence::setDuration(duration);
 }
@@ -226,8 +229,10 @@ void Event::setDuration(const Duration &duration)
 void Event::setAllDay(bool allday)
 {
     if (allday != allDay() && !mReadOnly) {
+        update();
         setFieldDirty(FieldDtEnd);
         Incidence::setAllDay(allday);
+        updated();
     }
 }
 
