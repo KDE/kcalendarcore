@@ -31,22 +31,7 @@
 
 using namespace KCalendarCore;
 
-IncidencePrivate::IncidencePrivate()
-    : mGeoLatitude(INVALID_LATLON)
-    , mGeoLongitude(INVALID_LATLON)
-    , mRecurrence(nullptr)
-    , mRevision(0)
-    , mPriority(0)
-    , mStatus(Incidence::StatusNone)
-    , mSecrecy(Incidence::SecrecyPublic)
-    , mDescriptionIsRich(false)
-    , mSummaryIsRich(false)
-    , mLocationIsRich(false)
-    , mHasGeo(false)
-    , mThisAndFuture(false)
-    , mLocalOnly(false)
-{
-}
+IncidencePrivate::IncidencePrivate() = default;
 
 IncidencePrivate::IncidencePrivate(const IncidencePrivate &p)
     : mCreated(p.mCreated)
@@ -85,46 +70,46 @@ void IncidencePrivate::clear()
     mRecurrence = nullptr;
 }
 
-void IncidencePrivate::init(Incidence *dest, const Incidence &src)
+void IncidencePrivate::init(Incidence *q, const IncidencePrivate &other)
 {
-    mRevision = src.d->mRevision;
-    mCreated = src.d->mCreated;
-    mDescription = src.d->mDescription;
-    mDescriptionIsRich = src.d->mDescriptionIsRich;
-    mSummary = src.d->mSummary;
-    mSummaryIsRich = src.d->mSummaryIsRich;
-    mCategories = src.d->mCategories;
-    mRelatedToUid = src.d->mRelatedToUid;
-    mResources = src.d->mResources;
-    mStatusString = src.d->mStatusString;
-    mStatus = src.d->mStatus;
-    mSecrecy = src.d->mSecrecy;
-    mPriority = src.d->mPriority;
-    mLocation = src.d->mLocation;
-    mLocationIsRich = src.d->mLocationIsRich;
-    mGeoLatitude = src.d->mGeoLatitude;
-    mGeoLongitude = src.d->mGeoLongitude;
-    mHasGeo = src.d->mHasGeo;
-    mRecurrenceId = src.d->mRecurrenceId;
-    mConferences = src.d->mConferences;
-    mThisAndFuture = src.d->mThisAndFuture;
-    mLocalOnly = src.d->mLocalOnly;
-    mColor = src.d->mColor;
+    mRevision = other.mRevision;
+    mCreated = other.mCreated;
+    mDescription = other.mDescription;
+    mDescriptionIsRich = other.mDescriptionIsRich;
+    mSummary = other.mSummary;
+    mSummaryIsRich = other.mSummaryIsRich;
+    mCategories = other.mCategories;
+    mRelatedToUid = other.mRelatedToUid;
+    mResources = other.mResources;
+    mStatusString = other.mStatusString;
+    mStatus = other.mStatus;
+    mSecrecy = other.mSecrecy;
+    mPriority = other.mPriority;
+    mLocation = other.mLocation;
+    mLocationIsRich = other.mLocationIsRich;
+    mGeoLatitude = other.mGeoLatitude;
+    mGeoLongitude = other.mGeoLongitude;
+    mHasGeo = other.mHasGeo;
+    mRecurrenceId = other.mRecurrenceId;
+    mConferences = other.mConferences;
+    mThisAndFuture = other.mThisAndFuture;
+    mLocalOnly = other.mLocalOnly;
+    mColor = other.mColor;
 
     // Alarms and Attachments are stored in ListBase<...>, which is a QValueList<...*>.
     // We need to really duplicate the objects stored therein, otherwise deleting
     // i will also delete all attachments from this object (setAutoDelete...)
-    mAlarms.reserve(src.d->mAlarms.count());
-    for (const Alarm::Ptr &alarm : qAsConst(src.d->mAlarms)) {
+    mAlarms.reserve(other.mAlarms.count());
+    for (const Alarm::Ptr &alarm : qAsConst(other.mAlarms)) {
         Alarm::Ptr b(new Alarm(*alarm.data()));
-        b->setParent(dest);
+        b->setParent(q);
         mAlarms.append(b);
     }
 
-    mAttachments = src.d->mAttachments;
-    if (src.d->mRecurrence) {
-        mRecurrence = new Recurrence(*(src.d->mRecurrence));
-        mRecurrence->addObserver(dest);
+    mAttachments = other.mAttachments;
+    if (other.mRecurrence) {
+        mRecurrence = new Recurrence(*(other.mRecurrence));
+        mRecurrence->addObserver(q);
     } else {
         mRecurrence = nullptr;
     }
@@ -144,7 +129,7 @@ Incidence::Incidence(const Incidence &i)
     , Recurrence::RecurrenceObserver()
     , d(new KCalendarCore::IncidencePrivate(*i.d))
 {
-    d->init(this, i);
+    d->init(this, *i.d);
     resetDirtyFields();
 }
 
@@ -174,7 +159,7 @@ IncidenceBase &Incidence::assign(const IncidenceBase &other)
         // TODO: should relations be cleared out, as in destructor???
         IncidenceBase::assign(other);
         const Incidence *i = static_cast<const Incidence *>(&other);
-        d->init(this, *i);
+        d->init(this, *(i->d));
     }
 
     return *this;

@@ -27,7 +27,7 @@ public:
     IncidencePrivate();
     IncidencePrivate(const IncidencePrivate &p);
     void clear();
-    void init(Incidence *dest, const Incidence &src);
+    void init(Incidence *q, const IncidencePrivate &other);
 
     QDateTime mCreated; // creation datetime
     QString mDescription; // description string
@@ -43,13 +43,13 @@ public:
     QDateTime mRecurrenceId; // recurrenceId
     Conference::List mConferences; // conference list
 
-    float mGeoLatitude; // Specifies latitude in decimal degrees
-    float mGeoLongitude; // Specifies longitude in decimal degrees
-    mutable Recurrence *mRecurrence; // recurrence
-    int mRevision; // revision number
-    int mPriority; // priority: 1 = highest, 2 = less, etc.
-    Incidence::Status mStatus; // status
-    Incidence::Secrecy mSecrecy; // secrecy
+    float mGeoLatitude = INVALID_LATLON; // Specifies latitude in decimal degrees
+    float mGeoLongitude = INVALID_LATLON; // Specifies longitude in decimal degrees
+    mutable Recurrence *mRecurrence = nullptr; // recurrence
+    int mRevision = 0; // revision number
+    int mPriority = 0; // priority: 0 = unknown, 1 = highest, 2 = less, etc.
+    Incidence::Status mStatus = Incidence::StatusNone; // status
+    Incidence::Secrecy mSecrecy = Incidence::SecrecyPublic; // secrecy
     QString mColor; // background color
     bool mDescriptionIsRich = false; // description string is richtext.
     bool mSummaryIsRich = false; // summary string is richtext.
