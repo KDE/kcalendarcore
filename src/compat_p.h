@@ -280,7 +280,7 @@ class CompatPre31 : public CompatPre32
 {
 public:
     CompatPre31();
-    ~CompatPre31();
+    ~CompatPre31() override;
 
     /**
       @copydoc

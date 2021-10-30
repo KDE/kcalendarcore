@@ -84,7 +84,7 @@ public:
     {
     }
 
-    ~ToComponentVisitor();
+    ~ToComponentVisitor() override;
 
     bool visit(const Event::Ptr &e) override
     {
