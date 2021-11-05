@@ -93,9 +93,9 @@ public:
 
       @param dtDue The due date/time.
       @param first If true and the todo recurs, the due date of the first
-      occurrence will be returned. If false and recurrent, the date of the
-      current occurrence will be returned. If non-recurrent, the normal due
-      date will be returned.
+      occurrence will be set. If false and the todo recurs, the occurrence at
+      that date/time becomes the current occurrence. If the todo does not recur,
+      the due date of the todo will be set.
     */
     void setDtDue(const QDateTime &dtDue, bool first = false);
 
