@@ -301,11 +301,11 @@ void IncidenceBase::addComment(const QString &comment)
 
 bool IncidenceBase::removeComment(const QString &comment)
 {
-    const auto i = d->mComments.indexOf(comment);
-    bool found = i >= 0;
+    auto it = std::find(d->mComments.begin(), d->mComments.end(), comment);
+    bool found = it != d->mComments.end();
     if (found) {
         update();
-        d->mComments.removeAt(i);
+        d->mComments.erase(it);
         d->mDirtyFields.insert(FieldComment);
         updated();
     }
@@ -337,12 +337,11 @@ void IncidenceBase::addContact(const QString &contact)
 
 bool IncidenceBase::removeContact(const QString &contact)
 {
-    const auto i = d->mContacts.indexOf(contact);
-    bool found = i >= 0;
-
+    auto it = std::find(d->mContacts.begin(), d->mContacts.end(), contact);
+    bool found = it != d->mContacts.end();
     if (found) {
         update();
-        d->mContacts.removeAt(i);
+        d->mContacts.erase(it);
         d->mDirtyFields.insert(FieldContact);
         updated();
     }

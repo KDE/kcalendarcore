@@ -669,10 +669,12 @@ void Incidence::deleteAttachments(const QString &mime)
     auto it = std::remove_if(d->mAttachments.begin(), d->mAttachments.end(), [&mime](const Attachment &a) {
         return a.mimeType() == mime;
     });
-    d->mAttachments.erase(it, d->mAttachments.end());
-
-    setFieldDirty(FieldAttachment);
-    updated();
+    if (it != d->mAttachments.end()) {
+        update();
+        d->mAttachments.erase(it, d->mAttachments.end());
+        setFieldDirty(FieldAttachment);
+        updated();
+    }
 }
 
 Attachment::List Incidence::attachments() const
