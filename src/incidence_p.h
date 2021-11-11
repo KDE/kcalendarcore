@@ -47,7 +47,7 @@ public:
     float mGeoLongitude = INVALID_LATLON; // Specifies longitude in decimal degrees
     mutable Recurrence *mRecurrence = nullptr; // recurrence
     int mRevision = 0; // revision number
-    int mPriority = 0; // priority: 0 = unknown, 1 = highest, 2 = less, etc.
+    int mPriority = 0; // priority: 0 = unknown, 1 = highest,  ... 9 = lowest.
     Incidence::Status mStatus = Incidence::StatusNone; // status
     Incidence::Secrecy mSecrecy = Incidence::SecrecyPublic; // secrecy
     QString mColor; // background color

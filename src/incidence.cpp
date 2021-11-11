@@ -22,6 +22,7 @@
 #include "incidence.h"
 #include "incidence_p.h"
 #include "calformat.h"
+#include "kcalendarcore_debug.h"
 #include "utils_p.h"
 
 #include <QStringList>
@@ -739,6 +740,11 @@ QStringList Incidence::resources() const
 void Incidence::setPriority(int priority)
 {
     if (mReadOnly) {
+        return;
+    }
+
+    if (priority < 0 || priority > 9) {
+        qCWarning(KCALCORE_LOG)  << "Ignoring invalid priority" << priority;
         return;
     }
 
