@@ -101,12 +101,12 @@ void ICalFormatTest::testCharsets()
     event->setAllDay(true);
 
     // ü
-    const QChar latin1_umlaut[] = {0xFC, QLatin1Char('\0')};
+    const QChar latin1_umlaut[] = {(QChar)0xFC, QLatin1Char('\0')};
     event->setSummary(QString(latin1_umlaut));
 
     // Test if toString( Incidence ) didn't mess charsets
     const QString serialized = format.toString(event.staticCast<Incidence>());
-    const QChar utf_umlaut[] = {0xC3, 0XBC, QLatin1Char('\0')};
+    const QChar utf_umlaut[] = {(QChar)0xC3, (QChar)0XBC, QLatin1Char('\0')};
     QVERIFY(serialized.toUtf8().contains(QString(utf_umlaut).toLatin1().constData()));
     QVERIFY(!serialized.toUtf8().contains(QString(latin1_umlaut).toLatin1().constData()));
     QVERIFY(serialized.toLatin1().contains(QString(latin1_umlaut).toLatin1().constData()));
