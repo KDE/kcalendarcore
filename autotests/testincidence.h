@@ -18,6 +18,7 @@ private Q_SLOTS:
     void testDtStartChange();
     void testSummaryChange();
     void testLocationChange();
+    void testGeo();
 
     void testRecurrenceTypeChange();
     void testRecurrenceEndTimeChange();

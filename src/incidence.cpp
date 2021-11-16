@@ -25,6 +25,8 @@
 #include "kcalendarcore_debug.h"
 #include "utils_p.h"
 
+#include <math.h>
+
 #include <QStringList>
 #include <QTextDocument> // for .toHtmlEscaped() and Qt::mightBeRichText()
 #include <QTime>
@@ -57,7 +59,6 @@ IncidencePrivate::IncidencePrivate(const IncidencePrivate &p)
     , mDescriptionIsRich(p.mDescriptionIsRich)
     , mSummaryIsRich(p.mSummaryIsRich)
     , mLocationIsRich(p.mLocationIsRich)
-    , mHasGeo(p.mHasGeo)
     , mThisAndFuture(p.mThisAndFuture)
     , mLocalOnly(false)
 {
@@ -90,7 +91,6 @@ void IncidencePrivate::init(Incidence *q, const IncidencePrivate &other)
     mLocationIsRich = other.mLocationIsRich;
     mGeoLatitude = other.mGeoLatitude;
     mGeoLongitude = other.mGeoLongitude;
-    mHasGeo = other.mHasGeo;
     mRecurrenceId = other.mRecurrenceId;
     mConferences = other.mConferences;
     mThisAndFuture = other.mThisAndFuture;
@@ -218,11 +218,7 @@ bool Incidence::equals(const IncidenceBase &incidence) const
         recurrenceEqual = d->mRecurrence != nullptr && i2->d->mRecurrence != nullptr && *d->mRecurrence == *i2->d->mRecurrence;
     }
 
-    if (d->mHasGeo == i2->d->mHasGeo) {
-        if (d->mHasGeo && (!qFuzzyCompare(d->mGeoLatitude, i2->d->mGeoLatitude) || !qFuzzyCompare(d->mGeoLongitude, i2->d->mGeoLongitude))) {
-            return false;
-        }
-    } else {
+    if (!qFuzzyCompare(d->mGeoLatitude, i2->d->mGeoLatitude) || !qFuzzyCompare(d->mGeoLongitude, i2->d->mGeoLongitude)) {
         return false;
     }
     // clang-format off
@@ -957,7 +953,8 @@ QString Incidence::schedulingID() const
 
 bool Incidence::hasGeo() const
 {
-    return d->mHasGeo;
+    // For internal consistency, return false if either coordinate is invalid.
+    return d->mGeoLatitude != INVALID_LATLON && d->mGeoLongitude != INVALID_LATLON;
 }
 
 void Incidence::setHasGeo(bool hasGeo)
@@ -966,25 +963,34 @@ void Incidence::setHasGeo(bool hasGeo)
         return;
     }
 
-    if (hasGeo == d->mHasGeo) {
-        return;
+    if (!hasGeo) {
+        update();
+        d->mGeoLatitude = INVALID_LATLON;
+        d->mGeoLongitude = INVALID_LATLON;
+        setFieldDirty(FieldGeoLatitude);
+        setFieldDirty(FieldGeoLongitude);
+        updated();
     }
-
-    update();
-    d->mHasGeo = hasGeo;
-    setFieldDirty(FieldGeoLatitude);
-    setFieldDirty(FieldGeoLongitude);
-    updated();
+    // If hasGeo is true, the caller should set latitude and longitude to legal values..
 }
 
 float Incidence::geoLatitude() const
 {
-    return d->mGeoLatitude;
+    // For internal consistency, both coordinates are considered invalid if either is.
+    return (INVALID_LATLON == d->mGeoLongitude) ? INVALID_LATLON : d->mGeoLatitude;
 }
 
 void Incidence::setGeoLatitude(float geolatitude)
 {
     if (mReadOnly) {
+        return;
+    }
+
+    if (isnan(geolatitude)) {
+        geolatitude = INVALID_LATLON;
+    }
+    if (geolatitude != INVALID_LATLON && (geolatitude < -90.0 || geolatitude > 90.0)) {
+        qCWarning(KCALCORE_LOG) << "Ignoring invalid  latitude" << geolatitude;
         return;
     }
 
@@ -996,17 +1002,28 @@ void Incidence::setGeoLatitude(float geolatitude)
 
 float Incidence::geoLongitude() const
 {
-    return d->mGeoLongitude;
+    // For internal consistency, both coordinates are considered invalid if either is.
+    return (INVALID_LATLON == d->mGeoLatitude) ? INVALID_LATLON : d->mGeoLongitude;
 }
 
 void Incidence::setGeoLongitude(float geolongitude)
 {
-    if (!mReadOnly) {
-        update();
-        d->mGeoLongitude = geolongitude;
-        setFieldDirty(FieldGeoLongitude);
-        updated();
+    if (mReadOnly) {
+        return;
     }
+
+    if (isnan(geolongitude)) {
+        geolongitude = INVALID_LATLON;
+    }
+    if (geolongitude != INVALID_LATLON && (geolongitude < -180.0 || geolongitude > 180.0)) {
+        qCWarning(KCALCORE_LOG) << "Ignoring invalid  longitude" << geolongitude;
+        return;
+    }
+
+    update();
+    d->mGeoLongitude = geolongitude;
+    setFieldDirty(FieldGeoLongitude);
+    updated();
 }
 
 bool Incidence::hasRecurrenceId() const
@@ -1093,7 +1110,8 @@ void Incidence::serialize(QDataStream &out) const
 {
     serializeQDateTimeAsKDateTime(out, d->mCreated);
     out << d->mRevision << d->mDescription << d->mDescriptionIsRich << d->mSummary << d->mSummaryIsRich << d->mLocation << d->mLocationIsRich << d->mCategories
-        << d->mResources << d->mStatusString << d->mPriority << d->mSchedulingID << d->mGeoLatitude << d->mGeoLongitude << d->mHasGeo;
+        << d->mResources << d->mStatusString << d->mPriority << d->mSchedulingID << d->mGeoLatitude << d->mGeoLongitude
+        << hasGeo();    // No longer used, but serialized/deserialized for compatibility.
     serializeQDateTimeAsKDateTime(out, d->mRecurrenceId);
     out << d->mThisAndFuture << d->mLocalOnly << d->mStatus << d->mSecrecy << (d->mRecurrence ? true : false) << d->mAttachments.count() << d->mAlarms.count()
         << d->mConferences.count() << d->mRelatedToUid;
@@ -1117,6 +1135,7 @@ void Incidence::serialize(QDataStream &out) const
 
 void Incidence::deserialize(QDataStream &in)
 {
+    bool hasGeo;    // No longer used, but serialized/deserialized for compatibility.
     quint32 status;
     quint32 secrecy;
     bool hasRecurrence;
@@ -1126,7 +1145,7 @@ void Incidence::deserialize(QDataStream &in)
     QMap<int, QString> relatedToUid;
     deserializeKDateTimeAsQDateTime(in, d->mCreated);
     in >> d->mRevision >> d->mDescription >> d->mDescriptionIsRich >> d->mSummary >> d->mSummaryIsRich >> d->mLocation >> d->mLocationIsRich >> d->mCategories
-        >> d->mResources >> d->mStatusString >> d->mPriority >> d->mSchedulingID >> d->mGeoLatitude >> d->mGeoLongitude >> d->mHasGeo;
+        >> d->mResources >> d->mStatusString >> d->mPriority >> d->mSchedulingID >> d->mGeoLatitude >> d->mGeoLongitude >> hasGeo;
     deserializeKDateTimeAsQDateTime(in, d->mRecurrenceId);
     in >> d->mThisAndFuture >> d->mLocalOnly >> status >> secrecy >> hasRecurrence >> attachmentCount >> alarmCount >> conferencesCount >> relatedToUid;
 

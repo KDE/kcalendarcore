@@ -7,7 +7,8 @@
 */
 #include "testincidence.h"
 #include "event.h"
-
+#include "incidence.h"
+#include <cmath>
 #include <QTest>
 
 QTEST_MAIN(IncidenceTest)
@@ -81,6 +82,83 @@ void IncidenceTest::testLocationChange()
 
     inc.setLocation(QStringLiteral("there"), true);
     QCOMPARE(inc.dirtyFields(), QSet<IncidenceBase::Field>() << IncidenceBase::FieldLocation);
+}
+
+void IncidenceTest::testGeo()
+{
+    Event inc;
+
+    // Default state:  no GEO.
+    QCOMPARE(inc.hasGeo(), false);
+    QCOMPARE(inc.geoLatitude(), INVALID_LATLON);
+    QCOMPARE(inc.geoLongitude(), INVALID_LATLON);
+    QVERIFY(inc.dirtyFields().empty());
+
+    // Set GEO, thoroughly.
+    inc.setGeoLatitude(90.0);
+    inc.setGeoLongitude(180.0);
+    inc.setHasGeo(true);
+    QCOMPARE(inc.hasGeo(), true);
+    QCOMPARE(inc.geoLatitude(), 90.0);
+    QCOMPARE(inc.geoLongitude(), 180.0);
+    QCOMPARE(inc.dirtyFields(), (QSet{IncidenceBase::FieldGeoLatitude, IncidenceBase::FieldGeoLongitude}));
+    inc.resetDirtyFields();
+    inc.setGeoLatitude(-90.0);
+    inc.setGeoLongitude(-180.0);
+    QCOMPARE(inc.hasGeo(), true);
+    QCOMPARE(inc.geoLatitude(), -90.0);
+    QCOMPARE(inc.geoLongitude(), -180.0);
+    QCOMPARE(inc.dirtyFields(), (QSet{IncidenceBase::FieldGeoLatitude, IncidenceBase::FieldGeoLongitude}));
+
+    // Clear GEO, thoroughly.
+    inc.resetDirtyFields();
+    inc.setGeoLatitude(INVALID_LATLON);
+    inc.setGeoLongitude(INVALID_LATLON);
+    inc.setHasGeo(false);
+    QCOMPARE(inc.hasGeo(), false);
+    QCOMPARE(inc.geoLatitude(), INVALID_LATLON);
+    QCOMPARE(inc.geoLongitude(), INVALID_LATLON);
+    QCOMPARE(inc.dirtyFields(), (QSet{IncidenceBase::FieldGeoLatitude, IncidenceBase::FieldGeoLongitude}));
+
+    // Error handling.
+    inc.setHasGeo(true);
+    inc.setGeoLatitude(90.0);
+    inc.setGeoLongitude(180.0);
+    inc.setHasGeo(false);
+    QCOMPARE(inc.geoLatitude(), INVALID_LATLON);
+    QCOMPARE(inc.geoLongitude(), INVALID_LATLON);
+
+    inc.setHasGeo(true);
+    inc.setGeoLatitude(90.0);
+    inc.setGeoLongitude(180.0);
+    inc.setGeoLatitude(INVALID_LATLON);
+    QCOMPARE(inc.hasGeo(), false);
+    QCOMPARE(inc.geoLatitude(), INVALID_LATLON);
+    QCOMPARE(inc.geoLongitude(), INVALID_LATLON);
+
+    inc.setHasGeo(true);
+    inc.setGeoLatitude(90.0);
+    inc.setGeoLongitude(180.0);
+    inc.setGeoLongitude(INVALID_LATLON);
+    QCOMPARE(inc.hasGeo(), false);
+    QCOMPARE(inc.geoLatitude(), INVALID_LATLON);
+    QCOMPARE(inc.geoLongitude(), INVALID_LATLON);
+
+    inc.setHasGeo(true);
+    inc.setGeoLatitude(90.0);
+    inc.setGeoLongitude(180.0);
+    inc.setGeoLatitude(NAN);
+    QCOMPARE(inc.hasGeo(), false);
+    QCOMPARE(inc.geoLatitude(), INVALID_LATLON);
+    QCOMPARE(inc.geoLongitude(), INVALID_LATLON);
+
+    inc.setHasGeo(true);
+    inc.setGeoLatitude(90.0);
+    inc.setGeoLongitude(180.0);
+    inc.setGeoLongitude(NAN);
+    QCOMPARE(inc.hasGeo(), false);
+    QCOMPARE(inc.geoLatitude(), INVALID_LATLON);
+    QCOMPARE(inc.geoLongitude(), INVALID_LATLON);
 }
 
 void IncidenceTest::testRecurrenceTypeChange()

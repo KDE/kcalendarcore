@@ -54,7 +54,6 @@ public:
     bool mDescriptionIsRich = false; // description string is richtext.
     bool mSummaryIsRich = false; // summary string is richtext.
     bool mLocationIsRich = false; // location string is richtext.
-    bool mHasGeo = false; // if incidence has geo data
     bool mThisAndFuture = false;
     bool mLocalOnly = false; // allow changes that won't go to the server
 };

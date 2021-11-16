@@ -638,36 +638,45 @@ public:
     */
     Q_REQUIRED_RESULT bool hasGeo() const;
 
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 89)
     /**
       Sets if the incidence has geo data.
-      @param hasGeo true if incidence has geo data, otherwise false
+      @param hasGeo if true, latitude and longitude must be set to valid values.
+      If false, geoLatitude() and geoLongitude() will return INVALID_LATLON.
+      @deprecated since 5.89.  Use setGeoLatitude() and setGeoLongitude().
       @see hasGeo(), geoLatitude(), geoLongitude().
     */
+    KCALENDARCORE_DEPRECATED_VERSION(5, 89, "Use setGeoLatitude() and setGeoLongitude()")
     void setHasGeo(bool hasGeo);
+#endif
 
     /**
-      Set the incidences geoLatitude.
-      @param geolatitude is the incidence geolatitude to set
+      Set the incidence's geoLatitude.
+      @param geolatitude is the incidence geolatitude to set; a value between -90.0 and 90.0,
+      or INVALID_LATLON (or NaN, which is treated as INVALID_LATLON).
       @see geoLatitude().
     */
     void setGeoLatitude(float geolatitude);
 
     /**
-      Returns the incidence geoLatidude.
+      Returns the incidence's geoLatitude as a value between -90.0 and 90.0 or INVALID_LATLON.
+      If either of geoLatitude() and geoLongitude() are INVALID_LATLON, then both are, and hasGeo() is false.
       @return incidences geolatitude value
       @see setGeoLatitude().
     */
     Q_REQUIRED_RESULT float geoLatitude() const;
 
     /**
-      Set the incidencesgeoLongitude.
-      @param geolongitude is the incidence geolongitude to set
+      Set the incidence's geoLongitude.
+      @param geolongitude is the incidence geolongitude to set; a value between -180.0 and 180.0,
+      or INVALID_LATLON (or NaN, which is treated as INVALID_LATLON).
       @see geoLongitude().
     */
     void setGeoLongitude(float geolongitude);
 
     /**
-      Returns the incidence geoLongitude.
+      Returns the incidence's geoLongitude as a value between -180.0 and 180.0 or INVALID_LATLON.
+      If either of geoLatitude() and geoLongitude() are INVALID_LATLON, then both are, and hasGeo() is false.
       @return incidences geolongitude value
       @see setGeoLongitude().
     */
