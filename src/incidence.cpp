@@ -838,12 +838,9 @@ void Incidence::clearAlarms()
 
 bool Incidence::hasEnabledAlarms() const
 {
-    for (const Alarm::Ptr &alarm : qAsConst(d->mAlarms)) {
-        if (alarm->enabled()) {
-            return true;
-        }
-    }
-    return false;
+    return std::any_of(d->mAlarms.cbegin(), d->mAlarms.cend(), [](const Alarm::Ptr &alarm) {
+        return alarm->enabled();
+    });
 }
 
 Conference::List Incidence::conferences() const

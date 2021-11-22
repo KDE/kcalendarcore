@@ -154,7 +154,7 @@ bool CalFilter::filterIncidence(const Incidence::Ptr &incidence) const
         }
     }
 
-    return d->mCriteria & ShowCategories ? isFound : !isFound;
+    return (d->mCriteria & ShowCategories) ? isFound : !isFound;
 }
 
 void CalFilter::setName(const QString &name)

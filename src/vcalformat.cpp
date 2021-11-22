@@ -1367,7 +1367,6 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
         QStringList tzList;
         QString tz;
         int utcOffset;
-        int utcOffsetDst;
         if (parseTZOffsetISO8601(ts, utcOffset)) {
             // qCDebug(KCALCORE_LOG) << "got standard offset" << ts << utcOffset;
             // standard from tz
@@ -1396,6 +1395,7 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
                         continue;
                     }
 
+                    int utcOffsetDst;
                     if (parseTZOffsetISO8601(argl[1], utcOffsetDst)) {
                         // qCDebug(KCALCORE_LOG) << "got DST offset" << argl[1] << utcOffsetDst;
                         // standard

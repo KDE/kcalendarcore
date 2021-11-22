@@ -903,58 +903,57 @@ icalrecurrencetype ICalFormatImpl::writeRecurrenceRule(RecurrenceRule *recur)
 
     int index = 0;
     QList<int> bys;
-    QList<int>::ConstIterator it;
 
     // Now write out the BY* parts:
     bys = recur->bySeconds();
     index = 0;
-    for (it = bys.constBegin(); it != bys.constEnd(); ++it) {
+    for (auto it = bys.constBegin(); it != bys.constEnd(); ++it) {
         r.by_second[index++] = *it;
         r.by_second[index++] = static_cast<short>(*it);
     }
 
     bys = recur->byMinutes();
     index = 0;
-    for (it = bys.constBegin(); it != bys.constEnd(); ++it) {
+    for (auto it = bys.constBegin(); it != bys.constEnd(); ++it) {
         r.by_minute[index++] = *it;
         r.by_minute[index++] = static_cast<short>(*it);
     }
 
     bys = recur->byHours();
     index = 0;
-    for (it = bys.constBegin(); it != bys.constEnd(); ++it) {
+    for (auto it = bys.constBegin(); it != bys.constEnd(); ++it) {
         r.by_hour[index++] = *it;
         r.by_hour[index++] = static_cast<short>(*it);
     }
 
     bys = recur->byMonthDays();
     index = 0;
-    for (it = bys.constBegin(); it != bys.constEnd(); ++it) {
+    for (auto it = bys.constBegin(); it != bys.constEnd(); ++it) {
         short dShort = static_cast<short>((*it) * 8);
         r.by_month_day[index++] = static_cast<short>(icalrecurrencetype_day_position(dShort));
     }
 
     bys = recur->byYearDays();
     index = 0;
-    for (it = bys.constBegin(); it != bys.constEnd(); ++it) {
+    for (auto it = bys.constBegin(); it != bys.constEnd(); ++it) {
         r.by_year_day[index++] = static_cast<short>(*it);
     }
 
     bys = recur->byWeekNumbers();
     index = 0;
-    for (it = bys.constBegin(); it != bys.constEnd(); ++it) {
+    for (auto it = bys.constBegin(); it != bys.constEnd(); ++it) {
         r.by_week_no[index++] = static_cast<short>(*it);
     }
 
     bys = recur->byMonths();
     index = 0;
-    for (it = bys.constBegin(); it != bys.constEnd(); ++it) {
+    for (auto it = bys.constBegin(); it != bys.constEnd(); ++it) {
         r.by_month[index++] = static_cast<short>(*it);
     }
 
     bys = recur->bySetPos();
     index = 0;
-    for (it = bys.constBegin(); it != bys.constEnd(); ++it) {
+    for (auto it = bys.constBegin(); it != bys.constEnd(); ++it) {
         r.by_set_pos[index++] = static_cast<short>(*it);
     }
 
@@ -1764,11 +1763,8 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent, const Incidence::Ptr &
                     const icalparameter *param = icalproperty_get_first_parameter(p, ICAL_TZID_PARAMETER);
                     QString tzid = QString::fromLatin1(icalparameter_get_tzid(param));
                     const QStringList parts = tzid.toLower().split(QLatin1Char(';'));
-                    for (const QString &part : parts) {
-                        if (part == QLatin1String("range=thisandfuture")) {
-                            incidence->setThisAndFuture(true);
-                            break;
-                        }
+                    if (parts.contains(QLatin1String("range=thisandfuture"))) {
+                        incidence->setThisAndFuture(true);
                     }
                 }
             }

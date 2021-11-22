@@ -831,7 +831,7 @@ void Calendar::setupRelations(const Incidence::Ptr &forincidence)
     }
 
     // Now see about this incidences parent
-    if (forincidence->relatedTo().isEmpty() && !forincidence->relatedTo().isEmpty()) {
+    if (!forincidence->relatedTo().isEmpty()) {
         // Incidence has a uid it is related to but is not registered to it yet.
         // Try to find it
         Incidence::Ptr parent = incidence(forincidence->relatedTo());
@@ -905,15 +905,15 @@ void Calendar::removeRelations(const Incidence::Ptr &incidence)
         }
 
         // now go through all uids that have one entry that point to the incidence
-        for (const auto &uid : std::as_const(relatedToUids)) {
+        for (const auto &relUid : std::as_const(relatedToUids)) {
             // Remove all to get access to the remaining entries
-            Incidence::List lst = values(d->mOrphans, uid);
-            d->mOrphans.remove(uid);
+            Incidence::List lst = values(d->mOrphans, relUid);
+            d->mOrphans.remove(relUid);
             lst.erase(std::remove(lst.begin(), lst.end(), incidence), lst.end());
 
             // Re-add those that point to a different orphan incidence
             for (const auto &in : std::as_const(lst)) {
-                d->mOrphans.insert(uid, in);
+                d->mOrphans.insert(relUid, in);
             }
         }
     }

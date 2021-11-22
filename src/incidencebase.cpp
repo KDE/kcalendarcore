@@ -439,13 +439,11 @@ Attendee IncidenceBase::attendeeByMails(const QStringList &emails, const QString
         mails.append(email);
     }
 
-    for (const auto &attendee : std::as_const(d->mAttendees)) {
-        if (mails.contains(attendee.email())) {
-            return attendee;
-        }
-    }
+    auto it = std::find_if(d->mAttendees.cbegin(), d->mAttendees.cend(), [&mails](const Attendee &a) {
+        return mails.contains(a.email());
+    });
 
-    return {};
+    return it != d->mAttendees.cend() ? *it : Attendee{};
 }
 
 Attendee IncidenceBase::attendeeByUid(const QString &uid) const
