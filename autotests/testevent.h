@@ -19,6 +19,7 @@ private Q_SLOTS:
     void testSetRoles();
     void testValidity();
     void testCompare();
+    void testCompareAlarms();
     void testClone();
     void testCopyConstructor();
     void testCopyIncidence();

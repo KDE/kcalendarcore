@@ -92,6 +92,23 @@ void EventTest::testCompare()
     QCOMPARE(event2.summary(), QStringLiteral("Event2 Summary"));
 }
 
+void EventTest::testCompareAlarms()
+{
+    Event event1;
+    event1.setUid(QStringLiteral("uid"));
+    Alarm::Ptr alarm1 = event1.newAlarm();
+    alarm1->setType(Alarm::Email);
+    alarm1->setMailAddress(Person(QStringLiteral("name"), QStringLiteral("email@foo.com")));
+
+    Event event2;
+    event2.setUid(QStringLiteral("uid"));
+    Alarm::Ptr alarm2 = event2.newAlarm();
+    alarm2->setType(Alarm::Email);
+    alarm2->setMailAddress(Person(QStringLiteral("name"), QStringLiteral("email@foo.com")));
+
+    QCOMPARE(event1, event2);
+}
+
 void EventTest::testClone()
 {
     QDate dt = QDate::currentDate();
