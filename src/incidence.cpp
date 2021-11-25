@@ -181,7 +181,11 @@ bool Incidence::equals(const IncidenceBase &incidence) const
         return false;
     }
 
-    const auto [it1, it2] = std::mismatch(alarmList.cbegin(), alarmList.cend(), otherAlarmsList.cbegin(), otherAlarmsList.cend());
+    auto matchFunc = [](const Alarm::Ptr &a, const Alarm::Ptr &b) {
+        return *a == *b;
+    };
+
+    const auto [it1, it2] = std::mismatch(alarmList.cbegin(), alarmList.cend(), otherAlarmsList.cbegin(), otherAlarmsList.cend(), matchFunc);
     // Checking the iterator from one list only, since both lists are the same size
     if (it1 != alarmList.cend()) {
         return false;
