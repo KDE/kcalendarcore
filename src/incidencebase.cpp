@@ -251,7 +251,7 @@ void IncidenceBase::setDtStart(const QDateTime &dtStart)
         qCWarning(KCALCORE_LOG) << "Invalid dtStart";
     }
 
-    if (d->mDtStart != dtStart) {
+    if (d->mDtStart != dtStart || d->mDtStart.timeSpec() != dtStart.timeSpec()) {
         update();
         d->mDtStart = dtStart;
         d->mDirtyFields.insert(FieldDtStart);
