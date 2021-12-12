@@ -110,7 +110,7 @@ void Event::setDtEnd(const QDateTime &dtEnd)
         return;
     }
 
-    if (d->mDtEnd != dtEnd || hasDuration() == dtEnd.isValid()) {
+    if (d->mDtEnd != dtEnd || d->mDtEnd.timeSpec() != dtEnd.timeSpec() || hasDuration() == dtEnd.isValid()) {
         update();
         d->mDtEnd = dtEnd;
         d->mMultiDayValid = false;
