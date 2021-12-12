@@ -252,13 +252,13 @@ icalcomponent *ICalFormatImpl::writeEvent(const Event::Ptr &event, TimeZoneList 
     icalproperty *prop = nullptr;
     icaltimetype start;
 
-    QDateTime dt = event->dtStart();
-    if (dt.isValid()) {
+    const QDateTime dtStart = event->dtStart();
+    if (dtStart.isValid()) {
         if (event->allDay()) {
-            start = writeICalDate(event->dtStart().date());
+            start = writeICalDate(dtStart.date());
             prop = icalproperty_new_dtstart(start);
         } else {
-            prop = writeICalDateTimeProperty(ICAL_DTSTART_PROPERTY, event->dtStart(), tzUsedList);
+            prop = writeICalDateTimeProperty(ICAL_DTSTART_PROPERTY, dtStart, tzUsedList);
         }
         icalcomponent_add_property(vevent, prop);
     }
@@ -267,14 +267,14 @@ icalcomponent *ICalFormatImpl::writeEvent(const Event::Ptr &event, TimeZoneList 
         // End time.
         // RFC2445 says that if DTEND is present, it has to be greater than DTSTART.
         icaltimetype end;
-        QDateTime dt = event->dtEnd();
+        const QDateTime dtEnd = event->dtEnd();
         if (event->allDay()) {
             // +1 day because end date is non-inclusive.
-            end = writeICalDate(dt.date().addDays(1));
+            end = writeICalDate(dtEnd.date().addDays(1));
             icalcomponent_add_property(vevent, icalproperty_new_dtend(end));
         } else {
-            if (dt != event->dtStart()) {
-                icalcomponent_add_property(vevent, writeICalDateTimeProperty(ICAL_DTEND_PROPERTY, dt, tzUsedList));
+            if (dtEnd != dtStart) {
+                icalcomponent_add_property(vevent, writeICalDateTimeProperty(ICAL_DTEND_PROPERTY, dtEnd, tzUsedList));
             }
         }
     }
