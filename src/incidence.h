@@ -62,7 +62,9 @@ class KCALENDARCORE_EXPORT Incidence : public IncidenceBase, public Recurrence::
     Q_PROPERTY(QString description READ description WRITE setDescription)
     Q_PROPERTY(QString summary READ summary WRITE setSummary)
     Q_PROPERTY(QString location READ location WRITE setLocation)
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 89)
     Q_PROPERTY(bool hasGeo READ hasGeo WRITE setHasGeo)
+#endif
     Q_PROPERTY(float geoLatitude READ geoLatitude WRITE setGeoLatitude)
     Q_PROPERTY(float geoLongitude READ geoLongitude WRITE setGeoLongitude)
     Q_PROPERTY(QStringList categories READ categories WRITE setCategories)

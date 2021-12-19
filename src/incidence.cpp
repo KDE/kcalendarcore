@@ -942,7 +942,7 @@ bool Incidence::hasGeo() const
     // For internal consistency, return false if either coordinate is invalid.
     return d->mGeoLatitude != INVALID_LATLON && d->mGeoLongitude != INVALID_LATLON;
 }
-
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 89)
 void Incidence::setHasGeo(bool hasGeo)
 {
     if (mReadOnly) {
@@ -959,7 +959,7 @@ void Incidence::setHasGeo(bool hasGeo)
     }
     // If hasGeo is true, the caller should set latitude and longitude to legal values..
 }
-
+#endif
 float Incidence::geoLatitude() const
 {
     // For internal consistency, both coordinates are considered invalid if either is.

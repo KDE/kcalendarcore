@@ -1721,7 +1721,9 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent, const Incidence::Ptr &
             icalgeotype geo = icalproperty_get_geo(p);
             incidence->setGeoLatitude(geo.lat);
             incidence->setGeoLongitude(geo.lon);
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 89)
             incidence->setHasGeo(true);
+#endif
             break;
         }
 

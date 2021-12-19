@@ -1,8 +1,8 @@
 @PACKAGE_INIT@
 
 include(CMakeFindDependencyMacro)
-find_dependency(Qt5Core @REQUIRED_QT_VERSION@)
-find_dependency(Qt5Gui @REQUIRED_QT_VERSION@)
+find_dependency(Qt@QT_MAJOR_VERSION@Core @REQUIRED_QT_VERSION@)
+find_dependency(Qt@QT_MAJOR_VERSION@Gui @REQUIRED_QT_VERSION@)
 if (NOT @BUILD_SHARED_LIBS@)
     list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_CURRENT_LIST_DIR})
     find_dependency(LibIcal @LibIcal_MIN_VERSION@)

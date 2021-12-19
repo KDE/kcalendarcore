@@ -301,7 +301,9 @@ void TodoTest::testSerializer_data()
     todo5->setStatus(Incidence::StatusDraft);
     todo5->setSecrecy(Incidence::SecrecyPrivate);
     todo5->setRelatedTo(QStringLiteral("uid1"), Incidence::RelTypeParent);
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 89)
     todo5->setHasGeo(true);
+#endif
     todo5->setGeoLatitude(40);
     todo5->setGeoLongitude(40);
     todo5->setOrganizer(QStringLiteral("organizer@mail.com"));
@@ -312,7 +314,9 @@ void TodoTest::testSerializer_data()
     todo6->setStatus(Incidence::StatusDraft);
     todo6->setSecrecy(Incidence::SecrecyPrivate);
     todo6->setRelatedTo(QStringLiteral("uid1"), Incidence::RelTypeParent);
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 89)
     todo6->setHasGeo(true);
+#endif
     todo6->setGeoLatitude(40);
     todo6->setGeoLongitude(40);
     todo6->setUid(QStringLiteral("uid22"));
