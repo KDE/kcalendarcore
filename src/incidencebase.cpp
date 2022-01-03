@@ -58,8 +58,9 @@ void IncidenceBasePrivate::init(const IncidenceBasePrivate &other)
 
 //@endcond
 
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 91)
 IncidenceBase::IncidenceBase()
-    : d(new KCalendarCore::IncidenceBasePrivate)
+    : d_ptr(new KCalendarCore::IncidenceBasePrivate)
 {
     mReadOnly = false;
     setUid(CalFormat::createUniqueId());
@@ -67,14 +68,29 @@ IncidenceBase::IncidenceBase()
 
 IncidenceBase::IncidenceBase(const IncidenceBase &i)
     : CustomProperties(i)
-    , d(new KCalendarCore::IncidenceBasePrivate(*i.d))
+    , d_ptr(new KCalendarCore::IncidenceBasePrivate(*i.d_ptr))
+{
+    mReadOnly = i.mReadOnly;
+}
+#endif
+
+IncidenceBase::IncidenceBase(IncidenceBasePrivate  *p)
+    : d_ptr(p)
+{
+    mReadOnly = false;
+    setUid(CalFormat::createUniqueId());
+}
+
+IncidenceBase::IncidenceBase(const IncidenceBase &i, IncidenceBasePrivate  *p)
+    : CustomProperties(i)
+    , d_ptr(p)
 {
     mReadOnly = i.mReadOnly;
 }
 
 IncidenceBase::~IncidenceBase()
 {
-    delete d;
+    delete d_ptr;
 }
 
 IncidenceBase &IncidenceBase::operator=(const IncidenceBase &other)
@@ -92,10 +108,10 @@ IncidenceBase &IncidenceBase::operator=(const IncidenceBase &other)
 IncidenceBase &IncidenceBase::assign(const IncidenceBase &other)
 {
     CustomProperties::operator=(other);
-    d->init(*other.d);
+    d_ptr->init(*other.d_ptr);
     mReadOnly = other.mReadOnly;
-    d->mDirtyFields.clear();
-    d->mDirtyFields.insert(FieldUnknown);
+    d_ptr->mDirtyFields.clear();
+    d_ptr->mDirtyFields.insert(FieldUnknown);
     return *this;
 }
 
@@ -169,17 +185,17 @@ bool IncidenceBase::accept(Visitor &v, const IncidenceBase::Ptr &incidence)
 
 void IncidenceBase::setUid(const QString &uid)
 {
-    if (d->mUid != uid) {
+    if (d_ptr->mUid != uid) {
         update();
-        d->mUid = uid;
-        d->mDirtyFields.insert(FieldUid);
+        d_ptr->mUid = uid;
+        d_ptr->mDirtyFields.insert(FieldUid);
         updated();
     }
 }
 
 QString IncidenceBase::uid() const
 {
-    return d->mUid;
+    return d_ptr->mUid;
 }
 
 void IncidenceBase::setLastModified(const QDateTime &lm)
@@ -187,7 +203,7 @@ void IncidenceBase::setLastModified(const QDateTime &lm)
     // DON'T! updated() because we call this from
     // Calendar::updateEvent().
 
-    d->mDirtyFields.insert(FieldLastModified);
+    d_ptr->mDirtyFields.insert(FieldLastModified);
 
     // Convert to UTC and remove milliseconds part.
     QDateTime current = lm.toUTC();
@@ -195,12 +211,12 @@ void IncidenceBase::setLastModified(const QDateTime &lm)
     t.setHMS(t.hour(), t.minute(), t.second(), 0);
     current.setTime(t);
 
-    d->mLastModified = current;
+    d_ptr->mLastModified = current;
 }
 
 QDateTime IncidenceBase::lastModified() const
 {
-    return d->mLastModified;
+    return d_ptr->mLastModified;
 }
 
 void IncidenceBase::setOrganizer(const Person &organizer)
@@ -209,9 +225,9 @@ void IncidenceBase::setOrganizer(const Person &organizer)
     // we don't check for readonly here, because it is
     // possible that by setting the organizer we are changing
     // the event's readonly status...
-    d->mOrganizer = organizer;
+    d_ptr->mOrganizer = organizer;
 
-    d->mDirtyFields.insert(FieldOrganizer);
+    d_ptr->mDirtyFields.insert(FieldOrganizer);
 
     updated();
 }
@@ -230,7 +246,7 @@ void IncidenceBase::setOrganizer(const QString &o)
 
 Person IncidenceBase::organizer() const
 {
-    return d->mOrganizer;
+    return d_ptr->mOrganizer;
 }
 
 void IncidenceBase::setReadOnly(bool readOnly)
@@ -251,33 +267,33 @@ void IncidenceBase::setDtStart(const QDateTime &dtStart)
         qCWarning(KCALCORE_LOG) << "Invalid dtStart";
     }
 
-    if (d->mDtStart != dtStart || d->mDtStart.timeSpec() != dtStart.timeSpec()) {
+    if (d_ptr->mDtStart != dtStart || d_ptr->mDtStart.timeSpec() != dtStart.timeSpec()) {
         update();
-        d->mDtStart = dtStart;
-        d->mDirtyFields.insert(FieldDtStart);
+        d_ptr->mDtStart = dtStart;
+        d_ptr->mDirtyFields.insert(FieldDtStart);
         updated();
     }
 }
 
 QDateTime IncidenceBase::dtStart() const
 {
-    return d->mDtStart;
+    return d_ptr->mDtStart;
 }
 
 bool IncidenceBase::allDay() const
 {
-    return d->mAllDay;
+    return d_ptr->mAllDay;
 }
 
 void IncidenceBase::setAllDay(bool f)
 {
-    if (mReadOnly || f == d->mAllDay) {
+    if (mReadOnly || f == d_ptr->mAllDay) {
         return;
     }
     update();
-    d->mAllDay = f;
-    if (d->mDtStart.isValid()) {
-        d->mDirtyFields.insert(FieldDtStart);
+    d_ptr->mAllDay = f;
+    if (d_ptr->mDtStart.isValid()) {
+        d_ptr->mDirtyFields.insert(FieldDtStart);
     }
     updated();
 }
@@ -285,28 +301,28 @@ void IncidenceBase::setAllDay(bool f)
 void IncidenceBase::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
 {
     update();
-    d->mDtStart = d->mDtStart.toTimeZone(oldZone);
-    d->mDtStart.setTimeZone(newZone);
-    d->mDirtyFields.insert(FieldDtStart);
+    d_ptr->mDtStart = d_ptr->mDtStart.toTimeZone(oldZone);
+    d_ptr->mDtStart.setTimeZone(newZone);
+    d_ptr->mDirtyFields.insert(FieldDtStart);
     updated();
 }
 
 void IncidenceBase::addComment(const QString &comment)
 {
     update();
-    d->mComments += comment;
-    d->mDirtyFields.insert(FieldComment);
+    d_ptr->mComments += comment;
+    d_ptr->mDirtyFields.insert(FieldComment);
     updated();
 }
 
 bool IncidenceBase::removeComment(const QString &comment)
 {
-    auto it = std::find(d->mComments.begin(), d->mComments.end(), comment);
-    bool found = it != d->mComments.end();
+    auto it = std::find(d_ptr->mComments.begin(), d_ptr->mComments.end(), comment);
+    bool found = it != d_ptr->mComments.end();
     if (found) {
         update();
-        d->mComments.erase(it);
-        d->mDirtyFields.insert(FieldComment);
+        d_ptr->mComments.erase(it);
+        d_ptr->mDirtyFields.insert(FieldComment);
         updated();
     }
     return found;
@@ -315,34 +331,34 @@ bool IncidenceBase::removeComment(const QString &comment)
 void IncidenceBase::clearComments()
 {
     update();
-    d->mDirtyFields.insert(FieldComment);
-    d->mComments.clear();
+    d_ptr->mDirtyFields.insert(FieldComment);
+    d_ptr->mComments.clear();
     updated();
 }
 
 QStringList IncidenceBase::comments() const
 {
-    return d->mComments;
+    return d_ptr->mComments;
 }
 
 void IncidenceBase::addContact(const QString &contact)
 {
     if (!contact.isEmpty()) {
         update();
-        d->mContacts += contact;
-        d->mDirtyFields.insert(FieldContact);
+        d_ptr->mContacts += contact;
+        d_ptr->mDirtyFields.insert(FieldContact);
         updated();
     }
 }
 
 bool IncidenceBase::removeContact(const QString &contact)
 {
-    auto it = std::find(d->mContacts.begin(), d->mContacts.end(), contact);
-    bool found = it != d->mContacts.end();
+    auto it = std::find(d_ptr->mContacts.begin(), d_ptr->mContacts.end(), contact);
+    bool found = it != d_ptr->mContacts.end();
     if (found) {
         update();
-        d->mContacts.erase(it);
-        d->mDirtyFields.insert(FieldContact);
+        d_ptr->mContacts.erase(it);
+        d_ptr->mDirtyFields.insert(FieldContact);
         updated();
     }
     return found;
@@ -351,14 +367,14 @@ bool IncidenceBase::removeContact(const QString &contact)
 void IncidenceBase::clearContacts()
 {
     update();
-    d->mDirtyFields.insert(FieldContact);
-    d->mContacts.clear();
+    d_ptr->mDirtyFields.insert(FieldContact);
+    d_ptr->mContacts.clear();
     updated();
 }
 
 QStringList IncidenceBase::contacts() const
 {
-    return d->mContacts;
+    return d_ptr->mContacts;
 }
 
 void IncidenceBase::addAttendee(const Attendee &a, bool doupdate)
@@ -372,21 +388,21 @@ void IncidenceBase::addAttendee(const Attendee &a, bool doupdate)
         update();
     }
 
-    d->mAttendees.append(a);
+    d_ptr->mAttendees.append(a);
     if (doupdate) {
-        d->mDirtyFields.insert(FieldAttendees);
+        d_ptr->mDirtyFields.insert(FieldAttendees);
         updated();
     }
 }
 
 Attendee::List IncidenceBase::attendees() const
 {
-    return d->mAttendees;
+    return d_ptr->mAttendees;
 }
 
 int IncidenceBase::attendeeCount() const
 {
-    return d->mAttendees.count();
+    return d_ptr->mAttendees.count();
 }
 
 void IncidenceBase::setAttendees(const Attendee::List &attendees, bool doUpdate)
@@ -401,13 +417,13 @@ void IncidenceBase::setAttendees(const Attendee::List &attendees, bool doUpdate)
 
     // don't simply assign, we need the logic in addAttendee here too
     clearAttendees();
-    d->mAttendees.reserve(attendees.size());
+    d_ptr->mAttendees.reserve(attendees.size());
     for (const auto &a : attendees) {
         addAttendee(a, false);
     }
 
     if (doUpdate) {
-        d->mDirtyFields.insert(FieldAttendees);
+        d_ptr->mDirtyFields.insert(FieldAttendees);
         updated();
     }
 }
@@ -418,18 +434,18 @@ void IncidenceBase::clearAttendees()
         return;
     }
     update();
-    d->mDirtyFields.insert(FieldAttendees);
-    d->mAttendees.clear();
+    d_ptr->mDirtyFields.insert(FieldAttendees);
+    d_ptr->mAttendees.clear();
     updated();
 }
 
 Attendee IncidenceBase::attendeeByMail(const QString &email) const
 {
-    auto it = std::find_if(d->mAttendees.cbegin(), d->mAttendees.cend(), [&email](const Attendee &att) {
+    auto it = std::find_if(d_ptr->mAttendees.cbegin(), d_ptr->mAttendees.cend(), [&email](const Attendee &att) {
         return att.email() == email;
     });
 
-    return it != d->mAttendees.cend() ? *it : Attendee{};
+    return it != d_ptr->mAttendees.cend() ? *it : Attendee{};
 }
 
 Attendee IncidenceBase::attendeeByMails(const QStringList &emails, const QString &email) const
@@ -439,76 +455,76 @@ Attendee IncidenceBase::attendeeByMails(const QStringList &emails, const QString
         mails.append(email);
     }
 
-    auto it = std::find_if(d->mAttendees.cbegin(), d->mAttendees.cend(), [&mails](const Attendee &a) {
+    auto it = std::find_if(d_ptr->mAttendees.cbegin(), d_ptr->mAttendees.cend(), [&mails](const Attendee &a) {
         return mails.contains(a.email());
     });
 
-    return it != d->mAttendees.cend() ? *it : Attendee{};
+    return it != d_ptr->mAttendees.cend() ? *it : Attendee{};
 }
 
 Attendee IncidenceBase::attendeeByUid(const QString &uid) const
 {
-    auto it = std::find_if(d->mAttendees.cbegin(), d->mAttendees.cend(), [&uid](const Attendee &a) {
+    auto it = std::find_if(d_ptr->mAttendees.cbegin(), d_ptr->mAttendees.cend(), [&uid](const Attendee &a) {
         return a.uid() == uid;
     });
-    return it != d->mAttendees.cend() ? *it : Attendee{};
+    return it != d_ptr->mAttendees.cend() ? *it : Attendee{};
 }
 
 void IncidenceBase::setDuration(const Duration &duration)
 {
     update();
-    d->mDuration = duration;
+    d_ptr->mDuration = duration;
     setHasDuration(true);
-    d->mDirtyFields.insert(FieldDuration);
+    d_ptr->mDirtyFields.insert(FieldDuration);
     updated();
 }
 
 Duration IncidenceBase::duration() const
 {
-    return d->mDuration;
+    return d_ptr->mDuration;
 }
 
 void IncidenceBase::setHasDuration(bool hasDuration)
 {
-    d->mHasDuration = hasDuration;
+    d_ptr->mHasDuration = hasDuration;
 }
 
 bool IncidenceBase::hasDuration() const
 {
-    return d->mHasDuration;
+    return d_ptr->mHasDuration;
 }
 
 void IncidenceBase::setUrl(const QUrl &url)
 {
     update();
-    d->mDirtyFields.insert(FieldUrl);
-    d->mUrl = url;
+    d_ptr->mDirtyFields.insert(FieldUrl);
+    d_ptr->mUrl = url;
     updated();
 }
 
 QUrl IncidenceBase::url() const
 {
-    return d->mUrl;
+    return d_ptr->mUrl;
 }
 
 void IncidenceBase::registerObserver(IncidenceBase::IncidenceObserver *observer)
 {
-    if (observer && !d->mObservers.contains(observer)) {
-        d->mObservers.append(observer);
+    if (observer && !d_ptr->mObservers.contains(observer)) {
+        d_ptr->mObservers.append(observer);
     }
 }
 
 void IncidenceBase::unRegisterObserver(IncidenceBase::IncidenceObserver *observer)
 {
-    d->mObservers.removeAll(observer);
+    d_ptr->mObservers.removeAll(observer);
 }
 
 void IncidenceBase::update()
 {
-    if (!d->mUpdateGroupLevel) {
-        d->mUpdatedPending = true;
+    if (!d_ptr->mUpdateGroupLevel) {
+        d_ptr->mUpdatedPending = true;
         const auto rid = recurrenceId();
-        for (IncidenceObserver *o : qAsConst(d->mObservers)) {
+        for (IncidenceObserver *o : qAsConst(d_ptr->mObservers)) {
             o->incidenceUpdate(uid(), rid);
         }
     }
@@ -516,11 +532,11 @@ void IncidenceBase::update()
 
 void IncidenceBase::updated()
 {
-    if (d->mUpdateGroupLevel) {
-        d->mUpdatedPending = true;
+    if (d_ptr->mUpdateGroupLevel) {
+        d_ptr->mUpdatedPending = true;
     } else {
         const auto rid = recurrenceId();
-        for (IncidenceObserver *o : qAsConst(d->mObservers)) {
+        for (IncidenceObserver *o : qAsConst(d_ptr->mObservers)) {
             o->incidenceUpdated(uid(), rid);
         }
     }
@@ -529,14 +545,14 @@ void IncidenceBase::updated()
 void IncidenceBase::startUpdates()
 {
     update();
-    ++d->mUpdateGroupLevel;
+    ++d_ptr->mUpdateGroupLevel;
 }
 
 void IncidenceBase::endUpdates()
 {
-    if (d->mUpdateGroupLevel > 0) {
-        if (--d->mUpdateGroupLevel == 0 && d->mUpdatedPending) {
-            d->mUpdatedPending = false;
+    if (d_ptr->mUpdateGroupLevel > 0) {
+        if (--d_ptr->mUpdateGroupLevel == 0 && d_ptr->mUpdatedPending) {
+            d_ptr->mUpdatedPending = false;
             updated();
         }
     }
@@ -559,17 +575,17 @@ QDateTime IncidenceBase::recurrenceId() const
 
 void IncidenceBase::resetDirtyFields()
 {
-    d->mDirtyFields.clear();
+    d_ptr->mDirtyFields.clear();
 }
 
 QSet<IncidenceBase::Field> IncidenceBase::dirtyFields() const
 {
-    return d->mDirtyFields;
+    return d_ptr->mDirtyFields;
 }
 
 void IncidenceBase::setFieldDirty(IncidenceBase::Field field)
 {
-    d->mDirtyFields.insert(field);
+    d_ptr->mDirtyFields.insert(field);
 }
 
 QUrl IncidenceBase::uri() const
@@ -579,7 +595,7 @@ QUrl IncidenceBase::uri() const
 
 void IncidenceBase::setDirtyFields(const QSet<IncidenceBase::Field> &dirtyFields)
 {
-    d->mDirtyFields = dirtyFields;
+    d_ptr->mDirtyFields = dirtyFields;
 }
 
 void IncidenceBase::serialize(QDataStream &out) const
@@ -609,12 +625,12 @@ QDataStream &KCalendarCore::operator<<(QDataStream &out, const KCalendarCore::In
     out << static_cast<qint32>(i->type());
 
     out << *(static_cast<CustomProperties *>(i.data()));
-    serializeQDateTimeAsKDateTime(out, i->d->mLastModified);
-    serializeQDateTimeAsKDateTime(out, i->d->mDtStart);
-    out << i->organizer() << i->d->mUid << i->d->mDuration << i->d->mAllDay << i->d->mHasDuration << i->d->mComments << i->d->mContacts
-        << i->d->mAttendees.count() << i->d->mUrl;
+    serializeQDateTimeAsKDateTime(out, i->d_ptr->mLastModified);
+    serializeQDateTimeAsKDateTime(out, i->d_ptr->mDtStart);
+    out << i->organizer() << i->d_ptr->mUid << i->d_ptr->mDuration << i->d_ptr->mAllDay << i->d_ptr->mHasDuration << i->d_ptr->mComments << i->d_ptr->mContacts
+        << i->d_ptr->mAttendees.count() << i->d_ptr->mUrl;
 
-    for (const Attendee &attendee : qAsConst(i->d->mAttendees)) {
+    for (const Attendee &attendee : qAsConst(i->d_ptr->mAttendees)) {
         out << attendee;
     }
 
@@ -652,17 +668,17 @@ QDataStream &KCalendarCore::operator>>(QDataStream &in, KCalendarCore::Incidence
     in >> type;
 
     in >> *(static_cast<CustomProperties *>(i.data()));
-    deserializeKDateTimeAsQDateTime(in, i->d->mLastModified);
-    deserializeKDateTimeAsQDateTime(in, i->d->mDtStart);
-    in >> i->d->mOrganizer >> i->d->mUid >> i->d->mDuration >> i->d->mAllDay >> i->d->mHasDuration >> i->d->mComments >> i->d->mContacts >> attendeeCount
-        >> i->d->mUrl;
+    deserializeKDateTimeAsQDateTime(in, i->d_ptr->mLastModified);
+    deserializeKDateTimeAsQDateTime(in, i->d_ptr->mDtStart);
+    in >> i->d_ptr->mOrganizer >> i->d_ptr->mUid >> i->d_ptr->mDuration >> i->d_ptr->mAllDay >> i->d_ptr->mHasDuration >> i->d_ptr->mComments >> i->d_ptr->mContacts >> attendeeCount
+        >> i->d_ptr->mUrl;
 
-    i->d->mAttendees.clear();
-    i->d->mAttendees.reserve(attendeeCount);
+    i->d_ptr->mAttendees.clear();
+    i->d_ptr->mAttendees.reserve(attendeeCount);
     for (int it = 0; it < attendeeCount; it++) {
         Attendee attendee;
         in >> attendee;
-        i->d->mAttendees.append(attendee);
+        i->d_ptr->mAttendees.append(attendee);
     }
 
     // Deserialize the sub-class data.
@@ -678,8 +694,8 @@ IncidenceBase::IncidenceObserver::~IncidenceObserver()
 QVariantList IncidenceBase::attendeesVariant() const
 {
     QVariantList l;
-    l.reserve(d->mAttendees.size());
-    std::transform(d->mAttendees.begin(), d->mAttendees.end(), std::back_inserter(l), [](const Attendee &a) {
+    l.reserve(d_ptr->mAttendees.size());
+    std::transform(d_ptr->mAttendees.begin(), d_ptr->mAttendees.end(), std::back_inserter(l), [](const Attendee &a) {
         return QVariant::fromValue(a);
     });
     return l;

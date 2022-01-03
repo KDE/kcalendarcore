@@ -10,6 +10,9 @@
 #ifndef KCALCORE_INCIDENCE_P_H
 #define KCALCORE_INCIDENCE_P_H
 
+#include "incidence.h"      // For Incidence::RelType, etc.
+#include "incidencebase_p.h"
+
 namespace KCalendarCore
 {
 
@@ -21,11 +24,12 @@ namespace KCalendarCore
 
 class Incidence;
 
-class IncidencePrivate
+class IncidencePrivate : public KCalendarCore::IncidenceBasePrivate
 {
 public:
     IncidencePrivate();
     IncidencePrivate(const IncidencePrivate &p);
+    explicit IncidencePrivate(const Incidence &);
     void clear();
     void init(Incidence *q, const IncidencePrivate &other);
 
@@ -62,4 +66,3 @@ public:
 }
 
 #endif
-

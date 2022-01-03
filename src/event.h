@@ -249,12 +249,16 @@ private:
      */
     Event &operator=(const Event &other);
 
-    // For polymorfic serialization
+    // For polymorphic serialization
     void serialize(QDataStream &out) const override;
     void deserialize(QDataStream &in) override;
 
     //@cond PRIVATE
-    EventPrivate *const d;
+    Q_DECLARE_PRIVATE(Event)
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 91)
+    KCALENDARCORE_DEPRECATED_VERSION(5, 91, "Do not use")
+    EventPrivate *const _ = nullptr;    // TODO KF6 remove. ABI compatibility hack.
+#endif
     //@endcond
 };
 

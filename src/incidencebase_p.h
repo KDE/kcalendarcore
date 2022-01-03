@@ -12,6 +12,8 @@
 #ifndef KCALCORE_INCIDENCEBASE_P_H
 #define KCALCORE_INCIDENCEBASE_P_H
 
+#include "incidencebase.h"      // For IncidenceBase::Field
+
 namespace KCalendarCore
 {
 
@@ -30,7 +32,7 @@ public:
         init(other);
     }
 
-    ~IncidenceBasePrivate() = default;
+    virtual ~IncidenceBasePrivate() = default;
 
     void init(const IncidenceBasePrivate &other);
 

@@ -242,6 +242,9 @@ protected:
     void virtual_hook(VirtualHook id, void *data) override;
 
 private:
+
+    Q_DECLARE_PRIVATE(FreeBusy)
+
     /**
      @copydoc
      IncidenceBase::accept()
@@ -257,7 +260,10 @@ private:
     FreeBusy &operator=(const FreeBusy &other);
 
     //@cond PRIVATE
-    FreeBusyPrivate *const d;
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 91)
+    KCALENDARCORE_DEPRECATED_VERSION(5, 91, "Do not use")
+    FreeBusyPrivate *const _ = nullptr;    // TODO KF6 remove. ABI compatibility hack.
+#endif
     //@endcond
 };
 

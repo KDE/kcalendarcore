@@ -220,10 +220,23 @@ public:
         virtual void incidenceUpdated(const QString &uid, const QDateTime &recurrenceId) = 0;
     };
 
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 91)
     /**
       Constructs an empty IncidenceBase.
+      @deprecated Use IncidenceBase(IncidenceBasePrivate *p).
     */
+    KCALENDARCORE_DEPRECATED_VERSION(5, 91, "Do not use")
     IncidenceBase();
+#else
+    IncidenceBase() = delete;
+#endif
+
+    /**
+      Constructs an empty IncidenceBase.
+      @param p (non-null) a Private data object provided by the instantiated
+      class (Event, Todo, Journal, FreeBusy).  It takes ownership of the object.
+    */
+    IncidenceBase(IncidenceBasePrivate *p);
 
     /**
       Destroys the IncidenceBase.
@@ -693,11 +706,24 @@ protected:
     */
     void customPropertyUpdated() override;
 
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 91)
     /**
       Constructs an IncidenceBase as a copy of another IncidenceBase object.
       @param ib is the IncidenceBase to copy.
+      @deprecated Use IncidenceBase(const IncidenceBase &ib, IncidenceBasePrivate  *p).
     */
     IncidenceBase(const IncidenceBase &ib);
+#else
+    IncidenceBase(const IncidenceBase &) = delete;
+#endif
+
+    /**
+      Constructs an IncidenceBase as a copy of another IncidenceBase object.
+      @param ib is the IncidenceBase to copy.
+      @param p (non-null) a Private data object provided by the instantiated
+      class (Event, Todo, Journal, FreeBusy).  It takes ownership of the object.
+    */
+    IncidenceBase(const IncidenceBase &ib, IncidenceBasePrivate  *p);
 
     /**
       Provides polymorfic comparison for equality.
@@ -739,12 +765,13 @@ protected:
     */
     bool mReadOnly;
 
-private:
-    //@cond PRIVATE
-    IncidenceBasePrivate *const d;
+    Q_DECLARE_PRIVATE(IncidenceBase)
 
+protected:
+    IncidenceBasePrivate *const d_ptr;
+
+private:
     Q_DECL_HIDDEN QVariantList attendeesVariant() const;
-    //@endcond
 
     friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalendarCore::IncidenceBase::Ptr &);
 

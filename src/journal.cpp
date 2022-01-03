@@ -16,6 +16,7 @@
   @author Cornelius Schumacher \<schumacher@kde.org\>
 */
 
+#include "incidence_p.h"
 #include "journal.h"
 #include "visitor.h"
 
@@ -23,12 +24,23 @@
 
 using namespace KCalendarCore;
 
+//@cond PRIVATE
+class KCalendarCore::JournalPrivate : public IncidencePrivate
+{
+};
+
+//@endcond
+
 Journal::Journal()
-    : d(nullptr)
+    : Incidence(new JournalPrivate)
 {
 }
 
-Journal::Journal(const Journal &) = default;
+Journal::Journal(const Journal &other)
+    : Incidence(other, new JournalPrivate(*(other.d_func())))
+{
+}
+
 Journal::~Journal() = default;
 
 Incidence::IncidenceType Journal::type() const
@@ -48,7 +60,9 @@ Journal *Journal::clone() const
 
 IncidenceBase &Journal::assign(const IncidenceBase &other)
 {
-    Incidence::assign(other);
+    if (&other != this) {
+        Incidence::assign(other);
+    }
     return *this;
 }
 

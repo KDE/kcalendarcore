@@ -123,10 +123,23 @@ public:
     */
     typedef QVector<Ptr> List;
 
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 91)
     /**
-      Constructs an empty incidence.*
+      Constructs an empty incidence.
+      @deprecated Use Incidence(IncidencePrivate *p).
     */
     Incidence();
+#else
+    Incidence() = delete;
+#endif
+
+    /**
+      Constructs an empty incidence.
+      @param p (non-null) a Private data object provided by the instantiated
+      class (Event, Todo, Journal, FreeBusy). It passes ownership of the object
+      to IncidenceBase.
+    */
+    Incidence(IncidencePrivate *p);
 
     /**
       Destroys an incidence.
@@ -869,11 +882,24 @@ public:
     Q_REQUIRED_RESULT static QStringList mimeTypes();
 
 protected:
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 91)
     /**
       Copy constructor.
       @param other is the incidence to copy.
+      @deprecated Use Incidence(const Incidence &other, IncidencePrivate *p).
     */
     Incidence(const Incidence &other);
+#else
+    Incidence(const Incidence &) = delete;
+#endif
+
+    /**
+      @param other is the incidence to copy.
+      @param p (non-null) a Private data object provided by the instantiated
+      class (Event, Todo, Journal, FreeBusy). It passes ownership of the object
+      to IncidenceBase.
+    */
+    Incidence(const Incidence &other, IncidencePrivate *p);
 
     /**
       Compares this with Incidence @p incidence for equality.
@@ -902,10 +928,12 @@ private:
     Q_DECL_HIDDEN QVariantList attachmentsVariant() const;
     Q_DECL_HIDDEN QVariantList conferencesVariant() const;
 
-    //@cond PRIVATE:
-    friend class IncidencePrivate;
-    IncidencePrivate *const d;
-    //@endcond
+protected:
+    Q_DECLARE_PRIVATE(Incidence)
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 91)
+    KCALENDARCORE_DEPRECATED_VERSION(5, 91, "Do not use")
+    IncidencePrivate *const _ = nullptr;    // TODO KF6 remove. ABI compatibility hack.
+#endif
 };
 
 }

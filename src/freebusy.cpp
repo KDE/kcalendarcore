@@ -23,31 +23,35 @@
 
 #include "icalformat.h"
 
+#include "incidencebase_p.h"
 #include "kcalendarcore_debug.h"
 #include <QTime>
 
 using namespace KCalendarCore;
 
 //@cond PRIVATE
-class KCalendarCore::FreeBusyPrivate
+class KCalendarCore::FreeBusyPrivate : public IncidenceBasePrivate
 {
 private:
     FreeBusy *q;
 
 public:
     FreeBusyPrivate(FreeBusy *qq)
-        : q(qq)
+        : IncidenceBasePrivate()
+        , q(qq)
     {
     }
 
     FreeBusyPrivate(const FreeBusyPrivate &other, FreeBusy *qq)
-        : q(qq)
+        : IncidenceBasePrivate(other)
+        , q(qq)
     {
         init(other);
     }
 
     FreeBusyPrivate(const FreeBusyPeriod::List &busyPeriods, FreeBusy *qq)
-        : q(qq)
+        : IncidenceBasePrivate()
+        , q(qq)
         , mBusyPeriods(busyPeriods)
     {
     }
@@ -70,29 +74,29 @@ void FreeBusyPrivate::init(const FreeBusyPrivate &other)
 //@endcond
 
 FreeBusy::FreeBusy()
-    : d(new FreeBusyPrivate(this))
+    : IncidenceBase(new FreeBusyPrivate(this))
 {
 }
 
 FreeBusy::FreeBusy(const FreeBusy &other)
-    : IncidenceBase(other)
-    , d(new FreeBusyPrivate(*other.d, this))
+    : IncidenceBase(other, new FreeBusyPrivate(*other.d_func(), this))
 {
 }
 
 FreeBusy::FreeBusy(const QDateTime &start, const QDateTime &end)
-    : d(new FreeBusyPrivate(this))
+    : FreeBusy()
 {
     setDtStart(start); // NOLINT false clang-analyzer-optin.cplusplus.VirtualCall
     setDtEnd(end); // NOLINT false clang-analyzer-optin.cplusplus.VirtualCall
 }
 
 FreeBusy::FreeBusy(const Event::List &events, const QDateTime &start, const QDateTime &end)
-    : d(new FreeBusyPrivate(this))
+    : FreeBusy()
 {
     setDtStart(start); // NOLINT false clang-analyzer-optin.cplusplus.VirtualCall
     setDtEnd(end); // NOLINT false clang-analyzer-optin.cplusplus.VirtualCall
 
+    Q_D(FreeBusy);
     d->init(events, start, end);
 }
 
@@ -178,20 +182,17 @@ void FreeBusyPrivate::init(const Event::List &eventList, const QDateTime &start,
 //@endcond
 
 FreeBusy::FreeBusy(const Period::List &busyPeriods)
-    : d(new FreeBusyPrivate(this))
+    : IncidenceBase(new FreeBusyPrivate(this))
 {
     addPeriods(busyPeriods);
 }
 
 FreeBusy::FreeBusy(const FreeBusyPeriod::List &busyPeriods)
-    : d(new FreeBusyPrivate(busyPeriods, this))
+    : IncidenceBase(new FreeBusyPrivate(busyPeriods, this))
 {
 }
 
-FreeBusy::~FreeBusy()
-{
-    delete d;
-}
+FreeBusy::~FreeBusy() = default;
 
 IncidenceBase::IncidenceType FreeBusy::type() const
 {
@@ -210,6 +211,7 @@ void FreeBusy::setDtStart(const QDateTime &start)
 
 void FreeBusy::setDtEnd(const QDateTime &end)
 {
+    Q_D(FreeBusy);
     update();
     d->mDtEnd = end;
     setFieldDirty(FieldDtEnd);
@@ -218,6 +220,7 @@ void FreeBusy::setDtEnd(const QDateTime &end)
 
 QDateTime FreeBusy::dtEnd() const
 {
+    Q_D(const FreeBusy);
     return d->mDtEnd;
 }
 
@@ -225,6 +228,7 @@ Period::List FreeBusy::busyPeriods() const
 {
     Period::List res;
 
+    Q_D(const FreeBusy);
     res.reserve(d->mBusyPeriods.count());
     for (const FreeBusyPeriod &p : qAsConst(d->mBusyPeriods)) {
         res << p;
@@ -235,16 +239,19 @@ Period::List FreeBusy::busyPeriods() const
 
 FreeBusyPeriod::List FreeBusy::fullBusyPeriods() const
 {
+    Q_D(const FreeBusy);
     return d->mBusyPeriods;
 }
 
 void FreeBusy::sortList()
 {
+    Q_D(FreeBusy);
     std::sort(d->mBusyPeriods.begin(), d->mBusyPeriods.end());
 }
 
 void FreeBusy::addPeriods(const Period::List &list)
 {
+    Q_D(FreeBusy);
     d->mBusyPeriods.reserve(d->mBusyPeriods.count() + list.count());
     for (const Period &p : qAsConst(list)) {
         d->mBusyPeriods << FreeBusyPeriod(p);
@@ -254,18 +261,21 @@ void FreeBusy::addPeriods(const Period::List &list)
 
 void FreeBusy::addPeriods(const FreeBusyPeriod::List &list)
 {
+    Q_D(FreeBusy);
     d->mBusyPeriods += list;
     sortList();
 }
 
 void FreeBusy::addPeriod(const QDateTime &start, const QDateTime &end)
 {
+    Q_D(FreeBusy);
     d->mBusyPeriods.append(FreeBusyPeriod(start, end));
     sortList();
 }
 
 void FreeBusy::addPeriod(const QDateTime &start, const Duration &duration)
 {
+    Q_D(FreeBusy);
     d->mBusyPeriods.append(FreeBusyPeriod(start, duration));
     sortList();
 }
@@ -280,6 +290,7 @@ void FreeBusy::merge(const FreeBusy::Ptr &freeBusy)
         setDtEnd(freeBusy->dtEnd());
     }
 
+    Q_D(FreeBusy);
     const Period::List periods = freeBusy->busyPeriods();
     d->mBusyPeriods.reserve(d->mBusyPeriods.count() + periods.count());
     for (const auto &p : periods) {
@@ -290,6 +301,7 @@ void FreeBusy::merge(const FreeBusy::Ptr &freeBusy)
 
 void FreeBusy::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
 {
+    Q_D(FreeBusy);
     if (oldZone.isValid() && newZone.isValid() && oldZone != newZone) {
         IncidenceBase::shiftTimes(oldZone, newZone);
         update();
@@ -305,10 +317,11 @@ void FreeBusy::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
 
 IncidenceBase &FreeBusy::assign(const IncidenceBase &other)
 {
+    Q_D(FreeBusy);
     if (&other != this) {
         IncidenceBase::assign(other);
         const FreeBusy *f = static_cast<const FreeBusy *>(&other);
-        d->init(*(f->d));
+        d->init(*(f->d_func()));
     }
     return *this;
 }
@@ -318,9 +331,10 @@ bool FreeBusy::equals(const IncidenceBase &freeBusy) const
     if (!IncidenceBase::equals(freeBusy)) {
         return false;
     } else {
+        Q_D(const FreeBusy);
         // If they weren't the same type IncidenceBase::equals would had returned false already
         const FreeBusy *fb = static_cast<const FreeBusy *>(&freeBusy);
-        return dtEnd() == fb->dtEnd() && d->mBusyPeriods == fb->d->mBusyPeriods;
+        return dtEnd() == fb->dtEnd() && d->mBusyPeriods == fb->d_func()->mBusyPeriods;
     }
 }
 

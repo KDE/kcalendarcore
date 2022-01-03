@@ -18,6 +18,7 @@
   @author Allen Winter \<winter@kde.org\>
 */
 
+#include "incidence_p.h"
 #include "todo.h"
 #include "recurrence.h"
 #include "utils_p.h"
@@ -34,7 +35,7 @@ using namespace KCalendarCore;
   @internal
 */
 //@cond PRIVATE
-class KCalendarCore::TodoPrivate
+class KCalendarCore::TodoPrivate : public IncidencePrivate
 {
     Todo *const q;
 
@@ -52,13 +53,22 @@ public:
     }
 
     TodoPrivate(const TodoPrivate &other, Todo * todo)
-        : q(todo)
+        : IncidencePrivate(other)
+        , q(todo)
     {
         init(other);
     }
 
     // Default copy constructor would copy q.
     TodoPrivate(TodoPrivate &p) = delete;
+
+    // Copy IncidencePrivate and IncidenceBasePrivate members,
+    // but default-initialize TodoPrivate members.
+    TodoPrivate(const Incidence &other, Todo *todo)
+        : IncidencePrivate(other)
+        , q(todo)
+    {
+    }
 
     void init(const TodoPrivate &other);
 
@@ -81,7 +91,7 @@ public:
     }
 
     void setPercentComplete(const int pc);
-    int percentComplete()
+    int percentComplete() const
     {
         return mPercentComplete;
     }
@@ -137,26 +147,21 @@ void TodoPrivate::init(const TodoPrivate &other)
 //@endcond
 
 Todo::Todo()
-    : d(new TodoPrivate(this))
+    : Incidence(new TodoPrivate(this))
 {
 }
 
 Todo::Todo(const Todo &other)
-    : Incidence(other)
-    , d(new TodoPrivate(*other.d, this))
+    : Incidence(other, new TodoPrivate(*(other.d_func()), this))
 {
 }
 
 Todo::Todo(const Incidence &other)
-    : Incidence(other)
-    , d(new TodoPrivate(this))
+    : Incidence(other, new TodoPrivate(other, this))
 {
 }
 
-Todo::~Todo()
-{
-    delete d;
-}
+Todo::~Todo() = default;
 
 Todo *Todo::clone() const
 {
@@ -165,10 +170,11 @@ Todo *Todo::clone() const
 
 IncidenceBase &Todo::assign(const IncidenceBase &other)
 {
+    Q_D(Todo);
     if (&other != this) {
         Incidence::assign(other);
         const Todo *t = static_cast<const Todo *>(&other);
-        d->init(*(t->d));
+        d->init(*(t->d_func()));
     }
     return *this;
 }
@@ -209,6 +215,7 @@ void Todo::setDtDue(const QDateTime &dtDue, bool first)
       }
     }*/
 
+    Q_D(Todo);
     if (recurs() && !first) {
         d->setDtRecurrence(dtDue);
     } else {
@@ -232,6 +239,7 @@ QDateTime Todo::dtDue(bool first) const
         return QDateTime();
     }
 
+    Q_D(const Todo);
     const QDateTime start = IncidenceBase::dtStart();
     if (recurs() && !first && d->dtRecurrence().isValid()) {
         if (start.isValid()) {
@@ -251,6 +259,7 @@ QDateTime Todo::dtDue(bool first) const
 
 bool Todo::hasDueDate() const
 {
+    Q_D(const Todo);
     return d->dtDue().isValid();
 }
 
@@ -270,6 +279,7 @@ QDateTime Todo::dtStart(bool first) const
         return QDateTime();
     }
 
+    Q_D(const Todo);
     if (recurs() && !first && d->dtRecurrence().isValid()) {
         return d->dtRecurrence();
     } else {
@@ -279,12 +289,14 @@ QDateTime Todo::dtStart(bool first) const
 
 bool Todo::isCompleted() const
 {
+    Q_D(const Todo);
     return d->percentComplete() == 100 || status() == StatusCompleted || hasCompletedDate();
 }
 
 void Todo::setCompleted(bool completed)
 {
     update();
+    Q_D(Todo);
     if (completed) {
         d->setPercentComplete(100);
     } else {
@@ -300,6 +312,7 @@ void Todo::setCompleted(bool completed)
 
 QDateTime Todo::completed() const
 {
+    Q_D(const Todo);
     if (hasCompletedDate()) {
         return d->completed();
     } else {
@@ -310,6 +323,7 @@ QDateTime Todo::completed() const
 void Todo::setCompleted(const QDateTime &completed)
 {
     update();
+    Q_D(Todo);
     if (!d->recurTodo(this)) {
         d->setPercentComplete(100);
         d->setCompleted(completed);
@@ -322,11 +336,13 @@ void Todo::setCompleted(const QDateTime &completed)
 
 bool Todo::hasCompletedDate() const
 {
+    Q_D(const Todo);
     return d->completed().isValid();
 }
 
 int Todo::percentComplete() const
 {
+    Q_D(const Todo);
     return d->percentComplete();
 }
 
@@ -339,6 +355,7 @@ void Todo::setPercentComplete(int percent)
     }
 
     update();
+    Q_D(Todo);
     d->setPercentComplete(percent);
     if (percent != 100) {
         d->setCompleted(QDateTime());
@@ -355,6 +372,7 @@ bool Todo::isInProgress(bool first) const
         return false;
     }
 
+    Q_D(const Todo);
     if (d->percentComplete() > 0) {
         return true;
     }
@@ -386,6 +404,7 @@ bool Todo::isOpenEnded() const
 
 bool Todo::isNotStarted(bool first) const
 {
+    Q_D(const Todo);
     if (d->percentComplete() > 0) {
         return false;
     }
@@ -408,6 +427,7 @@ bool Todo::isNotStarted(bool first) const
 
 void Todo::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
 {
+    Q_D(Todo);
     Incidence::shiftTimes(oldZone, newZone);
     auto dt = d->dtDue().toTimeZone(oldZone);
     dt.setTimeZone(newZone);
@@ -426,16 +446,19 @@ void Todo::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
 
 void Todo::setDtRecurrence(const QDateTime &dt)
 {
+    Q_D(Todo);
     d->setDtRecurrence(dt);
 }
 
 QDateTime Todo::dtRecurrence() const
 {
+    Q_D(const Todo);
     return d->dtRecurrence().isValid() ? d->dtRecurrence() : d->dtDue();
 }
 
 bool Todo::recursOn(const QDate &date, const QTimeZone &timeZone) const
 {
+    Q_D(const Todo);
     QDate today = QDate::currentDate();
     return Incidence::recursOn(date, timeZone) && !(date < today && d->dtRecurrence().date() < today && d->dtRecurrence() > recurrence()->startDateTime());
 }
@@ -597,6 +620,7 @@ QLatin1String Todo::iconName(const QDateTime &recurrenceId) const
 
 void Todo::serialize(QDataStream &out) const
 {
+    Q_D(const Todo);
     Incidence::serialize(out);
     serializeQDateTimeAsKDateTime(out, d->dtDue());
     serializeQDateTimeAsKDateTime(out, d->dtRecurrence());
@@ -614,6 +638,7 @@ void TodoPrivate::deserialize(QDataStream &in)
 
 void Todo::deserialize(QDataStream &in)
 {
+    Q_D(Todo);
     Incidence::deserialize(in);
     d->deserialize(in);
 }

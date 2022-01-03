@@ -148,12 +148,16 @@ private:
      */
     Journal &operator=(const Journal &other) = delete;
 
-    // For polymorfic serialization
+    // For polymorphic serialization
     void serialize(QDataStream &out) const override;
     void deserialize(QDataStream &in) override;
 
     //@cond PRIVATE
-    JournalPrivate *const d;
+    Q_DECLARE_PRIVATE(Journal)
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 91)
+    KCALENDARCORE_DEPRECATED_VERSION(5, 91, "Do not use")
+    JournalPrivate *const _ = nullptr;    // TODO KF6 remove. ABI compatibility hack.
+#endif
     //@endcond
 };
 
