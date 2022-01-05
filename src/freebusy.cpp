@@ -32,26 +32,12 @@ using namespace KCalendarCore;
 //@cond PRIVATE
 class KCalendarCore::FreeBusyPrivate : public IncidenceBasePrivate
 {
-private:
-    FreeBusy *q;
-
 public:
-    FreeBusyPrivate(FreeBusy *qq)
-        : IncidenceBasePrivate()
-        , q(qq)
-    {
-    }
+    FreeBusyPrivate() = default;
+    FreeBusyPrivate(const FreeBusyPrivate &other) = default;
 
-    FreeBusyPrivate(const FreeBusyPrivate &other, FreeBusy *qq)
-        : IncidenceBasePrivate(other)
-        , q(qq)
-    {
-        init(other);
-    }
-
-    FreeBusyPrivate(const FreeBusyPeriod::List &busyPeriods, FreeBusy *qq)
+    FreeBusyPrivate(const FreeBusyPeriod::List &busyPeriods)
         : IncidenceBasePrivate()
-        , q(qq)
         , mBusyPeriods(busyPeriods)
     {
     }
@@ -63,7 +49,12 @@ public:
     FreeBusyPeriod::List mBusyPeriods; // list of periods
 
     // This is used for creating a freebusy object for the current user
-    bool addLocalPeriod(FreeBusy *fb, const QDateTime &start, const QDateTime &end);
+    bool addLocalPeriod(const QDateTime &eventStart, const QDateTime &eventEnd);
+
+    void sortBusyPeriods()
+    {
+        std::sort(mBusyPeriods.begin(), mBusyPeriods.end());
+    }
 };
 
 void FreeBusyPrivate::init(const FreeBusyPrivate &other)
@@ -74,12 +65,12 @@ void FreeBusyPrivate::init(const FreeBusyPrivate &other)
 //@endcond
 
 FreeBusy::FreeBusy()
-    : IncidenceBase(new FreeBusyPrivate(this))
+    : IncidenceBase(new FreeBusyPrivate())
 {
 }
 
 FreeBusy::FreeBusy(const FreeBusy &other)
-    : IncidenceBase(other, new FreeBusyPrivate(*other.d_func(), this))
+    : IncidenceBase(other, new FreeBusyPrivate(*other.d_func()))
 {
 }
 
@@ -158,7 +149,7 @@ void FreeBusyPrivate::init(const Event::List &eventList, const QDateTime &start,
                             tmpStart.setTime(event->dtStart().time());
                             tmpEnd = event->duration().end(tmpStart);
 
-                            addLocalPeriod(q, tmpStart, tmpEnd);
+                            addLocalPeriod(tmpStart, tmpEnd);
                             break;
                         }
                     }
@@ -167,28 +158,28 @@ void FreeBusyPrivate::init(const Event::List &eventList, const QDateTime &start,
                         tmpStart.setTime(event->dtStart().time());
                         tmpEnd.setTime(event->dtEnd().time());
 
-                        addLocalPeriod(q, tmpStart, tmpEnd);
+                        addLocalPeriod(tmpStart, tmpEnd);
                     }
                 }
             }
         }
 
         // Non-recurring events
-        addLocalPeriod(q, event->dtStart(), event->dtEnd());
+        addLocalPeriod(event->dtStart(), event->dtEnd());
     }
 
-    q->sortList();
+    sortBusyPeriods();
 }
 //@endcond
 
 FreeBusy::FreeBusy(const Period::List &busyPeriods)
-    : IncidenceBase(new FreeBusyPrivate(this))
+    : IncidenceBase(new FreeBusyPrivate())
 {
     addPeriods(busyPeriods);
 }
 
 FreeBusy::FreeBusy(const FreeBusyPeriod::List &busyPeriods)
-    : IncidenceBase(new FreeBusyPrivate(busyPeriods, this))
+    : IncidenceBase(new FreeBusyPrivate(busyPeriods))
 {
 }
 
@@ -246,7 +237,7 @@ FreeBusyPeriod::List FreeBusy::fullBusyPeriods() const
 void FreeBusy::sortList()
 {
     Q_D(FreeBusy);
-    std::sort(d->mBusyPeriods.begin(), d->mBusyPeriods.end());
+    d->sortBusyPeriods();
 }
 
 void FreeBusy::addPeriods(const Period::List &list)
@@ -364,14 +355,14 @@ void FreeBusy::virtual_hook(VirtualHook id, void *data)
 }
 
 //@cond PRIVATE
-bool FreeBusyPrivate::addLocalPeriod(FreeBusy *fb, const QDateTime &eventStart, const QDateTime &eventEnd)
+bool FreeBusyPrivate::addLocalPeriod(const QDateTime &eventStart, const QDateTime &eventEnd)
 {
     QDateTime tmpStart;
     QDateTime tmpEnd;
 
     // Check to see if the start *or* end of the event is
     // between the start and end of the freebusy dates.
-    QDateTime start = fb->dtStart();
+    QDateTime start = mDtStart;
     if (!(((start.secsTo(eventStart) >= 0) && (eventStart.secsTo(mDtEnd) >= 0)) || ((start.secsTo(eventEnd) >= 0) && (eventEnd.secsTo(mDtEnd) >= 0)))) {
         return false;
     }
