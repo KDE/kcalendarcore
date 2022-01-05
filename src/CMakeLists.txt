@@ -114,6 +114,8 @@ endif()
 target_include_directories(KF5CalendarCore INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF}/KCalendarCore>")
 target_include_directories(KF5CalendarCore PUBLIC "$<BUILD_INTERFACE:${KCalendarCore_SOURCE_DIR}/src;${KCalendarCore_BINARY_DIR}/src>")
 
+target_compile_features(KF5CalendarCore PRIVATE cxx_std_17)
+
 target_link_libraries(KF5CalendarCore
 PUBLIC
     Qt${QT_MAJOR_VERSION}::Core
