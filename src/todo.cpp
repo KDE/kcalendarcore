@@ -37,8 +37,6 @@ using namespace KCalendarCore;
 //@cond PRIVATE
 class KCalendarCore::TodoPrivate : public IncidencePrivate
 {
-    Todo *const q;
-
     // Due date of the to-do or its first recurrence if it recurs;  invalid() <=> no defined due date.
     QDateTime mDtDue;
     QDateTime mDtRecurrence; // next occurrence (for recurring to-dos)
@@ -47,26 +45,13 @@ class KCalendarCore::TodoPrivate : public IncidencePrivate
 
 public:
 
-    TodoPrivate(Todo *todo)
-        : q(todo)
-    {
-    }
-
-    TodoPrivate(const TodoPrivate &other, Todo * todo)
-        : IncidencePrivate(other)
-        , q(todo)
-    {
-        init(other);
-    }
-
-    // Default copy constructor would copy q.
-    TodoPrivate(TodoPrivate &p) = delete;
+    TodoPrivate() = default;
+    TodoPrivate(const TodoPrivate &other) = default;
 
     // Copy IncidencePrivate and IncidenceBasePrivate members,
     // but default-initialize TodoPrivate members.
-    TodoPrivate(const Incidence &other, Todo *todo)
+    TodoPrivate(const Incidence &other)
         : IncidencePrivate(other)
-        , q(todo)
     {
     }
 
@@ -108,7 +93,7 @@ void TodoPrivate::setDtDue(const QDateTime dd)
 {
     if (dd != mDtDue) {
         mDtDue = dd;
-        q->setFieldDirty(IncidenceBase::FieldDtDue);
+        mDirtyFields.insert(IncidenceBase::FieldDtDue);
     }
 }
 
@@ -116,7 +101,7 @@ void TodoPrivate::setDtRecurrence(const QDateTime dr)
 {
     if (dr != mDtRecurrence) {
         mDtRecurrence = dr;
-        q->setFieldDirty(IncidenceBase::FieldRecurrenceId);
+        mDirtyFields.insert(IncidenceBase::FieldRecurrenceId);
     }
 }
 
@@ -124,7 +109,7 @@ void TodoPrivate::setCompleted(const QDateTime dc)
 {
     if (dc != mCompleted) {
         mCompleted = dc.toUTC();
-        q->setFieldDirty(IncidenceBase::FieldCompleted);
+        mDirtyFields.insert(IncidenceBase::FieldCompleted);
     }
 }
 
@@ -132,7 +117,7 @@ void TodoPrivate::setPercentComplete(const int pc)
 {
     if (pc != mPercentComplete) {
         mPercentComplete = pc;
-        q->setFieldDirty(IncidenceBase::FieldPercentComplete);
+        mDirtyFields.insert(IncidenceBase::FieldPercentComplete);
     }
 }
 
@@ -147,17 +132,17 @@ void TodoPrivate::init(const TodoPrivate &other)
 //@endcond
 
 Todo::Todo()
-    : Incidence(new TodoPrivate(this))
+    : Incidence(new TodoPrivate())
 {
 }
 
 Todo::Todo(const Todo &other)
-    : Incidence(other, new TodoPrivate(*(other.d_func()), this))
+    : Incidence(other, new TodoPrivate(*(other.d_func())))
 {
 }
 
 Todo::Todo(const Incidence &other)
-    : Incidence(other, new TodoPrivate(other, this))
+    : Incidence(other, new TodoPrivate(other))
 {
 }
 
