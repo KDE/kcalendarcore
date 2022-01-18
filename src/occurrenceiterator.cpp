@@ -131,10 +131,6 @@ public:
                     if (recurrenceIds.contains(recurrenceId)) {
                         // TODO: exclude exceptions where the start/end is not within
                         // (so the occurrence of the recurrence is omitted, but no exception is added)
-                        if (recurrenceIds.value(recurrenceId)->status() == Incidence::StatusCanceled) {
-                            continue;
-                        }
-
                         incidence = recurrenceIds.value(recurrenceId);
                         occurrenceStartDate = incidence->dtStart();
                         resetIncidence = !incidence->thisAndFuture();
