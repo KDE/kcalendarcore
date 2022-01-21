@@ -132,14 +132,12 @@ void IncidenceTest::testGeo()
     inc.setGeoLongitude(180.0);
 #if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 89)
     inc.setHasGeo(false);
-#endif
     QCOMPARE(inc.geoLatitude(), INVALID_LATLON);
     QCOMPARE(inc.geoLongitude(), INVALID_LATLON);
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 89)
     inc.setHasGeo(true);
-#endif
     inc.setGeoLatitude(90.0);
     inc.setGeoLongitude(180.0);
+#endif
     inc.setGeoLatitude(INVALID_LATLON);
     QCOMPARE(inc.hasGeo(), false);
     QCOMPARE(inc.geoLatitude(), INVALID_LATLON);
