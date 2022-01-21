@@ -136,7 +136,7 @@ void KCalendarCore::deserializeSpecAsQTimeZone(QDataStream &in, QTimeZone &tz)
 
 void KCalendarCore::serializeQDateTimeList(QDataStream &out, const QList<QDateTime> &list)
 {
-    out << list.size();
+    out << (qint32)list.size();
     for (const auto &i : list) {
         serializeQDateTimeAsKDateTime(out, i);
     }

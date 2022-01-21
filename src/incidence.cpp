@@ -1202,8 +1202,8 @@ void Incidence::serialize(QDataStream &out) const
         << d->mResources << d->mStatusString << d->mPriority << d->mSchedulingID << d->mGeoLatitude << d->mGeoLongitude
         << hasGeo();    // No longer used, but serialized/deserialized for compatibility.
     serializeQDateTimeAsKDateTime(out, d->mRecurrenceId);
-    out << d->mThisAndFuture << d->mLocalOnly << d->mStatus << d->mSecrecy << (d->mRecurrence ? true : false) << d->mAttachments.count() << d->mAlarms.count()
-        << d->mConferences.count() << d->mRelatedToUid;
+    out << d->mThisAndFuture << d->mLocalOnly << d->mStatus << d->mSecrecy << (d->mRecurrence ? true : false) << (qint32)d->mAttachments.count()
+        << (qint32)d->mAlarms.count() << (qint32)d->mConferences.count() << d->mRelatedToUid;
 
     if (d->mRecurrence) {
         out << d->mRecurrence;

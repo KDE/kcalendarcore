@@ -628,7 +628,7 @@ QDataStream &KCalendarCore::operator<<(QDataStream &out, const KCalendarCore::In
     serializeQDateTimeAsKDateTime(out, i->d_ptr->mLastModified);
     serializeQDateTimeAsKDateTime(out, i->d_ptr->mDtStart);
     out << i->organizer() << i->d_ptr->mUid << i->d_ptr->mDuration << i->d_ptr->mAllDay << i->d_ptr->mHasDuration << i->d_ptr->mComments << i->d_ptr->mContacts
-        << i->d_ptr->mAttendees.count() << i->d_ptr->mUrl;
+        << (qint32)i->d_ptr->mAttendees.count() << i->d_ptr->mUrl;
 
     for (const Attendee &attendee : qAsConst(i->d_ptr->mAttendees)) {
         out << attendee;

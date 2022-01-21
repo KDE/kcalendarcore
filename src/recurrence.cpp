@@ -1515,14 +1515,14 @@ KCALENDARCORE_EXPORT QDataStream &KCalendarCore::operator<<(QDataStream &out, KC
     }
 
     serializeQDateTimeList(out, r->d->mRDateTimes);
-    out << r->d->mRDateTimePeriods.size();
+    out << (qint32)r->d->mRDateTimePeriods.size();
     for (auto it = r->d->mRDateTimePeriods.cbegin(); it != r->d->mRDateTimePeriods.cend(); ++it) {
         out << it.key() << it.value();
     }
     serializeQDateTimeList(out, r->d->mExDateTimes);
     out << r->d->mRDates;
     serializeQDateTimeAsKDateTime(out, r->d->mStartDateTime);
-    out << r->d->mCachedType << r->d->mAllDay << r->d->mRecurReadOnly << r->d->mExDates << r->d->mExRules.count() << r->d->mRRules.count();
+    out << r->d->mCachedType << r->d->mAllDay << r->d->mRecurReadOnly << r->d->mExDates << (qint32)r->d->mExRules.count() << (qint32)r->d->mRRules.count();
 
     for (RecurrenceRule *rule : qAsConst(r->d->mExRules)) {
         out << rule;
