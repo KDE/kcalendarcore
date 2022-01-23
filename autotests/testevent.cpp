@@ -17,6 +17,13 @@ Q_DECLARE_METATYPE(KCalendarCore::Incidence::DateTimeRole)
 
 using namespace KCalendarCore;
 
+const auto LOCAL_TZ = "Europe/Paris";
+
+void EventTest::initTestCase()
+{
+    qputenv("TZ", LOCAL_TZ);
+}
+
 void EventTest::testSetRoles_data()
 {
     QTest::addColumn<QDateTime>("originalDtStart");
@@ -252,14 +259,14 @@ void EventTest::testDtStartChange()
 {
     QDate dt = QDate::currentDate();
     Event event1;
-    event1.setDtStart(QDateTime(dt, QTime(1, 0, 0), QTimeZone("Europe/Paris")));
+    event1.setDtStart(QDateTime(dt, QTime(1, 0, 0), QTimeZone(LOCAL_TZ)));
     event1.resetDirtyFields();
 
     event1.setDtStart(QDateTime(dt, QTime(1, 0, 0)));
     QCOMPARE(event1.dirtyFields(), QSet<IncidenceBase::Field>{IncidenceBase::FieldDtStart});
     event1.resetDirtyFields();
 
-    event1.setDtStart(QDateTime(dt, QTime(1, 0, 0), QTimeZone("Europe/Paris")));
+    event1.setDtStart(QDateTime(dt, QTime(1, 0, 0), QTimeZone(LOCAL_TZ)));
     QCOMPARE(event1.dirtyFields(), QSet<IncidenceBase::Field>{IncidenceBase::FieldDtStart});
     event1.resetDirtyFields();
 }
@@ -287,7 +294,7 @@ void EventTest::testDtEndChange()
     QCOMPARE(event1.dirtyFields(), QSet<IncidenceBase::Field>{IncidenceBase::FieldDtEnd});
     event1.resetDirtyFields();
 
-    event1.setDtEnd(QDateTime(dt, QTime(1, 0, 0), QTimeZone("Europe/Paris")));
+    event1.setDtEnd(QDateTime(dt, QTime(1, 0, 0), QTimeZone(LOCAL_TZ)));
     QCOMPARE(event1.dirtyFields(), QSet<IncidenceBase::Field>{IncidenceBase::FieldDtEnd});
     event1.resetDirtyFields();
 
