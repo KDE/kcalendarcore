@@ -91,7 +91,7 @@ public:
 
 void TodoPrivate::setDtDue(const QDateTime dd)
 {
-    if (dd != mDtDue) {
+    if (dd != mDtDue || dd.timeSpec() != mDtDue.timeSpec()) {
         mDtDue = dd;
         mDirtyFields.insert(IncidenceBase::FieldDtDue);
     }
@@ -186,6 +186,7 @@ QByteArray Todo::typeStr() const
 {
     return QByteArrayLiteral("Todo");
 }
+
 void Todo::setDtDue(const QDateTime &dtDue, bool first)
 {
     startUpdates();

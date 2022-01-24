@@ -16,9 +16,11 @@ QTEST_MAIN(TodoTest)
 
 using namespace KCalendarCore;
 
+const auto LOCAL_TZ = "UTC";
+
 void TodoTest::initTestCase()
 {
-    qputenv("TZ", "UTC");
+    qputenv("TZ", LOCAL_TZ);
 }
 
 void TodoTest::testValidity()
@@ -478,3 +480,36 @@ void TodoTest::testDtDueComparison()
     QVERIFY(!Todos::dueDateLessThan(never, never));
 }
 
+void TodoTest::testDtDueChange()
+{
+    const QDate date {QDate::currentDate()};
+    const QTime time {1, 0, 0};
+    Todo todo;
+    // Note:  QDateTime's default timespec Qt::LocalTime => "floating" time.
+    todo.setDtDue(QDateTime(date, time));
+
+    todo.resetDirtyFields();
+    todo.setDtDue(QDateTime(date, time));   // No change.
+    QVERIFY(todo.dirtyFields().empty());
+
+    todo.setDtDue(QDateTime(date, time).addDays(1));    // Normal change.
+    QCOMPARE(todo.dirtyFields(), QSet<IncidenceBase::Field>{IncidenceBase::FieldDtDue});
+
+    todo.resetDirtyFields();
+    todo.setDtDue(QDateTime());     // "Unset" dtDue.
+    QCOMPARE(todo.dirtyFields(), QSet<IncidenceBase::Field>{IncidenceBase::FieldDtDue});
+
+    todo.resetDirtyFields();
+    todo.setDtDue(QDateTime(date, time));   // Setting an unset due datetime.
+    QCOMPARE(todo.dirtyFields(), QSet<IncidenceBase::Field>{IncidenceBase::FieldDtDue});
+
+    // Change from a floating time to the same time in a fixed time zone.
+    todo.resetDirtyFields();
+    todo.setDtDue(QDateTime(date, time, QTimeZone(LOCAL_TZ)));
+    QCOMPARE(todo.dirtyFields(), QSet<IncidenceBase::Field>{IncidenceBase::FieldDtDue});
+
+    // Change from a time in a fixed time zone to a floating time.
+    todo.resetDirtyFields();
+    todo.setDtDue(QDateTime(date, time, Qt::LocalTime));
+    QCOMPARE(todo.dirtyFields(), QSet<IncidenceBase::Field>{IncidenceBase::FieldDtDue});
+}
