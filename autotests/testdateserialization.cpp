@@ -50,7 +50,7 @@ void TestDateSerialization::testNewRecurringTodo()
 // See bug 345565.
 void TestDateSerialization::testTodoCompletedOnce()
 {
-    QDateTime startDate = QDate::currentDate().startOfDay();
+    QDateTime startDate = QDate(2022, 1, 27).startOfDay();
     QDateTime dueDate{startDate.addDays(1)};
 
     Todo::Ptr todo(new Todo);
