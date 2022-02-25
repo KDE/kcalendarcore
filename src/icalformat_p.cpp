@@ -1199,7 +1199,7 @@ Event::Ptr ICalFormatImpl::readEvent(icalcomponent *vevent, const ICalTimeZoneCa
                 if (endDate < event->dtStart().date()) {
                     endDate = event->dtStart().date();
                 }
-                event->setDtEnd(QDateTime(endDate, {}, event->dtStart().timeZone()));
+                event->setDtEnd(QDateTime(endDate, {}, Qt::LocalTime));
                 event->setAllDay(true);
             } else {
                 event->setDtEnd(kdt);
