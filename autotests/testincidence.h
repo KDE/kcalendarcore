@@ -15,7 +15,10 @@ class IncidenceTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
+    void initTestCase();
+
     void testDtStartChange();
+    void testDtStartEqual();
     void testSummaryChange();
     void testLocationChange();
     void testGeo();

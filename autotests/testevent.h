@@ -21,6 +21,7 @@ private Q_SLOTS:
     void testSetRoles();
     void testValidity();
     void testCompare();
+    void testDtEndEqual();
     void testCompareAlarms();
     void testClone();
     void testCopyConstructor();

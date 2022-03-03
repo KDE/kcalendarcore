@@ -164,7 +164,7 @@ bool IncidenceBase::equals(const IncidenceBase &other) const
     // of much use. We are not comparing for identity, after all.
     // no need to compare mObserver
 
-    bool a = ((dtStart() == other.dtStart()) || (!dtStart().isValid() && !other.dtStart().isValid()));
+    bool a = ((dtStart() == other.dtStart() && dtStart().timeSpec() == other.dtStart().timeSpec()) || (!dtStart().isValid() && !other.dtStart().isValid()));
     bool b = organizer() == other.organizer();
     bool c = uid() == other.uid();
     bool d = allDay() == other.allDay();

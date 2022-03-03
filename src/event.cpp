@@ -94,7 +94,8 @@ bool Event::equals(const IncidenceBase &event) const
     } else {
         // If they weren't the same type IncidenceBase::equals would had returned false already
         const Event *e = static_cast<const Event *>(&event);
-        return ((dtEnd() == e->dtEnd()) || (!dtEnd().isValid() && !e->dtEnd().isValid())) && transparency() == e->transparency();
+        return ((dtEnd() == e->dtEnd() && dtEnd().timeSpec() == e->dtEnd().timeSpec()) || (!dtEnd().isValid() && !e->dtEnd().isValid()))
+            && transparency() == e->transparency();
     }
 }
 

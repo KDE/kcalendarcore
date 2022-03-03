@@ -141,7 +141,6 @@ void ICalFormatTest::testCharsets()
 
     Event::Ptr loadedEvent = calendar2->incidences().at(0).staticCast<Event>();
     QVERIFY(loadedEvent->summary().toUtf8() == QByteArray(QString(utf_umlaut).toLatin1().constData()));
-    QVERIFY(loadedEvent->dtEnd().timeSpec() == event->dtEnd().timeSpec());
     QVERIFY(*loadedEvent == *event);
 
     // Test fromRawString()

@@ -16,11 +16,11 @@ QTEST_MAIN(TodoTest)
 
 using namespace KCalendarCore;
 
-const auto LOCAL_TZ = "UTC";
+const auto TEST_TZ = "UTC";
 
 void TodoTest::initTestCase()
 {
-    qputenv("TZ", LOCAL_TZ);
+    qputenv("TZ", TEST_TZ);
 }
 
 void TodoTest::testValidity()
@@ -62,6 +62,26 @@ void TodoTest::testCompare()
     QCOMPARE(todo1.dtDue(), todo2.dtStart());
     QCOMPARE(todo2.summary(), QStringLiteral("To-do2 Summary"));
     QVERIFY(!(todo1.isCompleted() == todo2.isCompleted()));
+}
+
+void TodoTest::testDtDueEqual()
+{
+    QDateTime dt {QDate::currentDate(), QTime::currentTime(), QTimeZone(TEST_TZ)};
+    QVERIFY(dt.timeSpec() == Qt::TimeZone);
+
+    Todo t1;
+    t1.setDtDue(dt);
+    auto t2 = t1.clone();
+    QVERIFY(t1 == *t2);
+
+    // Create a "floating" datetime, which represents the same instant in real time
+    // because we're still running in the test's time zone.
+    dt.setTimeSpec(Qt::LocalTime);
+
+    t1.setDtDue(dt);
+    QVERIFY(t1 != *t2);
+    t2->setDtDue(dt);
+    QVERIFY(t1 == *t2);
 }
 
 void TodoTest::testClone()
@@ -505,7 +525,7 @@ void TodoTest::testDtDueChange()
 
     // Change from a floating time to the same time in a fixed time zone.
     todo.resetDirtyFields();
-    todo.setDtDue(QDateTime(date, time, QTimeZone(LOCAL_TZ)));
+    todo.setDtDue(QDateTime(date, time, QTimeZone(TEST_TZ)));
     QCOMPARE(todo.dirtyFields(), QSet<IncidenceBase::Field>{IncidenceBase::FieldDtDue});
 
     // Change from a time in a fixed time zone to a floating time.

@@ -171,7 +171,8 @@ bool Todo::equals(const IncidenceBase &todo) const
     } else {
         // If they weren't the same type IncidenceBase::equals would had returned false already
         const Todo *t = static_cast<const Todo *>(&todo);
-        return ((dtDue() == t->dtDue()) || (!dtDue().isValid() && !t->dtDue().isValid())) && hasDueDate() == t->hasDueDate()
+        return ((dtDue() == t->dtDue() && dtDue().timeSpec() == t->dtDue().timeSpec()) || (!dtDue().isValid() && !t->dtDue().isValid()))
+            && hasDueDate() == t->hasDueDate()
             && hasStartDate() == t->hasStartDate() && ((completed() == t->completed()) || (!completed().isValid() && !t->completed().isValid()))
             && hasCompletedDate() == t->hasCompletedDate() && percentComplete() == t->percentComplete();
     }
