@@ -779,6 +779,18 @@ private:
 };
 
 /**
+ * Compare two QDateTimes for extended equality.
+ *
+ * QDateTime::operator==() in Qt 5.12 returns true if its operands represent
+ * the same instant in time, regardless of their time zones or TimeSpecs (and
+ * contrary to the documentation).  This function returns true if and only if
+ * their times, time zones, and TimeSpecs are equal, or both are invalid().
+ *
+ * @since 5.92
+ */
+KCALENDARCORE_EXPORT bool identical(QDateTime, QDateTime);
+
+/**
  * Incidence serializer.
  *
  * @since 4.12

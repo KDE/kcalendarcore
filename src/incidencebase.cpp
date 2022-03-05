@@ -164,7 +164,7 @@ bool IncidenceBase::equals(const IncidenceBase &other) const
     // of much use. We are not comparing for identity, after all.
     // no need to compare mObserver
 
-    bool a = ((dtStart() == other.dtStart() && dtStart().timeSpec() == other.dtStart().timeSpec()) || (!dtStart().isValid() && !other.dtStart().isValid()));
+    bool a = identical(dtStart(), other.dtStart());
     bool b = organizer() == other.organizer();
     bool c = uid() == other.uid();
     bool d = allDay() == other.allDay();
@@ -267,7 +267,7 @@ void IncidenceBase::setDtStart(const QDateTime &dtStart)
         qCWarning(KCALCORE_LOG) << "Invalid dtStart";
     }
 
-    if (d_ptr->mDtStart != dtStart || d_ptr->mDtStart.timeSpec() != dtStart.timeSpec()) {
+    if (!identical(d_ptr->mDtStart, dtStart)) {
         update();
         d_ptr->mDtStart = dtStart;
         d_ptr->mDirtyFields.insert(FieldDtStart);
@@ -612,6 +612,11 @@ void IncidenceBase::deserialize(QDataStream &in)
 quint32 IncidenceBase::magicSerializationIdentifier()
 {
     return KCALCORE_MAGIC_NUMBER;
+}
+
+bool KCalendarCore::identical(QDateTime dt1, QDateTime dt2)
+{
+    return dt1 == dt2 && dt1.timeSpec() == dt2.timeSpec() && dt1.timeZone() == dt2.timeZone();
 }
 
 QDataStream &KCalendarCore::operator<<(QDataStream &out, const KCalendarCore::IncidenceBase::Ptr &i)

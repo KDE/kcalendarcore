@@ -17,6 +17,7 @@
   @author Cornelius Schumacher \<schumacher@kde.org\>
 */
 
+#include "incidencebase.h"
 #include "period.h"
 #include "utils_p.h"
 
@@ -81,8 +82,8 @@ bool Period::operator<(const Period &other) const
 
 bool Period::operator==(const Period &other) const
 {
-    return ((d->mStart == other.d->mStart) || (!d->mStart.isValid() && !other.d->mStart.isValid()))
-        && ((d->mEnd == other.d->mEnd) || (!d->mEnd.isValid() && !other.d->mEnd.isValid())) && d->mHasDuration == other.d->mHasDuration;
+    return identical(d->mStart, other.d->mStart) && identical(d->mEnd, other.d->mEnd)
+        && d->mHasDuration == other.d->mHasDuration;
 }
 
 Period &Period::operator=(const Period &other)

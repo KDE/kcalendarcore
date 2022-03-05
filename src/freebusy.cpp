@@ -325,7 +325,7 @@ bool FreeBusy::equals(const IncidenceBase &freeBusy) const
         Q_D(const FreeBusy);
         // If they weren't the same type IncidenceBase::equals would had returned false already
         const FreeBusy *fb = static_cast<const FreeBusy *>(&freeBusy);
-        return dtEnd() == fb->dtEnd() && d->mBusyPeriods == fb->d_func()->mBusyPeriods;
+        return identical(dtEnd(), fb->dtEnd()) && d->mBusyPeriods == fb->d_func()->mBusyPeriods;
     }
 }
 

@@ -8,6 +8,8 @@
 
   SPDX-License-Identifier: LGPL-2.0-or-later
 */
+
+#include "incidencebase.h"
 #include "recurrence.h"
 #include "recurrencehelper_p.h"
 #include "utils_p.h"
@@ -68,7 +70,7 @@ public:
 bool Recurrence::Private::operator==(const Recurrence::Private &p) const
 {
     //   qCDebug(KCALCORE_LOG) << mStartDateTime << p.mStartDateTime;
-    if ((mStartDateTime != p.mStartDateTime && (mStartDateTime.isValid() || p.mStartDateTime.isValid())) || mAllDay != p.mAllDay
+    if (!identical(mStartDateTime, p.mStartDateTime) || mAllDay != p.mAllDay
         || mRecurReadOnly != p.mRecurReadOnly || mExDates != p.mExDates || mExDateTimes != p.mExDateTimes || mRDates != p.mRDates
         || mRDateTimes != p.mRDateTimes || mRDateTimePeriods != p.mRDateTimePeriods) {
         return false;
@@ -475,7 +477,7 @@ void Recurrence::setEndDateTime(const QDateTime &dateTime)
         return;
     }
 
-    if (dateTime != rrule->endDt()) {
+    if (!identical(dateTime, rrule->endDt())) {
         rrule->setEndDt(dateTime);
         updated();
     }

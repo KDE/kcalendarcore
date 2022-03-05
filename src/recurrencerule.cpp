@@ -6,6 +6,8 @@
 
   SPDX-License-Identifier: LGPL-2.0-or-later
 */
+
+#include "incidencebase.h"
 #include "recurrencerule.h"
 #include "kcalendarcore_debug.h"
 #include "recurrencehelper_p.h"
@@ -813,8 +815,8 @@ RecurrenceRule::Private &RecurrenceRule::Private::operator=(const Private &p)
 
 bool RecurrenceRule::Private::operator==(const Private &r) const
 {
-    return mPeriod == r.mPeriod && ((mDateStart == r.mDateStart) || (!mDateStart.isValid() && !r.mDateStart.isValid())) && mDuration == r.mDuration
-        && ((mDateEnd == r.mDateEnd) || (!mDateEnd.isValid() && !r.mDateEnd.isValid())) && mFrequency == r.mFrequency && mIsReadOnly == r.mIsReadOnly
+    return mPeriod == r.mPeriod && identical(mDateStart, r.mDateStart) && mDuration == r.mDuration
+        && identical(mDateEnd, r.mDateEnd) && mFrequency == r.mFrequency && mIsReadOnly == r.mIsReadOnly
         && mAllDay == r.mAllDay && mBySeconds == r.mBySeconds && mByMinutes == r.mByMinutes && mByHours == r.mByHours && mByDays == r.mByDays
         && mByMonthDays == r.mByMonthDays && mByYearDays == r.mByYearDays && mByWeekNumbers == r.mByWeekNumbers && mByMonths == r.mByMonths
         && mBySetPos == r.mBySetPos && mWeekStart == r.mWeekStart && mNoByRules == r.mNoByRules;

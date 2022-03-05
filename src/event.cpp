@@ -94,8 +94,7 @@ bool Event::equals(const IncidenceBase &event) const
     } else {
         // If they weren't the same type IncidenceBase::equals would had returned false already
         const Event *e = static_cast<const Event *>(&event);
-        return ((dtEnd() == e->dtEnd() && dtEnd().timeSpec() == e->dtEnd().timeSpec()) || (!dtEnd().isValid() && !e->dtEnd().isValid()))
-            && transparency() == e->transparency();
+        return identical(dtEnd(), e->dtEnd()) && transparency() == e->transparency();
     }
 }
 
@@ -123,7 +122,7 @@ void Event::setDtEnd(const QDateTime &dtEnd)
     }
 
     Q_D(Event);
-    if (d->mDtEnd != dtEnd || d->mDtEnd.timeSpec() != dtEnd.timeSpec() || hasDuration() == dtEnd.isValid()) {
+    if (!identical(d->mDtEnd, dtEnd) || hasDuration() == dtEnd.isValid()) {
         update();
         d->mDtEnd = dtEnd;
         d->mMultiDayValid = false;

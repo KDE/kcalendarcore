@@ -30,6 +30,7 @@ macro_unit_tests(
   testfreebusy
   testincidencerelation
   testicalformat
+  testidentical
   testjournal
   testmemorycalendar
   testperiod
