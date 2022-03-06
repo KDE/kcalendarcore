@@ -14,6 +14,7 @@ class TestDateSerialization : public QObject
 private Q_SLOTS:
     void testNewRecurringTodo();
     void testTodoCompletedOnce();
+    void testUTCOffset();
 };
 
 #endif // TESTDATESERIALIZATION_H
