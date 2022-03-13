@@ -786,7 +786,7 @@ private:
  * contrary to the documentation).  This function returns true if and only if
  * their times, time zones, and TimeSpecs are equal, or both are invalid().
  *
- * @since 5.92
+ * @since 5.93
  */
 KCALENDARCORE_EXPORT bool identical(QDateTime, QDateTime);
 
