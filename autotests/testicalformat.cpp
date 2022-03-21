@@ -350,3 +350,42 @@ void ICalFormatTest::testDateTime()
     QVERIFY(event);
     QCOMPARE(dtStart, event->dtStart());
 }
+
+void ICalFormatTest::testNotebook()
+{
+    Event::Ptr event(new Event);
+    event->setDtStart(QDateTime(QDate(2022, 3, 21), QTime(8, 49), Qt::UTC));
+    Todo::Ptr todo(new Todo);
+    todo->setDtStart(QDateTime(QDate(2022, 3, 21), QTime(8, 49), Qt::UTC));
+    Journal::Ptr journal(new Journal);
+    journal->setDtStart(QDateTime(QDate(2022, 3, 21), QTime(8, 49), Qt::UTC));
+    MemoryCalendar::Ptr calendar(new MemoryCalendar(QTimeZone::utc()));
+    QVERIFY(calendar->addEvent(event));
+    QVERIFY(calendar->addTodo(todo));
+    QVERIFY(calendar->addJournal(journal));
+
+    ICalFormat format;
+    const QString data = format.toString(calendar, QString());
+    QVERIFY(!format.exception());
+
+    calendar->close();
+    QVERIFY(!calendar->event(event->uid(), event->recurrenceId()));
+    QVERIFY(!calendar->todo(todo->uid(), todo->recurrenceId()));
+    QVERIFY(!calendar->journal(journal->uid(), journal->recurrenceId()));
+
+    const QString notebook(QString::fromLatin1("my-imported-notebook"));
+    QVERIFY(calendar->addNotebook(notebook, true));
+    QVERIFY(format.fromString(calendar, data, false, notebook));
+
+    Event::Ptr reloadedEvent = calendar->event(event->uid(), event->recurrenceId());
+    QVERIFY(reloadedEvent);
+    Todo::Ptr reloadedTodo = calendar->todo(todo->uid(), todo->recurrenceId());
+    QVERIFY(reloadedTodo);
+    Journal::Ptr reloadedJournal = calendar->journal(journal->uid(), journal->recurrenceId());
+    QVERIFY(reloadedJournal);
+
+    QCOMPARE(calendar->incidences(notebook).length(), 3);
+    QCOMPARE(calendar->notebook(reloadedEvent), notebook);
+    QCOMPARE(calendar->notebook(reloadedTodo), notebook);
+    QCOMPARE(calendar->notebook(reloadedJournal), notebook);
+}

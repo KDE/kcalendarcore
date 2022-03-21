@@ -66,7 +66,9 @@ public:
     virtual bool save(const Calendar::Ptr &calendar, const QString &fileName) = 0;
 
     /**
-      Loads a calendar from a string
+      Loads a calendar from a string. When a notebook is given, incidences are added to this
+      notebook, otherwise no notebook is associated to loaded incidences. The notebook
+      should already be added to the calendar, see Calendar::addNotebook().
 
       @param calendar is the Calendar to be loaded.
       @param string is the QString containing the Calendar data.

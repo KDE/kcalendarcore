@@ -81,6 +81,9 @@ bool ICalFormat::load(const Calendar::Ptr &calendar, const QString &fileName)
     file.close();
 
     if (!text.isEmpty()) {
+        if (!calendar->hasValidNotebook(fileName) && !calendar->addNotebook(fileName, true)) {
+            qCWarning(KCALCORE_LOG) << "Unable to add" << fileName << "as a notebook in calendar";
+        }
         if (!fromRawString(calendar, text, false, fileName)) {
             qCWarning(KCALCORE_LOG) << fileName << " is not a valid iCalendar file";
             setException(new Exception(Exception::ParseErrorIcal));
@@ -180,7 +183,6 @@ Incidence::Ptr ICalFormat::readIncidence(const QByteArray &string)
 
 bool ICalFormat::fromRawString(const Calendar::Ptr &cal, const QByteArray &string, bool deleted, const QString &notebook)
 {
-    Q_UNUSED(notebook);
     // Get first VCALENDAR component.
     // TODO: Handle more than one VCALENDAR or non-VCALENDAR top components
     icalcomponent *calendar;
@@ -216,7 +218,7 @@ bool ICalFormat::fromRawString(const Calendar::Ptr &cal, const QByteArray &strin
         success = false;
     } else {
         // put all objects into their proper places
-        if (!d->mImpl->populate(cal, calendar, deleted)) {
+        if (!d->mImpl->populate(cal, calendar, deleted, notebook)) {
             qCDebug(KCALCORE_LOG) << "Could not populate calendar";
             if (!exception()) {
                 setException(new Exception(Exception::ParseErrorKcal));

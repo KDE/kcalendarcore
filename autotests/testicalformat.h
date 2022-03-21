@@ -26,6 +26,7 @@ private Q_SLOTS:
     void testRDate();
     void testDateTime_data();
     void testDateTime();
+    void testNotebook();
 };
 
 #endif

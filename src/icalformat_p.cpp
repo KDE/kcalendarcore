@@ -2663,8 +2663,6 @@ Incidence::Ptr ICalFormatImpl::readOneIncidence(icalcomponent *calendar, const I
 // that is used internally in the ICalFormatImpl.
 bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar, bool deleted, const QString &notebook)
 {
-    Q_UNUSED(notebook);
-
     // qCDebug(KCALCORE_LOG)<<"Populate called";
 
     // this function will populate the caldict dictionary and other event
@@ -2780,6 +2778,9 @@ bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar,
                 // qCDebug(KCALCORE_LOG) << "Adding todo " << todo.data() << todo->uid();
                 cal->addTodo(todo); // just add this one
             }
+            if (!notebook.isEmpty() && cal->todo(todo->uid(), todo->recurrenceId())) {
+                cal->setNotebook(todo, notebook);
+            }
         }
         c = icalcomponent_get_next_component(calendar, ICAL_VTODO_COMPONENT);
     }
@@ -2820,6 +2821,9 @@ bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar,
                 // qCDebug(KCALCORE_LOG) << "Adding event " << event.data() << event->uid();
                 cal->addEvent(event); // just add this one
             }
+            if (!notebook.isEmpty() && cal->event(event->uid(), event->recurrenceId())) {
+                cal->setNotebook(event, notebook);
+            }
         }
         c = icalcomponent_get_next_component(calendar, ICAL_VEVENT_COMPONENT);
     }
@@ -2845,6 +2849,9 @@ bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar,
                 }
             } else {
                 cal->addJournal(journal); // just add this one
+            }
+            if (!notebook.isEmpty() && cal->journal(journal->uid(), journal->recurrenceId())) {
+                cal->setNotebook(journal, notebook);
             }
         }
         c = icalcomponent_get_next_component(calendar, ICAL_VJOURNAL_COMPONENT);

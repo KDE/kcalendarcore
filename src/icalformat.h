@@ -68,8 +68,6 @@ public:
     /**
       @copydoc
       CalFormat::fromString()
-
-      @note The notebook is ignored and the default one is used
     */
     bool fromString(const Calendar::Ptr &calendar, const QString &string, bool deleted = false, const QString &notebook = QString()) override;
 
