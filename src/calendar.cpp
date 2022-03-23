@@ -433,7 +433,7 @@ bool Calendar::setNotebook(const Incidence::Ptr &inc, const QString &notebook)
                 d->mNotebookIncidences.insert(notebook, incidence);
             }
             notifyIncidenceChanged(inc); // for removing from old notebook
-            // don not remove from mUidToNotebook to keep deleted incidences
+            // do not remove from mUidToNotebook to keep deleted incidences
             d->mNotebookIncidences.remove(old, inc);
         }
     }
@@ -442,6 +442,10 @@ bool Calendar::setNotebook(const Incidence::Ptr &inc, const QString &notebook)
         d->mNotebookIncidences.insert(notebook, inc);
         qCDebug(KCALCORE_LOG) << "setting notebook" << notebook << "for" << inc->uid();
         notifyIncidenceChanged(inc); // for inserting into new notebook
+        const Incidence::List list = instances(inc);
+        for (const auto &incidence : list) {
+            notifyIncidenceChanged(incidence);
+        }
     }
 
     return true;
