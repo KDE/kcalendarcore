@@ -81,6 +81,11 @@ VCalFormat::~VCalFormat()
     delete d;
 }
 
+static void mimeErrorHandler(char *e)
+{
+    qCWarning(KCALCORE_LOG) << "Error parsing vCalendar file:" << e;
+}
+
 bool VCalFormat::load(const Calendar::Ptr &calendar, const QString &fileName)
 {
     d->mCalendar = calendar;
@@ -89,7 +94,9 @@ bool VCalFormat::load(const Calendar::Ptr &calendar, const QString &fileName)
 
     // this is not necessarily only 1 vcal.  Could be many vcals, or include
     // a vcard...
+    registerMimeErrorHandler(&mimeErrorHandler);
     VObject *vcal = Parse_MIME_FromFileName(const_cast<char *>(QFile::encodeName(fileName).data()));
+    registerMimeErrorHandler(nullptr);
 
     if (!vcal) {
         setException(new Exception(Exception::CalVersionUnknown));
