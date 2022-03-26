@@ -94,7 +94,7 @@ bool VCalFormat::load(const Calendar::Ptr &calendar, const QString &fileName)
 
     // this is not necessarily only 1 vcal.  Could be many vcals, or include
     // a vcard...
-    registerMimeErrorHandler(&mimeErrorHandler);
+    registerMimeErrorHandler(&mimeErrorHandler);    // Note: vCalendar error handler provided by libical.
     VObject *vcal = Parse_MIME_FromFileName(const_cast<char *>(QFile::encodeName(fileName).data()));
     registerMimeErrorHandler(nullptr);
 
