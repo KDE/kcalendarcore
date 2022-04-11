@@ -389,3 +389,117 @@ void ICalFormatTest::testNotebook()
     QCOMPARE(calendar->notebook(reloadedTodo), notebook);
     QCOMPARE(calendar->notebook(reloadedJournal), notebook);
 }
+
+/**
+ * If an instance does not have a UID, one will be created for it.
+ */
+void ICalFormatTest::testUidGeneration()
+{
+    const QString serializedCalendar = QLatin1String(
+        "BEGIN:VCALENDAR\n"
+        "VERSION:2.0\n"
+        "BEGIN:VEVENT\n"
+        "DTSTAMP:20201103T161340Z\n"
+        "SUMMARY:test\n"
+        "END:VEVENT\n"
+        "END:VCALENDAR");
+    auto calendar = MemoryCalendar::Ptr(new MemoryCalendar(QTimeZone::utc()));
+    ICalFormat format;
+    QVERIFY(format.fromString(calendar, serializedCalendar));
+    const auto events = calendar->events();
+    QCOMPARE(events.count(), 1);
+    const auto event = events[0];
+    QVERIFY( ! event->uid().isEmpty());
+}
+
+/**
+ * Generated UIDs do not depend on the order of properties.
+ */
+void ICalFormatTest::testUidGenerationStability()
+{
+    ICalFormat format;
+
+    const QString serializedCalendar1 = QLatin1String(
+        "BEGIN:VCALENDAR\n"
+        "VERSION:2.0\n"
+        "BEGIN:VEVENT\n"
+        "DTSTAMP:20201103T161340Z\n"
+        "SUMMARY:test\n"
+        "END:VEVENT\n"
+        "END:VCALENDAR");
+    auto calendar1 = MemoryCalendar::Ptr(new MemoryCalendar(QTimeZone::utc()));
+    QVERIFY(format.fromString(calendar1, serializedCalendar1));
+    const auto events1 = calendar1->events();
+    QCOMPARE(events1.count(), 1);
+
+    const QString serializedCalendar2 = QLatin1String(
+        "BEGIN:VCALENDAR\n"
+        "VERSION:2.0\n"
+        "BEGIN:VEVENT\n"
+        "SUMMARY:test\n"
+        "DTSTAMP:20201103T161340Z\n"    // Reordered.
+        "END:VEVENT\n"
+        "END:VCALENDAR");
+    auto calendar2 = MemoryCalendar::Ptr(new MemoryCalendar(QTimeZone::utc()));
+    QVERIFY(format.fromString(calendar2, serializedCalendar2));
+    const auto events2 = calendar2->events();
+    QCOMPARE(events2.count(), 1);
+
+    const auto event1 = events1[0];
+    const auto event2 = events2[0];
+    QCOMPARE(event1->uid(), event2->uid());
+}
+
+/**
+ * Generated UIDs depend on property names and values.
+ */
+void ICalFormatTest::testUidGenerationUniqueness()
+{
+    ICalFormat format;
+
+    const QString serializedCalendar1 = QLatin1String(
+        "BEGIN:VCALENDAR\n"
+        "VERSION:2.0\n"
+        "BEGIN:VEVENT\n"
+        "DTSTAMP:20201103T161340Z\n"
+        "SUMMARY:test\n"
+        "END:VEVENT\n"
+        "END:VCALENDAR");
+    auto calendar1 = MemoryCalendar::Ptr(new MemoryCalendar(QTimeZone::utc()));
+    QVERIFY(format.fromString(calendar1, serializedCalendar1));
+    const auto events1 = calendar1->events();
+    QCOMPARE(events1.count(), 1);
+
+    const QString serializedCalendar2 = QLatin1String(
+        "BEGIN:VCALENDAR\n"
+        "VERSION:2.0\n"
+        "BEGIN:VEVENT\n"
+        "DTSTART:20201103T161340Z\n"    // Property name change.
+        "SUMMARY:test\n"
+        "END:VEVENT\n"
+        "END:VCALENDAR");
+    auto calendar2 = MemoryCalendar::Ptr(new MemoryCalendar(QTimeZone::utc()));
+    QVERIFY(format.fromString(calendar2, serializedCalendar2));
+    const auto events2 = calendar2->events();
+    QCOMPARE(events2.count(), 1);
+
+    const QString serializedCalendar3 = QLatin1String(
+        "BEGIN:VCALENDAR\n"
+        "VERSION:2.0\n"
+        "BEGIN:VEVENT\n"
+        "DTSTAMP:20201103T161341Z\n"    // Property value changed.
+        "SUMMARY:test\n"
+        "END:VEVENT\n"
+        "END:VCALENDAR");
+    auto calendar3 = MemoryCalendar::Ptr(new MemoryCalendar(QTimeZone::utc()));
+    QVERIFY(format.fromString(calendar3, serializedCalendar3));
+    const auto events3 = calendar3->events();
+    QCOMPARE(events3.count(), 1);
+
+    const auto event1 = events1[0];
+    const auto event2 = events2[0];
+    const auto event3 = events3[0];
+    QVERIFY(event1->uid() != event2->uid());
+    QVERIFY(event1->uid() != event3->uid());
+    QVERIFY(event2->uid() != event3->uid());
+}

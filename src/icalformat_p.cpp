@@ -32,6 +32,7 @@
 #include "kcalendarcore_debug.h"
 
 #include <QFile>
+#include <QCryptographicHash>
 
 using namespace KCalendarCore;
 
@@ -1925,11 +1926,24 @@ void ICalFormatImpl::Private::readIncidenceBase(icalcomponent *parent, const Inc
                                 << "to the application that generated this file.";
 
         // Our in-memory incidence has a random uid generated in Event's ctor.
-        // Make it empty so it matches what's in the file:
-        incidenceBase->setUid(QString());
-
+        // Generate a deterministic UID from its properties.
         // Otherwise, next time we read the file, this function will return
         // an event with another random uid and we will have two events in the calendar.
+        std::vector<const char *> properties(icalcomponent_count_properties(parent, ICAL_ANY_PROPERTY));
+        icalproperty *p = icalcomponent_get_first_property(parent, ICAL_ANY_PROPERTY);
+        for (const char *&str : properties) {
+            str = icalproperty_as_ical_string(p);
+            p = icalcomponent_get_next_property(parent, ICAL_ANY_PROPERTY);
+        }
+        std::sort(properties.begin(), properties.end(),
+                [](const char *str1, const char *str2) {
+                    return strcmp(str1, str2) < 0;
+                });
+        QCryptographicHash hasher(QCryptographicHash::Md5);
+        for (const char *str : properties) {
+            hasher.addData(str);
+        }
+        incidenceBase->setUid(QString::fromLatin1(hasher.result().toHex()));
     }
 
     // custom properties
