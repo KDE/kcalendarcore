@@ -766,6 +766,7 @@ public:
     */
     virtual Event::List rawEvents(EventSortField sortField = EventSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const = 0;
 
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 95)
     /**
       Returns an unfiltered list of all Events which occur on the given
       timestamp.
@@ -774,8 +775,12 @@ public:
 
       @return the list of unfiltered Events occurring on the specified
       timestamp.
+
+      @deprecated since 5.95 use rawEventsForDate(dt.date(), dt.timeZone()) overload instead.
     */
+    KCALENDARCORE_DEPRECATED_VERSION(5, 95, "Use rawEventsForDate(dt.date(), dt.timeZone()) insead")
     virtual Event::List rawEventsForDate(const QDateTime &dt) const = 0;
+#endif
 
     /**
       Returns an unfiltered list of all Events occurring within a date range.

@@ -120,10 +120,12 @@ public:
                                                    EventSortField sortField = EventSortUnsorted,
                                                    SortDirection sortDirection = SortDirectionAscending) const override;
 
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 95)
     /**
       @copydoc Calendar::rawEventsForDate(const QDateTime &)const
     */
     Q_REQUIRED_RESULT Event::List rawEventsForDate(const QDateTime &dt) const override;
+#endif
 
     /**
      * Returns an incidence by identifier.

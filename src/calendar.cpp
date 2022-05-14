@@ -532,7 +532,7 @@ Event::List Calendar::events(const QDate &date, const QTimeZone &timeZone, Event
 
 Event::List Calendar::events(const QDateTime &dt) const
 {
-    Event::List el = rawEventsForDate(dt);
+    Event::List el = rawEventsForDate(dt.date(), dt.timeZone());
     d->mFilter->apply(&el);
     return el;
 }

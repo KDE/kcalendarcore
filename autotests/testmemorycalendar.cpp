@@ -518,7 +518,7 @@ void MemoryCalendarTest::testUpdateIncidence()
 
     // Adding event to cal, makes cal an observer of event.
     QVERIFY(cal->addIncidence(event));
-    QCOMPARE(cal->rawEventsForDate(dt).count(), 1);
+    QCOMPARE(cal->rawEventsForDate(dt.date(), dt.timeZone()).count(), 1);
 
     QVERIFY(cal->updateLastModifiedOnChange());
 
@@ -535,12 +535,12 @@ void MemoryCalendarTest::testUpdateIncidence()
     // Any modification within a startUpdates()/endUpdates() should not touch
     // lastModified field, before the changes are completed.
     event->startUpdates();
-    QVERIFY(cal->rawEventsForDate(dt).isEmpty());
+    QVERIFY(cal->rawEventsForDate(dt.date(), dt.timeZone()).isEmpty());
     event->setSummary(QString::fromLatin1("test again"));
     QCOMPARE(event->lastModified(), dt);
     event->endUpdates();
     QVERIFY(event->lastModified().secsTo(now) < 5);
-    QCOMPARE(cal->rawEventsForDate(dt).count(), 1);
+    QCOMPARE(cal->rawEventsForDate(dt.date(), dt.timeZone()).count(), 1);
 
     // Reset lastModified field.
     event->setLastModified(dt);
