@@ -503,3 +503,12 @@ void ICalFormatTest::testUidGenerationUniqueness()
     QVERIFY(event1->uid() != event3->uid());
     QVERIFY(event2->uid() != event3->uid());
 }
+
+void ICalFormatTest::testIcalFormat()
+{
+    ICalFormat format;
+    auto duration = format.durationFromString(QStringLiteral("PT2H"));
+    QVERIFY(!duration.isNull());
+    QCOMPARE(duration.asSeconds(), 7200);
+    QCOMPARE(format.toString(duration), QLatin1String("PT2H"));
+}

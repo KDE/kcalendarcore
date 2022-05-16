@@ -374,6 +374,14 @@ QString ICalFormat::toString(RecurrenceRule *recurrence)
     return text;
 }
 
+QString KCalendarCore::ICalFormat::toString(const KCalendarCore::Duration &duration) const
+{
+    const auto icalDuration = d->mImpl->writeICalDuration(duration);
+    // contrary to the libical API docs, the returned string is actually freed by icalmemory_free_ring,
+    // freeing it here explicitly causes a double deletion failure
+    return QString::fromUtf8(icaldurationtype_as_ical_string(icalDuration));
+}
+
 bool ICalFormat::fromString(RecurrenceRule *recurrence, const QString &rrule)
 {
     if (!recurrence) {
@@ -392,6 +400,17 @@ bool ICalFormat::fromString(RecurrenceRule *recurrence, const QString &rrule)
     }
 
     return success;
+}
+
+Duration ICalFormat::durationFromString(const QString &duration) const
+{
+    icalerror_clear_errno();
+    const auto icalDuration = icaldurationtype_from_string(duration.toUtf8().constData());
+    if (icalerrno != ICAL_NO_ERROR) {
+        qCDebug(KCALCORE_LOG) << "Duration parsing error:" << icalerror_strerror(icalerrno);
+        return {};
+    }
+    return d->mImpl->readICalDuration(icalDuration);
 }
 
 QString ICalFormat::createScheduleMessage(const IncidenceBase::Ptr &incidence, iTIPMethod method)

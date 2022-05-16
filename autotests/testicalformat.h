@@ -30,6 +30,7 @@ private Q_SLOTS:
     void testUidGeneration();
     void testUidGenerationStability();
     void testUidGenerationUniqueness();
+    void testIcalFormat();
 };
 
 #endif

@@ -104,6 +104,14 @@ public:
     Q_REQUIRED_RESULT bool fromString(RecurrenceRule *rule, const QString &string);
 
     /**
+      Parses a string representation of a duration.
+
+      @param duration iCal representation of a duration.
+      @since 5.95
+    */
+    Q_REQUIRED_RESULT Duration durationFromString(const QString &duration) const;
+
+    /**
       @copydoc
       CalFormat::fromRawString()
     */
@@ -143,6 +151,14 @@ public:
       @return the QString will be Null if the conversion was unsuccessful.
     */
     Q_REQUIRED_RESULT QString toString(RecurrenceRule *rule);
+
+    /**
+      Converts a Duration to an iCal string.
+      @param duration a Duration object.
+      @return iCal formatted duration
+      @since 5.95
+    */
+    Q_REQUIRED_RESULT QString toString(const Duration &duration) const;
 
     /**
       Converts an Incidence to iCalendar formatted text.
