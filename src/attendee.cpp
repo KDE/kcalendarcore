@@ -40,8 +40,8 @@ public:
     QString cuTypeStr() const;
 
     bool mRSVP = false;
-    Role mRole;
-    PartStat mStatus;
+    Role mRole = Attendee::ReqParticipant;
+    PartStat mStatus = Attendee::NeedsAction;
     mutable QString mUid;
     QString mDelegate;
     QString mDelegator;
@@ -51,7 +51,7 @@ public:
 
 private:
     QString sCuType;
-    CuType mCuType;
+    CuType mCuType = Attendee::Individual;
 };
 //@endcond
 
