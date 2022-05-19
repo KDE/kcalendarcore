@@ -479,48 +479,47 @@ Incidence::List Calendar::incidences(const QString &notebook) const
     }
 }
 
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 95)
 /** static */
 Event::List Calendar::sortEvents(const Event::List &eventList, EventSortField sortField, SortDirection sortDirection)
 {
-    if (eventList.isEmpty()) {
-        return Event::List();
-    }
+    Event::List eventListSorted(eventList);
+    return sortEvents(std::move(eventListSorted), sortField, sortDirection);
+}
+#endif
 
-    Event::List eventListSorted;
-
-    // Notice we alphabetically presort Summaries first.
-    // We do this so comparison "ties" stay in a nice order.
-    eventListSorted = eventList;
+Event::List Calendar::sortEvents(Event::List &&eventList, EventSortField sortField, SortDirection sortDirection)
+{
     switch (sortField) {
     case EventSortUnsorted:
         break;
 
     case EventSortStartDate:
         if (sortDirection == SortDirectionAscending) {
-            std::sort(eventListSorted.begin(), eventListSorted.end(), Events::startDateLessThan);
+            std::sort(eventList.begin(), eventList.end(), Events::startDateLessThan);
         } else {
-            std::sort(eventListSorted.begin(), eventListSorted.end(), Events::startDateMoreThan);
+            std::sort(eventList.begin(), eventList.end(), Events::startDateMoreThan);
         }
         break;
 
     case EventSortEndDate:
         if (sortDirection == SortDirectionAscending) {
-            std::sort(eventListSorted.begin(), eventListSorted.end(), Events::endDateLessThan);
+            std::sort(eventList.begin(), eventList.end(), Events::endDateLessThan);
         } else {
-            std::sort(eventListSorted.begin(), eventListSorted.end(), Events::endDateMoreThan);
+            std::sort(eventList.begin(), eventList.end(), Events::endDateMoreThan);
         }
         break;
 
     case EventSortSummary:
         if (sortDirection == SortDirectionAscending) {
-            std::sort(eventListSorted.begin(), eventListSorted.end(), Events::summaryLessThan);
+            std::sort(eventList.begin(), eventList.end(), Events::summaryLessThan);
         } else {
-            std::sort(eventListSorted.begin(), eventListSorted.end(), Events::summaryMoreThan);
+            std::sort(eventList.begin(), eventList.end(), Events::summaryMoreThan);
         }
         break;
     }
 
-    return eventListSorted;
+    return eventList;
 }
 
 Event::List Calendar::events(const QDate &date, const QTimeZone &timeZone, EventSortField sortField, SortDirection sortDirection) const
@@ -665,83 +664,80 @@ Incidence::Ptr Calendar::incidenceFromSchedulingID(const QString &uid) const
     return it != itEnd ? *it : Incidence::Ptr();
 }
 
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 95)
 /** static */
 Todo::List Calendar::sortTodos(const Todo::List &todoList, TodoSortField sortField, SortDirection sortDirection)
 {
-    if (todoList.isEmpty()) {
-        return Todo::List();
-    }
+    Todo::List todoListSorted(todoList);
+    return sortTodos(std::move(todoListSorted), sortField, sortDirection);
+}
+#endif
 
-    Todo::List todoListSorted;
-
-    // Notice we alphabetically presort Summaries first.
-    // We do this so comparison "ties" stay in a nice order.
-
+Todo::List Calendar::sortTodos(Todo::List &&todoList, TodoSortField sortField, SortDirection sortDirection)
+{
     // Note that To-dos may not have Start DateTimes nor due DateTimes.
-
-    todoListSorted = todoList;
     switch (sortField) {
     case TodoSortUnsorted:
         break;
 
     case TodoSortStartDate:
         if (sortDirection == SortDirectionAscending) {
-            std::sort(todoListSorted.begin(), todoListSorted.end(), Todos::startDateLessThan);
+            std::sort(todoList.begin(), todoList.end(), Todos::startDateLessThan);
         } else {
-            std::sort(todoListSorted.begin(), todoListSorted.end(), Todos::startDateMoreThan);
+            std::sort(todoList.begin(), todoList.end(), Todos::startDateMoreThan);
         }
         break;
 
     case TodoSortDueDate:
         if (sortDirection == SortDirectionAscending) {
-            std::sort(todoListSorted.begin(), todoListSorted.end(), Todos::dueDateLessThan);
+            std::sort(todoList.begin(), todoList.end(), Todos::dueDateLessThan);
         } else {
-            std::sort(todoListSorted.begin(), todoListSorted.end(), Todos::dueDateMoreThan);
+            std::sort(todoList.begin(), todoList.end(), Todos::dueDateMoreThan);
         }
         break;
 
     case TodoSortPriority:
         if (sortDirection == SortDirectionAscending) {
-            std::sort(todoListSorted.begin(), todoListSorted.end(), Todos::priorityLessThan);
+            std::sort(todoList.begin(), todoList.end(), Todos::priorityLessThan);
         } else {
-            std::sort(todoListSorted.begin(), todoListSorted.end(), Todos::priorityMoreThan);
+            std::sort(todoList.begin(), todoList.end(), Todos::priorityMoreThan);
         }
         break;
 
     case TodoSortPercentComplete:
         if (sortDirection == SortDirectionAscending) {
-            std::sort(todoListSorted.begin(), todoListSorted.end(), Todos::percentLessThan);
+            std::sort(todoList.begin(), todoList.end(), Todos::percentLessThan);
         } else {
-            std::sort(todoListSorted.begin(), todoListSorted.end(), Todos::percentMoreThan);
+            std::sort(todoList.begin(), todoList.end(), Todos::percentMoreThan);
         }
         break;
 
     case TodoSortSummary:
         if (sortDirection == SortDirectionAscending) {
-            std::sort(todoListSorted.begin(), todoListSorted.end(), Todos::summaryLessThan);
+            std::sort(todoList.begin(), todoList.end(), Todos::summaryLessThan);
         } else {
-            std::sort(todoListSorted.begin(), todoListSorted.end(), Todos::summaryMoreThan);
+            std::sort(todoList.begin(), todoList.end(), Todos::summaryMoreThan);
         }
         break;
 
     case TodoSortCreated:
         if (sortDirection == SortDirectionAscending) {
-            std::sort(todoListSorted.begin(), todoListSorted.end(), Todos::createdLessThan);
+            std::sort(todoList.begin(), todoList.end(), Todos::createdLessThan);
         } else {
-            std::sort(todoListSorted.begin(), todoListSorted.end(), Todos::createdMoreThan);
+            std::sort(todoList.begin(), todoList.end(), Todos::createdMoreThan);
         }
         break;
 
     case TodoSortCategories:
         if (sortDirection == SortDirectionAscending) {
-            std::sort(todoListSorted.begin(), todoListSorted.end(), Incidences::categoriesLessThan);
+            std::sort(todoList.begin(), todoList.end(), Incidences::categoriesLessThan);
         } else {
-            std::sort(todoListSorted.begin(), todoListSorted.end(), Incidences::categoriesMoreThan);
+            std::sort(todoList.begin(), todoList.end(), Incidences::categoriesMoreThan);
         }
         break;
     }
 
-    return todoListSorted;
+    return todoList;
 }
 
 Todo::List Calendar::todos(TodoSortField sortField, SortDirection sortDirection) const
@@ -765,37 +761,39 @@ Todo::List Calendar::todos(const QDate &start, const QDate &end, const QTimeZone
     return tl;
 }
 
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 95)
 /** static */
 Journal::List Calendar::sortJournals(const Journal::List &journalList, JournalSortField sortField, SortDirection sortDirection)
 {
-    if (journalList.isEmpty()) {
-        return Journal::List();
-    }
-
     Journal::List journalListSorted = journalList;
+    return sortJournals(std::move(journalListSorted), sortField, sortDirection);
+}
+#endif
 
+Journal::List Calendar::sortJournals(Journal::List &&journalList, JournalSortField sortField, SortDirection sortDirection)
+{
     switch (sortField) {
     case JournalSortUnsorted:
         break;
 
     case JournalSortDate:
         if (sortDirection == SortDirectionAscending) {
-            std::sort(journalListSorted.begin(), journalListSorted.end(), Journals::dateLessThan);
+            std::sort(journalList.begin(), journalList.end(), Journals::dateLessThan);
         } else {
-            std::sort(journalListSorted.begin(), journalListSorted.end(), Journals::dateMoreThan);
+            std::sort(journalList.begin(), journalList.end(), Journals::dateMoreThan);
         }
         break;
 
     case JournalSortSummary:
         if (sortDirection == SortDirectionAscending) {
-            std::sort(journalListSorted.begin(), journalListSorted.end(), Journals::summaryLessThan);
+            std::sort(journalList.begin(), journalList.end(), Journals::summaryLessThan);
         } else {
-            std::sort(journalListSorted.begin(), journalListSorted.end(), Journals::summaryMoreThan);
+            std::sort(journalList.begin(), journalList.end(), Journals::summaryMoreThan);
         }
         break;
     }
 
-    return journalListSorted;
+    return journalList;
 }
 
 Journal::List Calendar::journals(JournalSortField sortField, SortDirection sortDirection) const
