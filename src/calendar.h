@@ -50,6 +50,8 @@ This API needs serious cleaning up:
 /** Namespace for all KCalendarCore types. */
 namespace KCalendarCore
 {
+Q_NAMESPACE_EXPORT(KCALENDARCORE_EXPORT)
+
 class CalFilter;
 class Person;
 class ICalFormat;
@@ -103,6 +105,7 @@ enum AccessMode {
     ReadOnly,
     ReadWrite,
 };
+Q_ENUM_NS(AccessMode)
 
 /**
   @brief
@@ -134,7 +137,7 @@ class KCALENDARCORE_EXPORT Calendar : public QObject, public CustomProperties, p
     Q_PROPERTY(QString id READ id WRITE setId NOTIFY idChanged)
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QIcon icon READ icon WRITE setIcon NOTIFY iconChanged)
-    Q_PROPERTY(AccessMode accessMode READ accessMode WRITE setAccessMode NOTIFY accessModeChanged)
+    Q_PROPERTY(KCalendarCore::AccessMode accessMode READ accessMode WRITE setAccessMode NOTIFY accessModeChanged)
 
 public:
     /**
