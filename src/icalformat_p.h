@@ -31,6 +31,8 @@
 
 #include <libical/ical.h>
 
+#include <memory>
+
 class QDate;
 
 namespace KCalendarCore
@@ -38,6 +40,7 @@ namespace KCalendarCore
 class Alarm;
 class Attachment;
 class Attendee;
+class Compat;
 class Conference;
 class Duration;
 class Event;
@@ -86,7 +89,7 @@ public:
     /**
       Destructor.
     */
-    virtual ~ICalFormatImpl();
+    ~ICalFormatImpl();
 
     /**
       Updates a calendar with data from a raw iCalendar. Incidences already
@@ -222,10 +225,16 @@ protected:
     // void dumpIcalRecurrence( const icalrecurrencetype &r );
 
 private:
-    //@cond PRIVATE
-    class Private;
-    Private *const d;
-    //@endcond
+    void writeIncidenceBase(icalcomponent *parent, const IncidenceBase::Ptr &);
+    void readIncidenceBase(icalcomponent *parent, const IncidenceBase::Ptr &);
+    void writeCustomProperties(icalcomponent *parent, CustomProperties *);
+    void readCustomProperties(icalcomponent *parent, CustomProperties *);
+
+    ICalFormat *mParent = nullptr;
+    QString mLoadedProductId; // PRODID string loaded from calendar file
+    Event::List mEventsRelate; // events with relations
+    Todo::List mTodosRelate; // todos with relations
+    std::unique_ptr<Compat> mCompat;
 };
 
 }
