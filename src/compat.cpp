@@ -82,14 +82,7 @@ Compat *CompatFactory::createCompat(const QString &productId, const QString &imp
     return compat;
 }
 
-Compat::Compat()
-    : d(nullptr)
-{
-}
-
-Compat::~Compat()
-{
-}
+Compat::~Compat() = default;
 
 void Compat::fixEmptySummary(const Incidence::Ptr &incidence)
 {
@@ -141,66 +134,46 @@ void Compat::setCreatedToDtStamp(const Incidence::Ptr &incidence, const QDateTim
     Q_UNUSED(dtstamp);
 }
 
-class Q_DECL_HIDDEN CompatDecorator::Private
-{
-public:
-    Compat *compat;
-};
-
 CompatDecorator::CompatDecorator(Compat *compat)
-    : d(new CompatDecorator::Private)
+    : m_compat(compat)
 {
-    d->compat = compat;
 }
 
-CompatDecorator::~CompatDecorator()
-{
-    delete d->compat;
-    delete d;
-}
+CompatDecorator::~CompatDecorator() = default;
 
 void CompatDecorator::fixEmptySummary(const Incidence::Ptr &incidence)
 {
-    d->compat->fixEmptySummary(incidence);
+    m_compat->fixEmptySummary(incidence);
 }
 
 void CompatDecorator::fixAlarms(const Incidence::Ptr &incidence)
 {
-    d->compat->fixAlarms(incidence);
+    m_compat->fixAlarms(incidence);
 }
 
 void CompatDecorator::fixFloatingEnd(QDate &date)
 {
-    d->compat->fixFloatingEnd(date);
+    m_compat->fixFloatingEnd(date);
 }
 
 void CompatDecorator::fixRecurrence(const Incidence::Ptr &incidence)
 {
-    d->compat->fixRecurrence(incidence);
+    m_compat->fixRecurrence(incidence);
 }
 
 int CompatDecorator::fixPriority(int priority)
 {
-    return d->compat->fixPriority(priority);
+    return m_compat->fixPriority(priority);
 }
 
 bool CompatDecorator::useTimeZoneShift() const
 {
-    return d->compat->useTimeZoneShift();
+    return m_compat->useTimeZoneShift();
 }
 
 void CompatDecorator::setCreatedToDtStamp(const Incidence::Ptr &incidence, const QDateTime &dtstamp)
 {
-    d->compat->setCreatedToDtStamp(incidence, dtstamp);
-}
-
-CompatPre35::CompatPre35()
-    : d(nullptr)
-{
-}
-
-CompatPre35::~CompatPre35()
-{
+    m_compat->setCreatedToDtStamp(incidence, dtstamp);
 }
 
 void CompatPre35::fixRecurrence(const Incidence::Ptr &incidence)
@@ -219,15 +192,6 @@ void CompatPre35::fixRecurrence(const Incidence::Ptr &incidence)
     Compat::fixRecurrence(incidence);
 }
 
-CompatPre34::CompatPre34()
-    : d(nullptr)
-{
-}
-
-CompatPre34::~CompatPre34()
-{
-}
-
 int CompatPre34::fixPriority(int priority)
 {
     if (0 < priority && priority < 6) {
@@ -238,15 +202,6 @@ int CompatPre34::fixPriority(int priority)
     }
 }
 
-CompatPre32::CompatPre32()
-    : d(nullptr)
-{
-}
-
-CompatPre32::~CompatPre32()
-{
-}
-
 void CompatPre32::fixRecurrence(const Incidence::Ptr &incidence)
 {
     Recurrence *recurrence = incidence->recurrence();
@@ -255,15 +210,6 @@ void CompatPre32::fixRecurrence(const Incidence::Ptr &incidence)
     }
     // Call base class method now that everything else is done
     CompatPre35::fixRecurrence(incidence);
-}
-
-CompatPre31::CompatPre31()
-    : d(nullptr)
-{
-}
-
-CompatPre31::~CompatPre31()
-{
 }
 
 void CompatPre31::fixFloatingEnd(QDate &endDate)
@@ -336,15 +282,6 @@ void CompatPre31::fixRecurrence(const Incidence::Ptr &incidence)
     }
 }
 
-CompatOutlook9::CompatOutlook9()
-    : d(nullptr)
-{
-}
-
-CompatOutlook9::~CompatOutlook9()
-{
-}
-
 void CompatOutlook9::fixAlarms(const Incidence::Ptr &incidence)
 {
     if (!incidence) {
@@ -364,15 +301,6 @@ void CompatOutlook9::fixAlarms(const Incidence::Ptr &incidence)
     }
 }
 
-Compat32PrereleaseVersions::Compat32PrereleaseVersions()
-    : d(nullptr)
-{
-}
-
-Compat32PrereleaseVersions::~Compat32PrereleaseVersions()
-{
-}
-
 bool Compat32PrereleaseVersions::useTimeZoneShift() const
 {
     return false;
@@ -380,11 +308,6 @@ bool Compat32PrereleaseVersions::useTimeZoneShift() const
 
 CompatPre410::CompatPre410(Compat *decoratedCompat)
     : CompatDecorator(decoratedCompat)
-    , d(nullptr)
-{
-}
-
-CompatPre410::~CompatPre410()
 {
 }
 

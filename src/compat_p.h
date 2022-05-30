@@ -23,6 +23,8 @@
 
 #include <QtGlobal> // for Q_DISABLE_COPY()
 
+#include <memory>
+
 class QDate;
 class QString;
 
@@ -58,11 +60,6 @@ public:
 class Compat
 {
 public:
-    /**
-      Constructor.
-    */
-    Compat();
-
     /**
       Destructor.
     */
@@ -111,13 +108,6 @@ public:
       Sets the created and dtstamp.
     */
     virtual void setCreatedToDtStamp(const Incidence::Ptr &incidence, const QDateTime &dtstamp);
-
-private:
-    //@cond PRIVATE
-    Q_DISABLE_COPY(Compat)
-    class Private;
-    Private *const d;
-    //@endcond
 };
 
 /**
@@ -173,11 +163,8 @@ public:
     void setCreatedToDtStamp(const Incidence::Ptr &incidence, const QDateTime &dtstamp) override;
 
 private:
-    //@cond PRIVATE
     Q_DISABLE_COPY(CompatDecorator)
-    class Private;
-    Private *const d;
-    //@endcond
+    std::unique_ptr<Compat> m_compat;
 };
 
 /**
@@ -193,20 +180,11 @@ private:
 class CompatPre35 : public Compat
 {
 public:
-    CompatPre35();
-    ~CompatPre35() override;
-
     /**
       @copydoc
       Compat::fixRecurrence()
     */
     void fixRecurrence(const Incidence::Ptr &incidence) override;
-
-private:
-    //@cond PRIVATE
-    class Private;
-    Private *const d;
-    //@endcond
 };
 
 /**
@@ -216,20 +194,11 @@ private:
 class CompatPre34 : public CompatPre35
 {
 public:
-    CompatPre34();
-    ~CompatPre34() override;
-
     /**
       @copydoc
       Compat::fixPriority()
     */
     int fixPriority(int priority) override;
-
-private:
-    //@cond PRIVATE
-    class Private;
-    Private *const d;
-    //@endcond
 };
 
 /**
@@ -244,21 +213,11 @@ private:
 class CompatPre32 : public CompatPre34
 {
 public:
-    CompatPre32();
-    ~CompatPre32() override;
-
     /**
       @copydoc
       Compat::fixRecurrence()
     */
     void fixRecurrence(const Incidence::Ptr &incidence) override;
-
-private:
-    //@cond PRIVATE
-
-    class Private;
-    Private *const d;
-    //@endcond
 };
 
 /**
@@ -279,9 +238,6 @@ private:
 class CompatPre31 : public CompatPre32
 {
 public:
-    CompatPre31();
-    ~CompatPre31() override;
-
     /**
       @copydoc
       Compat::fixFloatingEnd()
@@ -293,12 +249,6 @@ public:
       Compat::fixRecurrence()
     */
     void fixRecurrence(const Incidence::Ptr &incidence) override;
-
-private:
-    //@cond PRIVATE
-    class Private;
-    Private *const d;
-    //@endcond
 };
 
 /**
@@ -308,20 +258,11 @@ private:
 class Compat32PrereleaseVersions : public Compat
 {
 public:
-    Compat32PrereleaseVersions();
-    ~Compat32PrereleaseVersions() override;
-
     /**
       @copydoc
       Compat::useTimeZoneShift()
     */
     bool useTimeZoneShift() const override;
-
-private:
-    //@cond PRIVATE
-    class Private;
-    Private *const d;
-    //@endcond
 };
 
 /**
@@ -335,20 +276,11 @@ private:
 class CompatOutlook9 : public Compat
 {
 public:
-    CompatOutlook9();
-    ~CompatOutlook9() override;
-
     /**
       @copydoc
       Compat::fixAlarms()
     */
     void fixAlarms(const Incidence::Ptr &incidence) override;
-
-private:
-    //@cond PRIVATE
-    class Private;
-    Private *const d;
-    //@endcond
 };
 
 /**
@@ -359,18 +291,11 @@ class CompatPre410 : public CompatDecorator
 {
 public:
     explicit CompatPre410(Compat *decoratedCompat);
-    ~CompatPre410() override;
     /**
       @copydoc
       Compat::setCreatedToDtStamp()
     */
     void setCreatedToDtStamp(const Incidence::Ptr &incidence, const QDateTime &dtstamp) override;
-
-private:
-    //@cond PRIVATE
-    class Private;
-    Private *const d;
-    //@endcond
 };
 
 }
