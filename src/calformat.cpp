@@ -17,89 +17,74 @@
 */
 
 #include "calformat.h"
+#include "calformat_p.h"
 #include "exceptions.h"
 
 #include <QUuid>
 
 using namespace KCalendarCore;
 
-/**
-  Private class that helps to provide binary compatibility between releases.
-  @internal
-*/
-//@cond PRIVATE
-class Q_DECL_HIDDEN KCalendarCore::CalFormat::Private
-{
-public:
-    Private()
-    {
-    }
-    ~Private()
-    {
-        delete mException;
-    }
-    static QString mApplication; // Name of application, for creating unique ID strings
-    static QString mProductId; // PRODID string to write to calendar files
-    QString mLoadedProductId; // PRODID string loaded from calendar file
-    Exception *mException = nullptr;
-};
+CalFormatPrivate::~CalFormatPrivate() = default;
 
-QString CalFormat::Private::mApplication = QStringLiteral("libkcal");
-QString CalFormat::Private::mProductId = QStringLiteral("-//K Desktop Environment//NONSGML libkcal 4.3//EN");
-//@endcond
+QString CalFormatPrivate::mApplication = QStringLiteral("libkcal");
+QString CalFormatPrivate::mProductId = QStringLiteral("-//K Desktop Environment//NONSGML libkcal 4.3//EN");
 
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 96)
 CalFormat::CalFormat()
-    : d(new KCalendarCore::CalFormat::Private)
+    : d_ptr(new KCalendarCore::CalFormatPrivate)
+{
+}
+#endif
+
+CalFormat::CalFormat(CalFormatPrivate *dd)
+    : d_ptr(dd)
 {
 }
 
 CalFormat::~CalFormat()
 {
     clearException();
-    delete d;
 }
 
 void CalFormat::clearException()
 {
-    delete d->mException;
-    d->mException = nullptr;
+    d_ptr->mException.reset();
 }
 
 void CalFormat::setException(Exception *exception)
 {
-    delete d->mException;
-    d->mException = exception;
+    d_ptr->mException.reset(exception);
 }
 
 Exception *CalFormat::exception() const
 {
-    return d->mException;
+    return d_ptr->mException.get();
 }
 
 void CalFormat::setApplication(const QString &application, const QString &productID)
 {
-    Private::mApplication = application;
-    Private::mProductId = productID;
+    CalFormatPrivate::mApplication = application;
+    CalFormatPrivate::mProductId = productID;
 }
 
 const QString &CalFormat::application()
 {
-    return Private::mApplication;
+    return CalFormatPrivate::mApplication;
 }
 
 const QString &CalFormat::productId()
 {
-    return Private::mProductId;
+    return CalFormatPrivate::mProductId;
 }
 
 QString CalFormat::loadedProductId()
 {
-    return d->mLoadedProductId;
+    return d_ptr->mLoadedProductId;
 }
 
 void CalFormat::setLoadedProductId(const QString &id)
 {
-    d->mLoadedProductId = id;
+    d_ptr->mLoadedProductId = id;
 }
 
 QString CalFormat::createUniqueId()
@@ -107,9 +92,11 @@ QString CalFormat::createUniqueId()
     return QUuid::createUuid().toString().mid(1, 36);
 }
 
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 96)
 void CalFormat::virtual_hook(int id, void *data)
 {
     Q_UNUSED(id);
     Q_UNUSED(data);
     Q_ASSERT(false);
 }
+#endif

@@ -21,8 +21,11 @@
 
 #include <QString>
 
+#include <memory>
+
 namespace KCalendarCore
 {
+class CalFormatPrivate;
 class Exception;
 
 /**
@@ -35,10 +38,14 @@ class Exception;
 class KCALENDARCORE_EXPORT CalFormat
 {
 public:
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 96)
     /**
       Constructs a new Calendar Format object.
+      @deprecated since 5.96, unused with the move to hierarchical dptrs.
     */
+    KCALENDARCORE_DEPRECATED_VERSION(5, 96, "unused, see API docs")
     CalFormat();
+#endif
 
     /**
       Destructor.
@@ -165,17 +172,26 @@ protected:
     */
     void setLoadedProductId(const QString &id);
 
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 96)
     /**
       @copydoc
       IncidenceBase::virtual_hook()
+      @deprecated since 5.96 unused, hierarchical dptrs provide the same ABI compatible extension vector
+      as this class is not intended to be inherited externally.
     */
+    KCALENDARCORE_DEPRECATED_VERSION(5, 96, "unused, see API docs")
     virtual void virtual_hook(int id, void *data);
+#endif
+
+    //@cond PRIVATE
+    CalFormat(CalFormatPrivate *dd);
+    std::unique_ptr<CalFormatPrivate> d_ptr;
+    //@endcond
 
 private:
     //@cond PRIVATE
     Q_DISABLE_COPY(CalFormat)
-    class Private;
-    Private *const d;
+    Q_DECLARE_PRIVATE(CalFormat)
     //@endcond
 };
 

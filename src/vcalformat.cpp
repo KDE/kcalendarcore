@@ -23,6 +23,7 @@
 */
 #include "vcalformat.h"
 #include "calendar.h"
+#include "calformat_p.h"
 #include "exceptions.h"
 
 #include "kcalendarcore_debug.h"
@@ -61,7 +62,7 @@ void removeAllVCal(QVector<QSharedPointer<K>> &c, const QSharedPointer<K> &x)
     c.remove(c.indexOf(x));
 }
 
-class Q_DECL_HIDDEN KCalendarCore::VCalFormat::Private
+class KCalendarCore::VCalFormatPrivate : public CalFormatPrivate
 {
 public:
     Calendar::Ptr mCalendar;
@@ -72,13 +73,12 @@ public:
 //@endcond
 
 VCalFormat::VCalFormat()
-    : d(new KCalendarCore::VCalFormat::Private)
+    : CalFormat(new KCalendarCore::VCalFormatPrivate)
 {
 }
 
 VCalFormat::~VCalFormat()
 {
-    delete d;
 }
 
 static void mimeErrorHandler(char *e)
@@ -88,6 +88,7 @@ static void mimeErrorHandler(char *e)
 
 bool VCalFormat::load(const Calendar::Ptr &calendar, const QString &fileName)
 {
+    Q_D(VCalFormat);
     d->mCalendar = calendar;
 
     clearException();
@@ -132,6 +133,7 @@ bool VCalFormat::fromString(const Calendar::Ptr &calendar, const QString &string
 
 bool VCalFormat::fromRawString(const Calendar::Ptr &calendar, const QByteArray &string, bool deleted, const QString &notebook)
 {
+    Q_D(VCalFormat);
     d->mCalendar = calendar;
 
     if (!string.size()) {
@@ -170,6 +172,7 @@ QString VCalFormat::toString(const Calendar::Ptr &calendar, const QString &noteb
 
 Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
 {
+    Q_D(VCalFormat);
     VObject *vo = nullptr;
     VObjectIterator voi;
     char *s = nullptr;
@@ -636,6 +639,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
 
 Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
 {
+    Q_D(VCalFormat);
     VObject *vo = nullptr;
     VObjectIterator voi;
     char *s = nullptr;
@@ -1210,6 +1214,7 @@ QString VCalFormat::qDateToISO(const QDate &qd)
 
 QString VCalFormat::qDateTimeToISO(const QDateTime &dt, bool zulu)
 {
+    Q_D(VCalFormat);
     if (!dt.isValid()) {
         return QString();
     }
@@ -1235,6 +1240,7 @@ QString VCalFormat::qDateTimeToISO(const QDateTime &dt, bool zulu)
 
 QDateTime VCalFormat::ISOToQDateTime(const QString &dtStr)
 {
+    Q_D(VCalFormat);
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     auto noAllocString = QStringView{dtStr};
 #else
@@ -1352,6 +1358,7 @@ bool VCalFormat::parseTZOffsetISO8601(const QString &s, int &result)
 // that is used internally in the VCalFormat.
 void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
 {
+    Q_D(VCalFormat);
     Q_UNUSED(notebook);
     // this function will populate the caldict dictionary and other event
     // lists. It turns vevents into Events and then inserts them.
@@ -1699,6 +1706,7 @@ void VCalFormat::readCustomProperties(VObject *o, const Incidence::Ptr &i)
 
 void VCalFormat::writeCustomProperties(VObject *o, const Incidence::Ptr &i)
 {
+    Q_D(VCalFormat);
     const QMap<QByteArray, QString> custom = i->customProperties();
     for (auto cIt = custom.cbegin(); cIt != custom.cend(); ++cIt) {
         const QByteArray property = cIt.key();
@@ -1710,9 +1718,11 @@ void VCalFormat::writeCustomProperties(VObject *o, const Incidence::Ptr &i)
     }
 }
 
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 96)
 void VCalFormat::virtual_hook(int id, void *data)
 {
     Q_UNUSED(id);
     Q_UNUSED(data);
     Q_ASSERT(false);
 }
+#endif

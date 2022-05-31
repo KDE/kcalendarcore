@@ -24,6 +24,7 @@
 namespace KCalendarCore
 {
 class FreeBusy;
+class ICalFormatPrivate;
 class Incidence;
 class IncidenceBase;
 class RecurrenceRule;
@@ -221,17 +222,21 @@ public:
     Q_REQUIRED_RESULT QByteArray timeZoneId() const;
 
 protected:
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 96)
     /**
       @copydoc
       IncidenceBase::virtual_hook()
     */
     void virtual_hook(int id, void *data) override;
+#endif
 
 private:
     //@cond PRIVATE
     Q_DISABLE_COPY(ICalFormat)
-    class Private;
-    Private *const d;
+    Q_DECLARE_PRIVATE(ICalFormat)
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 96)
+    void *unused; // former dptr, just kept for ABI compatibility
+#endif
     //@endcond
 };
 
