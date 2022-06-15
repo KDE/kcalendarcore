@@ -66,11 +66,15 @@ public:
     */
     bool save(const Calendar::Ptr &calendar, const QString &fileName) override;
 
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 97)
     /**
       @copydoc
       CalFormat::fromString()
     */
-    bool fromString(const Calendar::Ptr &calendar, const QString &string, bool deleted = false, const QString &notebook = QString()) override;
+    KCALENDARCORE_DEPRECATED_VERSION(5, 97, "use fromString(const Calendar::Ptr &calendar, const QString &string, const QString &notebook)")
+    bool fromString(const Calendar::Ptr &calendar, const QString &string, bool deleted, const QString &notebook) override;
+    using CalFormat::fromString;
+#endif
 
     /**
       Parses a string, returning the first iCal component as an Incidence.

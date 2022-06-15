@@ -72,6 +72,7 @@ public:
     */
     virtual bool save(const Calendar::Ptr &calendar, const QString &fileName) = 0;
 
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 97)
     /**
       Loads a calendar from a string. When a notebook is given, incidences are added to this
       notebook, otherwise no notebook is associated to loaded incidences. The notebook
@@ -84,8 +85,27 @@ public:
 
       @return true if successful; false otherwise.
       @see fromRawString(), toString().
+
+      @deprecated since 5.97, use fromString(const Calendar::Ptr &calendar, const QString &string, const QString &notebook) instead.
     */
-    virtual bool fromString(const Calendar::Ptr &calendar, const QString &string, bool deleted = false, const QString &notebook = QString()) = 0;
+    KCALENDARCORE_DEPRECATED_VERSION(5, 97, "use fromString(const Calendar::Ptr &calendar, const QString &string, const QString &notebook)")
+    virtual bool fromString(const Calendar::Ptr &calendar, const QString &string, bool deleted, const QString &notebook = {}) = 0;
+#endif
+    /**
+      Loads a calendar from a string. When a notebook is given, incidences are added to this
+      notebook, otherwise no notebook is associated to loaded incidences. The notebook
+      should already be added to the calendar, see Calendar::addNotebook().
+
+      @param calendar is the Calendar to be loaded.
+      @param string is the QString containing the Calendar data.
+      @param notebook notebook uid
+
+      @return true if successful; false otherwise.
+      @see fromRawString(), toString().
+
+      @since 5.97
+    */
+    bool fromString(const Calendar::Ptr &calendar, const QString &string, const QString &notebook = {});
 
     /**
       Parses a utf8 encoded string, returning the first iCal component

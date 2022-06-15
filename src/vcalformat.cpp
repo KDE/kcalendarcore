@@ -126,10 +126,12 @@ bool VCalFormat::save(const Calendar::Ptr &calendar, const QString &fileName)
     return false;
 }
 
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 97)
 bool VCalFormat::fromString(const Calendar::Ptr &calendar, const QString &string, bool deleted, const QString &notebook)
 {
     return fromRawString(calendar, string.toUtf8(), deleted, notebook);
 }
+#endif
 
 bool VCalFormat::fromRawString(const Calendar::Ptr &calendar, const QByteArray &string, bool deleted, const QString &notebook)
 {
