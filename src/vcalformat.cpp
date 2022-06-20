@@ -29,6 +29,7 @@
 #include "kcalendarcore_debug.h"
 
 extern "C" {
+#include <libical/ical.h>
 #include <libical/vcc.h>
 #include <libical/vobject.h>
 }
@@ -81,7 +82,11 @@ VCalFormat::~VCalFormat()
 {
 }
 
+#if ICAL_CHECK_VERSION(3, 0, 50)
+static void mimeErrorHandler(const char *e)
+#else
 static void mimeErrorHandler(char *e)
+#endif
 {
     qCWarning(KCALCORE_LOG) << "Error parsing vCalendar file:" << e;
 }

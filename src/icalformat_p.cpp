@@ -480,8 +480,13 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent, const Incidence::Ptr 
     // geo
     if (incidence->hasGeo()) {
         icalgeotype geo;
+#if ICAL_CHECK_VERSION(3, 0, 50)
+        strncpy(geo.lat, QString::number(incidence->geoLatitude()).toLocal8Bit().data(), ICAL_GEO_LEN - 1);
+        strncpy(geo.lon, QString::number(incidence->geoLongitude()).toLocal8Bit().data(), ICAL_GEO_LEN - 1);
+#else
         geo.lat = incidence->geoLatitude();
         geo.lon = incidence->geoLongitude();
+#endif
         icalcomponent_add_property(parent, icalproperty_new_geo(geo));
     }
 
@@ -1692,8 +1697,8 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent, const Incidence::Ptr &
 
         case ICAL_GEO_PROPERTY: { // geo
             icalgeotype geo = icalproperty_get_geo(p);
-            incidence->setGeoLatitude(geo.lat);
-            incidence->setGeoLongitude(geo.lon);
+            incidence->setGeoLatitude(QString::fromLocal8Bit(geo.lat).toDouble());
+            incidence->setGeoLongitude(QString::fromLocal8Bit(geo.lon).toDouble());
 #if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 89)
             incidence->setHasGeo(true);
 #endif
