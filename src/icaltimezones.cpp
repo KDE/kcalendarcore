@@ -486,7 +486,7 @@ ICalTimeZone ICalTimeZoneParser::parseTimeZone(icalcomponent *vtimezone)
 
         // If the VTIMEZONE is a known IANA time zone don't bother parsing the rest
         // of the VTIMEZONE, get QTimeZone directly from Qt
-        if (QTimeZone::isTimeZoneIdAvailable(icalTz.id)) {
+        if (QTimeZone::isTimeZoneIdAvailable(icalTz.id) || icalTz.id.startsWith("UTC")) {
             icalTz.qZone = QTimeZone(icalTz.id);
             return icalTz;
         } else {
