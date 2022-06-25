@@ -75,6 +75,7 @@ public:
     QMap<QString, Incidence::List> mIncidenceRelations;
     bool batchAddingInProgress = false;
     bool mDeletionTracking = false;
+    bool mIsLoading = false;
     QString mId;
     QString mName;
     QIcon mIcon;

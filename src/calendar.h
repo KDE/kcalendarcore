@@ -138,6 +138,7 @@ class KCALENDARCORE_EXPORT Calendar : public QObject, public CustomProperties, p
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QIcon icon READ icon WRITE setIcon NOTIFY iconChanged)
     Q_PROPERTY(KCalendarCore::AccessMode accessMode READ accessMode WRITE setAccessMode NOTIFY accessModeChanged)
+    Q_PROPERTY(bool isLoading READ isLoading NOTIFY isLoadingChanged)
 
 public:
     /**
@@ -336,6 +337,13 @@ public:
      * @see accessMode()
      */
     void setAccessMode(const AccessMode mode);
+
+    /**
+     * Returns @c true if the calendar is still loading its data and thus
+     * read access will not return complete (or even any) results.
+     * @since 5.96
+     */
+    bool isLoading() const;
 
     /**
       Clears out the current calendar, freeing all used memory etc.
@@ -1482,6 +1490,15 @@ protected:
     bool deletionTracking() const;
 
     /**
+     * Sets the loading state of this calendar.
+     * This is false by default and only needs to be called for calendars
+     * that implement asynchronous loading.
+     * @since 5.96
+     * @see isLoading()
+     */
+    void setIsLoading(bool isLoading);
+
+    /**
       @copydoc
       IncidenceBase::virtual_hook()
     */
@@ -1528,6 +1545,13 @@ Q_SIGNALS:
      * @see owner()
      */
     void ownerChanged();
+
+    /**
+     * Emitted when the loading state changed.
+     * @since 5.96
+     * @see isLoading()
+     */
+    void isLoadingChanged();
 
 private:
     friend class ICalFormat;

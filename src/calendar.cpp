@@ -1401,3 +1401,18 @@ void Calendar::setAccessMode(const AccessMode mode)
         Q_EMIT accessModeChanged();
     }
 }
+
+bool Calendar::isLoading() const
+{
+    return d->mIsLoading;
+}
+
+void Calendar::setIsLoading(bool isLoading)
+{
+    if (d->mIsLoading == isLoading) {
+        return;
+    }
+
+    d->mIsLoading = isLoading;
+    Q_EMIT isLoadingChanged();
+}
