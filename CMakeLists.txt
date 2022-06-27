@@ -22,6 +22,7 @@ include(ECMGenerateExportHeader)
 include(ECMGenerateHeaders)
 include(ECMGeneratePriFile)
 include(ECMGeneratePkgConfigFile)
+include(ECMDeprecationSettings)
 
 include(ECMSetupVersion)
 include(ECMQtDeclareLoggingCategory)
@@ -70,9 +71,9 @@ configure_package_config_file(
   INSTALL_DESTINATION ${CMAKECONFIG_INSTALL_DIR}
 )
 
-
-add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050f02)
-
+ecm_set_disabled_deprecation_versions(
+    QT 5.15.2
+)
 
 ########### Targets ###########
 add_subdirectory(src)
