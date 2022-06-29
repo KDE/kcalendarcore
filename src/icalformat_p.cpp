@@ -1938,8 +1938,7 @@ void ICalFormatImpl::readCustomProperties(icalcomponent *parent, CustomPropertie
                 // Calling icalvalue_get_text( value ) on a datetime value crashes.
                 nvalue = QString::fromUtf8(icalvalue_get_text(value));
             } else {
-                p = icalcomponent_get_next_property(parent, ICAL_X_PROPERTY);
-                continue;
+                nvalue = QString::fromUtf8(icalproperty_get_value_as_string(p));
             }
         }
         const char *name = icalproperty_get_x_name(p);

@@ -512,3 +512,32 @@ void ICalFormatTest::testIcalFormat()
     QCOMPARE(duration.asSeconds(), 7200);
     QCOMPARE(format.toString(duration), QLatin1String("PT2H"));
 }
+
+void ICalFormatTest::testNonTextCustomProperties()
+{
+    const auto input = QLatin1String(
+        "BEGIN:VCALENDAR\n"
+        "VERSION:2.0\n"
+        "BEGIN:VEVENT\n"
+        "X-APPLE-TRAVEL-START;ROUTING=CAR;VALUE=URI;X-ADDRESS=Bingerdenallee 1\\n\n"
+        " 6921 JN Duiven\\nNederland;X-TITLE=Home:\n"
+        "X-APPLE-TRAVEL-DURATION;VALUE=DURATION:PT45M\n"
+        "X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Olympus 1\\n3524 WB Utre\n"
+        " cht\\nThe Netherlands;X-APPLE-RADIUS=49.91307222863458;X-TITLE=Olympus 1\n"
+        " :geo:52.063921,5.128511\n"
+        "BEGIN:VALARM\n"
+        "TRIGGER;X-APPLE-RELATED-TRAVEL=-PT30M:-PT1H15M\n"
+        "END:VALARM\n"
+        "END:VEVENT\n"
+        "END:VCALENDAR\n");
+    ICalFormat format;
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+    QVERIFY(format.fromString(cal, input));
+    const auto events = cal->events();
+    QCOMPARE(events.size(), 1);
+
+    const auto event = events[0];
+    QCOMPARE(event->nonKDECustomProperty("X-APPLE-TRAVEL-DURATION"), QLatin1String("PT45M"));
+    QCOMPARE(event->nonKDECustomProperty("X-APPLE-TRAVEL-START"), QString());
+    QCOMPARE(event->nonKDECustomProperty("X-APPLE-STRUCTURED-LOCATION"), QLatin1String("geo:52.063921,5.128511"));
+}
