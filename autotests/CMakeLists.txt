@@ -38,6 +38,7 @@ macro_unit_tests(
   testperson
   testrecurtodo
   teststartdatetimesfordate
+  teststatus
   testtodo
   testtimesininterval
   testcreateddatecompat

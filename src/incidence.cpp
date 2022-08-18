@@ -121,6 +121,11 @@ void IncidencePrivate::init(Incidence *q, const IncidencePrivate &other)
         mRecurrence = nullptr;
     }
 }
+
+bool IncidencePrivate::validStatus(Incidence::Status status)
+{
+    return status == Incidence::StatusNone;
+}
 //@endcond
 
 #if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 91)
@@ -814,16 +819,21 @@ int Incidence::priority() const
 
 void Incidence::setStatus(Incidence::Status status)
 {
-    if (mReadOnly || status == StatusX) {
+    if (mReadOnly) {
+        qCWarning(KCALCORE_LOG)  << "Attempt to set status of read-only incidence";
         return;
     }
 
-    update();
     Q_D(Incidence);
-    d->mStatus = status;
-    d->mStatusString.clear();
-    setFieldDirty(FieldStatus);
-    updated();
+    if (d->validStatus(status)) {
+        update();
+        d->mStatus = status;
+        d->mStatusString.clear();
+        setFieldDirty(FieldStatus);
+        updated();
+    } else {
+        qCWarning(KCALCORE_LOG)  << "Ignoring invalid status" << status << "for" << typeStr();
+    }
 }
 
 void Incidence::setCustomStatus(const QString &status)

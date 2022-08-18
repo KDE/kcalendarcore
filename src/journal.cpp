@@ -27,7 +27,18 @@ using namespace KCalendarCore;
 //@cond PRIVATE
 class KCalendarCore::JournalPrivate : public IncidencePrivate
 {
+    bool validStatus(Incidence::Status) override;
 };
+
+bool JournalPrivate::validStatus(Incidence::Status status)
+{
+    constexpr unsigned validSet
+        = 1u << Incidence::StatusNone
+        | 1u << Incidence::StatusDraft
+        | 1u << Incidence::StatusFinal
+        | 1u << Incidence::StatusCanceled;
+    return validSet & (1u << status);
+}
 
 //@endcond
 

@@ -87,6 +87,8 @@ public:
     bool recurTodo(Todo *todo);
 
     void deserialize(QDataStream &in);
+
+    bool validStatus(Incidence::Status) override;
 };
 
 void TodoPrivate::setDtDue(const QDateTime dd)
@@ -127,6 +129,17 @@ void TodoPrivate::init(const TodoPrivate &other)
     mDtRecurrence = other.mDtRecurrence;
     mCompleted = other.mCompleted;
     mPercentComplete = other.mPercentComplete;
+}
+
+bool TodoPrivate::validStatus(Incidence::Status status)
+{
+    constexpr unsigned validSet
+        = 1u << Incidence::StatusNone
+        | 1u << Incidence::StatusNeedsAction
+        | 1u << Incidence::StatusCompleted
+        | 1u << Incidence::StatusInProcess
+        | 1u << Incidence::StatusCanceled;
+    return validSet & (1u << status);
 }
 
 //@endcond

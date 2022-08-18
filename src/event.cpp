@@ -36,6 +36,7 @@ class KCalendarCore::EventPrivate : public IncidencePrivate
 public:
     EventPrivate() = default;
     explicit EventPrivate(const Incidence &);
+    bool validStatus(Incidence::Status) override;
 
     QDateTime mDtEnd;
     Event::Transparency mTransparency = Event::Opaque;
@@ -48,6 +49,16 @@ public:
 EventPrivate::EventPrivate(const Incidence &other)
     : IncidencePrivate(other)
 {
+}
+
+bool EventPrivate::validStatus(Incidence::Status status)
+{
+    constexpr unsigned validSet
+        = 1u << Incidence::StatusNone
+        | 1u << Incidence::StatusTentative
+        | 1u << Incidence::StatusConfirmed
+        | 1u << Incidence::StatusCanceled;
+    return validSet & (1u << status);
 }
 //@endcond
 

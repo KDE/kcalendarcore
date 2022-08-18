@@ -33,6 +33,8 @@ public:
     void clear();
     void init(Incidence *q, const IncidencePrivate &other);
 
+    virtual bool validStatus(Incidence::Status);
+
     QDateTime mCreated; // creation datetime
     QString mDescription; // description string
     QString mSummary; // summary string

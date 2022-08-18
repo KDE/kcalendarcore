@@ -586,7 +586,9 @@ public:
 
     /**
       Sets the incidence status to a standard #Status value.
-      Note that StatusX cannot be specified.
+      Events, Todos, and Journals each have a different set of
+      valid statuses.  Note that StatusX cannot be specified.
+      Invalid statuses are logged and ignored.
 
       @param status is the incidence #Status to set.
       @see status(), setCustomStatus().
