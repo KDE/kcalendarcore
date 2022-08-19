@@ -309,13 +309,13 @@ QDateTime Todo::completed() const
 
 void Todo::setCompleted(const QDateTime &completed)
 {
-    update();
     Q_D(Todo);
-    if (!d->recurTodo(this)) {
+    if (!d->recurTodo(this)) { // May indirectly call update()/updated().
+        update();
         d->setPercentComplete(100);
         d->setCompleted(completed);
+        updated();
     }
-    updated();
     if (status() != StatusNone) {
         setStatus(StatusCompleted); // Calls update()/updated()
     }
