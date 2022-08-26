@@ -73,8 +73,9 @@ public:
     */
     KCALENDARCORE_DEPRECATED_VERSION(5, 97, "use fromString(const Calendar::Ptr &calendar, const QString &string, const QString &notebook)")
     bool fromString(const Calendar::Ptr &calendar, const QString &string, bool deleted, const QString &notebook) override;
-    using CalFormat::fromString;
 #endif
+    // make CalFromat::fromString(const Calendar::Ptr &calendar, const QString&, const QString&) visible here as well
+    using CalFormat::fromString;
 
     /**
       Parses a string, returning the first iCal component as an Incidence.

@@ -375,7 +375,7 @@ void ICalFormatTest::testNotebook()
 
     const QString notebook(QString::fromLatin1("my-imported-notebook"));
     QVERIFY(calendar->addNotebook(notebook, true));
-    QVERIFY(format.fromString(calendar, data, false, notebook));
+    QVERIFY(format.fromString(calendar, data, notebook));
 
     Event::Ptr reloadedEvent = calendar->event(event->uid(), event->recurrenceId());
     QVERIFY(reloadedEvent);
