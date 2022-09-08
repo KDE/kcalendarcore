@@ -260,14 +260,21 @@ public:
     void setAllDay(bool allDay) override;
 
     /**
-      Sets the due date/time of the current occurrence if recurrent.
+      Identify the earliest uncompleted occurrence of a recurring Todo.
 
-      @param dt is the
+      @param dt Normally, the start date-time of the occurrence.
+        For backwards compatibility, if the Todo does not have a @c dtStart()
+        then pass the occurrence's due date-time.
     */
     void setDtRecurrence(const QDateTime &dt);
 
     /**
-      Returns the due date/time of the current occurrence if recurrent.
+      Returns an identifier for the earliest uncompleted occurrence of a
+      recurring Todo.
+
+      @note
+      Do not rely on the returned value to determine whether the Todo is
+      completed; use @c isCompleted() instead.
     */
     Q_REQUIRED_RESULT QDateTime dtRecurrence() const;
 

@@ -453,7 +453,14 @@ void Todo::setDtRecurrence(const QDateTime &dt)
 QDateTime Todo::dtRecurrence() const
 {
     Q_D(const Todo);
-    return d->dtRecurrence().isValid() ? d->dtRecurrence() : d->dtDue();
+    auto dt = d->dtRecurrence();
+    if (!dt.isValid()) {
+        dt = IncidenceBase::dtStart();
+    }
+    if (!dt.isValid()) {
+        dt = d->dtDue();
+    }
+    return dt;
 }
 
 bool Todo::recursOn(const QDate &date, const QTimeZone &timeZone) const
