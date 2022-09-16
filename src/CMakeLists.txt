@@ -124,7 +124,7 @@ PRIVATE
     LibIcal
 )
 
-install(TARGETS KF5CalendarCore EXPORT KF5CalendarCoreTargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS KF5CalendarCore EXPORT KF5CalendarCoreTargets ${KF_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ########### Generate Headers ###############
 set(kcalendarcore_headers
