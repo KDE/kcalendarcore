@@ -2933,7 +2933,7 @@ icalcomponent *ICalFormatImpl::createScheduleComponent(const IncidenceBase::Ptr 
         TimeZoneEarliestDate earliestTz;
         ICalTimeZoneParser::updateTzEarliestDate(incidence, &earliestTz);
 
-        for (const auto &qtz : qAsConst(zones)) {
+        for (const auto &qtz : std::as_const(zones)) {
             icaltimezone *icaltz = ICalTimeZoneParser::icaltimezoneFromQTimeZone(qtz, earliestTz[qtz]);
             if (!icaltz) {
                 qCritical() << "bad time zone";

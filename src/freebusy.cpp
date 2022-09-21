@@ -221,7 +221,7 @@ Period::List FreeBusy::busyPeriods() const
 
     Q_D(const FreeBusy);
     res.reserve(d->mBusyPeriods.count());
-    for (const FreeBusyPeriod &p : qAsConst(d->mBusyPeriods)) {
+    for (const FreeBusyPeriod &p : std::as_const(d->mBusyPeriods)) {
         res << p;
     }
 
@@ -244,7 +244,7 @@ void FreeBusy::addPeriods(const Period::List &list)
 {
     Q_D(FreeBusy);
     d->mBusyPeriods.reserve(d->mBusyPeriods.count() + list.count());
-    for (const Period &p : qAsConst(list)) {
+    for (const Period &p : std::as_const(list)) {
         d->mBusyPeriods << FreeBusyPeriod(p);
     }
     sortList();
@@ -298,7 +298,7 @@ void FreeBusy::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
         update();
         d->mDtEnd = d->mDtEnd.toTimeZone(oldZone);
         d->mDtEnd.setTimeZone(newZone);
-        for (FreeBusyPeriod p : qAsConst(d->mBusyPeriods)) {
+        for (FreeBusyPeriod p : std::as_const(d->mBusyPeriods)) {
             p.shiftTimes(oldZone, newZone);
         }
         setFieldDirty(FieldDtEnd);

@@ -868,7 +868,7 @@ void Calendar::removeRelations(const Incidence::Ptr &incidence)
 
     const QString uid = incidence->uid();
 
-    for (const Incidence::Ptr &i : qAsConst(d->mIncidenceRelations[uid])) {
+    for (const Incidence::Ptr &i : std::as_const(d->mIncidenceRelations[uid])) {
         if (!d->mOrphanUids.contains(i->uid())) {
             d->mOrphans.insert(uid, i);
             d->mOrphanUids.insert(i->uid(), i);
@@ -1016,7 +1016,7 @@ void Calendar::setModified(bool modified)
 {
     if (modified != d->mModified || d->mNewObserver) {
         d->mNewObserver = false;
-        for (CalendarObserver *observer : qAsConst(d->mObservers)) {
+        for (CalendarObserver *observer : std::as_const(d->mObservers)) {
             observer->calendarModified(modified, this);
         }
         d->mModified = modified;
@@ -1071,7 +1071,7 @@ void Calendar::notifyIncidenceAdded(const Incidence::Ptr &incidence)
         return;
     }
 
-    for (CalendarObserver *observer : qAsConst(d->mObservers)) {
+    for (CalendarObserver *observer : std::as_const(d->mObservers)) {
         observer->calendarIncidenceAdded(incidence);
     }
 
@@ -1095,7 +1095,7 @@ void Calendar::notifyIncidenceChanged(const Incidence::Ptr &incidence)
         return;
     }
 
-    for (CalendarObserver *observer : qAsConst(d->mObservers)) {
+    for (CalendarObserver *observer : std::as_const(d->mObservers)) {
         observer->calendarIncidenceChanged(incidence);
     }
 }
@@ -1110,7 +1110,7 @@ void Calendar::notifyIncidenceAboutToBeDeleted(const Incidence::Ptr &incidence)
         return;
     }
 
-    for (CalendarObserver *observer : qAsConst(d->mObservers)) {
+    for (CalendarObserver *observer : std::as_const(d->mObservers)) {
         observer->calendarIncidenceAboutToBeDeleted(incidence);
     }
 }
@@ -1125,7 +1125,7 @@ void Calendar::notifyIncidenceDeleted(const Incidence::Ptr &incidence)
         return;
     }
 
-    for (CalendarObserver *observer : qAsConst(d->mObservers)) {
+    for (CalendarObserver *observer : std::as_const(d->mObservers)) {
         observer->calendarIncidenceDeleted(incidence, this);
     }
 }
@@ -1140,7 +1140,7 @@ void Calendar::notifyIncidenceAdditionCanceled(const Incidence::Ptr &incidence)
         return;
     }
 
-    for (CalendarObserver *observer : qAsConst(d->mObservers)) {
+    for (CalendarObserver *observer : std::as_const(d->mObservers)) {
         observer->calendarIncidenceAdditionCanceled(incidence);
     }
 }

@@ -524,7 +524,7 @@ void IncidenceBase::update()
     if (!d_ptr->mUpdateGroupLevel) {
         d_ptr->mUpdatedPending = true;
         const auto rid = recurrenceId();
-        for (IncidenceObserver *o : qAsConst(d_ptr->mObservers)) {
+        for (IncidenceObserver *o : std::as_const(d_ptr->mObservers)) {
             o->incidenceUpdate(uid(), rid);
         }
     }
@@ -536,7 +536,7 @@ void IncidenceBase::updated()
         d_ptr->mUpdatedPending = true;
     } else {
         const auto rid = recurrenceId();
-        for (IncidenceObserver *o : qAsConst(d_ptr->mObservers)) {
+        for (IncidenceObserver *o : std::as_const(d_ptr->mObservers)) {
             o->incidenceUpdated(uid(), rid);
         }
     }
@@ -635,7 +635,7 @@ QDataStream &KCalendarCore::operator<<(QDataStream &out, const KCalendarCore::In
     out << i->organizer() << i->d_ptr->mUid << i->d_ptr->mDuration << i->d_ptr->mAllDay << i->d_ptr->mHasDuration << i->d_ptr->mComments << i->d_ptr->mContacts
         << (qint32)i->d_ptr->mAttendees.count() << i->d_ptr->mUrl;
 
-    for (const Attendee &attendee : qAsConst(i->d_ptr->mAttendees)) {
+    for (const Attendee &attendee : std::as_const(i->d_ptr->mAttendees)) {
         out << attendee;
     }
 

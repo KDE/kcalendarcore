@@ -107,7 +107,7 @@ void IncidencePrivate::init(Incidence *q, const IncidencePrivate &other)
     // We need to really duplicate the objects stored therein, otherwise deleting
     // i will also delete all attachments from this object (setAutoDelete...)
     mAlarms.reserve(other.mAlarms.count());
-    for (const Alarm::Ptr &alarm : qAsConst(other.mAlarms)) {
+    for (const Alarm::Ptr &alarm : std::as_const(other.mAlarms)) {
         Alarm::Ptr b(new Alarm(*alarm.data()));
         b->setParent(q);
         mAlarms.append(b);
@@ -167,7 +167,7 @@ Incidence::~Incidence()
     // Alarm has a raw incidence pointer, so we must set it to 0
     // so Alarm doesn't use it after Incidence is destroyed
     Q_D(const Incidence);
-    for (const Alarm::Ptr &alarm : qAsConst(d->mAlarms)) {
+    for (const Alarm::Ptr &alarm : std::as_const(d->mAlarms)) {
         alarm->setParent(nullptr);
     }
     delete d->mRecurrence;
@@ -757,7 +757,7 @@ Attachment::List Incidence::attachments(const QString &mime) const
 {
     Q_D(const Incidence);
     Attachment::List attachments;
-    for (const Attachment &attachment : qAsConst(d->mAttachments)) {
+    for (const Attachment &attachment : std::as_const(d->mAttachments)) {
         if (attachment.mimeType() == mime) {
             attachments.append(attachment);
         }
@@ -1219,15 +1219,15 @@ void Incidence::serialize(QDataStream &out) const
         out << d->mRecurrence;
     }
 
-    for (const Attachment &attachment : qAsConst(d->mAttachments)) {
+    for (const Attachment &attachment : std::as_const(d->mAttachments)) {
         out << attachment;
     }
 
-    for (const Alarm::Ptr &alarm : qAsConst(d->mAlarms)) {
+    for (const Alarm::Ptr &alarm : std::as_const(d->mAlarms)) {
         out << alarm;
     }
 
-    for (const Conference &conf : qAsConst(d->mConferences)) {
+    for (const Conference &conf : std::as_const(d->mConferences)) {
         out << conf;
     }
 }

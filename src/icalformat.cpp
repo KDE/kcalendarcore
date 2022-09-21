@@ -302,7 +302,7 @@ QString ICalFormat::toString(const Calendar::Ptr &cal, const QString &notebook, 
         // this will export a calendar having only timezone definitions
         tzUsedList = cal->d->mTimeZones;
     }
-    for (const auto &qtz : qAsConst(tzUsedList)) {
+    for (const auto &qtz : std::as_const(tzUsedList)) {
         if (qtz != QTimeZone::utc()) {
             icaltimezone *tz = ICalTimeZoneParser::icaltimezoneFromQTimeZone(qtz, earliestTz[qtz]);
             if (!tz) {
@@ -356,7 +356,7 @@ QByteArray ICalFormat::toRawString(const Incidence::Ptr &incidence)
     ICalTimeZoneParser::updateTzEarliestDate(incidence, &earliestTzDt);
 
     // time zones
-    for (const auto &qtz : qAsConst(tzUsedList)) {
+    for (const auto &qtz : std::as_const(tzUsedList)) {
         if (qtz != QTimeZone::utc()) {
             icaltimezone *tz = ICalTimeZoneParser::icaltimezoneFromQTimeZone(qtz, earliestTzDt[qtz]);
             if (!tz) {
