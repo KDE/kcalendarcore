@@ -88,7 +88,7 @@ public:
       CalFormat::fromString()
     */
     KCALENDARCORE_DEPRECATED_VERSION(5, 97, "use fromString(const Calendar::Ptr &calendar, const QString &string, const QString &notebook)")
-    Q_REQUIRED_RESULT bool fromString(const Calendar::Ptr &calendar, const QString &string, bool deleted, const QString &notebook = QString()) override;
+    bool fromString(const Calendar::Ptr &calendar, const QString &string, bool deleted, const QString &notebook = QString()) override;
     using CalFormat::fromString;
 #endif
 
