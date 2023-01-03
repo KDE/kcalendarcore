@@ -411,12 +411,13 @@ void IncidenceBase::setAttendees(const Attendee::List &attendees, bool doUpdate)
         return;
     }
 
+    // don't simply assign, we need the logic in addAttendee here too
+    clearAttendees();
+
     if (doUpdate) {
         update();
     }
 
-    // don't simply assign, we need the logic in addAttendee here too
-    clearAttendees();
     d_ptr->mAttendees.reserve(attendees.size());
     for (const auto &a : attendees) {
         addAttendee(a, false);
