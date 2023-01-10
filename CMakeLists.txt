@@ -87,6 +87,7 @@ endif()
 install(FILES
   "${CMAKE_CURRENT_BINARY_DIR}/KF5CalendarCoreConfig.cmake"
   "${CMAKE_CURRENT_BINARY_DIR}/KF5CalendarCoreConfigVersion.cmake"
+  cmake/FindLibIcal.cmake
   DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
   COMPONENT Devel
 )
