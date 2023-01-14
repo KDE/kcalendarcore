@@ -104,6 +104,7 @@ class KCALENDARCORE_EXPORT IncidenceBase : public CustomProperties
     Q_PROPERTY(bool allDay READ allDay WRITE setAllDay)
     Q_PROPERTY(KCalendarCore::Person organizer READ organizer WRITE setOrganizer)
     Q_PROPERTY(QVariantList attendees READ attendeesVariant)
+    Q_PROPERTY(QUrl url READ url WRITE setUrl)
 
 public:
     /**
