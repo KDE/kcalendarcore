@@ -598,17 +598,6 @@ public:
     Incidence::Ptr incidence(const QString &uid, const QDateTime &recurrenceId = {}) const;
 
     /**
-      Returns the deleted Incidence associated with the given unique identifier.
-
-      @param uid is a unique identifier string.
-      @param recurrenceId is possible recurrenceid of incidence, default is null
-
-      @return a pointer to the Incidence.
-      A null pointer is returned if no such Incidence exists.
-    */
-    Incidence::Ptr deleted(const QString &uid, const QDateTime &recurrenceId = {}) const;
-
-    /**
       Delete all incidences that are instances of recurring incidence @p incidence.
 
       @param incidence is a pointer to a deleted Incidence
@@ -824,33 +813,6 @@ public:
     virtual Event::Ptr event(const QString &uid, const QDateTime &recurrenceId = {}) const = 0;
 
     /**
-      Returns the deleted Event associated with the given unique identifier.
-
-      @param uid is a unique identifier string.
-      @param recurrenceId is possible recurrenceId of event, default is null
-
-      @return a pointer to the deleted Event.
-      A null pointer is returned if no such deleted Event exists, or if deletion tracking
-      is disabled.
-
-      @see deletionTracking()
-    */
-    virtual Event::Ptr deletedEvent(const QString &uid, const QDateTime &recurrenceId = {}) const = 0;
-
-    /**
-      Returns a sorted, unfiltered list of all deleted Events for this Calendar.
-
-      @param sortField specifies the EventSortField.
-      @param sortDirection specifies the SortDirection.
-
-      @return the list of all unfiltered deleted Events sorted as specified. An empty list
-      is returned if deletion tracking is disabled.
-
-      @see deletionTracking()
-    */
-    virtual Event::List deletedEvents(EventSortField sortField = EventSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const = 0;
-
-    /**
       Returns a sorted, unfiltered list of all possible instances for this recurring Event.
 
       @param event event to check for. Caller guarantees it's of type Event.
@@ -986,33 +948,6 @@ public:
     virtual Todo::Ptr todo(const QString &uid, const QDateTime &recurrenceId = {}) const = 0;
 
     /**
-      Returns the deleted Todo associated with the given unique identifier.
-
-      @param uid is a unique identifier string.
-      @param recurrenceId is possible recurrenceId of todo, default is null
-
-      @return a pointer to the deleted Todo.
-      A null pointer is returned if no such deleted Todo exists or if deletion tracking
-      is disabled.
-
-      @see deletionTracking()
-    */
-    virtual Todo::Ptr deletedTodo(const QString &uid, const QDateTime &recurrenceId = {}) const = 0;
-
-    /**
-      Returns a sorted, unfiltered list of all deleted Todos for this Calendar.
-
-      @param sortField specifies the TodoSortField.
-      @param sortDirection specifies the SortDirection.
-
-      @return the list of all unfiltered deleted Todos sorted as specified. An empty list
-      is returned if deletion tracking is disabled.
-
-      @see deletionTracking()
-    */
-    virtual Todo::List deletedTodos(TodoSortField sortField = TodoSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const = 0;
-
-    /**
       Returns a sorted, unfiltered list of all possible instances for this recurring Todo.
 
       @param todo todo to check for. Caller guarantees it's of type Todo.
@@ -1116,33 +1051,6 @@ public:
       A null pointer is returned if no such Journal exists.
     */
     virtual Journal::Ptr journal(const QString &uid, const QDateTime &recurrenceId = {}) const = 0;
-
-    /**
-      Returns the deleted Journal associated with the given unique identifier.
-
-      @param uid is a unique identifier string.
-      @param recurrenceId is possible recurrenceId of journal, default is null
-
-      @return a pointer to the deleted Journal.
-      A null pointer is returned if no such deleted Journal exists or if deletion tracking
-      is disabled.
-
-      @see deletionTracking()
-    */
-    virtual Journal::Ptr deletedJournal(const QString &uid, const QDateTime &recurrenceId = {}) const = 0;
-
-    /**
-      Returns a sorted, unfiltered list of all deleted Journals for this Calendar.
-
-      @param sortField specifies the JournalSortField.
-      @param sortDirection specifies the SortDirection.
-
-      @return the list of all unfiltered deleted Journals sorted as specified. An empty list
-      is returned if deletion tracking is disabled.
-
-      @see deletionTracking()
-    */
-    virtual Journal::List deletedJournals(JournalSortField sortField = JournalSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const = 0;
 
     /**
       Returns a sorted, unfiltered list of all instances for this recurring Journal.
@@ -1393,23 +1301,6 @@ protected:
       @param to is the upper range of the next Alarm repetition.
     */
     void appendRecurringAlarms(Alarm::List &alarms, const Incidence::Ptr &incidence, const QDateTime &from, const QDateTime &to) const;
-
-    /**
-      Enables or disabled deletion tracking.
-      Default is true.
-      @see deletedEvent()
-      @see deletedTodo()
-      @see deletedJournal()
-      @since 4.11
-     */
-    void setDeletionTracking(bool enable);
-
-    /**
-      Returns if deletion tracking is enabled.
-      Default is true.
-      @since 4.11
-    */
-    bool deletionTracking() const;
 
     /**
      * Sets the loading state of this calendar.

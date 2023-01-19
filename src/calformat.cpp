@@ -41,7 +41,7 @@ CalFormat::~CalFormat()
 
 bool CalFormat::fromString(const Calendar::Ptr &calendar, const QString &string, const QString &notebook)
 {
-    return fromRawString(calendar, string.toUtf8(), false, notebook);
+    return fromRawString(calendar, string.toUtf8(), notebook);
 }
 
 void CalFormat::clearException()

@@ -133,17 +133,6 @@ public:
     Q_REQUIRED_RESULT Event::Ptr event(const QString &uid, const QDateTime &recurrenceId = {}) const override;
 
     /**
-      @copydoc Calendar::deletedEvent()
-    */
-    Q_REQUIRED_RESULT Event::Ptr deletedEvent(const QString &uid, const QDateTime &recurrenceId = {}) const override;
-
-    /**
-      @copydoc Calendar::deletedEvents(EventSortField, SortDirection)const
-    */
-    Q_REQUIRED_RESULT Event::List deletedEvents(EventSortField sortField = EventSortUnsorted,
-                                                SortDirection sortDirection = SortDirectionAscending) const override;
-
-    /**
       @copydoc Calendar::eventInstances(const Incidence::Ptr &, EventSortField, SortDirection)const
     */
     Q_REQUIRED_RESULT Event::List eventInstances(const Incidence::Ptr &event,
@@ -188,16 +177,6 @@ public:
     Q_REQUIRED_RESULT Todo::Ptr todo(const QString &uid, const QDateTime &recurrenceId = {}) const override;
 
     /**
-      @copydoc Calendar::deletedTodo()
-    */
-    Q_REQUIRED_RESULT Todo::Ptr deletedTodo(const QString &uid, const QDateTime &recurrenceId = {}) const override;
-
-    /**
-      @copydoc Calendar::deletedTodos(TodoSortField, SortDirection)const
-    */
-    Q_REQUIRED_RESULT Todo::List deletedTodos(TodoSortField sortField = TodoSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const override;
-
-    /**
       @copydoc Calendar::todoInstances(const Incidence::Ptr &, TodoSortField, SortDirection)const
     */
     Q_REQUIRED_RESULT Todo::List
@@ -235,17 +214,6 @@ public:
       @copydoc Calendar::journal()
     */
     Journal::Ptr journal(const QString &uid, const QDateTime &recurrenceId = {}) const override;
-
-    /**
-      @copydoc Calendar::deletedJournal()
-    */
-    Journal::Ptr deletedJournal(const QString &uid, const QDateTime &recurrenceId = {}) const override;
-
-    /**
-      @copydoc Calendar::deletedJournals(JournalSortField, SortDirection)const
-    */
-    Q_REQUIRED_RESULT Journal::List deletedJournals(JournalSortField sortField = JournalSortUnsorted,
-                                                    SortDirection sortDirection = SortDirectionAscending) const override;
 
     /**
       @copydoc Calendar::journalInstances(const Incidence::Ptr &,

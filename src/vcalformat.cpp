@@ -108,7 +108,7 @@ bool VCalFormat::load(const Calendar::Ptr &calendar, const QString &fileName)
 
     // put all vobjects into their proper places
     auto savedTimeZoneId = d->mCalendar->timeZoneId();
-    populate(vcal, false, fileName);
+    populate(vcal, fileName);
     d->mCalendar->setTimeZoneId(savedTimeZoneId);
 
     // clean up from vcal API stuff
@@ -126,7 +126,7 @@ bool VCalFormat::save(const Calendar::Ptr &calendar, const QString &fileName)
     return false;
 }
 
-bool VCalFormat::fromRawString(const Calendar::Ptr &calendar, const QByteArray &string, bool deleted, const QString &notebook)
+bool VCalFormat::fromRawString(const Calendar::Ptr &calendar, const QByteArray &string, const QString &notebook)
 {
     Q_D(VCalFormat);
     d->mCalendar = calendar;
@@ -145,7 +145,7 @@ bool VCalFormat::fromRawString(const Calendar::Ptr &calendar, const QByteArray &
 
     // put all vobjects into their proper places
     auto savedTimeZoneId = d->mCalendar->timeZoneId();
-    populate(vcal, deleted, notebook);
+    populate(vcal, notebook);
     d->mCalendar->setTimeZoneId(savedTimeZoneId);
 
     // clean up from vcal API stuff
@@ -155,11 +155,10 @@ bool VCalFormat::fromRawString(const Calendar::Ptr &calendar, const QByteArray &
     return true;
 }
 
-QString VCalFormat::toString(const Calendar::Ptr &calendar, const QString &notebook, bool deleted)
+QString VCalFormat::toString(const Calendar::Ptr &calendar, const QString &notebook)
 {
     Q_UNUSED(calendar);
     Q_UNUSED(notebook);
-    Q_UNUSED(deleted);
 
     qCWarning(KCALCORE_LOG) << "Exporting into VCAL is not supported";
     return {};
@@ -1319,7 +1318,7 @@ bool VCalFormat::parseTZOffsetISO8601(const QString &s, int &result)
 // take a raw vcalendar (i.e. from a file on disk, clipboard, etc. etc.
 // and break it down from it's tree-like format into the dictionary format
 // that is used internally in the VCalFormat.
-void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
+void VCalFormat::populate(VObject *vcal, const QString &notebook)
 {
     Q_D(VCalFormat);
     Q_UNUSED(notebook);
@@ -1482,20 +1481,10 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
                     !anEvent->hasRecurrenceId() ? d->mCalendar->event(anEvent->uid()) : d->mCalendar->event(anEvent->uid(), anEvent->recurrenceId());
 
                 if (old) {
-                    if (deleted) {
-                        d->mCalendar->deleteEvent(old); // move old to deleted
-                        removeAllVCal(d->mEventsRelate, old);
-                    } else if (anEvent->revision() > old->revision()) {
+                    if (anEvent->revision() > old->revision()) {
                         d->mCalendar->deleteEvent(old); // move old to deleted
                         removeAllVCal(d->mEventsRelate, old);
                         d->mCalendar->addEvent(anEvent); // and replace it with this one
-                    }
-                } else if (deleted) {
-                    old = !anEvent->hasRecurrenceId() ? d->mCalendar->deletedEvent(anEvent->uid())
-                                                      : d->mCalendar->deletedEvent(anEvent->uid(), anEvent->recurrenceId());
-                    if (!old) {
-                        d->mCalendar->addEvent(anEvent); // add this one
-                        d->mCalendar->deleteEvent(anEvent); // and move it to deleted
                     }
                 } else {
                     d->mCalendar->addEvent(anEvent); // just add this one
@@ -1521,19 +1510,10 @@ void VCalFormat::populate(VObject *vcal, bool deleted, const QString &notebook)
                 }
                 Todo::Ptr old = !aTodo->hasRecurrenceId() ? d->mCalendar->todo(aTodo->uid()) : d->mCalendar->todo(aTodo->uid(), aTodo->recurrenceId());
                 if (old) {
-                    if (deleted) {
-                        d->mCalendar->deleteTodo(old); // move old to deleted
-                        removeAllVCal(d->mTodosRelate, old);
-                    } else if (aTodo->revision() > old->revision()) {
+                    if (aTodo->revision() > old->revision()) {
                         d->mCalendar->deleteTodo(old); // move old to deleted
                         removeAllVCal(d->mTodosRelate, old);
                         d->mCalendar->addTodo(aTodo); // and replace it with this one
-                    }
-                } else if (deleted) {
-                    old = d->mCalendar->deletedTodo(aTodo->uid(), aTodo->recurrenceId());
-                    if (!old) {
-                        d->mCalendar->addTodo(aTodo); // add this one
-                        d->mCalendar->deleteTodo(aTodo); // and move it to deleted
                     }
                 } else {
                     d->mCalendar->addTodo(aTodo); // just add this one

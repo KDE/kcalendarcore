@@ -67,12 +67,6 @@ public:
     QHash<QString, KCalendarCore::Incidence::Ptr> mIncidencesByIdentifier;
 
     /**
-     * List of all deleted incidences.
-     * First indexed by incidence->type(), then by incidence->uid();
-     */
-    QMultiHash<QString, Incidence::Ptr> mDeletedIncidences[incidenceTypeCount];
-
-    /**
      * Contains incidences ( to-dos; non-recurring, non-multiday events; journals; )
      * indexed by start/due date.
      *
@@ -90,8 +84,6 @@ public:
     Incidence::Ptr incidence(const QString &uid, IncidenceBase::IncidenceType type, const QDateTime &recurrenceId = {}) const;
 
     bool deleteIncidence(const QString &uid, IncidenceBase::IncidenceType type, const QDateTime &recurrenceId = {});
-
-    Incidence::Ptr deletedIncidence(const QString &uid, const QDateTime &recurrenceId, IncidenceBase::IncidenceType type) const;
 
     void deleteAllIncidences(IncidenceBase::IncidenceType type);
 
@@ -195,9 +187,6 @@ void MemoryCalendar::close()
     d->deleteAllIncidences(Incidence::TypeJournal);
 
     d->mIncidencesByIdentifier.clear();
-    for (auto &table : d->mDeletedIncidences) {
-        table.clear();
-    }
 
     clearNotebookAssociations();
 
@@ -221,9 +210,6 @@ bool MemoryCalendar::deleteIncidence(const Incidence::Ptr &incidence)
     bool deleted = d->deleteIncidence(uid, type, incidence->recurrenceId());
     if (deleted) {
         setModified(true);
-        if (deletionTracking()) {
-            d->mDeletedIncidences[type].insert(uid, incidence);
-        }
 
         // Delete child-incidences.
         if (!incidence->hasRecurrenceId() && incidence->recurs()) {
@@ -296,15 +282,6 @@ Incidence::Ptr MemoryCalendar::Private::incidence(const QString &uid, Incidence:
     return findIncidence(mIncidences[type], uid, recurrenceId);
 }
 
-Incidence::Ptr MemoryCalendar::Private::deletedIncidence(const QString &uid, const QDateTime &recurrenceId, IncidenceBase::IncidenceType type) const
-{
-    if (!q->deletionTracking()) {
-        return Incidence::Ptr();
-    }
-
-    return findIncidence(mDeletedIncidences[type], uid, recurrenceId);
-}
-
 void MemoryCalendar::Private::insertIncidence(const Incidence::Ptr &incidence)
 {
     const QString uid = incidence->uid();
@@ -362,11 +339,6 @@ Event::Ptr MemoryCalendar::event(const QString &uid, const QDateTime &recurrence
     return d->incidence(uid, Incidence::TypeEvent, recurrenceId).staticCast<Event>();
 }
 
-Event::Ptr MemoryCalendar::deletedEvent(const QString &uid, const QDateTime &recurrenceId) const
-{
-    return d->deletedIncidence(uid, recurrenceId, Incidence::TypeEvent).staticCast<Event>();
-}
-
 bool MemoryCalendar::addTodo(const Todo::Ptr &todo)
 {
     return addIncidence(todo);
@@ -387,23 +359,9 @@ Todo::Ptr MemoryCalendar::todo(const QString &uid, const QDateTime &recurrenceId
     return d->incidence(uid, Incidence::TypeTodo, recurrenceId).staticCast<Todo>();
 }
 
-Todo::Ptr MemoryCalendar::deletedTodo(const QString &uid, const QDateTime &recurrenceId) const
-{
-    return d->deletedIncidence(uid, recurrenceId, Incidence::TypeTodo).staticCast<Todo>();
-}
-
 Todo::List MemoryCalendar::rawTodos(TodoSortField sortField, SortDirection sortDirection) const
 {
     return Calendar::sortTodos(d->castIncidenceList<Todo>(d->mIncidences[Incidence::TypeTodo]), sortField, sortDirection);
-}
-
-Todo::List MemoryCalendar::deletedTodos(TodoSortField sortField, SortDirection sortDirection) const
-{
-    if (!deletionTracking()) {
-        return Todo::List();
-    }
-
-    return Calendar::sortTodos(d->castIncidenceList<Todo>(d->mDeletedIncidences[Incidence::TypeTodo]), sortField, sortDirection);
 }
 
 Todo::List MemoryCalendar::todoInstances(const Incidence::Ptr &todo, TodoSortField sortField, SortDirection sortDirection) const
@@ -684,15 +642,6 @@ Event::List MemoryCalendar::rawEvents(EventSortField sortField, SortDirection so
     return Calendar::sortEvents(d->castIncidenceList<Event>(d->mIncidences[Incidence::TypeEvent]), sortField, sortDirection);
 }
 
-Event::List MemoryCalendar::deletedEvents(EventSortField sortField, SortDirection sortDirection) const
-{
-    if (!deletionTracking()) {
-        return Event::List();
-    }
-
-    return Calendar::sortEvents(d->castIncidenceList<Event>(d->mDeletedIncidences[Incidence::TypeEvent]), sortField, sortDirection);
-}
-
 Event::List MemoryCalendar::eventInstances(const Incidence::Ptr &event, EventSortField sortField, SortDirection sortDirection) const
 {
     return Calendar::sortEvents(d->incidenceInstances<Event>(Incidence::TypeEvent, event), sortField, sortDirection);
@@ -718,23 +667,9 @@ Journal::Ptr MemoryCalendar::journal(const QString &uid, const QDateTime &recurr
     return d->incidence(uid, Incidence::TypeJournal, recurrenceId).staticCast<Journal>();
 }
 
-Journal::Ptr MemoryCalendar::deletedJournal(const QString &uid, const QDateTime &recurrenceId) const
-{
-    return d->deletedIncidence(uid, recurrenceId, Incidence::TypeJournal).staticCast<Journal>();
-}
-
 Journal::List MemoryCalendar::rawJournals(JournalSortField sortField, SortDirection sortDirection) const
 {
     return Calendar::sortJournals(d->castIncidenceList<Journal>(d->mIncidences[Incidence::TypeJournal]), sortField, sortDirection);
-}
-
-Journal::List MemoryCalendar::deletedJournals(JournalSortField sortField, SortDirection sortDirection) const
-{
-    if (!deletionTracking()) {
-        return Journal::List();
-    }
-
-    return Calendar::sortJournals(d->castIncidenceList<Journal>(d->mDeletedIncidences[Incidence::TypeJournal]), sortField, sortDirection);
 }
 
 Journal::List MemoryCalendar::journalInstances(const Incidence::Ptr &journal, JournalSortField sortField, SortDirection sortDirection) const

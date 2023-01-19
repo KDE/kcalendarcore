@@ -113,14 +113,13 @@ public:
       @copydoc
       CalFormat::fromRawString()
     */
-    Q_REQUIRED_RESULT bool
-    fromRawString(const Calendar::Ptr &calendar, const QByteArray &string, bool deleted = false, const QString &notebook = QString()) override;
+    Q_REQUIRED_RESULT bool fromRawString(const Calendar::Ptr &calendar, const QByteArray &string, const QString &notebook = QString()) override;
 
     /**
       @copydoc
       CalFormat::toString()
     */
-    Q_REQUIRED_RESULT QString toString(const Calendar::Ptr &calendar, const QString &notebook = QString(), bool deleted = false) override;
+    Q_REQUIRED_RESULT QString toString(const Calendar::Ptr &calendar, const QString &notebook = QString()) override;
 
     /**
       Converts an Incidence to a QString.

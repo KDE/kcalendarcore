@@ -31,7 +31,6 @@ public:
         , mObserversEnabled(true)
         , mDefaultFilter(new CalFilter)
         , batchAddingInProgress(false)
-        , mDeletionTracking(true)
     {
         // Setup default filter, which does nothing
         mFilter = mDefaultFilter;
@@ -74,7 +73,6 @@ public:
     QString mDefaultNotebook; // uid of default notebook
     QMap<QString, Incidence::List> mIncidenceRelations;
     bool batchAddingInProgress = false;
-    bool mDeletionTracking = false;
     bool mIsLoading = false;
     QString mId;
     QString mName;

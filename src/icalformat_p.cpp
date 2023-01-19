@@ -2643,7 +2643,7 @@ Incidence::Ptr ICalFormatImpl::readOneIncidence(icalcomponent *calendar, const I
 // take a raw vcalendar (i.e. from a file on disk, clipboard, etc. etc.
 // and break it down from its tree-like format into the dictionary format
 // that is used internally in the ICalFormatImpl.
-bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar, bool deleted, const QString &notebook)
+bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar, const QString &notebook)
 {
     // qCDebug(KCALCORE_LOG)<<"Populate called";
 
@@ -2729,7 +2729,7 @@ bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar,
     while (c) {
         Todo::Ptr todo = readTodo(c, &timeZoneCache);
         if (todo) {
-            // qCDebug(KCALCORE_LOG) << "todo is not zero and deleted is " << deleted;
+            // qCDebug(KCALCORE_LOG) << "todo is not zero";;
             Todo::Ptr old = cal->todo(todo->uid(), todo->recurrenceId());
             if (old) {
                 if (old->uid().isEmpty()) {
@@ -2738,22 +2738,11 @@ bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar,
                     continue;
                 }
                 // qCDebug(KCALCORE_LOG) << "Found an old todo with uid " << old->uid();
-                if (deleted) {
-                    // qCDebug(KCALCORE_LOG) << "Todo " << todo->uid() << " already deleted";
-                    cal->deleteTodo(old); // move old to deleted
-                    removeAllICal(mTodosRelate, old);
-                } else if (todo->revision() > old->revision()) {
+                if (todo->revision() > old->revision()) {
                     // qCDebug(KCALCORE_LOG) << "Replacing old todo " << old.data() << " with this one " << todo.data();
                     cal->deleteTodo(old); // move old to deleted
                     removeAllICal(mTodosRelate, old);
                     cal->addTodo(todo); // and replace it with this one
-                }
-            } else if (deleted) {
-                // qCDebug(KCALCORE_LOG) << "Todo " << todo->uid() << " already deleted";
-                old = cal->deletedTodo(todo->uid(), todo->recurrenceId());
-                if (!old) {
-                    cal->addTodo(todo); // add this one
-                    cal->deleteTodo(todo); // and move it to deleted
                 }
             } else {
                 // qCDebug(KCALCORE_LOG) << "Adding todo " << todo.data() << todo->uid();
@@ -2771,7 +2760,7 @@ bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar,
     while (c) {
         Event::Ptr event = readEvent(c, &timeZoneCache);
         if (event) {
-            // qCDebug(KCALCORE_LOG) << "event is not zero and deleted is " << deleted;
+            // qCDebug(KCALCORE_LOG) << "event is not zero";
             Event::Ptr old = cal->event(event->uid(), event->recurrenceId());
             if (old) {
                 if (old->uid().isEmpty()) {
@@ -2780,23 +2769,12 @@ bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar,
                     continue;
                 }
                 // qCDebug(KCALCORE_LOG) << "Found an old event with uid " << old->uid();
-                if (deleted) {
-                    // qCDebug(KCALCORE_LOG) << "Event " << event->uid() << " already deleted";
-                    cal->deleteEvent(old); // move old to deleted
-                    removeAllICal(mEventsRelate, old);
-                } else if (event->revision() > old->revision()) {
+                if (event->revision() > old->revision()) {
                     // qCDebug(KCALCORE_LOG) << "Replacing old event " << old.data()
                     //                       << " with this one " << event.data();
                     cal->deleteEvent(old); // move old to deleted
                     removeAllICal(mEventsRelate, old);
                     cal->addEvent(event); // and replace it with this one
-                }
-            } else if (deleted) {
-                // qCDebug(KCALCORE_LOG) << "Event " << event->uid() << " already deleted";
-                old = cal->deletedEvent(event->uid(), event->recurrenceId());
-                if (!old) {
-                    cal->addEvent(event); // add this one
-                    cal->deleteEvent(event); // and move it to deleted
                 }
             } else {
                 // qCDebug(KCALCORE_LOG) << "Adding event " << event.data() << event->uid();
@@ -2816,17 +2794,9 @@ bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar,
         if (journal) {
             Journal::Ptr old = cal->journal(journal->uid(), journal->recurrenceId());
             if (old) {
-                if (deleted) {
-                    cal->deleteJournal(old); // move old to deleted
-                } else if (journal->revision() > old->revision()) {
+                if (journal->revision() > old->revision()) {
                     cal->deleteJournal(old); // move old to deleted
                     cal->addJournal(journal); // and replace it with this one
-                }
-            } else if (deleted) {
-                old = cal->deletedJournal(journal->uid(), journal->recurrenceId());
-                if (!old) {
-                    cal->addJournal(journal); // add this one
-                    cal->deleteJournal(journal); // and move it to deleted
                 }
             } else {
                 cal->addJournal(journal); // just add this one

@@ -87,25 +87,23 @@ public:
 
       @param calendar is the Calendar to be loaded.
       @param string is the QByteArray containing the Calendar data.
-      @param deleted use deleted incidences
       @param notebook notebook uid
 
       @return true if successful; false otherwise.
       @see fromString(), toString().
     */
-    virtual bool fromRawString(const Calendar::Ptr &calendar, const QByteArray &string, bool deleted = false, const QString &notebook = QString()) = 0;
+    virtual bool fromRawString(const Calendar::Ptr &calendar, const QByteArray &string, const QString &notebook = QString()) = 0;
 
     /**
       Returns the calendar as a string.
       @param calendar is the Calendar containing the data to be saved.
       @param notebook uid use only incidences with given notebook
-      @param deleted use deleted incidences
 
       @return a QString containing the Calendar data if successful;
       an empty string otherwise.
       @see fromString(), fromRawString().
     */
-    virtual QString toString(const Calendar::Ptr &calendar, const QString &notebook = QString(), bool deleted = false) = 0;
+    virtual QString toString(const Calendar::Ptr &calendar, const QString &notebook = QString()) = 0;
 
     /**
       Clears the exception status.

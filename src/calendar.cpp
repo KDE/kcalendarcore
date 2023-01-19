@@ -618,22 +618,6 @@ Incidence::Ptr Calendar::incidence(const QString &uid, const QDateTime &recurren
     return i;
 }
 
-Incidence::Ptr Calendar::deleted(const QString &uid, const QDateTime &recurrenceId) const
-{
-    Incidence::Ptr i = deletedEvent(uid, recurrenceId);
-    if (i) {
-        return i;
-    }
-
-    i = deletedTodo(uid, recurrenceId);
-    if (i) {
-        return i;
-    }
-
-    i = deletedJournal(uid, recurrenceId);
-    return i;
-}
-
 Incidence::List Calendar::incidencesFromSchedulingID(const QString &sid) const
 {
     Incidence::List result;
@@ -1301,16 +1285,6 @@ void Calendar::endBatchAdding()
 bool Calendar::batchAdding() const
 {
     return d->batchAddingInProgress;
-}
-
-void Calendar::setDeletionTracking(bool enable)
-{
-    d->mDeletionTracking = enable;
-}
-
-bool Calendar::deletionTracking() const
-{
-    return d->mDeletionTracking;
 }
 
 Alarm::List Calendar::alarmsTo(const QDateTime &to) const

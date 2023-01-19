@@ -80,7 +80,7 @@ bool ICalFormat::load(const Calendar::Ptr &calendar, const QString &fileName)
         if (!calendar->hasValidNotebook(fileName) && !calendar->addNotebook(fileName, true)) {
             qCWarning(KCALCORE_LOG) << "Unable to add" << fileName << "as a notebook in calendar";
         }
-        if (!fromRawString(calendar, text, false, fileName)) {
+        if (!fromRawString(calendar, text, fileName)) {
             qCWarning(KCALCORE_LOG) << fileName << " is not a valid iCalendar file";
             setException(new Exception(Exception::ParseErrorIcal));
             return false;
@@ -174,7 +174,7 @@ Incidence::Ptr ICalFormat::readIncidence(const QByteArray &string)
     return incidence;
 }
 
-bool ICalFormat::fromRawString(const Calendar::Ptr &cal, const QByteArray &string, bool deleted, const QString &notebook)
+bool ICalFormat::fromRawString(const Calendar::Ptr &cal, const QByteArray &string, const QString &notebook)
 {
     Q_D(ICalFormat);
 
@@ -197,7 +197,7 @@ bool ICalFormat::fromRawString(const Calendar::Ptr &cal, const QByteArray &strin
         for (comp = icalcomponent_get_first_component(calendar, ICAL_VCALENDAR_COMPONENT); comp;
              comp = icalcomponent_get_next_component(calendar, ICAL_VCALENDAR_COMPONENT)) {
             // put all objects into their proper places
-            if (!d->mImpl.populate(cal, comp, deleted)) {
+            if (!d->mImpl.populate(cal, comp)) {
                 qCritical() << "Could not populate calendar";
                 if (!exception()) {
                     setException(new Exception(Exception::ParseErrorKcal));
@@ -213,7 +213,7 @@ bool ICalFormat::fromRawString(const Calendar::Ptr &cal, const QByteArray &strin
         success = false;
     } else {
         // put all objects into their proper places
-        if (!d->mImpl.populate(cal, calendar, deleted, notebook)) {
+        if (!d->mImpl.populate(cal, calendar, notebook)) {
             qCDebug(KCALCORE_LOG) << "Could not populate calendar";
             if (!exception()) {
                 setException(new Exception(Exception::ParseErrorKcal));
@@ -241,7 +241,7 @@ Incidence::Ptr ICalFormat::fromString(const QString &string)
     return !list.isEmpty() ? list.first() : Incidence::Ptr();
 }
 
-QString ICalFormat::toString(const Calendar::Ptr &cal, const QString &notebook, bool deleted)
+QString ICalFormat::toString(const Calendar::Ptr &cal, const QString &notebook)
 {
     Q_D(ICalFormat);
 
@@ -252,40 +252,31 @@ QString ICalFormat::toString(const Calendar::Ptr &cal, const QString &notebook, 
     TimeZoneEarliestDate earliestTz;
 
     // todos
-    Todo::List todoList = deleted ? cal->deletedTodos() : cal->rawTodos();
+    Todo::List todoList = cal->rawTodos();
     for (auto it = todoList.cbegin(), end = todoList.cend(); it != end; ++it) {
-        if (!deleted || !cal->todo((*it)->uid(), (*it)->recurrenceId())) {
-            // use existing ones, or really deleted ones
-            if (notebook.isEmpty() || (!cal->notebook(*it).isEmpty() && notebook.endsWith(cal->notebook(*it)))) {
-                component = d->mImpl.writeTodo(*it, &tzUsedList);
-                icalcomponent_add_component(calendar, component);
-                ICalTimeZoneParser::updateTzEarliestDate((*it), &earliestTz);
-            }
+        if (notebook.isEmpty() || (!cal->notebook(*it).isEmpty() && notebook.endsWith(cal->notebook(*it)))) {
+            component = d->mImpl.writeTodo(*it, &tzUsedList);
+            icalcomponent_add_component(calendar, component);
+            ICalTimeZoneParser::updateTzEarliestDate((*it), &earliestTz);
         }
     }
     // events
-    Event::List events = deleted ? cal->deletedEvents() : cal->rawEvents();
+    Event::List events = cal->rawEvents();
     for (auto it = events.cbegin(), end = events.cend(); it != end; ++it) {
-        if (!deleted || !cal->event((*it)->uid(), (*it)->recurrenceId())) {
-            // use existing ones, or really deleted ones
-            if (notebook.isEmpty() || (!cal->notebook(*it).isEmpty() && notebook.endsWith(cal->notebook(*it)))) {
-                component = d->mImpl.writeEvent(*it, &tzUsedList);
-                icalcomponent_add_component(calendar, component);
-                ICalTimeZoneParser::updateTzEarliestDate((*it), &earliestTz);
-            }
+        if (notebook.isEmpty() || (!cal->notebook(*it).isEmpty() && notebook.endsWith(cal->notebook(*it)))) {
+            component = d->mImpl.writeEvent(*it, &tzUsedList);
+            icalcomponent_add_component(calendar, component);
+            ICalTimeZoneParser::updateTzEarliestDate((*it), &earliestTz);
         }
     }
 
     // journals
-    Journal::List journals = deleted ? cal->deletedJournals() : cal->rawJournals();
+    Journal::List journals = cal->rawJournals();
     for (auto it = journals.cbegin(), end = journals.cend(); it != end; ++it) {
-        if (!deleted || !cal->journal((*it)->uid(), (*it)->recurrenceId())) {
-            // use existing ones, or really deleted ones
-            if (notebook.isEmpty() || (!cal->notebook(*it).isEmpty() && notebook.endsWith(cal->notebook(*it)))) {
-                component = d->mImpl.writeJournal(*it, &tzUsedList);
-                icalcomponent_add_component(calendar, component);
-                ICalTimeZoneParser::updateTzEarliestDate((*it), &earliestTz);
-            }
+        if (notebook.isEmpty() || (!cal->notebook(*it).isEmpty() && notebook.endsWith(cal->notebook(*it)))) {
+            component = d->mImpl.writeJournal(*it, &tzUsedList);
+            icalcomponent_add_component(calendar, component);
+            ICalTimeZoneParser::updateTzEarliestDate((*it), &earliestTz);
         }
     }
 

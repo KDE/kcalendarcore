@@ -86,14 +86,13 @@ public:
       @copydoc
       CalFormat::toString()
     */
-    Q_REQUIRED_RESULT QString toString(const Calendar::Ptr &calendar, const QString &notebook = QString(), bool deleted = false) override;
+    Q_REQUIRED_RESULT QString toString(const Calendar::Ptr &calendar, const QString &notebook = QString()) override;
 
     /**
       @copydoc
       CalFormat::fromRawString()
     */
-    Q_REQUIRED_RESULT bool
-    fromRawString(const Calendar::Ptr &calendar, const QByteArray &string, bool deleted = false, const QString &notebook = QString()) override;
+    Q_REQUIRED_RESULT bool fromRawString(const Calendar::Ptr &calendar, const QByteArray &string, const QString &notebook = QString()) override;
 
 protected:
     /**
@@ -161,7 +160,7 @@ protected:
       Takes a vCalendar tree of VObjects, and puts all of them that have the
       "event" property into the dictionary, todos in the todo-list, etc.
     */
-    void populate(VObject *vcal, bool deleted = false, const QString &notebook = QString());
+    void populate(VObject *vcal, const QString &notebook = QString());
 
     /**
       Converts a two letter representation of the day (i.e. MO, TU, WE, etc) and
