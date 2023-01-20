@@ -43,8 +43,8 @@ endif()
 set(KCALENDARCORE_LIB_VERSION ${KF_VERSION})
 ecm_setup_version(PROJECT VARIABLE_PREFIX KCALENDARCORE
   VERSION_HEADER "${KCalendarCore_BINARY_DIR}/kcalendarcore_version.h"
-  PACKAGE_VERSION_FILE "${KCalendarCore_BINARY_DIR}/KF5CalendarCoreConfigVersion.cmake"
-  SOVERSION 5
+  PACKAGE_VERSION_FILE "${KCalendarCore_BINARY_DIR}/KF6CalendarCoreConfigVersion.cmake"
+  SOVERSION 6
 )
 
 ########### Find packages ###########
@@ -59,15 +59,15 @@ find_package(LibIcal ${LibIcal_MIN_VERSION})
 set_package_properties(LibIcal PROPERTIES TYPE REQUIRED)
 
 ########### CMake Config Files ###########
-set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF5CalendarCore")
+set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF6CalendarCore")
 
 if (BUILD_QCH)
-    set(PACKAGE_INCLUDE_QCHTARGETS "include(\"\${CMAKE_CURRENT_LIST_DIR}/KF5CalendarCoreQchTargets.cmake\")")
+    set(PACKAGE_INCLUDE_QCHTARGETS "include(\"\${CMAKE_CURRENT_LIST_DIR}/KF6CalendarCoreQchTargets.cmake\")")
 endif()
 
 configure_package_config_file(
-  "${CMAKE_CURRENT_SOURCE_DIR}/KF5CalendarCoreConfig.cmake.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/KF5CalendarCoreConfig.cmake"
+  "${CMAKE_CURRENT_SOURCE_DIR}/KF6CalendarCoreConfig.cmake.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/KF6CalendarCoreConfig.cmake"
   INSTALL_DESTINATION ${CMAKECONFIG_INSTALL_DIR}
 )
 
@@ -85,23 +85,23 @@ endif()
 
 ########### Install Files ###########
 install(FILES
-  "${CMAKE_CURRENT_BINARY_DIR}/KF5CalendarCoreConfig.cmake"
-  "${CMAKE_CURRENT_BINARY_DIR}/KF5CalendarCoreConfigVersion.cmake"
+  "${CMAKE_CURRENT_BINARY_DIR}/KF6CalendarCoreConfig.cmake"
+  "${CMAKE_CURRENT_BINARY_DIR}/KF6CalendarCoreConfigVersion.cmake"
   cmake/FindLibIcal.cmake
   DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
   COMPONENT Devel
 )
 
-install(EXPORT KF5CalendarCoreTargets
+install(EXPORT KF6CalendarCoreTargets
   DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
-  FILE KF5CalendarCoreTargets.cmake
-  NAMESPACE KF5::
+  FILE KF6CalendarCoreTargets.cmake
+  NAMESPACE KF6::
 )
 
 if (BUILD_QCH)
     ecm_install_qch_export(
-        TARGETS KF5CalendarCore_QCH
-        FILE KF5CalendarCoreQchTargets.cmake
+        TARGETS KF6CalendarCore_QCH
+        FILE KF6CalendarCoreQchTargets.cmake
         DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
         COMPONENT Devel
     )
@@ -122,7 +122,7 @@ if (NOT KCALENDARCORE_NO_DEPRECATED_NAMESPACE)
 endif()
 
 if (NOT WIN32)
-    ecm_generate_pkgconfig_file(BASE_NAME KF5CalendarCore
+    ecm_generate_pkgconfig_file(BASE_NAME KF6CalendarCore
       INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF}/KCalendarCore/
       DEPS "Qt${QT_MAJOR_VERSION}Core Qt${QT_MAJOR_VERSION}Gui"
     INSTALL)

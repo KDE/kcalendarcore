@@ -1,13 +1,13 @@
-add_library(KF5CalendarCore)
-add_library(KF5::CalendarCore ALIAS KF5CalendarCore)
+add_library(KF6CalendarCore)
+add_library(KF6::CalendarCore ALIAS KF6CalendarCore)
 
-set_target_properties(KF5CalendarCore PROPERTIES
+set_target_properties(KF6CalendarCore PROPERTIES
     VERSION     ${KCALENDARCORE_VERSION}
     SOVERSION   ${KCALENDARCORE_SOVERSION}
     EXPORT_NAME CalendarCore
 )
 
-target_sources(KF5CalendarCore PRIVATE
+target_sources(KF6CalendarCore PRIVATE
     alarm.cpp
     alarm.h
     attachment.cpp
@@ -89,7 +89,7 @@ target_sources(KF5CalendarCore PRIVATE
     visitor.h
 
 )
-ecm_qt_declare_logging_category(KF5CalendarCore
+ecm_qt_declare_logging_category(KF6CalendarCore
     HEADER kcalendarcore_debug.h
     IDENTIFIER KCALCORE_LOG
     CATEGORY_NAME kf.calendarcore
@@ -98,7 +98,7 @@ ecm_qt_declare_logging_category(KF5CalendarCore
     EXPORT KCALENDARCORE
 )
 
-ecm_generate_export_header(KF5CalendarCore
+ecm_generate_export_header(KF6CalendarCore
     BASE_NAME kcalendarcore
     GROUP_BASE_NAME KF
     VERSION ${KF_VERSION}
@@ -110,13 +110,13 @@ ecm_generate_export_header(KF5CalendarCore
 
 # backward compatibility with the old name
 if (NOT KCALENDARCORE_NO_DEPRECATED_NAMESPACE)
-    target_compile_definitions(KF5CalendarCore INTERFACE "-DKCalCore=KCalendarCore")
+    target_compile_definitions(KF6CalendarCore INTERFACE "-DKCalCore=KCalendarCore")
 endif()
 
-target_include_directories(KF5CalendarCore INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF}/KCalendarCore>")
-target_include_directories(KF5CalendarCore PUBLIC "$<BUILD_INTERFACE:${KCalendarCore_SOURCE_DIR}/src;${KCalendarCore_BINARY_DIR}/src>")
+target_include_directories(KF6CalendarCore INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF}/KCalendarCore>")
+target_include_directories(KF6CalendarCore PUBLIC "$<BUILD_INTERFACE:${KCalendarCore_SOURCE_DIR}/src;${KCalendarCore_BINARY_DIR}/src>")
 
-target_link_libraries(KF5CalendarCore
+target_link_libraries(KF6CalendarCore
 PUBLIC
     Qt${QT_MAJOR_VERSION}::Core
     Qt${QT_MAJOR_VERSION}::Gui
@@ -124,7 +124,7 @@ PRIVATE
     LibIcal
 )
 
-install(TARGETS KF5CalendarCore EXPORT KF5CalendarCoreTargets ${KF_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS KF6CalendarCore EXPORT KF6CalendarCoreTargets ${KF_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ########### Generate Headers ###############
 set(kcalendarcore_headers
@@ -215,14 +215,14 @@ ecm_qt_install_logging_categories(
     DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR}
 )
 
-ecm_generate_pri_file(BASE_NAME KCalendarCore LIB_NAME KF5CalendarCore DEPS "Core" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF}/KCalendarCore/KCalendarCore)
+ecm_generate_pri_file(BASE_NAME KCalendarCore LIB_NAME KF6CalendarCore DEPS "Core" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF}/KCalendarCore/KCalendarCore)
 install(FILES ${PRI_FILENAME} DESTINATION ${ECM_MKSPECS_INSTALL_DIR})
 
 if(BUILD_QCH)
     ecm_add_qch(
-        KF5CalendarCore_QCH
+        KF6CalendarCore_QCH
         NAME KCalendarCore
-        BASE_NAME KF5CalendarCore
+        BASE_NAME KF6CalendarCore
         VERSION ${KCalendarCore_VERSION}
         ORG_DOMAIN org.kde
         SOURCES # using only public headers, to cover only public API

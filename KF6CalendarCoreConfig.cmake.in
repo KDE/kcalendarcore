@@ -8,6 +8,6 @@ if (NOT @BUILD_SHARED_LIBS@)
     find_dependency(LibIcal @LibIcal_MIN_VERSION@)
 endif()
 
-include("${CMAKE_CURRENT_LIST_DIR}/KF5CalendarCoreTargets.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/KF6CalendarCoreTargets.cmake")
 
 @PACKAGE_INCLUDE_QCHTARGETS@

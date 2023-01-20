@@ -8,8 +8,8 @@ portingAid: false
 deprecated: false
 libraries:
  - qmake: KCalendarCore
- - cmake: "KF5::CalendarCore"
-cmakename: KF5CalendarCore
+ - cmake: "KF6::CalendarCore"
+cmakename: KF6CalendarCore
 
 public_lib: true
 group: Frameworks

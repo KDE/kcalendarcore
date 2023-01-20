@@ -10,7 +10,7 @@ macro(macro_unit_tests)
     add_executable(${_testname} ${_testname}.cpp)
     add_test(NAME ${_testname} COMMAND ${_testname})
     ecm_mark_as_test(${_testname})
-    target_link_libraries(${_testname} KF5CalendarCore Qt${QT_MAJOR_VERSION}::Test LibIcal)
+    target_link_libraries(${_testname} KF6CalendarCore Qt${QT_MAJOR_VERSION}::Test LibIcal)
   endforeach()
 endmacro()
 
@@ -68,7 +68,7 @@ set_target_properties(testconference PROPERTIES COMPILE_FLAGS -DICALTESTDATADIR=
 # TODO: check if this can build with msvc now (and if it works on Windows)
 if(NOT MSVC)
   macro_unit_tests(testicaltimezones)
-  target_link_libraries(testicaltimezones Qt${QT_MAJOR_VERSION}::Core KF5::CalendarCore)
+  target_link_libraries(testicaltimezones Qt${QT_MAJOR_VERSION}::Core KF6::CalendarCore)
 endif()
 
 ########### Tests #######################
