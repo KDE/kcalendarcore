@@ -124,9 +124,6 @@ void IncidenceTest::testGeo()
     // Set GEO, thoroughly.
     inc.setGeoLatitude(90.0);
     inc.setGeoLongitude(180.0);
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 89)
-    inc.setHasGeo(true);
-#endif
     QCOMPARE(inc.hasGeo(), true);
     QCOMPARE(inc.geoLatitude(), 90.0);
     QCOMPARE(inc.geoLongitude(), 180.0);
@@ -143,53 +140,30 @@ void IncidenceTest::testGeo()
     inc.resetDirtyFields();
     inc.setGeoLatitude(INVALID_LATLON);
     inc.setGeoLongitude(INVALID_LATLON);
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 89)
-    inc.setHasGeo(false);
-#endif
     QCOMPARE(inc.hasGeo(), false);
     QCOMPARE(inc.geoLatitude(), INVALID_LATLON);
     QCOMPARE(inc.geoLongitude(), INVALID_LATLON);
     QCOMPARE(inc.dirtyFields(), (QSet{IncidenceBase::FieldGeoLatitude, IncidenceBase::FieldGeoLongitude}));
 
     // Error handling.
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 89)
-    inc.setHasGeo(true);
-#endif
     inc.setGeoLatitude(90.0);
     inc.setGeoLongitude(180.0);
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 89)
-    inc.setHasGeo(false);
-    QCOMPARE(inc.geoLatitude(), INVALID_LATLON);
-    QCOMPARE(inc.geoLongitude(), INVALID_LATLON);
-    inc.setHasGeo(true);
-    inc.setGeoLatitude(90.0);
-    inc.setGeoLongitude(180.0);
-#endif
     inc.setGeoLatitude(INVALID_LATLON);
     QCOMPARE(inc.hasGeo(), false);
     QCOMPARE(inc.geoLatitude(), INVALID_LATLON);
     QCOMPARE(inc.geoLongitude(), INVALID_LATLON);
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 89)
-    inc.setHasGeo(true);
-#endif
     inc.setGeoLatitude(90.0);
     inc.setGeoLongitude(180.0);
     inc.setGeoLongitude(INVALID_LATLON);
     QCOMPARE(inc.hasGeo(), false);
     QCOMPARE(inc.geoLatitude(), INVALID_LATLON);
     QCOMPARE(inc.geoLongitude(), INVALID_LATLON);
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 89)
-    inc.setHasGeo(true);
-#endif
     inc.setGeoLatitude(90.0);
     inc.setGeoLongitude(180.0);
     inc.setGeoLatitude(NAN);
     QCOMPARE(inc.hasGeo(), false);
     QCOMPARE(inc.geoLatitude(), INVALID_LATLON);
     QCOMPARE(inc.geoLongitude(), INVALID_LATLON);
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 89)
-    inc.setHasGeo(true);
-#endif
     inc.setGeoLatitude(90.0);
     inc.setGeoLongitude(180.0);
     inc.setGeoLongitude(NAN);

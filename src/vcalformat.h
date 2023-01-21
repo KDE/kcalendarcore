@@ -82,16 +82,6 @@ public:
     */
     bool save(const Calendar::Ptr &calendar, const QString &fileName) override;
 
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 97)
-    /**
-      @copydoc
-      CalFormat::fromString()
-    */
-    KCALENDARCORE_DEPRECATED_VERSION(5, 97, "use fromString(const Calendar::Ptr &calendar, const QString &string, const QString &notebook)")
-    bool fromString(const Calendar::Ptr &calendar, const QString &string, bool deleted, const QString &notebook = QString()) override;
-    using CalFormat::fromString;
-#endif
-
     /**
       @copydoc
       CalFormat::toString()
@@ -200,22 +190,10 @@ protected:
     void readCustomProperties(VObject *o, const Incidence::Ptr &i);
     void writeCustomProperties(VObject *o, const Incidence::Ptr &i);
 
-protected:
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 96)
-    /**
-      @copydoc
-      IncidenceBase::virtual_hook()
-    */
-    void virtual_hook(int id, void *data) override;
-#endif
-
 private:
     //@cond PRIVATE
     Q_DISABLE_COPY(VCalFormat)
     Q_DECLARE_PRIVATE(VCalFormat)
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 96)
-    void *unused; // former dptr, just kept for ABI compatibility
-#endif
     //@endcond
 };
 

@@ -62,11 +62,7 @@ class KCALENDARCORE_EXPORT Incidence : public IncidenceBase, public Recurrence::
     Q_PROPERTY(QString description READ description WRITE setDescription)
     Q_PROPERTY(QString summary READ summary WRITE setSummary)
     Q_PROPERTY(QString location READ location WRITE setLocation)
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 89)
-    Q_PROPERTY(bool hasGeo READ hasGeo WRITE setHasGeo)
-#else
     Q_PROPERTY(bool hasGeo READ hasGeo)
-#endif
     Q_PROPERTY(float geoLatitude READ geoLatitude WRITE setGeoLatitude)
     Q_PROPERTY(float geoLongitude READ geoLongitude WRITE setGeoLongitude)
     Q_PROPERTY(QStringList categories READ categories WRITE setCategories)
@@ -125,15 +121,7 @@ public:
     */
     typedef QVector<Ptr> List;
 
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 91)
-    /**
-      Constructs an empty incidence.
-      @deprecated Use Incidence(IncidencePrivate *p).
-    */
-    Incidence();
-#else
     Incidence() = delete;
-#endif
 
     /**
       Constructs an empty incidence.
@@ -657,18 +645,6 @@ public:
     */
     Q_REQUIRED_RESULT bool hasGeo() const;
 
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 89)
-    /**
-      Sets if the incidence has geo data.
-      @param hasGeo if true, latitude and longitude must be set to valid values.
-      If false, geoLatitude() and geoLongitude() will return INVALID_LATLON.
-      @deprecated since 5.89.  Use setGeoLatitude() and setGeoLongitude().
-      @see hasGeo(), geoLatitude(), geoLongitude().
-    */
-    KCALENDARCORE_DEPRECATED_VERSION(5, 89, "Use setGeoLatitude() and setGeoLongitude()")
-    void setHasGeo(bool hasGeo);
-#endif
-
     /**
       Set the incidence's geoLatitude.
       @param geolatitude is the incidence geolatitude to set; a value between -90.0 and 90.0,
@@ -886,16 +862,7 @@ public:
     Q_REQUIRED_RESULT static QStringList mimeTypes();
 
 protected:
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 91)
-    /**
-      Copy constructor.
-      @param other is the incidence to copy.
-      @deprecated Use Incidence(const Incidence &other, IncidencePrivate *p).
-    */
-    Incidence(const Incidence &other);
-#else
     Incidence(const Incidence &) = delete;
-#endif
 
     /**
       @param other is the incidence to copy.
@@ -934,10 +901,6 @@ private:
 
 protected:
     Q_DECLARE_PRIVATE(Incidence)
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 91)
-    KCALENDARCORE_DEPRECATED_VERSION(5, 91, "Do not use")
-    IncidencePrivate *const _ = nullptr;    // TODO KF6 remove. ABI compatibility hack.
-#endif
 };
 
 }

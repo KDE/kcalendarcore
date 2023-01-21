@@ -221,16 +221,7 @@ public:
         virtual void incidenceUpdated(const QString &uid, const QDateTime &recurrenceId) = 0;
     };
 
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 91)
-    /**
-      Constructs an empty IncidenceBase.
-      @deprecated Use IncidenceBase(IncidenceBasePrivate *p).
-    */
-    KCALENDARCORE_DEPRECATED_VERSION(5, 91, "Do not use")
-    IncidenceBase();
-#else
     IncidenceBase() = delete;
-#endif
 
     /**
       Constructs an empty IncidenceBase.
@@ -707,16 +698,7 @@ protected:
     */
     void customPropertyUpdated() override;
 
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 91)
-    /**
-      Constructs an IncidenceBase as a copy of another IncidenceBase object.
-      @param ib is the IncidenceBase to copy.
-      @deprecated Use IncidenceBase(const IncidenceBase &ib, IncidenceBasePrivate  *p).
-    */
-    IncidenceBase(const IncidenceBase &ib);
-#else
     IncidenceBase(const IncidenceBase &) = delete;
-#endif
 
     /**
       Constructs an IncidenceBase as a copy of another IncidenceBase object.

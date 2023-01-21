@@ -33,9 +33,6 @@ set(EXCLUDE_DEPRECATED_BEFORE_AND_AT 0 CACHE STRING "Control the range of deprec
 option(BUILD_QCH "Build API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
 add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
 
-# TODO: remove for KF6
-option(KCALENDARCORE_NO_DEPRECATED_NAMESPACE "Disable deprecated KCalCore namespace" OFF)
-
 if(POLICY CMP0053)
   cmake_policy(SET CMP0053 NEW)
 endif()
@@ -111,15 +108,6 @@ install(FILES
   ${CMAKE_CURRENT_BINARY_DIR}/kcalendarcore_version.h
   DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF}/KCalendarCore COMPONENT Devel
 )
-if (NOT KCALENDARCORE_NO_DEPRECATED_NAMESPACE)
-  ecm_setup_version(PROJECT VARIABLE_PREFIX KCALCORE
-    VERSION_HEADER "${KCalendarCore_BINARY_DIR}/kcalcore_version.h"
-  )
-  install(FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/kcalcore_version.h
-    DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF} COMPONENT Devel
-  )
-endif()
 
 if (NOT WIN32)
     ecm_generate_pkgconfig_file(BASE_NAME KF6CalendarCore

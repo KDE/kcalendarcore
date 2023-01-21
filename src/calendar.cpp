@@ -479,15 +479,6 @@ Incidence::List Calendar::incidences(const QString &notebook) const
     }
 }
 
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 95)
-/** static */
-Event::List Calendar::sortEvents(const Event::List &eventList, EventSortField sortField, SortDirection sortDirection)
-{
-    Event::List eventListSorted(eventList);
-    return sortEvents(std::move(eventListSorted), sortField, sortDirection);
-}
-#endif
-
 Event::List Calendar::sortEvents(Event::List &&eventList, EventSortField sortField, SortDirection sortDirection)
 {
     switch (sortField) {
@@ -664,15 +655,6 @@ Incidence::Ptr Calendar::incidenceFromSchedulingID(const QString &uid) const
     return it != itEnd ? *it : Incidence::Ptr();
 }
 
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 95)
-/** static */
-Todo::List Calendar::sortTodos(const Todo::List &todoList, TodoSortField sortField, SortDirection sortDirection)
-{
-    Todo::List todoListSorted(todoList);
-    return sortTodos(std::move(todoListSorted), sortField, sortDirection);
-}
-#endif
-
 Todo::List Calendar::sortTodos(Todo::List &&todoList, TodoSortField sortField, SortDirection sortDirection)
 {
     // Note that To-dos may not have Start DateTimes nor due DateTimes.
@@ -760,15 +742,6 @@ Todo::List Calendar::todos(const QDate &start, const QDate &end, const QTimeZone
     d->mFilter->apply(&tl);
     return tl;
 }
-
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 95)
-/** static */
-Journal::List Calendar::sortJournals(const Journal::List &journalList, JournalSortField sortField, SortDirection sortDirection)
-{
-    Journal::List journalListSorted = journalList;
-    return sortJournals(std::move(journalListSorted), sortField, sortDirection);
-}
-#endif
 
 Journal::List Calendar::sortJournals(Journal::List &&journalList, JournalSortField sortField, SortDirection sortDirection)
 {

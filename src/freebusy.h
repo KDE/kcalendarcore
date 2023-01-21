@@ -258,13 +258,6 @@ private:
       @param other is another FreeBusy object to assign to this one.
      */
     FreeBusy &operator=(const FreeBusy &other);
-
-    //@cond PRIVATE
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 91)
-    KCALENDARCORE_DEPRECATED_VERSION(5, 91, "Do not use")
-    FreeBusyPrivate *const _ = nullptr;    // TODO KF6 remove. ABI compatibility hack.
-#endif
-    //@endcond
 };
 
 /**

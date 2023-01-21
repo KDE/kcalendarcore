@@ -679,13 +679,6 @@ Event::List MemoryCalendar::rawEvents(const QDate &start, const QDate &end, cons
     return eventList;
 }
 
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 95)
-Event::List MemoryCalendar::rawEventsForDate(const QDateTime &kdt) const
-{
-    return rawEventsForDate(kdt.date(), kdt.timeZone());
-}
-#endif
-
 Event::List MemoryCalendar::rawEvents(EventSortField sortField, SortDirection sortDirection) const
 {
     return Calendar::sortEvents(d->castIncidenceList<Event>(d->mIncidences[Incidence::TypeEvent]), sortField, sortDirection);

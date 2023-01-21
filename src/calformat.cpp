@@ -29,13 +29,6 @@ CalFormatPrivate::~CalFormatPrivate() = default;
 QString CalFormatPrivate::mApplication = QStringLiteral("libkcal");
 QString CalFormatPrivate::mProductId = QStringLiteral("-//K Desktop Environment//NONSGML libkcal 4.3//EN");
 
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 96)
-CalFormat::CalFormat()
-    : d_ptr(new KCalendarCore::CalFormatPrivate)
-{
-}
-#endif
-
 CalFormat::CalFormat(CalFormatPrivate *dd)
     : d_ptr(dd)
 {
@@ -96,12 +89,3 @@ QString CalFormat::createUniqueId()
 {
     return QUuid::createUuid().toString().mid(1, 36);
 }
-
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 96)
-void CalFormat::virtual_hook(int id, void *data)
-{
-    Q_UNUSED(id);
-    Q_UNUSED(data);
-    Q_ASSERT(false);
-}
-#endif

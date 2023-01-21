@@ -138,24 +138,6 @@ bool Recurrence::operator==(const Recurrence &recurrence) const
     return *d == *recurrence.d;
 }
 
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 64)
-Recurrence &Recurrence::operator=(const Recurrence &recurrence)
-{
-    // check for self assignment
-    if (&recurrence == this) {
-        return *this;
-    }
-
-    // ### this copies the pointers in mExRules and mRRules eventually resulting in a double free!
-    // fortunately however this function is unused, we just can't remove it just yet, due to ABI guarantees
-    QT_WARNING_PUSH
-    QT_WARNING_DISABLE_GCC("-Wdeprecated-copy")
-    *d = *recurrence.d;
-    QT_WARNING_POP
-    return *this;
-}
-#endif
-
 void Recurrence::addObserver(RecurrenceObserver *observer)
 {
     if (!d->mObservers.contains(observer)) {

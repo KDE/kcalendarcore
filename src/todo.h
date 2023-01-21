@@ -364,10 +364,6 @@ private:
 
     //@cond PRIVATE
     Q_DECLARE_PRIVATE(Todo)
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 91)
-    KCALENDARCORE_DEPRECATED_VERSION(5, 91, "Do not use")
-    TodoPrivate *const _ = nullptr;    // TODO KF6 remove. ABI compatibility hack.
-#endif
     //@endcond
 };
 

@@ -126,13 +126,6 @@ bool VCalFormat::save(const Calendar::Ptr &calendar, const QString &fileName)
     return false;
 }
 
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 97)
-bool VCalFormat::fromString(const Calendar::Ptr &calendar, const QString &string, bool deleted, const QString &notebook)
-{
-    return fromRawString(calendar, string.toUtf8(), deleted, notebook);
-}
-#endif
-
 bool VCalFormat::fromRawString(const Calendar::Ptr &calendar, const QByteArray &string, bool deleted, const QString &notebook)
 {
     Q_D(VCalFormat);
@@ -1719,12 +1712,3 @@ void VCalFormat::writeCustomProperties(VObject *o, const Incidence::Ptr &i)
         addPropValue(o, property.constData(), cIt.value().toUtf8().constData());
     }
 }
-
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 96)
-void VCalFormat::virtual_hook(int id, void *data)
-{
-    Q_UNUSED(id);
-    Q_UNUSED(data);
-    Q_ASSERT(false);
-}
-#endif

@@ -58,22 +58,6 @@ void IncidenceBasePrivate::init(const IncidenceBasePrivate &other)
 
 //@endcond
 
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 91)
-IncidenceBase::IncidenceBase()
-    : d_ptr(new KCalendarCore::IncidenceBasePrivate)
-{
-    mReadOnly = false;
-    setUid(CalFormat::createUniqueId());
-}
-
-IncidenceBase::IncidenceBase(const IncidenceBase &i)
-    : CustomProperties(i)
-    , d_ptr(new KCalendarCore::IncidenceBasePrivate(*i.d_ptr))
-{
-    mReadOnly = i.mReadOnly;
-}
-#endif
-
 IncidenceBase::IncidenceBase(IncidenceBasePrivate  *p)
     : d_ptr(p)
 {

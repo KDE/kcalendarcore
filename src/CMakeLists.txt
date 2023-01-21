@@ -103,15 +103,9 @@ ecm_generate_export_header(KF6CalendarCore
     GROUP_BASE_NAME KF
     VERSION ${KF_VERSION}
     DEPRECATED_BASE_VERSION 0
-    DEPRECATION_VERSIONS 5.64 5.89 5.91 5.95 5.96 5.97
+    DEPRECATION_VERSIONS
     EXCLUDE_DEPRECATED_BEFORE_AND_AT ${EXCLUDE_DEPRECATED_BEFORE_AND_AT}
 )
-
-
-# backward compatibility with the old name
-if (NOT KCALENDARCORE_NO_DEPRECATED_NAMESPACE)
-    target_compile_definitions(KF6CalendarCore INTERFACE "-DKCalCore=KCalendarCore")
-endif()
 
 target_include_directories(KF6CalendarCore INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF}/KCalendarCore>")
 target_include_directories(KF6CalendarCore PUBLIC "$<BUILD_INTERFACE:${KCalendarCore_SOURCE_DIR}/src;${KCalendarCore_BINARY_DIR}/src>")
@@ -170,15 +164,6 @@ ecm_generate_headers(KCalendarCore_CamelCase_HEADERS
   REQUIRED_HEADERS KCalendarCore_HEADERS
 )
 
-if (NOT KCALENDARCORE_NO_DEPRECATED_NAMESPACE)
-  ecm_generate_headers(KCalCore_CamelCase_HEADERS
-    HEADER_NAMES
-      ${kcalendarcore_headers}
-    PREFIX KCalCore
-    REQUIRED_HEADERS KCalCore_HEADERS
-  )
-endif()
-
 ########### install files ###############
 
 install(FILES
@@ -193,21 +178,6 @@ install(FILES
   DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF}/KCalendarCore/KCalendarCore
   COMPONENT Devel
 )
-
-if (NOT KCALENDARCORE_NO_DEPRECATED_NAMESPACE)
-  install(FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/kcalendarcore_export.h
-    ${KCalCore_HEADERS}
-    DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF}/KCalendarCore/kcalcore
-    COMPONENT Devel
-  )
-
-  install(FILES
-    ${KCalCore_CamelCase_HEADERS}
-    DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF}/KCalendarCore/KCalCore
-    COMPONENT Devel
-  )
-endif()
 
 ecm_qt_install_logging_categories(
     EXPORT KCALENDARCORE

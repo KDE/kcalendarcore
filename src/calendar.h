@@ -705,27 +705,6 @@ public:
     */
     virtual bool deleteEventInstances(const Event::Ptr &event) = 0;
 
-#if KCALENDARCORE_ENABLE_DEPRECATED_SINCE(5, 95)
-    /**
-      Sort a list of Events.
-
-      @param eventList is a pointer to a list of Events.
-      @param sortField specifies the EventSortField.
-      @param sortDirection specifies the SortDirection.
-
-      @return a list of Events sorted as specified.
-
-      @deprecated since 5.95 Use the sortEvents(Event::List &&eventList, EventSortField sortField, SortDirection sortDirection)
-      overload instead. In the common case that you are sorting a list in-place, wrapping the @p eventList
-      argument with std::move will be all that's needed. In the less common case you actually want a copy,
-      create that explicitly first.
-    */
-    KCALENDARCORE_DEPRECATED_VERSION(
-        5,
-        95,
-        "Use sortEvents(Event::List &&eventList, EventSortField sortField, SortDirection sortDirection); see API docs for details.")
-    static Event::List sortEvents(const Event::List &eventList, EventSortField sortField, SortDirection sortDirection);
-#endif
     /**
       Sort a list of Events.
 
@@ -799,22 +778,6 @@ public:
       @return the list of all unfiltered Events sorted as specified.
     */
     virtual Event::List rawEvents(EventSortField sortField = EventSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const = 0;
-
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 95)
-    /**
-      Returns an unfiltered list of all Events which occur on the given
-      timestamp.
-
-      @param dt request unfiltered Event list for this QDateTime only.
-
-      @return the list of unfiltered Events occurring on the specified
-      timestamp.
-
-      @deprecated since 5.95 use rawEventsForDate(dt.date(), dt.timeZone()) overload instead.
-    */
-    KCALENDARCORE_DEPRECATED_VERSION(5, 95, "Use rawEventsForDate(dt.date(), dt.timeZone()) insead")
-    virtual Event::List rawEventsForDate(const QDateTime &dt) const = 0;
-#endif
 
     /**
       Returns an unfiltered list of all Events occurring within a date range.
@@ -930,26 +893,6 @@ public:
     */
     virtual bool deleteTodoInstances(const Todo::Ptr &todo) = 0;
 
-#if KCALENDARCORE_ENABLE_DEPRECATED_SINCE(5, 95)
-    /**
-      Sort a list of Todos.
-
-      @param todoList is a pointer to a list of Todos.
-      @param sortField specifies the TodoSortField.
-      @param sortDirection specifies the SortDirection.
-
-      @return a list of Todos sorted as specified.
-
-      @deprecated since 5.95 Use the sortTodos(Todo::List &&todoList, TodoSortField sortField, SortDirection sortDirection)
-      overload instead. In the common case that you are sorting a list in-place, wrapping the @p todoList
-      argument with std::move will be all that's needed. In the less common case you actually want a copy,
-      create that explicitly first.
-    */
-    KCALENDARCORE_DEPRECATED_VERSION(5,
-                                     95,
-                                     "Use sortTodos(Todo::List &&todoList, TodoSortField sortField, SortDirection sortDirection); see API docs for details.")
-    static Todo::List sortTodos(const Todo::List &todoList, TodoSortField sortField, SortDirection sortDirection);
-#endif
     /**
       Sort a list of Todos.
 
@@ -1113,27 +1056,6 @@ public:
     */
     virtual bool deleteJournalInstances(const Journal::Ptr &journal) = 0;
 
-#if KCALENDARCORE_ENABLE_DEPRECATED_SINCE(5, 95)
-    /**
-      Sort a list of Journals.
-
-      @param journalList is a pointer to a list of Journals.
-      @param sortField specifies the JournalSortField.
-      @param sortDirection specifies the SortDirection.
-
-      @return a list of Journals sorted as specified.
-
-      @deprecated since 5.95 Use the sortJournals(Journal::List &&journalList, JournalSortField sortField, SortDirection sortDirection)
-      overload instead. In the common case that you are sorting a list in-place, wrapping the @p journalList
-      argument with std::move will be all that's needed. In the less common case you actually want a copy,
-      create that explicitly first.
-    */
-    KCALENDARCORE_DEPRECATED_VERSION(
-        5,
-        95,
-        "Use sortJournals(Journal::List &&journalList, JournalSortField sortField, SortDirection sortDirection); see API docs for details.")
-    static Journal::List sortJournals(const Journal::List &journalList, JournalSortField sortField, SortDirection sortDirection);
-#endif
     /**
       Sort a list of Journals.
 

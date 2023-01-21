@@ -133,18 +133,7 @@ public:
         return !operator==(r);
     }
 
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 64)
-    /**
-      Assignment operator.
-      @param r the recurrence which will be assigned to this.
-      @deprecated Do not use, will be removed in KF6
-      @warning Broken implementation, do not use!
-    */
-    KCALENDARCORE_DEPRECATED_VERSION(5, 64, "Do not use")
-    Recurrence &operator=(const Recurrence &r);
-#else
     Recurrence &operator=(const Recurrence &r) = delete;
-#endif
 
     /** Return the start date/time of the recurrence (Time for all-day recurrences will be 0:00).
      @return the current start/time of the recurrence. */

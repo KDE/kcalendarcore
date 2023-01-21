@@ -137,13 +137,6 @@ bool ICalFormat::save(const Calendar::Ptr &calendar, const QString &fileName)
     return true;
 }
 
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 97)
-bool ICalFormat::fromString(const Calendar::Ptr &cal, const QString &string, bool deleted, const QString &notebook)
-{
-    return fromRawString(cal, string.toUtf8(), deleted, notebook);
-}
-#endif
-
 Incidence::Ptr ICalFormat::readIncidence(const QByteArray &string)
 {
     Q_D(ICalFormat);
@@ -680,12 +673,3 @@ QByteArray ICalFormat::timeZoneId() const
     Q_D(const ICalFormat);
     return d->mTimeZone.id();
 }
-
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 96)
-void ICalFormat::virtual_hook(int id, void *data)
-{
-    Q_UNUSED(id);
-    Q_UNUSED(data);
-    Q_ASSERT(false);
-}
-#endif

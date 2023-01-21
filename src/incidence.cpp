@@ -128,24 +128,6 @@ bool IncidencePrivate::validStatus(Incidence::Status status)
 }
 //@endcond
 
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 91)
-Incidence::Incidence()
-    : IncidenceBase(new IncidencePrivate)
-{
-    recreate();
-    resetDirtyFields();
-}
-
-Incidence::Incidence(const Incidence &i)
-    : IncidenceBase(i, new IncidencePrivate(*(i.d_func())))
-    , Recurrence::RecurrenceObserver()
-{
-    Q_D(Incidence);
-    d->init(this, *(i.d_func()));
-    resetDirtyFields();
-}
-#endif
-
 Incidence::Incidence(IncidencePrivate *p)
     : IncidenceBase(p)
 {
@@ -1043,25 +1025,7 @@ bool Incidence::hasGeo() const
     // For internal consistency, return false if either coordinate is invalid.
     return d->mGeoLatitude != INVALID_LATLON && d->mGeoLongitude != INVALID_LATLON;
 }
-#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(5, 89)
-void Incidence::setHasGeo(bool hasGeo)
-{
-    if (mReadOnly) {
-        return;
-    }
 
-    Q_D(Incidence);
-    if (!hasGeo) {
-        update();
-        d->mGeoLatitude = INVALID_LATLON;
-        d->mGeoLongitude = INVALID_LATLON;
-        setFieldDirty(FieldGeoLatitude);
-        setFieldDirty(FieldGeoLongitude);
-        updated();
-    }
-    // If hasGeo is true, the caller should set latitude and longitude to legal values..
-}
-#endif
 float Incidence::geoLatitude() const
 {
     Q_D(const Incidence);
