@@ -112,8 +112,8 @@ target_include_directories(KF6CalendarCore PUBLIC "$<BUILD_INTERFACE:${KCalendar
 
 target_link_libraries(KF6CalendarCore
 PUBLIC
-    Qt${QT_MAJOR_VERSION}::Core
-    Qt${QT_MAJOR_VERSION}::Gui
+    Qt6::Core
+    Qt6::Gui
 PRIVATE
     LibIcal
 )

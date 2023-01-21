@@ -359,11 +359,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
             // Immediately after the type is the frequency
             int index = tmpStr.indexOf(QLatin1Char(' '));
             int last = tmpStr.lastIndexOf(QLatin1Char(' ')) + 1; // find last entry
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
             const int rFreq = QStringView(tmpStr).mid(recurrenceTypeAbbrLen, (index - 1)).toInt();
-#else
-            const int rFreq = tmpStr.midRef(recurrenceTypeAbbrLen, (index - 1)).toInt();
-#endif
             ++index; // advance to beginning of stuff after freq
 
             // Read the type-specific settings
@@ -498,11 +494,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
             if (tmpStr.mid(index, 1) == QLatin1String("#")) {
                 // Nr of occurrences
                 ++index;
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
                 const int rDuration = QStringView(tmpStr).mid(index, tmpStr.length() - index).toInt();
-#else
-                const int rDuration = tmpStr.midRef(index, tmpStr.length() - index).toInt();
-#endif
                 if (rDuration > 0) {
                     anEvent->recurrence()->setDuration(rDuration);
                 }
@@ -804,11 +796,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
             // Immediately after the type is the frequency
             int index = tmpStr.indexOf(QLatin1Char(' '));
             int last = tmpStr.lastIndexOf(QLatin1Char(' ')) + 1; // find last entry
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
             const int rFreq = QStringView(tmpStr).mid(recurrenceTypeAbbrLen, (index - 1)).toInt();
-#else
-            const int rFreq = tmpStr.midRef(recurrenceTypeAbbrLen, (index - 1)).toInt();
-#endif
             ++index; // advance to beginning of stuff after freq
 
             // Read the type-specific settings
@@ -943,11 +931,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
             if (tmpStr.mid(index, 1) == QLatin1String("#")) {
                 // Nr of occurrences
                 ++index;
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
                 const int rDuration = QStringView(tmpStr).mid(index, tmpStr.length() - index).toInt();
-#else
-                const int rDuration = tmpStr.midRef(index, tmpStr.length() - index).toInt();
-#endif
                 if (rDuration > 0) {
                     anEvent->recurrence()->setDuration(rDuration);
                 }
@@ -1236,11 +1220,7 @@ QString VCalFormat::qDateTimeToISO(const QDateTime &dt, bool zulu)
 QDateTime VCalFormat::ISOToQDateTime(const QString &dtStr)
 {
     Q_D(VCalFormat);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     auto noAllocString = QStringView{dtStr};
-#else
-    auto noAllocString = QStringRef(&dtStr);
-#endif
 
     int year = noAllocString.left(4).toInt();
     int month = noAllocString.mid(4, 2).toInt();
@@ -1268,11 +1248,7 @@ QDateTime VCalFormat::ISOToQDateTime(const QString &dtStr)
 
 QDate VCalFormat::ISOToQDate(const QString &dateStr)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     auto noAllocString = QStringView{dateStr};
-#else
-    auto noAllocString = QStringRef(&dateStr);
-#endif
 
     const int year = noAllocString.left(4).toInt();
     const int month = noAllocString.mid(4, 2).toInt();
@@ -1316,11 +1292,7 @@ bool VCalFormat::parseTZOffsetISO8601(const QString &s, int &result)
         return false;
     }
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     v = QStringView(str).mid(ofs, 2).toInt(&ok) * 60;
-#else
-    v = str.midRef(ofs, 2).toInt(&ok) * 60;
-#endif
     if (!ok) {
         return false;
     }
@@ -1334,11 +1306,7 @@ bool VCalFormat::parseTZOffsetISO8601(const QString &s, int &result)
             if (str.size() < (ofs + 2)) {
                 return false;
             }
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
             v += QStringView(str).mid(ofs, 2).toInt(&ok);
-#else
-            v += str.midRef(ofs, 2).toInt(&ok);
-#endif
             if (!ok) {
                 return false;
             }

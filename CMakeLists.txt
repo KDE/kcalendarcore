@@ -45,7 +45,7 @@ ecm_setup_version(PROJECT VARIABLE_PREFIX KCALENDARCORE
 )
 
 ########### Find packages ###########
-find_package(Qt${QT_MAJOR_VERSION} ${REQUIRED_QT_VERSION} CONFIG REQUIRED Core Gui)
+find_package(Qt6 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Core Gui)
 
 set(LibIcal_MIN_VERSION "3.0")
 # TODO remove our FindLibIcal.cmake in favor of upstream LibIcalConfig.cmake once the following issues are resolved:
@@ -76,7 +76,7 @@ ecm_set_disabled_deprecation_versions(
 add_subdirectory(src)
 
 if(BUILD_TESTING)
-  find_package(Qt${QT_MAJOR_VERSION} ${REQUIRED_QT_VERSION} CONFIG REQUIRED Test)
+  find_package(Qt6 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Test)
   add_subdirectory(autotests)
 endif()
 
@@ -112,7 +112,7 @@ install(FILES
 if (NOT WIN32)
     ecm_generate_pkgconfig_file(BASE_NAME KF6CalendarCore
       INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF}/KCalendarCore/
-      DEPS "Qt${QT_MAJOR_VERSION}Core Qt${QT_MAJOR_VERSION}Gui"
+      DEPS "Qt6Core Qt6Gui"
     INSTALL)
 endif()
 
