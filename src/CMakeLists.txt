@@ -199,7 +199,8 @@ if(BUILD_QCH)
             ${KCalendarCore_HEADERS}
         MD_MAINPAGE "${CMAKE_SOURCE_DIR}/README.md"
         LINK_QCHS
-            Qt5Core_QCH
+            Qt6Core_QCH
+            Qt6Gui_QCH
         INCLUDE_DIRS
             ${CMAKE_CURRENT_BINARY_DIR}
         BLANK_MACROS
