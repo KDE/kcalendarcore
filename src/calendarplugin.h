@@ -4,7 +4,9 @@
   SPDX-FileCopyrightText: 2020 Nicolas Fella <nicolas.fella@gmx.de>
   SPDX-License-Identifier: LGPL-2.0-or-later
 */
-#pragma once
+
+#ifndef KCALCORE_CALENDARPLUGIN_H
+#define KCALCORE_CALENDARPLUGIN_H
 
 #include "kcalendarcore_export.h"
 
@@ -46,3 +48,5 @@ private:
 };
 
 }
+
+#endif
