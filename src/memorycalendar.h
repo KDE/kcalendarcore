@@ -231,14 +231,6 @@ public:
     Q_REQUIRED_RESULT Alarm::List alarms(const QDateTime &from, const QDateTime &to, bool excludeBlockedAlarms = false) const override;
 
     /**
-      Return a list of Alarms that occur before the specified timestamp.
-
-      @param to is the ending timestamp.
-      @return the list of Alarms occurring before the specified QDateTime.
-    */
-    Q_REQUIRED_RESULT Alarm::List alarmsTo(const QDateTime &to) const; // TODO KF6 remove, already defined in Calendar
-
-    /**
       Return true if the memory calendar is updating the lastModified field
       of incidence owned by the calendar on any incidence change.
 

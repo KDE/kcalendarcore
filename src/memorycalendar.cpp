@@ -438,11 +438,6 @@ Todo::List MemoryCalendar::rawTodos(const QDate &start, const QDate &end, const 
     return todoList;
 }
 
-Alarm::List MemoryCalendar::alarmsTo(const QDateTime &to) const
-{
-    return alarms(QDateTime(QDate(1900, 1, 1), QTime(0, 0, 0)), to);
-}
-
 Alarm::List MemoryCalendar::alarms(const QDateTime &from, const QDateTime &to, bool excludeBlockedAlarms) const
 {
     Q_UNUSED(excludeBlockedAlarms);
