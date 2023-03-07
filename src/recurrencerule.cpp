@@ -14,9 +14,9 @@
 #include "utils_p.h"
 
 #include <QDataStream>
+#include <QList>
 #include <QStringList>
 #include <QTime>
-#include <QVector>
 
 using namespace KCalendarCore;
 
@@ -179,7 +179,7 @@ bool RecurrenceRule::WDayPos::operator!=(const RecurrenceRule::WDayPos &pos2) co
 class Constraint
 {
 public:
-    typedef QVector<Constraint> List;
+    typedef QList<Constraint> List;
 
     Constraint()
     {

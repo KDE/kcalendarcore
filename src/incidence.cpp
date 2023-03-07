@@ -1259,7 +1259,7 @@ void Incidence::deserialize(QDataStream &in)
 namespace
 {
 template<typename T>
-QVariantList toVariantList(int size, typename QVector<T>::ConstIterator begin, typename QVector<T>::ConstIterator end)
+QVariantList toVariantList(int size, typename QList<T>::ConstIterator begin, typename QList<T>::ConstIterator end)
 {
     QVariantList l;
     l.reserve(size);

@@ -44,7 +44,7 @@ public:
     /**
        List of periods.
      */
-    typedef QVector<FreeBusyPeriod> List;
+    typedef QList<FreeBusyPeriod> List;
 
     /**
       Constructs a period without a duration.

@@ -23,8 +23,8 @@
 
 #include <QDataStream>
 #include <QDateTime>
+#include <QList>
 #include <QMetaType>
-#include <QVector>
 
 class QTimeZone;
 
@@ -40,7 +40,7 @@ public:
     /**
        List of periods.
      */
-    typedef QVector<Period> List;
+    typedef QList<Period> List;
 
     /**
       Constructs a period without a duration.

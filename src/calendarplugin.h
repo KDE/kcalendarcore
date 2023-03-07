@@ -33,9 +33,9 @@ public:
     /**
      * The set of calendars defined by this plugin.
      *
-     * @return QVector of calendars.
+     * @return QList of calendars.
      */
-    virtual QVector<Calendar::Ptr> calendars() const = 0;
+    virtual QList<Calendar::Ptr> calendars() const = 0;
 
 Q_SIGNALS:
     /**

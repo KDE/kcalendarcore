@@ -38,7 +38,7 @@ class KCALENDARCORE_EXPORT Conference
     Q_PROPERTY(QString language READ language WRITE setLanguage)
 
 public:
-    using List = QVector<Conference>;
+    using List = QList<Conference>;
 
     /** Create a null Conference. */
     explicit Conference();

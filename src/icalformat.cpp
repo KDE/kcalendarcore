@@ -248,7 +248,7 @@ QString ICalFormat::toString(const Calendar::Ptr &cal, const QString &notebook)
     icalcomponent *calendar = d->mImpl.createCalendarComponent(cal);
     icalcomponent *component;
 
-    QVector<QTimeZone> tzUsedList;
+    QList<QTimeZone> tzUsedList;
     TimeZoneEarliestDate earliestTz;
 
     // todos

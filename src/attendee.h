@@ -106,7 +106,7 @@ public:
     /**
       List of attendees.
     */
-    typedef QVector<Attendee> List;
+    typedef QList<Attendee> List;
 
     /** Create a null Attendee. */
     Attendee();

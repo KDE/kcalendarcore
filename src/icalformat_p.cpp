@@ -53,7 +53,7 @@ static void _dumpIcaltime( const icaltimetype& t)
 
 //@cond PRIVATE
 template<typename K>
-void removeAllICal(QVector<QSharedPointer<K>> &c, const QSharedPointer<K> &x)
+void removeAllICal(QList<QSharedPointer<K>> &c, const QSharedPointer<K> &x)
 {
     if (c.count() < 1) {
         return;

@@ -119,7 +119,7 @@ public:
     /**
       List of incidences.
     */
-    typedef QVector<Ptr> List;
+    typedef QList<Ptr> List;
 
     Incidence() = delete;
 

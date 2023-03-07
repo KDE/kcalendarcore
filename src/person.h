@@ -46,7 +46,7 @@ public:
     /**
       List of persons.
     */
-    typedef QVector<Person> List;
+    typedef QList<Person> List;
 
     /**
       Constructs a blank person.

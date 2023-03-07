@@ -52,7 +52,7 @@ public:
     QString mProductId;
     Person mOwner;
     QTimeZone mTimeZone;
-    QVector<QTimeZone> mTimeZones;
+    QList<QTimeZone> mTimeZones;
     bool mModified = false;
     bool mNewObserver = false;
     bool mObserversEnabled = false;

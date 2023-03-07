@@ -42,12 +42,12 @@ extern "C" {
 using namespace KCalendarCore;
 
 /**
-  Make a QHash::value that returns a QVector.
+  Make a QHash::value that returns a QList.
 */
 template<typename K, typename V>
-QVector<V> values(const QMultiHash<K, V> &c)
+QList<V> values(const QMultiHash<K, V> &c)
 {
-    QVector<V> v;
+    QList<V> v;
     v.reserve(c.size());
     for (typename QMultiHash<K, V>::const_iterator it = c.begin(), end = c.end(); it != end; ++it) {
         v.push_back(it.value());
@@ -56,9 +56,9 @@ QVector<V> values(const QMultiHash<K, V> &c)
 }
 
 template<typename K, typename V>
-QVector<V> values(const QMultiHash<K, V> &c, const K &x)
+QList<V> values(const QMultiHash<K, V> &c, const K &x)
 {
-    QVector<V> v;
+    QList<V> v;
     typename QMultiHash<K, V>::const_iterator it = c.find(x);
     while (it != c.end() && it.key() == x) {
         v.push_back(it.value());

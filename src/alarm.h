@@ -25,11 +25,11 @@
 
 #include <QDataStream>
 #include <QDateTime>
+#include <QList>
 #include <QMetaType>
 #include <QSharedPointer>
 #include <QString>
 #include <QStringList>
-#include <QVector>
 
 class QTimeZone;
 
@@ -69,7 +69,7 @@ public:
     /**
       List of alarms.
     */
-    typedef QVector<Ptr> List;
+    typedef QList<Ptr> List;
 
     /**
       Constructs an alarm belonging to the @p parent Incidence.

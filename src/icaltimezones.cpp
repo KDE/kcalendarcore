@@ -206,7 +206,7 @@ icalcomponent *ICalTimeZoneParser::icalcomponentFromQTimeZone(const QTimeZone &t
         }
     }
     int trcount = transits.count();
-    QVector<bool> transitionsDone(trcount, false);
+    QList<bool> transitionsDone(trcount, false);
 
     // Go through the list of transitions and create an iCal component for each
     // distinct combination of phase after and UTC offset before the transition.

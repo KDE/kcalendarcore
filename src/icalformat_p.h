@@ -53,7 +53,7 @@ class Recurrence;
 class RecurrenceRule;
 class Todo;
 
-using TimeZoneList = QVector<QTimeZone>;
+using TimeZoneList = QList<QTimeZone>;
 
 /**
   Tell the Libical library that we are using ICal Version 2.0.

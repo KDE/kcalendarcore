@@ -60,7 +60,7 @@ public:
     /**
       List of attachments.
     */
-    typedef QVector<Attachment> List;
+    typedef QList<Attachment> List;
 
     /**
       Constructs an empty attachment.

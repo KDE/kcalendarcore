@@ -41,7 +41,7 @@ public:
     /**
       List of to-dos.
     */
-    typedef QVector<Ptr> List;
+    typedef QList<Ptr> List;
 
     ///@cond PRIVATE
     // needed for Akonadi polymorphic payload support

@@ -53,7 +53,7 @@ public:
     /**
       List of FreeBusy objects.
     */
-    typedef QVector<Ptr> List;
+    typedef QList<Ptr> List;
 
     /**
       Constructs an free/busy without any periods.

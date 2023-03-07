@@ -12,8 +12,8 @@
 #include "kcalendarcore_export.h"
 
 #include <QHash>
+#include <QList>
 #include <QTimeZone>
-#include <QVector>
 
 #ifndef ICALCOMPONENT_H
 typedef struct icalcomponent_impl icalcomponent;
@@ -34,7 +34,7 @@ public:
 
     QSet<QByteArray> abbrevs; // abbreviations of the phase
     int utcOffset = 0; // UTC offset of the phase
-    QVector<QDateTime> transitions; // times on which transition into this phase occurs
+    QList<QDateTime> transitions; // times on which transition into this phase occurs
 };
 
 class ICalTimeZone
