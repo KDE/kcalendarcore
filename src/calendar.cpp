@@ -42,32 +42,6 @@ extern "C" {
 using namespace KCalendarCore;
 
 /**
-  Make a QHash::value that returns a QList.
-*/
-template<typename K, typename V>
-QList<V> values(const QMultiHash<K, V> &c)
-{
-    QList<V> v;
-    v.reserve(c.size());
-    for (typename QMultiHash<K, V>::const_iterator it = c.begin(), end = c.end(); it != end; ++it) {
-        v.push_back(it.value());
-    }
-    return v;
-}
-
-template<typename K, typename V>
-QList<V> values(const QMultiHash<K, V> &c, const K &x)
-{
-    QList<V> v;
-    typename QMultiHash<K, V>::const_iterator it = c.find(x);
-    while (it != c.end() && it.key() == x) {
-        v.push_back(it.value());
-        ++it;
-    }
-    return v;
-}
-
-/**
   Template for a class that implements a visitor for adding an Incidence
   to a resource supporting addEvent(), addTodo() and addJournal() calls.
 */
@@ -314,7 +288,7 @@ Incidence::List Calendar::duplicates(const Incidence::Ptr &incidence)
     }
 
     Incidence::List list;
-    const Incidence::List vals = values(d->mNotebookIncidences);
+    const Incidence::List vals = d->mNotebookIncidences.values();
     std::copy_if(vals.cbegin(), vals.cend(), std::back_inserter(list), [&](const Incidence::Ptr &in) {
         return (incidence->dtStart() == in->dtStart() || (!incidence->dtStart().isValid() && !in->dtStart().isValid()))
             && incidence->summary() == in->summary();
@@ -473,9 +447,9 @@ QStringList Calendar::notebooks() const
 Incidence::List Calendar::incidences(const QString &notebook) const
 {
     if (notebook.isEmpty()) {
-        return values(d->mNotebookIncidences);
+        return d->mNotebookIncidences.values();
     } else {
-        return values(d->mNotebookIncidences, notebook);
+        return d->mNotebookIncidences.values(notebook);
     }
 }
 
@@ -778,7 +752,7 @@ void Calendar::setupRelations(const Incidence::Ptr &forincidence)
     const QString uid = forincidence->uid();
 
     // First, go over the list of orphans and see if this is their parent
-    Incidence::List l = values(d->mOrphans, uid);
+    Incidence::List l = d->mOrphans.values(uid);
     d->mOrphans.remove(uid);
     if (!l.isEmpty()) {
         Incidence::List &relations = d->mIncidenceRelations[uid];
@@ -866,7 +840,7 @@ void Calendar::removeRelations(const Incidence::Ptr &incidence)
         // now go through all uids that have one entry that point to the incidence
         for (const auto &relUid : std::as_const(relatedToUids)) {
             // Remove all to get access to the remaining entries
-            Incidence::List lst = values(d->mOrphans, relUid);
+            Incidence::List lst = d->mOrphans.values(relUid);
             d->mOrphans.remove(relUid);
             lst.erase(std::remove(lst.begin(), lst.end(), incidence), lst.end());
 
