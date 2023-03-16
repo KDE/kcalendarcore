@@ -204,7 +204,7 @@ protected:
 #endif
 
     //@cond PRIVATE
-    CalFormat(CalFormatPrivate *dd);
+    KCALENDARCORE_NO_EXPORT explicit CalFormat(CalFormatPrivate *dd);
     std::unique_ptr<CalFormatPrivate> d_ptr;
     //@endcond
 

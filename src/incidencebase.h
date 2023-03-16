@@ -237,7 +237,7 @@ public:
       @param p (non-null) a Private data object provided by the instantiated
       class (Event, Todo, Journal, FreeBusy).  It takes ownership of the object.
     */
-    IncidenceBase(IncidenceBasePrivate *p);
+    KCALENDARCORE_NO_EXPORT explicit IncidenceBase(IncidenceBasePrivate *p);
 
     /**
       Destroys the IncidenceBase.
@@ -724,7 +724,7 @@ protected:
       @param p (non-null) a Private data object provided by the instantiated
       class (Event, Todo, Journal, FreeBusy).  It takes ownership of the object.
     */
-    IncidenceBase(const IncidenceBase &ib, IncidenceBasePrivate  *p);
+    KCALENDARCORE_NO_EXPORT IncidenceBase(const IncidenceBase &ib, IncidenceBasePrivate *p);
 
     /**
       Provides polymorfic comparison for equality.
