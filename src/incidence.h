@@ -894,7 +894,7 @@ private:
       virtual function assign.
       @param other is another Incidence object to assign to this one.
      */
-    Incidence &operator=(const Incidence &other);
+    Incidence &operator=(const Incidence &other) = delete;
 
     Q_DECL_HIDDEN QVariantList attachmentsVariant() const;
     Q_DECL_HIDDEN QVariantList conferencesVariant() const;

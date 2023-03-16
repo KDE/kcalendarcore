@@ -257,7 +257,7 @@ private:
       virtual function assign().
       @param other is another FreeBusy object to assign to this one.
      */
-    FreeBusy &operator=(const FreeBusy &other);
+    FreeBusy &operator=(const FreeBusy &other) = delete;
 };
 
 /**

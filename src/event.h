@@ -247,7 +247,7 @@ private:
       virtual function assign().
       @param other is another Event object to assign to this one.
      */
-    Event &operator=(const Event &other);
+    Event &operator=(const Event &other) = delete;
 
     // For polymorphic serialization
     void serialize(QDataStream &out) const override;

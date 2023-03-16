@@ -356,7 +356,7 @@ private:
       virtual function assign().
       @param other is another Todo object to assign to this one.
      */
-    Todo &operator=(const Todo &other);
+    Todo &operator=(const Todo &other) = delete;
 
     // For polymorphic serialization
     void serialize(QDataStream &out) const override;
