@@ -190,9 +190,7 @@ icalcomponent *ICalTimeZoneParser::icalcomponentFromQTimeZone(const QTimeZone &t
         // If there is no way to compile a complete list of transitions
         // transitions() can return an empty list
         // In that case try get one transition to write a valid VTIMEZONE entry.
-        if (transits.isEmpty()) {
-            qCDebug(KCALCORE_LOG) << "No transition information available VTIMEZONE will be invalid.";
-        }
+        qCDebug(KCALCORE_LOG) << "No transition information available VTIMEZONE will be invalid.";
     }
     if (earliest.isValid()) {
         // Remove all transitions earlier than those we are interested in
