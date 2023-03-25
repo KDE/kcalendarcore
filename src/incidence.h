@@ -70,8 +70,8 @@ class KCALENDARCORE_EXPORT Incidence : public IncidenceBase, public Recurrence::
     Q_PROPERTY(QDateTime created READ created WRITE setCreated)
     Q_PROPERTY(KCalendarCore::Incidence::Secrecy secrecy READ secrecy WRITE setSecrecy)
     Q_PROPERTY(KCalendarCore::Incidence::Status status READ status WRITE setStatus)
-    Q_PROPERTY(QVariantList attachments READ attachmentsVariant)
-    Q_PROPERTY(QVariantList conferences READ conferencesVariant)
+    Q_PROPERTY(QList<KCalendarCore::Attachment> attachments READ attachments)
+    Q_PROPERTY(QList<KCalendarCore::Conference> conferences READ conferences)
 public:
     /**
       The different types of overall incidence status or confirmation.
@@ -895,9 +895,6 @@ private:
       @param other is another Incidence object to assign to this one.
      */
     Incidence &operator=(const Incidence &other) = delete;
-
-    Q_DECL_HIDDEN QVariantList attachmentsVariant() const;
-    Q_DECL_HIDDEN QVariantList conferencesVariant() const;
 
 protected:
     Q_DECLARE_PRIVATE(Incidence)

@@ -1255,30 +1255,3 @@ void Incidence::deserialize(QDataStream &in)
         d->mRelatedToUid.insert(static_cast<Incidence::RelType>(it.key()), it.value());
     }
 }
-
-namespace
-{
-template<typename T>
-QVariantList toVariantList(int size, typename QList<T>::ConstIterator begin, typename QList<T>::ConstIterator end)
-{
-    QVariantList l;
-    l.reserve(size);
-    std::transform(begin, end, std::back_inserter(l), [](const T &val) {
-        return QVariant::fromValue(val);
-    });
-    return l;
-}
-
-} // namespace
-
-QVariantList Incidence::attachmentsVariant() const
-{
-    Q_D(const Incidence);
-    return toVariantList<Attachment>(d->mAttachments.size(), d->mAttachments.cbegin(), d->mAttachments.cend());
-}
-
-QVariantList Incidence::conferencesVariant() const
-{
-    Q_D(const Incidence);
-    return toVariantList<Conference>(d->mConferences.size(), d->mConferences.cbegin(), d->mConferences.cend());
-}

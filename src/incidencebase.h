@@ -103,7 +103,7 @@ class KCALENDARCORE_EXPORT IncidenceBase : public CustomProperties
     Q_PROPERTY(QDateTime dtStart READ dtStart WRITE setDtStart)
     Q_PROPERTY(bool allDay READ allDay WRITE setAllDay)
     Q_PROPERTY(KCalendarCore::Person organizer READ organizer WRITE setOrganizer)
-    Q_PROPERTY(QVariantList attendees READ attendeesVariant)
+    Q_PROPERTY(QList<KCalendarCore::Attendee> attendees READ attendees)
     Q_PROPERTY(QUrl url READ url WRITE setUrl)
 
 public:
@@ -754,8 +754,6 @@ protected:
     IncidenceBasePrivate *const d_ptr;
 
 private:
-    Q_DECL_HIDDEN QVariantList attendeesVariant() const;
-
     friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalendarCore::IncidenceBase::Ptr &);
 
     friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalendarCore::IncidenceBase::Ptr &);

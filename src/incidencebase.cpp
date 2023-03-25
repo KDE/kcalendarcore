@@ -680,13 +680,3 @@ QDataStream &KCalendarCore::operator>>(QDataStream &in, KCalendarCore::Incidence
 IncidenceBase::IncidenceObserver::~IncidenceObserver()
 {
 }
-
-QVariantList IncidenceBase::attendeesVariant() const
-{
-    QVariantList l;
-    l.reserve(d_ptr->mAttendees.size());
-    std::transform(d_ptr->mAttendees.begin(), d_ptr->mAttendees.end(), std::back_inserter(l), [](const Attendee &a) {
-        return QVariant::fromValue(a);
-    });
-    return l;
-}
