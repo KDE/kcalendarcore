@@ -148,6 +148,9 @@ void TodoTest::testAssign()
     IncidenceBase *todo2 = new Todo;
     *todo2 = todo1;     // Use IncidenceBase's virtual assignment.
     QVERIFY(todo1 == *todo2);
+
+    // release todo2
+    delete todo2;
 }
 
 void TodoTest::testSetCompletedWithDate()
