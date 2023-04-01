@@ -355,8 +355,9 @@ public:
 
       @return true if the save was successful; false otherwise.
               Base implementation returns true.
+      @deprecated since 5.106, non-functional and unused
     */
-    virtual bool save();
+    KCALENDARCORE_DEPRECATED_VERSION(5, 106, "non-functional, will be removed in KF6.") virtual bool save();
 
     /**
       Loads the calendar contents from storage. This requires that the
@@ -364,15 +365,17 @@ public:
 
       @return true if the reload was successful; otherwise false.
               Base implementation returns true.
+      @deprecated since 5.106, non-functional and unused
     */
-    virtual bool reload();
+    KCALENDARCORE_DEPRECATED_VERSION(5, 106, "non-functional, will be removed in KF6.") virtual bool reload();
 
     /**
       Determine if the calendar is currently being saved.
 
       @return true if the calendar is currently being saved; false otherwise.
+      @deprecated since 5.106, non-functional and unused
     */
-    virtual bool isSaving() const;
+    KCALENDARCORE_DEPRECATED_VERSION(5, 106, "non-functional, will be removed in KF6.") virtual bool isSaving() const;
 
     /**
       Returns a list of all categories used by Incidences in this Calendar.
