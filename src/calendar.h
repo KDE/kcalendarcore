@@ -465,7 +465,9 @@ public:
     /**
       Clears notebook associations from hash-tables for incidences.
       Called when in-memory content of the calendar is cleared.
+      @deprecated since 5.106
      */
+    KCALENDARCORE_DEPRECATED_VERSION(5, 106, "notebook support is going to be removed in KF6")
     virtual void clearNotebookAssociations();
 
     /**
@@ -475,7 +477,9 @@ public:
       @param notebook notebook uid
 
       @return true if the operation was successful; false otherwise.
+      @deprecated since 5.106
      */
+    KCALENDARCORE_DEPRECATED_VERSION(5, 106, "notebook support is going to be removed in KF6")
     virtual bool setNotebook(const Incidence::Ptr &incidence, const QString &notebook);
 
     /**
@@ -484,7 +488,9 @@ public:
       @param incidence incidence
 
       @return notebook uid
+      @deprecated since 5.106
      */
+    KCALENDARCORE_DEPRECATED_VERSION(5, 106, "notebook support is going to be removed in KF6")
     virtual QString notebook(const Incidence::Ptr &incidence) const;
 
     /**
@@ -493,14 +499,18 @@ public:
       @param uid is a unique identifier string
 
       @return notebook uid
+      @deprecated since 5.106
      */
+    KCALENDARCORE_DEPRECATED_VERSION(5, 106, "notebook support is going to be removed in KF6")
     virtual QString notebook(const QString &uid) const;
 
     /**
       List all uids of notebooks currently in the memory.
 
       @return list of uids of notebooks
+      @deprecated since 5.106
     */
+    KCALENDARCORE_DEPRECATED_VERSION(5, 106, "notebook support is going to be removed in KF6")
     virtual QStringList notebooks() const;
 
     /**
@@ -509,7 +519,9 @@ public:
 
       @param notebook notebook uid
       @return true if calendar has valid notebook
+      @deprecated since 5.106
     */
+    KCALENDARCORE_DEPRECATED_VERSION(5, 106, "notebook support is going to be removed in KF6")
     Q_REQUIRED_RESULT bool hasValidNotebook(const QString &notebook) const;
 
     /**
@@ -520,7 +532,9 @@ public:
       @param isVisible notebook visibility
       @return true if operation succeeded
       @see isVisible()
+      @deprecated since 5.106
     */
+    KCALENDARCORE_DEPRECATED_VERSION(5, 106, "notebook support is going to be removed in KF6")
     Q_REQUIRED_RESULT bool addNotebook(const QString &notebook, bool isVisible);
 
     /**
@@ -531,7 +545,9 @@ public:
       @param isVisible notebook visibility
       @return true if operation succeeded
       @see isVisible()
+      @deprecated since 5.106
     */
+    KCALENDARCORE_DEPRECATED_VERSION(5, 106, "notebook support is going to be removed in KF6")
     Q_REQUIRED_RESULT bool updateNotebook(const QString &notebook, bool isVisible);
 
     /**
@@ -541,7 +557,9 @@ public:
       @param notebook notebook uid
       @return true if operation succeeded
       @see isVisible()
+      @deprecated since 5.106
     */
+    KCALENDARCORE_DEPRECATED_VERSION(5, 106, "notebook support is going to be removed in KF6")
     Q_REQUIRED_RESULT bool deleteNotebook(const QString &notebook);
 
     /**
@@ -549,28 +567,36 @@ public:
 
       @param notebook notebook uid
       @return true if operation was successful; false otherwise.
+      @deprecated since 5.106
     */
+    KCALENDARCORE_DEPRECATED_VERSION(5, 106, "notebook support is going to be removed in KF6")
     Q_REQUIRED_RESULT bool setDefaultNotebook(const QString &notebook);
 
     /**
       Get uid of default notebook.
 
       @return notebook uid
+      @deprecated since 5.106
      */
+    KCALENDARCORE_DEPRECATED_VERSION(5, 106, "notebook support is going to be removed in KF6")
     Q_REQUIRED_RESULT QString defaultNotebook() const;
 
     /**
       Check if incidence is visible.
       @param incidence is a pointer to the Incidence to check for visibility.
       @return true if incidence is visible, false otherwise
+      @deprecated since 5.106
     */
+    KCALENDARCORE_DEPRECATED_VERSION(5, 106, "notebook support is going to be removed in KF6")
     Q_REQUIRED_RESULT bool isVisible(const Incidence::Ptr &incidence) const;
 
     /**
       Check if notebook is visible.
       @param notebook notebook uid.
       @return true if notebook is visible, false otherwise
+      @deprecated since 5.106
     */
+    KCALENDARCORE_DEPRECATED_VERSION(5, 106, "notebook support is going to be removed in KF6")
     Q_REQUIRED_RESULT bool isVisible(const QString &notebook) const;
 
     /**
@@ -578,7 +604,9 @@ public:
 
       @param notebook is the notebook uid.
       @return a list of incidences for the notebook.
+      @deprecated since 5.106
     */
+    KCALENDARCORE_DEPRECATED_VERSION(5, 106, "notebook support is going to be removed in KF6")
     virtual Incidence::List incidences(const QString &notebook) const;
 
     /**
@@ -586,7 +614,9 @@ public:
 
       @param incidence is the incidence to check.
       @return a list of duplicate incidences.
+      @deprecated since 5.106
     */
+    KCALENDARCORE_DEPRECATED_VERSION(5, 106, "notebook support is going to be removed in KF6")
     virtual Incidence::List duplicates(const Incidence::Ptr &incidence);
 
     /**
