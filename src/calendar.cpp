@@ -938,11 +938,6 @@ void Calendar::unregisterObserver(CalendarObserver *observer)
     }
 }
 
-bool Calendar::isSaving() const
-{
-    return false;
-}
-
 void Calendar::setModified(bool modified)
 {
     if (modified != d->mModified || d->mNewObserver) {
@@ -957,16 +952,6 @@ void Calendar::setModified(bool modified)
 bool Calendar::isModified() const
 {
     return d->mModified;
-}
-
-bool Calendar::save()
-{
-    return true;
-}
-
-bool Calendar::reload()
-{
-    return true;
 }
 
 void Calendar::incidenceUpdated(const QString &uid, const QDateTime &recurrenceId)

@@ -351,30 +351,6 @@ public:
     virtual void close() = 0;
 
     /**
-      Syncs changes in memory to persistent storage.
-
-      @return true if the save was successful; false otherwise.
-              Base implementation returns true.
-    */
-    virtual bool save();
-
-    /**
-      Loads the calendar contents from storage. This requires that the
-      calendar has been previously loaded (initialized).
-
-      @return true if the reload was successful; otherwise false.
-              Base implementation returns true.
-    */
-    virtual bool reload();
-
-    /**
-      Determine if the calendar is currently being saved.
-
-      @return true if the calendar is currently being saved; false otherwise.
-    */
-    virtual bool isSaving() const;
-
-    /**
       Returns a list of all categories used by Incidences in this Calendar.
 
       @return a QStringList containing all the categories.
