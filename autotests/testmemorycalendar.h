@@ -15,7 +15,6 @@ class MemoryCalendarTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
-    void testClose();
     void testValidity();
     void testInvalidTimeZone();
     void testEvents();

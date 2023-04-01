@@ -21,7 +21,6 @@ void FileStorageTest::testValidity()
     FileStorage fs(cal, QStringLiteral("fred.ics"));
     QCOMPARE(fs.fileName(), QStringLiteral("fred.ics"));
     QCOMPARE(fs.calendar().data(), cal.data());
-    cal->close();
 }
 
 void FileStorageTest::testSave()
@@ -52,7 +51,6 @@ void FileStorageTest::testSave()
     QVERIFY(fs.open());
     QVERIFY(fs.save());
     QVERIFY(fs.close());
-    cal->close();
     QFile::remove(QStringLiteral("fred.ics"));
 }
 

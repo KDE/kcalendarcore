@@ -155,7 +155,22 @@ MemoryCalendar::MemoryCalendar(const QByteArray &timeZoneId)
 
 MemoryCalendar::~MemoryCalendar()
 {
-    close(); // NOLINT false clang-analyzer-optin.cplusplus.VirtualCall
+    setObserversEnabled(false);
+
+    // Don't call the virtual function deleteEvents() etc, the base class might have
+    // other ways of deleting the data.
+    d->deleteAllIncidences(Incidence::TypeEvent);
+    d->deleteAllIncidences(Incidence::TypeTodo);
+    d->deleteAllIncidences(Incidence::TypeJournal);
+
+    d->mIncidencesByIdentifier.clear();
+
+    clearNotebookAssociations();
+
+    setModified(false);
+
+    setObserversEnabled(true);
+
     delete d;
 }
 
@@ -174,25 +189,6 @@ void MemoryCalendar::doSetTimeZone(const QTimeZone &timeZone)
             }
         }
     }
-}
-
-void MemoryCalendar::close()
-{
-    setObserversEnabled(false);
-
-    // Don't call the virtual function deleteEvents() etc, the base class might have
-    // other ways of deleting the data.
-    d->deleteAllIncidences(Incidence::TypeEvent);
-    d->deleteAllIncidences(Incidence::TypeTodo);
-    d->deleteAllIncidences(Incidence::TypeJournal);
-
-    d->mIncidencesByIdentifier.clear();
-
-    clearNotebookAssociations();
-
-    setModified(false);
-
-    setObserversEnabled(true);
 }
 
 bool MemoryCalendar::deleteIncidence(const Incidence::Ptr &incidence)

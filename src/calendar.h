@@ -346,11 +346,6 @@ public:
     bool isLoading() const;
 
     /**
-      Clears out the current calendar, freeing all used memory etc.
-    */
-    virtual void close() = 0;
-
-    /**
       Returns a list of all categories used by Incidences in this Calendar.
 
       @return a QStringList containing all the categories.

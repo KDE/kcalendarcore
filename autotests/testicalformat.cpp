@@ -368,7 +368,6 @@ void ICalFormatTest::testNotebook()
     const QString data = format.toString(calendar, QString());
     QVERIFY(!format.exception());
 
-    calendar->close();
     QVERIFY(!calendar->event(event->uid(), event->recurrenceId()));
     QVERIFY(!calendar->todo(todo->uid(), todo->recurrenceId()));
     QVERIFY(!calendar->journal(journal->uid(), journal->recurrenceId()));

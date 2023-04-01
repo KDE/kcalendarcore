@@ -53,11 +53,6 @@ public:
     ~MemoryCalendar() override;
 
     /**
-      Clears out the current calendar, freeing all used memory etc. etc.
-    */
-    void close() override;
-
-    /**
       @copydoc Calendar::doSetTimeZone()
     */
     void doSetTimeZone(const QTimeZone &timeZone) override;
