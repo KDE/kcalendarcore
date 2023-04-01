@@ -77,10 +77,7 @@ bool ICalFormat::load(const Calendar::Ptr &calendar, const QString &fileName)
     file.close();
 
     if (!text.isEmpty()) {
-        if (!calendar->hasValidNotebook(fileName) && !calendar->addNotebook(fileName, true)) {
-            qCWarning(KCALCORE_LOG) << "Unable to add" << fileName << "as a notebook in calendar";
-        }
-        if (!fromRawString(calendar, text, fileName)) {
+        if (!fromRawString(calendar, text)) {
             qCWarning(KCALCORE_LOG) << fileName << " is not a valid iCalendar file";
             setException(new Exception(Exception::ParseErrorIcal));
             return false;
@@ -174,7 +171,7 @@ Incidence::Ptr ICalFormat::readIncidence(const QByteArray &string)
     return incidence;
 }
 
-bool ICalFormat::fromRawString(const Calendar::Ptr &cal, const QByteArray &string, const QString &notebook)
+bool ICalFormat::fromRawString(const Calendar::Ptr &cal, const QByteArray &string)
 {
     Q_D(ICalFormat);
 
@@ -213,7 +210,7 @@ bool ICalFormat::fromRawString(const Calendar::Ptr &cal, const QByteArray &strin
         success = false;
     } else {
         // put all objects into their proper places
-        if (!d->mImpl.populate(cal, calendar, notebook)) {
+        if (!d->mImpl.populate(cal, calendar)) {
             qCDebug(KCALCORE_LOG) << "Could not populate calendar";
             if (!exception()) {
                 setException(new Exception(Exception::ParseErrorKcal));
@@ -241,7 +238,7 @@ Incidence::Ptr ICalFormat::fromString(const QString &string)
     return !list.isEmpty() ? list.first() : Incidence::Ptr();
 }
 
-QString ICalFormat::toString(const Calendar::Ptr &cal, const QString &notebook)
+QString ICalFormat::toString(const Calendar::Ptr &cal)
 {
     Q_D(ICalFormat);
 
@@ -254,30 +251,24 @@ QString ICalFormat::toString(const Calendar::Ptr &cal, const QString &notebook)
     // todos
     Todo::List todoList = cal->rawTodos();
     for (auto it = todoList.cbegin(), end = todoList.cend(); it != end; ++it) {
-        if (notebook.isEmpty() || (!cal->notebook(*it).isEmpty() && notebook.endsWith(cal->notebook(*it)))) {
-            component = d->mImpl.writeTodo(*it, &tzUsedList);
-            icalcomponent_add_component(calendar, component);
-            ICalTimeZoneParser::updateTzEarliestDate((*it), &earliestTz);
-        }
+        component = d->mImpl.writeTodo(*it, &tzUsedList);
+        icalcomponent_add_component(calendar, component);
+        ICalTimeZoneParser::updateTzEarliestDate((*it), &earliestTz);
     }
     // events
     Event::List events = cal->rawEvents();
     for (auto it = events.cbegin(), end = events.cend(); it != end; ++it) {
-        if (notebook.isEmpty() || (!cal->notebook(*it).isEmpty() && notebook.endsWith(cal->notebook(*it)))) {
-            component = d->mImpl.writeEvent(*it, &tzUsedList);
-            icalcomponent_add_component(calendar, component);
-            ICalTimeZoneParser::updateTzEarliestDate((*it), &earliestTz);
-        }
+        component = d->mImpl.writeEvent(*it, &tzUsedList);
+        icalcomponent_add_component(calendar, component);
+        ICalTimeZoneParser::updateTzEarliestDate((*it), &earliestTz);
     }
 
     // journals
     Journal::List journals = cal->rawJournals();
     for (auto it = journals.cbegin(), end = journals.cend(); it != end; ++it) {
-        if (notebook.isEmpty() || (!cal->notebook(*it).isEmpty() && notebook.endsWith(cal->notebook(*it)))) {
-            component = d->mImpl.writeJournal(*it, &tzUsedList);
-            icalcomponent_add_component(calendar, component);
-            ICalTimeZoneParser::updateTzEarliestDate((*it), &earliestTz);
-        }
+        component = d->mImpl.writeJournal(*it, &tzUsedList);
+        icalcomponent_add_component(calendar, component);
+        ICalTimeZoneParser::updateTzEarliestDate((*it), &earliestTz);
     }
 
     // time zones

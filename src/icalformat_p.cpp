@@ -2643,7 +2643,7 @@ Incidence::Ptr ICalFormatImpl::readOneIncidence(icalcomponent *calendar, const I
 // take a raw vcalendar (i.e. from a file on disk, clipboard, etc. etc.
 // and break it down from its tree-like format into the dictionary format
 // that is used internally in the ICalFormatImpl.
-bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar, const QString &notebook)
+bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar)
 {
     // qCDebug(KCALCORE_LOG)<<"Populate called";
 
@@ -2748,9 +2748,6 @@ bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar,
                 // qCDebug(KCALCORE_LOG) << "Adding todo " << todo.data() << todo->uid();
                 cal->addTodo(todo); // just add this one
             }
-            if (!notebook.isEmpty() && cal->todo(todo->uid(), todo->recurrenceId())) {
-                cal->setNotebook(todo, notebook);
-            }
         }
         c = icalcomponent_get_next_component(calendar, ICAL_VTODO_COMPONENT);
     }
@@ -2780,9 +2777,6 @@ bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar,
                 // qCDebug(KCALCORE_LOG) << "Adding event " << event.data() << event->uid();
                 cal->addEvent(event); // just add this one
             }
-            if (!notebook.isEmpty() && cal->event(event->uid(), event->recurrenceId())) {
-                cal->setNotebook(event, notebook);
-            }
         }
         c = icalcomponent_get_next_component(calendar, ICAL_VEVENT_COMPONENT);
     }
@@ -2800,9 +2794,6 @@ bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar,
                 }
             } else {
                 cal->addJournal(journal); // just add this one
-            }
-            if (!notebook.isEmpty() && cal->journal(journal->uid(), journal->recurrenceId())) {
-                cal->setNotebook(journal, notebook);
             }
         }
         c = icalcomponent_get_next_component(calendar, ICAL_VJOURNAL_COMPONENT);

@@ -295,25 +295,6 @@ void MemoryCalendarTest::testRawEventsForDate()
     QCOMPARE(cal->rawEventsForDate(QDate(2019, 11, 1)).count(), 1);
 }
 
-void MemoryCalendarTest::testVisibility()
-{
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
-    const QString notebook = QLatin1String("Notebook");
-
-    QVERIFY(cal->addNotebook(notebook, true));
-    QVERIFY(cal->isVisible(notebook));
-
-    Event::Ptr event = Event::Ptr(new Event());
-    QVERIFY(cal->addIncidence(event));
-    QVERIFY(cal->setNotebook(event, notebook));
-
-    QVERIFY(cal->isVisible(event));
-
-    QVERIFY(cal->updateNotebook(notebook, false));
-    QVERIFY(!cal->isVisible(notebook));
-    QVERIFY(!cal->isVisible(event));
-}
-
 class TestCalendarObserver: public Calendar::CalendarObserver
 {
 public:
@@ -342,42 +323,6 @@ public:
 private:
     Calendar::Ptr mCalendar;
 };
-
-void MemoryCalendarTest::testNotebookChange()
-{
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
-    TestCalendarObserver observer(cal);
-    const QString notebook1 = QLatin1String("Notebook1");
-    const QString notebook2 = QLatin1String("Notebook2");
-
-    QVERIFY(cal->addNotebook(notebook1, true));
-    QVERIFY(cal->addNotebook(notebook2, true));
-
-    Event::Ptr event = Event::Ptr(new Event());
-    event->setDtStart(QDateTime(QDate(2022, 3, 23), QTime(10, 12), Qt::UTC));
-    event->recurrence()->setDaily(1);
-    Incidence::Ptr exception = Calendar::createException(event, event->dtStart().addDays(3));
-    QVERIFY(exception);
-    exception->setDtStart(exception->recurrenceId().addSecs(1800));
-    QVERIFY(cal->addIncidence(event));
-    QVERIFY(cal->addIncidence(exception));
-    QVERIFY(cal->notebook(event).isEmpty());
-    QVERIFY(cal->notebook(exception).isEmpty());
-
-    QVERIFY(observer.mUpdated.isEmpty());
-    QVERIFY(cal->setNotebook(event, notebook1));
-    QCOMPARE(cal->notebook(event), notebook1);
-    QCOMPARE(cal->notebook(exception), notebook1);
-    QVERIFY(observer.hasIncidenceChanged(event));
-    QVERIFY(observer.hasIncidenceChanged(exception));
-
-    observer.mUpdated.clear();
-    QVERIFY(cal->setNotebook(event, notebook2));
-    QCOMPARE(cal->notebook(event), notebook2);
-    QCOMPARE(cal->notebook(exception), notebook2);
-    QVERIFY(observer.hasIncidenceChanged(event));
-    QVERIFY(observer.hasIncidenceChanged(exception));
-}
 
 void MemoryCalendarTest::testRawEvents()
 {

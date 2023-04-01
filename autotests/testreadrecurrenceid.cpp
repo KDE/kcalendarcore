@@ -55,7 +55,7 @@ void TestReadRecurrenceId::testReadWriteSingleExceptionWithThisAndFuture()
     inc->setRecurrenceId(startDate);
     inc->setThisAndFuture(true);
     cal->addIncidence(inc);
-    const QString result = format.toString(cal, QString());
+    const QString result = format.toString(cal);
     qDebug() << result;
 
     KCalendarCore::Incidence::Ptr i = format.fromString(result);

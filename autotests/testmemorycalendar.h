@@ -24,8 +24,6 @@ private Q_SLOTS:
     void testChangeRecurId();
     void testRawEvents();
     void testRawEventsForDate();
-    void testVisibility();
-    void testNotebookChange();
     void testDeleteIncidence();
     void testUpdateIncidence();
 };

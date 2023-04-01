@@ -32,7 +32,7 @@ void TestDateSerialization::testNewRecurringTodo()
     cal->addIncidence(todo);
 
     ICalFormat format;
-    const QString result = format.toString(cal, QString());
+    const QString result = format.toString(cal);
 
     Incidence::Ptr i = format.fromString(result);
     QVERIFY(i);
@@ -63,7 +63,7 @@ void TestDateSerialization::testTodoCompletedOnce()
     cal->addIncidence(todo);
 
     ICalFormat format;
-    QString result = format.toString(cal, QString());
+    QString result = format.toString(cal);
 
     Incidence::Ptr i = format.fromString(result);
     QVERIFY(i);
@@ -73,7 +73,7 @@ void TestDateSerialization::testTodoCompletedOnce()
 
     cal = MemoryCalendar::Ptr{new MemoryCalendar(QTimeZone::utc())};
     cal->addIncidence(todo);
-    result = format.toString(cal, QString());
+    result = format.toString(cal);
 
     QCOMPARE(todo->dtStart(true), startDate);
     QCOMPARE(todo->dtStart(false), startDate.addMonths(1));
@@ -93,7 +93,7 @@ void TestDateSerialization::testUTCOffset()
     cal->addIncidence(event);
 
     ICalFormat format;
-    QString result = format.toString(cal, QString());
+    QString result = format.toString(cal);
 
     Incidence::Ptr i = format.fromString(result);
     QVERIFY(i);

@@ -96,7 +96,7 @@ public:
       existing in @p calendar are not affected except that if a new incidence
       with the same UID is found, the existing incidence is replaced.
     */
-    bool populate(const Calendar::Ptr &calendar, icalcomponent *fs, const QString &notebook = QString());
+    bool populate(const Calendar::Ptr &calendar, icalcomponent *fs);
 
     Incidence::Ptr readOneIncidence(icalcomponent *calendar, const ICalTimeZoneCache *tzlist);
 

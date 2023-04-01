@@ -78,7 +78,7 @@ void ICalFormatTest::testDeserializeSerialize()
     QVERIFY(occurrence->hasRecurrenceId());
     QCOMPARE(occurrence->recurrenceId(), start.addDays(1));
 
-    const QString serialization = format.toString(calendar, QString());
+    const QString serialization = format.toString(calendar);
     QVERIFY(!serialization.isEmpty());
     MemoryCalendar::Ptr check = MemoryCalendar::Ptr(new MemoryCalendar(QTimeZone::utc()));
     QVERIFY(format.fromString(check, serialization));
@@ -308,7 +308,7 @@ void ICalFormatTest::testRDate()
     QCOMPARE(it.occurrenceStartDate(), ev4);
     QCOMPARE(it.occurrenceEndDate(), ev4.addSecs(7200));
 
-    const QStringList output = format.toString(calendar, QString()).split(QString::fromLatin1("\r\n"));
+    const QStringList output = format.toString(calendar).split(QString::fromLatin1("\r\n"));
     QVERIFY(output.contains(QString::fromLatin1("RDATE;VALUE=PERIOD:20210630T100000Z/20210630T110000Z")));
     QVERIFY(output.contains(QString::fromLatin1("RDATE;VALUE=PERIOD:20210825T100000Z/20210825T110000Z")));
     QVERIFY(output.contains(QString::fromLatin1("RDATE;VALUE=PERIOD:20211027T100000Z/20211027T110000Z")));
@@ -349,44 +349,6 @@ void ICalFormatTest::testDateTime()
     Incidence::Ptr event = format.fromString(QString::fromUtf8(serializedCalendar));
     QVERIFY(event);
     QCOMPARE(dtStart, event->dtStart());
-}
-
-void ICalFormatTest::testNotebook()
-{
-    Event::Ptr event(new Event);
-    event->setDtStart(QDateTime(QDate(2022, 3, 21), QTime(8, 49), Qt::UTC));
-    Todo::Ptr todo(new Todo);
-    todo->setDtStart(QDateTime(QDate(2022, 3, 21), QTime(8, 49), Qt::UTC));
-    Journal::Ptr journal(new Journal);
-    journal->setDtStart(QDateTime(QDate(2022, 3, 21), QTime(8, 49), Qt::UTC));
-    MemoryCalendar::Ptr calendar(new MemoryCalendar(QTimeZone::utc()));
-    QVERIFY(calendar->addEvent(event));
-    QVERIFY(calendar->addTodo(todo));
-    QVERIFY(calendar->addJournal(journal));
-
-    ICalFormat format;
-    const QString data = format.toString(calendar, QString());
-    QVERIFY(!format.exception());
-
-    QVERIFY(!calendar->event(event->uid(), event->recurrenceId()));
-    QVERIFY(!calendar->todo(todo->uid(), todo->recurrenceId()));
-    QVERIFY(!calendar->journal(journal->uid(), journal->recurrenceId()));
-
-    const QString notebook(QString::fromLatin1("my-imported-notebook"));
-    QVERIFY(calendar->addNotebook(notebook, true));
-    QVERIFY(format.fromString(calendar, data, notebook));
-
-    Event::Ptr reloadedEvent = calendar->event(event->uid(), event->recurrenceId());
-    QVERIFY(reloadedEvent);
-    Todo::Ptr reloadedTodo = calendar->todo(todo->uid(), todo->recurrenceId());
-    QVERIFY(reloadedTodo);
-    Journal::Ptr reloadedJournal = calendar->journal(journal->uid(), journal->recurrenceId());
-    QVERIFY(reloadedJournal);
-
-    QCOMPARE(calendar->incidences(notebook).length(), 3);
-    QCOMPARE(calendar->notebook(reloadedEvent), notebook);
-    QCOMPARE(calendar->notebook(reloadedTodo), notebook);
-    QCOMPARE(calendar->notebook(reloadedJournal), notebook);
 }
 
 /**

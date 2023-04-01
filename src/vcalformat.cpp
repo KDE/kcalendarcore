@@ -108,7 +108,7 @@ bool VCalFormat::load(const Calendar::Ptr &calendar, const QString &fileName)
 
     // put all vobjects into their proper places
     auto savedTimeZoneId = d->mCalendar->timeZoneId();
-    populate(vcal, fileName);
+    populate(vcal);
     d->mCalendar->setTimeZoneId(savedTimeZoneId);
 
     // clean up from vcal API stuff
@@ -126,7 +126,7 @@ bool VCalFormat::save(const Calendar::Ptr &calendar, const QString &fileName)
     return false;
 }
 
-bool VCalFormat::fromRawString(const Calendar::Ptr &calendar, const QByteArray &string, const QString &notebook)
+bool VCalFormat::fromRawString(const Calendar::Ptr &calendar, const QByteArray &string)
 {
     Q_D(VCalFormat);
     d->mCalendar = calendar;
@@ -145,7 +145,7 @@ bool VCalFormat::fromRawString(const Calendar::Ptr &calendar, const QByteArray &
 
     // put all vobjects into their proper places
     auto savedTimeZoneId = d->mCalendar->timeZoneId();
-    populate(vcal, notebook);
+    populate(vcal);
     d->mCalendar->setTimeZoneId(savedTimeZoneId);
 
     // clean up from vcal API stuff
@@ -155,10 +155,9 @@ bool VCalFormat::fromRawString(const Calendar::Ptr &calendar, const QByteArray &
     return true;
 }
 
-QString VCalFormat::toString(const Calendar::Ptr &calendar, const QString &notebook)
+QString VCalFormat::toString(const Calendar::Ptr &calendar)
 {
     Q_UNUSED(calendar);
-    Q_UNUSED(notebook);
 
     qCWarning(KCALCORE_LOG) << "Exporting into VCAL is not supported";
     return {};
@@ -1318,10 +1317,9 @@ bool VCalFormat::parseTZOffsetISO8601(const QString &s, int &result)
 // take a raw vcalendar (i.e. from a file on disk, clipboard, etc. etc.
 // and break it down from it's tree-like format into the dictionary format
 // that is used internally in the VCalFormat.
-void VCalFormat::populate(VObject *vcal, const QString &notebook)
+void VCalFormat::populate(VObject *vcal)
 {
     Q_D(VCalFormat);
-    Q_UNUSED(notebook);
     // this function will populate the caldict dictionary and other event
     // lists. It turns vevents into Events and then inserts them.
 

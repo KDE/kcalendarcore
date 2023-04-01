@@ -64,20 +64,17 @@ public:
     virtual bool save(const Calendar::Ptr &calendar, const QString &fileName) = 0;
 
     /**
-      Loads a calendar from a string. When a notebook is given, incidences are added to this
-      notebook, otherwise no notebook is associated to loaded incidences. The notebook
-      should already be added to the calendar, see Calendar::addNotebook().
+      Loads a calendar from a string.
 
       @param calendar is the Calendar to be loaded.
       @param string is the QString containing the Calendar data.
-      @param notebook notebook uid
 
       @return true if successful; false otherwise.
       @see fromRawString(), toString().
 
       @since 5.97
     */
-    bool fromString(const Calendar::Ptr &calendar, const QString &string, const QString &notebook = {});
+    bool fromString(const Calendar::Ptr &calendar, const QString &string);
 
     /**
       Parses a utf8 encoded string, returning the first iCal component
@@ -87,23 +84,21 @@ public:
 
       @param calendar is the Calendar to be loaded.
       @param string is the QByteArray containing the Calendar data.
-      @param notebook notebook uid
 
       @return true if successful; false otherwise.
       @see fromString(), toString().
     */
-    virtual bool fromRawString(const Calendar::Ptr &calendar, const QByteArray &string, const QString &notebook = QString()) = 0;
+    virtual bool fromRawString(const Calendar::Ptr &calendar, const QByteArray &string) = 0;
 
     /**
       Returns the calendar as a string.
       @param calendar is the Calendar containing the data to be saved.
-      @param notebook uid use only incidences with given notebook
 
       @return a QString containing the Calendar data if successful;
       an empty string otherwise.
       @see fromString(), fromRawString().
     */
-    virtual QString toString(const Calendar::Ptr &calendar, const QString &notebook = QString()) = 0;
+    virtual QString toString(const Calendar::Ptr &calendar) = 0;
 
     /**
       Clears the exception status.

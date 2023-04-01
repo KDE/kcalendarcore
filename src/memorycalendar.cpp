@@ -165,8 +165,6 @@ MemoryCalendar::~MemoryCalendar()
 
     d->mIncidencesByIdentifier.clear();
 
-    clearNotebookAssociations();
-
     setModified(false);
 
     setObserversEnabled(true);
@@ -395,9 +393,6 @@ Todo::List MemoryCalendar::rawTodos(const QDate &start, const QDate &end, const 
     // Get todos
     for (const auto &incidence : d->mIncidences[Incidence::TypeTodo]) {
         const auto todo = incidence.staticCast<Todo>();
-        if (!isVisible(todo)) {
-            continue;
-        }
 
         QDateTime rStart = todo->hasDueDate() ? todo->dtDue() : todo->hasStartDate() ? todo->dtStart() : QDateTime();
         if (!rStart.isValid()) {

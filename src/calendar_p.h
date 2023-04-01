@@ -65,12 +65,6 @@ public:
     QMultiHash<QString, Incidence::Ptr> mOrphans;
     QMultiHash<QString, Incidence::Ptr> mOrphanUids;
 
-    // Lists for associating incidences to notebooks
-    QMultiHash<QString, Incidence::Ptr> mNotebookIncidences;
-    QHash<QString, QString> mUidToNotebook;
-    QHash<QString, bool> mNotebooks; // name to visibility
-    QHash<Incidence::Ptr, bool> mIncidenceVisibility; // incidence -> visibility
-    QString mDefaultNotebook; // uid of default notebook
     QMap<QString, Incidence::List> mIncidenceRelations;
     bool batchAddingInProgress = false;
     bool mIsLoading = false;
