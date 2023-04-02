@@ -191,10 +191,6 @@ void MemoryCalendar::doSetTimeZone(const QTimeZone &timeZone)
 
 bool MemoryCalendar::deleteIncidence(const Incidence::Ptr &incidence)
 {
-    // Handle orphaned children
-    // relations is an Incidence's property, not a Todo's, so
-    // we remove relations in deleteIncidence, not in deleteTodo.
-    removeRelations(incidence);
     // Notify while the incidence is still available,
     // this is necessary so korganizer still has time to query for exceptions
     notifyIncidenceAboutToBeDeleted(incidence);
@@ -305,8 +301,6 @@ bool MemoryCalendar::addIncidence(const Incidence::Ptr &incidence)
     notifyIncidenceAdded(incidence);
 
     incidence->registerObserver(this);
-
-    setupRelations(incidence);
 
     setModified(true);
 

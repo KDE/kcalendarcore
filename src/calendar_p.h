@@ -61,11 +61,6 @@ public:
     CalFilter *mDefaultFilter = nullptr;
     CalFilter *mFilter = nullptr;
 
-    // These lists are used to put together related To-dos
-    QMultiHash<QString, Incidence::Ptr> mOrphans;
-    QMultiHash<QString, Incidence::Ptr> mOrphanUids;
-
-    QMap<QString, Incidence::List> mIncidenceRelations;
     bool batchAddingInProgress = false;
     bool mIsLoading = false;
     QString mId;

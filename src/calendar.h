@@ -907,37 +907,6 @@ public:
                                            JournalSortField sortField = JournalSortUnsorted,
                                            SortDirection sortDirection = SortDirectionAscending) const = 0;
 
-    // Relations Specific Methods //
-
-    /**
-      Setup Relations for an Incidence.
-      @param incidence is a pointer to the Incidence to have a Relation setup.
-    */
-    virtual void setupRelations(const Incidence::Ptr &incidence);
-
-    /**
-      Removes all Relations from an Incidence.
-
-      @param incidence is a pointer to the Incidence to have a Relation removed.
-    */
-    virtual void removeRelations(const Incidence::Ptr &incidence);
-
-    /**
-      Checks if @p ancestor is an ancestor of @p incidence
-
-      @param ancestor is the incidence we are testing to be an ancestor.
-      @param incidence is the incidence we are testing to be descended from @p ancestor.
-    */
-    bool isAncestorOf(const Incidence::Ptr &ancestor, const Incidence::Ptr &incidence) const;
-
-    /**
-       Returns a list of incidences that have a relation of RELTYPE parent
-       to incidence @p uid.
-
-       @param uid The parent identifier whose children we want to obtain.
-    */
-    Incidence::List relations(const QString &uid) const;
-
     // Filter Specific Methods //
 
     /**
