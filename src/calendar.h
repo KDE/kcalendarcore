@@ -1273,14 +1273,18 @@ public:
     /**
       Setup Relations for an Incidence.
       @param incidence is a pointer to the Incidence to have a Relation setup.
+      @deprecated since 5.106
     */
+    KCALENDARCORE_DEPRECATED_VERSION(5, 106, "Relation API is going to be removed in KF6.")
     virtual void setupRelations(const Incidence::Ptr &incidence);
 
     /**
       Removes all Relations from an Incidence.
 
       @param incidence is a pointer to the Incidence to have a Relation removed.
+      @deprecated since 5.106
     */
+    KCALENDARCORE_DEPRECATED_VERSION(5, 106, "Relation API is going to be removed in KF6.")
     virtual void removeRelations(const Incidence::Ptr &incidence);
 
     /**
@@ -1288,7 +1292,9 @@ public:
 
       @param ancestor is the incidence we are testing to be an ancestor.
       @param incidence is the incidence we are testing to be descended from @p ancestor.
+      @deprecated since 5.106
     */
+    KCALENDARCORE_DEPRECATED_VERSION(5, 106, "Relation API is going to be removed in KF6.")
     bool isAncestorOf(const Incidence::Ptr &ancestor, const Incidence::Ptr &incidence) const;
 
     /**
@@ -1296,7 +1302,9 @@ public:
        to incidence @p uid.
 
        @param uid The parent identifier whose children we want to obtain.
+       @deprecated since 5.106
     */
+    KCALENDARCORE_DEPRECATED_VERSION(5, 106, "Relation API is going to be removed in KF6.")
     Incidence::List relations(const QString &uid) const;
 
     // Filter Specific Methods //
