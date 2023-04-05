@@ -38,8 +38,9 @@ if(POLICY CMP0053)
 endif()
 
 set(KCALENDARCORE_LIB_VERSION ${KF_VERSION})
+set(kcalendarcore_version_header "${KCalendarCore_BINARY_DIR}/src/kcalendarcore_version.h")
 ecm_setup_version(PROJECT VARIABLE_PREFIX KCALENDARCORE
-  VERSION_HEADER "${KCalendarCore_BINARY_DIR}/kcalendarcore_version.h"
+  VERSION_HEADER "${kcalendarcore_version_header}"
   PACKAGE_VERSION_FILE "${KCalendarCore_BINARY_DIR}/KF6CalendarCoreConfigVersion.cmake"
   SOVERSION 6
 )
@@ -105,7 +106,7 @@ if (BUILD_QCH)
 endif()
 
 install(FILES
-  ${CMAKE_CURRENT_BINARY_DIR}/kcalendarcore_version.h
+  ${kcalendarcore_version_header}
   DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF}/KCalendarCore COMPONENT Devel
 )
 
