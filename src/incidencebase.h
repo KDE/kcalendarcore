@@ -227,6 +227,7 @@ public:
         TypeTodo,
         TypeJournal,
         TypeFreeBusy,
+        TypeAvailability,
         TypeUnknown,
     };
 

@@ -54,6 +54,7 @@ class IncidencePrivate;
         \li KCalendarCore::Event
         \li KCalendarCore::Todo
         \li KCalendarCore::Journal
+        \li KCalendarCore::Availability
       \endlist
     \endlist
   \endlist
@@ -83,6 +84,7 @@ class IncidencePrivate;
         \li KCalendarCore::Event
         \li KCalendarCore::Todo
         \li KCalendarCore::Journal
+        \li KCalendarCore::Availability
       \endlist
     \endlist
   \endlist
