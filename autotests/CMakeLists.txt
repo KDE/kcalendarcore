@@ -45,6 +45,7 @@ macro_unit_tests(
   teststartdatetimesfordate
   teststatus
   testtodo
+  testavailability
   testtimesininterval
   testcreateddatecompat
   testrecurrenceexception
