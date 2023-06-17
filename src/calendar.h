@@ -30,6 +30,7 @@ This API needs serious cleaning up:
 #ifndef KCALCORE_CALENDAR_H
 #define KCALCORE_CALENDAR_H
 
+#include "availability.h"
 #include "customproperties.h"
 #include "event.h"
 #include "incidence.h"

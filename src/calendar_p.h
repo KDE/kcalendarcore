@@ -61,6 +61,9 @@ public:
     CalFilter *mDefaultFilter = nullptr;
     CalFilter *mFilter = nullptr;
 
+    // Lists related to availability/available class
+    QVector<Availability> availabilities() const;
+
     bool batchAddingInProgress = false;
     bool mIsLoading = false;
     QString mId;
