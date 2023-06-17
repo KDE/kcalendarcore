@@ -8,15 +8,14 @@
 /**
   @file
   This file is part of the API for handling calendar data and
-  defines the Availability class.
+  defines the Available class.
 
   @author
 */
 
-#ifndef KCALCORE_AVAILABILITY_H
-#define KCALCORE_AVAILABILITY_H
+#ifndef KCALCORE_AVAILABILE_H
+#define KCALCORE_AVAILABILE_H
 
-#include "available.h"
 #include "incidence.h"
 //#include "kalendarcore_export.h"
 
@@ -25,23 +24,17 @@ namespace KCalendarCore
 
 /**
   @brief
-  Provides a Availability component in the sense of RFC7953.
+  Provides a Available component in the sense of RFC7953.
   */
-class KCALCORE_AVAILABILITY_H Availability : public CustomProperties
+class KCALCORE_AVAILABILE_H Available : public CustomProperties
 {
-    // Q_PROPERTY(QString uid READ uid WRITE setUid) // TODO is this needed
 public:
     void setUid(const QString &uid);
 
     // uuid
     Q_REQUIRED_RESULT QString uid() const;
 
-    // dtstamp
-    // QDateTime lastModified() const;
-
 private:
-    QVector<Available> availables() const;
-
     mutable QString mUid;
 };
 };

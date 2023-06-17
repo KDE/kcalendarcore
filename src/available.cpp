@@ -1,16 +1,16 @@
-#include "availability.h"
+#include "available.h"
 #include "incidence_p.h"
 
 #include "kcalendarcore_debug.h"
 
 using namespace KCalendarCore;
 
-void Availability::setUid(const QString &uid)
+void Available::setUid(const QString &uid)
 {
     mUid = uid;
 }
 
-QString Availability::uid() const
+QString Available::uid() const
 {
     return mUid;
 }
