@@ -56,3 +56,13 @@ Person Availability::organizer() const
 {
     return mOrganizer;
 }
+
+void Availability::setSummary(const QString &summary)
+{
+    mSummary = summary;
+}
+
+QString Availability::summary() const
+{
+    return mSummary;
+}
