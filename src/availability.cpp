@@ -14,3 +14,13 @@ QString Availability::uid() const
 {
     return mUid;
 }
+
+void Availability::setDtStart(const QDateTime &dt)
+{
+    mDtStart = dt;
+}
+
+QDateTime Availability::dtStart() const
+{
+    return mDtStart;
+}

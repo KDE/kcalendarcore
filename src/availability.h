@@ -18,7 +18,7 @@
 
 #include "available.h"
 #include "incidence.h"
-//#include "kalendarcore_export.h"
+#include "kcalendarcore_export.h"
 
 namespace KCalendarCore
 {
@@ -36,11 +36,17 @@ public:
     // uuid
     Q_REQUIRED_RESULT QString uid() const;
 
+    void setDtStart(const QDateTime &dt);
+
+    Q_REQUIRED_RESULT QDateTime dtStart() const;
+
     // dtstamp
     // QDateTime lastModified() const;
 
 private:
     QVector<Available> availables() const;
+
+    QDateTime mDtStart; // start time
 
     mutable QString mUid;
 };

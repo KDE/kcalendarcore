@@ -17,6 +17,8 @@ set_target_properties(
 target_sources(
     KF6CalendarCore
     PRIVATE
+        available.h
+        available.cpp
         availability.h
         availability.cpp
         alarm.cpp
@@ -153,6 +155,8 @@ install(TARGETS KF6CalendarCore EXPORT KF6CalendarCoreTargets ${KF_INSTALL_TARGE
 
 ########### Generate Headers ###############
 set(kcalendarcore_headers
+    Availability
+    Available
     Alarm
     Attachment
     Attendee
