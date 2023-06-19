@@ -1,5 +1,5 @@
 /*
-  This file is part of the kcalcore library.
+  This file is part of the kcalendarcore library.
 
   SPDX-FileCopyrightText: 2006, 2008 Allen Winter <winter@kde.org>
 

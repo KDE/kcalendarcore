@@ -1,5 +1,5 @@
 /*
-  This file is part of the kcalcore library.
+  This file is part of the kcalendarcore library.
 
   SPDX-FileCopyrightText: 2006, 2008 Allen Winter <winter@kde.org>
 
@@ -22,8 +22,8 @@ void AvailabilityTest::initTestCase()
 
 void AvailabilityTest::testValidity()
 {
-    // QDate dt = QDate::currentDate();
-    // Availability availability;
+    QDate dt = QDate::currentDate();
+    Availability availability;
     // availability.setDtStart(QDateTime(dt, {}));
     ////availability.setDtDue(QDateTime(dt, {}).addDays(1));
     // availability.setSummary(QStringLiteral("To-do1 Summary"));
