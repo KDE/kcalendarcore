@@ -26,7 +26,7 @@ namespace KCalendarCore
   @brief
   Provides a Available component in the sense of RFC7953.
   */
-class KCALCORE_AVAILABILE_H Available : public CustomProperties
+class KCALENDARCORE_EXPORT Available : public CustomProperties
 {
 public:
     void setUid(const QString &uid);

@@ -28,7 +28,7 @@ namespace KCalendarCore
   @brief
   Provides a Availability component in the sense of RFC7953.
   */
-class KCALCORE_AVAILABILITY_H Availability : public CustomProperties
+class KCALENDARCORE_EXPORT Availability : public CustomProperties
 {
     // Q_PROPERTY(QString uid READ uid WRITE setUid) // TODO is this needed
 public:
