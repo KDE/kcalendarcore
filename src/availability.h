@@ -19,6 +19,7 @@
 #include "available.h"
 #include "incidence.h"
 #include "kcalendarcore_export.h"
+#include "person.h"
 
 namespace KCalendarCore
 {
@@ -40,6 +41,16 @@ public:
 
     Q_REQUIRED_RESULT QDateTime dtStart() const;
 
+    void setDtEnd(const QDateTime &dtEnd);
+
+    virtual QDateTime dtEnd() const;
+
+    void setOrganizer(const Person &organizer);
+
+    void setOrganizer(const QString &organizer);
+
+    Person organizer() const;
+
     // dtstamp
     // QDateTime lastModified() const;
 
@@ -47,6 +58,9 @@ private:
     QVector<Available> availables() const;
 
     QDateTime mDtStart; // start time
+    QDateTime mDtEnd; // end time
+
+    Person mOrganizer; // person (owner)
 
     mutable QString mUid;
 };

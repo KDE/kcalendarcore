@@ -24,3 +24,35 @@ QDateTime Availability::dtStart() const
 {
     return mDtStart;
 }
+
+// TODO
+void Availability::setDtEnd(const QDateTime &dtEnd)
+{
+}
+
+QDateTime Availability::dtEnd() const
+{
+    return mDtEnd;
+}
+
+void Availability::setOrganizer(const Person &organizer)
+{
+    mOrganizer = organizer;
+}
+
+void Availability::setOrganizer(const QString &o)
+{
+    QString mail(o);
+    if (mail.startsWith(QLatin1String("MAILTO:"), Qt::CaseInsensitive)) {
+        mail.remove(0, 7);
+    }
+
+    // split the string into full name plus email.
+    const Person organizer = Person::fromFullName(mail);
+    setOrganizer(organizer);
+}
+
+Person Availability::organizer() const
+{
+    return mOrganizer;
+}
