@@ -110,6 +110,13 @@ QString Availability::Private::summary() const
 }
 
 //@endcond
+Availability::Availability()
+    : d(new Availability::Private)
+{
+}
+
+Availability::~Availability() = default;
+
 void Availability::setUid(const QString &uid)
 {
     d->setUid(uid);

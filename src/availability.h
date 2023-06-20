@@ -32,6 +32,10 @@ class KCALENDARCORE_EXPORT Availability : public CustomProperties
 {
     // Q_PROPERTY(QString uid READ uid WRITE setUid) // TODO is this needed
 public:
+    explicit Availability();
+
+    ~Availability();
+
     /**
       Sets the @acronym UID of the availability to @p uid.
 
