@@ -116,16 +116,8 @@ public:
     // QDateTime lastModified() const;
 
 private:
-    QVector<Available> availables() const;
-
-    QDateTime mDtStart; // start time
-    QDateTime mDtEnd; // end time
-
-    Person mOrganizer; // person (owner)
-
-    QString mSummary; // summary string
-
-    mutable QString mUid;
+    class Private;
+    std::unique_ptr<Private> d;
 };
 };
 

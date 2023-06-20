@@ -5,42 +5,84 @@
 
 using namespace KCalendarCore;
 
-void Availability::setUid(const QString &uid)
+/**
+  Private class that helps to provide binary compatibility between releases.
+  u@internal
+*/
+//@cond PRIVATE
+class Q_DECL_HIDDEN KCalendarCore::Availability::Private
+{
+    QVector<Available> availables() const;
+
+    QDateTime mDtStart; // start time
+    QDateTime mDtEnd; // end time
+
+    Person mOrganizer; // person (owner)
+
+    QString mSummary; // summary string
+
+    mutable QString mUid;
+
+public:
+    void setUid(const QString &uid);
+
+    QString uid() const;
+
+    void setDtStart(const QDateTime &dt);
+
+    QDateTime dtStart() const;
+
+    void setDtEnd(const QDateTime &dt);
+
+    QDateTime dtEnd() const;
+
+    void setOrganizer(const Person &organizer);
+
+    void setOrganizer(const QString &o);
+
+    Person organizer() const;
+
+    void setSummary(const QString &summary);
+
+    QString summary() const;
+};
+
+void Availability::Private::setUid(const QString &uid)
 {
     mUid = uid;
 }
 
-QString Availability::uid() const
+QString Availability::Private::uid() const
 {
     return mUid;
 }
 
-void Availability::setDtStart(const QDateTime &dt)
+void Availability::Private::setDtStart(const QDateTime &dt)
 {
     mDtStart = dt;
 }
 
-QDateTime Availability::dtStart() const
+QDateTime Availability::Private::dtStart() const
 {
     return mDtStart;
 }
 
-// TODO
-void Availability::setDtEnd(const QDateTime &dtEnd)
+void Availability::Private::setDtEnd(const QDateTime &dt)
 {
+    mDtEnd = dt;
 }
 
-QDateTime Availability::dtEnd() const
+QDateTime Availability::Private::dtEnd() const
 {
     return mDtEnd;
 }
 
-void Availability::setOrganizer(const Person &organizer)
+void Availability::Private::setOrganizer(const Person &organizer)
 {
     mOrganizer = organizer;
 }
 
-void Availability::setOrganizer(const QString &o)
+void Availability::Private::setOrganizer(const QString &o)
 {
     QString mail(o);
     if (mail.startsWith(QLatin1String("MAILTO:"), Qt::CaseInsensitive)) {
@@ -52,17 +94,73 @@ void Availability::setOrganizer(const QString &o)
     setOrganizer(organizer);
 }
 
-Person Availability::organizer() const
+Person Availability::Private::organizer() const
 {
     return mOrganizer;
 }
 
-void Availability::setSummary(const QString &summary)
+void Availability::Private::setSummary(const QString &summary)
 {
     mSummary = summary;
 }
 
-QString Availability::summary() const
+QString Availability::Private::summary() const
 {
     return mSummary;
+}
+
+//@endcond
+void Availability::setUid(const QString &uid)
+{
+    d->setUid(uid);
+}
+
+QString Availability::uid() const
+{
+    return d->uid();
+}
+
+void Availability::setDtStart(const QDateTime &dt)
+{
+    d->setDtStart(dt);
+}
+
+QDateTime Availability::dtStart() const
+{
+    return d->dtStart();
+}
+
+void Availability::setDtEnd(const QDateTime &dt)
+{
+    d->setDtEnd(dt);
+}
+
+QDateTime Availability::dtEnd() const
+{
+    return d->dtEnd();
+}
+
+void Availability::setOrganizer(const Person &organizer)
+{
+    d->setOrganizer(organizer);
+}
+
+void Availability::setOrganizer(const QString &o)
+{
+    d->setOrganizer(o);
+}
+
+Person Availability::organizer() const
+{
+    return d->organizer();
+}
+
+void Availability::setSummary(const QString &summary)
+{
+    d->setSummary(summary);
+}
+
+QString Availability::summary() const
+{
+    return d->summary();
 }
