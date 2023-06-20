@@ -342,3 +342,5 @@ void ICalTimeZonesTest::testPragueTransitions()
 #endif
     QVERIFY(!occursIn1978);
 }
+
+#include "moc_testicaltimezones.cpp"

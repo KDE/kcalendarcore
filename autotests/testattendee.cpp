@@ -227,3 +227,5 @@ void AttendeeTest::testUid()
     a.setUid({});
     QVERIFY(!a.uid().isEmpty());
 }
+
+#include "moc_testattendee.cpp"

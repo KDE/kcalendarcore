@@ -82,3 +82,5 @@ void AttachmentTest::testSerializer()
     stream2 >> attachment2; // deserialize
     QVERIFY(attachment == attachment2);
 }
+
+#include "moc_testattachment.cpp"

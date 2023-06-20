@@ -74,3 +74,5 @@ void TestReadRecurrenceId::testReadExceptionWithMainEvent()
     format.fromString(calendar, QString::fromUtf8(file.readAll()));
     QCOMPARE(calendar->rawEvents().size(), 2);
 }
+
+#include "moc_testreadrecurrenceid.cpp"

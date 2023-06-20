@@ -356,3 +356,5 @@ void EventTest::testIsMultiDay()
 
     QCOMPARE(event.isMultiDay(), isMultiDay);
 }
+
+#include "moc_testevent.cpp"

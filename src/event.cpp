@@ -367,3 +367,5 @@ bool Event::supportsGroupwareCommunication() const
 {
     return true;
 }
+
+#include "moc_event.cpp"

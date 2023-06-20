@@ -170,3 +170,5 @@ bool FileStorage::close()
 {
     return true;
 }
+
+#include "moc_filestorage.cpp"

@@ -458,3 +458,5 @@ void MemoryCalendarTest::testUpdateIncidence()
     event->setSummary(QString::fromLatin1("last test"));
     QCOMPARE(event->lastModified(), dt);
 }
+
+#include "moc_testmemorycalendar.cpp"

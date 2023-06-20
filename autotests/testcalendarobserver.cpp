@@ -122,4 +122,5 @@ void CalendarObserverTest::testDelete()
     QCOMPARE(arguments.at(1).value<const Calendar *>(), cal.data());
 }
 
+#include "moc_testcalendarobserver.cpp"
 #include "testcalendarobserver.moc"

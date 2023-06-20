@@ -101,3 +101,5 @@ void FreeBusyTest::testDataStream()
     QCOMPARE(fb1->busyPeriods(), fb2->busyPeriods());
     //   QVERIFY( *fb1 == *fb2 );
 }
+
+#include "moc_testfreebusy.cpp"

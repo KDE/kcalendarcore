@@ -36,3 +36,5 @@ void CalFilterTest::testCats()
     f2.setCategoryList(cats);
     QVERIFY(f1.categoryList() == f2.categoryList());
 }
+
+#include "moc_testcalfilter.cpp"

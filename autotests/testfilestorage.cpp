@@ -148,3 +148,5 @@ void FileStorageTest::testSpecialChars()
 
     file.remove();
 }
+
+#include "moc_testfilestorage.cpp"

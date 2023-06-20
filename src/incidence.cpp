@@ -1255,3 +1255,5 @@ void Incidence::deserialize(QDataStream &in)
         d->mRelatedToUid.insert(static_cast<Incidence::RelType>(it.key()), it.value());
     }
 }
+
+#include "moc_incidence.cpp"

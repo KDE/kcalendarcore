@@ -47,3 +47,5 @@ void IncidenceRelationTest::testRelations()
     QCOMPARE(todo2->relatedTo(), todo1->uid());
     QCOMPARE(todo1->relatedTo(), QString());
 }
+
+#include "moc_testincidencerelation.cpp"

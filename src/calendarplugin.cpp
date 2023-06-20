@@ -14,3 +14,5 @@ CalendarPlugin::CalendarPlugin(QObject *parent, const QVariantList &args)
 {
     Q_UNUSED(args)
 }
+
+#include "moc_calendarplugin.cpp"

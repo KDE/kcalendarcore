@@ -98,3 +98,5 @@ void PersonTest::testDataStreamOut()
     QVERIFY(person2.name() == person1.name());
     QVERIFY(person2.email() == person1.email());
 }
+
+#include "moc_testperson.cpp"

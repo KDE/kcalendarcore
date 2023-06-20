@@ -137,3 +137,5 @@ void JournalTest::testSerializer()
     stream2 >> incidenceBase2;
     QVERIFY(*journal == *journal2);
 }
+
+#include "moc_testjournal.cpp"

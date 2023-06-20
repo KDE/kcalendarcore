@@ -218,3 +218,5 @@ QDataStream &KCalendarCore::operator>>(QDataStream &in, KCalendarCore::Attachmen
     in >> a.d->mSize >> a.d->mMimeType >> a.d->mUri >> a.d->mEncodedData >> a.d->mLabel >> a.d->mBinary >> a.d->mLocal >> a.d->mShowInline;
     return in;
 }
+
+#include "moc_attachment.cpp"

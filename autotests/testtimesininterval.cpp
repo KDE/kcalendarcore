@@ -304,3 +304,5 @@ void TimesInIntervalTest::testRDatePeriod()
     QCOMPARE(recur.rDateTimes(), QList<QDateTime>() << other << later);
     QVERIFY(!recur.rDateTimePeriod(start).isValid());
 }
+
+#include "moc_testtimesininterval.cpp"

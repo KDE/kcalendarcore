@@ -502,3 +502,5 @@ void ICalFormatTest::testNonTextCustomProperties()
     QCOMPARE(event->nonKDECustomProperty("X-APPLE-TRAVEL-START"), QString());
     QCOMPARE(event->nonKDECustomProperty("X-APPLE-STRUCTURED-LOCATION"), QLatin1String("geo:52.063921,5.128511"));
 }
+
+#include "moc_testicalformat.cpp"

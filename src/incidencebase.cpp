@@ -680,3 +680,5 @@ QDataStream &KCalendarCore::operator>>(QDataStream &in, KCalendarCore::Incidence
 IncidenceBase::IncidenceObserver::~IncidenceObserver()
 {
 }
+
+#include "moc_incidencebase.cpp"

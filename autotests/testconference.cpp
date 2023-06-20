@@ -106,3 +106,5 @@ void ConferenceTest::testLoading()
     QCOMPARE(conference.features(), (QStringList{QStringLiteral("AUDIO"), QStringLiteral("VIDEO")}));
     QCOMPARE(conference.label(), QStringLiteral("Join NextCloud Talk, password is 12345"));
 }
+
+#include "moc_testconference.cpp"

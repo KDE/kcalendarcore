@@ -121,3 +121,5 @@ void FreeBusyPeriodTest::testDataStreamIn()
 
     QCOMPARE(p2, p1);
 }
+
+#include "moc_testfreebusyperiod.cpp"

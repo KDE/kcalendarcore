@@ -103,3 +103,5 @@ void TestDateSerialization::testUTCOffset()
     QCOMPARE(i->dtStart().timeSpec(), Qt::TimeZone);
     QCOMPARE(i->dtStart().timeZone().offsetFromUtc(i->dtStart()), 3600);
 }
+
+#include "moc_testdateserialization.cpp"

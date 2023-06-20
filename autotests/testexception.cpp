@@ -19,3 +19,5 @@ void ExceptionTest::testValidity()
     Exception ef(Exception::LoadError);
     QVERIFY(ef.code() == Exception::LoadError);
 }
+
+#include "moc_testexception.cpp"

@@ -530,3 +530,5 @@ void TodoTest::testDtDueChange()
     todo.setDtDue(QDateTime(date, time, Qt::LocalTime));
     QCOMPARE(todo.dirtyFields(), QSet<IncidenceBase::Field>{IncidenceBase::FieldDtDue});
 }
+
+#include "moc_testtodo.cpp"

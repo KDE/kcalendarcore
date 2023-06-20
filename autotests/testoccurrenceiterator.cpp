@@ -321,3 +321,5 @@ void TestOccurrenceIterator::testEndDate()
     QVERIFY(!rIt.occurrenceEndDate().isValid());
     QVERIFY(!rIt.hasNext());
 }
+
+#include "moc_testoccurrenceiterator.cpp"

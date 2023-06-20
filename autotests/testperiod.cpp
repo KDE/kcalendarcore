@@ -115,3 +115,5 @@ void PeriodTest::testDataStreamIn()
 
     QVERIFY(p1 == p2);
 }
+
+#include "moc_testperiod.cpp"
