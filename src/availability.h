@@ -53,20 +53,6 @@ public:
     Q_REQUIRED_RESULT QString uid() const;
 
     /**
-      Sets the incidence starting date/time.
-
-      @param dt is the starting date/time.
-      @see dtStart().
-    */
-    void setDtStart(const QDateTime &dt);
-
-    /**
-      Returns starting date/time as a QDateTime.
-      @see setDtStart().
-    */
-    Q_REQUIRED_RESULT QDateTime dtStart() const;
-
-    /**
       Sets the event end date and time.
       @param dtEnd is a QDateTime specifying when the event ends.
       @see dtEnd().
@@ -115,6 +101,12 @@ public:
       @see setSummary()
     */
     Q_REQUIRED_RESULT QString summary() const;
+
+    /**
+      Adds new available entry in list
+      @param TODO
+     */
+    void addNewAvailable();
 
     // dtstamp
     // QDateTime lastModified() const;

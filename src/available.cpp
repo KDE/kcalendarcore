@@ -12,13 +12,28 @@ using namespace KCalendarCore;
 //@cond PRIVATE
 class Q_DECL_HIDDEN KCalendarCore::Available::Private
 {
+    QDateTime mDtStart; // start time
     mutable QString mUid;
 
 public:
+    void setDtStart(const QDateTime &dt);
+
+    QDateTime dtStart() const;
+
     void setUid(const QString &uid);
 
     QString uid() const;
 };
+
+void Available::Private::setDtStart(const QDateTime &dt)
+{
+    mDtStart = dt;
+}
+
+QDateTime Available::Private::dtStart() const
+{
+    return mDtStart;
+}
 
 void Available::Private::setUid(const QString &uid)
 {
@@ -46,4 +61,14 @@ void Available::setUid(const QString &uid)
 QString Available::uid() const
 {
     return d->uid();
+}
+
+void Available::setDtStart(const QDateTime &dt)
+{
+    d->setDtStart(dt);
+}
+
+QDateTime Available::dtStart() const
+{
+    return d->dtStart();
 }

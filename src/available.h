@@ -49,6 +49,20 @@ public:
     */
     Q_REQUIRED_RESULT QString uid() const;
 
+    /**
+      Sets the incidence starting date/time.
+
+      @param dt is the starting date/time.
+      @see dtStart().
+    */
+    void setDtStart(const QDateTime &dt);
+
+    /**
+      Returns starting date/time as a QDateTime.
+      @see setDtStart().
+    */
+    Q_REQUIRED_RESULT QDateTime dtStart() const;
+
 private:
     class Private;
     std::unique_ptr<Private> d;

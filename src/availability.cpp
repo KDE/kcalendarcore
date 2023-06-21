@@ -13,24 +13,15 @@ using namespace KCalendarCore;
 class Q_DECL_HIDDEN KCalendarCore::Availability::Private
 {
     QVector<Available> availables() const;
-
-    QDateTime mDtStart; // start time
     QDateTime mDtEnd; // end time
-
     Person mOrganizer; // person (owner)
-
     QString mSummary; // summary string
-
     mutable QString mUid;
 
 public:
     void setUid(const QString &uid);
 
     QString uid() const;
-
-    void setDtStart(const QDateTime &dt);
-
-    QDateTime dtStart() const;
 
     void setDtEnd(const QDateTime &dt);
 
@@ -45,6 +36,8 @@ public:
     void setSummary(const QString &summary);
 
     QString summary() const;
+
+    void addNewAvailable();
 };
 
 void Availability::Private::setUid(const QString &uid)
@@ -55,16 +48,6 @@ void Availability::Private::setUid(const QString &uid)
 QString Availability::Private::uid() const
 {
     return mUid;
-}
-
-void Availability::Private::setDtStart(const QDateTime &dt)
-{
-    mDtStart = dt;
-}
-
-QDateTime Availability::Private::dtStart() const
-{
-    return mDtStart;
 }
 
 void Availability::Private::setDtEnd(const QDateTime &dt)
@@ -109,6 +92,13 @@ QString Availability::Private::summary() const
     return mSummary;
 }
 
+void Availability::Private::addNewAvailable()
+{
+    Available available;
+    //    available.setDtStart(); // TODO
+    // availables.push_back(available); // TODO
+}
+
 //@endcond
 Availability::Availability()
     : d(new Availability::Private)
@@ -125,16 +115,6 @@ void Availability::setUid(const QString &uid)
 QString Availability::uid() const
 {
     return d->uid();
-}
-
-void Availability::setDtStart(const QDateTime &dt)
-{
-    d->setDtStart(dt);
-}
-
-QDateTime Availability::dtStart() const
-{
-    return d->dtStart();
 }
 
 void Availability::setDtEnd(const QDateTime &dt)
@@ -170,4 +150,10 @@ void Availability::setSummary(const QString &summary)
 QString Availability::summary() const
 {
     return d->summary();
+}
+
+void Availability::addNewAvailable()
+{
+    // TODO processing?
+    d->addNewAvailable();
 }
