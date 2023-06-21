@@ -63,6 +63,34 @@ public:
     */
     Q_REQUIRED_RESULT QDateTime dtStart() const;
 
+    /**
+      Sets the ending date/time.
+
+      @param dt is the ending date/time.
+      @see dtStart().
+    */
+    void setDtEnd(const QDateTime &dt);
+
+    /**
+      Returns ending date/time as a QDateTime.
+      @see setDtStart().
+    */
+    Q_REQUIRED_RESULT QDateTime dtEnd() const;
+
+    /**
+      Sets the timestamp of creation.
+
+      @param dt is the dtstamp.
+      @see dtStart().
+    */
+    void setDtStamp(const QDateTime &dt);
+
+    /**
+      Returns dtStamp as a QDateTime.
+      @see setDtStart().
+    */
+    Q_REQUIRED_RESULT QDateTime dtStamp() const;
+
 private:
     class Private;
     std::unique_ptr<Private> d;
