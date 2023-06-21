@@ -24,12 +24,8 @@ void AvailabilityTest::testValidity()
 {
     QDate dt = QDate::currentDate();
     Availability availability;
-    // availability.setDtStart(QDateTime(dt, {}));
-    ////availability.setDtDue(QDateTime(dt, {}).addDays(1));
-    // availability.setSummary(QStringLiteral("To-do1 Summary"));
-    // availability.setDescription(QStringLiteral("This is a description of the first to-do"));
-    // availability.setLocation(QStringLiteral("the place"));
-
-    // QCOMPARE(availability.summary(), QStringLiteral("To-do1 Summary"));
-    // QCOMPARE(availability.location(), QStringLiteral("the place"));
+    availability.setSummary(QStringLiteral("Monday to Friday from 9:00 to 17:00"));
+    availability.setOrganizer(QStringLiteral("mailto:bernard@example.com"));
+    QCOMPARE(availability.summary(), QStringLiteral("Monday to Friday from 9:00 to 17:00"));
+    QCOMPARE(availability.organizer(), Person(QStringLiteral(""), QStringLiteral("bernard@example.com")));
 }
