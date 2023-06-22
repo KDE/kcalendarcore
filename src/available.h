@@ -34,6 +34,14 @@ public:
     ~Available();
 
     /**
+      Copy constructor
+      @param other is the Available obj to copy
+    */
+    Available(const Available &other);
+
+    Available &operator=(const Available &other);
+
+    /**
       Sets the @acronym UID of the availability to @p uid.
 
       @param uid is the @acronym UID to use for the availability component.
@@ -90,6 +98,19 @@ public:
       @see setDtStart().
     */
     Q_REQUIRED_RESULT QDateTime dtStamp() const;
+
+    /**
+      Sets the incidence summary.
+
+      @param summary is the incidence summary string.
+      @see summary().
+    */
+    void setSummary(const QString &summary);
+
+    /**
+      Returns the incidence summary.
+    */
+    Q_REQUIRED_RESULT QString summary() const;
 
 private:
     class Private;

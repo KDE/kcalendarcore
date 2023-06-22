@@ -13,13 +13,14 @@ using namespace KCalendarCore;
 class Q_DECL_HIDDEN KCalendarCore::Available::Private
 {
     QDateTime mDtStart; // start time
-    QDateTime mDtEnd; // end time
+    QDateTime mDtEnd; // end time -> only one of dtEnd/duration allowed, so opting to always saving dtEnd.
 
     // TODO: This value isn't stored for other iCal elements. Only mentions are in icalformat_p.cpp mostly.
     // Do we need to add it?
     QDateTime mDtStamp;
 
     mutable QString mUid;
+    QString mSummary;
 
 public:
     void setDtStart(const QDateTime &dt);
@@ -37,6 +38,10 @@ public:
     void setUid(const QString &uid);
 
     QString uid() const;
+
+    void setSummary(const QString &summary);
+
+    QString summary() const;
 };
 
 void Available::Private::setDtStart(const QDateTime &dt)
@@ -79,6 +84,16 @@ QString Available::Private::uid() const
     return mUid;
 }
 
+void Available::Private::setSummary(const QString &summary)
+{
+    mSummary = summary;
+}
+
+QString Available::Private::summary() const
+{
+    return mSummary;
+}
+
 //@endcond
 Available::Available()
     : d(new Available::Private)
@@ -86,6 +101,12 @@ Available::Available()
 }
 
 Available::~Available() = default;
+
+Available::Available(const Available &other)
+    : CustomProperties(other)
+    , d(new Available::Private(*other.d))
+{
+}
 
 void Available::setUid(const QString &uid)
 {
@@ -125,4 +146,14 @@ void Available::setDtStamp(const QDateTime &dt)
 QDateTime Available::dtStamp() const
 {
     return d->dtStamp();
+}
+
+void Available::setSummary(const QString &summary)
+{
+    return d->setSummary(summary);
+}
+
+QString Available::summary() const
+{
+    return d->summary();
 }

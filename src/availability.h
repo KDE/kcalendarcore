@@ -106,7 +106,7 @@ public:
       Adds new available entry in list
       @param TODO
      */
-    void addNewAvailable();
+    void addNewAvailable(const Available &available);
 
     // dtstamp
     // QDateTime lastModified() const;

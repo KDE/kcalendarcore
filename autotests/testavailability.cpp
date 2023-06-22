@@ -24,8 +24,15 @@ void AvailabilityTest::testValidity()
 {
     QDate dt = QDate::currentDate();
     Availability availability;
-    availability.setSummary(QStringLiteral("Monday to Friday from 9:00 to 17:00"));
     availability.setOrganizer(QStringLiteral("mailto:bernard@example.com"));
-    QCOMPARE(availability.summary(), QStringLiteral("Monday to Friday from 9:00 to 17:00"));
+
+    // available item
+    Available available;
+    available.setUid(QStringLiteral("34EDA59B-6BB1-4E94-A66C-64999089C0AF"));
+    available.setSummary(QStringLiteral("Monday to Friday from 9:00 to 17:00"));
+
+    availability.addNewAvailable(available);
+
     QCOMPARE(availability.organizer(), Person(QStringLiteral(""), QStringLiteral("bernard@example.com")));
+    QCOMPARE(available.summary(), QStringLiteral("Monday to Friday from 9:00 to 17:00"));
 }

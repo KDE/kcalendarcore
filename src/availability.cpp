@@ -12,7 +12,7 @@ using namespace KCalendarCore;
 //@cond PRIVATE
 class Q_DECL_HIDDEN KCalendarCore::Availability::Private
 {
-    QVector<Available> availables() const;
+    QVector<Available> availables;
     QDateTime mDtEnd; // end time
     Person mOrganizer; // person (owner)
     QString mSummary; // summary string
@@ -37,7 +37,7 @@ public:
 
     QString summary() const;
 
-    void addNewAvailable();
+    void addNewAvailable(const Available &available);
 };
 
 void Availability::Private::setUid(const QString &uid)
@@ -92,11 +92,9 @@ QString Availability::Private::summary() const
     return mSummary;
 }
 
-void Availability::Private::addNewAvailable()
+void Availability::Private::addNewAvailable(const Available &available)
 {
-    Available available;
-    //    available.setDtStart(); // TODO
-    // availables.push_back(available); // TODO
+    availables.push_back(available);
 }
 
 //@endcond
@@ -152,8 +150,8 @@ QString Availability::summary() const
     return d->summary();
 }
 
-void Availability::addNewAvailable()
+void Availability::addNewAvailable(const Available &available)
 {
     // TODO processing?
-    d->addNewAvailable();
+    d->addNewAvailable(available);
 }
