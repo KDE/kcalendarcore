@@ -225,6 +225,16 @@ public:
     */
     FreeBusy::Ptr parseFreeBusy(const QString &string);
 
+    /**
+      Converts a QString into a Availability object.
+
+      @param string is a QString containing the data to be parsed.
+      @return a pointer to a Availability object if successful; 0 otherwise.
+
+      @note Do not attempt to free the Availability memory from the calling routine.
+    */
+    Availability::Ptr parseAvailability(const QString &string);
+
     /*!
       Sets the iCalendar time zone.
 

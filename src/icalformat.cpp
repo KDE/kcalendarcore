@@ -503,6 +503,55 @@ FreeBusy::Ptr ICalFormat::parseFreeBusy(const QString &str)
     return freeBusy;
 }
 
+Availability::Ptr ICalFormat::parseAvailability(const QString &str)
+{
+    Q_D(ICalFormat);
+    clearException();
+    qDebug() << __FUNCTION__ << " starting";
+
+    icalcomponent *message = icalparser_parse_string(str.toUtf8().constData());
+
+    if (!message) {
+        qDebug() << __FUNCTION__ << "message is null.";
+        return Availability::Ptr();
+    }
+
+    Availability::Ptr availability;
+
+    icalcomponent *c;
+
+    for (c = icalcomponent_get_first_component(message, ICAL_ANY_COMPONENT); c != 0; c = icalcomponent_get_next_component(message, ICAL_ANY_COMPONENT)) {
+        qDebug() << __FUNCTION__ << " any component";
+    }
+#if 0
+    icalcomponent *c = nullptr;
+    for (c = icalcomponent_get_first_component(message, ICAL_VAVAILABILITY_COMPONENT); c != nullptr;
+         c = icalcomponent_get_next_component(message, ICAL_VAVAILABILITY_COMPONENT)) {
+        qDebug() << __FUNCTION__ << " TODO";
+        Availability::Ptr fb = d->mImpl.readAvailability(c);
+
+        //if (availability) {
+        //    availability->merge(fb);
+        //} else {
+        //    availability = fb;
+        //}
+    }
+#endif
+    if (!availability) {
+        qDebug() << "object is not availability";
+    }
+
+    icalcomponent_free(message);
+    qDebug() << "returning from parseAvailability";
+
+    if (availability) {
+        qDebug() << __FUNCTION__ << " parseAvailability:: not null";
+    } else {
+        qDebug() << __FUNCTION__ << " parseAvailability:: null";
+    }
+    return availability;
+}
+
 #if KCALENDARCORE_BUILD_DEPRECATED_SINCE(6, 30)
 ScheduleMessage::Ptr ICalFormat::parseScheduleMessage(const Calendar::Ptr &cal, const QString &messageText)
 {

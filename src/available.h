@@ -58,7 +58,7 @@ public:
     Q_REQUIRED_RESULT QString uid() const;
 
     /**
-      Sets the incidence starting date/time.
+      Sets the starting date/time.
 
       @param dt is the starting date/time.
       @see dtStart().

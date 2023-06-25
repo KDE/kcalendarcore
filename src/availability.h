@@ -17,6 +17,7 @@
 #define KCALCORE_AVAILABILITY_H
 
 #include "available.h"
+#include "freebusyperiod.h"
 #include "incidence.h"
 #include "kcalendarcore_export.h"
 #include "person.h"
@@ -32,6 +33,11 @@ class KCALENDARCORE_EXPORT Availability : public CustomProperties
 {
     // Q_PROPERTY(QString uid READ uid WRITE setUid) // TODO is this needed
 public:
+    /**
+      A shared pointer to a Availability object.
+    */
+    typedef QSharedPointer<Availability> Ptr;
+
     explicit Availability();
 
     ~Availability();
@@ -53,6 +59,20 @@ public:
     Q_REQUIRED_RESULT QString uid() const;
 
     /**
+      Sets the starting date/time.
+
+      @param dt is the starting date/time.
+      @see dtStart().
+    */
+    void setDtStart(const QDateTime &dt);
+
+    /**
+      Returns starting date/time as a QDateTime.
+      @see setDtStart().
+    */
+    Q_REQUIRED_RESULT QDateTime dtStart() const;
+
+    /**
       Sets the event end date and time.
       @param dtEnd is a QDateTime specifying when the event ends.
       @see dtEnd().
@@ -63,7 +83,7 @@ public:
       Returns the event end date and time.
       @see setDtEnd().
     */
-    virtual QDateTime dtEnd() const;
+    Q_REQUIRED_RESULT QDateTime dtEnd() const;
 
     /**
       Sets the organizer for the incidence.
@@ -102,11 +122,17 @@ public:
     */
     Q_REQUIRED_RESULT QString summary() const;
 
+    void setBusyType(const FreeBusyPeriod::FreeBusyType *type);
+
+    Q_REQUIRED_RESULT FreeBusyPeriod::FreeBusyType busyType() const;
+
     /**
       Adds new available entry in list
       @param TODO
      */
     void addNewAvailable(const Available &available);
+
+    Q_REQUIRED_RESULT QVector<Available> getAvailables() const;
 
     // dtstamp
     // QDateTime lastModified() const;

@@ -7,6 +7,7 @@
 */
 #include "testavailability.h"
 #include "availability.h"
+#include "icalformat.h"
 
 #include <QTest>
 QTEST_MAIN(AvailabilityTest)
@@ -18,6 +19,32 @@ const auto TEST_TZ = "UTC";
 void AvailabilityTest::initTestCase()
 {
     qputenv("TZ", TEST_TZ);
+}
+
+void AvailabilityTest::parseAvailability()
+{
+    const QString avaiString = QStringLiteral(
+        "BEGIN:VAVAILABILITY\n"
+        "ORGANIZER:mailto:bernard@example.com\n"
+        "UID:0428C7D2-688E-4D2E-AC52-CD112E2469DF\n"
+        "DTSTAMP:20111005T133225Z\n"
+        "BEGIN:AVAILABLE\n"
+        "UID:34EDA59B-6BB1-4E94-A66C-64999089C0AF\n"
+        "SUMMARY:Monday to Friday from 9:00 to 17:00\n"
+        "DTSTART;TZID=America/Montreal:20111002T090000\n"
+        "DTEND;TZID=America/Montreal:20111002T170000\n"
+        "RRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR\n"
+        "END:AVAILABLE\n"
+        "END:VAVAILABILITY\n");
+
+    ICalFormat format;
+    Availability::Ptr avai = format.parseAvailability(avaiString);
+    if (avai) {
+        qDebug() << "Not null";
+    } else {
+        qDebug() << "Null";
+    }
+    //    qDebug() << avai->getAvailables().count() << " " << avai->dtStart().toString();
 }
 
 void AvailabilityTest::testValidity()

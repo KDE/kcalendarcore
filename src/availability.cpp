@@ -13,15 +13,21 @@ using namespace KCalendarCore;
 class Q_DECL_HIDDEN KCalendarCore::Availability::Private
 {
     QVector<Available> availables;
+    QDateTime mDtStart; // start time
     QDateTime mDtEnd; // end time
     Person mOrganizer; // person (owner)
     QString mSummary; // summary string
     mutable QString mUid;
+    //    FreeBusyPeriod::FreeBusyType mType;
 
 public:
     void setUid(const QString &uid);
 
     QString uid() const;
+
+    void setDtStart(const QDateTime &dt);
+
+    QDateTime dtStart() const;
 
     void setDtEnd(const QDateTime &dt);
 
@@ -37,7 +43,13 @@ public:
 
     QString summary() const;
 
+    //   void setBusyType(const FreeBusyPeriod::FreeBusyType &type);
+
+    //   FreeBusyPeriod::FreeBusyType busyType() const;
+
     void addNewAvailable(const Available &available);
+
+    QVector<Available> getAvailables() const;
 };
 
 void Availability::Private::setUid(const QString &uid)
@@ -48,6 +60,16 @@ void Availability::Private::setUid(const QString &uid)
 QString Availability::Private::uid() const
 {
     return mUid;
+}
+
+void Availability::Private::setDtStart(const QDateTime &dt)
+{
+    mDtStart = dt;
+}
+
+QDateTime Availability::Private::dtStart() const
+{
+    return mDtStart;
 }
 
 void Availability::Private::setDtEnd(const QDateTime &dt)
@@ -92,9 +114,24 @@ QString Availability::Private::summary() const
     return mSummary;
 }
 
+// void Availability::Private::setBusyType(const FreeBusyPeriod::FreeBusyType &type)
+//{
+//     mType = type;
+// }
+//
+// FreeBusyPeriod::FreeBusyType Availability::Private::busyType() const
+//{
+//     return mType;
+// }
+
 void Availability::Private::addNewAvailable(const Available &available)
 {
     availables.push_back(available);
+}
+
+QVector<Available> Availability::Private::getAvailables() const
+{
+    return availables;
 }
 
 //@endcond
@@ -113,6 +150,16 @@ void Availability::setUid(const QString &uid)
 QString Availability::uid() const
 {
     return d->uid();
+}
+
+void Availability::setDtStart(const QDateTime &dt)
+{
+    d->setDtStart(dt);
+}
+
+QDateTime Availability::dtStart() const
+{
+    return d->dtStart();
 }
 
 void Availability::setDtEnd(const QDateTime &dt)
@@ -150,8 +197,23 @@ QString Availability::summary() const
     return d->summary();
 }
 
+// void Availability::setBusyType(const FreeBusyPeriod::FreeBusyType &type)
+//{
+//     d->setBusyType(type);
+// }
+//
+// FreeBusyPeriod::FreeBusyType Availability::busyType() const
+//{
+//     return d->busyType();
+// }
+
 void Availability::addNewAvailable(const Available &available)
 {
     // TODO processing?
     d->addNewAvailable(available);
+}
+
+QVector<Available> Availability::getAvailables() const
+{
+    return d->getAvailables();
 }
