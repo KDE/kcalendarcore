@@ -29,6 +29,11 @@ namespace KCalendarCore
 class KCALENDARCORE_EXPORT Available : public CustomProperties
 {
 public:
+    /**
+      A shared pointer to a Availability object.
+    */
+    typedef QSharedPointer<Available> Ptr;
+
     explicit Available();
 
     ~Available();
