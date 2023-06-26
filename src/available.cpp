@@ -12,6 +12,7 @@ using namespace KCalendarCore;
 //@cond PRIVATE
 class Q_DECL_HIDDEN KCalendarCore::Available::Private
 {
+public:
     QDateTime mDtStart; // start time
     QDateTime mDtEnd; // end time -> only one of dtEnd/duration allowed, so opting to always saving dtEnd.
 
@@ -21,78 +22,7 @@ class Q_DECL_HIDDEN KCalendarCore::Available::Private
 
     mutable QString mUid;
     QString mSummary;
-
-public:
-    void setDtStart(const QDateTime &dt);
-
-    QDateTime dtStart() const;
-
-    void setDtEnd(const QDateTime &dt);
-
-    QDateTime dtEnd() const;
-
-    void setDtStamp(const QDateTime &dt);
-
-    QDateTime dtStamp() const;
-
-    void setUid(const QString &uid);
-
-    QString uid() const;
-
-    void setSummary(const QString &summary);
-
-    QString summary() const;
 };
-
-void Available::Private::setDtStart(const QDateTime &dt)
-{
-    mDtStart = dt;
-}
-
-QDateTime Available::Private::dtStart() const
-{
-    return mDtStart;
-}
-
-void Available::Private::setDtEnd(const QDateTime &dt)
-{
-    mDtEnd = dt;
-}
-
-QDateTime Available::Private::dtEnd() const
-{
-    return mDtEnd;
-}
-
-void Available::Private::setDtStamp(const QDateTime &dt)
-{
-    mDtStamp = dt;
-}
-
-QDateTime Available::Private::dtStamp() const
-{
-    return mDtStamp;
-}
-
-void Available::Private::setUid(const QString &uid)
-{
-    mUid = uid;
-}
-
-QString Available::Private::uid() const
-{
-    return mUid;
-}
-
-void Available::Private::setSummary(const QString &summary)
-{
-    mSummary = summary;
-}
-
-QString Available::Private::summary() const
-{
-    return mSummary;
-}
 
 //@endcond
 Available::Available()
@@ -110,50 +40,50 @@ Available::Available(const Available &other)
 
 void Available::setUid(const QString &uid)
 {
-    d->setUid(uid);
+    d->mUid = uid;
 }
 
 QString Available::uid() const
 {
-    return d->uid();
+    return d->mUid;
 }
 
 void Available::setDtStart(const QDateTime &dt)
 {
-    d->setDtStart(dt);
+    d->mDtStart = dt;
 }
 
 QDateTime Available::dtStart() const
 {
-    return d->dtStart();
+    return d->mDtStart;
 }
 
 void Available::setDtEnd(const QDateTime &dt)
 {
-    d->setDtEnd(dt);
+    d->mDtEnd = dt;
 }
 
 QDateTime Available::dtEnd() const
 {
-    return d->dtEnd();
+    return d->mDtEnd;
 }
 
 void Available::setDtStamp(const QDateTime &dt)
 {
-    d->setDtStamp(dt);
+    d->mDtStamp = dt;
 }
 
 QDateTime Available::dtStamp() const
 {
-    return d->dtStamp();
+    return d->mDtStamp;
 }
 
 void Available::setSummary(const QString &summary)
 {
-    return d->setSummary(summary);
+    d->mSummary = summary;
 }
 
 QString Available::summary() const
 {
-    return d->summary();
+    return d->mSummary;
 }
