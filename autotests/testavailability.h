@@ -16,7 +16,6 @@ class AvailabilityTest : public QObject
     Q_OBJECT
 private Q_SLOTS:
     void initTestCase();
-    void parseAvailable();
     void parseAvailability();
     void testValidity();
 #if 0

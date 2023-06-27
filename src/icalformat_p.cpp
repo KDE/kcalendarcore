@@ -1280,11 +1280,52 @@ Event::Ptr ICalFormatImpl::readEvent(icalcomponent *vevent, const ICalTimeZoneCa
     return event;
 }
 
+Available::Ptr ICalFormatImpl::readAvailable(icalcomponent *availableComponent)
+{
+    Available::Ptr available(new Available);
+
+    icalproperty *p = icalcomponent_get_first_property(availableComponent, ICAL_ANY_PROPERTY);
+
+    if (!p) {
+        qDebug() << __FUNCTION__ << "NULL";
+    }
+    bool uidProcessed = false;
+    while (p) {
+        icalproperty_kind kind = icalproperty_isa(p);
+        qDebug() << __FUNCTION__ << "kind: " << kind;
+        switch (kind) {
+        case ICAL_UID_PROPERTY: // unique id
+            uidProcessed = true;
+            qDebug() << __FUNCTION__ << "found uid";
+            available->setUid(QString::fromUtf8(icalproperty_get_uid(p)));
+            break;
+#if 0
+        case ICAL_ORGANIZER_PROPERTY: // organizer
+            qDebug() << __FUNCTION__ << "found organizer";
+            available->setOrganizer(readOrganizer(p));
+            break;
+
+        case ICAL_DTSTAMP_PROPERTY:
+            qDebug() << __FUNCTION__ << "found dtStamp. TODO";
+            break;
+#endif
+        default:
+            qDebug() << __FUNCTION__ << "Invalid property found of kind: " << kind;
+            break;
+        }
+
+        p = icalcomponent_get_next_property(availableComponent, ICAL_ANY_PROPERTY);
+    }
+
+    qDebug() << __FUNCTION__ << "available uid: " << available->uid();
+
+    return available;
+}
+
 Availability::Ptr ICalFormatImpl::readAvailability(icalcomponent *vavailability)
 {
     Availability::Ptr availability(new Availability);
 
-    // below code taken from readIncidenceBase
     icalproperty *p = icalcomponent_get_first_property(vavailability, ICAL_ANY_PROPERTY);
     bool uidProcessed = false;
     while (p) {

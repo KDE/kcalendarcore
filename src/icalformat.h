@@ -235,17 +235,6 @@ public:
     */
     Availability::Ptr parseAvailability(const QString &string);
 
-    /**
-      Converts a QString into a Available object. This should be called from parseAvailability
-      function.
-
-      @param string is a QString containing the data to be parsed.
-      @return a pointer to a Available object if successful; 0 otherwise.
-
-      @note Do not attempt to free the Available memory from the calling routine.
-    */
-    Available::Ptr parseAvailable(const QString &string);
-
     /*!
       Sets the iCalendar time zone.
 

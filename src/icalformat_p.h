@@ -132,6 +132,7 @@ public:
     Event::Ptr readEvent(icalcomponent *vevent, const ICalTimeZoneCache *tzList);
     FreeBusy::Ptr readFreeBusy(icalcomponent *vfreebusy);
     Availability::Ptr readAvailability(icalcomponent *vavailability);
+    Available::Ptr readAvailable(icalcomponent *available);
     Journal::Ptr readJournal(icalcomponent *vjournal, const ICalTimeZoneCache *tzList);
     Attendee readAttendee(icalproperty *attendee);
     Person readOrganizer(icalproperty *organizer);
