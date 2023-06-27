@@ -563,10 +563,13 @@ Availability::Ptr ICalFormat::parseAvailability(const QString &str)
         qDebug() << __FUNCTION__ << "message is null.";
         return Availability::Ptr();
     }
+
     Availability::Ptr availability;
 
-    // parse available component works
-    icalcomponent *c = icalcomponent_get_first_component(message, ICAL_VAVAILABILITY_COMPONENT);
+    icalcomponent *c = nullptr;
+
+#if 0
+    c = icalcomponent_get_first_component(message, ICAL_VAVAILABILITY_COMPONENT);
 
     icaltimetype test = icalcomponent_get_dtend(c);
 
@@ -575,12 +578,15 @@ Availability::Ptr ICalFormat::parseAvailability(const QString &str)
     qDebug() << __FUNCTION__ << test.day << "/" << test.month << "/" << test.year;
     qDebug() << __FUNCTION__ << uid;
 
-#if 0
-    icalcomponent *c = nullptr;
+#endif
+
     for (c = icalcomponent_get_first_component(message, ICAL_VAVAILABILITY_COMPONENT); c != nullptr;
          c = icalcomponent_get_next_component(message, ICAL_VAVAILABILITY_COMPONENT)) {
-        qDebug() << __FUNCTION__ << " TODO";
-        Availability::Ptr fb = d->mImpl.readAvailability(c);
+        qDebug() << __FUNCTION__ << " inside loop, calling readAvailability";
+
+        Availability::Ptr avai = d->mImpl.readAvailability(c);
+
+        availability = avai;
 
         //if (availability) {
         //    availability->merge(fb);
@@ -588,7 +594,13 @@ Availability::Ptr ICalFormat::parseAvailability(const QString &str)
         //    availability = fb;
         //}
     }
-#endif
+
+    if (!availability) {
+        qDebug() << __FUNCTION__ << "object is not a availability";
+    }
+
+    icalcomponent_free(message);
+
     return availability;
 }
 

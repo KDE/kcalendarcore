@@ -131,6 +131,7 @@ public:
     Todo::Ptr readTodo(icalcomponent *vtodo, const ICalTimeZoneCache *tzList);
     Event::Ptr readEvent(icalcomponent *vevent, const ICalTimeZoneCache *tzList);
     FreeBusy::Ptr readFreeBusy(icalcomponent *vfreebusy);
+    Availability::Ptr readAvailability(icalcomponent *vavailability);
     Journal::Ptr readJournal(icalcomponent *vjournal, const ICalTimeZoneCache *tzList);
     Attendee readAttendee(icalproperty *attendee);
     Person readOrganizer(icalproperty *organizer);

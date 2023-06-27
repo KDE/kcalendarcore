@@ -122,8 +122,17 @@ public:
     */
     Q_REQUIRED_RESULT QString summary() const;
 
+    /**
+      Sets the busytype.
+      @param type is the busytype enum value.
+      @see busyType().
+    */
     void setBusyType(const FreeBusyPeriod::FreeBusyType *type);
 
+    /**
+      Returns the busytype .
+      @see setBusyType()
+    */
     Q_REQUIRED_RESULT FreeBusyPeriod::FreeBusyType busyType() const;
 
     /**
@@ -134,7 +143,7 @@ public:
 
     Q_REQUIRED_RESULT QVector<Available> getAvailables() const;
 
-    // dtstamp
+    // TODO dtstamp
     // QDateTime lastModified() const;
 
 private:
