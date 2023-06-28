@@ -507,12 +507,10 @@ Availability::Ptr ICalFormat::parseAvailability(const QString &str)
 {
     Q_D(ICalFormat);
     clearException();
-    qDebug() << __FUNCTION__ << " starting";
 
     icalcomponent *message = icalparser_parse_string(str.toUtf8().constData());
 
     if (!message) {
-        qDebug() << __FUNCTION__ << "message is null.";
         return Availability::Ptr();
     }
 
@@ -520,25 +518,22 @@ Availability::Ptr ICalFormat::parseAvailability(const QString &str)
 
     icalcomponent *c = nullptr;
 
-    // iterate through all VAVAILABILITY components
+    // TODO just picking first VAVAILABILITY component right now
     for (c = icalcomponent_get_first_component(message, ICAL_VAVAILABILITY_COMPONENT); c != nullptr;
          c = icalcomponent_get_next_component(message, ICAL_VAVAILABILITY_COMPONENT)) {
-        qDebug() << __FUNCTION__ << " inside loop, calling readAvailability";
+        availability = d->mImpl.readAvailability(c);
 
-        Availability::Ptr vavai = d->mImpl.readAvailability(c);
+        icalcomponent *c_inner = nullptr;
 
-        availability = vavai;
+        // iterate through AVAILABLE components of this VAVAILABILTIY and add them in list
+        for (c_inner = icalcomponent_get_first_component(c, ICAL_XAVAILABLE_COMPONENT); c_inner != 0;
+             c_inner = icalcomponent_get_next_component(c, ICAL_XAVAILABLE_COMPONENT)) {
+            Available::Ptr available = d->mImpl.readAvailable(c_inner);
 
-        icalcomponent *avaiComponent = nullptr;
-
-        for (avaiComponent = icalcomponent_get_first_component(c, ICAL_XAVAILABLE_COMPONENT); avaiComponent != 0;
-             avaiComponent = icalcomponent_get_next_component(c, ICAL_XAVAILABLE_COMPONENT)) {
-            // icalcomponent_kind kind = icalcomponent_isa(avaiComponent);
-            // qDebug() << __FUNCTION__ << " SEE HERE: component: " << kind;
-
-            Available::Ptr available = d->mImpl.readAvailable(avaiComponent);
-            if (vavai) {
-                vavai->addNewAvailable(*available);
+            if (availability) {
+                availability->addNewAvailable(*available);
+            } else {
+                qDebug() << __FUNCTION__ << "object is not available component";
             }
         }
     }
