@@ -13,6 +13,7 @@ using namespace KCalendarCore;
 class Q_DECL_HIDDEN KCalendarCore::Available::Private
 {
 public:
+    mutable Recurrence *mRecurrence = nullptr; // recurrence
     QDateTime mDtStart; // start time
     QDateTime mDtEnd; // end time -> only one of dtEnd/duration allowed, so opting to always saving dtEnd.
 
@@ -22,6 +23,9 @@ public:
 
     mutable QString mUid;
     QString mSummary;
+    bool mLocationIsRich = false; // location string is richtext.
+    bool mSummaryIsRich = false; // summary string is richtext.
+    QString mLocation; // location string
 };
 
 //@endcond
@@ -86,4 +90,38 @@ void Available::setSummary(const QString &summary)
 QString Available::summary() const
 {
     return d->mSummary;
+}
+
+bool Available::summaryIsRich() const
+{
+    return false; // TODO
+}
+
+void Available::setLocation(const QString &location, bool isRich)
+{
+    if (d->mLocation != location || d->mLocationIsRich != isRich) {
+        d->mLocation = location;
+        d->mLocationIsRich = isRich;
+    }
+}
+
+QString Available::location() const
+{
+    return d->mLocation;
+}
+
+Recurrence *Available::recurrence() const
+{
+    //    Q_D(const Available); TODO use of this?
+    if (!d->mRecurrence) {
+        d->mRecurrence = new Recurrence();
+
+        // TODO below is hardcoded for now.
+        d->mRecurrence->setStartDateTime(QDateTime(), true);
+        d->mRecurrence->setAllDay(true);
+        d->mRecurrence->setRecurReadOnly(false);
+        //        d->mRecurrence->addObserver(const_cast<KCalendarCore::Available *>(this)); TODO revisit
+    }
+
+    return d->mRecurrence;
 }

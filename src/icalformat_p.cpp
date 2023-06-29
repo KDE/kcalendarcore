@@ -1286,29 +1286,58 @@ Available::Ptr ICalFormatImpl::readAvailable(icalcomponent *availableComponent)
 
     icalproperty *p = icalcomponent_get_first_property(availableComponent, ICAL_ANY_PROPERTY);
 
-    if (!p) {
-        qDebug() << __FUNCTION__ << "NULL";
-    }
     bool uidProcessed = false;
     while (p) {
         icalproperty_kind kind = icalproperty_isa(p);
-        qDebug() << __FUNCTION__ << "kind: " << kind;
+        qDebug() << __FUNCTION__ << "Found kind " << kind;
         switch (kind) {
         case ICAL_UID_PROPERTY: // unique id
             uidProcessed = true;
-            qDebug() << __FUNCTION__ << "found uid";
             available->setUid(QString::fromUtf8(icalproperty_get_uid(p)));
             break;
-#if 0
-        case ICAL_ORGANIZER_PROPERTY: // organizer
-            qDebug() << __FUNCTION__ << "found organizer";
-            available->setOrganizer(readOrganizer(p));
+
+        case ICAL_SUMMARY_PROPERTY: {
+            QString textStr = QString::fromUtf8(icalproperty_get_summary(p));
+            if (!textStr.isEmpty()) {
+                available->setSummary(textStr);
+            } else {
+                qDebug() << __FUNCTION__ << "summary value is empty";
+            }
+            break;
+        }
+
+        case ICAL_DTSTART_PROPERTY:
+            available->setDtStart(readICalUtcDateTimeProperty(p, nullptr));
             break;
 
-        case ICAL_DTSTAMP_PROPERTY:
-            qDebug() << __FUNCTION__ << "found dtStamp. TODO";
+        case ICAL_DTEND_PROPERTY:
+            available->setDtEnd(readICalUtcDateTimeProperty(p, nullptr));
             break;
-#endif
+
+        case ICAL_RRULE_PROPERTY: // TODO Do we need Observer pattern in Available?
+            qDebug() << __FUNCTION__ << "TODO RRULE";
+            readRecurrenceRule(p, available);
+            break;
+
+        case ICAL_LOCATION_PROPERTY: { // location
+            if (!icalproperty_get_value(p)) {
+                // Fix for #191472. This is a pre-crash guard in case libical was
+                // compiled in superstrict mode (--enable-icalerrors-are-fatal)
+                // TODO: pre-crash guard other property getters too.
+                break;
+            }
+
+            QString textStr = QString::fromUtf8(icalproperty_get_location(p));
+            if (!textStr.isEmpty()) {
+                QString valStr = QString::fromUtf8(icalproperty_get_parameter_as_string(p, "X-KDE-TEXTFORMAT"));
+                if (!valStr.compare(QLatin1String("HTML"), Qt::CaseInsensitive)) {
+                    available->setLocation(textStr, true);
+                } else {
+                    available->setLocation(textStr, false);
+                }
+            }
+        } break;
+
         default:
             qDebug() << __FUNCTION__ << "Invalid property found of kind: " << kind;
             break;
@@ -1316,8 +1345,6 @@ Available::Ptr ICalFormatImpl::readAvailable(icalcomponent *availableComponent)
 
         p = icalcomponent_get_next_property(availableComponent, ICAL_ANY_PROPERTY);
     }
-
-    qDebug() << __FUNCTION__ << "available uid: " << available->uid();
 
     return available;
 }
@@ -1330,21 +1357,28 @@ Availability::Ptr ICalFormatImpl::readAvailability(icalcomponent *vavailability)
     bool uidProcessed = false;
     while (p) {
         icalproperty_kind kind = icalproperty_isa(p);
-        qDebug() << __FUNCTION__ << "kind: " << kind;
+        qDebug() << __FUNCTION__ << "Found kind " << kind;
+
         switch (kind) {
         case ICAL_UID_PROPERTY: // unique id
             uidProcessed = true;
-            qDebug() << __FUNCTION__ << "found uid";
             availability->setUid(QString::fromUtf8(icalproperty_get_uid(p)));
             break;
 
         case ICAL_ORGANIZER_PROPERTY: // organizer
-            qDebug() << __FUNCTION__ << "found organizer";
             availability->setOrganizer(readOrganizer(p));
             break;
 
         case ICAL_DTSTAMP_PROPERTY:
             qDebug() << __FUNCTION__ << "found dtStamp. TODO";
+            break;
+
+        case ICAL_DTSTART_PROPERTY:
+            availability->setDtStart(readICalUtcDateTimeProperty(p, nullptr));
+            break;
+
+        case ICAL_DTEND_PROPERTY: // end Date and Time (UTC)
+            availability->setDtEnd(readICalUtcDateTimeProperty(p, nullptr));
             break;
 
         default:
@@ -1355,9 +1389,6 @@ Availability::Ptr ICalFormatImpl::readAvailability(icalcomponent *vavailability)
         p = icalcomponent_get_next_property(vavailability, ICAL_ANY_PROPERTY);
     }
 
-    // -------------------------------------------------
-
-    qDebug() << __FUNCTION__ << "availability uid: " << availability->uid();
     return availability;
 }
 
@@ -2064,6 +2095,19 @@ void ICalFormatImpl::readCustomProperties(icalcomponent *parent, CustomPropertie
     }
 }
 //@endcond
+
+void ICalFormatImpl::readRecurrenceRule(icalproperty *rrule, const Available::Ptr &available)
+{
+    Recurrence *recur = available->recurrence();
+
+    struct icalrecurrencetype r = icalproperty_get_rrule(rrule);
+    // dumpIcalRecurrence(r);
+
+    RecurrenceRule *recurrule = new RecurrenceRule(/*incidence*/);
+    recurrule->setStartDt(available->dtStart());
+    readRecurrence(r, recurrule);
+    recur->addRRule(recurrule);
+}
 
 void ICalFormatImpl::readRecurrenceRule(icalproperty *rrule, const Incidence::Ptr &incidence)
 {

@@ -42,9 +42,45 @@ void AvailabilityTest::parseAvailability()
     ICalFormat format;
     Availability::Ptr avai = format.parseAvailability(avaiString);
     if (avai) {
-        qDebug() << __FUNCTION__ << "Not null";
         qDebug() << "Available Count: " << avai->getAvailables().count();
-        ;
+    } else {
+        qDebug() << __FUNCTION__ << "Null";
+    }
+}
+
+void AvailabilityTest::parseAvailability2()
+{
+    const QString avaiString = QStringLiteral(
+        "BEGIN:VCALENDAR\n"
+        "BEGIN:VAVAILABILITY\n"
+        "ORGANIZER:mailto:bernard@example.com\n"
+        "UID:84D0F948-7FC6-4C1D-BBF3-BA9827B424B5\n"
+        "DTSTAMP:20111005T133225Z\n"
+        "DTSTART;TZID=America/Montreal:20111002T000000\n"
+        "DTEND;TZID=America/Montreal:20111202T000000\n"
+        "BEGIN:AVAILABLE\n"
+        "UID:7B33093A-7F98-4EED-B381-A5652530F04D\n"
+        "SUMMARY:Monday to Thursday from 9:00 to 17:00\n"
+        "DTSTART;TZID=America/Montreal:20111002T090000\n"
+        "DTEND;TZID=America/Montreal:20111002T170000\n"
+        "RRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH\n"
+        "LOCATION:Main Office\n"
+        "END:AVAILABLE\n"
+        "BEGIN:AVAILABLE\n"
+        "UID:DF39DC9E-D8C3-492F-9101-0434E8FC1896\n"
+        "SUMMARY:Friday from 9:00 to 12:00\n"
+        "DTSTART;TZID=America/Montreal:20111006T090000\n"
+        "DTEND;TZID=America/Montreal:20111006T120000\n"
+        "RRULE:FREQ=WEEKLY\n"
+        "LOCATION:Branch Office\n"
+        "END:AVAILABLE\n"
+        "END:VAVAILABILITY\n"
+        "END:VCALENDAR\n");
+
+    ICalFormat format;
+    Availability::Ptr avai = format.parseAvailability(avaiString);
+    if (avai) {
+        qDebug() << "Available Count: " << avai->getAvailables().count();
     } else {
         qDebug() << __FUNCTION__ << "Null";
     }

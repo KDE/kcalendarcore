@@ -142,6 +142,7 @@ public:
     static void readExceptionRule(icalproperty *rrule, const Incidence::Ptr &incidence);
     static void readRecurrence(const struct icalrecurrencetype &r, RecurrenceRule *recur);
     static void readAlarm(icalcomponent *alarm, const Incidence::Ptr &incidence);
+    void readRecurrenceRule(icalproperty *rrule, const Available::Ptr &available);
     Conference readConference(icalproperty *conference);
 
     /**

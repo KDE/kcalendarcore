@@ -16,7 +16,9 @@
 #ifndef KCALCORE_AVAILABILE_H
 #define KCALCORE_AVAILABILE_H
 
-#include "incidence.h"
+#include "incidence.h" // TODO do we need this?
+#include "incidencebase.h"
+#include "recurrence.h"
 //#include "kalendarcore_export.h"
 
 namespace KCalendarCore
@@ -116,6 +118,43 @@ public:
       Returns the incidence summary.
     */
     Q_REQUIRED_RESULT QString summary() const;
+
+    /**
+      Returns true if summary contains RichText; false otherwise.
+      @see setSummary(), summary().
+    */
+    Q_REQUIRED_RESULT bool summaryIsRich() const;
+
+    /**
+      Sets the location. Do _not_ use with journals.
+
+      @param location is the location string.
+      @param isRich if true indicates the location string contains richtext.
+      @see location().
+    */
+    void setLocation(const QString &location, bool isRich);
+
+    /**
+      Returns the location. Do _not_ use with journals.
+      @see setLocation().
+      @see richLocation().
+    */
+    Q_REQUIRED_RESULT QString location() const;
+
+    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    // %%%%%  Recurrence-related methods
+    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    /**
+      Returns the recurrence rule associated with this incidence. If there is
+      none, returns an appropriate (non-0) object.
+    */
+    Recurrence *recurrence() const;
+
+    /**
+      Removes all recurrence and exception rules and dates.
+    */
+    void clearRecurrence();
 
 private:
     class Private;

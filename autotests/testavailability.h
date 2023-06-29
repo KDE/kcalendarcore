@@ -17,30 +17,8 @@ class AvailabilityTest : public QObject
 private Q_SLOTS:
     void initTestCase();
     void parseAvailability();
+    void parseAvailability2();
     void testValidity();
-#if 0
-    void testCompare();
-    void testDtDueEqual();
-    void testClone();
-    void testCopyIncidence();
-    void testCopyConstructor();
-    void testAssign();
-    void testSetCompleted();
-    void testSetCompletedWithDate();
-    void testSetCompletedWithoutDate();
-    void testSetCompletedBool();
-    void testSetPercent();
-    void testStatus();
-    void testSerializer_data();
-    void testSerializer();
-    void testRoles();
-    void testIconNameOneoff();
-    void testIconNameRecurringNeverDue();
-    void testIconNameRecurringDue();
-    void testCategoriesComparison();
-    void testDtDueComparison();
-    void testDtDueChange();
-#endif
 };
 
 #endif
