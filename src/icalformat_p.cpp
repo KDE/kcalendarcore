@@ -1282,6 +1282,7 @@ Event::Ptr ICalFormatImpl::readEvent(icalcomponent *vevent, const ICalTimeZoneCa
 
 Available::Ptr ICalFormatImpl::readAvailable(icalcomponent *availableComponent)
 {
+#if 0
     Available::Ptr available(new Available);
 
     icalproperty *p = icalcomponent_get_first_property(availableComponent, ICAL_ANY_PROPERTY);
@@ -1347,6 +1348,8 @@ Available::Ptr ICalFormatImpl::readAvailable(icalcomponent *availableComponent)
     }
 
     return available;
+#endif
+    return nullptr;
 }
 
 Availability::Ptr ICalFormatImpl::readAvailability(icalcomponent *vavailability)

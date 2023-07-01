@@ -17,11 +17,6 @@ public:
     QDateTime mDtStart; // start time
     QDateTime mDtEnd; // end time -> only one of dtEnd/duration allowed, so opting to always saving dtEnd.
 
-    // TODO: This value isn't stored for other iCal elements. Only mentions are in icalformat_p.cpp mostly.
-    // Do we need to add it?
-    QDateTime mDtStamp;
-
-    mutable QString mUid;
     QString mSummary;
     bool mLocationIsRich = false; // location string is richtext.
     bool mSummaryIsRich = false; // summary string is richtext.
@@ -29,27 +24,13 @@ public:
 };
 
 //@endcond
-Available::Available()
-    : d(new Available::Private)
-{
-}
 
 Available::~Available() = default;
 
 Available::Available(const Available &other)
-    : CustomProperties(other)
+    : AvailableBase(other)
     , d(new Available::Private(*other.d))
 {
-}
-
-void Available::setUid(const QString &uid)
-{
-    d->mUid = uid;
-}
-
-QString Available::uid() const
-{
-    return d->mUid;
 }
 
 void Available::setDtStart(const QDateTime &dt)
@@ -70,16 +51,6 @@ void Available::setDtEnd(const QDateTime &dt)
 QDateTime Available::dtEnd() const
 {
     return d->mDtEnd;
-}
-
-void Available::setDtStamp(const QDateTime &dt)
-{
-    d->mDtStamp = dt;
-}
-
-QDateTime Available::dtStamp() const
-{
-    return d->mDtStamp;
 }
 
 void Available::setSummary(const QString &summary)

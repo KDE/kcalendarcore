@@ -17,6 +17,8 @@ set_target_properties(
 target_sources(
     KF6CalendarCore
     PRIVATE
+        availablebase.h
+        availablebase.cpp
         available.h
         available.cpp
         availability.h

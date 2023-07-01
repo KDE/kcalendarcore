@@ -1,4 +1,4 @@
-/*
+/*json
   This file is part of the kcalendarcore library.
 
   SPDX-FileCopyrightText:
@@ -16,6 +16,7 @@
 #ifndef KCALCORE_AVAILABILE_H
 #define KCALCORE_AVAILABILE_H
 
+#include "availablebase.h"
 #include "incidence.h" // TODO do we need this?
 #include "incidencebase.h"
 #include "recurrence.h"
@@ -28,7 +29,7 @@ namespace KCalendarCore
   @brief
   Provides a Available component in the sense of RFC7953.
   */
-class KCALENDARCORE_EXPORT Available : public CustomProperties
+class KCALENDARCORE_EXPORT Available : public AvailableBase
 {
 public:
     /**
@@ -55,14 +56,14 @@ public:
 
       @see uid()
     */
-    void setUid(const QString &uid);
+    //    void setUid(const QString &uid); in base
 
     /**
       Returns the @acronym UID of the availability.
 
       @see setUid()
     */
-    Q_REQUIRED_RESULT QString uid() const;
+    //    Q_REQUIRED_RESULT QString uid() const; in base
 
     /**
       Sets the starting date/time.
@@ -91,20 +92,6 @@ public:
       @see setDtStart().
     */
     Q_REQUIRED_RESULT QDateTime dtEnd() const;
-
-    /**
-      Sets the timestamp of creation.
-
-      @param dt is the dtstamp.
-      @see dtStart().
-    */
-    void setDtStamp(const QDateTime &dt);
-
-    /**
-      Returns dtStamp as a QDateTime.
-      @see setDtStart().
-    */
-    Q_REQUIRED_RESULT QDateTime dtStamp() const;
 
     /**
       Sets the incidence summary.
