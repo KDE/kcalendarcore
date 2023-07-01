@@ -70,3 +70,5 @@ void CreatedDateCompatTest::testCompat33()
 }
 
 QTEST_MAIN(CreatedDateCompatTest)
+
+#include "moc_testcreateddatecompat.cpp"

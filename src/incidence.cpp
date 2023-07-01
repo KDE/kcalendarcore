@@ -1318,3 +1318,5 @@ QVariantList Incidence::conferencesVariant() const
     Q_D(const Incidence);
     return toVariantList<Conference>(d->mConferences.size(), d->mConferences.cbegin(), d->mConferences.cend());
 }
+
+#include "moc_incidence.cpp"

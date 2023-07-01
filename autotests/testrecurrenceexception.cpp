@@ -35,3 +35,5 @@ void TestRecurrenceException::testCreateTodoException()
     // QCOMPARE(exception->dtRecurrence(), QDateTime());
     // TODO dtCompleted
 }
+
+#include "moc_testrecurrenceexception.cpp"

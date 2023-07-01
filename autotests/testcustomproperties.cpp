@@ -228,3 +228,5 @@ void CustomPropertiesTest::testDataStreamOut()
 
     QVERIFY(cp2 == cp);
 }
+
+#include "moc_testcustomproperties.cpp"

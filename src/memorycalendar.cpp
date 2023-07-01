@@ -771,3 +771,5 @@ void MemoryCalendar::virtual_hook(int id, void *data)
     Q_UNUSED(data);
     Q_ASSERT(false);
 }
+
+#include "moc_memorycalendar.cpp"

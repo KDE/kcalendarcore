@@ -286,3 +286,5 @@ void RecurTodoTest::testRecurrenceExdates()
     QCOMPARE(todo->recurrence()->getNextDateTime(dtstart.addMSecs(-1)), dtstart.addDays(1));
     QCOMPARE(todo->recurrence()->getNextDateTime(dtstart.addDays(1)), QDateTime());
 }
+
+#include "moc_testrecurtodo.cpp"

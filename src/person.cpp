@@ -366,3 +366,5 @@ Person Person::fromFullName(const QString &fullName)
     extractEmailAddressAndName(fullName, email, name);
     return Person(name, email);
 }
+
+#include "moc_person.cpp"

@@ -142,3 +142,5 @@ QDataStream &KCalendarCore::operator>>(QDataStream &stream, KCalendarCore::Confe
 
     return stream;
 }
+
+#include "moc_conference.cpp"

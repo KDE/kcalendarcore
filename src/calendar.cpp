@@ -1416,3 +1416,5 @@ void Calendar::setIsLoading(bool isLoading)
     d->mIsLoading = isLoading;
     Q_EMIT isLoadingChanged();
 }
+
+#include "moc_calendar.cpp"

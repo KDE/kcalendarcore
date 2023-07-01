@@ -375,3 +375,5 @@ void IncidenceTest::testRecurrenceYearlyMonth()
     r->setYearlyMonth(QList<int>() << 3 << 1);
     QCOMPARE(inc.dirtyFields(), QSet<IncidenceBase::Field>() << IncidenceBase::FieldRecurrence);
 }
+
+#include "moc_testincidence.cpp"

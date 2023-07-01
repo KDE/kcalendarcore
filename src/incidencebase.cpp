@@ -706,3 +706,5 @@ QVariantList IncidenceBase::attendeesVariant() const
     });
     return l;
 }
+
+#include "moc_incidencebase.cpp"

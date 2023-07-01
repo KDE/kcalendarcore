@@ -50,3 +50,5 @@ Calendar::Ptr CalStorage::calendar() const
 {
     return d->mCalendar;
 }
+
+#include "moc_calstorage.cpp"

@@ -334,3 +334,5 @@ QDataStream &KCalendarCore::operator>>(QDataStream &stream, KCalendarCore::Atten
     attendee.d->mCustomProperties = customProperties;
     return stream;
 }
+
+#include "moc_attendee.cpp"

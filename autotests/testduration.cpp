@@ -98,3 +98,5 @@ void DurationTest::testIsNull()
     Duration d2(7, Duration::Days);
     QVERIFY(!d2.isNull());
 }
+
+#include "moc_testduration.cpp"
