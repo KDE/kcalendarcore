@@ -35,6 +35,14 @@ public:
 
     QString mUid; // unique id
     QDateTime mDtStamp;
+    QDateTime mDtStart; // start time
+    QDateTime mDtEnd; // end time -> only one of dtEnd/duration allowed, so opting to always saving dtEnd.
+
+    QString mSummary;
+    bool mSummaryIsRich = false; // summary string is richtext.
+
+    bool mLocationIsRich = false; // location string is richtext.
+    QString mLocation; // location string
 };
 
 void AvailableBase::AvailableBasePrivate::init(const AvailableBase::AvailableBasePrivate &other)
@@ -83,4 +91,52 @@ void AvailableBase::setDtStamp(const QDateTime &dt)
 QDateTime AvailableBase::dtStamp() const
 {
     return d->mDtStamp;
+}
+
+void AvailableBase::setDtStart(const QDateTime &dt)
+{
+    d->mDtStart = dt;
+}
+
+QDateTime AvailableBase::dtStart() const
+{
+    return d->mDtStart;
+}
+
+void AvailableBase::setDtEnd(const QDateTime &dt)
+{
+    d->mDtEnd = dt;
+}
+
+QDateTime AvailableBase::dtEnd() const
+{
+    return d->mDtEnd;
+}
+
+void AvailableBase::setSummary(const QString &summary)
+{
+    d->mSummary = summary;
+}
+
+QString AvailableBase::summary() const
+{
+    return d->mSummary;
+}
+
+bool AvailableBase::summaryIsRich() const
+{
+    return d->mSummaryIsRich; // TODO
+}
+
+void AvailableBase::setLocation(const QString &location, bool isRich)
+{
+    if (d->mLocation != location || d->mLocationIsRich != isRich) {
+        d->mLocation = location;
+        d->mLocationIsRich = isRich;
+    }
+}
+
+QString AvailableBase::location() const
+{
+    return d->mLocation;
 }

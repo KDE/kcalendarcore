@@ -65,69 +65,6 @@ public:
     */
     //    Q_REQUIRED_RESULT QString uid() const; in base
 
-    /**
-      Sets the starting date/time.
-
-      @param dt is the starting date/time.
-      @see dtStart().
-    */
-    void setDtStart(const QDateTime &dt);
-
-    /**
-      Returns starting date/time as a QDateTime.
-      @see setDtStart().
-    */
-    Q_REQUIRED_RESULT QDateTime dtStart() const;
-
-    /**
-      Sets the ending date/time.
-
-      @param dt is the ending date/time.
-      @see dtStart().
-    */
-    void setDtEnd(const QDateTime &dt);
-
-    /**
-      Returns ending date/time as a QDateTime.
-      @see setDtStart().
-    */
-    Q_REQUIRED_RESULT QDateTime dtEnd() const;
-
-    /**
-      Sets the incidence summary.
-
-      @param summary is the incidence summary string.
-      @see summary().
-    */
-    void setSummary(const QString &summary);
-
-    /**
-      Returns the incidence summary.
-    */
-    Q_REQUIRED_RESULT QString summary() const;
-
-    /**
-      Returns true if summary contains RichText; false otherwise.
-      @see setSummary(), summary().
-    */
-    Q_REQUIRED_RESULT bool summaryIsRich() const;
-
-    /**
-      Sets the location. Do _not_ use with journals.
-
-      @param location is the location string.
-      @param isRich if true indicates the location string contains richtext.
-      @see location().
-    */
-    void setLocation(const QString &location, bool isRich);
-
-    /**
-      Returns the location. Do _not_ use with journals.
-      @see setLocation().
-      @see richLocation().
-    */
-    Q_REQUIRED_RESULT QString location() const;
-
     // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     // %%%%%  Recurrence-related methods
     // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

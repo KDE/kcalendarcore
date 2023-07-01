@@ -14,13 +14,6 @@ class Q_DECL_HIDDEN KCalendarCore::Available::Private
 {
 public:
     mutable Recurrence *mRecurrence = nullptr; // recurrence
-    QDateTime mDtStart; // start time
-    QDateTime mDtEnd; // end time -> only one of dtEnd/duration allowed, so opting to always saving dtEnd.
-
-    QString mSummary;
-    bool mLocationIsRich = false; // location string is richtext.
-    bool mSummaryIsRich = false; // summary string is richtext.
-    QString mLocation; // location string
 };
 
 //@endcond
@@ -31,54 +24,6 @@ Available::Available(const Available &other)
     : AvailableBase(other)
     , d(new Available::Private(*other.d))
 {
-}
-
-void Available::setDtStart(const QDateTime &dt)
-{
-    d->mDtStart = dt;
-}
-
-QDateTime Available::dtStart() const
-{
-    return d->mDtStart;
-}
-
-void Available::setDtEnd(const QDateTime &dt)
-{
-    d->mDtEnd = dt;
-}
-
-QDateTime Available::dtEnd() const
-{
-    return d->mDtEnd;
-}
-
-void Available::setSummary(const QString &summary)
-{
-    d->mSummary = summary;
-}
-
-QString Available::summary() const
-{
-    return d->mSummary;
-}
-
-bool Available::summaryIsRich() const
-{
-    return false; // TODO
-}
-
-void Available::setLocation(const QString &location, bool isRich)
-{
-    if (d->mLocation != location || d->mLocationIsRich != isRich) {
-        d->mLocation = location;
-        d->mLocationIsRich = isRich;
-    }
-}
-
-QString Available::location() const
-{
-    return d->mLocation;
 }
 
 Recurrence *Available::recurrence() const
