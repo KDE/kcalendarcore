@@ -120,8 +120,6 @@ public:
      */
     virtual AvailableType type() const = 0;
 
-    // TODO add constructor/destructor
-
     /**
       Sets the unique id for the incidence to @p uid.
       @param uid is the string containing the incidence @ref uid.

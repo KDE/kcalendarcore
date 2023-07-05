@@ -17,10 +17,8 @@
 #define KCALCORE_AVAILABILE_H
 
 #include "availablebase.h"
-#include "incidence.h" // TODO do we need this?
-#include "incidencebase.h"
 #include "recurrence.h"
-//#include "kalendarcore_export.h"
+//#include "kalendarcore_export.h" TODO is this needed?
 
 namespace KCalendarCore
 {
