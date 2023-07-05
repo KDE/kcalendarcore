@@ -31,15 +31,42 @@ namespace KCalendarCore
   */
 class KCALENDARCORE_EXPORT Available : public AvailableBase
 {
+private:
+    /**
+      Disabled, otherwise could be dangerous if you subclass Available.
+      Use AvailableBase::operator= which is safe because it calls
+      virtual function assign().
+      @param other is another Available object to assign to this one.
+     */
+    Available &operator=(const Available &other);
+
+    class Private;
+    std::unique_ptr<Private> d;
+
+protected:
+    /**
+      Compare this with @p available for equality.
+      @param available is what to compare against.
+     */
+    bool equals(const AvailableBase &available) const override;
+
+    /**
+      @copydoc
+      IncidenceBase::assign()
+    */
+    AvailableBase &assign(const AvailableBase &other) override;
+
 public:
     /**
       A shared pointer to a Availability object.
     */
     typedef QSharedPointer<Available> Ptr;
 
-    explicit Available();
+    Available();
 
-    ~Available();
+    Available(Private *p); // TODO check this
+
+    ~Available() override;
 
     /**
       Copy constructor
@@ -47,23 +74,10 @@ public:
     */
     Available(const Available &other);
 
-    Available &operator=(const Available &other);
-
     /**
-      Sets the @acronym UID of the availability to @p uid.
-
-      @param uid is the @acronym UID to use for the availability component.
-
-      @see uid()
-    */
-    //    void setUid(const QString &uid); in base
-
-    /**
-      Returns the @acronym UID of the availability.
-
-      @see setUid()
-    */
-    //    Q_REQUIRED_RESULT QString uid() const; in base
+      @copydoc AvailableBase::type()
+     */
+    Q_REQUIRED_RESULT AvailableType type() const override;
 
     // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     // %%%%%  Recurrence-related methods
@@ -79,10 +93,6 @@ public:
       Removes all recurrence and exception rules and dates.
     */
     void clearRecurrence();
-
-private:
-    class Private;
-    std::unique_ptr<Private> d;
 };
 };
 

@@ -105,7 +105,7 @@ QString Availability::summary() const
 void Availability::addNewAvailable(const Available &available)
 {
     // TODO processing?
-    d->availables.push_back(available);
+    // d->availables.push_back(available); TODO facing error becaues = operator is private now.
 }
 
 QVector<Available> Availability::getAvailables() const

@@ -39,13 +39,13 @@ void AvailabilityTest::parseAvailability()
         "END:VAVAILABILITY\n"
         "END:VCALENDAR\n");
 
-    //    ICalFormat format;
-    //    Availability::Ptr avai = format.parseAvailability(avaiString);
-    //    if (avai) {
-    //        qDebug() << "Available Count: " << avai->getAvailables().count();
-    //    } else {
-    //        qDebug() << __FUNCTION__ << "Null";
-    //    }
+    ICalFormat format;
+    Availability::Ptr avai = format.parseAvailability(avaiString);
+    if (avai) {
+        qDebug() << "Available Count: " << avai->getAvailables().count();
+    } else {
+        qDebug() << __FUNCTION__ << "Null";
+    }
 }
 
 void AvailabilityTest::parseAvailability2()
@@ -77,13 +77,13 @@ void AvailabilityTest::parseAvailability2()
         "END:VAVAILABILITY\n"
         "END:VCALENDAR\n");
 
-    //    ICalFormat format;
-    //    Availability::Ptr avai = format.parseAvailability(avaiString);
-    //    if (avai) {
-    //        qDebug() << "Available Count: " << avai->getAvailables().count();
-    //    } else {
-    //        qDebug() << __FUNCTION__ << "Null";
-    //    }
+    ICalFormat format;
+    Availability::Ptr avai = format.parseAvailability(avaiString);
+    if (avai) {
+        qDebug() << "Available Count: " << avai->getAvailables().count();
+    } else {
+        qDebug() << __FUNCTION__ << "Null";
+    }
 }
 
 void AvailabilityTest::testValidity()

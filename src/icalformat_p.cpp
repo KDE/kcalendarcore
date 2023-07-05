@@ -1282,7 +1282,6 @@ Event::Ptr ICalFormatImpl::readEvent(icalcomponent *vevent, const ICalTimeZoneCa
 
 Available::Ptr ICalFormatImpl::readAvailable(icalcomponent *availableComponent)
 {
-#if 0
     Available::Ptr available(new Available);
 
     icalproperty *p = icalcomponent_get_first_property(availableComponent, ICAL_ANY_PROPERTY);
@@ -1318,6 +1317,7 @@ Available::Ptr ICalFormatImpl::readAvailable(icalcomponent *availableComponent)
         case ICAL_RRULE_PROPERTY: // TODO Do we need Observer pattern in Available?
             qDebug() << __FUNCTION__ << "TODO RRULE";
             readRecurrenceRule(p, available);
+            qDebug() << __FUNCTION__ << "TODO RULE END";
             break;
 
         case ICAL_LOCATION_PROPERTY: { // location
@@ -1347,9 +1347,8 @@ Available::Ptr ICalFormatImpl::readAvailable(icalcomponent *availableComponent)
         p = icalcomponent_get_next_property(availableComponent, ICAL_ANY_PROPERTY);
     }
 
+    qDebug() << __FUNCTION__ << "RETURNING";
     return available;
-#endif
-    return nullptr;
 }
 
 Availability::Ptr ICalFormatImpl::readAvailability(icalcomponent *vavailability)
@@ -2101,15 +2100,15 @@ void ICalFormatImpl::readCustomProperties(icalcomponent *parent, CustomPropertie
 
 void ICalFormatImpl::readRecurrenceRule(icalproperty *rrule, const Available::Ptr &available)
 {
-    Recurrence *recur = available->recurrence();
+    // TODO crash observed below. Commenting for now
+    // Recurrence *recur = available->recurrence();
 
-    struct icalrecurrencetype r = icalproperty_get_rrule(rrule);
-    // dumpIcalRecurrence(r);
+    // struct icalrecurrencetype r = icalproperty_get_rrule(rrule);
 
-    RecurrenceRule *recurrule = new RecurrenceRule(/*incidence*/);
-    recurrule->setStartDt(available->dtStart());
-    readRecurrence(r, recurrule);
-    recur->addRRule(recurrule);
+    // RecurrenceRule *recurrule = new RecurrenceRule(/*incidence*/);
+    // recurrule->setStartDt(available->dtStart());
+    // readRecurrence(r, recurrule);
+    // recur->addRRule(recurrule);
 }
 
 void ICalFormatImpl::readRecurrenceRule(icalproperty *rrule, const Incidence::Ptr &incidence)

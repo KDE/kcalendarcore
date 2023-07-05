@@ -42,6 +42,15 @@ protected:
     std::unique_ptr<AvailableBasePrivate> d;
 
 public:
+    /**
+      Different type of available, per RFC7953
+      @see type()
+     */
+    enum AvailableType {
+        TypeAvailable = 0, /**< Type is an Available */
+        TypeVAvailability, /**< Type is an Availability */
+    };
+
     AvailableBase() = delete;
 
     /**
@@ -56,12 +65,60 @@ public:
     */
     ~AvailableBase() override;
 
-    AvailableBase(const AvailableBase &);
+    /**
+      Assignment operator.
+      All data belonging to dreived classes are also copied. @see assign()
+      The caller guarantees that both types match.
+
+      @param other is the AvailableBase to assign.
+     */
+    AvailableBase &operator=(const AvailableBase &other);
+
+    /**
+      Compares this with AvailableBase @p ib for equality.
+      All data belonging to derived classes are also compared. @see equals().
+      @param ib is the AvailableBase to compare against.
+      @return true if they are equal; false otherwise.
+    */
+    bool operator==(const AvailableBase &ib) const;
+
+    /**
+      Provides polymorfic comparison for equality.
+      Only called by AvailableBase::operator==() which guarantees that
+      @p availableBase is of the right type.
+      @param availableBase is the AvailableBase to compare against.
+      @return true if they are equal; false otherwise.
+    */
+    virtual bool equals(const AvailableBase &availableBase) const;
+
+    /**
+      Provides polymorfic assignment.
+      @param other is the AvailableBase to assign.
+    */
+    virtual AvailableBase &assign(const AvailableBase &other);
+
+    /**
+      This is not allowed. Use AvailableBase(const AvailableBase &ib, AvailableBasePrivate *p).
+     */
+    AvailableBase(const AvailableBase &) = delete;
+
+    /**
+      Constructs an AvailableBase as a copy of another AvailableBase object.
+      @param ib is the AvailableBase to copy.
+      @param p (non-null) a Private data object provided by the instantiated
+      class (Available, Availability).  It takes ownership of the object.
+    */
+    KCALENDARCORE_NO_EXPORT AvailableBase(const AvailableBase &ib, AvailableBasePrivate *p);
 
     /**
       A shared pointer to an AvailableBase.
     */
     typedef QSharedPointer<AvailableBase> Ptr;
+
+    /**
+      Returns the incidence type.
+     */
+    virtual AvailableType type() const = 0;
 
     // TODO add constructor/destructor
 

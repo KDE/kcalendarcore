@@ -11,7 +11,8 @@
 */
 
 #include "availablebase.h"
-
+#include "availablebase_p.h"
+#include "customproperties.h"
 #include "kcalendarcore_debug.h"
 
 #include <QDateTime>
@@ -19,32 +20,6 @@
 using namespace KCalendarCore;
 
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalendarCore::AvailableBase::AvailableBasePrivate
-{
-public:
-    AvailableBasePrivate() = default;
-
-    AvailableBasePrivate(const AvailableBasePrivate &other)
-    {
-        init(other);
-    }
-
-    void init(const AvailableBasePrivate &other);
-
-    virtual ~AvailableBasePrivate() = default;
-
-    QString mUid; // unique id
-    QDateTime mDtStamp;
-    QDateTime mDtStart; // start time
-    QDateTime mDtEnd; // end time -> only one of dtEnd/duration allowed, so opting to always saving dtEnd.
-
-    QString mSummary;
-    bool mSummaryIsRich = false; // summary string is richtext.
-
-    bool mLocationIsRich = false; // location string is richtext.
-    QString mLocation; // location string
-};
-
 void AvailableBase::AvailableBasePrivate::init(const AvailableBase::AvailableBasePrivate &other)
 {
     mUid = other.mUid;
@@ -53,15 +28,56 @@ void AvailableBase::AvailableBasePrivate::init(const AvailableBase::AvailableBas
 
 //@endcond
 
-AvailableBase::AvailableBase(const AvailableBase &i)
-    : CustomProperties(i)
-    , d(new KCalendarCore::AvailableBase::AvailableBasePrivate(*i.d))
+AvailableBase::AvailableBase(AvailableBasePrivate *p)
+    : d(p)
 {
-    // TODO    setUid(CalFormat::createUniqueId());
+    // TODO setUid call here
+}
+
+AvailableBase::AvailableBase(const AvailableBase &i, AvailableBasePrivate *p)
+    : CustomProperties(i)
+    , d(p)
+{
 }
 
 AvailableBase::~AvailableBase()
 {
+}
+
+AvailableBase &AvailableBase::operator=(const AvailableBase &other)
+{
+    Q_ASSUME(type() == other.type());
+
+    // this will call derived class's assign
+    AvailableBase &ret = assign(other);
+
+    return ret;
+}
+
+AvailableBase &AvailableBase::assign(const AvailableBase &other)
+{
+    CustomProperties::operator=(other);
+    d->init(*other.d);
+    return *this;
+}
+
+bool AvailableBase::operator==(const AvailableBase &i2) const
+{
+    if (i2.type() != type()) {
+        return false;
+    } else {
+        // equals is called from derived class
+        return equals(i2);
+    }
+}
+
+// TODO understand equals and ==
+bool AvailableBase::equals(const AvailableBase &availableBase) const
+{
+    if (availableBase.type() != type()) {
+        return false;
+    }
+    return true;
 }
 
 // AvailableBase::AvailableBase()

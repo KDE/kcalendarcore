@@ -1,5 +1,7 @@
 #include "available.h"
-#include "incidence_p.h"
+#include "availablebase.h"
+#include "availablebase_p.h"
+#include "incidencebase.h" // for identical()
 
 #include "kcalendarcore_debug.h"
 
@@ -10,7 +12,7 @@ using namespace KCalendarCore;
   u@internal
 */
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalendarCore::Available::Private
+class Q_DECL_HIDDEN KCalendarCore::Available::Private : public AvailableBasePrivate
 {
 public:
     mutable Recurrence *mRecurrence = nullptr; // recurrence
@@ -18,12 +20,47 @@ public:
 
 //@endcond
 
+// Available::Available(Private *p)
+//     : AvailableBase(p)
+//{
+// }
+Available::Available()
+    : AvailableBase(new Private())
+{
+}
+
 Available::~Available() = default;
 
 Available::Available(const Available &other)
-    : AvailableBase(other)
-    , d(new Available::Private(*other.d))
+    : AvailableBase(other.d.get())
 {
+}
+
+bool Available::equals(const AvailableBase &available) const
+{
+    // If not same type, this returns false.
+    if (!AvailableBase::equals(available)) {
+        return false;
+    } else {
+        const Available *t = static_cast<const Available *>(&available);
+        return identical(dtStart(), t->dtStart()); // TODO fill rest here
+    }
+}
+
+AvailableBase &Available::assign(const AvailableBase &other)
+{
+    //    Q_D(Available);
+    if (&other != this) {
+        AvailableBase::assign(other);
+        //        const auto o = static_cast<const Available*>(&other)->d();
+        //        d->mDtEnd = o->mDtEnd; // TODO HERE
+    }
+    return *this;
+}
+
+AvailableBase::AvailableType Available::type() const
+{
+    return TypeAvailable;
 }
 
 Recurrence *Available::recurrence() const
