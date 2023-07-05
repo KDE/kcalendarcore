@@ -15,7 +15,7 @@
 #define KCALCORE_AVAILABLEBASE_H
 
 #include "customproperties.h"
-
+#include "duration.h"
 #include "kcalendarcore_debug.h"
 
 #include <QSharedPointer>
@@ -116,22 +116,36 @@ public:
     typedef QSharedPointer<AvailableBase> Ptr;
 
     /**
-      Returns the incidence type.
+      Returns the type.
      */
     virtual AvailableType type() const = 0;
 
     /**
-      Sets the unique id for the incidence to @p uid.
-      @param uid is the string containing the incidence @ref uid.
+      Sets the unique id for the available component to @p uid.
+      @param uid is the string containing the @ref uid.
       @see uid()
     */
     void setUid(const QString &uid);
 
     /**
-      Returns the unique id (@ref uid) for the incidence.
+      Returns the unique id (@ref uid) for the available component.
       @see setUid()
     */
     Q_REQUIRED_RESULT QString uid() const;
+
+    /**
+      Sets the creation date/time. It is stored as a UTC date/time.
+
+      @param dt is the creation date/time.
+      @see created().
+    */
+    void setCreated(const QDateTime &dt);
+
+    /**
+      Returns the creation date/time.
+      @see setCreated().
+    */
+    Q_REQUIRED_RESULT QDateTime created() const;
 
     /**
       Sets the timestamp of creation.
@@ -176,7 +190,38 @@ public:
     Q_REQUIRED_RESULT QDateTime dtEnd() const;
 
     /**
-      Sets thesummary.
+      Sets the duration.
+
+      @param duration the duration
+
+      @see duration()
+    */
+    void setDuration(const Duration &duration);
+
+    /**
+      Returns the length of the duration.
+      @see setDuration()
+    */
+    Q_REQUIRED_RESULT Duration duration() const;
+
+    /**
+      Sets the time the available component was last modified to @p lm.
+      It is stored as a UTC date/time.
+
+      @param lm is the QDateTime when the available component was last modified.
+
+      @see lastModified()
+    */
+    virtual void setLastModified(const QDateTime &lm);
+
+    /**
+      Returns the time the available component was last modified.
+      @see setLastModified()
+    */
+    Q_REQUIRED_RESULT QDateTime lastModified() const;
+
+    /**
+      Sets the summary.
 
       @param summary is the summary string.
       @see summary().
@@ -209,6 +254,131 @@ public:
       @see richLocation().
     */
     Q_REQUIRED_RESULT QString location() const;
+
+    /**
+      Sets the description.
+
+      @param description is the description string.
+      @param isRich if true indicates the description string contains richtext.
+      @see description().
+    */
+    void setDescription(const QString &description, bool isRich);
+
+    /**
+      Sets the description and tries to guess if the description
+      is rich text.
+
+      @param description is the description string.
+      @see description().
+    */
+    void setDescription(const QString &description);
+
+    /**
+      Returns the description.
+      @see setDescription().
+      @see richDescription().
+    */
+    Q_REQUIRED_RESULT QString description() const;
+
+    /**
+      Returns the description in rich text format.
+      @see setDescription().
+      @see description().
+    */
+    Q_REQUIRED_RESULT QString richDescription() const;
+
+    /**
+      Returns true if description contains RichText; false otherwise.
+      @see setDescription(), description().
+    */
+    Q_REQUIRED_RESULT bool descriptionIsRich() const;
+
+    /**
+      Sets the category list.
+
+      @param categories is a list of category strings.
+      @see setCategories( const QString &), categories().
+    */
+    void setCategories(const QStringList &categories);
+
+    /**
+      Sets the category list based on a comma delimited string.
+
+      @param catStr is a QString containing a list of categories which
+      are delimited by a comma character.
+      @see setCategories( const QStringList &), categories().
+    */
+    void setCategories(const QString &catStr);
+
+    /**
+      Returns the categories as a list of strings.
+      @see setCategories( const QStringList &), setCategories( const QString &).
+    */
+    Q_REQUIRED_RESULT QStringList categories() const;
+
+    /**
+      Returns the categories as a comma separated string.
+      @see categories().
+    */
+    Q_REQUIRED_RESULT QString categoriesStr() const;
+
+    /**
+      Adds a comment. Does not add a linefeed character; simply
+      appends the text as specified.
+
+      @param comment is the QString containing the comment to add.
+      @see removeComment().
+    */
+    void addComment(const QString &comment);
+
+    /**
+      Removes a comment. Removes the first comment whose
+      string is an exact match for the specified string in @p comment.
+
+      @param comment is the QString containing the comment to remove.
+      @return true if match found, false otherwise.
+      @see addComment().
+     */
+    Q_REQUIRED_RESULT bool removeComment(const QString &comment);
+
+    /**
+      Deletes all comments.
+    */
+    void clearComments();
+
+    /**
+      Returns all comments as a list of strings.
+    */
+    Q_REQUIRED_RESULT QStringList comments() const;
+
+    /**
+      Adds a contact. Does not add a linefeed character; simply
+      appends the text as specified.
+
+      @param contact is the QString containing the contact to add.
+      @see removeContact().
+    */
+    void addContact(const QString &contact);
+
+    /**
+      Removes a contact. Removes the first contact whose
+      string is an exact match for the specified string in @p contact.
+
+      @param contact is the QString containing the contact to remove.
+      @return true if match found, false otherwise.
+      @see addContact().
+     */
+    Q_REQUIRED_RESULT bool removeContact(const QString &contact);
+
+    /**
+      Deletes all contacts.
+    */
+    void clearContacts();
+
+    /**
+      Returns all contacts as a list of strings.
+    */
+    Q_REQUIRED_RESULT QStringList contacts() const;
 };
 }
 

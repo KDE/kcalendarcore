@@ -16,6 +16,7 @@
 #include "kcalendarcore_debug.h"
 
 #include <QDateTime>
+#include <QTextDocument> // for .toHtmlEscaped() and Qt::mightBeRichText()
 
 using namespace KCalendarCore;
 
@@ -99,6 +100,19 @@ QString AvailableBase::uid() const
     return d->mUid;
 }
 
+void AvailableBase::setCreated(const QDateTime &created)
+{
+    d->mCreated = created.toUTC();
+    const auto ct = d->mCreated.time();
+    // Remove milliseconds
+    d->mCreated.setTime(QTime(ct.hour(), ct.minute(), ct.second()));
+}
+
+QDateTime AvailableBase::created() const
+{
+    return d->mCreated;
+}
+
 void AvailableBase::setDtStamp(const QDateTime &dt)
 {
     d->mDtStamp = dt;
@@ -129,6 +143,32 @@ QDateTime AvailableBase::dtEnd() const
     return d->mDtEnd;
 }
 
+void AvailableBase::setDuration(const Duration &duration)
+{
+    d->mDuration = duration;
+}
+
+Duration AvailableBase::duration() const
+{
+    return d->mDuration;
+}
+
+void AvailableBase::setLastModified(const QDateTime &lm)
+{
+    // Convert to UTC and remove milliseconds part.
+    QDateTime current = lm.toUTC();
+    QTime t = current.time();
+    t.setHMS(t.hour(), t.minute(), t.second(), 0);
+    current.setTime(t);
+
+    d->mLastModified = current;
+}
+
+QDateTime AvailableBase::lastModified() const
+{
+    return d->mLastModified;
+}
+
 void AvailableBase::setSummary(const QString &summary)
 {
     d->mSummary = summary;
@@ -155,4 +195,116 @@ void AvailableBase::setLocation(const QString &location, bool isRich)
 QString AvailableBase::location() const
 {
     return d->mLocation;
+}
+
+void AvailableBase::setDescription(const QString &description, bool isRich)
+{
+    d->mDescription = description;
+    d->mDescriptionIsRich = isRich;
+}
+
+void AvailableBase::setDescription(const QString &description)
+{
+    setDescription(description, Qt::mightBeRichText(description));
+}
+
+QString AvailableBase::description() const
+{
+    return d->mDescription;
+}
+
+QString AvailableBase::richDescription() const
+{
+    if (descriptionIsRich()) {
+        return d->mDescription;
+    } else {
+        return d->mDescription.toHtmlEscaped().replace(QLatin1Char('\n'), QStringLiteral("<br/>"));
+    }
+}
+
+bool AvailableBase::descriptionIsRich() const
+{
+    return d->mDescriptionIsRich;
+}
+
+void AvailableBase::setCategories(const QStringList &categories)
+{
+    d->mCategories = categories;
+}
+
+void AvailableBase::setCategories(const QString &catStr)
+{
+    d->mCategories.clear();
+
+    if (catStr.isEmpty()) {
+        return;
+    }
+
+    d->mCategories = catStr.split(QLatin1Char(','));
+
+    for (auto &category : d->mCategories) {
+        category = category.trimmed();
+    }
+}
+
+QStringList AvailableBase::categories() const
+{
+    return d->mCategories;
+}
+
+QString AvailableBase::categoriesStr() const
+{
+    return d->mCategories.join(QLatin1Char(','));
+}
+
+void AvailableBase::addComment(const QString &comment)
+{
+    d->mComments += comment;
+}
+
+bool AvailableBase::removeComment(const QString &comment)
+{
+    auto it = std::find(d->mComments.begin(), d->mComments.end(), comment);
+    bool found = it != d->mComments.end();
+    if (found) {
+        d->mComments.erase(it);
+    }
+    return found;
+}
+
+void AvailableBase::clearComments()
+{
+    d->mComments.clear();
+}
+
+QStringList AvailableBase::comments() const
+{
+    return d->mComments;
+}
+
+void AvailableBase::addContact(const QString &contact)
+{
+    if (!contact.isEmpty()) {
+        d->mContacts += contact;
+    }
+}
+
+bool AvailableBase::removeContact(const QString &contact)
+{
+    auto it = std::find(d->mContacts.begin(), d->mContacts.end(), contact);
+    bool found = it != d->mContacts.end();
+    if (found) {
+        d->mContacts.erase(it);
+    }
+    return found;
+}
+
+void AvailableBase::clearContacts()
+{
+    d->mContacts.clear();
+}
+
+QStringList AvailableBase::contacts() const
+{
+    return d->mContacts;
 }

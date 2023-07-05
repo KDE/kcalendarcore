@@ -11,7 +11,7 @@
 */
 
 #include "availablebase.h"
-
+#include "duration.h"
 #include "kcalendarcore_debug.h"
 
 #include <QDateTime>
@@ -34,15 +34,27 @@ public:
     virtual ~AvailableBasePrivate() = default;
 
     QString mUid; // unique id
+    QDateTime mCreated; // creation datetime
     QDateTime mDtStamp;
     QDateTime mDtStart; // start time
     QDateTime mDtEnd; // end time -> only one of dtEnd/duration allowed, so opting to always saving dtEnd.
+    Duration mDuration; // duration
+    QDateTime mLastModified; // last modified date
 
     QString mSummary;
     bool mSummaryIsRich = false; // summary string is richtext.
 
     bool mLocationIsRich = false; // location string is richtext.
     QString mLocation; // location string
+
+    QString mDescription; // description string
+    bool mDescriptionIsRich = false; // description string is richtext.
+
+    QStringList mCategories; // category list
+
+    QStringList mComments; // list of incidence comments
+
+    QStringList mContacts; // list of incidence contacts
 };
 
 //@endcond
