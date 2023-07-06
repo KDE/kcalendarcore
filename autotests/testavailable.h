@@ -4,19 +4,18 @@
   SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#ifndef TESTAVAILABILITY_H
-#define TESTAVAILABILITY_H
+#ifndef TESTAVAILABLE_H
+#define TESTAVAILABLE_H
 
 #include <QObject>
 
-class AvailabilityTest : public QObject
+class AvailableTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
     void initTestCase();
-    void parseAvailability();
-    void parseAvailability2();
-    void testValidity();
+    void testAvailable();
+    void testCompare();
 };
 
 #endif
