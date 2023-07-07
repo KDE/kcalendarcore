@@ -1,7 +1,10 @@
 #include "availability.h"
+#include "availablebase.h"
+#include "availablebase_p.h"
 #include "incidence_p.h"
 
 #include "kcalendarcore_debug.h"
+#include <qvector.h>
 
 using namespace KCalendarCore;
 
@@ -10,59 +13,57 @@ using namespace KCalendarCore;
   u@internal
 */
 //@cond PRIVATE
-class Q_DECL_HIDDEN KCalendarCore::Availability::Private
+class Q_DECL_HIDDEN KCalendarCore::Availability::Private : public AvailableBasePrivate
 {
 public:
     QVector<Available> availables;
-    QDateTime mDtStart; // start time
-    QDateTime mDtEnd; // end time
     Person mOrganizer; // person (owner)
-    QString mSummary; // summary string
-    mutable QString mUid;
     //    FreeBusyPeriod::FreeBusyType mType;
 };
 
 //@endcond
 Availability::Availability()
-    : d(new Availability::Private)
+    : AvailableBase(new Private())
 {
 }
 
 Availability::~Availability() = default;
 
-void Availability::setUid(const QString &uid)
+Availability::Availability(const Availability &other)
+    : AvailableBase(other.d.get())
 {
-    d->mUid = uid;
 }
 
-QString Availability::uid() const
+bool Availability::equals(const AvailableBase &availability) const
 {
-    return d->mUid;
+    // If not same type, this returns false.
+    if (!AvailableBase::equals(availability)) {
+        return false;
+    } else {
+        const Availability *t = static_cast<const Availability *>(&availability);
+        return identical(dtStart(), t->dtStart()); // TODO fill rest here
+    }
 }
 
-void Availability::setDtStart(const QDateTime &dt)
+AvailableBase &Availability::assign(const AvailableBase &other)
 {
-    d->mDtStart = dt;
+    //    Q_D(Available);
+    if (&other != this) {
+        AvailableBase::assign(other);
+        //        const auto o = static_cast<const Available*>(&other)->d();
+        //        d->mDtEnd = o->mDtEnd; // TODO HERE
+    }
+    return *this;
 }
 
-QDateTime Availability::dtStart() const
+AvailableBase::AvailableType Availability::type() const
 {
-    return d->mDtStart;
-}
-
-void Availability::setDtEnd(const QDateTime &dt)
-{
-    d->mDtEnd = dt;
-}
-
-QDateTime Availability::dtEnd() const
-{
-    return d->mDtEnd;
+    return TypeVAvailability;
 }
 
 void Availability::setOrganizer(const Person &organizer)
 {
-    d->mOrganizer = organizer;
+    // d->mOrganizer = organizer; TODO fix this crash
 }
 
 void Availability::setOrganizer(const QString &o)
@@ -80,16 +81,6 @@ void Availability::setOrganizer(const QString &o)
 Person Availability::organizer() const
 {
     return d->mOrganizer;
-}
-
-void Availability::setSummary(const QString &summary)
-{
-    d->mSummary = summary;
-}
-
-QString Availability::summary() const
-{
-    return d->mSummary;
 }
 
 // void Availability::setBusyType(const FreeBusyPeriod::FreeBusyType &type)
@@ -110,5 +101,6 @@ void Availability::addNewAvailable(const Available &available)
 
 QVector<Available> Availability::getAvailables() const
 {
-    return d->availables;
+    //    return d->availables; TODO fix this crash
+    return QVector<Available>();
 }
