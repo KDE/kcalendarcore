@@ -1,5 +1,5 @@
 /*
-  This file is part of the kcalcore library.
+  This file is part of the kcalendarcore library.
 
 
   SPDX-License-Identifier: LGPL-2.0-or-later

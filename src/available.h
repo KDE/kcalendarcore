@@ -62,8 +62,6 @@ public:
 
     Available();
 
-    Available(Private *p); // TODO check this
-
     ~Available() override;
 
     /**

@@ -1,5 +1,5 @@
 /*
-  This file is part of the kcalcore library.
+  This file is part of the kcalendarcore library.
 
   SPDX-License-Identifier: LGPL-2.0-or-later
 */
@@ -15,6 +15,7 @@
 #include "customproperties.h"
 #include "kcalendarcore_debug.h"
 
+#include "calformat.h"
 #include <QDateTime>
 #include <QTextDocument> // for .toHtmlEscaped() and Qt::mightBeRichText()
 
@@ -24,15 +25,34 @@ using namespace KCalendarCore;
 void AvailableBase::AvailableBasePrivate::init(const AvailableBase::AvailableBasePrivate &other)
 {
     mUid = other.mUid;
+    mCreated = other.mCreated;
     mDtStamp = other.mDtStamp;
-}
+    mDtStart = other.mDtStart;
+    mDtEnd = other.mDtEnd;
+    mDuration = other.mDuration;
+    mLastModified = other.mLastModified;
 
+    mSummary = other.mSummary;
+    mSummaryIsRich = other.mSummaryIsRich;
+
+    mLocationIsRich = other.mLocationIsRich;
+    mLocation = other.mLocation;
+
+    mDescription = other.mDescription;
+    mDescriptionIsRich = other.mDescriptionIsRich;
+
+    mCategories = other.mCategories;
+
+    mComments = other.mComments;
+
+    mContacts = other.mContacts;
+}
 //@endcond
 
 AvailableBase::AvailableBase(AvailableBasePrivate *p)
     : d(p)
 {
-    // TODO setUid call here
+    setUid(CalFormat::createUniqueId());
 }
 
 AvailableBase::AvailableBase(const AvailableBase &i, AvailableBasePrivate *p)
@@ -81,14 +101,7 @@ bool AvailableBase::equals(const AvailableBase &availableBase) const
     return true;
 }
 
-// AvailableBase::AvailableBase()
-//{
-// }
-//
-// AvailableBase::~AvailableBase() = default;
-
 void AvailableBase::setUid(const QString &uid)
-//@endcond
 {
     if (d->mUid != uid) {
         d->mUid = uid;

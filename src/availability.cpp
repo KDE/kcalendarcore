@@ -96,11 +96,11 @@ Person Availability::organizer() const
 void Availability::addNewAvailable(const Available &available)
 {
     // TODO processing?
-    // d->availables.push_back(available); TODO facing error becaues = operator is private now.
+    // d->availables.push_back(available); //TODO facing error becaues = operator is private now.
 }
 
 QVector<Available> Availability::getAvailables() const
 {
-    //    return d->availables; TODO fix this crash
+    // return d->availables; //TODO fix this crash
     return QVector<Available>();
 }

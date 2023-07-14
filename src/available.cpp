@@ -16,14 +16,17 @@ class Q_DECL_HIDDEN KCalendarCore::Available::Private : public AvailableBasePriv
 {
 public:
     mutable Recurrence *mRecurrence = nullptr; // recurrence
+
+    void init(const Private &other);
 };
+
+void Available::Private::init(const Available::Private &other)
+{
+    mRecurrence = other.mRecurrence;
+}
 
 //@endcond
 
-// Available::Available(Private *p)
-//     : AvailableBase(p)
-//{
-// }
 Available::Available()
     : AvailableBase(new Private())
 {
@@ -43,17 +46,22 @@ bool Available::equals(const AvailableBase &available) const
         return false;
     } else {
         const Available *t = static_cast<const Available *>(&available);
-        return identical(dtStart(), t->dtStart()); // TODO fill rest here
+        return identical(dtStart(), t->dtStart()) /* TODO fill rest here */
+            && identical(dtEnd(), t->dtEnd()) && identical(dtStamp(), t->dtStamp()) && duration() == t->duration()
+            && identical(lastModified(), t->lastModified()) && summary() == t->summary() && location() == t->location() && description() == t->description();
     }
 }
 
 AvailableBase &Available::assign(const AvailableBase &other)
 {
-    //    Q_D(Available);
     if (&other != this) {
+        // runs init of AvailableBase and copies Base class members.
         AvailableBase::assign(other);
-        //        const auto o = static_cast<const Available*>(&other)->d();
-        //        d->mDtEnd = o->mDtEnd; // TODO HERE
+
+        // runs init of Derived class and copies the rest of the members.
+        // TODO fix below. We cannot get d pointer from Available object to call setRecurrence method instead of passing private pointer?
+        // const Available* t = static_cast<const Available*>(&other);
+        // d->init(*(t->d_func()));
     }
     return *this;
 }
@@ -65,7 +73,6 @@ AvailableBase::AvailableType Available::type() const
 
 Recurrence *Available::recurrence() const
 {
-    //    Q_D(const Available); TODO use of this?
     if (!d->mRecurrence) {
         d->mRecurrence = new Recurrence();
 
