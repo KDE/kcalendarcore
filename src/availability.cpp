@@ -18,7 +18,9 @@ class Q_DECL_HIDDEN KCalendarCore::Availability::Private : public AvailableBaseP
 public:
     QVector<Available> availables;
     Person mOrganizer; // person (owner)
-    //    FreeBusyPeriod::FreeBusyType mType;
+    //    FreeBusyPeriod::FreeBusyType mType; TODO
+
+    // TODO add init
 };
 
 //@endcond
@@ -41,13 +43,14 @@ bool Availability::equals(const AvailableBase &availability) const
         return false;
     } else {
         const Availability *t = static_cast<const Availability *>(&availability);
-        return identical(dtStart(), t->dtStart()); // TODO fill rest here
+        return identical(dtStart(), t->dtStart()) /* TODO fill rest here */
+            && identical(dtEnd(), t->dtEnd()) && identical(dtStamp(), t->dtStamp()) && duration() == t->duration()
+            && identical(lastModified(), t->lastModified()) && summary() == t->summary() && location() == t->location() && description() == t->description();
     }
 }
 
 AvailableBase &Availability::assign(const AvailableBase &other)
 {
-    //    Q_D(Available);
     if (&other != this) {
         AvailableBase::assign(other);
         //        const auto o = static_cast<const Available*>(&other)->d();

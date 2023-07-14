@@ -38,7 +38,7 @@ public:
     */
     typedef QSharedPointer<Availability> Ptr;
 
-    explicit Availability(); // TODO do we need explicit?
+    Availability();
 
     ~Availability() override;
 
@@ -97,9 +97,6 @@ public:
     void addNewAvailable(const Available &available);
 
     Q_REQUIRED_RESULT QVector<Available> getAvailables() const;
-
-    // TODO dtstamp
-    // QDateTime lastModified() const;
 
 private:
     /**
