@@ -30,6 +30,7 @@ void Available::Private::init(const Available::Private &other)
 Available::Available()
     : AvailableBase(new Private())
 {
+    d = std::make_unique<Private>();
 }
 
 Available::~Available() = default;

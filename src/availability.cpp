@@ -27,6 +27,7 @@ public:
 Availability::Availability()
     : AvailableBase(new Private())
 {
+    d = std::make_unique<Private>();
 }
 
 Availability::~Availability() = default;
@@ -66,7 +67,7 @@ AvailableBase::AvailableType Availability::type() const
 
 void Availability::setOrganizer(const Person &organizer)
 {
-    // d->mOrganizer = organizer; TODO fix this crash
+    d->mOrganizer = organizer;
 }
 
 void Availability::setOrganizer(const QString &o)
@@ -104,6 +105,5 @@ void Availability::addNewAvailable(const Available &available)
 
 QVector<Available> Availability::getAvailables() const
 {
-    // return d->availables; //TODO fix this crash
-    return QVector<Available>();
+    return d->availables;
 }
