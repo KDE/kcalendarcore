@@ -531,7 +531,7 @@ Availability::Ptr ICalFormat::parseAvailability(const QString &str)
             Available::Ptr available = d->mImpl.readAvailable(c_inner);
 
             if (availability) {
-                availability->addNewAvailable(*available);
+                availability->addNewAvailable(available);
             } else {
                 qDebug() << __FUNCTION__ << "object is not available component";
             }

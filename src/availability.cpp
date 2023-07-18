@@ -16,7 +16,7 @@ using namespace KCalendarCore;
 class Q_DECL_HIDDEN KCalendarCore::Availability::Private : public AvailableBasePrivate
 {
 public:
-    QVector<Available *> availables;
+    QVector<QSharedPointer<Available>> availables;
     Person mOrganizer; // person (owner)
     //    FreeBusyPeriod::FreeBusyType mType; TODO
 
@@ -32,11 +32,6 @@ Availability::Availability()
 
 Availability::~Availability()
 {
-    for (Available *avaiPtr : d->availables) {
-        delete avaiPtr;
-    }
-
-    d->availables.clear();
 }
 
 Availability::Availability(const Availability &other)
@@ -104,13 +99,13 @@ Person Availability::organizer() const
 //     return d->busyType();
 // }
 
-void Availability::addNewAvailable(const Available &available)
+void Availability::addNewAvailable(const QSharedPointer<Available> available)
 {
     // TODO processing?
-    d->availables.push_back(new Available(available));
+    d->availables.push_back(std::move(available));
 }
 
-QVector<Available *> Availability::getAvailables() const
+QVector<QSharedPointer<Available>> &Availability::getAvailables() const
 {
     return d->availables;
 }

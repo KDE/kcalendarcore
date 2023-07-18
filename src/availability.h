@@ -94,9 +94,9 @@ public:
       Adds new available entry in list
       @param TODO
      */
-    void addNewAvailable(const Available &available);
+    void addNewAvailable(const QSharedPointer<Available> available);
 
-    Q_REQUIRED_RESULT QVector<Available *> getAvailables() const;
+    Q_REQUIRED_RESULT QVector<QSharedPointer<Available>> &getAvailables() const;
 
 private:
     /**
