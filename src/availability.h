@@ -96,7 +96,7 @@ public:
      */
     void addNewAvailable(const Available &available);
 
-    Q_REQUIRED_RESULT QVector<Available> getAvailables() const;
+    Q_REQUIRED_RESULT QVector<Available *> getAvailables() const;
 
 private:
     /**

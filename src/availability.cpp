@@ -16,7 +16,7 @@ using namespace KCalendarCore;
 class Q_DECL_HIDDEN KCalendarCore::Availability::Private : public AvailableBasePrivate
 {
 public:
-    QVector<Available> availables;
+    QVector<Available *> availables;
     Person mOrganizer; // person (owner)
     //    FreeBusyPeriod::FreeBusyType mType; TODO
 
@@ -30,7 +30,14 @@ Availability::Availability()
     d = std::make_unique<Private>();
 }
 
-Availability::~Availability() = default;
+Availability::~Availability()
+{
+    for (Available *avaiPtr : d->availables) {
+        delete avaiPtr;
+    }
+
+    d->availables.clear();
+}
 
 Availability::Availability(const Availability &other)
     : AvailableBase(other.d.get())
@@ -100,10 +107,10 @@ Person Availability::organizer() const
 void Availability::addNewAvailable(const Available &available)
 {
     // TODO processing?
-    // d->availables.push_back(available); //TODO facing error becaues = operator is private now.
+    d->availables.push_back(new Available(available));
 }
 
-QVector<Available> Availability::getAvailables() const
+QVector<Available *> Availability::getAvailables() const
 {
     return d->availables;
 }
