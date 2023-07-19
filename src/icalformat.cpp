@@ -503,7 +503,7 @@ FreeBusy::Ptr ICalFormat::parseFreeBusy(const QString &str)
     return freeBusy;
 }
 
-Availability::Ptr ICalFormat::parseAvailability(const QString &str)
+QVector<Availability::Ptr> ICalFormat::parseAvailability(const QString &str)
 {
     Q_D(ICalFormat);
     clearException();
@@ -511,8 +511,10 @@ Availability::Ptr ICalFormat::parseAvailability(const QString &str)
     icalcomponent *message = icalparser_parse_string(str.toUtf8().constData());
 
     if (!message) {
-        return Availability::Ptr();
+        return QVector<Availability::Ptr>();
     }
+
+    QVector<Availability::Ptr> availabilities;
 
     Availability::Ptr availability;
 
@@ -536,6 +538,8 @@ Availability::Ptr ICalFormat::parseAvailability(const QString &str)
                 qDebug() << __FUNCTION__ << "object is not available component";
             }
         }
+
+        availabilities.append(availability);
     }
 
     if (!availability) {
@@ -544,7 +548,8 @@ Availability::Ptr ICalFormat::parseAvailability(const QString &str)
 
     icalcomponent_free(message);
 
-    return availability;
+    return availabilities;
+    // return availability;
 }
 
 #if KCALENDARCORE_BUILD_DEPRECATED_SINCE(6, 30)

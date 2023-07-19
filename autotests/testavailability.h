@@ -7,15 +7,19 @@
 #ifndef TESTAVAILABILITY_H
 #define TESTAVAILABILITY_H
 
+#include "availability.h"
+
 #include <QObject>
 
 class AvailabilityTest : public QObject
 {
+    void prettyPrint(QVector<KCalendarCore::Availability::Ptr> availability);
+
     Q_OBJECT
 private Q_SLOTS:
-    void initTestCase();
     void parseAvailability();
     void parseAvailability2();
+    void parseAvailability3();
     void testValidity();
 };
 

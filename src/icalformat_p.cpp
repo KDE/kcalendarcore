@@ -1289,7 +1289,7 @@ Available::Ptr ICalFormatImpl::readAvailable(icalcomponent *availableComponent)
     bool uidProcessed = false;
     while (p) {
         icalproperty_kind kind = icalproperty_isa(p);
-        qDebug() << __FUNCTION__ << "Found kind " << kind;
+        // qDebug() << __FUNCTION__ << "Found kind " << kind;
         switch (kind) {
         case ICAL_UID_PROPERTY: // unique id
             uidProcessed = true;
@@ -1359,7 +1359,7 @@ Availability::Ptr ICalFormatImpl::readAvailability(icalcomponent *vavailability)
     bool uidProcessed = false;
     while (p) {
         icalproperty_kind kind = icalproperty_isa(p);
-        qDebug() << __FUNCTION__ << "Found kind " << kind;
+        // qDebug() << __FUNCTION__ << "Found kind " << kind;
 
         switch (kind) {
         case ICAL_UID_PROPERTY: // unique id

@@ -233,7 +233,7 @@ public:
 
       @note Do not attempt to free the Availability memory from the calling routine.
     */
-    Availability::Ptr parseAvailability(const QString &string);
+    QVector<Availability::Ptr> parseAvailability(const QString &string);
 
     /*!
       Sets the iCalendar time zone.
