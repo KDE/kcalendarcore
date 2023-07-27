@@ -364,7 +364,7 @@ KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalendarCore:
 }
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO(KCalendarCore::Attendee, Q_MOVABLE_TYPE);
+Q_DECLARE_TYPEINFO(KCalendarCore::Attendee, Q_RELOCATABLE_TYPE);
 Q_DECLARE_METATYPE(KCalendarCore::Attendee)
 //@endcond
 

@@ -910,7 +910,7 @@ inline uint qHash(const QSharedPointer<KCalendarCore::Incidence> &key)
 //@endcond
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO(KCalendarCore::Incidence::Ptr, Q_MOVABLE_TYPE);
+Q_DECLARE_TYPEINFO(KCalendarCore::Incidence::Ptr, Q_RELOCATABLE_TYPE);
 Q_DECLARE_METATYPE(KCalendarCore::Incidence *)
 //@endcond
 

@@ -214,7 +214,7 @@ KCALENDARCORE_EXPORT uint qHash(const KCalendarCore::Period &key);
 
 //@cond PRIVATE
 Q_DECLARE_METATYPE(KCalendarCore::Period)
-Q_DECLARE_TYPEINFO(KCalendarCore::Period, Q_MOVABLE_TYPE);
+Q_DECLARE_TYPEINFO(KCalendarCore::Period, Q_RELOCATABLE_TYPE);
 //@endcond
 
 #endif

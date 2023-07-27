@@ -284,7 +284,7 @@ KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalendarCore::Att
 }
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO(KCalendarCore::Attachment, Q_MOVABLE_TYPE);
+Q_DECLARE_TYPEINFO(KCalendarCore::Attachment, Q_RELOCATABLE_TYPE);
 Q_DECLARE_METATYPE(KCalendarCore::Attachment)
 //@endcond
 

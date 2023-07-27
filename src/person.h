@@ -188,7 +188,7 @@ KCALENDARCORE_EXPORT uint qHash(const KCalendarCore::Person &key);
 }
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO(KCalendarCore::Person, Q_MOVABLE_TYPE);
+Q_DECLARE_TYPEINFO(KCalendarCore::Person, Q_RELOCATABLE_TYPE);
 Q_DECLARE_METATYPE(KCalendarCore::Person)
 //@endcond
 

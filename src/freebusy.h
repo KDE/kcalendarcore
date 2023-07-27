@@ -271,7 +271,7 @@ KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalendarCore:
 }
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO(KCalendarCore::FreeBusy::Ptr, Q_MOVABLE_TYPE);
+Q_DECLARE_TYPEINFO(KCalendarCore::FreeBusy::Ptr, Q_RELOCATABLE_TYPE);
 Q_DECLARE_METATYPE(KCalendarCore::FreeBusy::Ptr)
 //@endcond
 

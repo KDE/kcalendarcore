@@ -193,7 +193,7 @@ KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalendarCore:
 }
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO(KCalendarCore::Conference, Q_MOVABLE_TYPE);
+Q_DECLARE_TYPEINFO(KCalendarCore::Conference, Q_RELOCATABLE_TYPE);
 Q_DECLARE_METATYPE(KCalendarCore::Conference)
 //@endcond
 

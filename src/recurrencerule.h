@@ -332,6 +332,6 @@ KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalendarCo
 KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalendarCore::RecurrenceRule::WDayPos &);
 }
 
-Q_DECLARE_TYPEINFO(KCalendarCore::RecurrenceRule::WDayPos, Q_MOVABLE_TYPE);
+Q_DECLARE_TYPEINFO(KCalendarCore::RecurrenceRule::WDayPos, Q_RELOCATABLE_TYPE);
 
 #endif

@@ -370,7 +370,7 @@ private:
 } // namespace KCalendarCore
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO(KCalendarCore::Todo::Ptr, Q_MOVABLE_TYPE);
+Q_DECLARE_TYPEINFO(KCalendarCore::Todo::Ptr, Q_RELOCATABLE_TYPE);
 Q_DECLARE_METATYPE(KCalendarCore::Todo::Ptr)
 Q_DECLARE_METATYPE(KCalendarCore::Todo *)
 //@endcond

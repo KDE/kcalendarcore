@@ -675,7 +675,7 @@ KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &in, const KCalendarCor
 }
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO(KCalendarCore::Alarm::Ptr, Q_MOVABLE_TYPE);
+Q_DECLARE_TYPEINFO(KCalendarCore::Alarm::Ptr, Q_RELOCATABLE_TYPE);
 Q_DECLARE_METATYPE(KCalendarCore::Alarm::Ptr)
 //@endcond
 

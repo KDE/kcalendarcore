@@ -261,7 +261,7 @@ private:
 } // namespace KCalendarCore
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO(KCalendarCore::Event::Ptr, Q_MOVABLE_TYPE);
+Q_DECLARE_TYPEINFO(KCalendarCore::Event::Ptr, Q_RELOCATABLE_TYPE);
 Q_DECLARE_METATYPE(KCalendarCore::Event::Ptr)
 Q_DECLARE_METATYPE(KCalendarCore::Event *)
 //@endcond

@@ -160,7 +160,7 @@ private:
 } // namespace KCalendarCore
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO(KCalendarCore::Journal::Ptr, Q_MOVABLE_TYPE);
+Q_DECLARE_TYPEINFO(KCalendarCore::Journal::Ptr, Q_RELOCATABLE_TYPE);
 Q_DECLARE_METATYPE(KCalendarCore::Journal::Ptr)
 Q_DECLARE_METATYPE(KCalendarCore::Journal *)
 //@endcond
