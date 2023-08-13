@@ -160,6 +160,7 @@ install(TARGETS KF6CalendarCore EXPORT KF6CalendarCoreTargets ${KF_INSTALL_TARGE
 set(kcalendarcore_headers
     Availability
     Available
+    AvailableBase
     Alarm
     Attachment
     Attendee

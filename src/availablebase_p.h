@@ -12,7 +12,7 @@
 
 #include "availablebase.h"
 #include "duration.h"
-#include "kcalendarcore_debug.h"
+//#include "kcalendarcore_debug.h"
 
 #include <QDateTime>
 

@@ -16,7 +16,7 @@
 
 #include "customproperties.h"
 #include "duration.h"
-#include "kcalendarcore_debug.h"
+//#include "kcalendarcore_debug.h"
 
 #include <QSharedPointer>
 
