@@ -1178,7 +1178,7 @@ QString Incidence::altDescription() const
 QStringList Incidence::mimeTypes()
 {
     return QStringList() << QStringLiteral("text/calendar") << KCalendarCore::Event::eventMimeType() << KCalendarCore::Todo::todoMimeType()
-                         << KCalendarCore::Journal::journalMimeType();
+                         << KCalendarCore::Journal::journalMimeType() << KCalendarCore::Availability::availabilityMimeType();
 }
 
 void Incidence::serialize(QDataStream &out) const

@@ -109,3 +109,13 @@ QVector<QSharedPointer<Available>> &Availability::getAvailables() const
 {
     return d->availables;
 }
+
+QLatin1String Availability::mimeType() const
+{
+    return Availability::availabilityMimeType();
+}
+
+QLatin1String Availability::availabilityMimeType()
+{
+    return QLatin1String("application/x-vnd.akonadi.calendar.availability");
+}

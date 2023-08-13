@@ -98,6 +98,13 @@ public:
 
     Q_REQUIRED_RESULT QVector<QSharedPointer<Available>> &getAvailables() const;
 
+    /**
+       @copydoc IncidenceBase::mimeType()
+     */
+    Q_REQUIRED_RESULT QLatin1String mimeType() const;
+
+    Q_REQUIRED_RESULT static QLatin1String availabilityMimeType();
+
 private:
     /**
       Disabled, otherwise could be dangerous if you subclass Availability.
