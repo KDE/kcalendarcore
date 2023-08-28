@@ -36,10 +36,6 @@ add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format (for e.g. Qt 
 # TODO: remove for KF6
 option(KCALENDARCORE_NO_DEPRECATED_NAMESPACE "Disable deprecated KCalCore namespace" OFF)
 
-if(POLICY CMP0053)
-  cmake_policy(SET CMP0053 NEW)
-endif()
-
 set(KCALENDARCORE_LIB_VERSION ${KF_VERSION})
 ecm_setup_version(PROJECT VARIABLE_PREFIX KCALENDARCORE
   VERSION_HEADER "${KCalendarCore_BINARY_DIR}/kcalendarcore_version.h"
