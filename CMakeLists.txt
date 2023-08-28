@@ -33,10 +33,6 @@ set(EXCLUDE_DEPRECATED_BEFORE_AND_AT 0 CACHE STRING "Control the range of deprec
 option(BUILD_QCH "Build API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
 add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
 
-if(POLICY CMP0053)
-  cmake_policy(SET CMP0053 NEW)
-endif()
-
 set(KCALENDARCORE_LIB_VERSION ${KF_VERSION})
 set(kcalendarcore_version_header "${KCalendarCore_BINARY_DIR}/src/kcalendarcore_version.h")
 ecm_setup_version(PROJECT VARIABLE_PREFIX KCALENDARCORE
