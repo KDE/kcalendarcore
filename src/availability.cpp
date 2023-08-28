@@ -119,3 +119,21 @@ QLatin1String Availability::availabilityMimeType()
 {
     return QLatin1String("application/x-vnd.akonadi.calendar.availability");
 }
+
+QDataStream &KCalendarCore::operator>>(QDataStream &in, KCalendarCore::Availability::Ptr &i)
+{
+    if (!i) {
+        return in;
+    }
+
+    qint32 attendeeCount;
+    qint32 type;
+    quint32 magic;
+    quint32 version;
+
+    in >> magic;
+
+    // TODO
+
+    return in;
+}

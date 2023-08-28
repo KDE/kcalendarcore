@@ -37,6 +37,8 @@ namespace KCalendarCore
 */
 class KCALENDARCORE_EXPORT AvailableBase : public CustomProperties
 {
+    Q_PROPERTY(QString summary READ summary WRITE setSummary)
+
 protected:
     class AvailableBasePrivate;
     std::unique_ptr<AvailableBasePrivate> d;

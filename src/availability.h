@@ -114,6 +114,8 @@ private:
      */
     Availability &operator=(const Availability &other);
 
+    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalendarCore::Availability::Ptr &);
+
     class Private;
     std::unique_ptr<Private> d;
 
@@ -131,5 +133,10 @@ protected:
     AvailableBase &assign(const AvailableBase &other) override;
 };
 };
+
+//@cond PRIVATE
+Q_DECLARE_TYPEINFO(KCalendarCore::Availability::Ptr, Q_MOVABLE_TYPE);
+Q_DECLARE_METATYPE(KCalendarCore::Availability *)
+//@endcond
 
 #endif
