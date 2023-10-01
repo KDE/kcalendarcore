@@ -20,7 +20,6 @@ include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 
 include(ECMGenerateExportHeader)
 include(ECMGenerateHeaders)
-include(ECMGeneratePriFile)
 include(ECMGeneratePkgConfigFile)
 include(ECMDeprecationSettings)
 

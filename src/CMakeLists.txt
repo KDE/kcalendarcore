@@ -186,9 +186,6 @@ ecm_qt_install_logging_categories(
     DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR}
 )
 
-ecm_generate_pri_file(BASE_NAME KCalendarCore LIB_NAME KF6CalendarCore DEPS "Core" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF}/KCalendarCore/KCalendarCore)
-install(FILES ${PRI_FILENAME} DESTINATION ${ECM_MKSPECS_INSTALL_DIR})
-
 if(BUILD_QCH)
     ecm_add_qch(
         KF6CalendarCore_QCH
