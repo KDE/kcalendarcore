@@ -7,7 +7,6 @@ platforms:
 portingAid: false
 deprecated: false
 libraries:
- - qmake: KCalendarCore
  - cmake: "KF6::CalendarCore"
 cmakename: KF6CalendarCore
 
