@@ -542,4 +542,28 @@ void ICalFormatTest::testNonTextCustomProperties()
     QCOMPARE(event->nonKDECustomProperty("X-APPLE-STRUCTURED-LOCATION"), QLatin1String("geo:52.063921,5.128511"));
 }
 
+void ICalFormatTest::testAllDaySchedulingMessage()
+{
+    auto event = KCalendarCore::Event::Ptr::create();
+    event->setSummary(QStringLiteral("All Day Event"));
+    event->setDtStart(QDateTime(QDate(2023, 10, 13), QTime(0, 0, 0), QTimeZone("Europe/Prague")));
+    event->setDtEnd(QDateTime(QDate(2023, 10, 15), QTime(0, 0, 0), QTimeZone("Europe/Prague")));
+    event->setOrganizer(Person(QStringLiteral("Dan"), QStringLiteral("dvratil@example.com")));
+    event->addAttendee(Attendee(QStringLiteral("Konqi"), QStringLiteral("konqi@example.com")));
+    event->setAllDay(true);
+
+    ICalFormat format;
+    auto calendar = MemoryCalendar::Ptr::create(QTimeZone::utc());
+    const auto itipString = format.createScheduleMessage(event, KCalendarCore::iTIPRequest);
+    QVERIFY(!itipString.isEmpty());
+
+    auto scheduleMsg = format.parseScheduleMessage(calendar, itipString);
+    QVERIFY(scheduleMsg->error().isEmpty());
+
+    auto parsedEvent = scheduleMsg->event().staticCast<KCalendarCore::Event>();
+    QVERIFY(parsedEvent);
+    QCOMPARE(parsedEvent->dtStart().date(), event->dtStart().date());
+    QCOMPARE(parsedEvent->dtEnd().date(), event->dtEnd().date());
+}
+
 #include "moc_testicalformat.cpp"
