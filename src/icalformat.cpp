@@ -411,7 +411,7 @@ QString ICalFormat::createScheduleMessage(const IncidenceBase::Ptr &incidence, i
 
         // Recurring events need timezone information to allow proper calculations
         // across timezones with different DST.
-        const bool useUtcTimes = !i->recurs();
+        const bool useUtcTimes = !i->recurs() && !i->allDay();
 
         const bool hasSchedulingId = (i->schedulingID() != i->uid());
 

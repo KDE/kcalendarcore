@@ -31,6 +31,7 @@ private Q_SLOTS:
     void testUidGenerationUniqueness();
     void testIcalFormat();
     void testNonTextCustomProperties();
+    void testAllDaySchedulingMessage();
 };
 
 #endif
