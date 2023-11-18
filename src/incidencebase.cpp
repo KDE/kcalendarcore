@@ -599,9 +599,19 @@ quint32 IncidenceBase::magicSerializationIdentifier()
     return KCALCORE_MAGIC_NUMBER;
 }
 
-bool KCalendarCore::identical(QDateTime dt1, QDateTime dt2)
+static bool isUtc(const QDateTime &dt)
 {
-    return dt1 == dt2 && dt1.timeSpec() == dt2.timeSpec() && dt1.timeZone() == dt2.timeZone();
+    return dt.timeSpec() == Qt::UTC || (dt.timeSpec() == Qt::TimeZone && dt.timeZone() == QTimeZone::utc())
+        || (dt.timeSpec() == Qt::OffsetFromUTC && dt.offsetFromUtc() == 0);
+}
+
+bool KCalendarCore::identical(const QDateTime &dt1, const QDateTime &dt2)
+{
+    if (dt1 != dt2) {
+        return false;
+    }
+
+    return (dt1.timeSpec() == dt2.timeSpec() && dt1.timeZone() == dt2.timeZone()) || (isUtc(dt1) && isUtc(dt2));
 }
 
 QDataStream &KCalendarCore::operator<<(QDataStream &out, const KCalendarCore::IncidenceBase::Ptr &i)

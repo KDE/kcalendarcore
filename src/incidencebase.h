@@ -769,7 +769,7 @@ private:
  *
  * @since 5.93
  */
-KCALENDARCORE_EXPORT bool identical(QDateTime, QDateTime);
+KCALENDARCORE_EXPORT bool identical(const QDateTime &dt1, const QDateTime &dt2);
 
 /**
  * Incidence serializer.
