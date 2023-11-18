@@ -72,7 +72,7 @@ void CalFilter::apply(Event::List *eventList) const
         return;
     }
 
-    auto it = std::remove_if(eventList->begin(), eventList->end(), [=](const Incidence::Ptr &incidence) {
+    auto it = std::remove_if(eventList->begin(), eventList->end(), [this](const Incidence::Ptr &incidence) {
         return !filterIncidence(incidence);
     });
     eventList->erase(it, eventList->end());
@@ -85,7 +85,7 @@ void CalFilter::apply(Todo::List *todoList) const
         return;
     }
 
-    auto it = std::remove_if(todoList->begin(), todoList->end(), [=](const Incidence::Ptr &incidence) {
+    auto it = std::remove_if(todoList->begin(), todoList->end(), [this](const Incidence::Ptr &incidence) {
         return !filterIncidence(incidence);
     });
     todoList->erase(it, todoList->end());
@@ -97,7 +97,7 @@ void CalFilter::apply(Journal::List *journalList) const
         return;
     }
 
-    auto it = std::remove_if(journalList->begin(), journalList->end(), [=](const Incidence::Ptr &incidence) {
+    auto it = std::remove_if(journalList->begin(), journalList->end(), [this](const Incidence::Ptr &incidence) {
         return !filterIncidence(incidence);
     });
     journalList->erase(it, journalList->end());
