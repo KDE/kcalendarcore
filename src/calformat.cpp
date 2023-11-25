@@ -87,5 +87,5 @@ void CalFormat::setLoadedProductId(const QString &id)
 
 QString CalFormat::createUniqueId()
 {
-    return QUuid::createUuid().toString().mid(1, 36);
+    return QUuid::createUuid().toString(QUuid::WithoutBraces);
 }
