@@ -13,32 +13,34 @@
 #include "utils_p.h"
 
 #include <QTest>
+#include <QTimeZone>
+
 QTEST_MAIN(PeriodTest)
 
 using namespace KCalendarCore;
 
 void PeriodTest::testValidity()
 {
-    const QDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), Qt::UTC);
+    const QDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), QTimeZone::UTC);
     Period p1(p1DateTime, Duration(60));
     Period p2;
 
     QVERIFY(p1.hasDuration());
     QCOMPARE(p1.duration().asSeconds(), 60);
-    QVERIFY(p1.start() == QDateTime(QDate(2006, 8, 30), QTime(7, 0, 0), Qt::UTC));
+    QVERIFY(p1.start() == QDateTime(QDate(2006, 8, 30), QTime(7, 0, 0), QTimeZone::UTC));
 
     p2 = p1;
 
     QVERIFY(p2.hasDuration());
     QVERIFY(p2.duration().asSeconds() == 60);
-    QVERIFY(p2.start() == QDateTime(QDate(2006, 8, 30), QTime(7, 0, 0), Qt::UTC));
+    QVERIFY(p2.start() == QDateTime(QDate(2006, 8, 30), QTime(7, 0, 0), QTimeZone::UTC));
 
-    const QDateTime p3DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), Qt::UTC);
+    const QDateTime p3DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), QTimeZone::UTC);
     Period p3(p3DateTime, Duration(24 * 60 * 60));
 
     QVERIFY(p3.hasDuration());
     QVERIFY(p3.duration().asSeconds() == 24 * 60 * 60);
-    QVERIFY(p3.start() == QDateTime(QDate(2006, 8, 30), QTime(7, 0, 0), Qt::UTC));
+    QVERIFY(p3.start() == QDateTime(QDate(2006, 8, 30), QTime(7, 0, 0), QTimeZone::UTC));
 }
 
 void PeriodTest::testCompare()
@@ -47,7 +49,7 @@ void PeriodTest::testCompare()
     Period p1(p1DateTime, Duration(24 * 60 * 60));
     const QDateTime p2DateTime(QDate(2006, 8, 29), {});
     Period p2(p2DateTime, Duration(23 * 60 * 60));
-    const QDateTime p3DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), Qt::UTC);
+    const QDateTime p3DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), QTimeZone::UTC);
     Period p3(p3DateTime, Duration(24 * 60 * 60));
     Period p1copy {p1}; // test copy constructor
     Period p1assign;
@@ -65,7 +67,7 @@ void PeriodTest::testCompare()
 
 void PeriodTest::testDataStreamOut()
 {
-    const QDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), Qt::UTC);
+    const QDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), QTimeZone::UTC);
     const Duration duration(24 * 60 * 60);
     Period p1(p1DateTime, duration);
 
@@ -98,7 +100,7 @@ void PeriodTest::testDataStreamOut()
 
 void PeriodTest::testDataStreamIn()
 {
-    const QDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), Qt::UTC);
+    const QDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), QTimeZone::UTC);
     const Duration duration(24 * 60 * 60);
     Period p1(p1DateTime, duration);
 

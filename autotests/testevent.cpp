@@ -112,7 +112,7 @@ void EventTest::testDtEndEqual()
 
     // Create a "floating" datetime, which represents the same instant in real time
     // because we're still running in the test's time zone.
-    dt.setTimeSpec(Qt::LocalTime);
+    dt.setTimeZone(QTimeZone::LocalTime);
 
     e1.setDtEnd(dt);
     QVERIFY(e1 != *e2);
@@ -318,7 +318,7 @@ void EventTest::testDtEndChange()
     QCOMPARE(event1.dirtyFields(), QSet<IncidenceBase::Field>{IncidenceBase::FieldDtEnd});
     event1.resetDirtyFields();
 
-    event1.setDtEnd(QDateTime(dt, QTime(1, 0, 0), Qt::LocalTime));
+    event1.setDtEnd(QDateTime(dt, QTime(1, 0, 0), QTimeZone::LocalTime));
     QCOMPARE(event1.dirtyFields(), QSet<IncidenceBase::Field>{IncidenceBase::FieldDtEnd});
     event1.resetDirtyFields();
 }

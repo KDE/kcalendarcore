@@ -8,8 +8,9 @@
 #include "testincidence.h"
 #include "event.h"
 #include "incidence.h"
-#include <cmath>
 #include <QTest>
+#include <QTimeZone>
+#include <cmath>
 
 QTEST_MAIN(IncidenceTest)
 
@@ -69,7 +70,7 @@ void IncidenceTest::testDtStartEqual()
 
     // Create a "floating" datetime, which represents the same instant in real time
     // because we're still running in the test's time zone.
-    dt.setTimeSpec(Qt::LocalTime);
+    dt.setTimeZone(QTimeZone::LocalTime);
 
     i1.setDtStart(dt);
     QVERIFY(i1 != *i2);

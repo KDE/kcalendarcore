@@ -55,7 +55,7 @@ void CreatedDateCompatTest::testCompat32()
     QVERIFY(format.fromRawString(cal, QByteArray(icalFile32)));
     KCalendarCore::Event::Ptr event = cal->event(QStringLiteral("uid"));
     QVERIFY(event);
-    QCOMPARE(event->created(), QDateTime(QDate(2003, 12, 13), QTime(20, 47, 53), Qt::UTC));
+    QCOMPARE(event->created(), QDateTime(QDate(2003, 12, 13), QTime(20, 47, 53), QTimeZone::UTC));
 }
 
 void CreatedDateCompatTest::testCompat33()
@@ -65,7 +65,7 @@ void CreatedDateCompatTest::testCompat33()
     QVERIFY(format.fromRawString(cal, QByteArray(icalFile33)));
     KCalendarCore::Event::Ptr event = cal->event(QStringLiteral("uid"));
     QVERIFY(event);
-    QCOMPARE(event->created(), QDateTime(QDate(2003, 12, 13), QTime(20, 41, 52), Qt::UTC));
+    QCOMPARE(event->created(), QDateTime(QDate(2003, 12, 13), QTime(20, 41, 52), QTimeZone::UTC));
     QVERIFY(!event->customProperties().contains("X-KDE-ICAL-IMPLEMENTATION-VERSION"));
 }
 

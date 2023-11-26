@@ -75,8 +75,8 @@ void TimesInIntervalTest::test()
 // Test that interval start and end are inclusive
 void TimesInIntervalTest::testSubDailyRecurrenceIntervalInclusive()
 {
-    const QDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), Qt::UTC);
-    const QDateTime end(QDate(2013, 03, 10), QTime(11, 0, 0), Qt::UTC);
+    const QDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), QTimeZone::UTC);
+    const QDateTime end(QDate(2013, 03, 10), QTime(11, 0, 0), QTimeZone::UTC);
 
     KCalendarCore::Event::Ptr event(new KCalendarCore::Event());
     event->setUid(QStringLiteral("event"));
@@ -97,8 +97,8 @@ void TimesInIntervalTest::testSubDailyRecurrenceIntervalInclusive()
 // Test that the recurrence dtStart is used for calculation and not the interval start date
 void TimesInIntervalTest::testSubDailyRecurrence2()
 {
-    const QDateTime start(QDate(2013, 03, 10), QTime(10, 2, 3), Qt::UTC);
-    const QDateTime end(QDate(2013, 03, 10), QTime(13, 4, 5), Qt::UTC);
+    const QDateTime start(QDate(2013, 03, 10), QTime(10, 2, 3), QTimeZone::UTC);
+    const QDateTime end(QDate(2013, 03, 10), QTime(13, 4, 5), QTimeZone::UTC);
 
     KCalendarCore::Event::Ptr event(new KCalendarCore::Event());
     event->setUid(QStringLiteral("event"));
@@ -120,8 +120,8 @@ void TimesInIntervalTest::testSubDailyRecurrence2()
 
 void TimesInIntervalTest::testSubDailyRecurrenceIntervalLimits()
 {
-    const QDateTime start(QDate(2013, 03, 10), QTime(10, 2, 3), Qt::UTC);
-    const QDateTime end(QDate(2013, 03, 10), QTime(12, 2, 3), Qt::UTC);
+    const QDateTime start(QDate(2013, 03, 10), QTime(10, 2, 3), QTimeZone::UTC);
+    const QDateTime end(QDate(2013, 03, 10), QTime(12, 2, 3), QTimeZone::UTC);
 
     KCalendarCore::Event::Ptr event(new KCalendarCore::Event());
     event->setUid(QStringLiteral("event"));
@@ -145,7 +145,7 @@ void TimesInIntervalTest::testLocalTimeHandlingNonAllDay()
     // starting from Friday the 11th of October, from 12 pm until 1 pm, clock time,
     // and lasts for two weeks, with three exception datetimes,
     // (only two of which will apply).
-    const QDateTime startDt(QDate(2019, 10, 11), QTime(12, 0), Qt::LocalTime);
+    const QDateTime startDt(QDate(2019, 10, 11), QTime(12, 0), QTimeZone::LocalTime);
     QTimeZone anotherZone("America/Toronto");
     if (anotherZone.offsetFromUtc(startDt) == QTimeZone::systemTimeZone().offsetFromUtc(startDt)) {
         anotherZone = QTimeZone(QByteArray("Pacific/Midway"));
@@ -168,7 +168,7 @@ void TimesInIntervalTest::testLocalTimeHandlingNonAllDay()
     Recurrence *recurrence = event.recurrence();
     recurrence->addRRule(rule);
     // 12 o'clock in local time, will apply.
-    recurrence->addExDateTime(QDateTime(QDate(2019, 10, 15), QTime(12, 0), Qt::LocalTime));
+    recurrence->addExDateTime(QDateTime(QDate(2019, 10, 15), QTime(12, 0), QTimeZone::LocalTime));
     // 12 o'clock in another time zone, will not apply.
     recurrence->addExDateTime(QDateTime(QDate(2019, 10, 17), QTime(12, 0), anotherZone));
     // The time in another time zone, corresponding to 12 o'clock in the system time zone, will apply.
@@ -182,7 +182,7 @@ void TimesInIntervalTest::testLocalTimeHandlingNonAllDay()
     // nor either of the exception date times.
     const QList<int> expectedDays{11, 14, 16, 17, 18, 21, 22, 23, 25};
     for (int day : expectedDays) {
-        QVERIFY(timesInInterval.contains(QDateTime(QDate(2019, 10, day), QTime(12, 0), Qt::LocalTime)));
+        QVERIFY(timesInInterval.contains(QDateTime(QDate(2019, 10, day), QTime(12, 0), QTimeZone::LocalTime)));
     }
     QCOMPARE(timesInInterval.size(), expectedDays.size());
 }
@@ -240,7 +240,7 @@ void TimesInIntervalTest::testLocalTimeHandlingAllDay()
 void TimesInIntervalTest::testByDayRecurrence()
 {
     const int days = 7;
-    const QDateTime start(QDate(2020, 11, 6), QTime(2, 0, 0), Qt::UTC);
+    const QDateTime start(QDate(2020, 11, 6), QTime(2, 0, 0), QTimeZone::UTC);
     const QDateTime intervalEnd = start.addDays(days);
     const QDateTime intervalStart = start.addDays(-days);
 

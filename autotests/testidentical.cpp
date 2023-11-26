@@ -20,8 +20,8 @@ private Q_SLOTS:
         QTest::addColumn<QDateTime>("dt1");
         QTest::addColumn<QDateTime>("dt2");
 
-        QTest::newRow("local") << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 22), Qt::LocalTime)
-                               << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 22), Qt::LocalTime);
+        QTest::newRow("local") << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 22), QTimeZone::LocalTime)
+                               << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 22), QTimeZone::LocalTime);
 
         QTest::newRow("tz") << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 22), QTimeZone("Atlantic/Azores"))
                             << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 22), QTimeZone("Atlantic/Azores"));
@@ -57,27 +57,27 @@ private Q_SLOTS:
         QTest::addColumn<QDateTime>("dt1");
         QTest::addColumn<QDateTime>("dt2");
 
-        QTest::newRow("date")
-            << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 22), Qt::LocalTime)
-            << QDateTime(QDate(2022, 02, 23), QTime(22, 22, 22), Qt::LocalTime);
-        QTest::newRow("time")
-            << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 22), Qt::LocalTime)
-            << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 23), Qt::LocalTime);
+        QTest::newRow("date") << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 22), QTimeZone::LocalTime)
+                              << QDateTime(QDate(2022, 02, 23), QTime(22, 22, 22), QTimeZone::LocalTime);
+        QTest::newRow("time") << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 22), QTimeZone::LocalTime)
+                              << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 23), QTimeZone::LocalTime);
 
-        // Note:  Qt::LocalTime is used for "floating" date-times; "this time
+        // Note:  QTimeZone::LocalTime is used for "floating" date-times; "this time
         // in the current system time zone".
-        QTest::newRow("timeSpec")
-            << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 22), Qt::LocalTime)
-            << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 22), QTimeZone::systemTimeZone());
+        QTest::newRow("timeSpec") << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 22), QTimeZone::LocalTime)
+                                  << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 22), QTimeZone::systemTimeZone());
 
         // Both zones are UTC+0.
         QTest::newRow("timeZone")
             << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 22), QTimeZone("Africa/Abidjan"))
             << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 22), QTimeZone("Africa/Accra"));
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
         QTest::newRow("invalid timeSpec")
             << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 22), QDateTime().timeSpec())
             << QDateTime();
+#pragma GCC diagnostic pop
         QTest::newRow("invalid timeZone")
             << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 22), QDateTime().timeZone())
             << QDateTime();

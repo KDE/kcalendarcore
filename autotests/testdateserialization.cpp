@@ -84,7 +84,7 @@ void TestDateSerialization::testTodoCompletedOnce()
 // Check that QDateTime values with UTC offsets are handled correctly
 void TestDateSerialization::testUTCOffset()
 {
-    QDateTime startDate({2022, 3, 6}, {10, 25}, Qt::OffsetFromUTC, 3600);
+    QDateTime startDate({2022, 3, 6}, {10, 25}, QTimeZone::fromSecondsAheadOfUtc(3600));
 
     Event::Ptr event(new Event);
     event->setDtStart(startDate);

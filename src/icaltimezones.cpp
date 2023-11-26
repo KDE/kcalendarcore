@@ -17,6 +17,7 @@
 
 #include <QByteArray>
 #include <QDateTime>
+#include <QTimeZone>
 
 extern "C" {
 #include <libical/ical.h>
@@ -32,9 +33,7 @@ static const int minPhaseCount = 8; // for separate STANDARD/DAYLIGHT component
 // Convert an ical time to QDateTime, preserving the UTC indicator
 static QDateTime toQDateTime(const icaltimetype &t)
 {
-    return QDateTime(QDate(t.year, t.month, t.day),
-                     QTime(t.hour, t.minute, t.second),
-                     (icaltime_is_utc(t) ? Qt::UTC : Qt::LocalTime));
+    return QDateTime(QDate(t.year, t.month, t.day), QTime(t.hour, t.minute, t.second), (icaltime_is_utc(t) ? QTimeZone::UTC : QTimeZone::LocalTime));
 }
 
 // Maximum date for time zone data.

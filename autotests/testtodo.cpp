@@ -12,6 +12,7 @@
 #include "todo.h"
 
 #include <QTest>
+#include <QTimeZone>
 QTEST_MAIN(TodoTest)
 
 using namespace KCalendarCore;
@@ -76,7 +77,7 @@ void TodoTest::testDtDueEqual()
 
     // Create a "floating" datetime, which represents the same instant in real time
     // because we're still running in the test's time zone.
-    dt.setTimeSpec(Qt::LocalTime);
+    dt.setTimeZone(QTimeZone::LocalTime);
 
     t1.setDtDue(dt);
     QVERIFY(t1 != *t2);
@@ -502,7 +503,7 @@ void TodoTest::testDtDueChange()
     const QDate date {QDate::currentDate()};
     const QTime time {1, 0, 0};
     Todo todo;
-    // Note:  QDateTime's default timespec Qt::LocalTime => "floating" time.
+    // Note:  QDateTime's default timespec QTimeZone::LocalTime => "floating" time.
     todo.setDtDue(QDateTime(date, time));
 
     todo.resetDirtyFields();
@@ -527,7 +528,7 @@ void TodoTest::testDtDueChange()
 
     // Change from a time in a fixed time zone to a floating time.
     todo.resetDirtyFields();
-    todo.setDtDue(QDateTime(date, time, Qt::LocalTime));
+    todo.setDtDue(QDateTime(date, time, QTimeZone::LocalTime));
     QCOMPARE(todo.dirtyFields(), QSet<IncidenceBase::Field>{IncidenceBase::FieldDtDue});
 }
 

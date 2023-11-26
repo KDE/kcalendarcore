@@ -12,8 +12,8 @@ QTEST_MAIN(TestRecurrenceException)
 
 void TestRecurrenceException::testCreateTodoException()
 {
-    const QDateTime dtstart(QDate(2013, 03, 10), QTime(10, 0, 0), Qt::UTC);
-    const QDateTime dtdue(QDate(2013, 03, 10), QTime(11, 0, 0), Qt::UTC);
+    const QDateTime dtstart(QDate(2013, 03, 10), QTime(10, 0, 0), QTimeZone::UTC);
+    const QDateTime dtdue(QDate(2013, 03, 10), QTime(11, 0, 0), QTimeZone::UTC);
     const QDateTime recurrenceId(QDateTime(dtstart).addDays(1));
 
     KCalendarCore::Todo::Ptr todo(new KCalendarCore::Todo());

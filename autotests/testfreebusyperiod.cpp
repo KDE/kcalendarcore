@@ -11,13 +11,14 @@
 #include "freebusyperiod.h"
 
 #include <QTest>
+#include <QTimeZone>
 QTEST_MAIN(FreeBusyPeriodTest)
 
 using namespace KCalendarCore;
 
 void FreeBusyPeriodTest::testValidity()
 {
-    const QDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), Qt::UTC);
+    const QDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), QTimeZone::UTC);
     FreeBusyPeriod p1(p1DateTime, Duration(60));
 
     QString summary = QStringLiteral("I can haz summary?");
@@ -27,7 +28,7 @@ void FreeBusyPeriodTest::testValidity()
 
     QVERIFY(p1.hasDuration());
     QCOMPARE(p1.duration().asSeconds(), 60);
-    QVERIFY(p1.start() == QDateTime(QDate(2006, 8, 30), QTime(7, 0, 0), Qt::UTC));
+    QVERIFY(p1.start() == QDateTime(QDate(2006, 8, 30), QTime(7, 0, 0), QTimeZone::UTC));
 
     QCOMPARE(p1.summary(), summary);
     QCOMPARE(p1.location(), location);
@@ -35,7 +36,7 @@ void FreeBusyPeriodTest::testValidity()
 
 void FreeBusyPeriodTest::testAssign()
 {
-    const QDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), Qt::UTC);
+    const QDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), QTimeZone::UTC);
     FreeBusyPeriod p1(p1DateTime, Duration(60));
     FreeBusyPeriod p2;
 
@@ -55,7 +56,7 @@ void FreeBusyPeriodTest::testAssign()
 
 void FreeBusyPeriodTest::testCopyConstructor()
 {
-    const QDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), Qt::UTC);
+    const QDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), QTimeZone::UTC);
     FreeBusyPeriod p1(p1DateTime, Duration(60));
     QString summary = QStringLiteral("I can haz summary?");
     QString location = QStringLiteral("The Moon");
@@ -74,7 +75,7 @@ void FreeBusyPeriodTest::testCopyConstructor()
 
 void FreeBusyPeriodTest::testDataStreamOut()
 {
-    const QDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), Qt::UTC);
+    const QDateTime p1DateTime(QDate(2006, 8, 30), QTime(7, 0, 0), QTimeZone::UTC);
     FreeBusyPeriod p1(p1DateTime, Duration(60));
 
     p1.setSummary(QStringLiteral("I can haz summary?"));

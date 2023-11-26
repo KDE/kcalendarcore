@@ -1235,7 +1235,7 @@ QDateTime VCalFormat::ISOToQDateTime(const QString &dtStr)
     if (tmpDate.isValid() && tmpTime.isValid()) {
         // correct for GMT if string is in Zulu format
         if (dtStr.at(dtStr.length() - 1) == QLatin1Char('Z')) {
-            return QDateTime(tmpDate, tmpTime, Qt::UTC);
+            return QDateTime(tmpDate, tmpTime, QTimeZone::UTC);
         } else {
             return QDateTime(tmpDate, tmpTime, d->mCalendar->timeZone());
         }

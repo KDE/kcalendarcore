@@ -222,9 +222,7 @@ void ICalFormatTest::testDateTimeSerialization_data()
     QTest::addColumn<QDateTime>("dtStart");
     QTest::addColumn<QByteArray>("dtStartData");
 
-    QTest::newRow("UTC time spec")
-        << QDateTime(QDate(2021, 4, 9), QTime(12, 00), Qt::UTC)
-        << QByteArray("DTSTART:20210409T120000Z");
+    QTest::newRow("UTC time spec") << QDateTime(QDate(2021, 4, 9), QTime(12, 00), QTimeZone::UTC) << QByteArray("DTSTART:20210409T120000Z");
     QTest::newRow("UTC time zone")
         << QDateTime(QDate(2021, 4, 9), QTime(12, 00), QTimeZone::utc())
         << QByteArray("DTSTART:20210409T120000Z");
@@ -282,10 +280,10 @@ void ICalFormatTest::testRDate()
     QVERIFY(event);
     QVERIFY(event->recurs());
 
-    const QDateTime ev1(QDate(2021, 6, 30), QTime(10, 0), Qt::UTC);
-    const QDateTime ev2(QDate(2021, 8, 25), QTime(10, 0), Qt::UTC);
-    const QDateTime ev3(QDate(2021, 10, 27), QTime(10, 0), Qt::UTC);
-    const QDateTime ev4(QDate(2021, 12, 15), QTime(11, 0), Qt::UTC);
+    const QDateTime ev1(QDate(2021, 6, 30), QTime(10, 0), QTimeZone::UTC);
+    const QDateTime ev2(QDate(2021, 8, 25), QTime(10, 0), QTimeZone::UTC);
+    const QDateTime ev3(QDate(2021, 10, 27), QTime(10, 0), QTimeZone::UTC);
+    const QDateTime ev4(QDate(2021, 12, 15), QTime(11, 0), QTimeZone::UTC);
     QCOMPARE(event->recurrence()->rDateTimes(),
              QList<QDateTime>() << ev1 << ev2 << ev3 << ev4);
 
@@ -320,15 +318,11 @@ void ICalFormatTest::testDateTime_data()
     QTest::addColumn<QByteArray>("dtStartData");
     QTest::addColumn<QDateTime>("dtStart");
 
-    QTest::newRow("clock time")
-        << QByteArray("DTSTART:20191113T130000")
-        << QDateTime(QDate(2019, 11, 13), QTime(13, 00), Qt::LocalTime);
+    QTest::newRow("clock time") << QByteArray("DTSTART:20191113T130000") << QDateTime(QDate(2019, 11, 13), QTime(13, 00), QTimeZone::LocalTime);
     QTest::newRow("date")
         << QByteArray("DTSTART;VALUE=DATE:20191113")
         << QDate(2019, 11, 13).startOfDay();
-    QTest::newRow("UTC time")
-        << QByteArray("DTSTART:20191113T130000Z")
-        << QDateTime(QDate(2019, 11, 13), QTime(13, 00), Qt::UTC);
+    QTest::newRow("UTC time") << QByteArray("DTSTART:20191113T130000Z") << QDateTime(QDate(2019, 11, 13), QTime(13, 00), QTimeZone::UTC);
     QTest::newRow("time zone time")
         << QByteArray("DTSTART;TZID=Europe/Paris:20191113T130000")
         << QDateTime(QDate(2019, 11, 13), QTime(13, 00), QTimeZone("Europe/Paris"));

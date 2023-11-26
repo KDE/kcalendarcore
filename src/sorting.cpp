@@ -93,7 +93,7 @@ enum DateTimeComparison {
     * can be strictly earlier, earlier but overlapping, later but overlapping,
     * or strictly later.
     *
-    * Note that if either instance is a local  time (Qt::TimeSpec of Qt::LocalTime),
+    * Note that if either instance is a local  time (Qt::TimeSpec of QTimeZone::LocalTime),
     * the result cannot be guaranteed to be correct, since by definition they
     * contain no information about time zones or daylight savings changes.
     *
@@ -141,12 +141,12 @@ DateTimeComparison compare(const QDateTime &dt1, bool isAllDay1, const QDateTime
             }
         } else {
             if (isAllDay1) {
-                end1 = QDateTime(dt1.date(), QTime(23, 59, 59, 999), Qt::LocalTime);
+                end1 = QDateTime(dt1.date(), QTime(23, 59, 59, 999), QTimeZone::LocalTime);
             } else {
                 end1 = dt1;
             }
             if (isAllDay2) {
-                end2 = QDateTime(dt2.date(), QTime(23, 59, 59, 999), Qt::LocalTime);
+                end2 = QDateTime(dt2.date(), QTime(23, 59, 59, 999), QTimeZone::LocalTime);
             } else {
                 end2 = dt2;
             }

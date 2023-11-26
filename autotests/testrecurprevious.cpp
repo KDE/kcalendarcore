@@ -102,7 +102,7 @@ int main(int argc, char **argv)
             }
         } else {
             if (!dt.isValid()) {
-                dt = QDateTime(QDate(2005, 7, 31), QTime(23, 59, 59), Qt::UTC);
+                dt = QDateTime(QDate(2005, 7, 31), QTime(23, 59, 59), QTimeZone::UTC);
             } else {
                 dt = dt.addYears(2);
             }

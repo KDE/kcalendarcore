@@ -416,7 +416,7 @@ void MemoryCalendarTest::testUpdateIncidence()
 {
     MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
 
-    const QDateTime dt(QDate(2021, 02, 25), QTime(14, 0), Qt::UTC);
+    const QDateTime dt(QDate(2021, 02, 25), QTime(14, 0), QTimeZone::UTC);
     Event::Ptr event(new Event());
     event->setCreated(dt);
     event->setLastModified(dt);

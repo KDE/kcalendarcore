@@ -44,12 +44,12 @@ void KCalendarCore::deserializeKDateTimeAsQDateTime(QDataStream &in, QDateTime &
     in >> date >> time >> ts;
     switch (static_cast<uchar>(ts)) {
     case 'u':
-        dt = QDateTime(date, time, Qt::UTC);
+        dt = QDateTime(date, time, QTimeZone::UTC);
         break;
     case 'o': {
         int offset;
         in >> offset;
-        dt = QDateTime(date, time, Qt::OffsetFromUTC, offset);
+        dt = QDateTime(date, time, QTimeZone::fromSecondsAheadOfUtc(offset));
         break;
     }
     case 'z': {
@@ -59,7 +59,7 @@ void KCalendarCore::deserializeKDateTimeAsQDateTime(QDataStream &in, QDateTime &
         break;
     }
     case 'c':
-        dt = QDateTime(date, time, Qt::LocalTime);
+        dt = QDateTime(date, time, QTimeZone::LocalTime);
         break;
     }
 
@@ -78,12 +78,12 @@ QDateTime KCalendarCore::deserializeKDateTimeAsQDateTime(QDataStream &in)
     in >> date >> time >> ts;
     switch (static_cast<uchar>(ts)) {
     case 'u':
-        dt = QDateTime(date, time, Qt::UTC);
+        dt = QDateTime(date, time, QTimeZone::UTC);
         break;
     case 'o': {
         int offset;
         in >> offset;
-        dt = QDateTime(date, time, Qt::OffsetFromUTC, offset);
+        dt = QDateTime(date, time, QTimeZone::fromSecondsAheadOfUtc(offset));
         break;
     }
     case 'z': {
@@ -93,7 +93,7 @@ QDateTime KCalendarCore::deserializeKDateTimeAsQDateTime(QDataStream &in)
         break;
     }
     case 'c':
-        dt = QDateTime(date, time, Qt::LocalTime);
+        dt = QDateTime(date, time, QTimeZone::LocalTime);
         break;
     }
 
