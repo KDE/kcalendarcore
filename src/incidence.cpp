@@ -610,10 +610,14 @@ bool Incidence::recursAt(const QDateTime &qdt) const
 
 QList<QDateTime> Incidence::startDateTimesForDate(const QDate &date, const QTimeZone &timeZone) const
 {
+    QList<QDateTime> result;
+    if (!date.isValid()) {
+        qCWarning(KCALCORE_LOG) << "Invalid date encountered";
+        return result;
+    }
+
     QDateTime start = dtStart();
     QDateTime end = dateTime(RoleEndRecurrenceBase);
-
-    QList<QDateTime> result;
 
     // TODO_Recurrence: Also work if only due date is given...
     if (!start.isValid() && !end.isValid()) {
@@ -650,10 +654,14 @@ QList<QDateTime> Incidence::startDateTimesForDate(const QDate &date, const QTime
 
 QList<QDateTime> Incidence::startDateTimesForDateTime(const QDateTime &datetime) const
 {
+    QList<QDateTime> result;
+    if (!datetime.isValid()) {
+        qCWarning(KCALCORE_LOG) << "Invalid datetime encountered";
+        return result;
+    }
+
     QDateTime start = dtStart();
     QDateTime end = dateTime(RoleEndRecurrenceBase);
-
-    QList<QDateTime> result;
 
     // TODO_Recurrence: Also work if only due date is given...
     if (!start.isValid() && !end.isValid()) {
