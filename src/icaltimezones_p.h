@@ -87,9 +87,9 @@ private:
 
 } // namespace KCalendarCore
 
-inline uint qHash(const QTimeZone &tz)
+inline size_t qHash(const QTimeZone &tz, size_t seed = 0)
 {
-    return qHash(tz.id());
+    return qHash(tz.id(), seed);
 }
 
 #endif

@@ -183,7 +183,7 @@ KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalendarCore:
   Return a hash value for a Person argument.
   @param key is a Person.
 */
-KCALENDARCORE_EXPORT uint qHash(const KCalendarCore::Person &key);
+KCALENDARCORE_EXPORT size_t qHash(const KCalendarCore::Person &key, size_t seed = 0);
 
 }
 

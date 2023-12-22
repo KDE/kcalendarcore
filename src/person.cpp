@@ -144,9 +144,9 @@ bool Person::isValidEmail(const QString &email)
     return (pos > 0) && (email.lastIndexOf(QLatin1Char('.')) > pos) && ((email.length() - pos) > 4);
 }
 
-uint KCalendarCore::qHash(const KCalendarCore::Person &key)
+size_t KCalendarCore::qHash(const KCalendarCore::Person &key, size_t seed)
 {
-    return qHash(key.fullName());
+    return qHash(key.fullName(), seed);
 }
 
 QDataStream &KCalendarCore::operator<<(QDataStream &stream, const KCalendarCore::Person &person)

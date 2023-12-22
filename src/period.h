@@ -209,7 +209,7 @@ KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalendarCore:
   Return a hash value for a Period argument.
   @param key is a Period.
 */
-KCALENDARCORE_EXPORT uint qHash(const KCalendarCore::Period &key);
+KCALENDARCORE_EXPORT size_t qHash(const KCalendarCore::Period &key, size_t seed = 0);
 }
 
 //@cond PRIVATE

@@ -156,11 +156,11 @@ QDataStream &KCalendarCore::operator>>(QDataStream &stream, KCalendarCore::Perio
     return stream;
 }
 
-uint KCalendarCore::qHash(const KCalendarCore::Period &key)
+size_t KCalendarCore::qHash(const KCalendarCore::Period &key, size_t seed)
 {
     if (key.hasDuration()) {
-        return qHash(key.duration());
+        return qHash(key.duration(), seed);
     } else {
-        return qHash(key.start().toString() + key.end().toString());
+        return qHashMulti(seed, key.start(), key.end());
     }
 }

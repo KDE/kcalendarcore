@@ -903,9 +903,9 @@ protected:
 }
 
 //@cond PRIVATE
-inline uint qHash(const QSharedPointer<KCalendarCore::Incidence> &key)
+inline size_t qHash(const QSharedPointer<KCalendarCore::Incidence> &key, size_t seed = 0)
 {
-    return qHash(key.data());
+    return qHash(key.data(), seed);
 }
 //@endcond
 
