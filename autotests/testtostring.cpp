@@ -12,6 +12,7 @@
 #include <QDebug>
 
 #include <iostream>
+#include <stdlib.h>
 
 using namespace KCalendarCore;
 
@@ -31,4 +32,5 @@ int main(int, char **)
     } else {
         qDebug() << "Could not read incidence";
     }
+    return EXIT_SUCCESS;
 }
