@@ -14,6 +14,8 @@
 #include <QDebug>
 #include <QTimeZone>
 
+#include <stdlib.h>
+
 using namespace KCalendarCore;
 
 int main(int argc, char **argv)
@@ -30,7 +32,7 @@ int main(int argc, char **argv)
     FileStorage store(cal, QStringLiteral("cal"));
     if (!store.load()) {
         qWarning() << "Error storing into memory calendar";
-        return 1;
+        return EXIT_FAILURE;
     }
 
     Todo::List todoList;
@@ -41,7 +43,7 @@ int main(int argc, char **argv)
 
     if (todoList.isEmpty()) {
         qWarning() << "Error loading calendar";
-        return 1;
+        return EXIT_FAILURE;
     }
 
     qDebug() << (*todoList.begin())->uid();
@@ -49,8 +51,9 @@ int main(int argc, char **argv)
     qDebug() << result;
     if (result != QLatin1String("a,b")) {
         qDebug() << "The string a,b was expected, but given was" << result;
-        return 1;
+        return EXIT_FAILURE;
     } else {
         qDebug() << "Test passed";
     }
+    return EXIT_SUCCESS;
 }

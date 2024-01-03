@@ -13,6 +13,7 @@
 #include <QDebug>
 
 #include <iostream>
+#include <stdlib.h>
 
 using namespace KCalendarCore;
 
@@ -50,4 +51,5 @@ int main(int, char **)
     for (auto it = props.cbegin(); it != props.cend(); ++it) {
         qDebug() << it.key() << ": " << it.value();
     }
+    return EXIT_SUCCESS;
 }

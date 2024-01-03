@@ -14,6 +14,8 @@
 #include <QCoreApplication>
 #include <QDebug>
 
+#include <stdlib.h>
+
 using namespace KCalendarCore;
 
 int main(int argc, char **argv)
@@ -75,4 +77,5 @@ int main(int argc, char **argv)
     } else {
         qDebug() << "Clone Todo SUCCEEDED.";
     }
+    return EXIT_SUCCESS;
 }
