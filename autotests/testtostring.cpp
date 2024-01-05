@@ -10,27 +10,28 @@
 #include "icalformat.h"
 
 #include <QDebug>
-
-#include <iostream>
-#include <stdlib.h>
+#include <QTest>
+#include <qtest.h>
 
 using namespace KCalendarCore;
 
-int main(int, char **)
+class TestToString : public QObject
 {
-    // std::cout << "Hello World!" << std::endl;
-    Event::Ptr ev = Event::Ptr(new Event);
-    ev->setSummary(QStringLiteral("Griazi"));
-    ICalFormat iformat;
-    QString icalstr = iformat.toICalString(ev);
-    qDebug() << icalstr;
-    Incidence::Ptr ev2 = iformat.fromString(icalstr);
-    qDebug() << "Event reread!";
+    Q_OBJECT
+private Q_SLOTS:
+    void testToString()
+    {
+        Event::Ptr ev = Event::Ptr(new Event);
+        ev->setSummary(QStringLiteral("Griazi"));
+        ICalFormat iformat;
+        QString icalstr = iformat.toICalString(ev);
 
-    if (ev2) {
-        qDebug() << iformat.toICalString(ev2);
-    } else {
-        qDebug() << "Could not read incidence";
+        Incidence::Ptr ev2 = iformat.fromString(icalstr);
+        QVERIFY(ev2);
+        QCOMPARE(ev2->summary(), QLatin1String("Griazi"));
     }
-    return EXIT_SUCCESS;
-}
+};
+
+QTEST_APPLESS_MAIN(TestToString)
+
+#include "testtostring.moc"
