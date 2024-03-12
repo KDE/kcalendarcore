@@ -285,11 +285,16 @@ void MemoryCalendar::Private::insertIncidence(const Incidence::Ptr &incidence)
         }
 
     } else {
-#ifndef NDEBUG
         // if we already have an to-do with this UID, it must be the same incidence,
         // otherwise something's really broken
-        Q_ASSERT(mIncidences[type].value(uid) == incidence);
-#endif
+        qCWarning(KCALCORE_LOG) << "Calendar already contains an incidence of type" << type << "with UID" << uid << ", not inserting it again";
+        const auto existing = mIncidences[type].value(uid);
+        if (existing != incidence) {
+            qCWarning(KCALCORE_LOG) << "The new incidence is not the same as the existing incidence!";
+            qCWarning(KCALCORE_LOG) << "The existing incidence is summary=" << existing->summary() << ", start=" << existing->dtStart();
+            qCWarning(KCALCORE_LOG) << "The new incidence is summary=" << incidence->summary() << ", start=" << incidence->dtStart();
+        }
+        Q_ASSERT(existing == incidence);
     }
 }
 //@endcond
