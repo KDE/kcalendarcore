@@ -338,7 +338,10 @@ bool Calendar::updateNotebook(const QString &notebook, bool isVisible)
         return false;
     } else {
         d->mNotebooks.insert(notebook, isVisible);
-        for (auto noteIt = d->mNotebookIncidences.cbegin(); noteIt != d->mNotebookIncidences.cend(); ++noteIt) {
+
+        for (auto  noteIt = d->mNotebookIncidences.find(notebook);
+             noteIt != d->mNotebookIncidences.end() && noteIt.key() == notebook;
+             ++noteIt) {
             const Incidence::Ptr &incidence = noteIt.value();
             auto visibleIt = d->mIncidenceVisibility.find(incidence);
             if (visibleIt != d->mIncidenceVisibility.end()) {
