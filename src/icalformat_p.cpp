@@ -2390,6 +2390,9 @@ QDateTime ICalFormatImpl::readICalDateTime(icalproperty *p, const icaltimetype &
 {
     //  qCDebug(KCALCORE_LOG);
     //  _dumpIcaltime( t );
+    if (t.is_date) {
+        return QDateTime(QDate(t.year, t.month, t.day), QTime(), utc ? QTimeZone::UTC : QTimeZone::LocalTime);
+    }
 
     QTimeZone timeZone;
     if (icaltime_is_utc(t) || t.zone == icaltimezone_get_utc_timezone()) {
@@ -2417,10 +2420,7 @@ QDateTime ICalFormatImpl::readICalDateTime(icalproperty *p, const icaltimetype &
         }
         // If Time zone is still invalid, we will use LocalTime as TimeSpec.
     }
-    QTime resultTime;
-    if (!t.is_date) {
-        resultTime = QTime(t.hour, t.minute, t.second);
-    }
+    QTime resultTime(t.hour, t.minute, t.second);
     QDateTime result;
     if (timeZone.isValid()) {
         result = QDateTime(QDate(t.year, t.month, t.day), resultTime, timeZone);

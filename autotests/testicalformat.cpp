@@ -521,4 +521,35 @@ void ICalFormatTest::testAllDaySchedulingMessage()
     QCOMPARE(parsedEvent->dtEnd().date(), event->dtEnd().date());
 }
 
+void ICalFormatTest::testAllDayRecurringUntil()
+{
+    const auto input = QLatin1String(
+        "BEGIN:VCALENDAR\n"
+        "VERSION:2.0\n"
+        "BEGIN:VEVENT\n"
+        "DTSTAMP:20240327T220619Z\n"
+        "CREATED:20240327T191625Z\n"
+        "UID:c89d88b9-810f-4275-9155-8eea2345386b\n"
+        "SEQUENCE:2\n"
+        "LAST-MODIFIED:20240327T220619Z\n"
+        "SUMMARY:Test\n"
+        "RRULE:FREQ=WEEKLY;UNTIL=20240401;BYDAY=WE\n"
+        "EXDATE;VALUE=DATE:20240327\n"
+        "DTSTART;VALUE=DATE:20240327\n"
+        "DTEND;VALUE=DATE:20240328\n"
+        "TRANSP:OPAQUE\n"
+        "END:VEVENT\n"
+        "END:VCALENDAR\n");
+    ICalFormat format;
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+    QVERIFY(format.fromString(cal, input));
+    const auto events = cal->events();
+    QCOMPARE(events.size(), 1);
+
+    const auto event = events[0];
+    auto recurrence = event->recurrence();
+    QVERIFY(recurrence);
+    QCOMPARE(recurrence->endDate(), QDate(2024, 4, 1));
+}
+
 #include "moc_testicalformat.cpp"
