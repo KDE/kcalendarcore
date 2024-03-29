@@ -629,9 +629,9 @@ bool ICalTimeZoneParser::parsePhase(icalcomponent *c, bool daylight, ICalTimeZon
                 r.setStartDt(utcStart);
                 // The end date time specified in an RRULE must be in UTC.
                 // We can not guarantee correctness if this is not the case.
-                if (r.duration() == 0 && r.endDt().timeSpec() != Qt::UTC) {
-                  qCWarning(KCALCORE_LOG) << "UNTIL in RRULE must be specified in UTC";
-                  break;
+                if (r.duration() == 0 && r.endDt().timeZone() != QTimeZone::utc()) {
+                    qCWarning(KCALCORE_LOG) << "UNTIL in RRULE must be specified in UTC";
+                    break;
                 }
                 const auto dts = r.timesInInterval(utcStart, maxTime);
                 for (int i = 0, end = dts.count(); i < end; ++i) {
