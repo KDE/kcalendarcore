@@ -61,7 +61,9 @@ sub checkfile()
     exit 1;
   }
 
-  $cmd = 'diff -u -w -B -I "^DTSTAMP:[0-9ZT]*" -I "^LAST-MODIFIED:[0-9ZT]*" -I "^CREATED:[0-9ZT]*" -I "^DCREATED:[0-9ZT]*" -I "^X-KDE-KCALCORE-ENABLED:" -I "^X-KDE-ICAL-IMPLEMENTATION-VERSION:" -I "^PRODID:.*" -I "X-UID=[0-9]*" '."$file.$id.ref $outfile";
+  # Replace GMT+1 with CET and GMT+2 with CEST
+  # We have systems where the output is one and others where it's another so just pretend all of them output CEST/CET for testing comparison purposes
+  $cmd = 'sed -i -E \'s/^([[:digit:]]{4})-([[:digit:]]{2})-([[:digit:]]{2})T([[:digit:]]{2}):([[:digit:]]{2}):([[:digit:]]{2}) GMT\+1/\\1-\\2-\\3T\\4:\\5:\\6 CET/g\' '.$outfile.' && sed -i -E \'s/^([[:digit:]]{4})-([[:digit:]]{2})-([[:digit:]]{2})T([[:digit:]]{2}):([[:digit:]]{2}):([[:digit:]]{2}) GMT\+2/\\1-\\2-\\3T\\4:\\5:\\6 CEST/g\' '.$outfile.' && diff -u -w -B -I "^DTSTAMP:[0-9ZT]*" -I "^LAST-MODIFIED:[0-9ZT]*" -I "^CREATED:[0-9ZT]*" -I "^DCREATED:[0-9ZT]*" -I "^X-KDE-KCALCORE-ENABLED:" -I "^X-KDE-ICAL-IMPLEMENTATION-VERSION:" -I "^PRODID:.*" -I "X-UID=[0-9]*" '."$file.$id.ref $outfile";
   if ( !open( DIFF, "$cmd|" ) ) {
     print STDERR "Unable to run diff command on the files $file_orig.$id.ref and $outfile\n";
     exit 1;
