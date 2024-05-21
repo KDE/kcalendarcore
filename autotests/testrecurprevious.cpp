@@ -17,6 +17,7 @@
 #include <QTextStream>
 #include <QTimeZone>
 
+using namespace Qt::Literals::StringLiterals;
 using namespace KCalendarCore;
 
 static QString dumpTime(const QDateTime &dt, const QTimeZone &viewZone);
@@ -132,9 +133,10 @@ QString dumpTime(const QDateTime &dt, const QTimeZone &viewZone)
         return QString();
     }
     const QDateTime vdt = viewZone.isValid() ? dt.toTimeZone(viewZone) : dt;
-    QString format = QStringLiteral("yyyy-MM-ddThh:mm:ss t");
+    auto out = vdt.toString(u"yyyy-MM-ddThh:mm:ss "_s);
+    out += vdt.timeZone().abbreviation(vdt);
     if (viewZone.isValid()) {
-        format += QStringLiteral(" '%1'").arg(QString::fromUtf8(viewZone.id()));
+        out += ' '_L1 + QString::fromUtf8(viewZone.id());
     }
-    return vdt.toString(format);
+    return out;
 }
