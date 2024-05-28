@@ -17,6 +17,7 @@ target_sources(KF6CalendarCore PRIVATE
     calendar.cpp
     calendar.h
     calendar_p.h
+    calendarlistmodel.cpp
     calendarplugin.cpp
     calendarplugin.h
     calendarpluginloader.cpp
@@ -130,6 +131,7 @@ set(kcalendarcore_headers
   CalFormat
   CalStorage
   Calendar
+  CalendarListModel
   CalendarPlugin
   CalendarPluginLoader
   Conference
