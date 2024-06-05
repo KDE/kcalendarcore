@@ -497,7 +497,7 @@ bool TodoPrivate::recurTodo(Todo *todo)
     if (todo && todo->recurs()) {
         Recurrence *r = todo->recurrence();
         const QDateTime recurrenceEndDateTime = r->endDateTime();
-        QDateTime nextOccurrenceDateTime = r->getNextDateTime(todo->dtStart());
+        QDateTime nextOccurrenceDateTime = todo->dtStart().isValid() ? r->getNextDateTime(todo->dtStart()) : r->getNextDateTime(QDateTime::currentDateTime());
 
         if ((r->duration() == -1 || (nextOccurrenceDateTime.isValid() && recurrenceEndDateTime.isValid() && nextOccurrenceDateTime <= recurrenceEndDateTime))) {
             // We convert to the same timeSpec so we get the correct .date()

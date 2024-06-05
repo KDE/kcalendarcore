@@ -1881,7 +1881,7 @@ Constraint RecurrenceRule::Private::getNextValidDateInterval(const QDateTime &dt
 {
     // TODO: Simplify this!
     long periods = 0;
-    QDateTime start = mDateStart;
+    QDateTime start = mDateStart.isValid() ? mDateStart : dt;
     QDateTime nextValid(start);
     int modifier = 1;
     QDateTime toDate(dt.toTimeZone(start.timeZone()));
