@@ -1,6 +1,8 @@
 add_library(KF6CalendarCore)
 add_library(KF6::CalendarCore ALIAS KF6CalendarCore)
 
+qt_extract_metatypes(KF6CalendarCore)
+
 set_target_properties(KF6CalendarCore PROPERTIES
     VERSION     ${KCALENDARCORE_VERSION}
     SOVERSION   ${KCALENDARCORE_SOVERSION}
@@ -166,6 +168,8 @@ ecm_generate_headers(KCalendarCore_CamelCase_HEADERS
   PREFIX KCalendarCore
   REQUIRED_HEADERS KCalendarCore_HEADERS
 )
+
+add_subdirectory(qml)
 
 ########### install files ###############
 
