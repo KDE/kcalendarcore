@@ -113,3 +113,8 @@ endforeach()
 foreach(file ${vCalFiles})
   kcalcore_run_single_test(VCalIn ${file} readandwrite "ical")
 endforeach()
+
+file(GLOB_RECURSE xCalFiles data/xCalendar/*.xcal)
+foreach(file ${xCalFiles})
+  kcalcore_run_single_test(XCalIn ${file} readandwrite "ical")
+endforeach()

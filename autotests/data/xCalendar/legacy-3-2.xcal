@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<iCalendar xmlns:xCal="urn:ietf:params:xml:ns:xcal">
+ <vcalendar>
+  <method>REQUEST</method>
+  <version>2.0</version>
+  <prodid>-//HandGen//NONSGML vGen v1.0//EN</prodid>
+  <vevent>
+   <uid>19981211T133000@cal1.host.com</uid>
+   <dtstamp>19981211T132928Z</dtstamp>
+   <organizer>cap://host.com/jim</organizer>
+   <dtstart>19981212T150000Z</dtstart>
+   <dtend>19981212T160000Z</dtend>
+   <summary>Department Meeting</summary>
+   <location>Conference Room 23A</location>
+   <attendee role="CHAIR">jim@host.com</attendee>
+   <attendee role="REQ-PART"
+             rsvp="TRUE">MAILTO:joe@host.com</attendee>
+   <attendee role="REQ-PART"
+             rsvp="TRUE">MAILTO:steve@host.com</attendee>
+   <attach>http://host.com/pub/photos/holiday.jpg</attach>
+  </vevent>
+ </vcalendar>
+</iCalendar>

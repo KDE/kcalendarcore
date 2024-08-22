@@ -18,8 +18,8 @@
 #include "filestorage.h"
 #include "exceptions.h"
 #include "icalformat.h"
-#include "memorycalendar.h"
 #include "vcalformat.h"
+#include "xcalformat.h"
 
 #include "kcalendarcore_debug.h"
 
@@ -121,7 +121,17 @@ bool FileStorage::load()
                             qCWarning(KCALCORE_LOG) << d->mFileName << " is not a valid vCalendar file."
                                                     << " exception code " << vCal.exception()->code();
                         }
-                        return false;
+
+                        XCalFormat xCal;
+                        success = xCal.load(calendar(), d->mFileName);
+                        productId = xCal.loadedProductId();
+                        if (!success) {
+                            if (xCal.exception()) {
+                                qCWarning(KCALCORE_LOG) << d->mFileName << " is not a valid xCalendar file."
+                                                        << " exception code " << xCal.exception()->code() << xCal.exception()->arguments();
+                            }
+                            return false;
+                        }
                     }
                 } else {
                     return false;

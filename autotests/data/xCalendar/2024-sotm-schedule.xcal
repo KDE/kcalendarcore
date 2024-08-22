@@ -1,0 +1,1555 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<iCalendar xmlns:pentabarf='http://pentabarf.org' xmlns:xCal='urn:ietf:params:xml:ns:xcal'>
+    <vcalendar>
+        <version>2.0</version>
+        <prodid>-//Pentabarf//Schedule//EN</prodid>
+        <x-wr-caldesc></x-wr-caldesc>
+        <x-wr-calname></x-wr-calname>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>WTH9FS@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-WTH9FS</pentabarf:event-slug>
+            <pentabarf:title>Opening Session</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240906T100000</dtstart>
+            <dtend>20240906T102000</dtend>
+            <duration>0.02000</duration>
+            <summary>Opening Session</summary>
+            <description></description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/WTH9FS/</url>
+            <location>Maasai Mara</location>
+            
+            <attendee>SotM Working Group</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>EWNBAV@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-EWNBAV</pentabarf:event-slug>
+            <pentabarf:title>UN Maps - Supporting Peace with Open Data</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240906T103000</dtstart>
+            <dtend>20240906T105000</dtend>
+            <duration>0.02000</duration>
+            <summary>UN Maps - Supporting Peace with Open Data</summary>
+            <description></description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/EWNBAV/</url>
+            <location>Maasai Mara</location>
+            
+            <attendee>Diego Gonzalez Ferreiro</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>A3JTVT@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-A3JTVT</pentabarf:event-slug>
+            <pentabarf:title>The OSM Spectrum</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240906T113000</dtstart>
+            <dtend>20240906T115000</dtend>
+            <duration>0.02000</duration>
+            <summary>The OSM Spectrum</summary>
+            <description>OpenStreetMap (OSM) is a free and open-source mapping platform where individuals collaboratively create, edit, use, and share geospatial data. OSM is used by a variety of users and stakeholders for their respective purposes.
+For the general public OSM is used for navigation because of its user-friendly nature. Mobile applications like MAPS.ME and OsmAnd provide offline access to maps. Additionally, it facilitates community engagement bringing a sense of empowerment and responsibility among individuals.
+Government sectors and NGOs use OSM data for planning developmental activities. The OSM data is extensively used in humanitarian response, Nepal is prone to disasters like earthquakes, landslides, and floods OSM has played a crucial role in allowing volunteers to respond quickly with the most updated maps with local information.
+OSM also plays an important role in tourism; guides, hikers, trekkers, and mountaineers use tourist maps prepared using OSM data as it provides detailed maps of hiking trails, mountain peaks, and natural landmarks.
+Gender equality is also an important domain that OSM has impacted upon, its various projects of mapping women-centric points of interest, addressing the issue of female genital mutilation, She Leads She Inspires programs, and empowering women as contributing to it remotely itself is the task that most females prefer to do.
+The students in the classrooms use OSM data for their projects and research. OSM data is preferred in the analysis as it is up-to-date and contains detailed information. Different student clubs like the Geomatics Engineering Society (GES), a registered OSM community in Nepal conduct training, workshops, and mapathons contributing to capacity building.
+Overall, OpenStreetMap offers a spectrum of usability to individuals, volunteers, companies, and organizations and stakeholders ranging from navigation to disaster response and empowerment of individuals and community as a whole.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/A3JTVT/</url>
+            <location>Maasai Mara</location>
+            
+            <attendee>Pragya Pant</attendee>
+            
+            <attendee>Rabina Poudyal</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>LDB3BA@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-LDB3BA</pentabarf:event-slug>
+            <pentabarf:title>Sustainable Transport on the Map</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240906T120000</dtstart>
+            <dtend>20240906T130000</dtend>
+            <duration>1.00000</duration>
+            <summary>Sustainable Transport on the Map</summary>
+            <description>Transport is among the largest sources of greenhouse gas emissions, and transport emissions are growing especially quickly in the Global South. Experts agree that vehicle electrification will not be sufficient to avoid climate catastrophe: we also need to redesign cities to make it easy for people to walk, bicycle, or ride public transport instead of driving. OpenStreetMap can help.
+
+OpenStreetMap can empower cities to make planning decisions based on real data, and to set more meaningful goals for progress. OSM has empowered cities like Fortaleza and Recife, Brazil, to plan expansions of their bicycle lane networks that serve the greatest number of potential cyclists. OSM has helped cities as distant as Seattle, USA; Jakarta, Indonesia; and Pimpri-Chinchwad, India, to optimize their public transport networks and make it easier for everyone to ride the bus. And this is only the beginning. 
+
+New tools are proliferating, such as ITDP’s Atlas of Sustainable City Transport and Trufi’s GTFS-Builder. These tools make it much easier to turn OSM data into useful indicators that can guide city policy. In the case of Trufi’s work, it does so by converting OSM data into industry-standard formats that can be used for trip planning or network analysis, As tagging evolves, OpenStreetMap is emerging as a solid foundation for creating multimodal route planning networks, thanks to its comprehensive information for generating integral maps. Furthermore,  Trufi has developed a specific course on mapping public transportation routes, with the objective of training the OpenStreetMap community to contribute effectively to this particular aspect within the platform.
+
+ITDP’s Atlas, on the other hand, uses OSM as well as other open sources to present measurements of meaningful indicators that city governments can use to set goals or compare themselves to nearby jurisdictions.  
+
+Some challenges, however, remain. It can be difficult to explain the virtues of OSM to governments who have never used it before. The tagging schema does not include certain nuances that are important for bicycle infrastructure planners (although a current proposal remedies many issues). And, looking more broadly into the future, there are many promising opportunities for the OSM community to push into new frontiers of data on topics like road usage, footpath quality, and parking. In order to prevent catastrophic climate change, we need to change the way people move around cities. In order to do that, we need maps.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Panel</category>
+            <url>https://pretalx.com/sotm2024/talk/LDB3BA/</url>
+            <location>Maasai Mara</location>
+            
+            <attendee>Taylor Reich</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>98JMSV@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-98JMSV</pentabarf:event-slug>
+            <pentabarf:title>Some Assembly Required</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240906T143000</dtstart>
+            <dtend>20240906T145000</dtend>
+            <duration>0.02000</duration>
+            <summary>Some Assembly Required</summary>
+            <description>In the early OSM days, when the map was still largely a white canvas, it was very easy to stick to a simple one-to-one relationship between real-world features and OSM objects. A street is a way. A building is a single closed way.
+But the more we get into the details of mapping, the more this one-to-one principle gets us into trouble. Streets have many lanes. Buildings have entrances, 3D shapes and POIs inside. And let&#x27;s not even start talking about the complexity of a major railway station.
+
+For some of these complex constructs we have developed mapping schemas - using special tagging, relations or relying on spatial properties. But more often than not, the question of relationship between OSM object is sidestepped. The situation is more dire on the side of the processing tools. Most generic tools still look at every OSM object as an isolated feature. The tools that do process complex objects often do so only for a very specific type like 3D buildings or turning restrictions.
+
+This talk will take a systematic look at the different ways how complex objects are being mapped in OSM. We explore how editors cope with the complexities of detailed mapping and discuss the implication on how our processing tools need to change to better handle relationships between objects.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/98JMSV/</url>
+            <location>Maasai Mara</location>
+            
+            <attendee>Sarah Hoffmann</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>3D9RGU@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-3D9RGU</pentabarf:event-slug>
+            <pentabarf:title>Setting the Stage for the Future of Web Based Mapping</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240906T150000</dtstart>
+            <dtend>20240906T152000</dtend>
+            <duration>0.02000</duration>
+            <summary>Setting the Stage for the Future of Web Based Mapping</summary>
+            <description>In the past, iD had to and has overcome several challenging hurdles to become what it is today: A quite unique map editor that is the point of entry of most contributors of OpenStreetMap into the world of mapping.
+
+Today, iD is facing of a number of signifiant challenges to make it even more usable to a wide user base, and will continue to do so into the foreseeable future especially in regards to make it fit for the mapping topics of the future. For example, the editor needs to be able to cope with the growing amount and richness of OSM’s map data as well as as the increasingly important task of keeping the map up to date.
+
+The design of iD’s current user interface is substantially based on OSM’s data model. This can be seen for example in the workflow of creating a new map feature: It starts out with a blank “dummy” map geometry which – in a second step – has to be converted into a map feature by choosing a preset. While this is true to the way OSM represents this information in the data (i.e. in the form of nodes, ways and relations which are enriched with tags), this is for most simple use cases an unnecessary complication.
+
+Instead of primarily catering to the needs and requirements arising from the underlying data structures, iD’s usability should be instead built around the needs of of the different groups of mappers. And as these vary quite significantly depending on the interests and/or experience of the individual mappers, a promising approach to bring all of these together is to evolve iD’s user interface into an adaptive mapping experience with the goal to make vital mapping workflows intuitive, easy, fast and delightful.
+
+This transformation will definitely not be a small endeavor and is far from finally defined: in fact this should only be a start of a larger discussion. Let us together flesh out the details of this project.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/3D9RGU/</url>
+            <location>Maasai Mara</location>
+            
+            <attendee>Martin Raifer</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>J9ATMQ@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-J9ATMQ</pentabarf:event-slug>
+            <pentabarf:title>A Novel Approach to Street-Level Data Collection: Using Customized Bajaji (tricycle) and Mapillary to Enrich OpenStreetMap in Dar es Salaam</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240906T153000</dtstart>
+            <dtend>20240906T155000</dtend>
+            <duration>0.02000</duration>
+            <summary>A Novel Approach to Street-Level Data Collection: Using Customized Bajaji (tricycle) and Mapillary to Enrich OpenStreetMap in Dar es Salaam</summary>
+            <description>Over the years, OMDTZ and other volunteers have spearheaded a number of  initiatives aimed at updating OpenStreetMap through various projects and mapathons in Tanzania. These efforts have added countless buildings, roads, and amenities, impacting social well-being and lifesaving initiatives. As technology has advanced, methods for data creation and updating have evolved, leveraging machine learning, AI, deep learning, and virtual reality to streamline processes. In line with these advancements, OMDTZ has invested in methods to ensure efficient and high-quality data capture. One such method involves using Mapillary to capture street view imagery, which is then utilized to automate the generation of vector data and attributes such as road surface, traffic signs, and drainage coverage.
+
+Additionally, OMDTZ has  customized Bajaj, equipping it with navigation and  a GoPro Max camera for data collection. This approach offers cost-effectiveness compared to traditional vehicles, increased mobility in intricate urban areas, and fosters community involvement by leveraging local knowledge. Combining these technologies with local resources revolutionizes street-level data collection, contributing to the continuous improvement of OpenStreetMap in Dar es Salaam</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/J9ATMQ/</url>
+            <location>Maasai Mara</location>
+            
+            <attendee>benedcto adam</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>C8B93B@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-C8B93B</pentabarf:event-slug>
+            <pentabarf:title>OSMF Funding</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240906T163000</dtstart>
+            <dtend>20240906T165000</dtend>
+            <duration>0.02000</duration>
+            <summary>OSMF Funding</summary>
+            <description>The abstract outlines the focus of the &quot;OSM Funding&quot; talk, emphasizing the OpenStreetMap Foundation&#x27;s management as a non-profit organization reliant on donations and event sponsorships. With a commitment to transparency, the talk aims to inform the community about fund allocation and usage, ensuring everyone understands how their contributions support the broader OSM Community. By providing clarity on financial matters, the OSM Foundation seeks to foster trust and collaboration while maximizing the impact of resources for our community.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/C8B93B/</url>
+            <location>Maasai Mara</location>
+            
+            <attendee>Daniela Waltersdorfer Jimenez</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>V3FYDH@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-V3FYDH</pentabarf:event-slug>
+            <pentabarf:title>On the Ground</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240906T170000</dtstart>
+            <dtend>20240906T172000</dtend>
+            <duration>0.02000</duration>
+            <summary>On the Ground</summary>
+            <description>OpenStreetMap is a community project to map the world. Everybody can contribute whatever they want. Or can they? What are the rules that govern what can be mapped in OSM and how? How are we creating a coherent global map and not just a bunch of random data about the world?
+
+For years we have had the &quot;on the ground rule&quot; (really more of a guideline) that helps us decide what and how to map. It has served us well, but it is also sometimes misunderstood. And it is not the whole story. In this talk we want to explore this rule and its many aspects and the other principles anchoring the project in the real world. We want to show how the rule helps avoiding conflicts but also shine a light on where it is sometimes bent and why. We want to figure out what it is that keeps the international and diverse OpenStreetMap community working towards a common goal.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/V3FYDH/</url>
+            <location>Maasai Mara</location>
+            
+            <attendee>Jochen Topf</attendee>
+            
+            <attendee>Frederik Ramm</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>87HBBY@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-87HBBY</pentabarf:event-slug>
+            <pentabarf:title>Lightning Talks I</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240906T173000</dtstart>
+            <dtend>20240906T175000</dtend>
+            <duration>0.02000</duration>
+            <summary>Lightning Talks I</summary>
+            <description></description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/87HBBY/</url>
+            <location>Maasai Mara</location>
+            
+            <attendee>SotM Working Group</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>7FDPZZ@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-7FDPZZ</pentabarf:event-slug>
+            <pentabarf:title>Tuning In to Local Needs: How OpenStreetMap Enhances USAID&#x27;s Development Programming</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240906T113000</dtstart>
+            <dtend>20240906T115000</dtend>
+            <duration>0.02000</duration>
+            <summary>Tuning In to Local Needs: How OpenStreetMap Enhances USAID&#x27;s Development Programming</summary>
+            <description>Mapping for Resilience emerged from USAID’s need for new and updated geospatial information.  The seeds of the program started in 2012 when the Office of Foreign Disaster Assistance (OFDA, now the Bureau for Humanitarian Assistance), requested an updated map of Kathmandu to assist with their Nepal Earthquake Contingency Plan. The GeoCenter partnered with U.S. State Department’s Humanitarian Information Unit, the World Bank and the George Washington University, to host a mapathon to generate the needed information
+
+Since this first activity Mapping for Resilience, including the YouthMappers program, has supported USAID across the domains and geographies it operates in.  This not only includes the humanitarian sector but also food security, agriculture, WASH, global health, youth, digital development and many others.  The presentation will cover these past engagements as well as plans for the program’s future.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/7FDPZZ/</url>
+            <location>Tsavo Hall</location>
+            
+            <attendee>Rory Nealon</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>SZZP3K@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-SZZP3K</pentabarf:event-slug>
+            <pentabarf:title>Mapping Populations, Mobilizations, and Territories in Medellín</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240906T120000</dtstart>
+            <dtend>20240906T122000</dtend>
+            <duration>0.02000</duration>
+            <summary>Mapping Populations, Mobilizations, and Territories in Medellín</summary>
+            <description>Between 2019 and 2022, the POMOTE Studies Center collaborated in the creation of collaborative maps in the hillside neighborhoods of Medellín. These initiatives contributed to the recognition of the historical, social, political, and cultural dimensions of marginalized communities from official territorial planning. Through training processes in social cartography, these communities built the identity and memory of their territories, fighting for the right to their territory and a dignified life. The Eastern Hillside neighborhoods of Medellín were mostly founded by rural populations fleeing the armed conflict in their places of origin. The war in the countryside threatened their lives, so they migrated to the city and occupied the hillsides as victims of the conflict, generating solidarity networks that gave rise not only to neighborhoods but also to community organizations. These communities are articulated in collaboration networks promoting training processes that seek to contribute to the recovery and preservation of territorial memories.
+
+The project aimed to carry out an experience of training, experimentation, and dissemination in methodologies of social cartography and virtual mapping with community leaders that contributed to the recognition of processes of social transformation of hillside neighborhoods, promoting the use of digital technologies as an alternative for inclusion, community articulation, and political advocacy. Through training workshops, the participants were accompanied in the process of migration from paper to digital cartography, explaining basic cartography concepts and their application to digital technologies. The participants were trained in the use of mobile applications such as StreetComplete and Mapillary to recognize initiatives in the territory. During the training cycle, field activities were developed oriented towards the dialogue of knowledge and the systematization of experiences, addressing different points of view to recognize, collect, and present reflections and learnings that contributed to the transformation of territories in terms of the right to territory, peacebuilding, and good living.
+
+The Umap platform was used, which uses OSM data as a basis for visualizing the problems, experiences, and life stories of organizations in their territories. 28 leaders of organizations and movements from the outskirts of Medellín carried out exercises in social cartography and mapping of their territorial experiences associated with the right to territory, peacebuilding, good living in the community, artistic expressions, security for early childhood, risk management, gender-based violence, and waste management. As a result, 15 dynamic maps were created and exhibited at the project&#x27;s closing, reflecting the processes, initiatives, and realities of their territories in terms of community participation</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/SZZP3K/</url>
+            <location>Tsavo Hall</location>
+            
+            <attendee>Luis Sebastian Bravo Chacon</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>WCFXG7@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-WCFXG7</pentabarf:event-slug>
+            <pentabarf:title>A Replicable Model for OpenStreetMap Training Programs in High Schools</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240906T123000</dtstart>
+            <dtend>20240906T125000</dtend>
+            <duration>0.02000</duration>
+            <summary>A Replicable Model for OpenStreetMap Training Programs in High Schools</summary>
+            <description>In 2022, Map Kibera collaborated with YouthMappers to launch and manage a technical training program for an all-girls secondary school in Kenya. The training program primarily focused on OpenStreetMap (OSM) but also included sessions on career guidance and digital wellbeing to introduce the students to STEM.
+
+In this session, we aim to share the resources that were used to model how OSM communities and organizations can join forces with secondary schools to conduct impactful training programs. We will also emphasize the significance of OpenStreetMap in developing technical skills and advocating for STEM education in young learners. Additionally, we will include how such programs promote inclusivity and the strategies to make training programs accessible and encouraging, especially for girls in marginalized communities.
+
+The attendees will gain a better understanding of the steps involved in planning an OpenStreetMap training program for high school students and acquire insights into customizing mapping activities to cater to a younger audience.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/WCFXG7/</url>
+            <location>Tsavo Hall</location>
+            
+            <attendee>Laura Mugeha</attendee>
+            
+            <attendee>Zacharia Muindi</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>YNEPJM@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-YNEPJM</pentabarf:event-slug>
+            <pentabarf:title>Incorporating OpenStreetMap into Academic Curricula: Insights from GeoTE Tanzania&#x27;s Five-Week Field Training programs with YouthMappers and Academic Partners</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240906T143000</dtstart>
+            <dtend>20240906T145000</dtend>
+            <duration>0.02000</duration>
+            <summary>Incorporating OpenStreetMap into Academic Curricula: Insights from GeoTE Tanzania&#x27;s Five-Week Field Training programs with YouthMappers and Academic Partners</summary>
+            <description>&quot;Incorporating OpenStreetMap into Academic Curricula: Insights from GeoTE Tanzania&#x27;s Five-Week Field Training with YouthMappers and Academic Partners&quot; explores the transformative role of OSM in academic settings and community development. GeoTE Tanzania&#x27;s approach to integrating OSM into academic curricula revolves around practical application and problem-solving, empowering students to leverage geospatial data for real-world impact.
+
+The program&#x27;s structure emphasizes collaboration with academic partners and organizations like YouthMappers to deliver comprehensive Field Training sessions lasting five weeks. These sessions serve as immersive learning experiences where students apply OSM data and techniques to address community challenges across various domains, including wildlife conservation, forestry management, agricultural development, and urban planning.
+
+Through step-by-step mentorship on project ideation and execution, students gain proficiency in using OSM as a tool for spatial analysis and decision-making. The program&#x27;s focus extends beyond technical skills to cultivate critical thinking and problem-solving abilities essential for effective community engagement.
+
+A cornerstone of GeoTE&#x27;s approach is its partnership with academic institutions like the Sokoine University of Agriculture, where Field Training sessions are integrated into the academic calendar. This collaboration ensures that students receive academic credit while gaining practical experience in OSM mapping and analysis.
+
+GeoTE Tanzania&#x27;s experience offers valuable insights into the potential of OSM to enhance academic curricula and foster community development. By equipping students with OSM skills and empowering them to address local challenges, GeoTE contributes to building a sustainable ecosystem of geospatial practitioners capable of driving positive change in their communities.
+
+The presentation will highlight key learnings, challenges, and best practices gleaned from GeoTE&#x27;s experience, providing attendees with actionable strategies for incorporating OSM into academic programs and community development initiatives. Through case studies and testimonials, the talk will showcase the tangible impact of OSM integration in empowering students and advancing community-driven solutions.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/YNEPJM/</url>
+            <location>Tsavo Hall</location>
+            
+            <attendee>Erick Mnyali</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>MRQDGE@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-MRQDGE</pentabarf:event-slug>
+            <pentabarf:title>Photo mapping from my village to Pharmacies and Addresses</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240906T150000</dtstart>
+            <dtend>20240906T152000</dtend>
+            <duration>0.02000</duration>
+            <summary>Photo mapping from my village to Pharmacies and Addresses</summary>
+            <description>I joined OpenStreetMap in 2018 but it was only until recently that I finally found much interest in the project and community. In this presentation, I share with you my experience contributing to OpenStreetMap as a Pharmacist. I also will talk about interesting discoveries and observations whilst collecting data for mapping into OSM. Finally, I share my workflow and current projects. 
+
+**Related links**
+
+* https://wiki.openstreetmap.org/wiki/Photo_mapping
+* https://wiki.openstreetmap.org/wiki/Organised_Editing/Activities/Ghana_House_Addresses</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/MRQDGE/</url>
+            <location>Tsavo Hall</location>
+            
+            <attendee>Yvonne Darko</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>A7DUFU@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-A7DUFU</pentabarf:event-slug>
+            <pentabarf:title>Women in OSM Tech - What worked best for me.</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240906T153000</dtstart>
+            <dtend>20240906T155000</dtend>
+            <duration>0.02000</duration>
+            <summary>Women in OSM Tech - What worked best for me.</summary>
+            <description>I aim to share, reflecting on the supportive environment that facilitated my growth while arguing for the importance of creating an inclusive space in OSM communities where women and other underrepresented groups can aspire to achieve anything.With less than a year in OSM Tech, I am already actively participating in organizational projects, including the solid waste management baseline survey—an area I am interested in as an environmental personnel.
+I will also share what has worked best for me and how I overcame challenges so that other women out there who want to take on the challenge can feel empowered and able to take the first steps</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/A7DUFU/</url>
+            <location>Tsavo Hall</location>
+            
+            <attendee>Anastazia Caroll</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>99HWEX@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-99HWEX</pentabarf:event-slug>
+            <pentabarf:title>Community Capacity Building- Case Study OSM Kenya</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240906T163000</dtstart>
+            <dtend>20240906T171000</dtend>
+            <duration>0.04000</duration>
+            <summary>Community Capacity Building- Case Study OSM Kenya</summary>
+            <description>The presentation will be centered around Community Capacity Building as a model for building sustainable communities for the global south, Sharing tricks and skills that we have adapted over five years,  we desire to showcase our growth as a community through the contribution of open data. During the presentation, we will recognize the community for working together to achieve such a milestone as we seek to enlighten other communities toward achieving greater goals.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Extended Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/99HWEX/</url>
+            <location>Tsavo Hall</location>
+            
+            <attendee>Walter Mayeku</attendee>
+            
+            <attendee>Mary Muthee</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>MRBEFX@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-MRBEFX</pentabarf:event-slug>
+            <pentabarf:title>Strengthening Collaboration between Organizations and Local Communities in West Africa Through the OSMer in Residence Program</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240906T173000</dtstart>
+            <dtend>20240906T175000</dtend>
+            <duration>0.02000</duration>
+            <summary>Strengthening Collaboration between Organizations and Local Communities in West Africa Through the OSMer in Residence Program</summary>
+            <description>The shared vision of creating a detailed, accessible, and community-driven map of the world continues to drive the open mapping movement. Increasingly, organizations across diverse sectors are recognizing the value of open data and its potential impact on societal development.
+Several organizations have made a commitment to open up their data and actively contribute to OpenStreetMap (OSM). However, as OSM is an open-source community project, decisions and action are guided by community consensus. For any organization seeking to integrate its data into this platform, obtaining local community support is essential.
+The OSMer in Residence program serves as a crucial link between these organizations and the dynamic OSM community in Africa. Based on the concept of the Wikipedian in Residence, the OSMer in Residence program is designed to embed an OSM subject matter expert in a host organization or institution to maximize the value for the host organization in terms of their ability to leverage OpenStreetMap as a database that supports improved humanitarian and development outcomes in accordance with OSM community norms.
+In its pilot phase, Open Mapping - West and Northern Africa Hub(WNAH) collaboratedwith Médecins Sans Frontières/Doctors Without Borders (MSF), a humanitarian organization that provides emergency relief to some of the most vulnerable and excluded communities around the world, with data and maps being of high importance to supporting their operations. This pilot phase has led to workflow proposals facilitating the integration of an organization&#x27;s data into OpenStreetMap by involving the local community where the data was collected. Data confidentiality and organized editing in OpenStreetMap will be addressed during this session.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/MRBEFX/</url>
+            <location>Tsavo Hall</location>
+            
+            <attendee>Yves Emmanuel NIKOYO EMOUGOU</attendee>
+            
+            <attendee>Jorieke Vyncke</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>AXHHF3@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-AXHHF3</pentabarf:event-slug>
+            <pentabarf:title>Exporting high-quality Atlas maps in bulk by leveraging OpenStreetMap Data in QGIS</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240906T113000</dtstart>
+            <dtend>20240906T123000</dtend>
+            <duration>1.00000</duration>
+            <summary>Exporting high-quality Atlas maps in bulk by leveraging OpenStreetMap Data in QGIS</summary>
+            <description>This highly engaging workshop will focus on providing participants with the fundamental knowledge and practical skills required to produce exceptional quality maps utilizing OpenStreetMap (OSM) data in QGIS. Attendees will gain an in-depth understanding of how to create an atlas, which will be a compilation of maps that portray a specific geographical area, by harnessing the power of OSM data. The workshop will be designed to provide a comprehensive overview of the entire process involved in atlas creation, ranging from acquiring OSM data, developing a base map, incorporating layers and labels, and ultimately exporting the final product. Whether you&#x27;re an experienced cartographer seeking to enhance your skills or a novice looking to learn new techniques, this workshop will promise to provide you with valuable insights and hands-on experience to help you create stunning maps that will captivate and engage your audience.
+
+Expected Outcome
+By the end of the workshop, participants will be able to produce high-quality maps with OSM data in QGIS. They will be familiar with the complete process of creating an atlas, from downloading OSM data, creating a base map, adding layers and labels, and exporting the final product. They will also learn how to customize their maps by adding dynamic text and images, and how to create a map template for future projects.
+
+Target Audience
+This workshop is suitable for beginners and intermediate users of QGIS and OSM data who are interested in map production. It is ideal for professionals, students, and researchers who want to create batch high-quality maps in a single click for their projects or publications.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Workshop</category>
+            <url>https://pretalx.com/sotm2024/talk/AXHHF3/</url>
+            <location>Amboseli Hall</location>
+            
+            <attendee>Johanes Petro Machela</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>FRFJBJ@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-FRFJBJ</pentabarf:event-slug>
+            <pentabarf:title>Mapping the classroom with Every Door</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240906T143000</dtstart>
+            <dtend>20240906T153000</dtend>
+            <duration>1.00000</duration>
+            <summary>Mapping the classroom with Every Door</summary>
+            <description>This lesson covers everything important about Every Door, from setting it up to using four mapping modes. You would need two things: your phone, and Every Door app installed on it.
+
+I haven&#x27;t planned the activities yet, but sitting down for an hour is a bit dull, so maybe we will take a walk around. But on the other hand, outside would be too hot, so we won&#x27;t be mapping real things. How this would work? I don&#x27;t know, let&#x27;s find out together!</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Workshop</category>
+            <url>https://pretalx.com/sotm2024/talk/FRFJBJ/</url>
+            <location>Amboseli Hall</location>
+            
+            <attendee>Ilya Zverev</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>HCCLGL@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-HCCLGL</pentabarf:event-slug>
+            <pentabarf:title>Hands-on data validation on OSM: best practices and tools</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240906T163000</dtstart>
+            <dtend>20240906T173000</dtend>
+            <duration>1.00000</duration>
+            <summary>Hands-on data validation on OSM: best practices and tools</summary>
+            <description>The workshop is designed for beginner to intermediate mappers to better understand good practices, as well as useful tools, while performing data validation on OSM. 
+We will see:
+- Which types of error are most common, and how to best identify them (by using Osmose);
+- How to communicate with other mappers while correcting data (OSM changeset comments, messages and forums);
+- How to guess the level of expertise of a mapper (ResultMaps, Whosthat);
+- How to read changesets and historical OSM data (Whodidit, OSMCha, .osh files);
+- Performing validation on JOSM with simple Overpass queries;
+Participants are requested to bring their laptops and mouses to practice together. Basic understanding of JOSM is welcome but not necessary. The workshop will be composed by a presentation of the topics and an hands-on session in which participants will  practice what they learned on an area with data to be validated.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Workshop</category>
+            <url>https://pretalx.com/sotm2024/talk/HCCLGL/</url>
+            <location>Amboseli Hall</location>
+            
+            <attendee>Michael Montani</attendee>
+            
+            <attendee>Séverin Ménard</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>HCCLGL@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-HCCLGL</pentabarf:event-slug>
+            <pentabarf:title>Hands-on data validation on OSM: best practices and tools</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240906T163000</dtstart>
+            <dtend>20240906T173000</dtend>
+            <duration>1.00000</duration>
+            <summary>Hands-on data validation on OSM: best practices and tools</summary>
+            <description>The workshop is designed for beginner to intermediate mappers to better understand good practices, as well as useful tools, while performing data validation on OSM. 
+We will see:
+- Which types of error are most common, and how to best identify them (by using Osmose);
+- How to communicate with other mappers while correcting data (OSM changeset comments, messages and forums);
+- How to guess the level of expertise of a mapper (ResultMaps, Whosthat);
+- How to read changesets and historical OSM data (Whodidit, OSMCha, .osh files);
+- Performing validation on JOSM with simple Overpass queries;
+Participants are requested to bring their laptops and mouses to practice together. Basic understanding of JOSM is welcome but not necessary. The workshop will be composed by a presentation of the topics and an hands-on session in which participants will  practice what they learned on an area with data to be validated.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Workshop</category>
+            <url>https://pretalx.com/sotm2024/talk/HCCLGL/</url>
+            <location>Online Workshops</location>
+            
+            <attendee>Michael Montani</attendee>
+            
+            <attendee>Séverin Ménard</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>B3EH7D@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-B3EH7D</pentabarf:event-slug>
+            <pentabarf:title>Mapping Kenya: 15 Years of Map Kibera and beyond</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240907T100000</dtstart>
+            <dtend>20240907T104000</dtend>
+            <duration>0.04000</duration>
+            <summary>Mapping Kenya: 15 Years of Map Kibera and beyond</summary>
+            <description>This talk will include a discussion of mapping in Kenya dating back to the colonial era, the establishment of Kibera as a region of Nairobi, and its growth into a massive informal settlement. Kibera has been viewed as a place to develop by the Kenya government, International aid agencies, charities, and missionaries. It was a flashpoint of the post-election violence of 2007/8. Map Kibera’s Kenyan leaders will discuss the most recent mapping and local impacts made by the use of OSM. Mapping of street lights in Kibera led to new and more street lights installed in Kibera. Mapping of waste management in Mukuru led to the placement of dumping waste bins. Data on schools has led to a pilot project to install solar panels on selected schools. None of these impacts have been easy, but we will share lessons learned about OSM, open data and communities. Finally, we conclude with a discussion of emerging and ever-changing technology, and the fate of the techno-optimism of the early 21st century.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Extended Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/B3EH7D/</url>
+            <location>Maasai Mara</location>
+            
+            <attendee>Erica Hagen</attendee>
+            
+            <attendee>Joshua Ogure</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>BXGLWA@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-BXGLWA</pentabarf:event-slug>
+            <pentabarf:title>Cloud-native OSM for Visualization &amp; Analysis</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240907T113000</dtstart>
+            <dtend>20240907T115000</dtend>
+            <duration>0.02000</duration>
+            <summary>Cloud-native OSM for Visualization &amp; Analysis</summary>
+            <description>OpenStreetMap data is core to projects used by millions of users worldwide. With the increase in volume of data, developers are turning to cloud-native approaches to efficiently manage geospatial operations and visualizations. The primary OSM data distribution are currently Shapefiles, GeoJSONs, Raster and Vector tiles, and OSM specific formats like osm and osc. 
+
+What are the possibilities of other formats like GeoParquet, FlatGeobuf and GeoArrow? How can these formats improve existing workflows in OSM and allow users new ways to work with OSM data? How can we enable interoperability with other datasets and tool ecosystems? These are some of the questions we will address in this talk.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/BXGLWA/</url>
+            <location>Maasai Mara</location>
+            
+            <attendee>Sajjad Anwar</attendee>
+            
+            <attendee>Wille Marcel</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>T3CXBD@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-T3CXBD</pentabarf:event-slug>
+            <pentabarf:title>MapLibre Tiles: A Next Generation Vector Tiles Format specially designed for OSM data</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240907T120000</dtstart>
+            <dtend>20240907T122000</dtend>
+            <duration>0.02000</duration>
+            <summary>MapLibre Tiles: A Next Generation Vector Tiles Format specially designed for OSM data</summary>
+            <description></description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/T3CXBD/</url>
+            <location>Maasai Mara</location>
+            
+            <attendee>Markus Tremmel</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>EBMVWS@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-EBMVWS</pentabarf:event-slug>
+            <pentabarf:title>OpenStreetMap and the GDPR</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240907T123000</dtstart>
+            <dtend>20240907T125000</dtend>
+            <duration>0.02000</duration>
+            <summary>OpenStreetMap and the GDPR</summary>
+            <description></description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/EBMVWS/</url>
+            <location>Maasai Mara</location>
+            
+            <attendee>Andrew Hain</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>MJKAC8@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-MJKAC8</pentabarf:event-slug>
+            <pentabarf:title>Download OSM data translated into your language using free software components and standard protocols</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240907T143000</dtstart>
+            <dtend>20240907T145000</dtend>
+            <duration>0.02000</duration>
+            <summary>Download OSM data translated into your language using free software components and standard protocols</summary>
+            <description>While English dominates the OSM ecosystem and remains the reference language for the project, several initiatives allow non-English speakers to participate in and benefit from the project: a multilingual forum, translation of the wiki and certain self-learning platforms, translated user interfaces for applications and editors, including OSM label presets.
+But regardless of the technology or service used, the raw OSM data, once downloaded, is still exclusively in English, and any searching or filtering of OSM data in free GIS software such as QGIS can only be done in this language. This feature can slow down the learning process for non-English speaking OSM contributors, but more importantly, it remains a barrier to adoption by audiences outside the OSM community: for example, public services accustomed to creating/distributing/using data in the official language, or one of the official languages, of their country.
+This presentation will introduce a download service of OpenStreetMap GIS layers in English, but also in French for French-speaking areas, created on a voluntary basis by the association Les Libres Géographes (The Free Geographers). In addition to the translation aspect, this service is intended as a proof of concept for an approach that is interoperable, flexible and replicable, while providing detailed OSM data for the countries in question.
+It allows users to download all OSM data and all its labels in various GIS formats, in the form of 16 thematic or generic layers that are updated daily. It uses open source software components (PostGIS, Imposm, GeoServer, GeoNetwork, MapStore), some of which are supported by OSGeo, and interoperable WMS and WFS protocols from the Open Geospatial Consortium (OGC), making it easy to replicate the service.
+The presentation will be an opportunity to demonstrate these different aspects, get feedback or suggestions from the audience, and possibly discuss extending the translation to other existing OSM data download services.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/MJKAC8/</url>
+            <location>Maasai Mara</location>
+            
+            <attendee>Séverin Ménard</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>A3Y3BC@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-A3Y3BC</pentabarf:event-slug>
+            <pentabarf:title>State of the art in combining OSM and Linked Data</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240907T150000</dtstart>
+            <dtend>20240907T152000</dtend>
+            <duration>0.02000</duration>
+            <summary>State of the art in combining OSM and Linked Data</summary>
+            <description>Linked Data defines data structured with design principles that make it easily interoperable. Thousands of Linked [Open] Data sources and knowledge graphs around the world allow to access an enormous amount of structured interconnected data. The combination of this data with OpenStreetMap has considerable potential for valuable insights, quality control and new methods of interaction. This talk explores the basics of Linked Data and offers an overview of the state of the art in methods for mapping links to Linked Data sources and for extracting, combining and querying their data.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/A3Y3BC/</url>
+            <location>Maasai Mara</location>
+            
+            <attendee>Daniele Santini</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>ZVVQTA@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-ZVVQTA</pentabarf:event-slug>
+            <pentabarf:title>The Journal of Importing Open Data Address in Taiwan into OpenStreetMap</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240907T153000</dtstart>
+            <dtend>20240907T155000</dtend>
+            <duration>0.02000</duration>
+            <summary>The Journal of Importing Open Data Address in Taiwan into OpenStreetMap</summary>
+            <description>Importing a government-release open data dataset is an important data source for OpenStreetMap. Most of the time you have to judge if the data quality is good enough to do so, and once you decide to import, you have to convert the dataset&#x27;s field into the correspondent tags of OpenStreetMap. I will talk about the experience of the OpenStreetMap Taiwan community importing the open data datasets of addresses from the Taiwan government. I will describe the methods and the challenges we face during the whole import process. We have already dealt with 9 counties and cities&#x27; address datasets, and looking forward to dealing with more datasets released by other local government agencies in the future.
+
+I will report 6 cities and  3 counties importing address tasks. And talk about the experience of previous import tasks, like importing ETC tolls, public bicycle stations, bus stops, etc.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/ZVVQTA/</url>
+            <location>Maasai Mara</location>
+            
+            <attendee>Dennis Raylin Chen</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>8XCQJB@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-8XCQJB</pentabarf:event-slug>
+            <pentabarf:title>OSMF board – what are they even doing?</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240907T163000</dtstart>
+            <dtend>20240907T165000</dtend>
+            <duration>0.02000</duration>
+            <summary>OSMF board – what are they even doing?</summary>
+            <description></description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/8XCQJB/</url>
+            <location>Maasai Mara</location>
+            
+            <attendee>Mateusz Konieczny</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>RMFSEG@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-RMFSEG</pentabarf:event-slug>
+            <pentabarf:title>Fostering mutually beneficial partnerships with OSM local groups</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240907T170000</dtstart>
+            <dtend>20240907T180000</dtend>
+            <duration>1.00000</duration>
+            <summary>Fostering mutually beneficial partnerships with OSM local groups</summary>
+            <description>Since 2022, the OpenStreetMap Sustainabiliy Exchange gathers 10 OSM communities from 3 continents to exchange knowledge and adapt ideas and concepts tried by community groups in other regions to improve their sustainability. Co-facilitated by CartONG and HOT, the Exchange is currently working on a Position Paper on how partners, funders, institutions could and should engage with OSM community organisations.
+The Position Paper will be useful: for organizations (NGOs, donors, governments, etc.) to understand how to improve their partnership models with communities; for local communities to advocate towards said partners on how they can better encourage their sustainability and impact; and finally to foster discussions on how to challenge the power dynamics at play in the humanitarian sector and the open mapping community and support strong and autonomous local entities. 
+Building on the experiences of the 10 communities, a wider engagement with the OSM ecosystem in 2024, and also CartONG&#x27;s recent work &quot;Changing the outlook: for a local approach to data&quot; (https://www.im-portal.org/Changing-the-outlook-for-a-local-approach-to-data), the Position Paper will be released at SOTM world. The goal of this session will be to present how the collaboration and sources behind the paper, to discuss its findings and propositions, and to make it available as an advocacy tool to all participants.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Panel</category>
+            <url>https://pretalx.com/sotm2024/talk/RMFSEG/</url>
+            <location>Maasai Mara</location>
+            
+            <attendee>Martin Noblecourt</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>VS77B3@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-VS77B3</pentabarf:event-slug>
+            <pentabarf:title>Preparing for disasters with open map data and tools - learning through anticipatory action in Zimbabwe, Liberia and Timor Leste</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240907T113000</dtstart>
+            <dtend>20240907T115000</dtend>
+            <duration>0.02000</duration>
+            <summary>Preparing for disasters with open map data and tools - learning through anticipatory action in Zimbabwe, Liberia and Timor Leste</summary>
+            <description>Building on the foundations laid by the Missing Maps project, HOT is developing partnerships, data models and mapping campaigns that augment remote mapping efforts of humanitarian mappers (largely building / road network basemaps) through work with local communities, government and other actors creating data and analysis at a community level to conduct proactive disaster management.
+
+Anticipatory Response Program, Zimbabwe
+In Zimbabwe, a country impacted by disasters such as floods, cyclones, and droughts, the Anticipatory Response Program (ARP) explored anticipatory response through:
+
+- Identifying gaps in anticipatory planning, preparedness, and response that could be addressed with open geospatial data and tools.
+- Understanding the limitations in data tools and infrastructure supporting anticipatory action.
+- Stimulating opportunities for joint project collaboration between community organizations, disaster agencies, and the Open Mapping hub - East and Southern Africa.
+- Strengthening participation and ownership.
+- Developing data models through stakeholder identification of information relevant to the enhancement of disaster response
+
+Data collection involved mapping relevant features to inform better response capability by Caritas Zimbabwe and other stakeholders in Muzarabani district. This was conducted via remote and field mapping using open mapping tools and updating OpenStreetMap and Mapillary in 14 wards. Features included buildings, roads, and relevant points of interest (POIs) such as health facilities, shops, markets, schools, water sources, flood-prone road sections, religious centers, and public toilets.
+
+Data analyses evaluated suitability of POIs as evacuation centers and cash voucher assistance points and evaluated proximity to communities, thus visualizing community vulnerability to disasters and contributing to local contingency planning.
+
+Specifically, this information served as input to hazard maps and Multi-Hazard Contingency Plans (MHCP) for the pilot wards, ensuring authorities are prepared for disasters, and response efforts are supported by high-quality relevant geospatial data.
+
+Tracking Flooding in Rural Liberia
+
+Coastal settlements of Liberia - 565kms of mainly lowlands, hosting mangroves, swamps and nine river estuaries - face climate risks such as flooding, rising sea levels, and coastal erosion. Coastal cities experience annual average precipitation of &gt;500mm, causing floods and sea erosion that disrupt livelihoods and damage properties and infrastructure.
+
+HOT’S Open Mapping Hub - West and Northern Africa, iLab Liberia and OSM Liberia collaborated to address urgent needs of the Commonwealth District in Grand Cape Mount County.
+
+An open, participatory mapping approach was used with key stakeholders to accomplish: 
+
+- Mapping stakeholders and climate change-related interventions
+- Filling gaps in existing datasets, plus visualizations and decision-making tools for government and humanitarian actors.
+- Increasing climate resilience awareness through focus groups, radio programs, talk shows, town hall meetings, and resources for use by local authorities, youth, and women’s groups.
+- Mapping building footprints, road networks, waterways, and land use and collecting field data on buildings, education, health, commerce, infrastructure, waterways, and other amenities to provide detailed information on the vulnerability, exposure, and flood hazards for more robust data analysis.
+
+Data products were developed based on requirements and use cases from the National Disaster Management Agency, Liberia National Police, Ministry of Health, Environmental Protection Agency, Liberia Water and Sewer Corporation, Liberia Land Authority, Liberia National Red Cross Society, Ministry of Internal Affairs, Liberia Institute for Statistics and Geo-Information Services, Ministry of Public Works, Liberian Hydrological Services, Liberia Geographical Society, and others. Access to reliable data analysis hinders stakeholder’s disaster mitigation, preparedness, response, and recovery initiatives.
+ 
+These actors can now develop resilience programs to support the people in the district and adopt tools and workflows for other affected counties across Liberia.
+
+Mapping for anticipatory action in Timor-Leste
+
+Timor Leste faces natural disasters, including cyclones, earthquakes, tsunamis, and heavy rainfall. This is exacerbated by inadequate infrastructure and many communities who, despite developmental strides, grapple with poverty and food insecurity.
+
+Local map data plays a pivotal role in addressing these issues proactively, offering crucial support to local actors in decision-making and impact-based forecasting, but was incomplete and lacking depth.
+
+The Red Cross Crescent Climate Centre and Timor-Leste Red Cross worked with HOT’s Open Mapping Hub - Asia Pacific and OpenStreetMap Timor-Leste community on mapping, community engagement, and surfacing insights into areas at risk from floods, landslides, and other climate-related hazards.
+
+After identification of priority areas based on natural disaster risks, remote mapping and field mapping campaigns created basemaps augmented with relevant local features, including specific building features indicating susceptibility to floods or other hazards, such as minimum foundation height and building materials. Alongside open geospatial data, qualitative information on community perspectives on previous disasters / responses was collected using surveys, focus groups and SketchMap.
+
+The generation of geospatial data necessary for anticipatory action was complimented by key insights, eg. on flood impacts on livelihoods and a lack of essential early warning systems.
+
+However, there is high motivation, engagement, and interest in proactive local community action, incorporating open mapping, and opportunities for extending the initiative through government and community collaborations.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/VS77B3/</url>
+            <location>Tsavo Hall</location>
+            
+            <attendee>Humanitarian OpenStreetMap Team (HOT)</attendee>
+            
+            <attendee>Wilson Munyaradzi</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>YRLYQZ@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-YRLYQZ</pentabarf:event-slug>
+            <pentabarf:title>GIS-based disaster management capacity building for Techwomen</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240907T120000</dtstart>
+            <dtend>20240907T122000</dtend>
+            <duration>0.02000</duration>
+            <summary>GIS-based disaster management capacity building for Techwomen</summary>
+            <description>The aim is to equip women to respond adaptively and proactively to natural disasters by integrating cartography. By reinforcing their skills in the use of GIS as a tool, they will be able to deal with current disaster-related problems in the city of Yaoundé. We are therefore training these women to use mapping tools (ID editor, JOSM, HOT Tasking Manager) and data collection tools (OsmAnd, Everydoor,ODK/KoboCollect), to use the data collected to propose concrete solutions to natural disasters using QGIS and JOSM.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/YRLYQZ/</url>
+            <location>Tsavo Hall</location>
+            
+            <attendee>ASSONGTIA ASSONDJI Merveille</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>ZHME3F@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-ZHME3F</pentabarf:event-slug>
+            <pentabarf:title>Improving data homogeneity across a country</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240907T123000</dtstart>
+            <dtend>20240907T125000</dtend>
+            <duration>0.02000</duration>
+            <summary>Improving data homogeneity across a country</summary>
+            <description>This talk aims to share the efforts of OSM contributors to improve national datasets based on experiences in the Democratic Republic of the Congo. From data analyses to the setup of crowdmapping projects through welcoming new mappers to join and writing documentation. This talk is going to introduce a number of existing tools that proved to be useful in the DRC community.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/ZHME3F/</url>
+            <location>Tsavo Hall</location>
+            
+            <attendee>Claire Halleux</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>THDUGZ@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-THDUGZ</pentabarf:event-slug>
+            <pentabarf:title>Using OSM for Development: opportunities and challenges in large agencies</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240907T143000</dtstart>
+            <dtend>20240907T153000</dtend>
+            <duration>1.00000</duration>
+            <summary>Using OSM for Development: opportunities and challenges in large agencies</summary>
+            <description></description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Panel</category>
+            <url>https://pretalx.com/sotm2024/talk/THDUGZ/</url>
+            <location>Tsavo Hall</location>
+            
+            <attendee>Erica Hagen</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>3ZU3ZR@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-3ZU3ZR</pentabarf:event-slug>
+            <pentabarf:title>Open mapping through tropical forest biodiversity conservation</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240907T153000</dtstart>
+            <dtend>20240907T155000</dtend>
+            <duration>0.02000</duration>
+            <summary>Open mapping through tropical forest biodiversity conservation</summary>
+            <description>The Universidad Nacional de Colombia is one of the most important ecological nuclei and connection points in Medellín and the Aburrá Valley. In its approximately 37 hectares, the university harbors a high diversity of fauna, especially birds, insects, small mammals, and reptiles, which find shelter, food, nesting areas, and a passage point in their biological corridor in the tree cover. Therefore, the conservation of this space is of special importance to the city. The collection stands out for housing various species representative of different Colombian tropical ecosystems, such as the dry forests of the Cauca and Magdalena canyons, the humid forests of Chocó, and the flooded forests of the Amazon, among others, offering students and visitors the opportunity to immerse themselves in the biodiversity of the extraordinary Colombian tropical forests and ensuring the maintenance of native species.
+The &quot;Open Data, Vibrant Ecosystems&quot; project aims to bring the university community closer to the care and appreciation of the flora and fauna present on the Universidad Nacional de Colombia, Medellín campus, through the recognition and appropriation of the living collection Arboretum and Palmetum Leon Morales Soto. It is based on open and collaborative mapping to encourage students to interact with the different species of palms, trees, shrubs, and herbaceous plants that the collection houses, and aims to go beyond visualization and consultation by inviting them to be active participants in the collection&#x27;s tree inventory data collection, creation, use, and download through open data and the OpenStreetMap platform.
+As a result of the first phase of mapping the project, the collection&#x27;s inventory was imported into OpenStreetMap, adding around 3000 new data points to the map. The project is developed in 3 phases: Training, Data validation in office and field, Data import to OSM. For the first phase, a work route was established for data import. First, information gaps and technical knowledge needed for the import were identified. Based on this analysis, collaboration was sought with volunteers from the OSM Colombia and OSM Latin America communities who had experience in tree mapping in OSM.
+A schedule of five training sessions was established for project members to acquire the knowledge and technical skills necessary for mapping the collection. As part of the project&#x27;s dissemination and replicability strategy, it was decided to open the talks to the general public and especially invite the OSM Colombia and YouthMappers Latin America community to the training cycle. Five (5) training sessions were held in February and March 2024. The attendance range per talk was between 14 and 30 people, including students, educators, researchers, and institutions from 5 countries in Latin America (Colombia, Brazil, Mexico, Peru, Nicaragua, Chile). 
+The training process covered topics such as data cleaning, mapping project documentation strategies, data import models with QGIS, urban trees and green areas in the OSM ecosystem, and open data licensing. To ensure the project&#x27;s replicability, a YouTube channel was created with recordings of all the training sessions. A wiki was created documenting the data cleaning process, selected tags, the validation phase, and the import model. 
+For fieldwork preparation, the QGIS program and the QField application were used. Through QGIS, tree data obtained from the university&#x27;s Environmental Management System were imported, and then each campus of the Universidad Nacional de Colombia - Medellín Campus was divided into quadrants/polygons, with the aim that each member verified the tree data/points in the assigned quadrant. Field data verification was done through the QField application. The qfiel form identifies the mapper with their OSM username, allows them to add new individuals, map dead trees, and delete absent individuals. Information on species, growth habit, condition, and a photo was collected during the recognition. 
+Python code was used to complement the information collected in the field, using the GBIF open repository API to add information about the botanical family for each of the mapped species. 
+After socializing the import in the OSM Colombia community, the data import was carried out by quadrants under the user of each of the project participants, using an import model with QGIS that allows the translation of data into the tags used by the platform.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/3ZU3ZR/</url>
+            <location>Tsavo Hall</location>
+            
+            <attendee>Luis Sebastian Bravo Chacon</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>HVVYM7@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-HVVYM7</pentabarf:event-slug>
+            <pentabarf:title>Generating Ways with the Strava Heatmap</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240907T163000</dtstart>
+            <dtend>20240907T165000</dtend>
+            <duration>0.02000</duration>
+            <summary>Generating Ways with the Strava Heatmap</summary>
+            <description>At Strava, we encourage and support over one hundred million athletes to be active. Athletes memorialize their physical activity via activity uploads that they can share with friends around the world. The vast majority of activities uploaded to Strava include time-series GPS traces. This wealth of information underpins our geospatial products, such as advanced routing capabilities and the visually engaging Global Heatmap. Through Strava Metro, we extend this aggregated and de-identified data at no cost to entities like governments, urban planners, and NGOs, aiding in the creation of more efficient human-powered transportation infrastructures.
+
+The backbone of Strava&#x27;s routing algorithm lies in attributing popularity to roads and trails in our edge graph. We align raw GPS lines from Strava activities to these edges, enabling a popularity-driven routing experience that highlights preferred routes within the collection of OSM ways. With over a billion uploads, Strava athletes cover over 55% of the ways in OpenStreetMap with human-powered activity.
+
+In contrast, the Global Heatmap presents an unaligned aggregation of GPS lines for over one billion public activities, offering an intuitive visual representation to aid athletes in exploring their surroundings. It&#x27;s this dataset that Strava Metro partners leverage to extract insights on the safety, directness, and overall appeal of routes in cities, parks, and recreation areas.
+
+We found that Metro partners will often overlay the Heatmap onto physical maps to identify and fill gaps in local pedestrian and cycling infrastructures. In response, we built a prototype of a tool that automates the identification and labeling of unaligned geometries, allowing our partners to streamline the process of integrating these new geometries into OSM. This innovative approach utilizes GPS data points unattributable to existing OSM edges to generate potential new pathways, enabling mappers to enrich the map with previously uncharted ways.
+
+Leveraging Strava&#x27;s global scale, we have batch-processed a collection of these potential pathways worldwide. This data can help fill in unmapped areas and highlight regions needing more mapping attention. It can also highlight commonly used unauthorized paths and potential areas for infrastructure development.
+
+This presentation will delve into the algorithms that facilitate the generation of these new edges and explain how mappers can harness this data to enrich the OSM database, fostering a more comprehensive map for human-powered transport.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/HVVYM7/</url>
+            <location>Tsavo Hall</location>
+            
+            <attendee>Derick Yang</attendee>
+            
+            <attendee>Drew Robb</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>N7TGMA@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-N7TGMA</pentabarf:event-slug>
+            <pentabarf:title>Catching OSM Up with External Data with a Workflow and Tools for Conflation and Validation</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240907T170000</dtstart>
+            <dtend>20240907T172000</dtend>
+            <duration>0.02000</duration>
+            <summary>Catching OSM Up with External Data with a Workflow and Tools for Conflation and Validation</summary>
+            <description>This is a work-in-progress report on an applied university research project to improve the workflow for integrating external &quot;third party&quot; datasets into OSM to complete OSM while adhering to the the import guidelines. First, the workflow for conflating (merging, fusing) external data into OSM is outlined with the main roles and tasks involved. Then some existing and missing software tools and challenges are presented.
+
+At the beginning there&#x27;s data compliant to the ODbL license - especially selected open government data (OGD) - in raw format, or open data already mapped to the OSM schema from the existing AllThePlaces (ATP) project. ATP is a set of spiders and scrapers for extracting external open data. ATP implements periodic extraction, schema mapping, and hosting.
+
+A missing piece is the planned open source tool with the working title &quot;DiffedPlaces&quot;, which will periodically process &quot;diffs&quot; from ATP and external data, i.e. OSM elements to be created, updated or deleted. DiffedPlaces will provide matching (incl. deduplication, record linkage, named entity resolution) and &quot;diffing&quot; external data to OSM as well as hosting. 
+
+Another existing tool set is the OSM Conflator web application originally implemented by Ilya Zverev. It implements extraction and schema mapping (like ATP) as well as diffing, validating and hosting. Part of OSM Conflator is the cf_audit GUI web application, which presents the diffed data to be validated by the mappers. It already gives an idea of how diffing reduces tedious manual validation. Only after several validations and communication with the community, the data is finally updated to OSM. This tool will be extended to replace Overpass and it&#x27;s limited matching capabilities with a connection to DiffedPlaces. This will allow OSM Conflator to focus on validation and hosting, while the matching and diffing would be done in one place, in DiffedPlaces, where other OSM tools and data editors can also connect.
+
+One of the challenges is data matching, which is being addressed with an extended random forest based algorithm from Piech et al. 2020. Another challenge is the management of the OSM elements to be deleted.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/N7TGMA/</url>
+            <location>Tsavo Hall</location>
+            
+            <attendee>Stefan Keller</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>SYRTRW@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-SYRTRW</pentabarf:event-slug>
+            <pentabarf:title>Lightning Talks II</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240907T173000</dtstart>
+            <dtend>20240907T175000</dtend>
+            <duration>0.02000</duration>
+            <summary>Lightning Talks II</summary>
+            <description></description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/SYRTRW/</url>
+            <location>Tsavo Hall</location>
+            
+            <attendee>SotM Working Group</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>PCW97R@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-PCW97R</pentabarf:event-slug>
+            <pentabarf:title>OSM Wiki editing workshop</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240907T113000</dtstart>
+            <dtend>20240907T123000</dtend>
+            <duration>1.00000</duration>
+            <summary>OSM Wiki editing workshop</summary>
+            <description>Please, create an OSM Wiki account at https://wiki.openstreetmap.org/ if you do not have one.
+
+It is separate from OSM account.
+
+Note: if you want to change some tagging schema or how people map things this is not really fitting. Intention here is to help with fixing cases where description how tags are used is wrong or missing.
+
+This workshop is expected to work well with relatively small group of people, as it will require 1:1 interactions.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Workshop</category>
+            <url>https://pretalx.com/sotm2024/talk/PCW97R/</url>
+            <location>Amboseli Hall</location>
+            
+            <attendee>Mateusz Konieczny</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>L7SUBJ@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-L7SUBJ</pentabarf:event-slug>
+            <pentabarf:title>Easy Access to ohsome full history OSM contributions using cloud hosted GeoParquet</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240907T143000</dtstart>
+            <dtend>20240907T153000</dtend>
+            <duration>1.00000</duration>
+            <summary>Easy Access to ohsome full history OSM contributions using cloud hosted GeoParquet</summary>
+            <description>Technological advances in the geospatial world are moving fast. In this workshop we want to explore how the OSM community, researchers and data scientists can make use of recent developments such as [GeoParquet](https://geoparquet.org/), [DuckDB](https://duckdb.org/) and [Polars](https://pola.rs/). If you have not heard of these before don’t worry, but be excited how they might transform your geospatial analysis workflows and could provide new insights about mapping in OSM.
+
+In this workshop we will provide a sneak preview about our new cloud hosted ohsome full history contributions data. This dataset brings you something we have wanted for a long time: a single dataset which contains information about OSM objects and the related changeset metadata such as OSM editing software used, changeset comments or hashtags. As the datasets contains OSM’s full history (and not only the latest snaphshot) it’s perfectly suited to understand the dynamics in OSM. Based on this dataset we will show how you can run global scale data analyses for various (research) questions and how you can visualize the results.
+
+We want to explore how we could combine data from OSM with other data sources. Here we want to first start with looking at the additional value of OSM Changeset metadata. We will look into the temporal evolution of OSM (what changes in OSM over time?) and what these changes can tell us about the real world. For instance, this analysis can highlight regions with a very high mapping activity for specific editors such as [StreetComplete](https://streetcomplete.app/). We want to take a closer look at the types of changes that happen in OSM. This can tell us more about the community itself and could reveal regional preferences in mapping style. The main advantage of using cloud-hosted contributions files over simply using the ohsome API is that you can actually zoom in your analysis down to the individual OSM object.
+
+We will touch the topic of data quality (How good is OSM?) and want to compare the coverage of OSM building and road data with the coverage of other datasets from [Microsoft](https://github.com/microsoft/GlobalMLBuildingFootprints), [Google](https://sites.research.google/open-buildings/) and [other sources](https://source.coop/). This analysis can tell us something about the completeness of OSM, but also about the accuracy of those machine-learning derived datasets. As the discussion about the integration of AI datasets in OSM can be sometimes heated, we hope that this analysis will provide some common ground which regions are most likely to be affected (positively or negatively) by AI-assisted mapping.
+
+Before diving deeper into these analysis questions we will provide a short introduction to GeoParquet files and they can be analyzed with DuckDB.  Next, we want to work on 3-4 Jupyter Notebook hands-on examples we have prepared for you. For these it would be good if participants can install QGIS in advance of the workshop. The workshop material will be made available via GitHub and the participants can use either a local python environment or a cloud hosted service such as Colab or similar tools.
+
+We hope that this workshop can start a discussion about how we can accelerate OSM data analysis without the need to run your own computing cluster. We believe that cloud hosted GeoParquet files and DuckDB could open up OSM data analysis to a much broader audience. We invite OSM community members, researchers and data scientists to bring their own questions as we are interested to learn from you what could be done to bring those ideas into reality.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Workshop</category>
+            <url>https://pretalx.com/sotm2024/talk/L7SUBJ/</url>
+            <location>Amboseli Hall</location>
+            
+            <attendee>Benjamin Herfort</attendee>
+            
+            <attendee>Rafael Troilo</attendee>
+            
+            <attendee>Michael Auer</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>HLR7MM@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-HLR7MM</pentabarf:event-slug>
+            <pentabarf:title>Build an OpenStreetMap walking tour with a free and open source video game</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240907T163000</dtstart>
+            <dtend>20240907T173000</dtend>
+            <duration>1.00000</duration>
+            <summary>Build an OpenStreetMap walking tour with a free and open source video game</summary>
+            <description></description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Workshop</category>
+            <url>https://pretalx.com/sotm2024/talk/HLR7MM/</url>
+            <location>Online Workshops</location>
+            
+            <attendee>Paul Pickell</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>DBW99C@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-DBW99C</pentabarf:event-slug>
+            <pentabarf:title>AI and Open Source Mapping</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240908T093000</dtstart>
+            <dtend>20240908T095000</dtend>
+            <duration>0.02000</duration>
+            <summary>AI and Open Source Mapping</summary>
+            <description>As more and more AI becomes part of our lives and making our lives more easier. With advert of GenAI, the menial tasks can easily be done. AI is also contributing in mapping the unmapped places using advance machine learning techniques. These advancement brings ease in our lives but at the same time it bring several ethical and justice related questions. AI for many still a black box and brings even fear on what it can do. For example, the mapping practices using AI can help built a large number of data bases but at the same time cannot control who and how these database will be utilized. Such data bases if not controlled can cause more harm then it can cause benefits. The main ethical question that will be discuss here is &quot;where does it stop?&quot; and what are policy recommendation can be there to the AI in the field of automated mapping?.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/DBW99C/</url>
+            <location>Maasai Mara</location>
+            
+            <attendee>Muhammad Saleem</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>XUJWAM@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-XUJWAM</pentabarf:event-slug>
+            <pentabarf:title>openrouteservice version 8 - Experiences and insights from 10+ years of running and providing a global OSM-driven, free and open-source routing engine</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240908T100000</dtstart>
+            <dtend>20240908T102000</dtend>
+            <duration>0.02000</duration>
+            <summary>openrouteservice version 8 - Experiences and insights from 10+ years of running and providing a global OSM-driven, free and open-source routing engine</summary>
+            <description>With over ten years of history and over 120,000 users, openrouteservice has established itself as a cornerstone in the area of open-source and OSM-based routing engines. Driven by an increasing availability of road network data through the OpenStreetMap project, openrouteservice could steadily grow and evolve and find its unique spot as a good addition among other routing engines such as OSRM and Valhalla. The current portfolio of freely available services now ranges from standard routing, isochrones and vehicle optimization to custom routing algorithms designed especially for use cases such as relief operations in flooded or earthquake shaken areas.
+
+Openrouteservice was created as part of a research project at the University of Bonn around 2008 and was moved to the University of Heidelberg in the subsequent years. It has since been steadily developed, maintained, and supported.  In 2017, we launched our public and complimentary API, offering fair quotas for a diverse range of our mobility tools, including routing, isochrones, matrix, vehicle optimization, geocoding, and numerous other features. This was so well received that openrouteservice partnered up with the German “Federal Agency for Cartography and Geodesy” in 2018 to provide routing services to the German Federal Government.
+
+In early 2019 the project was transferred to the Heidelberg Institute for Geoinformation Technology (HeiGIT), a non-profit and non-governmental research organization associated with the University of Heidelberg. The combination of non-profit, non-governmental, research, and free and open-source software allows us to make decisions based on social, ethical and environmental reasons without being influenced by commercial interests. The resulting stability and continued support already motivated over 600 other prominent non-profit organizations to install and use openrouteservice and build on top of our service APIs to run their missions. These missions encompass scenarios such as disaster relief efforts, supply chain management, last-mile logistics for health items, accessibility analysis to ensure equal access to health facilities, or planning the support areas for fire brigades.
+
+With our latest release, version 8, we would like to take this opportunity to provide the OSM community, which we so heavily build on, with an insight into nearly a decade of OSM-driven open-source software development and delivery. What it takes to run and provide a global public API, and how we are navigating the current professionalisation push for open-source software to shift from formerly hacky self-hosted solutions to data centre ready deployments. We will also share details on how we deal and operate with the ever lasting questions about osm data quality, accuracy and explainability of our routing results.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/XUJWAM/</url>
+            <location>Maasai Mara</location>
+            
+            <attendee>Julian Psotta</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>NHZVNW@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-NHZVNW</pentabarf:event-slug>
+            <pentabarf:title>How to develop your own style of OpenMapTiles with your favorite editor?</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240908T103000</dtstart>
+            <dtend>20240908T105000</dtend>
+            <duration>0.02000</duration>
+            <summary>How to develop your own style of OpenMapTiles with your favorite editor?</summary>
+            <description></description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/NHZVNW/</url>
+            <location>Maasai Mara</location>
+            
+            <attendee>Taro Matsuzawa</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>PRQKRX@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-PRQKRX</pentabarf:event-slug>
+            <pentabarf:title>The Current State of Collaboration between Digital Twin and OSM</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240908T113000</dtstart>
+            <dtend>20240908T115000</dtend>
+            <duration>0.02000</duration>
+            <summary>The Current State of Collaboration between Digital Twin and OSM</summary>
+            <description># References
+Lei, B., Stouffs, R., &amp; Biljecki, F. (2023). Assessing and benchmarking 3D city models. International Journal of Geographical Information Science, 37(4), 788–809. https://doi.org/10.1080/13658816.2022.2140808
+Toshikazu Seto. (2023). Role of 3D City Model Data as Open Digital Commons: A Case Study of Openness in Japan&#x27;s Digital Twin &quot;Project PLATEAU&quot;, Academic Track, FOSS4G 2023 Prizren.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/PRQKRX/</url>
+            <location>Maasai Mara</location>
+            
+            <attendee>Taichi Furuhashi</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>Z8F8RB@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-Z8F8RB</pentabarf:event-slug>
+            <pentabarf:title>Do we need 11 000 shop=* values?</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240908T120000</dtstart>
+            <dtend>20240908T122000</dtend>
+            <duration>0.02000</duration>
+            <summary>Do we need 11 000 shop=* values?</summary>
+            <description></description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/Z8F8RB/</url>
+            <location>Maasai Mara</location>
+            
+            <attendee>Mateusz Konieczny</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>ZZTZRB@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-ZZTZRB</pentabarf:event-slug>
+            <pentabarf:title>Lightning Talks III</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240908T123000</dtstart>
+            <dtend>20240908T125000</dtend>
+            <duration>0.02000</duration>
+            <summary>Lightning Talks III</summary>
+            <description></description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/ZZTZRB/</url>
+            <location>Maasai Mara</location>
+            
+            <attendee>SotM Working Group</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>SC7HYF@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-SC7HYF</pentabarf:event-slug>
+            <pentabarf:title>Go Out And Map</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240908T143000</dtstart>
+            <dtend>20240908T145000</dtend>
+            <duration>0.02000</duration>
+            <summary>Go Out And Map</summary>
+            <description>Ground surveying for OpenStreetMap has been my passion for 14 years. In this time I tried virtually everything: from drawing walking papers by hand or printing them, to making photos, audio notes, using mobile editors, even building a hardware thing to attach to a car wheel. Ultimately I want to help everybody to collect as much data for OSM as possible, with the best quality attainable. And in this talk, I will dig some of the surveying history, as well as demonstrate a few modern ways, including the new notes mode present in Every Door app. You would definitely want to go out and map after seeing this talk.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/SC7HYF/</url>
+            <location>Maasai Mara</location>
+            
+            <attendee>Ilya Zverev</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>C8UWGW@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-C8UWGW</pentabarf:event-slug>
+            <pentabarf:title>OSMF Board AMA</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240908T150000</dtstart>
+            <dtend>20240908T160000</dtend>
+            <duration>1.00000</duration>
+            <summary>OSMF Board AMA</summary>
+            <description>This is a chance to ask the OSM Foundation Board questions, to engage with the board. Let’s have a conversation about the Foundation, the Board and how all the parts work together. If you know nothing about what the board is doing, this is a chance to find out. Find out what the Foundation does and doesn’t do, what it can and can’t do. Find out how you can help, how you can get involved. The Board is committed to openness and wants to engage with the community.
+
+Feel free to ask us questions also outside this specific session.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Panel</category>
+            <url>https://pretalx.com/sotm2024/talk/C8UWGW/</url>
+            <location>Maasai Mara</location>
+            
+            <attendee>OSMF board</attendee>
+            
+            <attendee>Arnalie Vicario</attendee>
+            
+            <attendee>Craig Allan</attendee>
+            
+            <attendee>Daniela Waltersdorfer Jimenez</attendee>
+            
+            <attendee>Guillaume Rischard</attendee>
+            
+            <attendee>Mateusz Konieczny</attendee>
+            
+            <attendee>Roland Olbricht</attendee>
+            
+            <attendee>Sarah Hoffmann</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>8ZVKZV@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-8ZVKZV</pentabarf:event-slug>
+            <pentabarf:title>Closing Session</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240908T163000</dtstart>
+            <dtend>20240908T165000</dtend>
+            <duration>0.02000</duration>
+            <summary>Closing Session</summary>
+            <description></description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Talk</category>
+            <url>https://pretalx.com/sotm2024/talk/8ZVKZV/</url>
+            <location>Maasai Mara</location>
+            
+            <attendee>SotM Working Group</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>98YGWG@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-98YGWG</pentabarf:event-slug>
+            <pentabarf:title>Get to know OSGeo and expand Your Open Mapping Toolkit</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240908T093000</dtstart>
+            <dtend>20240908T103000</dtend>
+            <duration>1.00000</duration>
+            <summary>Get to know OSGeo and expand Your Open Mapping Toolkit</summary>
+            <description>The Open Source Geospatial Foundation (OSGeo) is a non-profit organization that promotes the global adoption of open geospatial technology. OSGeo is devoted to an open philosophy and participatory community-driven development and provides financial, organizational, and legal support to the larger open-source geospatial community.
+
+OSGeo&#x27;s vision is to make open-source geospatial software accessible to everyone. Founded in 2006, it is a well-established global organization with Local Chapters worldwide. It represents and supports over 25 software projects, such as QGIS, PostGIS, or GDAL.
+
+The OSGeoLive project covers over 50 software projects, Open Data, documentation, and tutorials. OSGeoLive is a self-contained bootable DVD, USB thumb drive, or Virtual Machine based on Lubuntu that allows you to try a wide variety of open-source geospatial software without installing anything. OpenStreetMap data and software are also included on OSGeoLive.
+
+OpenStreetMap data plays a significant role in numerous OSGeo projects, serving as sample data and service. The collaboration between OSGeo and OSM is evident in the variety of OSM-specific plugins for QGIS and the support for OSM in GDAL. This symbiotic relationship underscores the shared values and mutual benefits of the OSGeo and OSM communities.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Workshop</category>
+            <url>https://pretalx.com/sotm2024/talk/98YGWG/</url>
+            <location>Amboseli Hall</location>
+            
+            <attendee>Laura Mugeha</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>YNBJGQ@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-YNBJGQ</pentabarf:event-slug>
+            <pentabarf:title>The worst and best of OpenStreetMap in Ghana (Africa)</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240908T113000</dtstart>
+            <dtend>20240908T123000</dtend>
+            <duration>1.00000</duration>
+            <summary>The worst and best of OpenStreetMap in Ghana (Africa)</summary>
+            <description>In this long talk / workshop we will travel through Ghana on OpenStreetMap to discover issues and results of organised mapping activities that live in OSM almost forever; data in most cases is not usable. In doing this we will explore tools, methods and good practices to be aware of when contributing to OpenStreetMap in Ghana and somewhere else on the Africa continent either as an individual or organisation. 
+
+In this workshop, I also share fundamental requirements and recommendations to follow when getting started with OpenStreetMap in Ghana (Africa) &amp; planning massive organised mapping activities.
+In the end, we see what we create and how we can make data in OpenStreetMap really usable and meaningful.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Workshop</category>
+            <url>https://pretalx.com/sotm2024/talk/YNBJGQ/</url>
+            <location>Amboseli Hall</location>
+            
+            <attendee>Enock Seth Nyamador</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>TQXSFP@@pretalx.com</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-TQXSFP</pentabarf:event-slug>
+            <pentabarf:title>From Source to Map: Strategies for Integrating External Data into OpenStreetMap</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240908T143000</dtstart>
+            <dtend>20240908T153000</dtend>
+            <duration>1.00000</duration>
+            <summary>From Source to Map: Strategies for Integrating External Data into OpenStreetMap</summary>
+            <description>A case study of projects such as the Nationwide School Feeding Programme Census and the Nationwide Mills Census conducted in Tanzania by OpenMap Development Tanzania-OMDTZ, where massive datasets were successfully uploaded to OSM (mills and schools data across Tanzania).
+
+Target Audience:
+This workshop is designed for mappers, data collectors, and anyone who wants to leverage large datasets collected through tools like KoboToolbox to enrich OpenStreetMap.
+
+Key Learnings:
+Data Wrangling: Master data conversion techniques to convert datasets from other format into a structure compatible with OpenStreetMap.
+Quality Assurance: participants will learn how to avoid duplicates and data loss while maintaining data integrity throughout the upload process using validation tools and other best practices.
+Data Stewardship: participants will grasp the importance of data attribution and version control to ensure transparency and proper credit for uploaded information.
+
+Software Focus:
+The workshop will primarily leverage JOSM, a user-friendly tool for editing and uploading geospatial data in OpenStreetMap.  Additional software for data conversion from other formats may be introduced, depending on the specific format of the data.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Workshop</category>
+            <url>https://pretalx.com/sotm2024/talk/TQXSFP/</url>
+            <location>Amboseli Hall</location>
+            
+            <attendee>Amour Nyalusi</attendee>
+            
+        </vevent>
+        
+    </vcalendar>
+</iCalendar>

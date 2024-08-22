@@ -90,7 +90,8 @@ target_sources(KF6CalendarCore PRIVATE
     vcalformat.h
     visitor.cpp
     visitor.h
-
+    xcalformat.cpp
+    xcalformat.h
 )
 ecm_qt_declare_logging_category(KF6CalendarCore
     HEADER kcalendarcore_debug.h
