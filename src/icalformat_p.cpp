@@ -264,14 +264,7 @@ icalcomponent *ICalFormatImpl::writeEvent(const Event::Ptr &event, TimeZoneList 
 #endif
 
     // Transparency
-    switch (event->transparency()) {
-    case Event::Transparent:
-        icalcomponent_add_property(vevent, icalproperty_new_transp(ICAL_TRANSP_TRANSPARENT));
-        break;
-    case Event::Opaque:
-        icalcomponent_add_property(vevent, icalproperty_new_transp(ICAL_TRANSP_OPAQUE));
-        break;
-    }
+    icalcomponent_add_property(vevent, icalproperty_new_transp(toIcalEnum(event->transparency())));
 
     return vevent;
 }
@@ -414,60 +407,18 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent, const Incidence::Ptr 
     }
 
     // status
-    icalproperty_status status = ICAL_STATUS_NONE;
-    switch (incidence->status()) {
-    case Incidence::StatusTentative:
-        status = ICAL_STATUS_TENTATIVE;
-        break;
-    case Incidence::StatusConfirmed:
-        status = ICAL_STATUS_CONFIRMED;
-        break;
-    case Incidence::StatusCompleted:
-        status = ICAL_STATUS_COMPLETED;
-        break;
-    case Incidence::StatusNeedsAction:
-        status = ICAL_STATUS_NEEDSACTION;
-        break;
-    case Incidence::StatusCanceled:
-        status = ICAL_STATUS_CANCELLED;
-        break;
-    case Incidence::StatusInProcess:
-        status = ICAL_STATUS_INPROCESS;
-        break;
-    case Incidence::StatusDraft:
-        status = ICAL_STATUS_DRAFT;
-        break;
-    case Incidence::StatusFinal:
-        status = ICAL_STATUS_FINAL;
-        break;
-    case Incidence::StatusX: {
+    icalproperty_status status = toIcalEnum(incidence->status());
+    if (status == ICAL_STATUS_X) {
         icalproperty *p = icalproperty_new_status(ICAL_STATUS_X);
         icalvalue_set_x(icalproperty_get_value(p), incidence->customStatus().toUtf8().constData());
         icalcomponent_add_property(parent, p);
-        break;
-    }
-    case Incidence::StatusNone:
-    default:
-        break;
     }
     if (status != ICAL_STATUS_NONE) {
         icalcomponent_add_property(parent, icalproperty_new_status(status));
     }
 
     // secrecy
-    icalproperty_class secClass;
-    switch (incidence->secrecy()) {
-    case Incidence::SecrecyPublic:
-        secClass = ICAL_CLASS_PUBLIC;
-        break;
-    case Incidence::SecrecyConfidential:
-        secClass = ICAL_CLASS_CONFIDENTIAL;
-        break;
-    case Incidence::SecrecyPrivate:
-    default:
-        secClass = ICAL_CLASS_PRIVATE;
-        break;
-    }
+    icalproperty_class secClass = toIcalEnum(incidence->secrecy());
     if (secClass != ICAL_CLASS_PUBLIC) {
         icalcomponent_add_property(parent, icalproperty_new_class(secClass));
     }
@@ -740,22 +691,7 @@ icalproperty *ICalFormatImpl::writeAttendee(const Attendee &attendee)
     }
     icalproperty_add_parameter(p, icalparameter_new_partstat(status));
 
-    icalparameter_role role = ICAL_ROLE_REQPARTICIPANT;
-    switch (attendee.role()) {
-    case Attendee::Chair:
-        role = ICAL_ROLE_CHAIR;
-        break;
-    default:
-    case Attendee::ReqParticipant:
-        role = ICAL_ROLE_REQPARTICIPANT;
-        break;
-    case Attendee::OptParticipant:
-        role = ICAL_ROLE_OPTPARTICIPANT;
-        break;
-    case Attendee::NonParticipant:
-        role = ICAL_ROLE_NONPARTICIPANT;
-        break;
-    }
+    icalparameter_role role = toIcalEnum(attendee.role());
     icalproperty_add_parameter(p, icalparameter_new_role(role));
 
     icalparameter_cutype cutype = ICAL_CUTYPE_INDIVIDUAL;
@@ -845,34 +781,7 @@ icalrecurrencetype ICalFormatImpl::writeRecurrenceRule(RecurrenceRule *recur)
 {
     icalrecurrencetype r;
     icalrecurrencetype_clear(&r);
-
-    switch (recur->recurrenceType()) {
-    case RecurrenceRule::rSecondly:
-        r.freq = ICAL_SECONDLY_RECURRENCE;
-        break;
-    case RecurrenceRule::rMinutely:
-        r.freq = ICAL_MINUTELY_RECURRENCE;
-        break;
-    case RecurrenceRule::rHourly:
-        r.freq = ICAL_HOURLY_RECURRENCE;
-        break;
-    case RecurrenceRule::rDaily:
-        r.freq = ICAL_DAILY_RECURRENCE;
-        break;
-    case RecurrenceRule::rWeekly:
-        r.freq = ICAL_WEEKLY_RECURRENCE;
-        break;
-    case RecurrenceRule::rMonthly:
-        r.freq = ICAL_MONTHLY_RECURRENCE;
-        break;
-    case RecurrenceRule::rYearly:
-        r.freq = ICAL_YEARLY_RECURRENCE;
-        break;
-    default:
-        r.freq = ICAL_NO_RECURRENCE;
-        qCDebug(KCALCORE_LOG) << "no recurrence";
-        break;
-    }
+    r.freq = toIcalEnum(recur->recurrenceType());
 
     int index = 0;
     QList<int> bys;
@@ -1188,11 +1097,7 @@ Event::Ptr ICalFormatImpl::readEvent(icalcomponent *vevent, const ICalTimeZoneCa
 
         case ICAL_TRANSP_PROPERTY: { // Transparency
             icalproperty_transp transparency = icalproperty_get_transp(p);
-            if (transparency == ICAL_TRANSP_TRANSPARENT) {
-                event->setTransparency(Event::Transparent);
-            } else {
-                event->setTransparency(Event::Opaque);
-            }
+            event->setTransparency(ICalFormatImpl::fromIcalEnum(transparency));
             break;
         }
 
@@ -1390,21 +1295,7 @@ Attendee ICalFormatImpl::readAttendee(icalproperty *attendee)
     p = icalproperty_get_first_parameter(attendee, ICAL_ROLE_PARAMETER);
     if (p) {
         icalparameter_role roleParameter = icalparameter_get_role(p);
-        switch (roleParameter) {
-        case ICAL_ROLE_CHAIR:
-            role = Attendee::Chair;
-            break;
-        default:
-        case ICAL_ROLE_REQPARTICIPANT:
-            role = Attendee::ReqParticipant;
-            break;
-        case ICAL_ROLE_OPTPARTICIPANT:
-            role = Attendee::OptParticipant;
-            break;
-        case ICAL_ROLE_NONPARTICIPANT:
-            role = Attendee::NonParticipant;
-            break;
-        }
+        role = fromIcalEnum(roleParameter);
     }
 
     Attendee::CuType cuType = Attendee::Individual;
@@ -1566,7 +1457,6 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent, const Incidence::Ptr &
 
     const char *text;
     int intvalue;
-    int inttext;
     icaldurationtype icalduration;
     QDateTime kdt;
     QDateTime dtstamp;
@@ -1649,40 +1539,9 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent, const Incidence::Ptr &
         } break;
 
         case ICAL_STATUS_PROPERTY: { // status
-            Incidence::Status stat;
-            switch (icalproperty_get_status(p)) {
-            case ICAL_STATUS_TENTATIVE:
-                stat = Incidence::StatusTentative;
-                break;
-            case ICAL_STATUS_CONFIRMED:
-                stat = Incidence::StatusConfirmed;
-                break;
-            case ICAL_STATUS_COMPLETED:
-                stat = Incidence::StatusCompleted;
-                break;
-            case ICAL_STATUS_NEEDSACTION:
-                stat = Incidence::StatusNeedsAction;
-                break;
-            case ICAL_STATUS_CANCELLED:
-                stat = Incidence::StatusCanceled;
-                break;
-            case ICAL_STATUS_INPROCESS:
-                stat = Incidence::StatusInProcess;
-                break;
-            case ICAL_STATUS_DRAFT:
-                stat = Incidence::StatusDraft;
-                break;
-            case ICAL_STATUS_FINAL:
-                stat = Incidence::StatusFinal;
-                break;
-            case ICAL_STATUS_X:
+            Incidence::Status stat = fromIcalEnum(icalproperty_get_status(p));
+            if (stat == Incidence::StatusX) {
                 incidence->setCustomStatus(QString::fromUtf8(icalvalue_get_x(icalproperty_get_value(p))));
-                stat = Incidence::StatusX;
-                break;
-            case ICAL_STATUS_NONE:
-            default:
-                stat = Incidence::StatusNone;
-                break;
             }
             if (stat != Incidence::StatusX) {
                 incidence->setStatus(stat);
@@ -1785,14 +1644,7 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent, const Incidence::Ptr &
         }
 
         case ICAL_CLASS_PROPERTY:
-            inttext = icalproperty_get_class(p);
-            if (inttext == ICAL_CLASS_PUBLIC) {
-                incidence->setSecrecy(Incidence::SecrecyPublic);
-            } else if (inttext == ICAL_CLASS_CONFIDENTIAL) {
-                incidence->setSecrecy(Incidence::SecrecyConfidential);
-            } else {
-                incidence->setSecrecy(Incidence::SecrecyPrivate);
-            }
+            incidence->setSecrecy(fromIcalEnum(icalproperty_get_class(p)));
             break;
 
         case ICAL_ATTACH_PROPERTY: // attachments
@@ -1996,32 +1848,7 @@ void ICalFormatImpl::readRecurrence(const struct icalrecurrencetype &r, Recurren
     // Generate the RRULE string
     recur->setRRule(QLatin1String(icalrecurrencetype_as_string(const_cast<struct icalrecurrencetype *>(&r))));
     // Period
-    switch (r.freq) {
-    case ICAL_SECONDLY_RECURRENCE:
-        recur->setRecurrenceType(RecurrenceRule::rSecondly);
-        break;
-    case ICAL_MINUTELY_RECURRENCE:
-        recur->setRecurrenceType(RecurrenceRule::rMinutely);
-        break;
-    case ICAL_HOURLY_RECURRENCE:
-        recur->setRecurrenceType(RecurrenceRule::rHourly);
-        break;
-    case ICAL_DAILY_RECURRENCE:
-        recur->setRecurrenceType(RecurrenceRule::rDaily);
-        break;
-    case ICAL_WEEKLY_RECURRENCE:
-        recur->setRecurrenceType(RecurrenceRule::rWeekly);
-        break;
-    case ICAL_MONTHLY_RECURRENCE:
-        recur->setRecurrenceType(RecurrenceRule::rMonthly);
-        break;
-    case ICAL_YEARLY_RECURRENCE:
-        recur->setRecurrenceType(RecurrenceRule::rYearly);
-        break;
-    case ICAL_NO_RECURRENCE:
-    default:
-        recur->setRecurrenceType(RecurrenceRule::rNone);
-    }
+    recur->setRecurrenceType(fromIcalEnum(r.freq));
     // Frequency
     recur->setFrequency(r.interval);
 
@@ -2906,37 +2733,7 @@ icalcomponent *ICalFormatImpl::createScheduleComponent(const IncidenceBase::Ptr 
         return message;
     }
 
-    icalproperty_method icalmethod = ICAL_METHOD_NONE;
-
-    switch (method) {
-    case iTIPPublish:
-        icalmethod = ICAL_METHOD_PUBLISH;
-        break;
-    case iTIPRequest:
-        icalmethod = ICAL_METHOD_REQUEST;
-        break;
-    case iTIPRefresh:
-        icalmethod = ICAL_METHOD_REFRESH;
-        break;
-    case iTIPCancel:
-        icalmethod = ICAL_METHOD_CANCEL;
-        break;
-    case iTIPAdd:
-        icalmethod = ICAL_METHOD_ADD;
-        break;
-    case iTIPReply:
-        icalmethod = ICAL_METHOD_REPLY;
-        break;
-    case iTIPCounter:
-        icalmethod = ICAL_METHOD_COUNTER;
-        break;
-    case iTIPDeclineCounter:
-        icalmethod = ICAL_METHOD_DECLINECOUNTER;
-        break;
-    default:
-        qCDebug(KCALCORE_LOG) << "Unknown method";
-        return message;
-    }
+    icalproperty_method icalmethod = toIcalEnum(method);
 
     icalcomponent_add_property(message, icalproperty_new_method(icalmethod));
 
@@ -2965,4 +2762,151 @@ icalcomponent *ICalFormatImpl::createScheduleComponent(const IncidenceBase::Ptr 
     icalcomponent_add_component(message, inc);
 
     return message;
+}
+
+struct {
+    icalproperty_method ical;
+    iTIPMethod kcal;
+} static constexpr inline const ical_method_map[] = {
+    {ICAL_METHOD_PUBLISH, iTIPPublish},
+    {ICAL_METHOD_REQUEST, iTIPRequest},
+    {ICAL_METHOD_REFRESH, iTIPRefresh},
+    {ICAL_METHOD_CANCEL, iTIPCancel},
+    {ICAL_METHOD_ADD, iTIPAdd},
+    {ICAL_METHOD_REPLY, iTIPReply},
+    {ICAL_METHOD_COUNTER, iTIPCounter},
+    {ICAL_METHOD_DECLINECOUNTER, iTIPDeclineCounter},
+};
+
+struct {
+    icalproperty_status ical;
+    Incidence::Status kcal;
+} static constexpr inline const ical_status_map[] = {
+    {ICAL_STATUS_TENTATIVE, Incidence::StatusTentative},
+    {ICAL_STATUS_CONFIRMED, Incidence::StatusConfirmed},
+    {ICAL_STATUS_COMPLETED, Incidence::StatusCompleted},
+    {ICAL_STATUS_NEEDSACTION, Incidence::StatusNeedsAction},
+    {ICAL_STATUS_CANCELLED, Incidence::StatusCanceled},
+    {ICAL_STATUS_INPROCESS, Incidence::StatusInProcess},
+    {ICAL_STATUS_DRAFT, Incidence::StatusDraft},
+    {ICAL_STATUS_FINAL, Incidence::StatusFinal},
+    {ICAL_STATUS_X, Incidence::StatusX},
+};
+
+struct {
+    icalproperty_class ical;
+    Incidence::Secrecy kcal;
+} static constexpr inline const ical_class_map[] = {
+    {ICAL_CLASS_PUBLIC, Incidence::SecrecyPublic},
+    {ICAL_CLASS_CONFIDENTIAL, Incidence::SecrecyConfidential},
+    {ICAL_CLASS_PRIVATE, Incidence::SecrecyPrivate},
+};
+
+struct {
+    icalproperty_transp ical;
+    Event::Transparency kcal;
+} static constexpr inline const ical_transp_map[] = {
+    {ICAL_TRANSP_OPAQUE, Event::Opaque},
+    {ICAL_TRANSP_TRANSPARENT, Event::Transparent},
+};
+
+struct {
+    icalparameter_role ical;
+    Attendee::Role kcal;
+} static constexpr inline const ical_role_map[] = {
+    {ICAL_ROLE_REQPARTICIPANT, Attendee::ReqParticipant},
+    {ICAL_ROLE_CHAIR, Attendee::Chair},
+    {ICAL_ROLE_OPTPARTICIPANT, Attendee::OptParticipant},
+    {ICAL_ROLE_NONPARTICIPANT, Attendee::NonParticipant},
+};
+
+struct {
+    icalrecurrencetype_frequency ical;
+    RecurrenceRule::PeriodType kcal;
+} static constexpr inline const ical_freq_map[] = {
+    {ICAL_SECONDLY_RECURRENCE, RecurrenceRule::rSecondly},
+    {ICAL_MINUTELY_RECURRENCE, RecurrenceRule::rMinutely},
+    {ICAL_HOURLY_RECURRENCE, RecurrenceRule::rHourly},
+    {ICAL_DAILY_RECURRENCE, RecurrenceRule::rDaily},
+    {ICAL_WEEKLY_RECURRENCE, RecurrenceRule::rWeekly},
+    {ICAL_MONTHLY_RECURRENCE, RecurrenceRule::rMonthly},
+    {ICAL_YEARLY_RECURRENCE, RecurrenceRule::rYearly},
+};
+
+template<typename MapType, std::size_t N, typename InType, typename OutType>
+[[nodiscard]] static inline auto fromIcalEnumImpl(const MapType (&map)[N], InType value, OutType defaultValue)
+{
+    const auto it = std::find_if(std::begin(map), std::end(map), [value](const auto &m) {
+        return m.ical == value;
+    });
+    return it != std::end(map) ? (*it).kcal : defaultValue;
+}
+
+template<typename MapType, std::size_t N, typename InType, typename OutType>
+[[nodiscard]] static inline auto toIcalEnumImpl(const MapType (&map)[N], InType value, OutType defaultValue)
+{
+    const auto it = std::find_if(std::begin(map), std::end(map), [value](const auto &m) {
+        return m.kcal == value;
+    });
+    return it != std::end(map) ? (*it).ical : defaultValue;
+}
+
+iTIPMethod ICalFormatImpl::fromIcalEnum(icalproperty_method value)
+{
+    return fromIcalEnumImpl(ical_method_map, value, iTIPNoMethod);
+}
+
+icalproperty_method ICalFormatImpl::toIcalEnum(iTIPMethod value)
+{
+    return toIcalEnumImpl(ical_method_map, value, ICAL_METHOD_NONE);
+}
+
+Incidence::Status ICalFormatImpl::fromIcalEnum(icalproperty_status value)
+{
+    return fromIcalEnumImpl(ical_status_map, value, Incidence::StatusNone);
+}
+
+icalproperty_status ICalFormatImpl::toIcalEnum(Incidence::Status value)
+{
+    return toIcalEnumImpl(ical_status_map, value, ICAL_STATUS_NONE);
+}
+
+Incidence::Secrecy ICalFormatImpl::fromIcalEnum(icalproperty_class value)
+{
+    return fromIcalEnumImpl(ical_class_map, value, Incidence::SecrecyPrivate);
+}
+
+icalproperty_class ICalFormatImpl::toIcalEnum(Incidence::Secrecy value)
+{
+    return toIcalEnumImpl(ical_class_map, value, ICAL_CLASS_PRIVATE);
+}
+
+Event::Transparency ICalFormatImpl::fromIcalEnum(icalproperty_transp value)
+{
+    return fromIcalEnumImpl(ical_transp_map, value, Event::Opaque);
+}
+
+icalproperty_transp ICalFormatImpl::toIcalEnum(Event::Transparency value)
+{
+    return toIcalEnumImpl(ical_transp_map, value, ICAL_TRANSP_OPAQUE);
+}
+
+Attendee::Role ICalFormatImpl::fromIcalEnum(icalparameter_role value)
+{
+    return fromIcalEnumImpl(ical_role_map, value, Attendee::ReqParticipant);
+}
+
+icalparameter_role ICalFormatImpl::toIcalEnum(Attendee::Role value)
+{
+    return toIcalEnumImpl(ical_role_map, value, ICAL_ROLE_REQPARTICIPANT);
+}
+
+RecurrenceRule::PeriodType ICalFormatImpl::fromIcalEnum(icalrecurrencetype_frequency value)
+{
+    return fromIcalEnumImpl(ical_freq_map, value, RecurrenceRule::rNone);
+}
+
+icalrecurrencetype_frequency ICalFormatImpl::toIcalEnum(RecurrenceRule::PeriodType value)
+{
+    return toIcalEnumImpl(ical_freq_map, value, ICAL_NO_RECURRENCE);
 }

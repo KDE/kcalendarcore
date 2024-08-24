@@ -221,6 +221,19 @@ public:
 
     icalcomponent *createScheduleComponent(const IncidenceBase::Ptr &incidence, iTIPMethod method);
 
+    [[nodiscard]] static iTIPMethod fromIcalEnum(icalproperty_method value);
+    [[nodiscard]] static icalproperty_method toIcalEnum(iTIPMethod value);
+    [[nodiscard]] static Incidence::Status fromIcalEnum(icalproperty_status value);
+    [[nodiscard]] static icalproperty_status toIcalEnum(Incidence::Status value);
+    [[nodiscard]] static Incidence::Secrecy fromIcalEnum(icalproperty_class value);
+    [[nodiscard]] static icalproperty_class toIcalEnum(Incidence::Secrecy value);
+    [[nodiscard]] static Event::Transparency fromIcalEnum(icalproperty_transp value);
+    [[nodiscard]] static icalproperty_transp toIcalEnum(Event::Transparency value);
+    [[nodiscard]] static Attendee::Role fromIcalEnum(icalparameter_role value);
+    [[nodiscard]] static icalparameter_role toIcalEnum(Attendee::Role value);
+    [[nodiscard]] static RecurrenceRule::PeriodType fromIcalEnum(icalrecurrencetype_frequency value);
+    [[nodiscard]] static icalrecurrencetype_frequency toIcalEnum(RecurrenceRule::PeriodType value);
+
 protected:
     // void dumpIcalRecurrence( const icalrecurrencetype &r );
 

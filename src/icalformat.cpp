@@ -547,38 +547,7 @@ ScheduleMessage::Ptr ICalFormat::parseScheduleMessage(const Calendar::Ptr &cal, 
     }
 
     icalproperty_method icalmethod = icalproperty_get_method(m);
-    iTIPMethod method;
-
-    switch (icalmethod) {
-    case ICAL_METHOD_PUBLISH:
-        method = iTIPPublish;
-        break;
-    case ICAL_METHOD_REQUEST:
-        method = iTIPRequest;
-        break;
-    case ICAL_METHOD_REFRESH:
-        method = iTIPRefresh;
-        break;
-    case ICAL_METHOD_CANCEL:
-        method = iTIPCancel;
-        break;
-    case ICAL_METHOD_ADD:
-        method = iTIPAdd;
-        break;
-    case ICAL_METHOD_REPLY:
-        method = iTIPReply;
-        break;
-    case ICAL_METHOD_COUNTER:
-        method = iTIPCounter;
-        break;
-    case ICAL_METHOD_DECLINECOUNTER:
-        method = iTIPDeclineCounter;
-        break;
-    default:
-        method = iTIPNoMethod;
-        qCDebug(KCALCORE_LOG) << "Unknown method";
-        break;
-    }
+    iTIPMethod method = ICalFormatImpl::fromIcalEnum(icalmethod);
 
     if (!icalrestriction_check(message)) {
         qCWarning(KCALCORE_LOG) << "\nkcalcore library reported a problem while parsing:";
