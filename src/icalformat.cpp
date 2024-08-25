@@ -370,7 +370,6 @@ QString KCalendarCore::ICalFormat::toString(const KCalendarCore::Duration &durat
 
 bool ICalFormat::fromString(RecurrenceRule *recurrence, const QString &rrule)
 {
-    Q_D(ICalFormat);
     if (!recurrence) {
         return false;
     }
@@ -383,7 +382,7 @@ bool ICalFormat::fromString(RecurrenceRule *recurrence, const QString &rrule)
     }
 
     if (success) {
-        d->mImpl.readRecurrence(recur, recurrence);
+        ICalFormatImpl::readRecurrence(recur, recurrence);
     }
 
     return success;
@@ -391,14 +390,13 @@ bool ICalFormat::fromString(RecurrenceRule *recurrence, const QString &rrule)
 
 Duration ICalFormat::durationFromString(const QString &duration) const
 {
-    Q_D(const ICalFormat);
     icalerror_clear_errno();
     const auto icalDuration = icaldurationtype_from_string(duration.toUtf8().constData());
     if (icalerrno != ICAL_NO_ERROR) {
         qCDebug(KCALCORE_LOG) << "Duration parsing error:" << icalerror_strerror(icalerrno);
         return {};
     }
-    return d->mImpl.readICalDuration(icalDuration);
+    return ICalFormatImpl::readICalDuration(icalDuration);
 }
 
 QString ICalFormat::createScheduleMessage(const IncidenceBase::Ptr &incidence, iTIPMethod method)

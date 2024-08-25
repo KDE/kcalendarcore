@@ -99,7 +99,7 @@ public:
       @param string is a QString containing the data to be parsed.
       @return true if successful; false otherwise.
     */
-    Q_REQUIRED_RESULT bool fromString(RecurrenceRule *rule, const QString &string);
+    Q_REQUIRED_RESULT bool fromString(RecurrenceRule *rule, const QString &string); // TODO KF7: make this static
 
     /**
       Parses a string representation of a duration.
@@ -107,7 +107,7 @@ public:
       @param duration iCal representation of a duration.
       @since 5.95
     */
-    Q_REQUIRED_RESULT Duration durationFromString(const QString &duration) const;
+    Q_REQUIRED_RESULT Duration durationFromString(const QString &duration) const; // TODO KF7: make this static
 
     /**
       @copydoc

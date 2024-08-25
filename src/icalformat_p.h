@@ -130,12 +130,12 @@ public:
     Journal::Ptr readJournal(icalcomponent *vjournal, const ICalTimeZoneCache *tzList);
     Attendee readAttendee(icalproperty *attendee);
     Person readOrganizer(icalproperty *organizer);
-    Attachment readAttachment(icalproperty *attach);
+    static Attachment readAttachment(icalproperty *attach);
     void readIncidence(icalcomponent *parent, const Incidence::Ptr &incidence, const ICalTimeZoneCache *tzList);
-    void readRecurrenceRule(icalproperty *rrule, const Incidence::Ptr &event);
-    void readExceptionRule(icalproperty *rrule, const Incidence::Ptr &incidence);
-    void readRecurrence(const struct icalrecurrencetype &r, RecurrenceRule *recur);
-    void readAlarm(icalcomponent *alarm, const Incidence::Ptr &incidence);
+    static void readRecurrenceRule(icalproperty *rrule, const Incidence::Ptr &event);
+    static void readExceptionRule(icalproperty *rrule, const Incidence::Ptr &incidence);
+    static void readRecurrence(const struct icalrecurrencetype &r, RecurrenceRule *recur);
+    static void readAlarm(icalcomponent *alarm, const Incidence::Ptr &incidence);
     Conference readConference(icalproperty *conference);
 
     /**
@@ -241,7 +241,7 @@ private:
     void writeIncidenceBase(icalcomponent *parent, const IncidenceBase::Ptr &);
     void readIncidenceBase(icalcomponent *parent, const IncidenceBase::Ptr &);
     void writeCustomProperties(icalcomponent *parent, CustomProperties *);
-    void readCustomProperties(icalcomponent *parent, CustomProperties *);
+    static void readCustomProperties(icalcomponent *parent, CustomProperties *);
 
     ICalFormat *mParent = nullptr;
     QString mLoadedProductId; // PRODID string loaded from calendar file
