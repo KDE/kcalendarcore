@@ -222,7 +222,7 @@ public:
     */
     Duration operator-(const Duration &other) const
     {
-        return Duration(*this) += other;
+        return Duration(*this) -= other;
     }
 
     /**

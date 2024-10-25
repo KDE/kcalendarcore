@@ -58,6 +58,7 @@ void DurationTest::testCompare()
     Duration d6(3 * 60 * 60);
     QVERIFY(d6 == d5);
     QVERIFY((d6 -= (2 * 60 * 60)) == d1);
+    QVERIFY(d2 - d1 == d1);
 }
 
 void DurationTest::testSerializer_data()
