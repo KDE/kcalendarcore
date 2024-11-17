@@ -66,7 +66,7 @@ configure_package_config_file(
 )
 
 ecm_set_disabled_deprecation_versions(
-    QT 6.5
+    QT 6.8.0
 )
 
 ########### Targets ###########
