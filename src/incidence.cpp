@@ -371,7 +371,7 @@ void Incidence::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
     if (d->mRecurrence) {
         d->mRecurrence->shiftTimes(oldZone, newZone);
     }
-    if (d->mAlarms.count() > 0) {
+    if (!d->mAlarms.isEmpty()) {
         update();
         for (auto alarm : d->mAlarms) {
             alarm->shiftTimes(oldZone, newZone);

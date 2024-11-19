@@ -306,7 +306,7 @@ void ICalTimeZonesTest::testPragueTransitions()
     */
 
     const auto &transitions = prague.transitions(QDateTime({1949, 6, 6}, {0, 0}), QDateTime({1979, 6, 6}, {0, 0}));
-    QVERIFY(transitions.count() > 0);
+    QVERIFY(!transitions.isEmpty());
     const auto &earliest = transitions.first().atUtc;
     QCOMPARE(earliest.date(), QDate(1949, 10, 2));
     QCOMPARE(transitions.last().atUtc.date(), QDate(1979, 4, 1));
