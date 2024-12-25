@@ -69,7 +69,7 @@ bool ICalFormat::load(const Calendar::Ptr &calendar, const QString &fileName)
 
     QFile file(fileName);
     if (!file.open(QIODevice::ReadOnly)) {
-        qCritical() << "load error: unable to open " << fileName;
+        qCCritical(KCALCORE_LOG) << "load error: unable to open " << fileName;
         setException(new Exception(Exception::LoadError));
         return false;
     }
@@ -107,7 +107,7 @@ bool ICalFormat::save(const Calendar::Ptr &calendar, const QString &fileName)
 
     QSaveFile file(fileName);
     if (!file.open(QIODevice::WriteOnly)) {
-        qCritical() << "file open error: " << file.errorString() << ";filename=" << fileName;
+        qCCritical(KCALCORE_LOG) << "file open error: " << file.errorString() << ";filename=" << fileName;
         setException(new Exception(Exception::SaveErrorOpenFile, QStringList(fileName)));
 
         return false;
@@ -141,7 +141,7 @@ Incidence::Ptr ICalFormat::readIncidence(const QByteArray &string)
     // Let's defend const correctness until the very gates of hell^Wlibical
     icalcomponent *calendar = icalcomponent_new_from_string(const_cast<char *>(string.constData()));
     if (!calendar) {
-        qCritical() << "parse error from icalcomponent_new_from_string. string=" << QString::fromLatin1(string);
+        qCCritical(KCALCORE_LOG) << "parse error from icalcomponent_new_from_string. string=" << QString::fromLatin1(string);
         setException(new Exception(Exception::ParseErrorIcal));
         return Incidence::Ptr();
     }
@@ -182,7 +182,7 @@ bool ICalFormat::fromRawString(const Calendar::Ptr &cal, const QByteArray &strin
     // Let's defend const correctness until the very gates of hell^Wlibical
     calendar = icalcomponent_new_from_string(const_cast<char *>(string.constData()));
     if (!calendar) {
-        qCritical() << "parse error from icalcomponent_new_from_string. string=" << QString::fromLatin1(string);
+        qCCritical(KCALCORE_LOG) << "parse error from icalcomponent_new_from_string. string=" << QString::fromLatin1(string);
         setException(new Exception(Exception::ParseErrorIcal));
         return false;
     }
@@ -195,7 +195,7 @@ bool ICalFormat::fromRawString(const Calendar::Ptr &cal, const QByteArray &strin
              comp = icalcomponent_get_next_component(calendar, ICAL_VCALENDAR_COMPONENT)) {
             // put all objects into their proper places
             if (!d->mImpl.populate(cal, comp)) {
-                qCritical() << "Could not populate calendar";
+                qCCritical(KCALCORE_LOG) << "Could not populate calendar";
                 if (!exception()) {
                     setException(new Exception(Exception::ParseErrorKcal));
                 }
@@ -281,7 +281,7 @@ QString ICalFormat::toString(const Calendar::Ptr &cal)
         if (qtz != QTimeZone::utc()) {
             icaltimezone *tz = ICalTimeZoneParser::icaltimezoneFromQTimeZone(qtz, earliestTz[qtz]);
             if (!tz) {
-                qCritical() << "bad time zone";
+                qCCritical(KCALCORE_LOG) << "bad time zone";
             } else {
                 component = icalcomponent_new_clone(icaltimezone_get_component(tz));
                 icalcomponent_add_component(calendar, component);
@@ -335,7 +335,7 @@ QByteArray ICalFormat::toRawString(const Incidence::Ptr &incidence)
         if (qtz != QTimeZone::utc()) {
             icaltimezone *tz = ICalTimeZoneParser::icaltimezoneFromQTimeZone(qtz, earliestTzDt[qtz]);
             if (!tz) {
-                qCritical() << "bad time zone";
+                qCCritical(KCALCORE_LOG) << "bad time zone";
             } else {
                 icalcomponent *tzcomponent = icaltimezone_get_component(tz);
                 icalcomponent_add_component(component, component);
