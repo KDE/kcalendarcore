@@ -29,6 +29,7 @@
 #include "kcalendarcore_debug.h"
 
 extern "C" {
+#include <libical/ical.h>
 #include <libical/vcc.h>
 #include <libical/vobject.h>
 }
@@ -81,7 +82,11 @@ VCalFormat::~VCalFormat()
 {
 }
 
+#if ICAL_CHECK_VERSION(3, 99, 99)
+static void mimeErrorHandler(const char *e)
+#else
 static void mimeErrorHandler(char *e)
+#endif
 {
     qCWarning(KCALCORE_LOG) << "Error parsing vCalendar file:" << e;
 }
@@ -95,7 +100,7 @@ bool VCalFormat::load(const Calendar::Ptr &calendar, const QString &fileName)
 
     // this is not necessarily only 1 vcal.  Could be many vcals, or include
     // a vcard...
-    registerMimeErrorHandler(&mimeErrorHandler);    // Note: vCalendar error handler provided by libical.
+    registerMimeErrorHandler(&mimeErrorHandler); // Note: vCalendar error handler provided by libical.
     VObject *vcal = Parse_MIME_FromFileName(const_cast<char *>(QFile::encodeName(fileName).data()));
     registerMimeErrorHandler(nullptr);
 

@@ -283,7 +283,11 @@ QString ICalFormat::toString(const Calendar::Ptr &cal)
             if (!tz) {
                 qCCritical(KCALCORE_LOG) << "bad time zone";
             } else {
+#if ICAL_CHECK_VERSION(3, 99, 99)
+                component = icalcomponent_clone(icaltimezone_get_component(tz));
+#else
                 component = icalcomponent_new_clone(icaltimezone_get_component(tz));
+#endif
                 icalcomponent_add_component(calendar, component);
                 icaltimezone_free(tz, 1);
             }
@@ -353,7 +357,12 @@ QByteArray ICalFormat::toRawString(const Incidence::Ptr &incidence)
 QString ICalFormat::toString(RecurrenceRule *recurrence)
 {
     Q_D(ICalFormat);
-    icalproperty *property = icalproperty_new_rrule(d->mImpl.writeRecurrenceRule(recurrence));
+    struct icalrecurrencetype recur = d->mImpl.writeRecurrenceRule(recurrence);
+#if ICAL_CHECK_VERSION(3, 99, 99)
+    icalproperty *property = icalproperty_new_rrule(&recur);
+#else
+    icalproperty *property = icalproperty_new_rrule(recur);
+#endif
     QString text = QString::fromUtf8(icalproperty_as_ical_string(property));
     icalproperty_free(property);
     return text;
@@ -375,14 +384,22 @@ bool ICalFormat::fromString(RecurrenceRule *recurrence, const QString &rrule)
     }
     bool success = true;
     icalerror_clear_errno();
+#if ICAL_CHECK_VERSION(3, 99, 99)
+    struct icalrecurrencetype *recur = icalrecurrencetype_new_from_string(rrule.toLatin1().constData());
+#else
     struct icalrecurrencetype recur = icalrecurrencetype_from_string(rrule.toLatin1().constData());
+#endif
     if (icalerrno != ICAL_NO_ERROR) {
         qCDebug(KCALCORE_LOG) << "Recurrence parsing error:" << icalerror_strerror(icalerrno);
         success = false;
     }
 
     if (success) {
+#if ICAL_CHECK_VERSION(3, 99, 99)
+        ICalFormatImpl::readRecurrence(*recur, recurrence);
+#else
         ICalFormatImpl::readRecurrence(recur, recurrence);
+#endif
     }
 
     return success;
