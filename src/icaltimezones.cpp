@@ -343,40 +343,52 @@ icalcomponent *ICalTimeZoneParser::icalcomponentFromQTimeZone(const QTimeZone &t
                 }
                 if (times.count() > (useNewRRULE ? minPhaseCount : minRuleCount)) {
                     // There are enough dates to combine into an RRULE
-                    icalrecurrencetype r;
-#if !ICAL_CHECK_VERSION(3, 99, 99)
-                    icalrecurrencetype_clear(&r);
-#endif
-                    r.freq = ICAL_YEARLY_RECURRENCE;
 #if ICAL_CHECK_VERSION(3, 99, 99)
-                    r.by[ICAL_BY_MONTH].data[0] = month;
+                    icalrecurrencetype *r = icalrecurrencetype_new();
+                    if (!r) {
+                        break;
+                    }
+                    r->freq = ICAL_YEARLY_RECURRENCE;
+
+#else
+                    icalrecurrencetype r;
+                    icalrecurrencetype_clear(&r);
+                    r.freq = ICAL_YEARLY_RECURRENCE;
+#endif
+#if ICAL_CHECK_VERSION(3, 99, 99)
+                    icalrecur_resize_by(&r->by[ICAL_BY_MONTH], 1);
+                    r->by[ICAL_BY_MONTH].data[0] = month;
 #else
                     r.by_month[0] = month;
 #endif
                     if (rule & DAY_OF_MONTH) {
 #if ICAL_CHECK_VERSION(3, 99, 99)
-                        r.by[ICAL_BY_MONTH].data[0] = dayOfMonth;
+                        icalrecur_resize_by(&r->by[ICAL_BY_MONTH], 1);
+                        r->by[ICAL_BY_MONTH].data[0] = dayOfMonth;
 #else
                         r.by_month_day[0] = dayOfMonth;
 #endif
                     } else if (rule & WEEKDAY_OF_MONTH) {
 #if ICAL_CHECK_VERSION(3, 99, 99)
-                        r.by[ICAL_BY_DAY].data[0] = (dayOfWeek % 7 + 1) + (nthFromStart * 8); // Sunday = 1
+                        icalrecur_resize_by(&r->by[ICAL_BY_DAY], 1);
+                        r->by[ICAL_BY_DAY].data[0] = (dayOfWeek % 7 + 1) + (nthFromStart * 8); // Sunday = 1
 #else
                         r.by_day[0] = (dayOfWeek % 7 + 1) + (nthFromStart * 8); // Sunday = 1
 #endif
                     } else if (rule & LAST_WEEKDAY_OF_MONTH) {
 #if ICAL_CHECK_VERSION(3, 99, 99)
+                        icalrecur_resize_by(&r->by[ICAL_BY_DAY], 1);
+                        r->by[ICAL_BY_DAY].data[0] = -(dayOfWeek % 7 + 1) - (nthFromEnd * 8); // Sunday = 1
 #else
-                        r.by[ICAL_BY_DAY].data[0] = -(dayOfWeek % 7 + 1) - (nthFromEnd * 8); // Sunday = 1
+                        r.by_day[0] = -(dayOfWeek % 7 + 1) - (nthFromEnd * 8); // Sunday = 1
 #endif
                     }
-                    r.until = writeLocalICalDateTime(times.takeAt(times.size() - 1), preOffset);
 #if ICAL_CHECK_VERSION(3, 99, 99)
-                    icalproperty *prop = icalproperty_new_rrule(&r);
+                    r->until = writeLocalICalDateTime(times.takeAt(times.size() - 1), preOffset);
 #else
-                    icalproperty *prop = icalproperty_new_rrule(r);
+                    r.until = writeLocalICalDateTime(times.takeAt(times.size() - 1), preOffset);
 #endif
+                    icalproperty *prop = icalproperty_new_rrule(r);
                     if (useNewRRULE) {
                         // This RRULE doesn't start from the phase start date, so set it into
                         // a new STANDARD/DAYLIGHT component in the VTIMEZONE.
@@ -655,7 +667,11 @@ bool ICalTimeZoneParser::parsePhase(icalcomponent *c, bool daylight, ICalTimeZon
                 ICalFormat icf;
                 ICalFormatImpl impl(&icf);
 #if ICAL_CHECK_VERSION(3, 99, 99)
-                impl.readRecurrence(*icalproperty_get_rrule(p), &r);
+                struct icalrecurrencetype *rrule = icalproperty_get_rrule(p);
+                if (!rrule) {
+                    break;
+                }
+                impl.readRecurrence(*rrule, &r);
 #else
                 impl.readRecurrence(icalproperty_get_rrule(p), &r);
 #endif

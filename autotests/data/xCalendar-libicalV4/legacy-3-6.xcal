@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<iCalendar xmlns:xCal="urn:ietf:params:xml:ns:xcal">
+<vcalendar>
+ <version>2.0</version>
+ <prodid>-//hacksw/handcal//NONSGML 1.0//EN</prodid>
+ <method>PUBLISH</method>
+ <vevent>
+  <uid>19990101T125957Z-123403@host.com</uid>
+  <dtstamp>19990101T130000Z</dtstamp>
+  <dtstart value="DATE">19991102</dtstart>
+  <summary>Our Blissful Anniversary</summary>
+  <class>CONFIDENTIAL</class>
+  <transp>TRANSPARENT</transp>
+  <categories>Anniversary,Personal,Special Occasion</categories>
+  <rrule>FREQ=YEARLY</rrule>
+ </vevent>
+</vcalendar>
+</iCalendar>

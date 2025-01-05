@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<iCalendar xmlns:xCal="urn:ietf:params:xml:ns:xcal">
+<vcalendar>
+ <method>PUBLISH</method>
+ <version>2.0</version>
+ <prodid>-//HandGen//NONSGML vGen v1.0//EN</prodid>
+ <vevent>
+  <uid>19981116T150000@cal10.host.com</uid>
+  <dtstamp>19981116T145958Z</dtstamp>
+  <summary>Project XYZ Review</summary>
+  <location>Conference Room 23A</location>
+  <dtstart>19981116T163000Z</dtstart>
+  <dtend>19981116T190000Z</dtend>
+  <x-foo-cust-code>1998-ABC Corp-1234</x-foo-cust-code>
+  <categories>Appointment,Work</categories>
+ </vevent>
+</vcalendar>
+</iCalendar>

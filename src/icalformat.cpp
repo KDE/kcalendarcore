@@ -255,7 +255,7 @@ QString ICalFormat::toString(const Calendar::Ptr &cal)
         icalcomponent_add_component(calendar, component);
         ICalTimeZoneParser::updateTzEarliestDate((*it), &earliestTz);
     }
-    // events
+    //  events
     Event::List events = cal->rawEvents();
     for (auto it = events.cbegin(), end = events.cend(); it != end; ++it) {
         component = d->mImpl.writeEvent(*it, &tzUsedList);
@@ -357,12 +357,15 @@ QByteArray ICalFormat::toRawString(const Incidence::Ptr &incidence)
 QString ICalFormat::toString(RecurrenceRule *recurrence)
 {
     Q_D(ICalFormat);
-    struct icalrecurrencetype recur = d->mImpl.writeRecurrenceRule(recurrence);
 #if ICAL_CHECK_VERSION(3, 99, 99)
-    icalproperty *property = icalproperty_new_rrule(&recur);
+    struct icalrecurrencetype *recur = d->mImpl.writeRecurrenceRule(recurrence);
+    if (!recur) {
+        return QString();
+    }
 #else
-    icalproperty *property = icalproperty_new_rrule(recur);
+    struct icalrecurrencetype recur = d->mImpl.writeRecurrenceRule(recurrence);
 #endif
+    icalproperty *property = icalproperty_new_rrule(recur);
     QString text = QString::fromUtf8(icalproperty_as_ical_string(property));
     icalproperty_free(property);
     return text;

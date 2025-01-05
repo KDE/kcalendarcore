@@ -1,0 +1,1146 @@
+BEGIN:VCALENDAR
+PRODID:-//Pentabarf//Schedule//EN
+VERSION:2.0
+X-KDE-ICAL-IMPLEMENTATION-VERSION:1.0
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/9BCM3A/
+CREATED:20240825T103036Z
+UID:9BCM3A@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:We will cover QR code login using OIDC\, an API for caching
+ events and assisting with common tasks related to these\, multiprocess
+ locks for ensuring single access to cryptographic state\, an API for
+ sending events in a room and automatically retrying under certain
+ conditions\, and a simplified Sliding Sync implementation with
+ client-side sorting of the room list. These are all recent additions to
+ the Rust SDK\, complementing the existing robust building blocks such as
+ the Timeline and Sync services which we’ll also evoke. Our presentation
+ will delve into what's new\, examine the underlying functionality\, and
+ showcase how these features are utilised in clients like Fractal\, iamb\,
+ Robrix\, or ElementX.
+SUMMARY:Strengthening the Base: Laying the Groundwork for a more robust
+ Rust SDK
+LOCATION:LAB 3
+STATUS:CONFIRMED
+CATEGORIES:Long Talk
+DTSTART:20240920T111500
+DTEND:20240920T120000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/TNNAT7/
+CREATED:20240825T103036Z
+UID:TNNAT7@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+SUMMARY:Tchap\, the French administration federation: past\, present and
+ future
+LOCATION:LAB 4
+STATUS:CONFIRMED
+CATEGORIES:Short Talk
+DTSTART:20240920T110000
+DTEND:20240920T113000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/3VY8WT/
+CREATED:20240825T103036Z
+UID:3VY8WT@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:Matrix is widely known as an open standard and communication
+ protocol for the instant messaging use case. The protocol integrates well
+ with the modern web ecosystem and provides end-to-end security\, with no
+ single points of control or failure. Beyond instant messaging\, Matrix
+ [aims to be](https://matrix.org/docs/older/faq/) a generic messaging and
+ data synchronization system for the whole web\, built for securely
+ transmitting and replicating JSON data between Matrix-capable clients\,
+ servers and services.\n\nIts openness and adaptability is what makes
+ Matrix particularly interesting for government organizations. Last year\,
+ the [Architecture Board of the German IT Planning Council](https:
+ //www.fitko.de/foederale-koordination/gremienarbeit/foederales-it-architek
+ turboard) launched a project to evaluate Matrix as a foundation for
+ government-to-citizen (G2C) and government-to-business (G2B)
+ communications. [FITKO](https://www.fitko.de/) and the [Federal Ministry
+ of the Interior](https://www.bmi.bund.de/en) joined efforts to pilot this
+ Matrix-based next-generation communication infrastructure between
+ citizens and public authorities.\n\nThe aim of the pilot is to showcase
+ end-to-end encrypted communication and great usability as well as to
+ evaluate machine-readable communication such as multiple-choice
+ questions\, the answers to which can be automatically processed by the
+ administration's IT systems.\n\nDue to its generic end-to-end encrypted
+ data exchange capabilities\, Matrix may also be a great fit for other
+ applications in the government domain\, such as providing real-time
+ capabilities to online procedures\, realizing the [once-only
+ principle](https://en.wikipedia.org/wiki/Once-only_principle)\, and
+ establishing machine-readable communication between industry and public
+ administration.
+SUMMARY:Beyond Instant Messaging: Matrix in the Public Sector
+LOCATION:LAB 4
+STATUS:CONFIRMED
+CATEGORIES:Long Talk
+DTSTART:20240920T171500
+DTEND:20240920T180000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/9YBYQE/
+CREATED:20240825T103036Z
+UID:9YBYQE@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:As of the time of writing this abstract\, the [matrix] Dart
+ SDK developed by my wonderful friends from Famedly had no support for
+ Sliding Sync yet. I was wondering how we could increase the performance
+ of our Clients by adopting Sliding Sync to Dart.\n\nStarting with a stub
+ simulating Sliding Sync updates as an overlay over the regular Sync Loop
+ implemented in the [matrix] Dart SDK\, I adopted the architecture of a
+ Flutter-based [matrix] Client to profit from the advantages of Sliding
+ Sync.\n\nWe will together have a look on how to support both stable Sync
+ and Sliding Sync from one code base and how to profit from the amazing
+ performance boost in Flutter's Widget API.\n\nCurrently (hopefully
+ changes until the summit)\, my work is still unstable and just some
+ experiment in downstream.\n\nThis work is in no way affiliated with my
+ employer and should not profit them in any way.
+SUMMARY:Looking at application performance of Sliding Sync in Dart
+LOCATION:Workshop Room on Level 4
+STATUS:CONFIRMED
+CATEGORIES:Short Talk
+DTSTART:20240921T100000
+DTEND:20240921T103000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/A7VESP/
+CREATED:20240825T103036Z
+UID:A7VESP@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:Sliding Sync is arguably the most fundamental change to
+ Matrix’s core APIs ever: an entirely new sync mechanism providing
+ instant login\, instant launch and instant sync\, no matter how big and
+ busy your account is.  It’s a core part of the Matrix 2.0 set of MSCs\,
+ and we’re finally at the point of having a proposal for the final API
+ shape\, after at least 5 different iterations.\n\nIn this talk\, we’ll
+ explain to client and server developers to how the API works and best
+ practices for driving it\, in both client and server implementations.
+SUMMARY:Simplified Sliding Sync
+LOCATION:LAB 4
+STATUS:CONFIRMED
+CATEGORIES:Short Talk
+DTSTART:20240921T100000
+DTEND:20240921T103000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/WUGXFW/
+CREATED:20240825T103036Z
+UID:WUGXFW@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:Matrix 2.0 is a set of MSCs which\, once merged\, will form
+ the biggest step change that Matrix has ever seen in terms of
+ functionality\, usability and performance. Matrix 2.0 is made up of:\n\n-
+ Simplified Sliding Sync (instant login\, instant sync and instant
+ launch)\n- Native OpenID Connect for authentication\n- Native Encrypted
+ VoIP calling over Matrix\n- Invisible encryption\n\nWe first announced
+ the concept of Matrix 2.0 at FOSDEM 2023\, and then gave a preview of
+ progress in September\, and then at FOSDEM 2024 - but by the time of this
+ talk we believe the MSCs will be pretty much stable and ready for
+ primetime\, with native implementations in matrix-rust-sdk\, Synapse\,
+ matrix-authentication-service and more.\n\nIn this talk we’ll give a
+ tour of the MSCs\, how they’ve evolved\, and what they mean for
+ developers and server admins - and celebrate that Matrix is now at the
+ point where it can finally outperform mainstream alternatives!
+SUMMARY:Matrix 2.0 Is Here!
+LOCATION:LAB 3
+STATUS:CONFIRMED
+CATEGORIES:Long Talk
+DTSTART:20240920T101500
+DTEND:20240920T110000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/LNGG9D/
+CREATED:20240825T103036Z
+UID:LNGG9D@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+SUMMARY:Quotient workshop
+LOCATION:LAB 3
+STATUS:CONFIRMED
+CATEGORIES:Sprint (Sunday)
+DTSTART:20240922T133000
+DTEND:20240922T153000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/R8EC7U/
+CREATED:20240825T103036Z
+UID:R8EC7U@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:Encryption should be invisible to users: for instance\,
+ WhatsApp and Signal almost entirely hide encryption-specific details in
+ their apps.  Element has historically failed at this\, both because
+ Matrix’s APIs encourage exposing complicated UX\, combined with
+ development being historically too bottom-up from the APIs.\n\nAs part of
+ designing Element X\, the encryption experience has been completely
+ rethought:\n\n- All devices must be signed by their owner by default (and
+ unsigned devices should be excommunicated!)\n- Device signing should be
+ invisible and happen automatically at login.\n- Users should (eventually)
+ be “trust on first use” by default\n- Users\, messages\, and rooms
+ should never expose confusing “shields” to warn about encryption
+ details - messages should either be visible and secure\, or hidden
+ outright.\n- We’ve defined consistent\, user-centric terminology
+ throughout all of Matrix when discussing encryption.\n\nWe’ll explain
+ all of the thinking which went into this from the Element encryption
+ team\, and what it means for Matrix as a whole.
+SUMMARY:Invisible Cryptography
+LOCATION:LAB Green (Basement)
+STATUS:CONFIRMED
+CATEGORIES:Long Talk
+DTSTART:20240920T141500
+DTEND:20240920T150000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/8FC9LT/
+CREATED:20240825T103036Z
+UID:8FC9LT@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:This suite makes real time collaboration and communication
+ efficient and simple.\n\nOur widgets transform Element messaging rooms
+ into data rooms with individual business applications. They support both
+ real-time and asynchronous collaboration on common topics.
+ Visualisations\, events\, meetings\, processes\, customer service
+ collaboration\, structured service requests in rooms with bots\, and
+ more.\n\nHere is what you will discover in this presentation:\n\n-
+ NeoBoard Standalone: a SaaS collaborative whiteboard with fresh new
+ designs and features\;\n- NeoDateFix: create and manage meetings from
+ within Element\;\n- Map widget: navigate\, share live location and mark
+ points of interest on a map in an Element room\;\n- User search
+ enhancements: find people in Element based on acronyms and roles\;\n-
+ eHealthCare: Insights from building clients to the German healthcare
+ sector.
+SUMMARY:NeoToolSuite: A productivity suite integrated with Matrix
+LOCATION:LAB 3
+STATUS:CONFIRMED
+CATEGORIES:Short Talk
+DTSTART:20240920T153000
+DTEND:20240920T160000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/HGUKQV/
+CREATED:20240825T103036Z
+UID:HGUKQV@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+SUMMARY:Implementing a Matrix client inside WorkAdventure - A developer
+ feedback
+LOCATION:LAB 3
+STATUS:CONFIRMED
+CATEGORIES:Short Talk
+DTSTART:20240921T151500
+DTEND:20240921T154500
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/CBAWUB/
+CREATED:20240825T103036Z
+UID:CBAWUB@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+SUMMARY:Opening & Welcome
+LOCATION:LAB 3
+STATUS:CONFIRMED
+CATEGORIES:Short Talk
+DTSTART:20240920T100000
+DTEND:20240920T101500
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/CAA8MQ/
+CREATED:20240825T103036Z
+UID:CAA8MQ@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+SUMMARY:Matrix in Public Sector - a Review of 3 Years of Successful
+ Operation
+LOCATION:LAB 3
+STATUS:CONFIRMED
+CATEGORIES:Short Talk
+DTSTART:20240921T140000
+DTEND:20240921T143000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/3KKCMD/
+CREATED:20240825T103036Z
+UID:3KKCMD@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:The EU Digital Markets Act has now taken effect\, requiring
+ designated messaging gatekeepers to provide interoperable messaging - but
+ only WhatsApp and Facebook Messenger are subject to its regulation so
+ far.  We’ll explain where things are at\, and what approaches are
+ available for interop with DMA gatekeepers\; how Matrix relates to the
+ IETF MIMI working group\; and how Matrix \nmay evolve in future when
+ utilising MLS or Decentralised MLS for encryption.
+SUMMARY:DMA\, MIMI\, (D)MLS\, Linearized Matrix and more…
+LOCATION:LAB 3
+STATUS:CONFIRMED
+CATEGORIES:Long Talk
+DTSTART:20240920T161500
+DTEND:20240920T170000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/JMXETG/
+CREATED:20240825T103036Z
+UID:JMXETG@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+SUMMARY:Advancing human rights with Tor
+LOCATION:LAB 3
+STATUS:CONFIRMED
+CATEGORIES:Long Talk
+DTSTART:20240921T100000
+DTEND:20240921T104500
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/SPDEYT/
+CREATED:20240825T103036Z
+UID:SPDEYT@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:Matrix is not only an open network for secure\, decentralised
+ communication. It also features extensions\, called Widgets\, for
+ interacting with rooms.\n\nHere's what you can do in the workshop:\n\n-
+ We will take a quick look at the widget specification\n- You will be
+ guided on how to set up the matrix-widget-toolkit\, a library\, that
+ makes writing widgets easy\n- You will create your first own widget\,
+ that sends and receives events to and from a room\n\nPlease bring:\n\n-
+ Your Laptop\n- Basic TypeScript knowledge\n- A working TypeScript
+ development environment with Yarn\n\nLinks:\n\n- [Widget Spec](https:
+ //github.com/matrix-org/matrix-spec-proposals/issues/3803)\n-
+ [matrix-widget-tookit](https:
+ //github.com/nordeck/matrix-widget-toolkit)\n- Examples\n  - https:
+ //github.com/nordeck/matrix-meetings\n  - https:
+ //github.com/nordeck/matrix-neoboard/
+SUMMARY:[matrix] Widget Starter
+LOCATION:LAB Green (Basement)
+STATUS:CONFIRMED
+CATEGORIES:Workshop
+DTSTART:20240921T143000
+DTEND:20240921T153000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/8BVVT3/
+CREATED:20240825T103036Z
+UID:8BVVT3@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:This talk is aimed at both client and server developers. We
+ will initially outline the "happy case" when sending and receiving
+ encrypted messages in Matrix. We'll then see what can go wrong which can
+ cause UTDs\, using real bugs in clients and servers as case studies.
+ Complement-Crypto\, a test suite specifically designed for reproducing
+ these failure conditions\, will be introduced and will explain how it can
+ be used to cover a large spectrum of "unhappy cases"\, including
+ adversarial attacks on the network. Finally\, we'll look at the progress
+ we've made in reducing UTDs\, and outline areas for further work.
+SUMMARY:Unable to decrypt this message
+LOCATION:LAB 4
+STATUS:CONFIRMED
+CATEGORIES:Short Talk
+DTSTART:20240921T143000
+DTEND:20240921T150000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/JW7PWR/
+CREATED:20240825T103036Z
+UID:JW7PWR@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:NATO is developing a messaging platform called [NI2CE](https:
+ //innovationhub-act.org/case-studies/ni2ce-messenger/)\, which stands for
+ NATO Interoperable Instant Communication Environment that looks to
+ address issues including:\n\n\n\n* Privacy concerns\n* Unsecured
+ communication\n* Lack of reliability (centralised systems are prone to
+ global outages) \n* No interoperability between systems\n* Lack of
+ corporate control or oversight\n* No authentication/SSO to manage users
+ (leavers\, joiners\, access management etc)
+SUMMARY:A messenger for NATO and its members
+LOCATION:LAB 4
+STATUS:CONFIRMED
+CATEGORIES:Long Talk
+DTSTART:20240920T151500
+DTEND:20240920T160000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/VJVF3T/
+CREATED:20240825T103036Z
+UID:VJVF3T@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+SUMMARY:MSC Process Guidance
+LOCATION:LAB 4
+STATUS:CONFIRMED
+CATEGORIES:Sprint (Sunday)
+DTSTART:20240922T100000
+DTEND:20240922T120000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/TD3KDQ/
+CREATED:20240825T103036Z
+UID:TD3KDQ@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:Matrix has a lot of keys. There are keys for devices\, keys
+ for users\, keys for messages\, keys for backups\, keys for the keys to
+ the backups\, etc. All of these keys provide different functionality.
+ There are a lot of resources explaining message keys (with the olm/megolm
+ protocol)\, but not as many explaining the rest of the keys in the Matrix
+ protocol. This talk intends to be an overview of those keys which provide
+ infrastructure for key backups\, key sharing\, device verification\, and
+ cross-signing.\n\nThis talk is designed for people with a basic
+ understanding of the various Matrix features. You do not need to know
+ anything about cryptography to gain value from this talk. I will cover
+ some basics of cryptosystems\, but at a very high level cursory level in
+ order to motivate the selection of key algorithms.
+SUMMARY:Matrix Key Infrastructure
+LOCATION:LAB 3
+STATUS:CONFIRMED
+CATEGORIES:Long Talk
+DTSTART:20240921T160000
+DTEND:20240921T164500
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/H3MCSB/
+CREATED:20240825T103036Z
+UID:H3MCSB@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:Element has been feverishly working away on Element X over
+ the last few years - aiming to be the fastest\, most beautiful and most
+ usable messaging app ever - outperforming today’s mainstream apps such
+ as iMessage\, WhatsApp and Telegram - all while building on Matrix for
+ open interoperability\, decentralisation and end-to-end encryption.\n\nWe
+ made our initial public “Ignition” launch for existing powerusers in
+ Sept 2023\, and by Sept 2024 we will finally be at the point where
+ Element X is usable as a default app for most purposes\, and Element will
+ be recommending it to new users!\n\nIn this talk\, we will give a VIP
+ tour of:\n- The unrecognisably improved UX\, and how Element X is a truly
+ design-led product\, focused on usability from the outset.\n- Compound -
+ the design system which ensures beautiful and usable UI across Element
+ X\, Element Call and Element Web/Desktop \n- Invisible Cryptography in
+ practice - how Element X sets out to hide encryption from the user
+ entirely.\n- The joy of OIDC in Element X - instant login via QR Login\,
+ registration\, MFA and device management via Open ID Connect\n- How
+ we’ve fully integrated Native VoIP calling between Element X and
+ Element Web with Element Call\n- How you can get up and running with
+ Element X today.
+SUMMARY:Element X Launch!
+LOCATION:LAB 3
+STATUS:CONFIRMED
+CATEGORIES:Long Talk
+DTSTART:20240920T171500
+DTEND:20240920T180000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/JZCAFV/
+CREATED:20240825T103036Z
+UID:JZCAFV@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:In this presentation\, we will explore the TI-Messenger\, an
+ important service designed to enhance secure communication within
+ Germany's healthcare system\, developed by gematik\, Germany's Digital
+ Health Agency. Attendees will gain an understanding of:\n\nWhat is the
+ TI-Messenger?\nAn introduction to the TI-Messenger\, its purpose\, and
+ its role in secure communication among healthcare providers and
+ patients.\n\nWhat is the Telematics Infrastructure?\nAn overview of the
+ Telematics Infrastructure\, its components\, and its role in integrating
+ digital health services across Germany.\n\nArchitectural Overview of the
+ TI-Messenger Service:\nA detailed look at the architecture of the
+ TI-Messenger\, including its core components\, security features\, and
+ integration with the Telematics Infrastructure.\n\nOperational Challenges
+ in a Federated Environment:\nAn examination of the challenges in
+ operating the TI-Messenger within a federated healthcare system and the
+ strategies used to address these issues.\n\nMarket Situation 2024:
+ \nInsights into the current market dynamics\, adoption rates\, and the
+ competitive landscape of healthcare communication technologies in
+ 2024.\n\nFuture Outlook:\nA perspective on the future of the
+ TI-Messenger\, potential advancements\, and the evolving role of digital
+ communication in healthcare.\n\nThis session is ideal for technical
+ professionals\, Matrix enthusiasts\, and anyone interested in the
+ intersection of digital technology and healthcare. Join us to learn how
+ the TI-Messenger is shaping the future of secure healthcare communication
+ in Germany.
+SUMMARY:The TI-Messenger: Advancing Secure Healthcare Communication
+ within Germany
+LOCATION:LAB 4
+STATUS:CONFIRMED
+CATEGORIES:Long Talk
+DTSTART:20240920T133000
+DTEND:20240920T141500
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/Q3CVRJ/
+CREATED:20240825T103036Z
+UID:Q3CVRJ@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:Four years ago\, in 2020\, we began attempting to transform
+ Berlin University of the Arts\, Europe’s biggest art university\, from
+ within by building a F/LOSS-based infrastructure for digital
+ communication and collaboration. What initially started with a somewhat
+ customized and stylized Element-Web client quickly reached its limits
+ regarding the specific application requirements of an art
+ university.\n\nBuilding ontop of the [matrix] protocol\, we attempted to
+ conceive this protocol as an institution-wide unified federated
+ datalayer\, far beyond the scope of pure person-to-person or room-based
+ instant messaging.\n\nWe will contextualize this rather abstract idea
+ with insights into the various F/LOSS projects we’ve developed and
+ deployed university-wide based on this concept. The focus was not only to
+ create institution-specific applications\, but also implementing them as
+ configurable and expandable F/LOSS projects\, following the paradigm of
+ “public money\, public code\,” and spinning them off into their own
+ F/LOSS oganisation\, the »[medienhaus/](https://github.com/medienhaus)«
+ project.\n\nInsights will be given into our two main developments during
+ that timeframe and their respective complementary software
+ infrastructure. On one hand\, the [matrix]-based »medienhaus/cms«
+ content management system and its challenges with frontend caching with
+ tens of thousands of nested [matrix] spaces\, and on the other hand\, the
+ collaboration and communication system »medienhaus/spaces«\, designed
+ for use by .e.g public institutions\, groups\, and individuals alike\,
+ which—in addition to pure instant messaging—stores different
+ collaborative application data like text pad items or whiteboard items
+ directly “in the [matrix]”.\n\nThe talk navigates the intersection of
+ software prototyping\, system administration\, and insights into
+ architectural concepts\, ideas\, and decisions regarding how the [matrix]
+ protocol can be used as a unified data(base) layer for institutions. The
+ talk also provides insights into the challenges of such an undertaking in
+ a German public institution\, and what needs to change in the future for
+ public institutions to actively participate in the shift towards a
+ F/LOSS-based infrastructure.
+SUMMARY:open-source·ing a university
+LOCATION:LAB Green (Basement)
+STATUS:CONFIRMED
+CATEGORIES:Long Talk
+DTSTART:20240921T111500
+DTEND:20240921T120000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/FVZ9SJ/
+CREATED:20240825T103036Z
+UID:FVZ9SJ@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:This talk will give all the details about the current
+ features and plans of element call. We will talk about how guest access
+ works and how you can use it\, discuss implementation on Web\, Android
+ and iOS. There are lots of changes in how element call looks and feels
+ and behaves we want to share!\nIf you are interested in a great call
+ experience over matrix which feels like normal phone calls (with
+ batteries included: ringing\, muting\, native call history to name a few)
+ and also get a good understanding about advanced features like guest
+ access\, how call federation works and how to setup your own home server
+ to support all this you are warmly invited listen.
+SUMMARY:Element Call
+LOCATION:LAB 4
+STATUS:CONFIRMED
+CATEGORIES:Long Talk
+DTSTART:20240921T133000
+DTEND:20240921T141500
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/XSRHTZ/
+CREATED:20240825T103036Z
+UID:XSRHTZ@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:Matrix now has its first elected Governing Board! Join us to
+ learn about the Governing Board – who is on it\, what it does\, and how
+ it works – and Matrix's journey to increasingly open governance.
+SUMMARY:Meet the Governing Board
+LOCATION:LAB 4
+STATUS:CONFIRMED
+CATEGORIES:Short Talk
+DTSTART:20240921T113000
+DTEND:20240921T120000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/H9CWYB/
+CREATED:20240825T103036Z
+UID:H9CWYB@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:The gematik [TI-Messenger](https:
+ //fachportal.gematik.de/anwendungen/ti-messenger) (TI-M) is a
+ Matrix-based national standard for an interoperable healthcare messaging
+ system in Germany. We have recently migrated the TI-M specification from
+ Matrix v1.3 to v1.11 and will be reporting on:\n\n* Challenges
+ encountered in consuming and evaluating the spec [changelog](https:
+ //spec.matrix.org/v1.11/changelog/)\n* Strategies taken to address
+ incompatible changes and prepare for future removals\n* Support we've
+ received and ways we've tried to contribute back
+SUMMARY:Migrating the gematik TI-Messenger spec from Matrix 1.3 to 1.11
+LOCATION:LAB 3
+STATUS:CONFIRMED
+CATEGORIES:Short Talk
+DTSTART:20240921T133000
+DTEND:20240921T140000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/SR8MGM/
+CREATED:20240825T103036Z
+UID:SR8MGM@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+SUMMARY:How to fix security issues in a decentralized system with
+ multiple vendors
+LOCATION:LAB 3
+STATUS:CONFIRMED
+CATEGORIES:Short Talk
+DTSTART:20240920T141500
+DTEND:20240920T144500
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/JXU3VC/
+CREATED:20240825T103036Z
+UID:JXU3VC@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:The interoperable\, open standard\, world of Matrix makes
+ connecting between organisations as easy as email. But sometimes an
+ organisation might want to control how its users connect with people at
+ other organisations. \n\nA deep dive into how Secure Border Gateways
+ (SBGs) enable organisations to manage their network connections.
+SUMMARY:Federated\, not out of control
+LOCATION:LAB 4
+STATUS:CONFIRMED
+CATEGORIES:Short Talk
+DTSTART:20240920T113000
+DTEND:20240920T120000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/SKRSHL/
+CREATED:20240825T103036Z
+UID:SKRSHL@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:At its core\, Matrix is not meant to be a user-management and
+ authentication API. The OIDC-native project aims to replace the current
+ APIs with OAuth 2.0 and OpenID Connect. It brings a more secure
+ foundation for clients to authenticate\, whilst making it more flexible
+ for homeservers to implement any authentication mechanism\, without
+ having to worry about client compatibility or poor user
+ experience.\n\nThis transition is backed by a project called Matrix
+ Authentication Service\, which rewrites the authentication logic in
+ Synapse from the ground up. It provides users with better registration\,
+ login and account management experiences\, and enables new functionality
+ like QR code login and restricted client access.\n\nThis talk will cover
+ what this transition brings to end users\, how client developers can
+ adopt the new APIs\, and what the next steps are for the project.
+SUMMARY:Harder\, better\, faster\, stronger auth with OpenID Connect
+LOCATION:LAB 4
+STATUS:CONFIRMED
+CATEGORIES:Long Talk
+DTSTART:20240921T164500
+DTEND:20240921T173000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/UHNEUC/
+CREATED:20240825T103036Z
+UID:UHNEUC@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:A talk aimed at server administrators and those responsible
+ for regulatory compliance of their Matrix implementations\, going through
+ the process that we follow to approach new obligations - from proposal to
+ implementation and enforcement stages\, such as:\n\n- How we decide which
+ proposals to engage with\n- Navigating an ever changing global legal
+ landscape\n- Early thoughts on DSA and OSA and its implications on
+ Matrix
+SUMMARY:Regulatory compliance in decentralised environments
+LOCATION:LAB 3
+STATUS:CONFIRMED
+CATEGORIES:Short Talk
+DTSTART:20240921T164500
+DTEND:20240921T171500
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/NFCLDB/
+CREATED:20240825T103036Z
+UID:NFCLDB@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:Försäkringskassan is using Matrix to create a cloud-based
+ secure communications service called SAFOS (collaboration platform for
+ the public sector) for Sweden’s public sector authorities.
+SUMMARY:Försäkringskassan\, Matrix and Sweden’s public sector
+LOCATION:LAB 4
+STATUS:CONFIRMED
+CATEGORIES:Long Talk
+DTSTART:20240920T161500
+DTEND:20240920T170000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/9VVFWH/
+CREATED:20240825T103036Z
+UID:9VVFWH@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+SUMMARY:Polychat
+LOCATION:LAB Green (Basement)
+STATUS:CONFIRMED
+CATEGORIES:Short Talk
+DTSTART:20240920T133000
+DTEND:20240920T140000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/KANZZR/
+CREATED:20240825T103036Z
+UID:KANZZR@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:This will be a short talk\, describing the value of privacy
+ and dignity in terms of what it costs us\, as a society\, if it's cheap
+ to take them away. I'll be arguing that a key distinguisher of
+ participatory democracy - boutique governance\, the Rolls Royce of public
+ adminstration - is that taking away people's rights is expensive and _has
+ to be kept expensive_ if your state wants to stay a participatory
+ democracy.
+SUMMARY:The Macroeconomics Of Privacy and Dignity
+LOCATION:LAB 3
+STATUS:CONFIRMED
+CATEGORIES:Short Talk
+DTSTART:20240921T113000
+DTEND:20240921T115500
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/SRUD8V/
+CREATED:20240825T103036Z
+UID:SRUD8V@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+SUMMARY:Matrix Community Retreat 2024
+LOCATION:Workshop Room on Level 4
+STATUS:CONFIRMED
+CATEGORIES:Short Talk
+DTSTART:20240921T173000
+DTEND:20240921T180000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/BMFEDN/
+CREATED:20240825T103036Z
+UID:BMFEDN@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:It's the first time for me to discuss these particular
+ findings in a public setting. Being in a sweet spot
+ outside-Element-inside-Foundation allows me to claim a somewhat neutral
+ position\, which the audience will hopefully appreciate\, as one of
+ prominent topics will be the special situation of Element in the
+ ecosystem and my view of it through the prism of VSM.\n\nAs most people
+ in the audience are likely unaware of the theory\, I expect to spend the
+ first 15 minutes on a VSM crash course.\n\nThe talk title is a play on
+ the name of Stafford Beer's book\, "Brain of the Firm"\, where VSM has
+ been originally introduced.
+SUMMARY:Brain of the community: Matrix as a viable system
+LOCATION:LAB Green (Basement)
+STATUS:CONFIRMED
+CATEGORIES:Long Talk
+DTSTART:20240921T101500
+DTEND:20240921T110000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/WR9DKK/
+CREATED:20240825T103036Z
+UID:WR9DKK@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:A talk that looks to give the audience a framework for
+ thinking about the choice between paying for a Matrix backend or building
+ from FOSS\, including:\n\n- A decision tree for consideration\n- The
+ benefits of a paid-for product (includes live demos)\n- Back of the
+ envelope ROI
+SUMMARY:From Protocol to Product: Taking Matrix into a typical workplace
+ environmen
+LOCATION:LAB 3
+STATUS:CONFIRMED
+CATEGORIES:Short Talk
+DTSTART:20240920T133000
+DTEND:20240920T140000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/WQERYB/
+CREATED:20240825T103036Z
+UID:WQERYB@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:If an emergenc arises\, every second counts. For voluntary
+ first responders this means\, they need to decide if it is worth to wait
+ for more colleagues to arrive at the department\, or to finally get at
+ least some help to those in need. More and more fire departments in
+ germany are looking for applications\, that provide a bidirectional
+ communication channel in addition to the one-way TETRA alerts to answer
+ the question of how long it takes for each of them to arrive at the
+ department.\nUsing the application service API\, Alertrix aims to extend
+ matrix with this functionality and provide emergency services with a full
+ communication platform for secure emergency communication and
+ feature-rich every-day training coordination.\nAs a student and
+ passionate firefighter and open source enthusiast\, I am very happy to
+ have gotten the chance\, to develop a solution to this problem with the
+ financial support of PrototypeFund.
+SUMMARY:Using matrix to coordinate Emergency Services
+LOCATION:LAB 3
+STATUS:CONFIRMED
+CATEGORIES:Short Talk
+DTSTART:20240920T150000
+DTEND:20240920T153000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/QUZT38/
+CREATED:20240825T103036Z
+UID:QUZT38@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:Carla Griggio (https://carlagriggio.com/) is a tenure-track
+ assistant professor at Aalborg University’s Department of Computer
+ Science\, where she teaches and conducts research on Human-Computer
+ Interaction. Her research has been published in top international
+ conferences and explores the intricate ways messaging platform designs
+ influence personal communications and relationships. \n\nIn her talk\,
+ Carla will unveil an interesting interplay between the restrictive nature
+ of walled gardens and their unexpected role in privacy management across
+ social circles. Attendees will gain a comprehensive understanding of the
+ privacy vs. app choice dilemma\, equipped with data-driven insights and
+ innovative concepts that can:\n- Inspire developers to think of novel
+ ideas aligned with Matrix’s vision of interoperable messaging.\n-
+ Inform policymakers about user behavior patterns that may influence the
+ mainstream adoption of messaging interoperability.
+SUMMARY:The Walled Garden Dilemma: Privacy vs. App Choice in Messaging
+ Ecosystems
+LOCATION:LAB 3
+STATUS:CONFIRMED
+CATEGORIES:Short Talk
+DTSTART:20240921T104500
+DTEND:20240921T111500
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/W9BPKR/
+CREATED:20240825T103036Z
+UID:W9BPKR@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:The focus of this talk will be to present a detailed overview
+ of Matrix Widgets and show how you can use the Matrix Widget API and the
+ Matrix Widget Toolkit to develop single-page applications that are able
+ to leverage the Matrix protocol to build any type of app\, especially
+ those that can benefit from end-to-end encryption and real-time data
+ syncronisation.\n\nWe will address the following topics:\n\n- What are
+ Matrix Widgets and the Widget API\n- Demonstration and overview of
+ Widgets developed by Nordeck\n- Current state of Widgets\n  - Client
+ support\n  - [Matrix Widget Toolkit](https:
+ //github.com/nordeck/matrix-widget-toolkit/)\n  - Element Call and the
+ reverse Matrioshka approach\n  - Widgets on Element X and the Rust
+ SDK\n\n- Standalone NeoBoard\n  - Building a standalone Matrix Widget
+ client\n  - Hybrid Widgets\, [NeoBoard](https:
+ //github.com/nordeck/matrix-neoboard) as both an App and a Widget\n  -
+ What lies ahead\n\nWhen we wrap up\, you should have a solid
+ understanding of the benefits and shortcomings of developing Widgets with
+ Matrix. know some inspirational examples of real-life widgets and how
+ they are being used\, and be familiar with the tools to develop your
+ own.
+SUMMARY:Standalone Matrix-based apps using the Widget API
+LOCATION:LAB Green (Basement)
+STATUS:CONFIRMED
+CATEGORIES:Long Talk
+DTSTART:20240921T133000
+DTEND:20240921T141500
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/BWMLMD/
+CREATED:20240825T103036Z
+UID:BWMLMD@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:We would like to introduce "Tammy"\, our extensible Matrix
+ messenger. It is a full-blown Matrix messenger with a UI for Desktop\,
+ Mobile and Web. It is a sibling of "Timmy"\, our TI-messenger for the
+ German healthcare system\, and uses the same basic building blocks of
+ Trixnity and Trixnity Messenger.\n\nWe would like to show you how you can
+ integrate Tammy into your applications and how to extend it with new
+ features with an architecture that can change behaviour just via
+ configuration that massively simplifies the development and update
+ process.
+SUMMARY:Tammy - a modular Matrix messenger
+LOCATION:LAB 3
+STATUS:CONFIRMED
+CATEGORIES:Long Talk
+DTSTART:20240921T143000
+DTEND:20240921T151500
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/MTZJQL/
+CREATED:20240825T103036Z
+UID:MTZJQL@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:Context: Civic space on a downward spiral.\nIn a world
+ grappling with authoritarianism\, climate crises\, and violent
+ conflicts\, digital tools have emerged as vital infrastructure for civil
+ society organizations. These tools empower movements to resist oppression
+ and advocate for systemic change\, addressing root causes.\nHowever\,
+ there is a glaring gap in providing frontline activists with the
+ necessary digital infrastructure. Authoritarian regimes are refining
+ their tactics and leveraging technology to suppress dissent\, leaving
+ only 2% of the global population in fully free countries. As civic space
+ shrinks\, investing in robust digital infrastructure is crucial to
+ enhance organizing capacity\, foster effective coalitions\, and protect
+ activists on the ground.\n\nProblem: The Failure of Current Tools for
+ Civil Society\nDespite the rapid growth of digital tools and services\,
+ few are tailored to the unique challenges faced by civil society
+ movements. Traditional venture capital often prioritizes high returns\,
+ sidelining activists and grassroots movements lacking financial clout.
+ Consequently\, existing tools fall short in supporting the required level
+ of organizing and ensuring the safety of at-risk activists. This
+ infrastructure gap forces civil society organizations to rely on
+ platforms ill-suited for their needs.\n\nWhy This Session Matters\nJoin
+ us to explore how the Matrix Protocol can empower civil society movements
+ and activists on the frontlines of democracy\, human rights\, and
+ environmental protection. This session will highlight the critical
+ digital infrastructure gaps facing civil society\, explain why chat alone
+ is insufficient for impactful organizing\, and unveil innovative
+ solutions with real-world insights from global movements. Be part of the
+ conversation and learn how you can contribute to the change.
+SUMMARY:Empowering activists and human rights defenders with Matrix
+LOCATION:LAB 3
+STATUS:CONFIRMED
+CATEGORIES:Short Talk
+DTSTART:20240921T173000
+DTEND:20240921T180000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/FUXFHY/
+CREATED:20240825T103036Z
+UID:FUXFHY@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+SUMMARY:Matrix as enabler for the SwissPost nationwide ePost
+ communication system
+LOCATION:LAB 4
+STATUS:CONFIRMED
+CATEGORIES:Short Talk
+DTSTART:20240920T144500
+DTEND:20240920T151500
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/QLHGWA/
+CREATED:20240825T103036Z
+UID:QLHGWA@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:For many decentralisation goals that Matrix wants to
+ achieve\, digital identity is an essential component. Without strongly
+ secure identity\, E2EE\, for instance\, can be seriously weakened in its
+ intended privacy goals. Without decentralised identity\, not only
+ authenticity and privacy can be compromised\, the bad effects of
+ centralisation can be re-constituted in the application layer or with AI
+ capabilities. Wenjing is an expert and active contributor to the
+ OpenWallet\, Trust over IP\, W3C\, and related communities focused on
+ digital identities. His talk will introduce a concrete initiative to
+ combine the latest decentralised identity and protocols within the Matrix
+ architecture and discuss the benefits of that to Matrix users and
+ ecosystem.
+SUMMARY:Introducing decentralised identity to Matrix
+LOCATION:LAB 4
+STATUS:CONFIRMED
+CATEGORIES:Long Talk
+DTSTART:20240921T173000
+DTEND:20240921T181500
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/Z3NWYN/
+CREATED:20240825T103036Z
+UID:Z3NWYN@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:We will explore the technical details of how MatrixRTC calls
+ work and dive into the tricky topics of how we can make call memberships
+ reliable\, discuss the additional requirements for encrypting a real time
+ session and explore the general setup so we can have a conflict free
+ flexible eventually consistent system for RTC streams.\nBased on this we
+ will show how we built a guest access system on top of this (adding non
+ matrix native participants with just a link to the call) and showcase
+ what interesting other call conferencing projects this allows to
+ interoperate.\nIf you are a developer interested in RTC over Matrix this
+ is a great place to get started with the fundamental concept and get an
+ up to date understanding of what current challenges there are that you
+ might solve.
+SUMMARY:MatrixRTC
+LOCATION:LAB 4
+STATUS:CONFIRMED
+CATEGORIES:Long Talk
+DTSTART:20240921T160000
+DTEND:20240921T164500
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/MJAGVK/
+CREATED:20240825T103036Z
+UID:MJAGVK@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+SUMMARY:Stop calling Matrix APIs (directly)
+LOCATION:Workshop Room on Level 4
+STATUS:CONFIRMED
+CATEGORIES:Short Talk
+DTSTART:20240921T143000
+DTEND:20240921T150000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/V3GK8B/
+CREATED:20240825T103036Z
+UID:V3GK8B@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+SUMMARY:Governing Board meeting
+LOCATION:LAB 4
+STATUS:CONFIRMED
+CATEGORIES:Sprint (Sunday)
+DTSTART:20240922T133000
+DTEND:20240922T153000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/BUBUAD/
+CREATED:20240825T103036Z
+UID:BUBUAD@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:The presentation starts with a brief introduction of Elm as a
+ programming language\, shows a few of its challenges as a functional
+ programming language in the Matrix ecosystem\, and then shows its
+ relevance to developers from different communities.
+SUMMARY:Elm SDK - your favourite SDK you'll never use
+LOCATION:Workshop Room on Level 4
+STATUS:CONFIRMED
+CATEGORIES:Short Talk
+DTSTART:20240921T104500
+DTEND:20240921T111500
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/AECF7D/
+CREATED:20240825T103036Z
+UID:AECF7D@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+SUMMARY:Running a large-scale matrix messenger at university medical
+ center mainz
+LOCATION:LAB 4
+STATUS:CONFIRMED
+CATEGORIES:Short Talk
+DTSTART:20240920T141500
+DTEND:20240920T144500
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/F9ZKSV/
+CREATED:20240825T103036Z
+UID:F9ZKSV@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:What Tools\, Addons\, Hacks or Code snippets do you use daily
+ to enhance your Matrix experience? I show you my 7 years worth of
+ collecting scripts\, Maubot configs\, and stranger things - not to
+ mention my own projects - and look forward to learning what you are doing
+ as well!\n\nPlease remember to bring your devices etc so you can show off
+ your creations!\n\nThis is the 6th time I'll be offering this
+ continuously improved workshop.
+SUMMARY:Tune Your Chat
+LOCATION:Workshop Room on Level 4
+STATUS:CONFIRMED
+CATEGORIES:Workshop
+DTSTART:20240921T161500
+DTEND:20240921T171500
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/P9KPFG/
+CREATED:20240825T103036Z
+UID:P9KPFG@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:Authenticated Media ([MSC3916](https:
+ //github.com/matrix-org/matrix-spec-proposals/pull/3916)) is one of those
+ changes which affects the entire ecosystem\, so how do you roll it out
+ safely? Are there things which can be done to reduce the impact? How can
+ the MSC process help get the changes out quickly? These are all the sorts
+ of questions we'll be exploring in this talk by walking through the
+ rollout and implementation plans\, and reviewing the MSC process to see
+ how it can help get the feature out in the wild quickly.
+SUMMARY:Authenticated media & how to ship spec features
+LOCATION:LAB 4
+STATUS:CONFIRMED
+CATEGORIES:Long Talk
+DTSTART:20240921T104500
+DTEND:20240921T113000
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240825T103036Z
+URL:https://cfp.matrix.org/matrixconf2024/talk/9HHQMQ/
+CREATED:20240825T103036Z
+UID:9HHQMQ@@cfp.matrix.org
+LAST-MODIFIED:20240825T103036Z
+DESCRIPTION:Very draft gist so that the link doesn't expire: (I will edit
+ this ASAP)\n\nCurrent state of feature support against the CS API.\nHow
+ it is batteries included.\nContributions and licensing (why
+ AGPL).\nRelease cycles and how you can request features.
+SUMMARY:State of the Matrix Dart SDK 2024
+LOCATION:LAB 4
+STATUS:CONFIRMED
+CATEGORIES:Short Talk
+DTSTART:20240921T151500
+DTEND:20240921T154500
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

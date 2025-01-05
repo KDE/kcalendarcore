@@ -3,15 +3,18 @@ include(ECMMarkAsTest)
 find_package(Qt6Test ${REQUIRED_QT_VERSION} CONFIG REQUIRED)
 
 # needed by loadcalendar
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/cal DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(
+    COPY ${CMAKE_CURRENT_SOURCE_DIR}/cal
+    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
+)
 
 macro(macro_unit_tests)
-  foreach(_testname ${ARGN})
-    add_executable(${_testname} ${_testname}.cpp)
-    add_test(NAME ${_testname} COMMAND ${_testname})
-    ecm_mark_as_test(${_testname})
-    target_link_libraries(${_testname} KF6CalendarCore Qt6::Test LibIcal)
-  endforeach()
+    foreach(_testname ${ARGN})
+        add_executable(${_testname} ${_testname}.cpp)
+        add_test(NAME ${_testname} COMMAND ${_testname})
+        ecm_mark_as_test(${_testname})
+        target_link_libraries(${_testname} KF6CalendarCore Qt6::Test LibIcal)
+    endforeach()
 endmacro()
 
 macro_unit_tests(
@@ -60,61 +63,97 @@ macro_unit_tests(
   calendarlistmodeltest
 )
 
-set_target_properties(testmemorycalendar PROPERTIES COMPILE_FLAGS -DICALTESTDATADIR="\\"${CMAKE_CURRENT_SOURCE_DIR}/data/\\"")
-set_target_properties(testreadrecurrenceid PROPERTIES COMPILE_FLAGS -DICALTESTDATADIR="\\"${CMAKE_CURRENT_SOURCE_DIR}/data/\\"")
-set_target_properties(testconference PROPERTIES COMPILE_FLAGS -DICALTESTDATADIR="\\"${CMAKE_CURRENT_SOURCE_DIR}/data/\\"")
+set_target_properties(
+    testmemorycalendar
+    PROPERTIES
+        COMPILE_FLAGS
+            -DICALTESTDATADIR="\\"${CMAKE_CURRENT_SOURCE_DIR}/data/\\""
+)
+set_target_properties(
+    testreadrecurrenceid
+    PROPERTIES
+        COMPILE_FLAGS
+            -DICALTESTDATADIR="\\"${CMAKE_CURRENT_SOURCE_DIR}/data/\\""
+)
+set_target_properties(
+    testconference
+    PROPERTIES
+        COMPILE_FLAGS
+            -DICALTESTDATADIR="\\"${CMAKE_CURRENT_SOURCE_DIR}/data/\\""
+)
 # this test cannot work with msvc because libical should not be altered
 # and therefore we can't add KCALENDARCORE_EXPORT there
 # it should work fine with mingw because of the auto-import feature
 # TODO: check if this can build with msvc now (and if it works on Windows)
 if(NOT MSVC)
-  macro_unit_tests(testicaltimezones)
-  target_link_libraries(testicaltimezones Qt6::Core KF6::CalendarCore)
+    macro_unit_tests(testicaltimezones)
+    target_link_libraries(testicaltimezones Qt6::Core KF6::CalendarCore)
 endif()
 
 ########### Tests #######################
 
 file(GLOB_RECURSE testFiles data/RecurrenceRule/*.ics)
-file(GLOB_RECURSE vCalFiles data/vCalendar/*.vcs)
-file(GLOB_RECURSE compatFiles data/Compat/*.ics)
+if(${LibIcal_VERSION} VERSION_GREATER_EQUAL "3.99.99")
+    file(GLOB_RECURSE vCalFiles data/vCalendar-libicalV4/*.vcs)
+    file(GLOB_RECURSE compatFiles data/Compat-libicalV4/*.ics)
+else()
+    file(GLOB_RECURSE vCalFiles data/vCalendar/*.vcs)
+    file(GLOB_RECURSE compatFiles data/Compat/*.ics)
+endif()
 
 find_program(PERL_EXECUTABLE perl)
 
 macro(kcalcore_run_single_test _prefix _f _test _testarg)
-  get_filename_component(_fn ${_f} NAME)
+    get_filename_component(_fn ${_f} NAME)
 
-  # Write the output file in the build directory.
-  string(REGEX REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_BINARY_DIR}" _outFile ${_f})
-  get_filename_component(_outputPath ${_outFile} PATH)
-  file(MAKE_DIRECTORY ${_outputPath})
+    # Write the output file in the build directory.
+    string(
+        REGEX REPLACE
+        "${CMAKE_CURRENT_SOURCE_DIR}"
+        "${CMAKE_CURRENT_BINARY_DIR}"
+        _outFile
+        ${_f}
+    )
+    get_filename_component(_outputPath ${_outFile} PATH)
+    file(MAKE_DIRECTORY ${_outputPath})
 
-  set(_runner ${PERL_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/runsingletestcase.pl)
-  add_test(NAME ${_prefix}-${_fn} COMMAND ${_runner} $<TARGET_FILE:${_test}> ${_testarg} ${_f} ${_outFile})
+    set(_runner
+        ${PERL_EXECUTABLE}
+        ${CMAKE_CURRENT_SOURCE_DIR}/runsingletestcase.pl
+    )
+    add_test(
+        NAME ${_prefix}-${_fn}
+        COMMAND ${_runner} $<TARGET_FILE:${_test}> ${_testarg} ${_f} ${_outFile}
+    )
 endmacro()
 
 file(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/FAILED.log)
 
 foreach(file ${testFiles})
-  kcalcore_run_single_test(RecurNext ${file} testrecurrence "next")
+    kcalcore_run_single_test(RecurNext ${file} testrecurrence "next")
 endforeach()
 
 foreach(file ${testFiles})
-  kcalcore_run_single_test(RecurPrev ${file} testrecurprevious "prev")
+    kcalcore_run_single_test(RecurPrev ${file} testrecurprevious "prev")
 endforeach()
 
 foreach(file ${testFiles})
-  kcalcore_run_single_test(RecursOn ${file} testrecurson "recurson")
+    kcalcore_run_single_test(RecursOn ${file} testrecurson "recurson")
 endforeach()
 
 foreach(file ${compatFiles})
-  kcalcore_run_single_test(Compat ${file} readandwrite "ical")
+    kcalcore_run_single_test(Compat ${file} readandwrite "ical")
 endforeach()
 
 foreach(file ${vCalFiles})
-  kcalcore_run_single_test(VCalIn ${file} readandwrite "ical")
+    kcalcore_run_single_test(VCalIn ${file} readandwrite "ical")
 endforeach()
 
-file(GLOB_RECURSE xCalFiles data/xCalendar/*.xcal)
+if(${LibIcal_VERSION} VERSION_GREATER_EQUAL "3.99.99")
+    file(GLOB_RECURSE xCalFiles data/xCalendar-libicalV4/*.xcal)
+else()
+    file(GLOB_RECURSE xCalFiles data/xCalendar/*.xcal)
+endif()
 foreach(file ${xCalFiles})
-  kcalcore_run_single_test(XCalIn ${file} readandwrite "ical")
+    kcalcore_run_single_test(XCalIn ${file} readandwrite "ical")
 endforeach()

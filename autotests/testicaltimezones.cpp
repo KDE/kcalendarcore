@@ -10,7 +10,6 @@
 #include "icaltimezones_p.h"
 
 #include <QDateTime>
-
 #include <QTest>
 
 QTEST_MAIN(ICalTimeZonesTest)
@@ -88,6 +87,49 @@ static const char *VTZ_other_DST =
     "END:DAYLIGHT\r\n"
     "END:VTIMEZONE\r\n";
 
+// libical version 4 writes the RRULE: parameters in a different order compared to libical version3
+#if ICAL_CHECK_VERSION(3, 99, 99)
+static const char *VTZ_Prague =
+    "BEGIN:VTIMEZONE\r\n"
+    "TZID:Europe/Prague\r\n"
+    "BEGIN:DAYLIGHT\r\n"
+    "TZNAME:CEST\r\n"
+    "TZOFFSETFROM:+0000\r\n"
+    "TZOFFSETTO:+0200\r\n"
+    "DTSTART:19790401T010000\r\n"
+    "RDATE;VALUE=DATE-TIME:19790401T010000\r\n"
+    "END:DAYLIGHT\r\n"
+    "BEGIN:STANDARD\r\n"
+    "TZNAME:CET\r\n"
+    "TZOFFSETFROM:+0200\r\n"
+    "TZOFFSETTO:+0100\r\n"
+    "DTSTART:19971026T030000\r\n"
+    "RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\r\n"
+    "END:STANDARD\r\n"
+    "BEGIN:STANDARD\r\n"
+    "TZNAME:CET\r\n"
+    "TZOFFSETFROM:+0200\r\n"
+    "TZOFFSETTO:+0100\r\n"
+    "DTSTART:19790930T030000\r\n"
+    "RRULE:FREQ=YEARLY;BYMONTH=9;BYDAY=-1SU;UNTIL=19961027T030000\r\n"
+    "RDATE;VALUE=DATE-TIME:19950924T030000\r\n"
+    "END:STANDARD\r\n"
+    "BEGIN:DAYLIGHT\r\n"
+    "TZNAME:CEST\r\n"
+    "TZOFFSETFROM:+0100\r\n"
+    "TZOFFSETTO:+0200\r\n"
+    "DTSTART:19810329T020000\r\n"
+    "RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\r\n"
+    "END:DAYLIGHT\r\n"
+    "BEGIN:DAYLIGHT\r\n"
+    "TZNAME:CEST\r\n"
+    "TZOFFSETFROM:+0100\r\n"
+    "TZOFFSETTO:+0200\r\n"
+    "DTSTART:19800406T020000\r\n"
+    "RDATE;VALUE=DATE-TIME:19800406T020000\r\n"
+    "END:DAYLIGHT\r\n"
+    "END:VTIMEZONE\r\n";
+#else
 static const char *VTZ_Prague =
     "BEGIN:VTIMEZONE\r\n"
     "TZID:Europe/Prague\r\n"
@@ -128,6 +170,7 @@ static const char *VTZ_Prague =
     "RDATE;VALUE=DATE-TIME:19800406T020000\r\n"
     "END:DAYLIGHT\r\n"
     "END:VTIMEZONE\r\n";
+#endif
 
 // When there's an extra transition from +0000 to +0100
 // in 1978 (FreeBSD and old Debian), we get one more

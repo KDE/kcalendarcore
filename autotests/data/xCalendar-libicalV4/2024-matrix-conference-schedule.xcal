@@ -1,0 +1,1396 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<iCalendar xmlns:pentabarf='http://pentabarf.org' xmlns:xCal='urn:ietf:params:xml:ns:xcal'>
+    <vcalendar>
+        <version>2.0</version>
+        <prodid>-//Pentabarf//Schedule//EN</prodid>
+        <x-wr-caldesc></x-wr-caldesc>
+        <x-wr-calname></x-wr-calname>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>CBAWUB@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-CBAWUB</pentabarf:event-slug>
+            <pentabarf:title>Opening &amp; Welcome</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240920T100000</dtstart>
+            <dtend>20240920T101500</dtend>
+            <duration>0.01500</duration>
+            <summary>Opening &amp; Welcome</summary>
+            <description></description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Short Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/CBAWUB/</url>
+            <location>LAB 3</location>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>WUGXFW@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-WUGXFW</pentabarf:event-slug>
+            <pentabarf:title>Matrix 2.0 Is Here!</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240920T101500</dtstart>
+            <dtend>20240920T110000</dtend>
+            <duration>0.04500</duration>
+            <summary>Matrix 2.0 Is Here!</summary>
+            <description>Matrix 2.0 is a set of MSCs which, once merged, will form the biggest step change that Matrix has ever seen in terms of functionality, usability and performance. Matrix 2.0 is made up of:
+
+- Simplified Sliding Sync (instant login, instant sync and instant launch)
+- Native OpenID Connect for authentication
+- Native Encrypted VoIP calling over Matrix
+- Invisible encryption
+
+We first announced the concept of Matrix 2.0 at FOSDEM 2023, and then gave a preview of progress in September, and then at FOSDEM 2024 - but by the time of this talk we believe the MSCs will be pretty much stable and ready for primetime, with native implementations in matrix-rust-sdk, Synapse, matrix-authentication-service and more.
+
+In this talk we’ll give a tour of the MSCs, how they’ve evolved, and what they mean for developers and server admins - and celebrate that Matrix is now at the point where it can finally outperform mainstream alternatives!</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Long Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/WUGXFW/</url>
+            <location>LAB 3</location>
+            
+            <attendee>Matthew Hodgson</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>9BCM3A@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-9BCM3A</pentabarf:event-slug>
+            <pentabarf:title>Strengthening the Base: Laying the Groundwork for a more robust Rust SDK</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240920T111500</dtstart>
+            <dtend>20240920T120000</dtend>
+            <duration>0.04500</duration>
+            <summary>Strengthening the Base: Laying the Groundwork for a more robust Rust SDK</summary>
+            <description>We will cover QR code login using OIDC, an API for caching events and assisting with common tasks related to these, multiprocess locks for ensuring single access to cryptographic state, an API for sending events in a room and automatically retrying under certain conditions, and a simplified Sliding Sync implementation with client-side sorting of the room list. These are all recent additions to the Rust SDK, complementing the existing robust building blocks such as the Timeline and Sync services which we’ll also evoke. Our presentation will delve into what&#x27;s new, examine the underlying functionality, and showcase how these features are utilised in clients like Fractal, iamb, Robrix, or ElementX.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Long Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/9BCM3A/</url>
+            <location>LAB 3</location>
+            
+            <attendee>Benjamin Bouvier</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>WR9DKK@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-WR9DKK</pentabarf:event-slug>
+            <pentabarf:title>From Protocol to Product: Taking Matrix into a typical workplace environmen</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240920T133000</dtstart>
+            <dtend>20240920T140000</dtend>
+            <duration>0.03000</duration>
+            <summary>From Protocol to Product: Taking Matrix into a typical workplace environmen</summary>
+            <description>A talk that looks to give the audience a framework for thinking about the choice between paying for a Matrix backend or building from FOSS, including:
+
+- A decision tree for consideration
+- The benefits of a paid-for product (includes live demos)
+- Back of the envelope ROI</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Short Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/WR9DKK/</url>
+            <location>LAB 3</location>
+            
+            <attendee>Danielle Kirkwood</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>SR8MGM@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-SR8MGM</pentabarf:event-slug>
+            <pentabarf:title>How to fix security issues in a decentralized system with multiple vendors</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240920T141500</dtstart>
+            <dtend>20240920T144500</dtend>
+            <duration>0.03000</duration>
+            <summary>How to fix security issues in a decentralized system with multiple vendors</summary>
+            <description></description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Short Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/SR8MGM/</url>
+            <location>LAB 3</location>
+            
+            <attendee>deepbluev7</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>WQERYB@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-WQERYB</pentabarf:event-slug>
+            <pentabarf:title>Using matrix to coordinate Emergency Services</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240920T150000</dtstart>
+            <dtend>20240920T153000</dtend>
+            <duration>0.03000</duration>
+            <summary>Using matrix to coordinate Emergency Services</summary>
+            <description>If an emergenc arises, every second counts. For voluntary first responders this means, they need to decide if it is worth to wait for more colleagues to arrive at the department, or to finally get at least some help to those in need. More and more fire departments in germany are looking for applications, that provide a bidirectional communication channel in addition to the one-way TETRA alerts to answer the question of how long it takes for each of them to arrive at the department.
+Using the application service API, Alertrix aims to extend matrix with this functionality and provide emergency services with a full communication platform for secure emergency communication and feature-rich every-day training coordination.
+As a student and passionate firefighter and open source enthusiast, I am very happy to have gotten the chance, to develop a solution to this problem with the financial support of PrototypeFund.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Short Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/WQERYB/</url>
+            <location>LAB 3</location>
+            
+            <attendee>Fabian Becker</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>8FC9LT@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-8FC9LT</pentabarf:event-slug>
+            <pentabarf:title>NeoToolSuite: A productivity suite integrated with Matrix</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240920T153000</dtstart>
+            <dtend>20240920T160000</dtend>
+            <duration>0.03000</duration>
+            <summary>NeoToolSuite: A productivity suite integrated with Matrix</summary>
+            <description>This suite makes real time collaboration and communication efficient and simple.
+
+Our widgets transform Element messaging rooms into data rooms with individual business applications. They support both real-time and asynchronous collaboration on common topics. Visualisations, events, meetings, processes, customer service collaboration, structured service requests in rooms with bots, and more.
+
+Here is what you will discover in this presentation:
+
+- NeoBoard Standalone: a SaaS collaborative whiteboard with fresh new designs and features;
+- NeoDateFix: create and manage meetings from within Element;
+- Map widget: navigate, share live location and mark points of interest on a map in an Element room;
+- User search enhancements: find people in Element based on acronyms and roles;
+- eHealthCare: Insights from building clients to the German healthcare sector.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Short Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/8FC9LT/</url>
+            <location>LAB 3</location>
+            
+            <attendee>Björn Cordes</attendee>
+            
+            <attendee>Robert Pascal Gerbauld Catalao</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>3KKCMD@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-3KKCMD</pentabarf:event-slug>
+            <pentabarf:title>DMA, MIMI, (D)MLS, Linearized Matrix and more…</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240920T161500</dtstart>
+            <dtend>20240920T170000</dtend>
+            <duration>0.04500</duration>
+            <summary>DMA, MIMI, (D)MLS, Linearized Matrix and more…</summary>
+            <description>The EU Digital Markets Act has now taken effect, requiring designated messaging gatekeepers to provide interoperable messaging - but only WhatsApp and Facebook Messenger are subject to its regulation so far.  We’ll explain where things are at, and what approaches are available for interop with DMA gatekeepers; how Matrix relates to the IETF MIMI working group; and how Matrix 
+may evolve in future when utilising MLS or Decentralised MLS for encryption.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Long Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/3KKCMD/</url>
+            <location>LAB 3</location>
+            
+            <attendee>Travis Ralston</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>H3MCSB@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-H3MCSB</pentabarf:event-slug>
+            <pentabarf:title>Element X Launch!</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240920T171500</dtstart>
+            <dtend>20240920T180000</dtend>
+            <duration>0.04500</duration>
+            <summary>Element X Launch!</summary>
+            <description>Element has been feverishly working away on Element X over the last few years - aiming to be the fastest, most beautiful and most usable messaging app ever - outperforming today’s mainstream apps such as iMessage, WhatsApp and Telegram - all while building on Matrix for open interoperability, decentralisation and end-to-end encryption.
+
+We made our initial public “Ignition” launch for existing powerusers in Sept 2023, and by Sept 2024 we will finally be at the point where Element X is usable as a default app for most purposes, and Element will be recommending it to new users!
+
+In this talk, we will give a VIP tour of:
+- The unrecognisably improved UX, and how Element X is a truly design-led product, focused on usability from the outset.
+- Compound - the design system which ensures beautiful and usable UI across Element X, Element Call and Element Web/Desktop 
+- Invisible Cryptography in practice - how Element X sets out to hide encryption from the user entirely.
+- The joy of OIDC in Element X - instant login via QR Login, registration, MFA and device management via Open ID Connect
+- How we’ve fully integrated Native VoIP calling between Element X and Element Web with Element Call
+- How you can get up and running with Element X today.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Long Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/H3MCSB/</url>
+            <location>LAB 3</location>
+            
+            <attendee>Amandine Le Pape</attendee>
+            
+            <attendee>Ștefan Ceriu</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>TNNAT7@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-TNNAT7</pentabarf:event-slug>
+            <pentabarf:title>Tchap, the French administration federation: past, present and future</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240920T110000</dtstart>
+            <dtend>20240920T113000</dtend>
+            <duration>0.03000</duration>
+            <summary>Tchap, the French administration federation: past, present and future</summary>
+            <description></description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Short Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/TNNAT7/</url>
+            <location>LAB 4</location>
+            
+            <attendee>Julie RIPA</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>JXU3VC@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-JXU3VC</pentabarf:event-slug>
+            <pentabarf:title>Federated, not out of control</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240920T113000</dtstart>
+            <dtend>20240920T120000</dtend>
+            <duration>0.03000</duration>
+            <summary>Federated, not out of control</summary>
+            <description>The interoperable, open standard, world of Matrix makes connecting between organisations as easy as email. But sometimes an organisation might want to control how its users connect with people at other organisations. 
+
+A deep dive into how Secure Border Gateways (SBGs) enable organisations to manage their network connections.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Short Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/JXU3VC/</url>
+            <location>LAB 4</location>
+            
+            <attendee>Patrick Maier</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>JZCAFV@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-JZCAFV</pentabarf:event-slug>
+            <pentabarf:title>The TI-Messenger: Advancing Secure Healthcare Communication within Germany</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240920T133000</dtstart>
+            <dtend>20240920T141500</dtend>
+            <duration>0.04500</duration>
+            <summary>The TI-Messenger: Advancing Secure Healthcare Communication within Germany</summary>
+            <description>In this presentation, we will explore the TI-Messenger, an important service designed to enhance secure communication within Germany&#x27;s healthcare system, developed by gematik, Germany&#x27;s Digital Health Agency. Attendees will gain an understanding of:
+
+What is the TI-Messenger?
+An introduction to the TI-Messenger, its purpose, and its role in secure communication among healthcare providers and patients.
+
+What is the Telematics Infrastructure?
+An overview of the Telematics Infrastructure, its components, and its role in integrating digital health services across Germany.
+
+Architectural Overview of the TI-Messenger Service:
+A detailed look at the architecture of the TI-Messenger, including its core components, security features, and integration with the Telematics Infrastructure.
+
+Operational Challenges in a Federated Environment:
+An examination of the challenges in operating the TI-Messenger within a federated healthcare system and the strategies used to address these issues.
+
+Market Situation 2024:
+Insights into the current market dynamics, adoption rates, and the competitive landscape of healthcare communication technologies in 2024.
+
+Future Outlook:
+A perspective on the future of the TI-Messenger, potential advancements, and the evolving role of digital communication in healthcare.
+
+This session is ideal for technical professionals, Matrix enthusiasts, and anyone interested in the intersection of digital technology and healthcare. Join us to learn how the TI-Messenger is shaping the future of secure healthcare communication in Germany.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Long Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/JZCAFV/</url>
+            <location>LAB 4</location>
+            
+            <attendee>Jan Kohnert</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>AECF7D@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-AECF7D</pentabarf:event-slug>
+            <pentabarf:title>Running a large-scale matrix messenger at university medical center mainz</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240920T141500</dtstart>
+            <dtend>20240920T144500</dtend>
+            <duration>0.03000</duration>
+            <summary>Running a large-scale matrix messenger at university medical center mainz</summary>
+            <description></description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Short Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/AECF7D/</url>
+            <location>LAB 4</location>
+            
+            <attendee>Hans Hüppelshäuser</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>FUXFHY@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-FUXFHY</pentabarf:event-slug>
+            <pentabarf:title>Matrix as enabler for the SwissPost nationwide ePost communication system</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240920T144500</dtstart>
+            <dtend>20240920T151500</dtend>
+            <duration>0.03000</duration>
+            <summary>Matrix as enabler for the SwissPost nationwide ePost communication system</summary>
+            <description></description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Short Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/FUXFHY/</url>
+            <location>LAB 4</location>
+            
+            <attendee>Renato Stalder</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>JW7PWR@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-JW7PWR</pentabarf:event-slug>
+            <pentabarf:title>A messenger for NATO and its members</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240920T151500</dtstart>
+            <dtend>20240920T160000</dtend>
+            <duration>0.04500</duration>
+            <summary>A messenger for NATO and its members</summary>
+            <description>NATO is developing a messaging platform called [NI2CE](https://innovationhub-act.org/case-studies/ni2ce-messenger/), which stands for NATO Interoperable Instant Communication Environment that looks to address issues including:
+
+
+
+* Privacy concerns
+* Unsecured communication
+* Lack of reliability (centralised systems are prone to global outages) 
+* No interoperability between systems
+* Lack of corporate control or oversight
+* No authentication/SSO to manage users (leavers, joiners, access management etc)</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Long Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/JW7PWR/</url>
+            <location>LAB 4</location>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>NFCLDB@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-NFCLDB</pentabarf:event-slug>
+            <pentabarf:title>Försäkringskassan, Matrix and Sweden’s public sector</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240920T161500</dtstart>
+            <dtend>20240920T170000</dtend>
+            <duration>0.04500</duration>
+            <summary>Försäkringskassan, Matrix and Sweden’s public sector</summary>
+            <description>Försäkringskassan is using Matrix to create a cloud-based secure communications service called SAFOS (collaboration platform for the public sector) for Sweden’s public sector authorities.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Long Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/NFCLDB/</url>
+            <location>LAB 4</location>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>3VY8WT@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-3VY8WT</pentabarf:event-slug>
+            <pentabarf:title>Beyond Instant Messaging: Matrix in the Public Sector</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240920T171500</dtstart>
+            <dtend>20240920T180000</dtend>
+            <duration>0.04500</duration>
+            <summary>Beyond Instant Messaging: Matrix in the Public Sector</summary>
+            <description>Matrix is widely known as an open standard and communication protocol for the instant messaging use case. The protocol integrates well with the modern web ecosystem and provides end-to-end security, with no single points of control or failure. Beyond instant messaging, Matrix [aims to be](https://matrix.org/docs/older/faq/) a generic messaging and data synchronization system for the whole web, built for securely transmitting and replicating JSON data between Matrix-capable clients, servers and services.
+
+Its openness and adaptability is what makes Matrix particularly interesting for government organizations. Last year, the [Architecture Board of the German IT Planning Council](https://www.fitko.de/foederale-koordination/gremienarbeit/foederales-it-architekturboard) launched a project to evaluate Matrix as a foundation for government-to-citizen (G2C) and government-to-business (G2B) communications. [FITKO](https://www.fitko.de/) and the [Federal Ministry of the Interior](https://www.bmi.bund.de/en) joined efforts to pilot this Matrix-based next-generation communication infrastructure between citizens and public authorities.
+
+The aim of the pilot is to showcase end-to-end encrypted communication and great usability as well as to evaluate machine-readable communication such as multiple-choice questions, the answers to which can be automatically processed by the administration&#x27;s IT systems.
+
+Due to its generic end-to-end encrypted data exchange capabilities, Matrix may also be a great fit for other applications in the government domain, such as providing real-time capabilities to online procedures, realizing the [once-only principle](https://en.wikipedia.org/wiki/Once-only_principle), and establishing machine-readable communication between industry and public administration.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Long Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/3VY8WT/</url>
+            <location>LAB 4</location>
+            
+            <attendee>Marco Holz (FITKO)</attendee>
+            
+            <attendee>Inga Greiner-Bild</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>9VVFWH@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-9VVFWH</pentabarf:event-slug>
+            <pentabarf:title>Polychat</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240920T133000</dtstart>
+            <dtend>20240920T140000</dtend>
+            <duration>0.03000</duration>
+            <summary>Polychat</summary>
+            <description></description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Short Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/9VVFWH/</url>
+            <location>LAB Green (Basement)</location>
+            
+            <attendee>Nadine Minagawa</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>R8EC7U@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-R8EC7U</pentabarf:event-slug>
+            <pentabarf:title>Invisible Cryptography</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240920T141500</dtstart>
+            <dtend>20240920T150000</dtend>
+            <duration>0.04500</duration>
+            <summary>Invisible Cryptography</summary>
+            <description>Encryption should be invisible to users: for instance, WhatsApp and Signal almost entirely hide encryption-specific details in their apps.  Element has historically failed at this, both because Matrix’s APIs encourage exposing complicated UX, combined with development being historically too bottom-up from the APIs.
+
+As part of designing Element X, the encryption experience has been completely rethought:
+
+- All devices must be signed by their owner by default (and unsigned devices should be excommunicated!)
+- Device signing should be invisible and happen automatically at login.
+- Users should (eventually) be “trust on first use” by default
+- Users, messages, and rooms should never expose confusing “shields” to warn about encryption details - messages should either be visible and secure, or hidden outright.
+- We’ve defined consistent, user-centric terminology throughout all of Matrix when discussing encryption.
+
+We’ll explain all of the thinking which went into this from the Element encryption team, and what it means for Matrix as a whole.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Long Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/R8EC7U/</url>
+            <location>LAB Green (Basement)</location>
+            
+            <attendee>Valère Fédronic</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>JMXETG@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-JMXETG</pentabarf:event-slug>
+            <pentabarf:title>Advancing human rights with Tor</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240921T100000</dtstart>
+            <dtend>20240921T104500</dtend>
+            <duration>0.04500</duration>
+            <summary>Advancing human rights with Tor</summary>
+            <description></description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Long Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/JMXETG/</url>
+            <location>LAB 3</location>
+            
+            <attendee>Pavel Zoneff</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>QUZT38@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-QUZT38</pentabarf:event-slug>
+            <pentabarf:title>The Walled Garden Dilemma: Privacy vs. App Choice in Messaging Ecosystems</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240921T104500</dtstart>
+            <dtend>20240921T111500</dtend>
+            <duration>0.03000</duration>
+            <summary>The Walled Garden Dilemma: Privacy vs. App Choice in Messaging Ecosystems</summary>
+            <description>Carla Griggio (https://carlagriggio.com/) is a tenure-track assistant professor at Aalborg University’s Department of Computer Science, where she teaches and conducts research on Human-Computer Interaction. Her research has been published in top international conferences and explores the intricate ways messaging platform designs influence personal communications and relationships. 
+
+In her talk, Carla will unveil an interesting interplay between the restrictive nature of walled gardens and their unexpected role in privacy management across social circles. Attendees will gain a comprehensive understanding of the privacy vs. app choice dilemma, equipped with data-driven insights and innovative concepts that can:
+- Inspire developers to think of novel ideas aligned with Matrix’s vision of interoperable messaging.
+- Inform policymakers about user behavior patterns that may influence the mainstream adoption of messaging interoperability.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Short Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/QUZT38/</url>
+            <location>LAB 3</location>
+            
+            <attendee>Carla Griggio</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>KANZZR@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-KANZZR</pentabarf:event-slug>
+            <pentabarf:title>The Macroeconomics Of Privacy and Dignity</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240921T113000</dtstart>
+            <dtend>20240921T115500</dtend>
+            <duration>0.02500</duration>
+            <summary>The Macroeconomics Of Privacy and Dignity</summary>
+            <description>This will be a short talk, describing the value of privacy and dignity in terms of what it costs us, as a society, if it&#x27;s cheap to take them away. I&#x27;ll be arguing that a key distinguisher of participatory democracy - boutique governance, the Rolls Royce of public adminstration - is that taking away people&#x27;s rights is expensive and _has to be kept expensive_ if your state wants to stay a participatory democracy.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Short Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/KANZZR/</url>
+            <location>LAB 3</location>
+            
+            <attendee>Mike Hoye</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>H9CWYB@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-H9CWYB</pentabarf:event-slug>
+            <pentabarf:title>Migrating the gematik TI-Messenger spec from Matrix 1.3 to 1.11</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240921T133000</dtstart>
+            <dtend>20240921T140000</dtend>
+            <duration>0.03000</duration>
+            <summary>Migrating the gematik TI-Messenger spec from Matrix 1.3 to 1.11</summary>
+            <description>The gematik [TI-Messenger](https://fachportal.gematik.de/anwendungen/ti-messenger) (TI-M) is a Matrix-based national standard for an interoperable healthcare messaging system in Germany. We have recently migrated the TI-M specification from Matrix v1.3 to v1.11 and will be reporting on:
+
+* Challenges encountered in consuming and evaluating the spec [changelog](https://spec.matrix.org/v1.11/changelog/)
+* Strategies taken to address incompatible changes and prepare for future removals
+* Support we&#x27;ve received and ways we&#x27;ve tried to contribute back</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Short Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/H9CWYB/</url>
+            <location>LAB 3</location>
+            
+            <attendee>Johannes Marbach</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>CAA8MQ@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-CAA8MQ</pentabarf:event-slug>
+            <pentabarf:title>Matrix in Public Sector - a Review of 3 Years of Successful Operation</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240921T140000</dtstart>
+            <dtend>20240921T143000</dtend>
+            <duration>0.03000</duration>
+            <summary>Matrix in Public Sector - a Review of 3 Years of Successful Operation</summary>
+            <description></description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Short Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/CAA8MQ/</url>
+            <location>LAB 3</location>
+            
+            <attendee>Björn Cordes</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>BWMLMD@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-BWMLMD</pentabarf:event-slug>
+            <pentabarf:title>Tammy - a modular Matrix messenger</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240921T143000</dtstart>
+            <dtend>20240921T151500</dtend>
+            <duration>0.04500</duration>
+            <summary>Tammy - a modular Matrix messenger</summary>
+            <description>We would like to introduce &quot;Tammy&quot;, our extensible Matrix messenger. It is a full-blown Matrix messenger with a UI for Desktop, Mobile and Web. It is a sibling of &quot;Timmy&quot;, our TI-messenger for the German healthcare system, and uses the same basic building blocks of Trixnity and Trixnity Messenger.
+
+We would like to show you how you can integrate Tammy into your applications and how to extend it with new features with an architecture that can change behaviour just via configuration that massively simplifies the development and update process.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Long Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/BWMLMD/</url>
+            <location>LAB 3</location>
+            
+            <attendee>Benedict Benken</attendee>
+            
+            <attendee>Michael Thiele</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>HGUKQV@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-HGUKQV</pentabarf:event-slug>
+            <pentabarf:title>Implementing a Matrix client inside WorkAdventure - A developer feedback</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240921T151500</dtstart>
+            <dtend>20240921T154500</dtend>
+            <duration>0.03000</duration>
+            <summary>Implementing a Matrix client inside WorkAdventure - A developer feedback</summary>
+            <description></description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Short Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/HGUKQV/</url>
+            <location>LAB 3</location>
+            
+            <attendee>David Négrier</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>TD3KDQ@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-TD3KDQ</pentabarf:event-slug>
+            <pentabarf:title>Matrix Key Infrastructure</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240921T160000</dtstart>
+            <dtend>20240921T164500</dtend>
+            <duration>0.04500</duration>
+            <summary>Matrix Key Infrastructure</summary>
+            <description>Matrix has a lot of keys. There are keys for devices, keys for users, keys for messages, keys for backups, keys for the keys to the backups, etc. All of these keys provide different functionality. There are a lot of resources explaining message keys (with the olm/megolm protocol), but not as many explaining the rest of the keys in the Matrix protocol. This talk intends to be an overview of those keys which provide infrastructure for key backups, key sharing, device verification, and cross-signing.
+
+This talk is designed for people with a basic understanding of the various Matrix features. You do not need to know anything about cryptography to gain value from this talk. I will cover some basics of cryptosystems, but at a very high level cursory level in order to motivate the selection of key algorithms.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Long Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/TD3KDQ/</url>
+            <location>LAB 3</location>
+            
+            <attendee>Sumner Evans</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>UHNEUC@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-UHNEUC</pentabarf:event-slug>
+            <pentabarf:title>Regulatory compliance in decentralised environments</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240921T164500</dtstart>
+            <dtend>20240921T171500</dtend>
+            <duration>0.03000</duration>
+            <summary>Regulatory compliance in decentralised environments</summary>
+            <description>A talk aimed at server administrators and those responsible for regulatory compliance of their Matrix implementations, going through the process that we follow to approach new obligations - from proposal to implementation and enforcement stages, such as:
+
+- How we decide which proposals to engage with
+- Navigating an ever changing global legal landscape
+- Early thoughts on DSA and OSA and its implications on Matrix</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Short Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/UHNEUC/</url>
+            <location>LAB 3</location>
+            
+            <attendee>Denise Almeida</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>MTZJQL@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-MTZJQL</pentabarf:event-slug>
+            <pentabarf:title>Empowering activists and human rights defenders with Matrix</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240921T173000</dtstart>
+            <dtend>20240921T180000</dtend>
+            <duration>0.03000</duration>
+            <summary>Empowering activists and human rights defenders with Matrix</summary>
+            <description>Context: Civic space on a downward spiral.
+In a world grappling with authoritarianism, climate crises, and violent conflicts, digital tools have emerged as vital infrastructure for civil society organizations. These tools empower movements to resist oppression and advocate for systemic change, addressing root causes.
+However, there is a glaring gap in providing frontline activists with the necessary digital infrastructure. Authoritarian regimes are refining their tactics and leveraging technology to suppress dissent, leaving only 2% of the global population in fully free countries. As civic space shrinks, investing in robust digital infrastructure is crucial to enhance organizing capacity, foster effective coalitions, and protect activists on the ground.
+
+Problem: The Failure of Current Tools for Civil Society
+Despite the rapid growth of digital tools and services, few are tailored to the unique challenges faced by civil society movements. Traditional venture capital often prioritizes high returns, sidelining activists and grassroots movements lacking financial clout. Consequently, existing tools fall short in supporting the required level of organizing and ensuring the safety of at-risk activists. This infrastructure gap forces civil society organizations to rely on platforms ill-suited for their needs.
+
+Why This Session Matters
+Join us to explore how the Matrix Protocol can empower civil society movements and activists on the frontlines of democracy, human rights, and environmental protection. This session will highlight the critical digital infrastructure gaps facing civil society, explain why chat alone is insufficient for impactful organizing, and unveil innovative solutions with real-world insights from global movements. Be part of the conversation and learn how you can contribute to the change.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Short Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/MTZJQL/</url>
+            <location>LAB 3</location>
+            
+            <attendee>Emil</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>A7VESP@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-A7VESP</pentabarf:event-slug>
+            <pentabarf:title>Simplified Sliding Sync</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240921T100000</dtstart>
+            <dtend>20240921T103000</dtend>
+            <duration>0.03000</duration>
+            <summary>Simplified Sliding Sync</summary>
+            <description>Sliding Sync is arguably the most fundamental change to Matrix’s core APIs ever: an entirely new sync mechanism providing instant login, instant launch and instant sync, no matter how big and busy your account is.  It’s a core part of the Matrix 2.0 set of MSCs, and we’re finally at the point of having a proposal for the final API shape, after at least 5 different iterations.
+
+In this talk, we’ll explain to client and server developers to how the API works and best practices for driving it, in both client and server implementations.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Short Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/A7VESP/</url>
+            <location>LAB 4</location>
+            
+            <attendee>Ivan Enderlin</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>P9KPFG@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-P9KPFG</pentabarf:event-slug>
+            <pentabarf:title>Authenticated media &amp; how to ship spec features</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240921T104500</dtstart>
+            <dtend>20240921T113000</dtend>
+            <duration>0.04500</duration>
+            <summary>Authenticated media &amp; how to ship spec features</summary>
+            <description>Authenticated Media ([MSC3916](https://github.com/matrix-org/matrix-spec-proposals/pull/3916)) is one of those changes which affects the entire ecosystem, so how do you roll it out safely? Are there things which can be done to reduce the impact? How can the MSC process help get the changes out quickly? These are all the sorts of questions we&#x27;ll be exploring in this talk by walking through the rollout and implementation plans, and reviewing the MSC process to see how it can help get the feature out in the wild quickly.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Long Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/P9KPFG/</url>
+            <location>LAB 4</location>
+            
+            <attendee>Travis Ralston</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>XSRHTZ@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-XSRHTZ</pentabarf:event-slug>
+            <pentabarf:title>Meet the Governing Board</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240921T113000</dtstart>
+            <dtend>20240921T120000</dtend>
+            <duration>0.03000</duration>
+            <summary>Meet the Governing Board</summary>
+            <description>Matrix now has its first elected Governing Board! Join us to learn about the Governing Board – who is on it, what it does, and how it works – and Matrix&#x27;s journey to increasingly open governance.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Short Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/XSRHTZ/</url>
+            <location>LAB 4</location>
+            
+            <attendee>Josh Simmons</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>FVZ9SJ@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-FVZ9SJ</pentabarf:event-slug>
+            <pentabarf:title>Element Call</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240921T133000</dtstart>
+            <dtend>20240921T141500</dtend>
+            <duration>0.04500</duration>
+            <summary>Element Call</summary>
+            <description>This talk will give all the details about the current features and plans of element call. We will talk about how guest access works and how you can use it, discuss implementation on Web, Android and iOS. There are lots of changes in how element call looks and feels and behaves we want to share!
+If you are interested in a great call experience over matrix which feels like normal phone calls (with batteries included: ringing, muting, native call history to name a few) and also get a good understanding about advanced features like guest access, how call federation works and how to setup your own home server to support all this you are warmly invited listen.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Long Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/FVZ9SJ/</url>
+            <location>LAB 4</location>
+            
+            <attendee>Florian Heese</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>8BVVT3@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-8BVVT3</pentabarf:event-slug>
+            <pentabarf:title>Unable to decrypt this message</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240921T143000</dtstart>
+            <dtend>20240921T150000</dtend>
+            <duration>0.03000</duration>
+            <summary>Unable to decrypt this message</summary>
+            <description>This talk is aimed at both client and server developers. We will initially outline the &quot;happy case&quot; when sending and receiving encrypted messages in Matrix. We&#x27;ll then see what can go wrong which can cause UTDs, using real bugs in clients and servers as case studies. Complement-Crypto, a test suite specifically designed for reproducing these failure conditions, will be introduced and will explain how it can be used to cover a large spectrum of &quot;unhappy cases&quot;, including adversarial attacks on the network. Finally, we&#x27;ll look at the progress we&#x27;ve made in reducing UTDs, and outline areas for further work.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Short Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/8BVVT3/</url>
+            <location>LAB 4</location>
+            
+            <attendee>Kegan</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>9HHQMQ@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-9HHQMQ</pentabarf:event-slug>
+            <pentabarf:title>State of the Matrix Dart SDK 2024</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240921T151500</dtstart>
+            <dtend>20240921T154500</dtend>
+            <duration>0.03000</duration>
+            <summary>State of the Matrix Dart SDK 2024</summary>
+            <description>Very draft gist so that the link doesn&#x27;t expire: (I will edit this ASAP)
+
+Current state of feature support against the CS API.
+How it is batteries included.
+Contributions and licensing (why AGPL).
+Release cycles and how you can request features.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Short Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/9HHQMQ/</url>
+            <location>LAB 4</location>
+            
+            <attendee>td</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>Z3NWYN@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-Z3NWYN</pentabarf:event-slug>
+            <pentabarf:title>MatrixRTC</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240921T160000</dtstart>
+            <dtend>20240921T164500</dtend>
+            <duration>0.04500</duration>
+            <summary>MatrixRTC</summary>
+            <description>We will explore the technical details of how MatrixRTC calls work and dive into the tricky topics of how we can make call memberships reliable, discuss the additional requirements for encrypting a real time session and explore the general setup so we can have a conflict free flexible eventually consistent system for RTC streams.
+Based on this we will show how we built a guest access system on top of this (adding non matrix native participants with just a link to the call) and showcase what interesting other call conferencing projects this allows to interoperate.
+If you are a developer interested in RTC over Matrix this is a great place to get started with the fundamental concept and get an up to date understanding of what current challenges there are that you might solve.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Long Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/Z3NWYN/</url>
+            <location>LAB 4</location>
+            
+            <attendee>Timo</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>SKRSHL@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-SKRSHL</pentabarf:event-slug>
+            <pentabarf:title>Harder, better, faster, stronger auth with OpenID Connect</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240921T164500</dtstart>
+            <dtend>20240921T173000</dtend>
+            <duration>0.04500</duration>
+            <summary>Harder, better, faster, stronger auth with OpenID Connect</summary>
+            <description>At its core, Matrix is not meant to be a user-management and authentication API. The OIDC-native project aims to replace the current APIs with OAuth 2.0 and OpenID Connect. It brings a more secure foundation for clients to authenticate, whilst making it more flexible for homeservers to implement any authentication mechanism, without having to worry about client compatibility or poor user experience.
+
+This transition is backed by a project called Matrix Authentication Service, which rewrites the authentication logic in Synapse from the ground up. It provides users with better registration, login and account management experiences, and enables new functionality like QR code login and restricted client access.
+
+This talk will cover what this transition brings to end users, how client developers can adopt the new APIs, and what the next steps are for the project.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Long Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/SKRSHL/</url>
+            <location>LAB 4</location>
+            
+            <attendee>Quentin Gliech</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>QLHGWA@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-QLHGWA</pentabarf:event-slug>
+            <pentabarf:title>Introducing decentralised identity to Matrix</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240921T173000</dtstart>
+            <dtend>20240921T181500</dtend>
+            <duration>0.04500</duration>
+            <summary>Introducing decentralised identity to Matrix</summary>
+            <description>For many decentralisation goals that Matrix wants to achieve, digital identity is an essential component. Without strongly secure identity, E2EE, for instance, can be seriously weakened in its intended privacy goals. Without decentralised identity, not only authenticity and privacy can be compromised, the bad effects of centralisation can be re-constituted in the application layer or with AI capabilities. Wenjing is an expert and active contributor to the OpenWallet, Trust over IP, W3C, and related communities focused on digital identities. His talk will introduce a concrete initiative to combine the latest decentralised identity and protocols within the Matrix architecture and discuss the benefits of that to Matrix users and ecosystem.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Long Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/QLHGWA/</url>
+            <location>LAB 4</location>
+            
+            <attendee>Wenjing Chu</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>9YBYQE@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-9YBYQE</pentabarf:event-slug>
+            <pentabarf:title>Looking at application performance of Sliding Sync in Dart</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240921T100000</dtstart>
+            <dtend>20240921T103000</dtend>
+            <duration>0.03000</duration>
+            <summary>Looking at application performance of Sliding Sync in Dart</summary>
+            <description>As of the time of writing this abstract, the [matrix] Dart SDK developed by my wonderful friends from Famedly had no support for Sliding Sync yet. I was wondering how we could increase the performance of our Clients by adopting Sliding Sync to Dart.
+
+Starting with a stub simulating Sliding Sync updates as an overlay over the regular Sync Loop implemented in the [matrix] Dart SDK, I adopted the architecture of a Flutter-based [matrix] Client to profit from the advantages of Sliding Sync.
+
+We will together have a look on how to support both stable Sync and Sliding Sync from one code base and how to profit from the amazing performance boost in Flutter&#x27;s Widget API.
+
+Currently (hopefully changes until the summit), my work is still unstable and just some experiment in downstream.
+
+This work is in no way affiliated with my employer and should not profit them in any way.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Short Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/9YBYQE/</url>
+            <location>Workshop Room on Level 4</location>
+            
+            <attendee>The one with the braid (she/her)</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>BUBUAD@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-BUBUAD</pentabarf:event-slug>
+            <pentabarf:title>Elm SDK - your favourite SDK you&#x27;ll never use</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240921T104500</dtstart>
+            <dtend>20240921T111500</dtend>
+            <duration>0.03000</duration>
+            <summary>Elm SDK - your favourite SDK you&#x27;ll never use</summary>
+            <description>The presentation starts with a brief introduction of Elm as a programming language, shows a few of its challenges as a functional programming language in the Matrix ecosystem, and then shows its relevance to developers from different communities.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Short Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/BUBUAD/</url>
+            <location>Workshop Room on Level 4</location>
+            
+            <attendee>Bram</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>MJAGVK@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-MJAGVK</pentabarf:event-slug>
+            <pentabarf:title>Stop calling Matrix APIs (directly)</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240921T143000</dtstart>
+            <dtend>20240921T150000</dtend>
+            <duration>0.03000</duration>
+            <summary>Stop calling Matrix APIs (directly)</summary>
+            <description></description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Short Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/MJAGVK/</url>
+            <location>Workshop Room on Level 4</location>
+            
+            <attendee>Alexey &quot;Kitsune&quot; Rusakov</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>F9ZKSV@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-F9ZKSV</pentabarf:event-slug>
+            <pentabarf:title>Tune Your Chat</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240921T161500</dtstart>
+            <dtend>20240921T171500</dtend>
+            <duration>1.00000</duration>
+            <summary>Tune Your Chat</summary>
+            <description>What Tools, Addons, Hacks or Code snippets do you use daily to enhance your Matrix experience? I show you my 7 years worth of collecting scripts, Maubot configs, and stranger things - not to mention my own projects - and look forward to learning what you are doing as well!
+
+Please remember to bring your devices etc so you can show off your creations!
+
+This is the 6th time I&#x27;ll be offering this continuously improved workshop.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Workshop</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/F9ZKSV/</url>
+            <location>Workshop Room on Level 4</location>
+            
+            <attendee>Kim Brose</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>SRUD8V@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-SRUD8V</pentabarf:event-slug>
+            <pentabarf:title>Matrix Community Retreat 2024</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240921T173000</dtstart>
+            <dtend>20240921T180000</dtend>
+            <duration>0.03000</duration>
+            <summary>Matrix Community Retreat 2024</summary>
+            <description></description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Short Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/SRUD8V/</url>
+            <location>Workshop Room on Level 4</location>
+            
+            <attendee>Yan Minagawa</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>BMFEDN@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-BMFEDN</pentabarf:event-slug>
+            <pentabarf:title>Brain of the community: Matrix as a viable system</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240921T101500</dtstart>
+            <dtend>20240921T110000</dtend>
+            <duration>0.04500</duration>
+            <summary>Brain of the community: Matrix as a viable system</summary>
+            <description>It&#x27;s the first time for me to discuss these particular findings in a public setting. Being in a sweet spot outside-Element-inside-Foundation allows me to claim a somewhat neutral position, which the audience will hopefully appreciate, as one of prominent topics will be the special situation of Element in the ecosystem and my view of it through the prism of VSM.
+
+As most people in the audience are likely unaware of the theory, I expect to spend the first 15 minutes on a VSM crash course.
+
+The talk title is a play on the name of Stafford Beer&#x27;s book, &quot;Brain of the Firm&quot;, where VSM has been originally introduced.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Long Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/BMFEDN/</url>
+            <location>LAB Green (Basement)</location>
+            
+            <attendee>Alexey &quot;Kitsune&quot; Rusakov</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>Q3CVRJ@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-Q3CVRJ</pentabarf:event-slug>
+            <pentabarf:title>open-source·ing a university</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240921T111500</dtstart>
+            <dtend>20240921T120000</dtend>
+            <duration>0.04500</duration>
+            <summary>open-source·ing a university</summary>
+            <description>Four years ago, in 2020, we began attempting to transform Berlin University of the Arts, Europe’s biggest art university, from within by building a F/LOSS-based infrastructure for digital communication and collaboration. What initially started with a somewhat customized and stylized Element-Web client quickly reached its limits regarding the specific application requirements of an art university.
+
+Building ontop of the [matrix] protocol, we attempted to conceive this protocol as an institution-wide unified federated datalayer, far beyond the scope of pure person-to-person or room-based instant messaging.
+
+We will contextualize this rather abstract idea with insights into the various F/LOSS projects we’ve developed and deployed university-wide based on this concept. The focus was not only to create institution-specific applications, but also implementing them as configurable and expandable F/LOSS projects, following the paradigm of “public money, public code,” and spinning them off into their own F/LOSS oganisation, the »[medienhaus/](https://github.com/medienhaus)« project.
+
+Insights will be given into our two main developments during that timeframe and their respective complementary software infrastructure. On one hand, the [matrix]-based »medienhaus/cms« content management system and its challenges with frontend caching with tens of thousands of nested [matrix] spaces, and on the other hand, the collaboration and communication system »medienhaus/spaces«, designed for use by .e.g public institutions, groups, and individuals alike, which—in addition to pure instant messaging—stores different collaborative application data like text pad items or whiteboard items directly “in the [matrix]”.
+
+The talk navigates the intersection of software prototyping, system administration, and insights into architectural concepts, ideas, and decisions regarding how the [matrix] protocol can be used as a unified data(base) layer for institutions. The talk also provides insights into the challenges of such an undertaking in a German public institution, and what needs to change in the future for public institutions to actively participate in the shift towards a F/LOSS-based infrastructure.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Long Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/Q3CVRJ/</url>
+            <location>LAB Green (Basement)</location>
+            
+            <attendee>robert schnüll</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>W9BPKR@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-W9BPKR</pentabarf:event-slug>
+            <pentabarf:title>Standalone Matrix-based apps using the Widget API</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240921T133000</dtstart>
+            <dtend>20240921T141500</dtend>
+            <duration>0.04500</duration>
+            <summary>Standalone Matrix-based apps using the Widget API</summary>
+            <description>The focus of this talk will be to present a detailed overview of Matrix Widgets and show how you can use the Matrix Widget API and the Matrix Widget Toolkit to develop single-page applications that are able to leverage the Matrix protocol to build any type of app, especially those that can benefit from end-to-end encryption and real-time data syncronisation.
+
+We will address the following topics:
+
+- What are Matrix Widgets and the Widget API
+- Demonstration and overview of Widgets developed by Nordeck
+- Current state of Widgets
+  - Client support
+  - [Matrix Widget Toolkit](https://github.com/nordeck/matrix-widget-toolkit/)
+  - Element Call and the reverse Matrioshka approach
+  - Widgets on Element X and the Rust SDK
+
+- Standalone NeoBoard
+  - Building a standalone Matrix Widget client
+  - Hybrid Widgets, [NeoBoard](https://github.com/nordeck/matrix-neoboard) as both an App and a Widget
+  - What lies ahead
+
+When we wrap up, you should have a solid understanding of the benefits and shortcomings of developing Widgets with Matrix. know some inspirational examples of real-life widgets and how they are being used, and be familiar with the tools to develop your own.</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Long Talk</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/W9BPKR/</url>
+            <location>LAB Green (Basement)</location>
+            
+            <attendee>Michael Weimann</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>SPDEYT@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-SPDEYT</pentabarf:event-slug>
+            <pentabarf:title>[matrix] Widget Starter</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240921T143000</dtstart>
+            <dtend>20240921T153000</dtend>
+            <duration>1.00000</duration>
+            <summary>[matrix] Widget Starter</summary>
+            <description>Matrix is not only an open network for secure, decentralised communication. It also features extensions, called Widgets, for interacting with rooms.
+
+Here&#x27;s what you can do in the workshop:
+
+- We will take a quick look at the widget specification
+- You will be guided on how to set up the matrix-widget-toolkit, a library, that makes writing widgets easy
+- You will create your first own widget, that sends and receives events to and from a room
+
+Please bring:
+
+- Your Laptop
+- Basic TypeScript knowledge
+- A working TypeScript development environment with Yarn
+
+Links:
+
+- [Widget Spec](https://github.com/matrix-org/matrix-spec-proposals/issues/3803)
+- [matrix-widget-tookit](https://github.com/nordeck/matrix-widget-toolkit)
+- Examples
+  - https://github.com/nordeck/matrix-meetings
+  - https://github.com/nordeck/matrix-neoboard/</description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Workshop</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/SPDEYT/</url>
+            <location>LAB Green (Basement)</location>
+            
+            <attendee>Michael Weimann</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>LNGG9D@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-LNGG9D</pentabarf:event-slug>
+            <pentabarf:title>Quotient workshop</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240922T133000</dtstart>
+            <dtend>20240922T153000</dtend>
+            <duration>2.00000</duration>
+            <summary>Quotient workshop</summary>
+            <description></description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Sprint (Sunday)</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/LNGG9D/</url>
+            <location>LAB 3</location>
+            
+            <attendee>Alexey &quot;Kitsune&quot; Rusakov</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>VJVF3T@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-VJVF3T</pentabarf:event-slug>
+            <pentabarf:title>MSC Process Guidance</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240922T100000</dtstart>
+            <dtend>20240922T120000</dtend>
+            <duration>2.00000</duration>
+            <summary>MSC Process Guidance</summary>
+            <description></description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Sprint (Sunday)</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/VJVF3T/</url>
+            <location>LAB 4</location>
+            
+            <attendee>Travis Ralston</attendee>
+            
+            <attendee>Andrew Morgan</attendee>
+            
+        </vevent>
+        
+        <vevent>
+            <method>PUBLISH</method>
+            <uid>V3GK8B@@cfp.matrix.org</uid>
+            <pentabarf:event-id></pentabarf:event-id>
+            <pentabarf:event-slug>-V3GK8B</pentabarf:event-slug>
+            <pentabarf:title>Governing Board meeting</pentabarf:title>
+            <pentabarf:subtitle></pentabarf:subtitle>
+            <pentabarf:language>en</pentabarf:language>
+            <pentabarf:language-code>en</pentabarf:language-code>
+            <dtstart>20240922T133000</dtstart>
+            <dtend>20240922T153000</dtend>
+            <duration>2.00000</duration>
+            <summary>Governing Board meeting</summary>
+            <description></description>
+            <class>PUBLIC</class>
+            <status>CONFIRMED</status>
+            <category>Sprint (Sunday)</category>
+            <url>https://cfp.matrix.org/matrixconf2024/talk/V3GK8B/</url>
+            <location>LAB 4</location>
+            
+            <attendee>Josh Simmons</attendee>
+            
+        </vevent>
+        
+    </vcalendar>
+</iCalendar>
