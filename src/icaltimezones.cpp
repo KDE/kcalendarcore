@@ -239,7 +239,11 @@ icalcomponent *ICalTimeZoneParser::icalcomponentFromQTimeZone(const QTimeZone &t
         icalcomponent_add_property(phaseComp, icalproperty_new_tzoffsetfrom(preOffset));
         icalcomponent_add_property(phaseComp, icalproperty_new_tzoffsetto(transit.offsetFromUtc));
         // Create a component to hold initial RRULE if any, plus all RDATEs
+#if ICAL_CHECK_VERSION(3, 99, 99)
+        icalcomponent *phaseComp1 = icalcomponent_clone(phaseComp);
+#else
         icalcomponent *phaseComp1 = icalcomponent_new_clone(phaseComp);
+#endif
         icalcomponent_add_property(phaseComp1, icalproperty_new_dtstart(writeLocalICalDateTime(transits.at(i).atUtc, preOffset)));
         bool useNewRRULE = false;
 
@@ -340,22 +344,47 @@ icalcomponent *ICalTimeZoneParser::icalcomponentFromQTimeZone(const QTimeZone &t
                 if (times.count() > (useNewRRULE ? minPhaseCount : minRuleCount)) {
                     // There are enough dates to combine into an RRULE
                     icalrecurrencetype r;
+#if !ICAL_CHECK_VERSION(3, 99, 99)
                     icalrecurrencetype_clear(&r);
+#endif
                     r.freq = ICAL_YEARLY_RECURRENCE;
+#if ICAL_CHECK_VERSION(3, 99, 99)
+                    r.by[ICAL_BY_MONTH].data[0] = month;
+#else
                     r.by_month[0] = month;
+#endif
                     if (rule & DAY_OF_MONTH) {
+#if ICAL_CHECK_VERSION(3, 99, 99)
+                        r.by[ICAL_BY_MONTH].data[0] = dayOfMonth;
+#else
                         r.by_month_day[0] = dayOfMonth;
+#endif
                     } else if (rule & WEEKDAY_OF_MONTH) {
+#if ICAL_CHECK_VERSION(3, 99, 99)
+                        r.by[ICAL_BY_DAY].data[0] = (dayOfWeek % 7 + 1) + (nthFromStart * 8); // Sunday = 1
+#else
                         r.by_day[0] = (dayOfWeek % 7 + 1) + (nthFromStart * 8); // Sunday = 1
+#endif
                     } else if (rule & LAST_WEEKDAY_OF_MONTH) {
-                        r.by_day[0] = -(dayOfWeek % 7 + 1) - (nthFromEnd * 8); // Sunday = 1
+#if ICAL_CHECK_VERSION(3, 99, 99)
+#else
+                        r.by[ICAL_BY_DAY].data[0] = -(dayOfWeek % 7 + 1) - (nthFromEnd * 8); // Sunday = 1
+#endif
                     }
                     r.until = writeLocalICalDateTime(times.takeAt(times.size() - 1), preOffset);
+#if ICAL_CHECK_VERSION(3, 99, 99)
+                    icalproperty *prop = icalproperty_new_rrule(&r);
+#else
                     icalproperty *prop = icalproperty_new_rrule(r);
+#endif
                     if (useNewRRULE) {
                         // This RRULE doesn't start from the phase start date, so set it into
                         // a new STANDARD/DAYLIGHT component in the VTIMEZONE.
+#if ICAL_CHECK_VERSION(3, 99, 99)
+                        icalcomponent *c = icalcomponent_clone(phaseComp);
+#else
                         icalcomponent *c = icalcomponent_new_clone(phaseComp);
+#endif
                         icalcomponent_add_property(c, icalproperty_new_dtstart(writeLocalICalDateTime(times[0], preOffset)));
                         icalcomponent_add_property(c, prop);
                         icalcomponent_add_component(tzcomp, c);
@@ -625,7 +654,11 @@ bool ICalTimeZoneParser::parsePhase(icalcomponent *c, bool daylight, ICalTimeZon
                 RecurrenceRule r;
                 ICalFormat icf;
                 ICalFormatImpl impl(&icf);
+#if ICAL_CHECK_VERSION(3, 99, 99)
+                impl.readRecurrence(*icalproperty_get_rrule(p), &r);
+#else
                 impl.readRecurrence(icalproperty_get_rrule(p), &r);
+#endif
                 r.setStartDt(utcStart);
                 // The end date time specified in an RRULE must be in UTC.
                 // We can not guarantee correctness if this is not the case.
