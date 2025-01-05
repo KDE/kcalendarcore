@@ -353,7 +353,12 @@ QByteArray ICalFormat::toRawString(const Incidence::Ptr &incidence)
 QString ICalFormat::toString(RecurrenceRule *recurrence)
 {
     Q_D(ICalFormat);
-    icalproperty *property = icalproperty_new_rrule(d->mImpl.writeRecurrenceRule(recurrence));
+    struct icalrecurrencetype recur = d->mImpl.writeRecurrenceRule(recurrence);
+#if ICAL_CHECK_VERSION(4,0,0)
+    icalproperty *property = icalproperty_new_rrule(&recur);
+#else
+    icalproperty *property = icalproperty_new_rrule(recur);
+#endif
     QString text = QString::fromUtf8(icalproperty_as_ical_string(property));
     icalproperty_free(property);
     return text;
@@ -375,14 +380,22 @@ bool ICalFormat::fromString(RecurrenceRule *recurrence, const QString &rrule)
     }
     bool success = true;
     icalerror_clear_errno();
+#if ICAL_CHECK_VERSION(4,0,0)
+    struct icalrecurrencetype *recur = icalrecurrencetype_new_from_string(rrule.toLatin1().constData());
+#else
     struct icalrecurrencetype recur = icalrecurrencetype_from_string(rrule.toLatin1().constData());
+#endif
     if (icalerrno != ICAL_NO_ERROR) {
         qCDebug(KCALCORE_LOG) << "Recurrence parsing error:" << icalerror_strerror(icalerrno);
         success = false;
     }
 
     if (success) {
+#if ICAL_CHECK_VERSION(4,0,0)
+        ICalFormatImpl::readRecurrence(*recur, recurrence);
+#else
         ICalFormatImpl::readRecurrence(recur, recurrence);
+#endif
     }
 
     return success;
