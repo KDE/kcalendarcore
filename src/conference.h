@@ -18,150 +18,221 @@
 
 namespace KCalendarCore
 {
-/**
-  @brief
+/*!
+  \qmlvaluetype conference
+  \inqmlmodule org.kde.kcalendarcore
+  \nativetype KCalendarCore::Conference
+
+  \brief
+  Represents information related to a conference information of an Calendar
+  Incidence, typically a meeting or task (to-do).
+
+  Conference contains information needed to join a remote conference system
+  (e.g. phone call, audio/video meeting etc.)
+*/
+
+/*!
+  \class KCalendarCore::Conference
+  \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/Conference
+  \brief
   Represents information related to a conference information of an Calendar
   Incidence, typically a meeting or task (to-do).
 
   Conference contains information needed to join a remote conference system
   (e.g. phone call, audio/video meeting etc.)
 
-  @since 5.77
+  \since 5.77
 */
 class KCALENDARCORE_EXPORT Conference
 {
     Q_GADGET
+
+    /*!
+     * \qmlproperty bool conference::isNull
+     */
+
+    /*!
+     * \property KCalendarCore::Conference::isNull
+     */
     Q_PROPERTY(bool isNull READ isNull)
+
+    /*!
+     * \qmlproperty list<string> conference::features
+     */
+
+    /*!
+     * \property KCalendarCore::Conference::features
+     */
     Q_PROPERTY(QStringList features READ features WRITE setFeatures)
+
+    /*!
+     * \qmlproperty string conference::label
+     */
+
+    /*!
+     * \property KCalendarCore::Conference::label
+     */
     Q_PROPERTY(QString label READ label WRITE setLabel)
+
+    /*!
+     * \qmlproperty url conference::uri
+     */
+
+    /*!
+     * \property KCalendarCore::Conference::uri
+     */
     Q_PROPERTY(QUrl uri READ uri WRITE setUri)
+
+    /*!
+     * \qmlproperty string conference::language
+     */
+
+    /*!
+     * \property KCalendarCore::Conference::language
+     */
     Q_PROPERTY(QString language READ language WRITE setLanguage)
 
 public:
     using List = QList<Conference>;
 
-    /** Create a null Conference. */
+    /*! Create a null Conference. */
     explicit Conference();
 
-    /**
-      Constructs a conference consisting of a @p uri, description of
-      the URI (@p label), list of features of the conference (@p features)
-      and @p language.
+    /*!
+      Constructs a conference consisting of a \a uri, description of
+      the URI (\a label), list of features of the conference (\a features)
+      and \a language.
 
-      @param uri Uri to join the conference.
-      @param label Label of the URI.
-      @param features Features of this particular conference method.
-      @param language Language of the information present in other fields.
+      \a uri is the URI to join the conference.
+
+      \a label is the label of the URI.
+
+      \a features is the features of this particular conference method.
+
+      \a language is the language of the information present in other fields.
+
     */
     Conference(const QUrl &uri, const QString &label, const QStringList &features = {}, const QString &language = {});
 
-    /**
+    /*!
       Constructs a conference by copying another conference.
 
-      @param conference is the conference to be copied.
+      \a conference is the conference to be copied.
+
     */
     Conference(const Conference &conference);
 
-    /**
+    /*!
       Destroys the conference.
     */
     ~Conference();
 
-    /**
-      Compares this with @p conference for equality.
+    /*!
+      Compares this with \a conference for equality.
 
-      @param conference the conference to compare.
+      \a conference the conference to compare.
+
+      Returns true if \a conference is equal to this object, or false if they are different.
     */
     bool operator==(const Conference &conference) const;
 
-    /**
-      Compares this with @p conference for inequality.
+    /*!
+      Compares this with another conference for inequality.
 
-      @param conference the conference to compare.
+      \a other is the conference to compare.
+
+      Returns true if \a other is not equal to this object, or false if they are equal.
     */
     bool operator!=(const Conference &other) const;
 
-    /**
-     * Returns @c true if this is a default-constructed Conference instance.
+    /*!
+     * Returns \c true if this is a default-constructed Conference instance.
      */
     Q_REQUIRED_RESULT bool isNull() const;
 
-    /**
-     * Returns URI to join the conference, with access code included.
+    /*!
+     * Returns the URI to join the conference, with access code included.
      */
     Q_REQUIRED_RESULT QUrl uri() const;
 
-    /**
-     * Sets the URI to @uri.
+    /*!
+     * Sets the URI to \a uri.
      */
     void setUri(const QUrl &uri);
 
-    /**
+    /*!
      * Returns label with additional details regarding further use of the URI.
      */
     Q_REQUIRED_RESULT QString label() const;
 
-    /**
-     * Sets the URI label to @p label.
+    /*!
+     * Sets the URI label to \a label.
      */
     void setLabel(const QString &label);
 
-    /**
+    /*!
      * Returns the list of features of the conferencing system at given URI.
      *
      * This can be e.g. CHAT, AUDIO, VIDEO, PHONE, etc.
      */
     Q_REQUIRED_RESULT QStringList features() const;
 
-    /**
-     * Adds @p feature to the list of features.
+    /*!
+     * Adds \a feature to the list of features.
      *
-     * @param feature Feature to add.
+     * \a feature Feature to add.
+     *
      */
     void addFeature(const QString &feature);
 
-    /**
-     * Removes @p feature from the list of features.
+    /*!
+     * Removes \a feature from the list of features.
      *
-     * @param feature Feature to remove.
+     * \a feature Feature to remove.
+     *
      */
     void removeFeature(const QString &feature);
 
-    /**
-     * Sets the list of features to @p features.
+    /*!
+     * Sets the list of features to \a features.
      */
     void setFeatures(const QStringList &features);
 
-    /**
+    /*!
      * Returns the language of the text present in other properties of this object.
      */
     Q_REQUIRED_RESULT QString language() const;
 
-    /**
-     * Sets the language to @p language.
+    /*!
+     * Sets the language to \a language.
      */
     void setLanguage(const QString &language);
 
-    /**
-      Sets this conference equal to @p conference.
+    /*!
+      Sets this conference equal to \a conference.
 
-      @param conference is the conference to copy.
+      \a conference is the conference to copy.
+
     */
     Conference &operator=(const Conference &conference);
 
-    /**
+    /*!
       Adds a custom property. If the property already exists it will be overwritten.
-      @param xname is the name of the property.
-      @param xvalue is its value.
+
+      \a xname is the name of the property.
+
+      \a xvalue is its value.
+
     */
     void setCustomProperty(const QByteArray &xname, const QString &xvalue);
 
-    /**
+    /*!
       Returns a reference to the CustomProperties object
     */
     Q_REQUIRED_RESULT CustomProperties &customProperties();
 
-    /**
+    /*!
       Returns a const reference to the CustomProperties object
     */
     const CustomProperties &customProperties() const;
@@ -176,17 +247,23 @@ private:
     friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &, KCalendarCore::Conference &);
 };
 
-/**
+/*!
   Serializes a Conference object into a data stream.
-  @param stream is a QDataStream.
-  @param conference is a reference to a Conference object to be serialized.
+
+  \a stream is a QDataStream.
+
+  \a conference is a reference to a Conference object to be serialized.
+
 */
 KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalendarCore::Conference &conference);
 
-/**
+/*!
   Initializes a Conference object from a data stream.
-  @param stream is a QDataStream.
-  @param conference is a reference to a Conference object to be initialized.
+
+  \a stream is a QDataStream.
+
+  \a conference is a reference to a Conference object to be initialized.
+
 */
 KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalendarCore::Conference &conference);
 

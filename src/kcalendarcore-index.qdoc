@@ -1,0 +1,22 @@
+/*!
+    \page kcalendarcore-index.html
+    \title KCalendarCore
+
+    This library provides access to and handling of calendar data.
+
+    \section1 Using the Module
+
+    \include {module-use.qdocinc} {using the c++ api}
+
+    \section2 Building with CMake
+
+    \include {module-use.qdocinc} {building with cmake} {KF6} {CalendarCore} {KF6::CalendarCore}
+
+    \section1 API Reference
+
+    \list
+        \li \l{KCalendarCore C++ Classes}
+        \li \l{KCalendarCore QML Types}
+    \endlist
+
+*/

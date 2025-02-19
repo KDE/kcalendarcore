@@ -17,9 +17,13 @@ namespace KCalendarCore
 
 class CalendarListModelPrivate;
 
-/** Model adaptor for KCalendarCore::CalendarPlugin::calendars().
+/*!
+ * \class KCalendarCore::CalendarListModel
+ * \inmodule KCalendarCore
+ * \inheaderfile KCalendarCore/CalendarListModel
+ * \brief Model adaptor for KCalendarCore::CalendarPlugin::calendars().
  *
- *  @since 6.4
+ * \since 6.4
  */
 class KCALENDARCORE_EXPORT CalendarListModel : public QAbstractListModel
 {
@@ -28,12 +32,26 @@ public:
     explicit CalendarListModel(QObject *parent = nullptr);
     ~CalendarListModel();
 
+    /*!
+      \enum KCalendarCore::CalendarListModel::Role
+
+      \value NameRole = Qt::DisplayRole
+      Display name of the calendar.
+      \value IconRole = Qt::DecorationRole
+      The calendar icon, when available.
+      \value CalendarRole = Qt::UserRole
+      The KCalendarCore::Calendar calendar.
+      \value AccessModeRole
+      The access mode of the calendar (see KCalendarCore::AccessMode).
+      \value IdRole
+      The internal calendar id.
+     */
     enum Role {
-        NameRole = Qt::DisplayRole, ///< display name of the calendar
-        IconRole = Qt::DecorationRole, ///< the calendar icon, when available
-        CalendarRole = Qt::UserRole, ///< the KCalendarCore::Calendar calendar
-        AccessModeRole, ///< the access mode of the calendar (see KCalendarCore::AccessMode)
-        IdRole, ///< the internal calendar id
+        NameRole = Qt::DisplayRole,
+        IconRole = Qt::DecorationRole,
+        CalendarRole = Qt::UserRole,
+        AccessModeRole,
+        IdRole,
     };
 
     [[nodiscard]] int rowCount(const QModelIndex &parent = {}) const override;

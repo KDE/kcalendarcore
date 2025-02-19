@@ -14,14 +14,17 @@
 
 namespace KCalendarCore
 {
-/**
-  @brief
+/*!
+  \class KCalendarCore::CalendarPlugin
+  \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/CalendarPlugin
+  \brief
   A plugin that provides calendar data.
 
   It allows calendar applications to consume data provided by multiple
   sources, e.g. local ical files or remote calendars.
 
-  @since 5.85
+  \since 5.85
 
 */
 class KCALENDARCORE_EXPORT CalendarPlugin : public QObject
@@ -30,15 +33,15 @@ class KCALENDARCORE_EXPORT CalendarPlugin : public QObject
 public:
     CalendarPlugin(QObject *parent, const QVariantList &args);
 
-    /**
+    /*!
      * The set of calendars defined by this plugin.
      *
-     * @return QList of calendars.
+     * Returns QList of calendars.
      */
     virtual QList<Calendar::Ptr> calendars() const = 0;
 
 Q_SIGNALS:
-    /**
+    /*!
      * Emitted when the set of calendars changed.
      */
     void calendarsChanged();

@@ -6,13 +6,10 @@
 
   SPDX-License-Identifier: LGPL-2.0-or-later
 */
-/**
+/*
   @file
   This file is part of the API for handling calendar data and
   defines the Todo class.
-
-  @author Cornelius Schumacher \<schumacher@kde.org\>
-  @author Allen Winter \<winter@kde.org\>
 */
 
 #ifndef KCALCORE_TODO_H
@@ -26,19 +23,22 @@ namespace KCalendarCore
 
 class TodoPrivate;
 
-/**
-  @brief
+/*!
+  \class KCalendarCore::Todo
+  \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/Todo
+  \brief
   Provides a To-do in the sense of RFC2445.
 */
 class KCALENDARCORE_EXPORT Todo : public Incidence
 {
 public:
-    /**
+    /*!
       A shared pointer to a Todo object.
     */
     typedef QSharedPointer<Todo> Ptr;
 
-    /**
+    /*!
       List of to-dos.
     */
     typedef QList<Ptr> List;
@@ -48,313 +48,326 @@ public:
     typedef Incidence SuperClass;
     ///@endcond
 
-    /**
+    /*!
       Constructs an empty to-do.
     */
     Todo();
 
-    /**
+    /*!
       Copy constructor.
-      @param other is the to-do to copy.
+
+      \a other is the to-do to copy.
+
     */
     Todo(const Todo &other);
 
-    /**
+    /*!
       Costructs a todo out of an incidence
       This constructs allows to make it easy to create a todo from an event.
-      @param other is the incidence to copy.
-      @since 4.14
+
+      \a other is the incidence to copy.
+
+      \since 4.14
      */
     Todo(const Incidence &other); // krazy:exclude=explicit (copy ctor)
 
-    /**
+    /*!
       Destroys a to-do.
     */
     ~Todo() override;
 
-    /**
-      @copydoc IncidenceBase::type()
+    /*!
+      \reimp
     */
     Q_REQUIRED_RESULT IncidenceType type() const override;
 
-    /**
-      @copydoc IncidenceBase::typeStr()
+    /*!
+      \reimp
     */
     Q_REQUIRED_RESULT QByteArray typeStr() const override;
 
-    /**
+    /*!
       Returns an exact copy of this todo. The returned object is owned by the caller.
-      @return A pointer to a Todo containing an exact copy of this object.
+      Returns A pointer to a Todo containing an exact copy of this object.
     */
     Todo *clone() const override;
 
-    /**
+    /*!
       Sets due date and time.
 
-      @param dtDue The due date/time.
-      @param first If true and the todo recurs, the due date of the first
+      \a dtDue The due date/time.
+
+      \a first If true and the todo recurs, the due date of the first
       occurrence will be set. If false and the todo recurs, the occurrence at
       that date/time becomes the current occurrence. If the todo does not recur,
       the due date of the todo will be set.
+
     */
     void setDtDue(const QDateTime &dtDue, bool first = false);
 
-    /**
+    /*!
       Returns the todo due datetime.
 
-      @param first If true and the todo recurs, the due datetime of the first
+      \a first If true and the todo recurs, the due datetime of the first
       occurrence will be returned. If false and recurrent, the datetime of the
       current occurrence will be returned. If non-recurrent, the normal due
       datetime will be returned.
-      @return A QDateTime containing the todo due datetime.
+
+      Returns A QDateTime containing the todo due datetime.
     */
     Q_REQUIRED_RESULT QDateTime dtDue(bool first = false) const;
 
-    /**
+    /*!
       Returns if the todo has a due datetime.
-      @return true if the todo has a due datetime; false otherwise.
+      Returns true if the todo has a due datetime; false otherwise.
     */
     Q_REQUIRED_RESULT bool hasDueDate() const;
 
-    /**
+    /*!
       Returns if the todo has a start datetime.
-      @return true if the todo has a start datetime; false otherwise.
+      Returns true if the todo has a start datetime; false otherwise.
     */
     Q_REQUIRED_RESULT bool hasStartDate() const;
 
-    /**
-      @copydoc IncidenceBase::dtStart()
+    /*!
+      \reimp
     */
     Q_REQUIRED_RESULT QDateTime dtStart() const override;
 
-    /**
+    /*!
       Returns the start datetime of the todo.
 
-      @param first If true, the start datetime of the todo will be returned;
+      \a first If true, the start datetime of the todo will be returned;
       also, if the todo recurs, the start datetime of the first occurrence
       will be returned.
       If false and the todo recurs, the relative start datetime will be returned,
       based on the datetime returned by dtRecurrence().
-      @return A QDateTime for the start datetime of the todo.
+
+      Returns A QDateTime for the start datetime of the todo.
     */
     Q_REQUIRED_RESULT QDateTime dtStart(bool first) const;
 
-    /**
+    /*!
       Returns whether the todo is completed or not.
-      @return true if the todo is 100% completed, has status @c StatusCompleted,
+      Returns true if the todo is 100% completed, has status \c StatusCompleted,
       or has a completed date; false otherwise.
 
-      @see isOverdue, isInProgress(), isOpenEnded(), isNotStarted(bool),
+      \sa isOverdue, isInProgress(), isOpenEnded(), isNotStarted(bool),
       setCompleted(), percentComplete()
     */
     Q_REQUIRED_RESULT bool isCompleted() const;
 
-    /**
+    /*!
       Sets completion percentage and status.
 
-      @param completed If  @c true, percentage complete is set to 100%, and
-      status is set to @c StatusCompleted;  the completion date is @b not set or cleared.
-      If @c false, percentage complete is set to 0%,
-      status is set to @c StatusNone, and the completion date is cleared.
+      \a completed If  \c true, percentage complete is set to 100%, and
+      status is set to \c StatusCompleted;  the completion date is \b not set or cleared.
+      If \c false, percentage complete is set to 0%,
+      status is set to \c StatusNone, and the completion date is cleared.
 
 
-      @see isCompleted(), percentComplete(), hasCompletedDate()
+      \sa isCompleted(), percentComplete(), hasCompletedDate()
     */
     void setCompleted(bool completed);
 
-    /**
+    /*!
       Returns what percentage of the to-do is completed.
-      @return The percentage complete of the to-do as an integer between 0 and 100, inclusive.
-      @see setPercentComplete(), isCompleted()
+      Returns The percentage complete of the to-do as an integer between 0 and 100, inclusive.
+      \sa setPercentComplete(), isCompleted()
     */
     Q_REQUIRED_RESULT int percentComplete() const;
 
-    /**
+    /*!
       Sets what percentage of the to-do is completed.
 
-      To prevent inconsistency, if @p percent is not 100, completed() is cleared,
+      To prevent inconsistency, if \a percent is not 100, completed() is cleared,
       and if status() is StatusCompleted it is reset to StatusNone.
 
-      @param percent is the completion percentage.  Values greater than 100 are
+      \a percent is the completion percentage.  Values greater than 100 are
       treated as 100; values less than p are treated as 0.
 
-      @see isCompleted(), setCompleted()
+      \sa isCompleted(), setCompleted()
     */
     void setPercentComplete(int percent);
 
-    /**
+    /*!
       Returns the to-do was completion datetime.
 
-      @return A QDateTime for the completion datetime of the to-do.
-      @see hasCompletedDate()
+      Returns A QDateTime for the completion datetime of the to-do.
+      \sa hasCompletedDate()
     */
     Q_REQUIRED_RESULT QDateTime completed() const;
 
-    /**
+    /*!
       Marks this Todo, or its current recurrence, as completed.
 
       If the todo does not recur, its completion percentage is set to 100%,
-      and its completion date is set to @p completeDate.  If its status is not
+      and its completion date is set to \a completeDate.  If its status is not
       StatusNone, it is set to StatusCompleted.
 
-      @note
-      If @p completeDate is invalid, the completion date is cleared, but the
+      \note
+      If \a completeDate is invalid, the completion date is cleared, but the
       todo is still "complete".
 
       If the todo recurs, the first incomplete recurrence is marked complete.
 
-      @param completeDate is the to-do completion date.
-      @see completed(), hasCompletedDate()
+      \a completeDate is the to-do completion date.
+
+      \sa completed(), hasCompletedDate()
     */
     void setCompleted(const QDateTime &completeDate);
 
-    /**
+    /*!
       Returns if the to-do has a completion datetime.
 
-      @return true if the to-do has a date associated with completion; false otherwise.
-      @see setCompleted(), completed()
+      Returns true if the to-do has a date associated with completion; false otherwise.
+      \sa setCompleted(), completed()
     */
     bool hasCompletedDate() const;
 
-    /**
+    /*!
       Returns true, if the to-do is in-progress (started, or >0% completed);
       otherwise return false. If the to-do is overdue, then it is not
       considered to be in-progress.
 
-      @param first If true, the start and due dates of the todo will be used;
+      \a first If true, the start and due dates of the todo will be used;
       also, if the todo recurs, the start date and due date of the first
       occurrence will be used.
       If false and the todo recurs, the relative start and due dates will be
       used, based on the date returned by dtRecurrence().
-      @see isOverdue(), isCompleted(), isOpenEnded(), isNotStarted(bool)
+
+      \sa isOverdue(), isCompleted(), isOpenEnded(), isNotStarted(bool)
     */
     Q_REQUIRED_RESULT bool isInProgress(bool first) const;
 
-    /**
+    /*!
       Returns true, if the to-do is open-ended (no due date); false otherwise.
-      @see isOverdue(), isCompleted(), isInProgress(), isNotStarted(bool)
+      \sa isOverdue(), isCompleted(), isInProgress(), isNotStarted(bool)
     */
     Q_REQUIRED_RESULT bool isOpenEnded() const;
 
-    /**
+    /*!
       Returns true, if the to-do has yet to be started (no start date and 0%
       completed); otherwise return false.
 
-      @param first If true, the start date of the todo will be used;
+      \a first If true, the start date of the todo will be used;
       also, if the todo recurs, the start date of the first occurrence
       will be used.
       If false and the todo recurs, the relative start date will be used,
       based on the date returned by dtRecurrence().
-      @see isOverdue(), isCompleted(), isInProgress(), isOpenEnded()
+
+      \sa isOverdue(), isCompleted(), isInProgress(), isOpenEnded()
     */
     Q_REQUIRED_RESULT bool isNotStarted(bool first) const;
 
-    /**
-      @copydoc IncidenceBase::shiftTimes()
+    /*!
+      \reimp
     */
     void shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone) override;
 
-    /**
-      @copydoc IncidenceBase::setAllDay().
+    /*!
+      \reimp
     */
     void setAllDay(bool allDay) override;
 
-    /**
+    /*!
       Identify the earliest uncompleted occurrence of a recurring Todo.
 
-      @param dt Normally, the start date-time of the occurrence.
-        For backwards compatibility, if the Todo does not have a @c dtStart()
+      \a dt Normally, the start date-time of the occurrence.
+        For backwards compatibility, if the Todo does not have a \c dtStart()
         then pass the occurrence's due date-time.
     */
     void setDtRecurrence(const QDateTime &dt);
 
-    /**
+    /*!
       Returns an identifier for the earliest uncompleted occurrence of a
       recurring Todo.
 
-      @note
+      \note
       Do not rely on the returned value to determine whether the Todo is
-      completed; use @c isCompleted() instead.
+      completed; use \c isCompleted() instead.
     */
     Q_REQUIRED_RESULT QDateTime dtRecurrence() const;
 
-    /**
-      Returns true if the @p date specified is one on which the to-do will
+    /*!
+      Returns true if the \a date specified is one on which the to-do will
       recur. Todos are a special case, hence the overload. It adds an extra
       check, which make it return false if there's an occurrence between
       the recur start and today.
 
-      @param date is the date to check.
-      @param timeZone is the time zone
+      \a date is the date to check.
+      \a timeZone is the time zone
     */
     bool recursOn(const QDate &date, const QTimeZone &timeZone) const override;
 
-    /**
+    /*!
       Returns true if this todo is overdue (e.g. due date is lower than today
       and not completed), else false.
-      @see isCompleted(), isInProgress(), isOpenEnded(), isNotStarted(bool)
+      \sa isCompleted(), isInProgress(), isOpenEnded(), isNotStarted(bool)
      */
     bool isOverdue() const;
 
-    /**
-      @copydoc IncidenceBase::dateTime()
+    /*!
+      \reimp
     */
     Q_REQUIRED_RESULT QDateTime dateTime(DateTimeRole role) const override;
 
-    /**
-      @copydoc IncidenceBase::setDateTime()
+    /*!
+      \reimp
     */
     void setDateTime(const QDateTime &dateTime, DateTimeRole role) override;
 
-    /**
-       @copydoc IncidenceBase::mimeType()
+    /*!
+       \reimp
     */
     Q_REQUIRED_RESULT QLatin1String mimeType() const override;
 
-    /**
-       @copydoc Incidence::iconName()
+    /*!
+       \reimp
     */
     Q_REQUIRED_RESULT QLatin1String iconName(const QDateTime &recurrenceId = {}) const override;
 
-    /**
-       @copydoc
-       Incidence::supportsGroupwareCommunication()
+    /*!
+       \reimp
     */
     bool supportsGroupwareCommunication() const override;
 
-    /**
+    /*!
        Returns the Akonadi specific sub MIME type of a KCalendarCore::Todo.
     */
     Q_REQUIRED_RESULT static QLatin1String todoMimeType();
 
 protected:
-    /**
-      Compare this with @p todo for equality.
-      @param todo is the to-do to compare.
+    /*!
+      Compare this with \a todo for equality.
+
+      \a todo is the to-do to compare.
+
+      Returns true if \a todo is equal to this object, or false if they are different.
     */
     bool equals(const IncidenceBase &todo) const override;
 
-    /**
-      @copydoc IncidenceBase::assign()
+    /*!
+      \reimp
     */
     IncidenceBase &assign(const IncidenceBase &other) override;
 
-    /**
-      @copydoc IncidenceBase::virtual_hook()
+    /*!
+      \reimp
     */
     void virtual_hook(VirtualHook id, void *data) override;
 
 private:
-    /**
-      @copydoc IncidenceBase::accept()
+    /*!
+      \reimp
     */
     bool accept(Visitor &v, const IncidenceBase::Ptr &incidence) override;
 
-    /**
+    /*!
       Disabled, otherwise could be dangerous if you subclass Todo.
       Use IncidenceBase::operator= which is safe because it calls
       virtual function assign().
-      @param other is another Todo object to assign to this one.
+      \a other is another Todo object to assign to this one.
      */
     Todo &operator=(const Todo &other) = delete;
 

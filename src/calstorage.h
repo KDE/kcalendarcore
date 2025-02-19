@@ -5,12 +5,10 @@
 
   SPDX-License-Identifier: LGPL-2.0-or-later
 */
-/**
+/*
   @file
   This file is part of the API for handling calendar data and
   defines the CalStorage abstract base class.
-
-  @author Cornelius Schumacher \<schumacher@kde.org\>
 */
 
 #ifndef KCALCORE_CALSTORAGE_H
@@ -23,8 +21,11 @@
 
 namespace KCalendarCore
 {
-/**
-  @brief
+/*!
+  \class KCalendarCore::CalStorage
+  \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/CalStorage
+  \brief
   An abstract base class that provides a calendar storage interface.
 
   This is the base class for calendar storage. It provides an interface for the
@@ -35,44 +36,41 @@ class KCALENDARCORE_EXPORT CalStorage : public QObject
     Q_OBJECT
 
 public:
-    /**
+    /*!
       Constructs a new storage object for a calendar.
-      @param calendar is a pointer to a valid Calendar object.
+      \a calendar is a pointer to a valid Calendar object.
     */
     explicit CalStorage(const Calendar::Ptr &calendar);
 
-    /**
-      Destructor.
-    */
     ~CalStorage() override;
 
-    /**
+    /*!
       Returns the calendar for this storage object.
-      @return A pointer to the calendar whose storage is being managed.
+      Returns A pointer to the calendar whose storage is being managed.
     */
     Calendar::Ptr calendar() const;
 
-    /**
+    /*!
       Opens the calendar for storage.
-      @return true if the open was successful; false otherwise.
+      Returns true if the open was successful; false otherwise.
     */
     virtual bool open() = 0;
 
-    /**
+    /*!
       Loads the calendar into memory.
-      @return true if the load was successful; false otherwise.
+      Returns true if the load was successful; false otherwise.
     */
     virtual bool load() = 0;
 
-    /**
+    /*!
       Saves the calendar.
-      @return true if the save was successful; false otherwise.
+      Returns true if the save was successful; false otherwise.
     */
     virtual bool save() = 0;
 
-    /**
+    /*!
       Closes the calendar storage.
-      @return true if the close was successful; false otherwise.
+      Returns true if the close was successful; false otherwise.
     */
     virtual bool close() = 0;
 

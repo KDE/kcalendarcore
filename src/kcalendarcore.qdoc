@@ -1,0 +1,16 @@
+/*!
+    \module KCalendarCore
+    \title KCalendarCore C++ Classes
+    \ingroup modules
+    \cmakepackage KF6
+    \cmakecomponent CalendarCore
+
+    \brief This library provides access to and handling of calendar data.
+*/
+
+/*!
+    \qmlmodule org.kde.kcalendarcore
+    \title KCalendarCore QML Types
+    \ingroup qmlmodules
+    \brief This library provides access to and handling of calendar data.
+*/

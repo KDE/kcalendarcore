@@ -6,13 +6,10 @@
 
   SPDX-License-Identifier: LGPL-2.0-or-later
 */
-/**
+/*
   @file
   This file is part of the API for handling calendar data and
   defines the CalFilter class.
-
-  @author Cornelius Schumacher \<schumacher@kde.org\>
-  @author Reinhold Kainhofer \<reinhold@kainhofer.com\>
 */
 
 #ifndef KCALCORE_CALFILTER_H
@@ -25,178 +22,208 @@
 
 namespace KCalendarCore
 {
-/**
-  @brief
+/*!
+  \class KCalendarCore::CalFilter
+  \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/CalFilter
+  \brief
   Provides a filter for calendars.
 
   This class provides a means for filtering calendar incidences by
-  a list of email addresses, a list of categories, or other #Criteria.
+  a list of email addresses, a list of categories, or other Criteria.
 
-  The following #Criteria are available:
-  - remove recurring Incidences
-  - keep Incidences with a matching category (see setCategoryList())
-  - remove completed To-dos (see setCompletedTimeSpan())
-  - remove inactive To-dos
-  - remove To-dos without a matching attendee (see setEmailList())
+  The following Criteria are available:
+  \list
+    \li remove recurring Incidences
+    \li keep Incidences with a matching category (see setCategoryList())
+    \li remove completed To-dos (see setCompletedTimeSpan())
+    \li remove inactive To-dos
+    \li remove To-dos without a matching attendee (see setEmailList())
+  \endlist
 */
 class KCALENDARCORE_EXPORT CalFilter
 {
 public:
-    /**
-      Filtering Criteria.
+    /*!
+      \enum KCalendarCore::CalFilter::Criteria
+      \brief Filtering Criteria.
+
+      \value HideRecurring
+      Remove incidences that recur.
+      \value HideCompletedTodos
+      Remove completed to-dos.
+      \value ShowCategories
+      Show incidences with at least one matching category.
+      \value HideInactiveTodos
+      Remove to-dos that haven't started yet.
+      \value HideNoMatchingAttendeeTodos
+      Remove to-dos without a matching attendee.
     */
     enum Criteria {
-        HideRecurring = 1, /**< Remove incidences that recur */
-        HideCompletedTodos = 2, /**< Remove completed to-dos */
-        ShowCategories = 4, /**< Show incidences with at least one matching category */
-        HideInactiveTodos = 8, /**< Remove to-dos that haven't started yet */
-        HideNoMatchingAttendeeTodos = 16, /**< Remove to-dos without a matching attendee */
+        HideRecurring = 1,
+        HideCompletedTodos = 2,
+        ShowCategories = 4,
+        HideInactiveTodos = 8,
+        HideNoMatchingAttendeeTodos = 16,
     };
 
-    /**
+    /*!
       Constructs an empty filter -- a filter without a name or criteria.
     */
     CalFilter();
 
-    /**
-      Constructs a filter with @p name.
+    /*!
+      Constructs a filter with \a name.
 
-      @param name is the name of this filter.
+      \a name is the name of this filter.
+
     */
     explicit CalFilter(const QString &name);
 
-    /**
+    /*!
       Destroys this filter.
     */
     ~CalFilter();
 
-    /**
+    /*!
       Sets the filter name.
 
-      @param name is the name of this filter.
-      @see name().
+      \a name is the name of this filter.
+
+      \sa name().
     */
     void setName(const QString &name);
 
-    /**
+    /*!
       Returns the filter name.
-      @see setName().
+      \sa setName().
     */
     Q_REQUIRED_RESULT QString name() const;
 
-    /**
+    /*!
       Sets the criteria which must be fulfilled for an Incidence to pass
       the filter.
 
-      @param criteria is a combination of #Criteria.
-      @see criteria().
+      \a criteria is a combination of CalFilter::Criteria.
+
+      \sa criteria().
     */
     void setCriteria(int criteria);
 
-    /**
+    /*!
       Returns the inclusive filter criteria.
-      @see setCriteria().
+      \sa setCriteria().
     */
     Q_REQUIRED_RESULT int criteria() const;
 
-    /**
+    /*!
       Applies the filter to a list of Events. All events not matching the
       filter criteria are removed from the list.
 
-      @param eventList is a list of Events to filter.
+      \a eventList is a list of Events to filter.
+
     */
     void apply(Event::List *eventList) const;
 
-    /**
+    /*!
       Applies the filter to a list of To-dos. All to-dos not matching the
       filter criteria are removed from the list.
 
-      @param todoList is a list of To-dos to filter.
+      \a todoList is a list of To-dos to filter.
+
     */
     void apply(Todo::List *todoList) const;
 
-    /**
+    /*!
       Applies the filter to a list of Journals. All journals not matching the
       filter criteria are removed from the list.
 
-      @param journalList is a list of Journals to filter.
+      \a journalList is a list of Journals to filter.
+
     */
     void apply(Journal::List *journalList) const;
 
-    /**
+    /*!
       Applies the filter criteria to the specified Incidence.
 
-      @param incidence is the Incidence to filter.
-      @return true if the Incidence passes the criteria; false otherwise.
+      \a incidence is the Incidence to filter.
+
+      Returns true if the Incidence passes the criteria; false otherwise.
     */
     Q_REQUIRED_RESULT bool filterIncidence(const Incidence::Ptr &incidence) const;
 
-    /**
+    /*!
       Enables or disables the filter.
 
-      @param enabled is true if the filter is to be enabled; false otherwise.
-      @see isEnabled().
+      \a enabled is true if the filter is to be enabled; false otherwise.
+
+      \sa isEnabled().
     */
     void setEnabled(bool enabled);
 
-    /**
+    /*!
       Returns whether the filter is enabled or not.
-      @see setEnabled().
+      \sa setEnabled().
     */
     Q_REQUIRED_RESULT bool isEnabled() const;
 
-    /**
+    /*!
       Sets the list of categories to be considered when filtering incidences
-      according to the #ShowCategories criteria.
+      according to the ShowCategories criteria.
 
-      @param categoryList is a QStringList of categories.
-      @see categoryList().
+      \a categoryList is a QStringList of categories.
+
+      \sa categoryList().
     */
     void setCategoryList(const QStringList &categoryList);
 
-    /**
+    /*!
       Returns the category list for this filter.
-      @see setCategoryList().
+      \sa setCategoryList().
     */
     Q_REQUIRED_RESULT QStringList categoryList() const;
 
-    /**
+    /*!
       Sets the list of email addresses to be considered when filtering
-      incidences according to the #HideNoMatchingAttendeeTodos criteria.
+      incidences according to the HideNoMatchingAttendeeTodos criteria.
 
-      @param emailList is a QStringList of email addresses.
-      @see emailList().
+      \a emailList is a QStringList of email addresses.
+
+      \sa emailList().
     */
     void setEmailList(const QStringList &emailList);
 
-    /**
+    /*!
       Returns the email list for this filter.
-      @see setEmailList().
+      \sa setEmailList().
     */
     Q_REQUIRED_RESULT QStringList emailList() const;
 
-    /**
-      Sets the number of days for the #HideCompletedTodos criteria.
-      If a to-do has been completed within the recent @p timespan days,
+    /*!
+      Sets the number of days for the HideCompletedTodos criteria.
+      If a to-do has been completed within the recent \a timespan days,
       then that to-do will be removed during filtering. If a time span is
       not specified in the filter, then all completed to-dos will be removed
-      if the #HideCompletedTodos criteria is set.
+      if the HideCompletedTodos criteria is set.
 
-      @param timespan is an integer representing a time span in days.
-      @see completedTimeSpan().
+      \a timespan is an integer representing a time span in days.
+
+      \sa completedTimeSpan().
      */
     void setCompletedTimeSpan(int timespan);
 
-    /**
+    /*!
       Returns the completed time span for this filter.
-      @see setCompletedTimeSpan()
+      \sa setCompletedTimeSpan()
      */
     Q_REQUIRED_RESULT int completedTimeSpan() const;
 
-    /**
-      Compares this with @p filter for equality.
+    /*!
+      Compares this with \a filter for equality.
 
-      @param filter the CalFilter to compare.
+      \a filter the CalFilter to compare.
+
+      Returns true if \a filter is equal to this object, or false if they are different.
     */
     bool operator==(const CalFilter &filter) const;
 
