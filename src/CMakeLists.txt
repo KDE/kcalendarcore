@@ -216,3 +216,5 @@ if(BUILD_QCH)
         COMPONENT Devel
     )
 endif()
+
+ecm_generate_qdoc(KF6CalendarCore kcalendarcore.qdocconf)

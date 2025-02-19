@@ -13,9 +13,13 @@
 namespace KCalendarCore
 {
 
-/**
+/*!
+ * \class KCalendarCore::CalendarPluginLoader
+ * \inmodule KCalendarCore
+ * \brief
  * Provides access to a KCalendarCore::CalendarPlugin instance, if available.
- * @since 5.97
+ *
+ * \since 5.97
  */
 class KCALENDARCORE_EXPORT CalendarPluginLoader
 {
@@ -24,10 +28,10 @@ class KCALENDARCORE_EXPORT CalendarPluginLoader
     Q_PROPERTY(KCalendarCore::CalendarPlugin *plugin READ plugin)
 
 public:
-    /** Returns @c true if there is a platform calendar available. */
+    /*! Returns \c true if there is a platform calendar available. */
     static bool hasPlugin();
 
-    /** Returns the platform calendar plugin. */
+    /*! Returns the platform calendar plugin. */
     static KCalendarCore::CalendarPlugin *plugin();
 };
 
