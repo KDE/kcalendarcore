@@ -5,12 +5,10 @@
 
   SPDX-License-Identifier: LGPL-2.0-or-later
 */
-/**
+/*
   @file
   This file is part of the API for handling calendar data and
   defines the FileStorage class.
-
-  @author Cornelius Schumacher \<schumacher@kde.org\>
 */
 
 #ifndef KCALCORE_FILESTORAGE_H
@@ -24,85 +22,93 @@ namespace KCalendarCore
 class CalFormat;
 class Calendar;
 
-/**
-  @brief
+/*!
+  \class KCalendarCore::FileStorage
+  \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/FileStorage
+  \brief
   This class provides a calendar storage as a local file.
 */
 class KCALENDARCORE_EXPORT FileStorage : public CalStorage
 {
     Q_OBJECT
 public:
-    /**
+    /*!
       A shared pointer to a FileStorage.
     */
     typedef QSharedPointer<FileStorage> Ptr;
 
-    /**
-      Constructs a new FileStorage object for Calendar @p calendar with format
-      @p format, and storage to file @p fileName.
+    /*!
+      Constructs a new FileStorage object for Calendar \a calendar with format
+      \a format, and storage to file \a fileName.
 
-      @param calendar is a pointer to a valid Calendar object.
-      @param fileName is the name of the disk file containing the calendar data.
-      @param format is a pointer to a valid CalFormat object that specifies
+      \a calendar is a pointer to a valid Calendar object.
+
+      \a fileName is the name of the disk file containing the calendar data.
+
+      \a format is a pointer to a valid CalFormat object that specifies
       the calendar format to be used. FileStorage takes ownership; i.e., the
-      memory for @p format is deleted by this destructor. If no format is
+      memory for \a format is deleted by this destructor. If no format is
       specified, then iCalendar format is assumed.
     */
     explicit FileStorage(const Calendar::Ptr &calendar, const QString &fileName = QString(), KCalendarCore::CalFormat *format = nullptr);
 
-    /**
+    /*!
       Destructor.
     */
     ~FileStorage() override;
 
-    /**
+    /*!
       Sets the name of the file that contains the calendar data.
 
-      @param fileName is the name of the disk file containing the calendar data.
-      @see fileName().
+      \a fileName is the name of the disk file containing the calendar data.
+
+      \sa fileName().
     */
     void setFileName(const QString &fileName);
 
-    /**
+    /*!
       Returns the calendar file name.
-      @return A QString with the name of the calendar file for this storage.
-      @see setFileName().
+
+      Returns a QString with the name of the calendar file for this storge.
+      \sa setFileName().
     */
     Q_REQUIRED_RESULT QString fileName() const;
 
-    /**
+    /*!
       Sets the CalFormat object to use for this storage.
 
-      @param format is a pointer to a valid CalFormat object that specifies
+      \a format is a pointer to a valid CalFormat object that specifies
       the calendar format to be used. FileStorage takes ownership.
-      @see saveFormat().
+
+      \sa saveFormat().
     */
     void setSaveFormat(KCalendarCore::CalFormat *format);
 
-    /**
+    /*!
       Returns the CalFormat object used by this storage.
-      @return A pointer to the CalFormat object used by this storage.
-      @see setSaveFormat().
+      Returns A pointer to the CalFormat object used by this storage.
+      \sa setSaveFormat().
     */
     CalFormat *saveFormat() const;
 
-    /**
-      @copydoc CalStorage::open()
+    /*!
+      \reimp
     */
     Q_REQUIRED_RESULT bool open() override;
 
-    /**
-      @copydoc CalStorage::load()
+    /*!
+      \reimp
     */
     Q_REQUIRED_RESULT bool load() override;
 
-    /**
-      @copydoc CalStorage::save()
+    /*!
+      \reimp
     */
     Q_REQUIRED_RESULT bool save() override;
 
-    /**
-      @copydoc CalStorage::close()
+    /*!
+      \reimp
     */
     Q_REQUIRED_RESULT bool close() override;
 

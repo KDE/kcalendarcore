@@ -5,7 +5,7 @@
 
   SPDX-License-Identifier: LGPL-2.0-or-later
 */
-/**
+/*
   @file
   This file is part of the API for handling calendar data and
   defines the Exception class.
@@ -14,10 +14,8 @@
   returned by an error function; but we can build upon them, if/when we start
   to use C++ exceptions.
 
-  @brief
+  \brief
   Exception base class.
-
-  @author Cornelius Schumacher \<schumacher@kde.org\>
 */
 
 #ifndef KCALCORE_EXCEPTIONS_H
@@ -34,28 +32,64 @@ namespace KCalendarCore
 {
 class ExceptionPrivate;
 
-/**
-  Exception base class, currently used as a fancy kind of error code
+/*!
+  \class KCalendarCore::Exception
+  \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/Exception
+  \brief Exception base class, currently used as a fancy kind of error code
   and not as an C++ exception.
 */
 class KCALENDARCORE_EXPORT Exception
 {
 public:
-    /**
-      The different types of error codes
+    /*!
+      \enum KCalendarCore::Exception::ErrorCode
+      \brief The different types of error codes.
+      \value LoadError
+      Load error.
+      \value SaveError
+      Save error.
+      \value ParseErrorIcal
+      Parse error in libical.
+      \value ParseErrorKcal
+      Parse error in libkcal.
+      \value NoCalendar
+      No calendar component found.
+      \value CalVersion1
+      vCalendar v1.0 detected.
+      \value CalVersion2
+      iCalendar v2.0 detected.
+      \value CalVersionUnknown
+      Unknown calendar format detected.
+      \value Restriction
+      Restriction violation.
+      \value UserCancel
+      User canceled the operation.
+      \value NoWritableFound
+      No writable resource is available.
+      \value SaveErrorOpenFile
+      \value SaveErrorSaveFile
+      \value LibICalError
+      \value VersionPropertyMissing
+      \value ExpectedCalVersion2
+      \value ExpectedCalVersion2Unknown
+      \value ParseErrorNotIncidence
+      \value ParseErrorEmptyMessage
+      \value ParseErrorUnableToParse
+      \value ParseErrorMethodProperty
     */
     enum ErrorCode {
-        LoadError, /**< Load error */
-        SaveError, /**< Save error */
-        ParseErrorIcal, /**< Parse error in libical */
-        ParseErrorKcal, /**< Parse error in libkcal */
-        NoCalendar, /**< No calendar component found */
-        CalVersion1, /**< vCalendar v1.0 detected */
-        CalVersion2, /**< iCalendar v2.0 detected */
-        CalVersionUnknown, /**< Unknown calendar format detected */
-        Restriction, /**< Restriction violation */
-        UserCancel, /**< User canceled the operation */
-        NoWritableFound, /**< No writable resource is available */
+        LoadError,
+        SaveError,
+        ParseErrorIcal,
+        ParseErrorKcal,
+        NoCalendar,
+        CalVersion1,
+        CalVersion2,
+        CalVersionUnknown,
+        Restriction,
+        UserCancel,
+        NoWritableFound,
         SaveErrorOpenFile,
         SaveErrorSaveFile,
         LibICalError,
@@ -68,29 +102,32 @@ public:
         ParseErrorMethodProperty,
     };
 
-    /**
+    /*!
       Construct an exception.
-      @param code is the error code.
-      @param arguments is a list of arguments that can be passed
+
+      \a code is the error code.
+
+      \a arguments is a list of arguments that can be passed
              to an i18n engine to help build a descriptive message for the user, a common
              argument is for example the filename where the error occurred.
+
     */
     explicit Exception(const ErrorCode code, const QStringList &arguments = QStringList());
 
-    /**
+    /*!
       Destructor.
     */
     virtual ~Exception();
 
-    /**
+    /*!
       Returns the error code.
-      @return The ErrorCode for this exception.
+      Returns The ErrorCode for this exception.
     */
     Q_REQUIRED_RESULT virtual ErrorCode code() const;
 
-    /**
+    /*!
       Returns the arguments.
-      @return A QStringList with the argument list for this exception.
+      Returns A QStringList with the argument list for this exception.
     */
     Q_REQUIRED_RESULT virtual QStringList arguments() const;
 

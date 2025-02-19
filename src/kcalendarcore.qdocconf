@@ -1,0 +1,27 @@
+include($KDE_DOCS/global/qt-module-defaults.qdocconf)
+
+project = KCalendarCore
+description = This library provides access to and handling of calendar data.
+
+documentationinheaders = true
+
+headerdirs += .
+sourcedirs += .
+
+outputformats = HTML
+
+depends += kde qtcore qtgui kcoreaddons
+
+qhp.projects            = KCalendarCore
+
+qhp.KCalendarCore.file                = kcalendarcore.qhp
+qhp.KCalendarCore.namespace           = org.kde.kcalendarcore.$QT_VERSION_TAG
+qhp.KCalendarCore.virtualFolder       = kcalendarcore
+qhp.KCalendarCore.indexTitle          = KCalendarCore
+qhp.KCalendarCore.indexRoot           =
+
+qhp.KCalendarCore.subprojects         = classes
+qhp.KCalendarCore.subprojects.classes.title = C++ Classes
+qhp.KCalendarCore.subprojects.classes.indexTitle = KCalendarCore C++ Classes
+qhp.KCalendarCore.subprojects.classes.selectors = class fake:headerfile
+qhp.KCalendarCore.subprojects.classes.sortPages = true

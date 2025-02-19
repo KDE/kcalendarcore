@@ -16,23 +16,46 @@ namespace KCalendarCore
 {
 class IncidenceBase;
 
-/**
-   iTIP methods.
+/*!
+  \enum KCalendarCore::iTIPMethod
+  \brief iTIP methods.
+
+  \value iTIPPublish
+  Event, to-do, journal or freebusy posting.
+  \value iTIPRequest
+  Event, to-do or freebusy scheduling request.
+  \value iTIPReply
+  Event, to-do or freebusy reply to request.
+  \value iTIPAdd
+  Event, to-do or journal additional property request.
+  \value iTIPCancel
+  Event, to-do or journal cancellation notice.
+  \value iTIPRefresh
+  Event or to-do description update request.
+  \value iTIPCounter
+  Event or to-do submit counter proposal.
+  \value iTIPDeclineCounter
+  Event or to-do decline a counter proposal.
+  \value iTIPNoMethod
+  No method.
 */
 enum iTIPMethod {
-    iTIPPublish, /**< Event, to-do, journal or freebusy posting */
-    iTIPRequest, /**< Event, to-do or freebusy scheduling request */
-    iTIPReply, /**< Event, to-do or freebusy reply to request */
-    iTIPAdd, /**< Event, to-do or journal additional property request */
-    iTIPCancel, /**< Event, to-do or journal cancellation notice */
-    iTIPRefresh, /**< Event or to-do description update request */
-    iTIPCounter, /**< Event or to-do submit counter proposal */
-    iTIPDeclineCounter, /**< Event or to-do decline a counter proposal */
-    iTIPNoMethod, /**< No method */
+    iTIPPublish,
+    iTIPRequest,
+    iTIPReply,
+    iTIPAdd,
+    iTIPCancel,
+    iTIPRefresh,
+    iTIPCounter,
+    iTIPDeclineCounter,
+    iTIPNoMethod,
 };
 
-/**
-  @brief
+/*!
+  \class KCalendarCore::ScheduleMessage
+  \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/ScheduleMessage
+  \brief
   A Scheduling message class.
 
   This class provides an encapsulation of a scheduling message.
@@ -41,58 +64,77 @@ enum iTIPMethod {
 class KCALENDARCORE_EXPORT ScheduleMessage
 {
 public:
-    /**
-      Message status.
+    /*!
+      \enum KCalendarCore::ScheduleMessage::Status
+      \brief Message status.
+
+      \value PublishNew
+      New message posting.
+      \value PublishUpdate
+      Updated message.
+      \value Obsolete
+      obsolete.
+      \value RequestNew
+      Request new message posting.
+      \value RequestUpdate
+      Request updated message.
+      \value Unknown
+      No status.
     */
     enum Status {
-        PublishNew, /**< New message posting */
-        PublishUpdate, /**< Updated message */
-        Obsolete, /**< obsolete */
-        RequestNew, /**< Request new message posting */
-        RequestUpdate, /**< Request updated message */
-        Unknown, /**< No status */
+        PublishNew,
+        PublishUpdate,
+        Obsolete,
+        RequestNew,
+        RequestUpdate,
+        Unknown,
     };
 
-    /**
+    /*!
       A shared pointer to a ScheduleMessage.
     */
     typedef QSharedPointer<ScheduleMessage> Ptr;
 
-    /**
+    /*!
       Creates a scheduling message with method as defined in iTIPMethod and a status.
-      @param incidence a pointer to a valid Incidence to be associated with this message.
-      @param method an iTIPMethod.
-      @param status a Status.
+      \a incidence a pointer to a valid Incidence to be associated with this message.
+
+      \a method an iTIPMethod.
+
+      \a status a Status.
+
     */
     ScheduleMessage(const IncidenceBase::Ptr &incidence, iTIPMethod method, Status status);
 
-    /**
+    /*!
       Destructor.
     */
     ~ScheduleMessage();
 
-    /**
+    /*!
       Returns the event associated with this message.
     */
     IncidenceBase::Ptr event() const;
 
-    /**
+    /*!
       Returns the iTIP method associated with this message.
     */
     Q_REQUIRED_RESULT iTIPMethod method() const;
 
-    /**
+    /*!
       Returns a machine-readable (not translatable) name for a iTIP method.
-      @param method an iTIPMethod.
+
+      \a method an iTIPMethod.
+
     */
     Q_REQUIRED_RESULT static QString methodName(iTIPMethod method);
 
-    /**
+    /*!
       Returns the status of this message.
     */
     Q_REQUIRED_RESULT Status status() const;
 
-    /**
+    /*!
       Returns the error message if there is any.
     */
     Q_REQUIRED_RESULT QString error() const;

@@ -21,17 +21,14 @@ include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 include(ECMGenerateExportHeader)
 include(ECMGenerateHeaders)
 include(ECMGeneratePkgConfigFile)
+include(ECMGenerateQDoc)
 include(ECMDeprecationSettings)
 
 include(ECMSetupVersion)
 include(ECMQtDeclareLoggingCategory)
-include(ECMAddQch)
 include(ECMQmlModule)
 
 set(EXCLUDE_DEPRECATED_BEFORE_AND_AT 0 CACHE STRING "Control the range of deprecated API excluded from the build [default=0].")
-
-option(BUILD_QCH "Build API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
-add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
 
 set(KCALENDARCORE_LIB_VERSION ${KF_VERSION})
 set(kcalendarcore_version_header "${KCalendarCore_BINARY_DIR}/src/kcalendarcore_version.h")
@@ -54,10 +51,6 @@ set_package_properties(LibIcal PROPERTIES TYPE REQUIRED)
 
 ########### CMake Config Files ###########
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF6CalendarCore")
-
-if (BUILD_QCH)
-    set(PACKAGE_INCLUDE_QCHTARGETS "include(\"\${CMAKE_CURRENT_LIST_DIR}/KF6CalendarCoreQchTargets.cmake\")")
-endif()
 
 configure_package_config_file(
   "${CMAKE_CURRENT_SOURCE_DIR}/KF6CalendarCoreConfig.cmake.in"
@@ -91,15 +84,6 @@ install(EXPORT KF6CalendarCoreTargets
   FILE KF6CalendarCoreTargets.cmake
   NAMESPACE KF6::
 )
-
-if (BUILD_QCH)
-    ecm_install_qch_export(
-        TARGETS KF6CalendarCore_QCH
-        FILE KF6CalendarCoreQchTargets.cmake
-        DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
-        COMPONENT Devel
-    )
-endif()
 
 install(FILES
   ${kcalendarcore_version_header}
