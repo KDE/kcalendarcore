@@ -23,6 +23,27 @@
 namespace KCalendarCore
 {
 /*!
+  \qmlvaluetype attendee
+  \inqmlmodule org.kde.kcalendarcore
+  \nativetype KCalendarCore::Attendee
+  \brief
+  Represents information related to an attendee of an Calendar Incidence,
+  typically a meeting or task (to-do).
+
+  Attendees are people with a name and (optional) email address who are
+  invited to participate in some way in a meeting or task.  This class
+  also tracks that status of the invitation: accepted; tentatively accepted;
+  declined; delegated to another person; in-progress; completed.
+
+  Attendees may optionally be asked to RSVP ("Respond Please") to
+  the invitation.
+
+  Note that each attendee be can optionally associated with a UID
+  (unique identifier) derived from a Calendar Incidence, Email Message,
+  or any other thing you want.
+*/
+
+/*!
   \class KCalendarCore::Attendee
   \inmodule KCalendarCore
 
@@ -45,16 +66,104 @@ namespace KCalendarCore
 class KCALENDARCORE_EXPORT Attendee
 {
     Q_GADGET
+
+    /*!
+     * \qmlproperty bool attendee::isNull
+     */
+
+    /*!
+     * \property KCalendarCore::Attendee::isNull
+     */
     Q_PROPERTY(bool isNull READ isNull)
+
+    /*!
+     * \qmlproperty string attendee::name
+     */
+
+    /*!
+     * \property KCalendarCore::Attendee::name
+     */
     Q_PROPERTY(QString name READ name WRITE setName)
+
+    /*!
+     * \qmlproperty string attendee::fullName
+     */
+
+    /*!
+     * \property KCalendarCore::Attendee::fullName
+     */
     Q_PROPERTY(QString fullName READ fullName)
+
+    /*!
+     * \qmlproperty string attendee::email
+     */
+
+    /*!
+     * \property KCalendarCore::Attendee::email
+     */
     Q_PROPERTY(QString email READ email WRITE setEmail)
+
+    /*!
+     * \qmlproperty Role attendee::role
+     */
+
+    /*!
+     * \property KCalendarCore::Attendee::role
+     */
     Q_PROPERTY(Role role READ role WRITE setRole)
+
+    /*!
+     * \qmlproperty string attendee::uid
+     */
+
+    /*!
+     * \property KCalendarCore::Attendee::uid
+     */
     Q_PROPERTY(QString uid READ uid WRITE setUid)
+
+    /*!
+     * \qmlproperty PartStat attendee::status
+     */
+
+    /*!
+     * \property KCalendarCore::Attendee::status
+     */
     Q_PROPERTY(PartStat status READ status WRITE setStatus)
+
+    /*!
+     * \qmlproperty CuType attendee::cuType
+     */
+
+    /*!
+     * \property KCalendarCore::Attendee::cuType
+     */
     Q_PROPERTY(CuType cuType READ cuType WRITE setCuType)
+
+    /*!
+     * \qmlproperty bool attendee::rsvp
+     */
+
+    /*!
+     * \property KCalendarCore::Attendee::rsvp
+     */
     Q_PROPERTY(bool rsvp READ RSVP WRITE setRSVP)
+
+    /*!
+     * \qmlproperty string attendee::delegate
+     */
+
+    /*!
+     * \property KCalendarCore::Attendee::delegate
+     */
     Q_PROPERTY(QString delegate READ delegate WRITE setDelegate)
+
+    /*!
+     * \qmlproperty string attendee::delegator
+     */
+
+    /*!
+     * \property KCalendarCore::Attendee::delegator
+     */
     Q_PROPERTY(QString delegator READ delegator WRITE setDelegator)
 
 public:

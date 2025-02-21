@@ -25,6 +25,18 @@
 namespace KCalendarCore
 {
 /*!
+  \qmlvaluetype person
+  \inqmlmodule org.kde.kcalendarcore
+  \nativetype KCalendarCore::Person
+
+  \brief
+  Represents a person, by name and email address.
+
+  This class represents a person, with a name and an email address.
+  It supports the "FirstName LastName\ <mail@domain\>" format.
+*/
+
+/*!
   \class KCalendarCore::Person
   \inmodule KCalendarCore
   \brief
@@ -36,9 +48,41 @@ namespace KCalendarCore
 class KCALENDARCORE_EXPORT Person
 {
     Q_GADGET
+
+    /*!
+     * \qmlproperty bool person::isEmpty
+     */
+
+    /*!
+     * \property KCalendarCore::Person::isEmpty
+     */
     Q_PROPERTY(bool isEmpty READ isEmpty)
+
+    /*!
+     * \qmlproperty string person::fullName
+     */
+
+    /*!
+     * \property KCalendarCore::Person::fullName
+     */
     Q_PROPERTY(QString fullName READ fullName)
+
+    /*!
+     * \qmlproperty string person::name
+     */
+
+    /*!
+     * \property KCalendarCore::Person::name
+     */
     Q_PROPERTY(QString name READ name WRITE setName)
+
+    /*!
+     * \qmlproperty string person::email
+     */
+
+    /*!
+     * \property KCalendarCore::Person::email
+     */
     Q_PROPERTY(QString email READ email WRITE setEmail)
 
 public:

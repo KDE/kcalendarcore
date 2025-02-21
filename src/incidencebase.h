@@ -70,6 +70,38 @@ class Visitor;
 class IncidenceBasePrivate;
 
 /*!
+  \qmlvaluetype incidenceBase
+  \inqmlmodule org.kde.kcalendarcore
+  \nativetype KCalendarCore::IncidenceBase
+  \brief
+  An abstract class that provides a common base for all calendar incidence
+  classes.
+
+  define: organizer (person)
+  define: uid (same as the attendee uid?)
+
+  Several properties are not allowed for VFREEBUSY objects (see rfc:2445),
+  so they are not in IncidenceBase. The hierarchy is:
+
+  \list
+    \li IncidenceBase
+    \list
+      \li FreeBusy
+      \li Incidence
+      \list
+        \li KCalendarCore::Event
+        \li KCalendarCore::Todo
+        \li KCalendarCore::Journal
+      \endlist
+    \endlist
+  \endlist
+
+  So IncidenceBase contains all properties that are common to all classes,
+  and Incidence contains all additional properties that are common to
+  Events, Todos and Journals, but are not allowed for FreeBusy entries.
+*/
+
+/*!
   \class KCalendarCore::IncidenceBase
   \inmodule KCalendarCore
   \brief
@@ -102,12 +134,68 @@ class IncidenceBasePrivate;
 class KCALENDARCORE_EXPORT IncidenceBase : public CustomProperties
 {
     Q_GADGET
+
+    /*!
+     * \qmlproperty string incidenceBase::uid
+     */
+
+    /*!
+     * \property KCalendarCore::IncidenceBase::uid
+     */
     Q_PROPERTY(QString uid READ uid WRITE setUid)
+
+    /*!
+     * \qmlproperty date incidenceBase::lastModified
+     */
+
+    /*!
+     * \property KCalendarCore::IncidenceBase::lastModified
+     */
     Q_PROPERTY(QDateTime lastModified READ lastModified WRITE setLastModified)
+
+    /*!
+     * \qmlproperty date incidenceBase::dtStart
+     */
+
+    /*!
+     * \property KCalendarCore::IncidenceBase::dtStart
+     */
     Q_PROPERTY(QDateTime dtStart READ dtStart WRITE setDtStart)
+
+    /*!
+     * \qmlproperty bool incidenceBase::allDay
+     */
+
+    /*!
+     * \property KCalendarCore::IncidenceBase::allDay
+     */
     Q_PROPERTY(bool allDay READ allDay WRITE setAllDay)
+
+    /*!
+     * \qmlproperty KCalendarCore::Person incidenceBase::organizer
+     */
+
+    /*!
+     * \property KCalendarCore::IncidenceBase::organizer
+     */
     Q_PROPERTY(KCalendarCore::Person organizer READ organizer WRITE setOrganizer)
+
+    /*!
+     * \qmlproperty list<KCalendarCore::Attendee> incidenceBase::attendees
+     */
+
+    /*!
+     * \property KCalendarCore::IncidenceBase::attendees
+     */
     Q_PROPERTY(QList<KCalendarCore::Attendee> attendees READ attendees)
+
+    /*!
+     * \qmlproperty url incidenceBase::url
+     */
+
+    /*!
+     * \property KCalendarCore::IncidenceBase::url
+     */
     Q_PROPERTY(QUrl url READ url WRITE setUrl)
 
 public:

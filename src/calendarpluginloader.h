@@ -14,6 +14,14 @@ namespace KCalendarCore
 {
 
 /*!
+ * \qmlvaluetype calendarPluginLoader
+ * \inqmlmodule org.kde.kcalendarcore
+ * \nativetype KCalendarCore::CalendarPluginLoader
+ * \brief
+ * Provides access to a KCalendarCore::CalendarPlugin instance, if available.
+ */
+
+/*!
  * \class KCalendarCore::CalendarPluginLoader
  * \inmodule KCalendarCore
  * \brief
@@ -24,7 +32,23 @@ namespace KCalendarCore
 class KCALENDARCORE_EXPORT CalendarPluginLoader
 {
     Q_GADGET
+
+    /*!
+     * \qmlproperty bool calendarPluginLoader::hasPlugin
+     */
+
+    /*!
+     * \property KCalendarCore::CalendarPluginLoader::hasPlugin
+     */
     Q_PROPERTY(bool hasPlugin READ hasPlugin)
+
+    /*!
+     * \qmlproperty KCalendarCore::CalendarPlugin calendarPluginLoader::plugin
+     */
+
+    /*!
+     * \property KCalendarCore::CalendarPluginLoader::plugin
+     */
     Q_PROPERTY(KCalendarCore::CalendarPlugin *plugin READ plugin)
 
 public:

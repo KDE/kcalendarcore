@@ -35,6 +35,35 @@ namespace KCalendarCore
 class IncidencePrivate;
 
 /*!
+  \qmlvaluetype incidence
+  \inqmlmodule org.kde.kcalendarcore
+  \nativetype KCalendarCore::Incidence
+  \brief
+  Provides the abstract base class common to non-FreeBusy (Events, To-dos,
+  Journals) calendar components known as incidences.
+
+  Several properties are not allowed for VFREEBUSY objects (see rfc:2445),
+  so they are not in IncidenceBase. The hierarchy is:
+
+  \list
+    \li IncidenceBase
+    \list
+      \li FreeBusy
+      \li Incidence
+      \list
+        \li KCalendarCore::Event
+        \li KCalendarCore::Todo
+        \li KCalendarCore::Journal
+      \endlist
+    \endlist
+  \endlist
+
+  So IncidenceBase contains all properties that are common to all classes,
+  and Incidence contains all additional properties that are common to
+  Events, Todos and Journals, but are not allowed for FreeBusy entries.
+*/
+
+/*!
   \class KCalendarCore::Incidence
   \inmodule KCalendarCore
   \brief
@@ -64,19 +93,124 @@ class IncidencePrivate;
 class KCALENDARCORE_EXPORT Incidence : public IncidenceBase, public Recurrence::RecurrenceObserver
 {
     Q_GADGET
+
+    /*!
+     * \qmlproperty string incidence::description
+     */
+
+    /*!
+     * \property KCalendarCore::Incidence::description
+     */
     Q_PROPERTY(QString description READ description WRITE setDescription)
+
+    /*!
+     * \qmlproperty string incidence::summary
+     */
+
+    /*!
+     * \property KCalendarCore::Incidence::summary
+     */
     Q_PROPERTY(QString summary READ summary WRITE setSummary)
+
+    /*!
+     * \qmlproperty string incidence::location
+     */
+
+    /*!
+     * \property KCalendarCore::Incidence::location
+     */
     Q_PROPERTY(QString location READ location WRITE setLocation)
+
+    /*!
+     * \qmlproperty bool incidence::hasGeo
+     */
+
+    /*!
+     * \property KCalendarCore::Incidence::hasGeo
+     */
     Q_PROPERTY(bool hasGeo READ hasGeo)
+
+    /*!
+     * \qmlproperty real incidence::geoLatitude
+     */
+
+    /*!
+     * \property KCalendarCore::Incidence::geoLatitude
+     */
     Q_PROPERTY(float geoLatitude READ geoLatitude WRITE setGeoLatitude)
+
+    /*!
+     * \qmlproperty real incidence::geoLongitude
+     */
+
+    /*!
+     * \property KCalendarCore::Incidence::geoLongitude
+     */
     Q_PROPERTY(float geoLongitude READ geoLongitude WRITE setGeoLongitude)
+
+    /*!
+     * \qmlproperty list<string> incidence::categories
+     */
+
+    /*!
+     * \property KCalendarCore::Incidence::categories
+     */
     Q_PROPERTY(QStringList categories READ categories WRITE setCategories)
+
+    /*!
+     * \qmlproperty int incidence::priority
+     */
+
+    /*!
+     * \property KCalendarCore::Incidence::priority
+     */
     Q_PROPERTY(int priority READ priority WRITE setPriority)
+
+    /*!
+     * \qmlproperty date incidence::created
+     */
+
+    /*!
+     * \property KCalendarCore::Incidence::created
+     */
     Q_PROPERTY(QDateTime created READ created WRITE setCreated)
+
+    /*!
+     * \qmlproperty KCalendarCore::Incidence::Secrecy incidence::secrecy
+     */
+
+    /*!
+     * \property KCalendarCore::Incidence::secrecy
+     */
     Q_PROPERTY(KCalendarCore::Incidence::Secrecy secrecy READ secrecy WRITE setSecrecy)
+
+    /*!
+     * \qmlproperty KCalendarCore::Incidence::Status incidence::status
+     */
+
+    /*!
+     * \property KCalendarCore::Incidence::status
+     */
     Q_PROPERTY(KCalendarCore::Incidence::Status status READ status WRITE setStatus)
+
+    /*!
+     * \qmlproperty list<KCalendarCore::Attachment> incidence::attachments
+     */
+
+    /*!
+     * \property KCalendarCore::Incidence::attachments
+     */
     Q_PROPERTY(QList<KCalendarCore::Attachment> attachments READ attachments)
+
+    /*!
+     * \qmlproperty list<KCalendarCore::Conference> incidence::conferences
+     */
+
+    /*!
+     * \property KCalendarCore::Incidence::conferences
+     */
     Q_PROPERTY(QList<KCalendarCore::Conference> conferences READ conferences)
+
 public:
     /*!
       \enum KCalendarCore::Incidence::Status

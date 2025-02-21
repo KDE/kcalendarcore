@@ -19,6 +19,19 @@
 namespace KCalendarCore
 {
 /*!
+  \qmlvaluetype conference
+  \inqmlmodule org.kde.kcalendarcore
+  \nativetype KCalendarCore::Conference
+
+  \brief
+  Represents information related to a conference information of an Calendar
+  Incidence, typically a meeting or task (to-do).
+
+  Conference contains information needed to join a remote conference system
+  (e.g. phone call, audio/video meeting etc.)
+*/
+
+/*!
   \class KCalendarCore::Conference
   \inmodule KCalendarCore
   \brief
@@ -33,10 +46,50 @@ namespace KCalendarCore
 class KCALENDARCORE_EXPORT Conference
 {
     Q_GADGET
+
+    /*!
+     * \qmlproperty bool conference::isNull
+     */
+
+    /*!
+     * \property KCalendarCore::Conference::isNull
+     */
     Q_PROPERTY(bool isNull READ isNull)
+
+    /*!
+     * \qmlproperty list<string> conference::features
+     */
+
+    /*!
+     * \property KCalendarCore::Conference::features
+     */
     Q_PROPERTY(QStringList features READ features WRITE setFeatures)
+
+    /*!
+     * \qmlproperty string conference::label
+     */
+
+    /*!
+     * \property KCalendarCore::Conference::label
+     */
     Q_PROPERTY(QString label READ label WRITE setLabel)
+
+    /*!
+     * \qmlproperty url conference::uri
+     */
+
+    /*!
+     * \property KCalendarCore::Conference::uri
+     */
     Q_PROPERTY(QUrl uri READ uri WRITE setUri)
+
+    /*!
+     * \qmlproperty string conference::language
+     */
+
+    /*!
+     * \property KCalendarCore::Conference::language
+     */
     Q_PROPERTY(QString language READ language WRITE setLanguage)
 
 public:

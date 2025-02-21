@@ -24,6 +24,14 @@ namespace KCalendarCore
 class EventPrivate;
 
 /*!
+  \qmlvaluetype event
+  \inqmlmodule org.kde.kcalendarcore
+  \nativetype KCalendarCore::Event
+  \brief
+  This class provides an Event in the sense of RFC2445.
+*/
+
+/*!
   \class KCalendarCore::Event
   \inmodule KCalendarCore
   \brief
@@ -32,8 +40,25 @@ class EventPrivate;
 class KCALENDARCORE_EXPORT Event : public Incidence
 {
     Q_GADGET
+
+    /*!
+     * \qmlproperty date event::dtEnd
+     */
+
+    /*!
+     * \property KCalendarCore::Event::dtEnd
+     */
     Q_PROPERTY(QDateTime dtEnd READ dtEnd WRITE setDtEnd)
+
+    /*!
+     * \qmlproperty KCalendarCore::Event::Transparency event::transparency
+     */
+
+    /*!
+     * \property KCalendarCore::Event::transparency
+     */
     Q_PROPERTY(KCalendarCore::Event::Transparency transparency READ transparency WRITE setTransparency)
+
 public:
     /*!
       \enum KCalendarCore::Event::Transparency

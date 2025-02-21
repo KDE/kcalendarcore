@@ -24,6 +24,30 @@
 namespace KCalendarCore
 {
 /*!
+  \qmlvaluetype attachment
+  \inqmlmodule org.kde.kcalendarcore
+  \nativetype KCalendarCore::Attachment
+  \brief
+  Represents information related to an attachment for a Calendar Incidence.
+
+  This is not an email message attachment.
+
+  Calendar Incidence attachments consist of:
+  \list
+     \li A \l {https://en.wikipedia.org/wiki/Uniform_Resource_Identifier}
+         {Uniform Resource Identifier (URI)}
+         or a
+         \l {https://en.wikipedia.org/wiki/Base64#MIME} {base64 encoded}
+         binary blob.
+     \li A \l {https://en.wikipedia.org/wiki/MIME}
+         {Multipurpose Internet Mail Extensions (MIME)} type.
+  \endlist
+
+  This class is used to associate files (local or remote) or other resources
+  with a Calendar Incidence.
+*/
+
+/*!
   \class KCalendarCore::Attachment
   \inmodule KCalendarCore
   \brief
@@ -48,14 +72,86 @@ namespace KCalendarCore
 class KCALENDARCORE_EXPORT Attachment
 {
     Q_GADGET
+
+    /*!
+     * \qmlproperty bool attachment::isEmpty
+     */
+
+    /*!
+     * \property KCalendarCore::Attachment::isEmpty
+     */
     Q_PROPERTY(bool isEmpty READ isEmpty)
+
+    /*!
+     * \qmlproperty string attachment::uri
+     */
+
+    /*!
+     * \property KCalendarCore::Attachment::uri
+     */
     Q_PROPERTY(QString uri READ uri WRITE setUri)
+
+    /*!
+     * \qmlproperty bool attachment::isUri
+     */
+
+    /*!
+     * \property KCalendarCore::Attachment::isUri
+     */
     Q_PROPERTY(bool isUri READ isUri)
+
+    /*!
+     * \qmlproperty bool attachment::isBinary
+     */
+
+    /*!
+     * \property KCalendarCore::Attachment::isBinary
+     */
     Q_PROPERTY(bool isBinary READ isBinary)
+
+    /*!
+     * \qmlproperty int attachment::size
+     */
+
+    /*!
+     * \property KCalendarCore::Attachment::size
+     */
     Q_PROPERTY(int size READ size)
+
+    /*!
+     * \qmlproperty string attachment::mimeType
+     */
+
+    /*!
+     * \property KCalendarCore::Attachment::mimeType
+     */
     Q_PROPERTY(QString mimeType READ mimeType WRITE setMimeType)
+
+    /*!
+     * \qmlproperty bool attachment::showInline
+     */
+
+    /*!
+     * \property KCalendarCore::Attachment::showInline
+     */
     Q_PROPERTY(bool showInline READ showInline WRITE setShowInline)
+
+    /*!
+     * \qmlproperty string attachment::label
+     */
+
+    /*!
+     * \property KCalendarCore::Attachment::label
+     */
     Q_PROPERTY(QString label READ label WRITE setLabel)
+
+    /*!
+     * \qmlproperty bool attachment::isLocal
+     */
+
+    /*!
+     * \property KCalendarCore::Attachment::isLocal
+     */
     Q_PROPERTY(bool isLocal READ isLocal WRITE setLocal)
 
 public:

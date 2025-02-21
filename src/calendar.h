@@ -156,6 +156,31 @@ enum AccessMode {
 Q_ENUM_NS(AccessMode)
 
 /*!
+  \qmlvaluetype calendar
+  \inqmlmodule org.kde.kcalendarcore
+  \nativetype KCalendarCore::Calendar
+  \brief
+  Represents the main calendar class.
+
+  A calendar contains information like incidences (events, to-dos, journals),
+  alarms, time zones, and other useful information.
+
+  This is an abstract base class defining the interface to a calendar.
+  It is implemented by subclasses like MemoryCalendar, which use different
+  methods to store and access the data.
+
+  \b {Ownership of Incidences}:
+
+  Incidence ownership is handled by the following policy: as soon as an
+  incidence (or any other subclass of IncidenceBase) is added to the
+  Calendar by an add...() method it is owned by the Calendar object.
+  The Calendar takes care of deleting the incidence using the delete...()
+  methods. All Incidences returned by the query functions are returned
+  as pointers so that changes to the returned Incidences are immediately
+  visible in the Calendar.
+*/
+
+/*!
   \class KCalendarCore::Calendar
   \inmodule KCalendarCore
 
@@ -185,12 +210,68 @@ Q_ENUM_NS(AccessMode)
 class KCALENDARCORE_EXPORT Calendar : public QObject, public CustomProperties, public IncidenceBase::IncidenceObserver
 {
     Q_OBJECT
+
+    /*!
+     * \qmlproperty string calendar::productId
+     */
+
+    /*!
+     * \property KCalendarCore::Calendar::productId
+     */
     Q_PROPERTY(QString productId READ productId WRITE setProductId) // clazy:exclude=qproperty-without-notify
+
+    /*!
+     * \qmlproperty KCalendarCore::Person calendar::owner
+     */
+
+    /*!
+     * \property KCalendarCore::Calendar::owner
+     */
     Q_PROPERTY(KCalendarCore::Person owner READ owner WRITE setOwner NOTIFY ownerChanged)
+
+    /*!
+     * \qmlproperty string calendar::id
+     */
+
+    /*!
+     * \property KCalendarCore::Calendar::id
+     */
     Q_PROPERTY(QString id READ id WRITE setId NOTIFY idChanged)
+
+    /*!
+     * \qmlproperty string calendar::name
+     */
+
+    /*!
+     * \property KCalendarCore::Calendar::name
+     */
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
+
+    /*!
+     * \qmlproperty Icon calendar::icon
+     */
+
+    /*!
+     * \property KCalendarCore::Calendar::icon
+     */
     Q_PROPERTY(QIcon icon READ icon WRITE setIcon NOTIFY iconChanged)
+
+    /*!
+     * \qmlproperty KCalendarCore::AccessMode calendar::accessMode
+     */
+
+    /*!
+     * \property KCalendarCore::Calendar::accessMode
+     */
     Q_PROPERTY(KCalendarCore::AccessMode accessMode READ accessMode WRITE setAccessMode NOTIFY accessModeChanged)
+
+    /*!
+     * \qmlproperty bool calendar::isLoading
+     */
+
+    /*!
+     * \property KCalendarCore::Calendar::isLoading
+     */
     Q_PROPERTY(bool isLoading READ isLoading NOTIFY isLoadingChanged)
 
 public:
