@@ -35,6 +35,7 @@ class ExceptionPrivate;
 /*!
   \class KCalendarCore::Exception
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/Exception
   \brief Exception base class, currently used as a fancy kind of error code
   and not as an C++ exception.
 */

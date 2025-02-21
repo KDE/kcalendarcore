@@ -66,6 +66,7 @@ class IncidencePrivate;
 /*!
   \class KCalendarCore::Incidence
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/Incidence
   \brief
   Provides the abstract base class common to non-FreeBusy (Events, To-dos,
   Journals) calendar components known as incidences.

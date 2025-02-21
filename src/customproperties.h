@@ -24,6 +24,7 @@ namespace KCalendarCore
 /*!
   \class KCalendarCore::CustomProperties
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/CustomProperties
   \brief
   A class to manage custom calendar properties.
 

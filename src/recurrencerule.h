@@ -28,6 +28,7 @@ typedef QList<QTime> TimeList;
 /*!
   \class KCalendarCore::RecurrenceRule
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/RecurrenceRule
   \brief This class represents a recurrence rule for a calendar incidence.
 */
 class KCALENDARCORE_EXPORT RecurrenceRule

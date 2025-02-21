@@ -24,6 +24,7 @@ namespace KCalendarCore
 /*!
  * \class KCalendarCore::CalendarPluginLoader
  * \inmodule KCalendarCore
+ * \inheaderfile KCalendarCore/CalendarPluginLoader
  * \brief
  * Provides access to a KCalendarCore::CalendarPlugin instance, if available.
  *

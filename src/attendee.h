@@ -46,6 +46,7 @@ namespace KCalendarCore
 /*!
   \class KCalendarCore::Attendee
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/Attendee
 
   \brief
   Represents information related to an attendee of an Calendar Incidence,

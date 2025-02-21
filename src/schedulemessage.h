@@ -54,6 +54,7 @@ enum iTIPMethod {
 /*!
   \class KCalendarCore::ScheduleMessage
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/ScheduleMessage
   \brief
   A Scheduling message class.
 

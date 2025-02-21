@@ -17,6 +17,7 @@ namespace KCalendarCore
 /*!
   \class KCalendarCore::CalendarPlugin
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/CalendarPlugin
   \brief
   A plugin that provides calendar data.
 

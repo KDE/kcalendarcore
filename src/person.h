@@ -39,6 +39,7 @@ namespace KCalendarCore
 /*!
   \class KCalendarCore::Person
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/Person
   \brief
   Represents a person, by name and email address.
 

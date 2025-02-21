@@ -25,6 +25,7 @@ class RecurrenceRule;
 /*!
   \class KCalendarCore::Recurrence
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/Recurrence
   \brief This class represents a recurrence rule for a calendar incidence.
 
   It manages all recurrence rules, recurrence date/times, exception rules

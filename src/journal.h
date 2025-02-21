@@ -25,6 +25,7 @@ class JournalPrivate;
 /*!
   \class KCalendarCore::Journal
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/Journal
   \brief
   Provides a Journal in the sense of RFC2445.
 */

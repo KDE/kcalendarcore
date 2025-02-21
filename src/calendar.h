@@ -183,6 +183,7 @@ Q_ENUM_NS(AccessMode)
 /*!
   \class KCalendarCore::Calendar
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/Calendar
 
   \brief
   Represents the main calendar class.

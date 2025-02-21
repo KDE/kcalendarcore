@@ -24,6 +24,7 @@ namespace KCalendarCore
 /*!
   \class KCalendarCore::MemoryCalendar
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/MemoryCalendar
   \brief
   This class provides a calendar stored in memory.
 */

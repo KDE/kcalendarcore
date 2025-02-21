@@ -50,6 +50,7 @@ namespace KCalendarCore
 /*!
   \class KCalendarCore::Attachment
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/Attachment
   \brief
   Represents information related to an attachment for a Calendar Incidence.
 

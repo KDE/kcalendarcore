@@ -28,6 +28,7 @@ namespace KCalendarCore
 /*!
   \class KCalendarCore::Duration
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/Duration
   \brief
   Represents a span of time measured in seconds or days.
 

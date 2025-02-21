@@ -20,6 +20,7 @@ class CalendarListModelPrivate;
 /*!
  * \class KCalendarCore::CalendarListModel
  * \inmodule KCalendarCore
+ * \inheaderfile KCalendarCore/CalendarListModel
  * \brief Model adaptor for KCalendarCore::CalendarPlugin::calendars().
  *
  * \since 6.4

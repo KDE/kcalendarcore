@@ -27,6 +27,7 @@ namespace KCalendarCore
 /*!
   \class KCalendarCore::FreeBusyPeriod
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/FreeBusyPeriod
   \brief
   Represents a period of time.
 

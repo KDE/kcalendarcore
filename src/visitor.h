@@ -23,6 +23,7 @@ namespace KCalendarCore
 /*!
   \class KCalendarCore::Visitor
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/Visitor
   \brief
   This class provides the interface for a visitor of calendar components.
 

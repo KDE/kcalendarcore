@@ -34,6 +34,7 @@ namespace KCalendarCore
 /*!
   \class KCalendarCore::Conference
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/Conference
   \brief
   Represents information related to a conference information of an Calendar
   Incidence, typically a meeting or task (to-do).

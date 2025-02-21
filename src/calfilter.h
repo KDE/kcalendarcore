@@ -25,6 +25,7 @@ namespace KCalendarCore
 /*!
   \class KCalendarCore::CalFilter
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/CalFilter
   \brief
   Provides a filter for calendars.
 

@@ -26,6 +26,7 @@ class TodoPrivate;
 /*!
   \class KCalendarCore::Todo
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/Todo
   \brief
   Provides a To-do in the sense of RFC2445.
 */

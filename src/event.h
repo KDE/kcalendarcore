@@ -34,6 +34,7 @@ class EventPrivate;
 /*!
   \class KCalendarCore::Event
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/Event
   \brief
   This class provides an Event in the sense of RFC2445.
 */

@@ -24,6 +24,7 @@ class Calendar;
 /*!
  * \class KCalendarCore::OccurrenceIterator
  * \inmodule KCalendarCore
+ * \inheaderfile KCalendarCore/OccurrenceIterator
  * \brief Iterate over calendar items in a calendar.
  *
  * The iterator takes recurrences and exceptions to recurrences into account

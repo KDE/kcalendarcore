@@ -25,6 +25,7 @@ class Calendar;
 /*!
   \class KCalendarCore::FileStorage
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/FileStorage
   \brief
   This class provides a calendar storage as a local file.
 */

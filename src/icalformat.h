@@ -30,6 +30,7 @@ class RecurrenceRule;
 /*!
   \class KCalendarCore::ICalFormat
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/ICalFormat
   \brief
   iCalendar format implementation.
 

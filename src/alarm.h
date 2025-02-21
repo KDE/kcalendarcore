@@ -38,6 +38,7 @@ class Incidence;
 /*!
   \class KCalendarCore::Alarm
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/Alarm
 
   \brief
   Represents an alarm notification.

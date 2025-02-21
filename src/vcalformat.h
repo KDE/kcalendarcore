@@ -49,6 +49,7 @@ class VCalFormatPrivate;
 /*!
   \class KCalendarCore::VCalFormat
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/VCalFormat
   \brief
   vCalendar format implementation.
 

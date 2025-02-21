@@ -24,6 +24,7 @@ namespace KCalendarCore
 /*!
   \class KCalendarCore::CalStorage
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/CalStorage
   \brief
   An abstract base class that provides a calendar storage interface.
 

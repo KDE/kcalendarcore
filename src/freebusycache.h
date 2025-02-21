@@ -27,6 +27,7 @@ class Person;
 /*!
   \class KCalendarCore::FreeBusyCache
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/FreeBusyCache
   \brief
   An abstract base class to allow different implementations of storing
   free busy information, e.g. local storage or storage on a Kolab server.

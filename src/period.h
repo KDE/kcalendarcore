@@ -31,6 +31,7 @@ namespace KCalendarCore
 /*!
   \class KCalendarCore::Period
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/Period
   \brief The period can be defined by either a start time and an end time or
   by a start time and a duration.
 */

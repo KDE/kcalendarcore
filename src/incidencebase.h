@@ -104,6 +104,7 @@ class IncidenceBasePrivate;
 /*!
   \class KCalendarCore::IncidenceBase
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/IncidenceBase
   \brief
   An abstract class that provides a common base for all calendar incidence
   classes.

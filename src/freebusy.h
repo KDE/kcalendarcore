@@ -31,6 +31,7 @@ class FreeBusyPrivate;
 /*!
   \class KCalendarCore::FreeBusy
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/FreeBusy
   \brief
   Provides information about the free/busy time of a calendar.
 

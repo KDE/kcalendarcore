@@ -29,6 +29,7 @@ class Exception;
 /*!
   \class KCalendarCore::CalFormat
   \inmodule KCalendarCore
+  \inheaderfile KCalendarCore/CalFormat
   \brief
   An abstract base class that provides an interface to various calendar formats.
 
