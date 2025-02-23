@@ -109,6 +109,10 @@ bool CalFilter::filterIncidence(const Incidence::Ptr &incidence) const
         return true;
     }
 
+    if (!incidence) {
+        return true;
+    }
+
     Todo::Ptr todo = incidence.dynamicCast<Todo>();
     if (todo) {
         if ((d->mCriteria & HideCompletedTodos) && todo->isCompleted()) {
