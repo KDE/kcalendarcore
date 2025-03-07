@@ -1,0 +1,5 @@
+[codespell]
+skip = ./build*,./po,.git,*.notifyrc,*.desktop,*.json,*.xml,./autotests/data
+interactive = 3
+ignore-words-list = nd
+ignore-regex = \b([a-z]+[A-Z0-9][a-z0-9]*)\b

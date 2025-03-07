@@ -778,7 +778,7 @@ public:
     /**
      * Adds a conference to the incidence.
      *
-     * @param conferene A conference to add.
+     * @param conference A conference to add.
      * @since 5.77
      */
     void addConference(const Conference &conference);
@@ -840,7 +840,7 @@ public:
 
       @param recurrenceId Some recurring incidences might use a different icon,
       for example, completed to-do occurrences. Use this parameter to identify
-      the specific occurrence in a recurring serie.
+      the specific occurrence in a recurring series.
     */
     virtual QLatin1String iconName(const QDateTime &recurrenceId = {}) const = 0;
 

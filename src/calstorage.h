@@ -42,7 +42,7 @@ public:
     explicit CalStorage(const Calendar::Ptr &calendar);
 
     /**
-      Destuctor.
+      Destructor.
     */
     ~CalStorage() override;
 

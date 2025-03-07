@@ -65,7 +65,7 @@ public:
 
     /**
       Returns the calendar file name.
-      @return A QString with the name of the calendar file for this storge.
+      @return A QString with the name of the calendar file for this storage.
       @see setFileName().
     */
     Q_REQUIRED_RESULT QString fileName() const;

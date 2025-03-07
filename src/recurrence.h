@@ -617,8 +617,8 @@ public:
       Add a RDATE defined as a PERIOD. The start date-time of the period is added
       to the recurring date time list, and will be listed by a call to
       rDateTimes(). Use then rDateTimePeriod() to fetch the associated
-      period defintion.
-      @param period a given RDATE in period defintion.
+      period definition.
+      @param period a given RDATE in period definition.
       @since 5.87
      */
     void addRDateTimePeriod(const Period &period);
