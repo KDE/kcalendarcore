@@ -28,15 +28,12 @@ private Q_SLOTS:
 
         QTest::newRow("invalid") << QDateTime() << QDateTime();
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
         QTest::newRow("utc-tz") << QDateTime(QDate(2023, 11, 18), QTime(13, 31), QTimeZone::UTC)
                                 << QDateTime(QDate(2023, 11, 18), QTime(13, 31), QTimeZone::utc());
         QTest::newRow("tz-newoffset") << QDateTime(QDate(2023, 11, 18), QTime(13, 31), QTimeZone::UTC)
                                       << QDateTime(QDate(2023, 11, 18), QTime(13, 31), QTimeZone::fromSecondsAheadOfUtc(0));
         QTest::newRow("utc-newoffset") << QDateTime(QDate(2023, 11, 18), QTime(13, 31), QTimeZone::UTC)
                                        << QDateTime(QDate(2023, 11, 18), QTime(13, 31), QTimeZone::fromSecondsAheadOfUtc(0));
-#pragma GCC diagnostic pop
     }
 
     void testTrue()
@@ -68,8 +65,6 @@ private Q_SLOTS:
             << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 22), QTimeZone("Africa/Abidjan"))
             << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 22), QTimeZone("Africa/Accra"));
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic pop
         QTest::newRow("invalid timeZone")
             << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 22), QDateTime().timeZone())
             << QDateTime();
