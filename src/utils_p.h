@@ -6,8 +6,8 @@
   SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#ifndef KCALCORE_UTILS_H
-#define KCALCORE_UTILS_H
+#ifndef KCALCORE_UTILS_P_H
+#define KCALCORE_UTILS_P_H
 
 #include "kcalendarcore_export.h"
 

@@ -11,7 +11,6 @@
 
 #include <QDebug>
 #include <QTest>
-#include <qtest.h>
 
 using namespace KCalendarCore;
 

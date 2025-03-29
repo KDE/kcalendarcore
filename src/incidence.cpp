@@ -25,7 +25,7 @@
 #include "kcalendarcore_debug.h"
 #include "utils_p.h"
 
-#include <math.h>
+#include <cmath>
 
 #include <QStringList>
 #include <QTextDocument> // for .toHtmlEscaped() and Qt::mightBeRichText()
@@ -1047,7 +1047,7 @@ void Incidence::setGeoLatitude(float geolatitude)
         return;
     }
 
-    if (isnan(geolatitude)) {
+    if (std::isnan(geolatitude)) {
         geolatitude = INVALID_LATLON;
     }
     if (geolatitude != INVALID_LATLON && (geolatitude < -90.0 || geolatitude > 90.0)) {
@@ -1075,7 +1075,7 @@ void Incidence::setGeoLongitude(float geolongitude)
         return;
     }
 
-    if (isnan(geolongitude)) {
+    if (std::isnan(geolongitude)) {
         geolongitude = INVALID_LATLON;
     }
     if (geolongitude != INVALID_LATLON && (geolongitude < -180.0 || geolongitude > 180.0)) {
