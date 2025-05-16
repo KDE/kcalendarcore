@@ -8,6 +8,7 @@
 
 #include <QAbstractItemModelTester>
 #include <QDebug>
+#include <QStandardPaths>
 #include <QTest>
 
 using namespace KCalendarCore;
@@ -16,6 +17,12 @@ class CalendarListModelTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
+    void initTests()
+    {
+        QStandardPaths::setTestModeEnabled(true);
+        qputenv("AKONADI_CALENDAR_KCALENDARCORE_PLUGIN_NO_AUTO_LAUNCH", "1");
+        qputenv("AKONADI_INSTANCE", "qttest");
+    }
     void testModel()
     {
         CalendarListModel model;
