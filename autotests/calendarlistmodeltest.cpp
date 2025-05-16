@@ -35,6 +35,14 @@ private Q_SLOTS:
             QCOMPARE(model.rowCount(), 0);
         }
     }
+
+    void cleanup()
+    {
+        // pretend we had a running QCoreApplication event loop so
+        // plugin destruction works correctly
+        QMetaObject::invokeMethod(QCoreApplication::instance(), &QCoreApplication::quit, Qt::QueuedConnection);
+        QCoreApplication::exec();
+    }
 };
 
 QTEST_MAIN(CalendarListModelTest)
