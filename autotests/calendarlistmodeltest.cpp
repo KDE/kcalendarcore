@@ -8,6 +8,7 @@
 
 #include <QAbstractItemModelTester>
 #include <QDebug>
+#include <QSignalSpy>
 #include <QTest>
 
 using namespace KCalendarCore;
@@ -22,6 +23,9 @@ private Q_SLOTS:
         QAbstractItemModelTester modelTest(&model);
 
         if (CalendarPluginLoader::hasPlugin()) {
+            // give the plugin time to populate
+            QSignalSpy calendarChangeSpy(CalendarPluginLoader::plugin(), &CalendarPlugin::calendarsChanged);
+            calendarChangeSpy.wait(500);
             QCOMPARE(model.rowCount(), CalendarPluginLoader::plugin()->calendars().size());
 
             for (auto i = 0; i < model.rowCount(); ++i) {
