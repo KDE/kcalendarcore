@@ -12,6 +12,8 @@ outputformats = HTML
 
 depends += kde qtcore qtgui kcoreaddons
 
+navigation.landingpage = "KCalendarCore"
+
 qhp.projects            = KCalendarCore
 
 qhp.KCalendarCore.file                = kcalendarcore.qhp
