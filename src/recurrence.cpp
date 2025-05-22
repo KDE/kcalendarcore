@@ -512,13 +512,13 @@ void Recurrence::shiftTimes(const QTimeZone &oldTz, const QTimeZone &newTz)
     QHash<QDateTime, Period> oldPeriods = d->mRDateTimePeriods;
 
     for (auto &rDt : d->mRDateTimes) {
-        auto periodIt = oldPeriods.find(rDt);
-        if (periodIt != oldPeriods.end()) {
-            periodIt->shiftTimes(oldTz, newTz);
+        auto period = oldPeriods.value(rDt, Period());
+        if (period.isValid()) {
+            period.shiftTimes(oldTz, newTz);
             rDt = rDt.toTimeZone(oldTz);
             rDt.setTimeZone(newTz);
             // Now there are QDateTime objects in the hash? is this shifting times?
-            d->mRDateTimePeriods.insert(rDt, *periodIt);
+            d->mRDateTimePeriods.insert(rDt, period);
         }
     }
 
