@@ -883,7 +883,6 @@ Alarm::List Incidence::alarms() const
 
 Alarm::Ptr Incidence::newAlarm()
 {
-    Q_D(Incidence);
     Alarm::Ptr alarm(new Alarm(this));
     addAlarm(alarm);
     return alarm;
