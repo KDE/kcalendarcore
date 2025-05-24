@@ -27,3 +27,5 @@ qhp.KCalendarCore.subprojects.classes.title = C++ Classes
 qhp.KCalendarCore.subprojects.classes.indexTitle = KCalendarCore C++ Classes
 qhp.KCalendarCore.subprojects.classes.selectors = class fake:headerfile
 qhp.KCalendarCore.subprojects.classes.sortPages = true
+
+tagfile = kcalendarcore.tags
