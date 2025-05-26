@@ -1,2 +1,1 @@
-SKIP /libical.*/|/tests/
-EXTRA tipsandthis,defines,qenums,null,camelcase
+EXTRA camelcase

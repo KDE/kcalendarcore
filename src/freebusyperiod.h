@@ -99,7 +99,7 @@ public:
 
      */
 
-    FreeBusyPeriod(const Period &period); // krazy:exclude=explicit
+    FreeBusyPeriod(const Period &period);
 
     /*!
       Destroys a period.

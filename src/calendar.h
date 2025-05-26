@@ -1159,7 +1159,7 @@ public:
 
       \brief The CalendarObserver class.
     */
-    class KCALENDARCORE_EXPORT CalendarObserver // krazy:exclude=dpointer
+    class KCALENDARCORE_EXPORT CalendarObserver
     {
     public:
         /*!

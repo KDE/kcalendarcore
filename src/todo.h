@@ -69,7 +69,7 @@ public:
 
       \since 4.14
      */
-    Todo(const Incidence &other); // krazy:exclude=explicit (copy ctor)
+    Todo(const Incidence &other);
 
     /*!
       Destroys a to-do.

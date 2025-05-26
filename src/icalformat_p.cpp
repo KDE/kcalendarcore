@@ -602,7 +602,7 @@ void ICalFormatImpl::writeCustomProperties(icalcomponent *parent, CustomProperti
 {
     const QMap<QByteArray, QString> custom = properties->customProperties();
     for (auto c = custom.cbegin(); c != custom.cend(); ++c) {
-        if (c.key().startsWith("X-KDE-VOLATILE")) { // krazy:exclude=strings
+        if (c.key().startsWith("X-KDE-VOLATILE")) {
             // We don't write these properties to disk to disk
             continue;
         }

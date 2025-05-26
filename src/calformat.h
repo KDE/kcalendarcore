@@ -131,12 +131,12 @@ public:
     /*!
       Returns the application name used in unique IDs and error messages.
     */
-    static const QString &application(); // krazy:exclude=constref
+    static const QString &application();
 
     /*!
       Returns the our library's PRODID string to write into calendar files.
     */
-    static const QString &productId(); // krazy:exclude=constref
+    static const QString &productId();
 
     /*!
       Returns the PRODID string loaded from calendar file.

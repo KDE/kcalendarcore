@@ -290,7 +290,7 @@ void ICalTimeZonesTest::write()
      */
     {
         auto vtimezone = ICalTimeZoneParser::vcaltimezoneFromQTimeZone(QTimeZone("Europe/Prague"), QDateTime({1979, 2, 1}, {0, 0}));
-        QCOMPARE(vtimezone, QByteArray(VTZ_Prague).replace(";VALUE=DATE-TIME", "")); // krazy:exclude=doublequote_chars
+        QCOMPARE(vtimezone, QByteArray(VTZ_Prague).replace(";VALUE=DATE-TIME", ""));
     }
 
     /* By picking a date which overlaps the spurious TZ transition,
@@ -305,7 +305,7 @@ void ICalTimeZonesTest::write()
 #else
         auto expect = QByteArray(VTZ_Prague);
 #endif
-        expect.replace(";VALUE=DATE-TIME", ""); // krazy:exclude=doublequote_chars
+        expect.replace(";VALUE=DATE-TIME", "");
         QCOMPARE(vtimezone, expect);
     }
 }

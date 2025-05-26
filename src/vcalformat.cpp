@@ -1656,7 +1656,7 @@ void VCalFormat::writeCustomProperties(VObject *o, const Incidence::Ptr &i)
     const QMap<QByteArray, QString> custom = i->customProperties();
     for (auto cIt = custom.cbegin(); cIt != custom.cend(); ++cIt) {
         const QByteArray property = cIt.key();
-        if (d->mManuallyWrittenExtensionFields.contains(property) || property.startsWith("X-KDE-VOLATILE")) { // krazy:exclude=strings
+        if (d->mManuallyWrittenExtensionFields.contains(property) || property.startsWith("X-KDE-VOLATILE")) {
             continue;
         }
 

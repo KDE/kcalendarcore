@@ -101,7 +101,7 @@ public:
       \a type the unit of time to use (seconds or days)
 
     */
-    Duration(int duration, Type type = Seconds); // krazy:exclude=explicit
+    Duration(int duration, Type type = Seconds);
 
     /*!
       Constructs a duration by copying another duration object.

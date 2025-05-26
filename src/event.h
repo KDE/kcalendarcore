@@ -111,7 +111,7 @@ public:
 
       \since 4.14
     */
-    Event(const Incidence &other); // krazy:exclude=explicit (copy ctor)
+    Event(const Incidence &other);
 
     /*!
       Destroys the event.

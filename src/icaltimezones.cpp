@@ -125,7 +125,7 @@ QTimeZone ICalTimeZoneCache::tzForTime(const QDateTime &dt, const QByteArray &tz
     // The lookup in ICalTimeZoneParser will only find TZ in standard time, but
     // if the datetim in question fits in the DTS zone, we need to use another UTC
     // offset timezone
-    if (tz.qZone.id().startsWith("UTC")) { // krazy:exclude=strings
+    if (tz.qZone.id().startsWith("UTC")) {
         // Find the nearest standard and DST transitions that occur BEFORE the "dt"
         const auto stdPrev = greatestSmallerThan(tz.standard.transitions, dt);
         const auto dstPrev = greatestSmallerThan(tz.daylight.transitions, dt);
@@ -135,7 +135,7 @@ QTimeZone ICalTimeZoneCache::tzForTime(const QDateTime &dt, const QByteArray &tz
                 // means we are in DTS right now
                 const auto tzids = QTimeZone::availableTimeZoneIds(tz.daylight.utcOffset);
                 auto dtsTzId = std::find_if(tzids.cbegin(), tzids.cend(), [](const QByteArray &id) {
-                    return id.startsWith("UTC"); // krazy:exclude=strings
+                    return id.startsWith("UTC");
                 });
                 if (dtsTzId != tzids.cend()) {
                     return QTimeZone(*dtsTzId);

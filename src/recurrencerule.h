@@ -71,7 +71,7 @@ public:
      * \inmodule KCalendarCore
      * \brief Structure for describing the n-th weekday of the month/year.
      */
-    class KCALENDARCORE_EXPORT WDayPos // krazy:exclude=dpointer
+    class KCALENDARCORE_EXPORT WDayPos
     {
     public:
         explicit WDayPos(int ps = 0, short dy = 0);
