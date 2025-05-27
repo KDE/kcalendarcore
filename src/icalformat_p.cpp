@@ -432,9 +432,8 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent, const Incidence::Ptr 
     if (incidence->hasGeo()) {
         icalgeotype geo;
 #if ICAL_CHECK_VERSION(3, 99, 99)
-        QString foo;
-        strncpy(geo.lat, foo.setNum(incidence->geoLatitude(), 'g').toLocal8Bit().data(), ICAL_GEO_LEN - 1);
-        strncpy(geo.lat, foo.setNum(incidence->geoLongitude(), 'g').toLocal8Bit().data(), ICAL_GEO_LEN - 1);
+        strncpy(geo.lat, QString::number(incidence->geoLatitude()).toLocal8Bit().data(), ICAL_GEO_LEN - 1);
+        strncpy(geo.lat, QString::number(incidence->geoLongitude()).toLocal8Bit().data(), ICAL_GEO_LEN - 1);
 #else
         geo.lat = incidence->geoLatitude();
         geo.lon = incidence->geoLongitude();
