@@ -14,6 +14,16 @@
 #include <QTest>
 QTEST_MAIN(TimesInIntervalTest)
 
+// Copied from void RecurTodoTest::setTimeZone(const char *zonename)
+static void setTimeZone(const char *zonename)
+{
+    QVERIFY(QTimeZone(zonename).isValid());
+    qputenv("TZ", zonename);
+    const QDateTime currentDateTime = QDateTime::currentDateTime();
+    QVERIFY(currentDateTime.timeZone().isValid());
+    QCOMPARE(currentDateTime.timeZoneAbbreviation(), QString::fromLatin1(zonename));
+}
+
 using namespace KCalendarCore;
 
 void TimesInIntervalTest::test()
@@ -141,6 +151,8 @@ void TimesInIntervalTest::testSubDailyRecurrenceIntervalLimits()
 
 void TimesInIntervalTest::testLocalTimeHandlingNonAllDay()
 {
+    setTimeZone("UTC"); // Because if it isn't set, LocalTime will be different from systemTimeZone()
+
     // Create an event which occurs every weekday of every week,
     // starting from Friday the 11th of October, from 12 pm until 1 pm, clock time,
     // and lasts for two weeks, with three exception datetimes,
