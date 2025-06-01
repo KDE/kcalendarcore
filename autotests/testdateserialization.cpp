@@ -12,6 +12,16 @@
 
 QTEST_MAIN(TestDateSerialization)
 
+// Copied from void RecurTodoTest::setTimeZone(const char *zonename)
+static void setTimeZone(const char *zonename)
+{
+    QVERIFY(QTimeZone(zonename).isValid());
+    qputenv("TZ", zonename);
+    const QDateTime currentDateTime = QDateTime::currentDateTime();
+    QVERIFY(currentDateTime.timeZone().isValid());
+    QCOMPARE(currentDateTime.timeZoneAbbreviation(), QString::fromLatin1(zonename));
+}
+
 using namespace KCalendarCore;
 
 // Check that serialization and deserialization of a minimal recurring todo
@@ -50,6 +60,8 @@ void TestDateSerialization::testNewRecurringTodo()
 // See bug 345565.
 void TestDateSerialization::testTodoCompletedOnce()
 {
+    setTimeZone("UTC");
+
     QDateTime startDate = QDate(QDate::currentDate().year(), QDate::currentDate().month(), 1).startOfDay();
     QDateTime dueDate{startDate.addDays(1)};
 
