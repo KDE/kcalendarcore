@@ -15,6 +15,16 @@
 
 QTEST_MAIN(TestOccurrenceIterator)
 
+// Copied from void RecurTodoTest::setTimeZone(const char *zonename)
+static void setTimeZone(const char *zonename)
+{
+    QVERIFY(QTimeZone(zonename).isValid());
+    qputenv("TZ", zonename);
+    const QDateTime currentDateTime = QDateTime::currentDateTime();
+    QVERIFY(currentDateTime.timeZone().isValid());
+    QCOMPARE(currentDateTime.timeZoneAbbreviation(), QString::fromLatin1(zonename));
+}
+
 void TestOccurrenceIterator::testIterationWithExceptions()
 {
     KCalendarCore::MemoryCalendar calendar(QTimeZone::utc());
@@ -276,6 +286,8 @@ void TestOccurrenceIterator::testJournals()
 
 void TestOccurrenceIterator::testEndDate()
 {
+    setTimeZone("UTC"); // Because it if is not set at all, LocalTime is different from systemTimeZone()
+
     const QDateTime start(QDate(2021, 8, 30), QTime(10, 0, 0));
     const QDateTime end(QDate(2021, 8, 30), QTime(11, 0, 0));
 
