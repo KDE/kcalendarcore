@@ -1478,14 +1478,23 @@ Attendee ICalFormatImpl::readAttendee(icalproperty *attendee)
     a.setCuType(cuType);
     a.customProperties().setCustomProperties(custom);
 
+    // TODO: support multiple delegated_to and delegated_from attendees
     p = icalproperty_get_first_parameter(attendee, ICAL_DELEGATEDTO_PARAMETER);
     if (p) {
+#if ICAL_CHECK_VERSION(3, 99, 99)
+        a.setDelegate(QLatin1String(icalparameter_get_delegatedto_nth(p, 0)));
+#else
         a.setDelegate(QLatin1String(icalparameter_get_delegatedto(p)));
+#endif
     }
 
     p = icalproperty_get_first_parameter(attendee, ICAL_DELEGATEDFROM_PARAMETER);
     if (p) {
+#if ICAL_CHECK_VERSION(3, 99, 99)
+        a.setDelegator(QLatin1String(icalparameter_get_delegatedfrom_nth(p, 0)));
+#else
         a.setDelegator(QLatin1String(icalparameter_get_delegatedfrom(p)));
+#endif
     }
 
     return a;
