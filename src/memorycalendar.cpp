@@ -53,6 +53,7 @@ public:
     MemoryCalendar *q;
     CalFormat *mFormat; // calendar format
     QString mIncidenceBeingUpdated; //  Instance identifier of Incidence currently being updated
+    QDateTime mDtStartBeingUpdated; // dtStart field of the incidence being updated
     bool mUpdateLastModified; // Call setLastModified() on incidence modific ations
 
     /**
@@ -534,6 +535,9 @@ void MemoryCalendar::incidenceUpdate(const QString &uid, const QDateTime &recurr
         // Save it so we can detect changes to uid or recurringId.
         d->mIncidenceBeingUpdated = inc->instanceIdentifier();
 
+        // Save dtStart so we can detect a change and apply it to exceptions.
+        d->mDtStartBeingUpdated = inc->dtStart();
+
         const QDateTime dt = inc->dateTime(Incidence::RoleCalendarHashing);
         if (dt.isValid()) {
             d->mIncidencesForDate[inc->type()].remove(dt.toTimeZone(timeZone()).date(), inc);
@@ -567,6 +571,15 @@ void MemoryCalendar::incidenceUpdated(const QString &uid, const QDateTime &recur
         if (dt.isValid()) {
             d->mIncidencesForDate[inc->type()].insert(dt.toTimeZone(timeZone()).date(), inc);
         }
+
+        // When dstart changes, move recurrence ids of exception accordingly.
+        if (inc->recurs() && inc->dtStart() != d->mDtStartBeingUpdated) {
+            const Duration delta(d->mDtStartBeingUpdated, inc->dtStart());
+            for (Incidence::Ptr exception : instances(inc)) {
+                exception->setRecurrenceId(delta.end(exception->recurrenceId()));
+            }
+        }
+        d->mDtStartBeingUpdated == QDateTime();
 
         notifyIncidenceChanged(inc);
 
