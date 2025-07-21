@@ -14,6 +14,8 @@ class TestRecurrenceException : public QObject
     Q_OBJECT
 private Q_SLOTS:
     void testCreateTodoException();
+
+    void testUpdateDtStart();
 };
 
 #endif // TESTRECURRENCEEXCEPTION_H

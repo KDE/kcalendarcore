@@ -36,4 +36,30 @@ void TestRecurrenceException::testCreateTodoException()
     // TODO dtCompleted
 }
 
+void TestRecurrenceException::testUpdateDtStart()
+{
+    const QDateTime dtstart(QDate(2025, 07, 22), QTime(13, 55, 0), QTimeZone::UTC);
+
+    KCalendarCore::Event::Ptr event(new KCalendarCore::Event);
+    event->setDtStart(dtstart);
+    event->setDtEnd(dtstart.addSecs(300));
+    event->recurrence()->setDaily(1);
+    event->recurrence()->setDuration(2);
+
+    KCalendarCore::MemoryCalendar::Ptr calendar(new KCalendarCore::MemoryCalendar(QTimeZone::utc()));
+    QVERIFY(calendar->addEvent(event));
+
+    KCalendarCore::Incidence::Ptr exception
+        = calendar->createException(event, dtstart.addDays(1));
+    QCOMPARE(exception->recurrenceId(), dtstart.addDays(1));
+    exception->setDtStart(exception->recurrenceId().addSecs(-3600));
+    QVERIFY(calendar->addIncidence(exception));
+
+    // Recurrence ids of exception should still match recurring
+    // event occurrences after a dtstart update.
+    event->setDtStart(dtstart.addSecs(300));
+    QVERIFY(event->recursAt(event->dtStart().addDays(1)));
+    QCOMPARE(exception->recurrenceId(), event->dtStart().addDays(1));
+}
+
 #include "moc_testrecurrenceexception.cpp"
