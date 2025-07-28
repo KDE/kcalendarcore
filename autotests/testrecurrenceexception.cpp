@@ -38,7 +38,7 @@ void TestRecurrenceException::testCreateTodoException()
 
 void TestRecurrenceException::testUpdateDtStart()
 {
-    const QDateTime dtstart(QDate(2025, 07, 22), QTime(13, 55, 0), QTimeZone::UTC);
+    const QDateTime dtstart(QDate(2025, 07, 22), QTime(13, 55, 0), Qt::UTC);
 
     KCalendarCore::Event::Ptr event(new KCalendarCore::Event);
     event->setDtStart(dtstart);
