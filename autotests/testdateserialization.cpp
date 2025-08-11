@@ -9,6 +9,8 @@
 #include "memorycalendar.h"
 
 #include <QTest>
+#ifdef Q_OS_WINDOWS
+#include <time.h>
 
 QTEST_MAIN(TestDateSerialization)
 
@@ -17,6 +19,10 @@ static void setTimeZone(const char *zonename)
 {
     QVERIFY(QTimeZone(zonename).isValid());
     qputenv("TZ", zonename);
+    #ifdef Q_OS_WINDOWS
+    _tzset();
+    #endif
+
     const QDateTime currentDateTime = QDateTime::currentDateTime();
     QVERIFY(currentDateTime.timeZone().isValid());
     QCOMPARE(currentDateTime.timeZoneAbbreviation(), QString::fromLatin1(zonename));
