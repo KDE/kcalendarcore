@@ -11,6 +11,7 @@
 #include <QTest>
 #ifdef Q_OS_WINDOWS
 #include <time.h>
+#endif
 
 QTEST_MAIN(TestDateSerialization)
 
