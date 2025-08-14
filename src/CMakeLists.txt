@@ -113,7 +113,6 @@ ecm_generate_export_header(KF6CalendarCore
 )
 
 target_include_directories(KF6CalendarCore INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF}/KCalendarCore>")
-target_include_directories(KF6CalendarCore PUBLIC "$<BUILD_INTERFACE:${KCalendarCore_SOURCE_DIR}/src;${KCalendarCore_BINARY_DIR}/src>")
 
 target_link_libraries(KF6CalendarCore
 PUBLIC
