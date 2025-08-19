@@ -522,7 +522,7 @@ void MemoryCalendar::incidenceUpdated(const QString &uid, const QDateTime &recur
                 exception->setRecurrenceId(delta.end(exception->recurrenceId()));
             }
         }
-        d->mDtStartBeingUpdated == QDateTime();
+        d->mDtStartBeingUpdated = QDateTime();
 
         notifyIncidenceChanged(inc);
 
