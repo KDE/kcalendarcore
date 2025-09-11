@@ -260,7 +260,7 @@ void XCalFormatPrivate::parseVevent(QXmlStreamReader &reader, const Event::Ptr &
                 reader.skipCurrentElement();
             }
         } else if (reader.name() == "status"_L1) {
-            event->setStatus(ICalFormatImpl::fromIcalEnum(icalenum_string_to_status(parseProperty(reader).toString().toUtf8().constData())));
+            event->setStatus(ICalFormatImpl::fromIcalEnum(icalproperty_string_to_status(parseProperty(reader).toString().toUtf8().constData())));
         } else if (reader.name() == "summary"_L1) {
             event->setSummary(parseProperty(reader).toString());
         } else if (reader.name() == "transp"_L1) {
