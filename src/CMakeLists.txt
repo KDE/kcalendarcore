@@ -169,7 +169,9 @@ ecm_generate_headers(KCalendarCore_CamelCase_HEADERS
   REQUIRED_HEADERS KCalendarCore_HEADERS
 )
 
-add_subdirectory(qml)
+if(USE_QML)
+  add_subdirectory(qml)
+endif()
 
 ########### install files ###############
 

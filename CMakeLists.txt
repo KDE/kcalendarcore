@@ -29,6 +29,7 @@ include(ECMQtDeclareLoggingCategory)
 include(ECMQmlModule)
 
 set(EXCLUDE_DEPRECATED_BEFORE_AND_AT 0 CACHE STRING "Control the range of deprecated API excluded from the build [default=0].")
+option(USE_QML "Build QML plugin" ON)
 
 set(KCALENDARCORE_LIB_VERSION ${KF_VERSION})
 set(kcalendarcore_version_header "${KCalendarCore_BINARY_DIR}/src/kcalendarcore_version.h")
@@ -40,6 +41,10 @@ ecm_setup_version(PROJECT VARIABLE_PREFIX KCALENDARCORE
 
 ########### Find packages ###########
 find_package(Qt6 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Core Gui)
+
+if(USE_QML)
+    find_package(Qt6 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Qml)
+endif()
 
 set(LibIcal_MIN_VERSION "3.0")
 # TODO remove our FindLibIcal.cmake in favor of upstream LibIcalConfig.cmake once the following issues are resolved:
