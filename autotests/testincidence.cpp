@@ -76,6 +76,7 @@ void IncidenceTest::testDtStartEqual()
     QVERIFY(i1 != *i2);
     i2->setDtStart(dt);
     QVERIFY(i1 == *i2);
+    delete i2;
 }
 
 void IncidenceTest::testSummaryChange()

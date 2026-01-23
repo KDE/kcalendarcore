@@ -83,6 +83,7 @@ void TodoTest::testDtDueEqual()
     QVERIFY(t1 != *t2);
     t2->setDtDue(dt);
     QVERIFY(t1 == *t2);
+    delete t2;
 }
 
 void TodoTest::testClone()
