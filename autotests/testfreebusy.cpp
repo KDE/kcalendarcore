@@ -68,6 +68,7 @@ void FreeBusyTest::testAssign()
     fb1.setDtStart(firstDateTime.addDays(1));
     fb2->setDtStart(firstDateTime.addDays(2));
     QVERIFY(!(fb1 == *fb2));
+    delete fb2;
 }
 
 void FreeBusyTest::testCopyConstructor()

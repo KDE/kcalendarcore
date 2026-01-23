@@ -118,6 +118,7 @@ void EventTest::testDtEndEqual()
     QVERIFY(e1 != *e2);
     e2->setDtEnd(dt);
     QVERIFY(e1 == *e2);
+    delete e2;
 }
 
 void EventTest::testCompareAlarms()
@@ -206,6 +207,7 @@ void EventTest::testAssign()
     IncidenceBase *event2 = new Event;
     *event2 = event1;     // Use IncidenceBase's virtual assignment.
     QCOMPARE(event1, *event2);
+    delete event2;
 }
 
 void EventTest::testSerializer_data()
