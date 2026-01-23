@@ -342,7 +342,7 @@ QByteArray ICalFormat::toRawString(const Incidence::Ptr &incidence)
                 qCCritical(KCALCORE_LOG) << "bad time zone";
             } else {
                 icalcomponent *tzcomponent = icaltimezone_get_component(tz);
-                icalcomponent_add_component(component, component);
+                icalcomponent_add_component(component, tzcomponent);
                 text.append(icalcomponent_as_ical_string(tzcomponent));
                 icaltimezone_free(tz, 1);
             }
