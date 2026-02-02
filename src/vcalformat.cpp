@@ -773,7 +773,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
         const int tmpStrLen = tmpStr.length();
         if (tmpStrLen > 0) {
             tmpStr = tmpStr.toUpper();
-            const QStringView prefix(tmpStr.left(2));
+            const auto prefix = QStringView(tmpStr).left(2);
 
             // first, read the type of the recurrence
             recurrenceTypeAbbrLen = 1;
