@@ -412,8 +412,7 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent, const Incidence::Ptr 
         icalproperty *p = icalproperty_new_status(ICAL_STATUS_X);
         icalvalue_set_x(icalproperty_get_value(p), incidence->customStatus().toUtf8().constData());
         icalcomponent_add_property(parent, p);
-    }
-    if (status != ICAL_STATUS_NONE) {
+    } else if (status != ICAL_STATUS_NONE) {
         icalcomponent_add_property(parent, icalproperty_new_status(status));
     }
 

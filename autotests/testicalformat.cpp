@@ -38,6 +38,7 @@ void ICalFormatTest::testDeserializeSerialize()
         "DTEND;TZID=Europe/Paris:20201103T110000\n"
         "SUMMARY:test recur\n"
         "RRULE:FREQ=DAILY;COUNT=4\n"
+        "STATUS:CUSTOM\n"
         "END:VEVENT\n"
         "BEGIN:VEVENT\n"
         "CREATED:20201103T161823Z\n"
@@ -62,6 +63,7 @@ void ICalFormatTest::testDeserializeSerialize()
     QCOMPARE(parent.staticCast<Event>()->dtEnd(), start.addSecs(3600));
     QCOMPARE(parent->summary(), QString::fromLatin1("test recur"));
     QCOMPARE(parent->revision(), 2);
+    QCOMPARE(parent->customStatus(), QString::fromLatin1("CUSTOM"));
     Recurrence *recur = parent->recurrence();
     QVERIFY(recur->recurs());
     QCOMPARE(recur->duration(), 4);
@@ -80,6 +82,7 @@ void ICalFormatTest::testDeserializeSerialize()
 
     const QString serialization = format.toString(calendar);
     QVERIFY(!serialization.isEmpty());
+    QCOMPARE(serialization.count(QString::fromLatin1("STATUS")), 1);  // ensure no extra empty STATUS:
     MemoryCalendar::Ptr check = MemoryCalendar::Ptr(new MemoryCalendar(QTimeZone::utc()));
     QVERIFY(format.fromString(check, serialization));
     Incidence::Ptr reparent = check->incidence(uid);
