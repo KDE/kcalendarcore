@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.27)
-set(KF_VERSION "6.23.0") # handled by release scripts
+set(KF_VERSION "6.24.0") # handled by release scripts
 
 project(KCalendarCore VERSION ${KF_VERSION})
 
