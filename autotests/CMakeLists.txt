@@ -114,7 +114,7 @@ macro(kcalcore_run_single_test _prefix _f _test _testarg)
         _outFile
         ${_f}
     )
-    get_filename_component(_outputPath ${_outFile} PATH)
+    get_filename_component(_outputPath ${_outFile} DIRECTORY)
     file(MAKE_DIRECTORY ${_outputPath})
 
     set(_runner
