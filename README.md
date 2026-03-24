@@ -14,7 +14,7 @@ access to that calendar information via well known calendar formats
 [vCalendar](https://en.wikipedia.org/wiki/VCalendar).
 
 ## Acknowledgments
- 
+
 Credit goes to Eric Bossum \<eric@softwarestudio.org\> for his libical
 software that does most of the heavy-lifting of the iCalendar support
 that is abstracted by this API.

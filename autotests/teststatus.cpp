@@ -59,4 +59,3 @@ private Q_SLOTS:
 
 QTEST_MAIN(TestStatus)
 #include "teststatus.moc"
-

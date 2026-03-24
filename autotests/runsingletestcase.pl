@@ -7,14 +7,14 @@
 #
 # SPDX-License-Identifier: LGPL-2.0-or-later
 
-# This little script runs a test program on a given (calendar) file and 
-# compares the output to a reference file. All discrepancies are shown 
+# This little script runs a test program on a given (calendar) file and
+# compares the output to a reference file. All discrepancies are shown
 # to the user. Usage:
 #      runtestcase.pl appname testfile.ics
 # The application/script appname is required to take two arguments:
 #      appname inputfile outputfile
 # where inputfile is the file to be used as input data, and the output of the
-# program will go to outputfile (=testfile.ics.out if called through 
+# program will go to outputfile (=testfile.ics.out if called through
 # runtestcase.pl). That outputfile is then compared to the reference file
 # testfile.ics.ref.
 
