@@ -35,7 +35,7 @@ void DurationTest::testCompare()
 
     Duration d2(2 * 60 * 60); // 2hr duration
 
-    Duration d1copy {d1}; // test copy constructor
+    Duration d1copy{d1}; // test copy constructor
     Duration d1assign;
     d1assign = d1; // test operator=
 

@@ -9,11 +9,11 @@
 
 using namespace KCalendarCore;
 
-class TestStartDateTimesForDate: public QObject
+class TestStartDateTimesForDate : public QObject
 {
     Q_OBJECT
 
-    const QDate testDate { 2021, 01, 31};
+    const QDate testDate{2021, 01, 31};
     const QTimeZone tz = QTimeZone::systemTimeZone();
 private Q_SLOTS:
     void testNonRecurringEvents_data();
@@ -44,10 +44,10 @@ void TestStartDateTimesForDate::testNonRecurringEvents_data()
     QTest::newRow("all day, after") << true << QDateTime{testDate.addDays(+1), {}, tz} << QDateTime(testDate.addDays(+2), {}, tz) << false;
 
     QTest::newRow("before") << false << QDateTime{testDate.addDays(-2), {}, tz} << QDateTime(testDate, {}, tz).addMSecs(-1) << false;
-    QTest::newRow("up to") << false << QDateTime{testDate.addDays(-1), {}, tz} << QDateTime(testDate, {00,00,01}, tz) << true;
+    QTest::newRow("up to") << false << QDateTime{testDate.addDays(-1), {}, tz} << QDateTime(testDate, {00, 00, 01}, tz) << true;
     QTest::newRow("around") << false << QDateTime{testDate.addDays(-2), {}, tz} << QDateTime(testDate.addDays(+1), {}, tz) << true;
     QTest::newRow("on") << false << QDateTime{testDate, {}, tz} << QDateTime(testDate.addDays(+1), {}, tz).addMSecs(-1) << true;
-    QTest::newRow("during") << false << QDateTime{testDate, {01,00,00}, tz} << QDateTime(testDate, {21,00,00}, tz) << true;
+    QTest::newRow("during") << false << QDateTime{testDate, {01, 00, 00}, tz} << QDateTime(testDate, {21, 00, 00}, tz) << true;
     QTest::newRow("from") << false << QDateTime{testDate, {}, tz} << QDateTime(testDate.addDays(+2), {}, tz) << true;
     QTest::newRow("after") << false << QDateTime{testDate.addDays(+1), {}, tz} << QDateTime(testDate.addDays(+2), {}, tz) << false;
 }
@@ -61,7 +61,7 @@ void TestStartDateTimesForDate::testNonRecurringEvents()
 
     auto event = mkEvent(allDay, dtStart, dtEnd);
     auto result = event->startDateTimesForDate(testDate, tz);
-    QVERIFY(expected == (result == QList<QDateTime> {dtStart}));
+    QVERIFY(expected == (result == QList<QDateTime>{dtStart}));
 }
 
 QTEST_MAIN(TestStartDateTimesForDate)

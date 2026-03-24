@@ -304,8 +304,7 @@ void TimesInIntervalTest::testRDatePeriod()
     QVERIFY(recur.recurs());
     QCOMPARE(recur.rDateTimePeriod(start), Period(start, end));
 
-    const QList<QDateTime> timesInInterval = recur.timesInInterval(start.addDays(-1),
-                                                                   start.addDays(+1));
+    const QList<QDateTime> timesInInterval = recur.timesInInterval(start.addDays(-1), start.addDays(+1));
     QCOMPARE(timesInInterval, QList<QDateTime>() << start);
 
     recur.addRDateTime(other);

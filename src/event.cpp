@@ -53,12 +53,14 @@ EventPrivate::EventPrivate(const Incidence &other)
 
 bool EventPrivate::validStatus(Incidence::Status status)
 {
+    // clang-format off
     constexpr unsigned validSet
         = 1u << Incidence::StatusNone
         | 1u << Incidence::StatusTentative
         | 1u << Incidence::StatusConfirmed
         | 1u << Incidence::StatusCanceled;
     return validSet & (1u << status);
+    // clang-format on
 }
 //@endcond
 

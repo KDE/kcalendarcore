@@ -102,7 +102,7 @@ void EventTest::testCompare()
 
 void EventTest::testDtEndEqual()
 {
-    QDateTime dt {QDate::currentDate(), QTime::currentTime(), QTimeZone(TEST_TZ)};
+    QDateTime dt{QDate::currentDate(), QTime::currentTime(), QTimeZone(TEST_TZ)};
     QVERIFY(dt.timeSpec() == Qt::TimeZone);
 
     Event e1;
@@ -168,7 +168,7 @@ void EventTest::testCopyConstructor()
     event1.setLocation(QStringLiteral("the place"));
     event1.setTransparency(Event::Transparent);
 
-    Event event2 {event1};
+    Event event2{event1};
     QCOMPARE(event1.summary(), event2.summary());
     QCOMPARE(event1.dtStart(), event2.dtStart());
     QCOMPARE(event1.dtEnd(), event2.dtEnd());
@@ -205,7 +205,7 @@ void EventTest::testAssign()
     event1.setTransparency(Event::Transparent);
 
     IncidenceBase *event2 = new Event;
-    *event2 = event1;     // Use IncidenceBase's virtual assignment.
+    *event2 = event1; // Use IncidenceBase's virtual assignment.
     QCOMPARE(event1, *event2);
     delete event2;
 }

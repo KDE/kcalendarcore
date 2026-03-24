@@ -257,7 +257,6 @@ protected:
     void virtual_hook(VirtualHook id, void *data) override;
 
 private:
-
     Q_DECLARE_PRIVATE(FreeBusy)
 
     /*!

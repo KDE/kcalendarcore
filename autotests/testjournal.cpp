@@ -90,7 +90,7 @@ void JournalTest::testCopyConstructor()
     journal1.setDescription(QStringLiteral("This is a description of the first journal"), true);
     journal1.setLocation(QStringLiteral("the place"));
 
-    Journal journal2 {journal1};
+    Journal journal2{journal1};
     QVERIFY(journal2.descriptionIsRich());
     QVERIFY(journal1 == journal2);
 }
@@ -106,8 +106,8 @@ void JournalTest::testAssign()
     journal1.setLocation(QStringLiteral("the place"));
 
     Journal journal2;
-    IncidenceBase *ib2 = & journal2;
-    *ib2 = journal1;     // Use IncidenceBase's virtual assignment.
+    IncidenceBase *ib2 = &journal2;
+    *ib2 = journal1; // Use IncidenceBase's virtual assignment.
     QVERIFY(journal2.descriptionIsRich());
     QVERIFY(journal1 == journal2);
 }

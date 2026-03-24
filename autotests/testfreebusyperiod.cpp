@@ -63,7 +63,7 @@ void FreeBusyPeriodTest::testCopyConstructor()
     p1.setSummary(summary);
     p1.setLocation(location);
 
-    FreeBusyPeriod p2 {p1};
+    FreeBusyPeriod p2{p1};
 
     QVERIFY(p2.hasDuration());
     QVERIFY(p2.duration().asSeconds() == 60);
@@ -71,7 +71,6 @@ void FreeBusyPeriodTest::testCopyConstructor()
     QCOMPARE(p1.summary(), summary);
     QCOMPARE(p1.location(), location);
 }
-
 
 void FreeBusyPeriodTest::testDataStreamOut()
 {

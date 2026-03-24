@@ -60,7 +60,7 @@ void IncidenceTest::testDtStartChange()
 
 void IncidenceTest::testDtStartEqual()
 {
-    QDateTime dt {QDate::currentDate(), QTime::currentTime(), QTimeZone(TEST_TZ)};
+    QDateTime dt{QDate::currentDate(), QTime::currentTime(), QTimeZone(TEST_TZ)};
     QVERIFY(dt.timeSpec() == Qt::TimeZone);
 
     Event i1;

@@ -62,7 +62,7 @@ void FreeBusyTest::testAssign()
     FreeBusy fb1(firstDateTime, QDateTime(QDate(2007, 7, 23), QTime(8, 0, 0), QTimeZone::UTC));
 
     IncidenceBase *fb2 = new FreeBusy;
-    *fb2 = fb1;     // Use IncidenceBase's virtual assignment.
+    *fb2 = fb1; // Use IncidenceBase's virtual assignment.
     QCOMPARE(fb1, *fb2);
 
     fb1.setDtStart(firstDateTime.addDays(1));
@@ -77,10 +77,9 @@ void FreeBusyTest::testCopyConstructor()
 
     FreeBusy fb1(firstDateTime, QDateTime(QDate(2007, 7, 23), QTime(8, 0, 0), QTimeZone::UTC));
 
-    FreeBusy fb2 {fb1};
+    FreeBusy fb2{fb1};
     QCOMPARE(fb1, fb2);
 }
-
 
 void FreeBusyTest::testDataStream()
 {

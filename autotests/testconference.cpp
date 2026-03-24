@@ -61,7 +61,7 @@ void ConferenceTest::testAssign()
 void ConferenceTest::testCopyConstructor()
 {
     Conference conf1{QUrl{QStringLiteral("sip:1234-5678@sip.example")}, QStringLiteral("SIP Call")};
-    Conference conf3 {conf1};
+    Conference conf3{conf1};
     QCOMPARE(conf3, conf1);
 }
 

@@ -18,8 +18,8 @@
   @author Allen Winter \<winter@kde.org\>
 */
 
-#include "incidence_p.h"
 #include "todo.h"
+#include "incidence_p.h"
 #include "recurrence.h"
 #include "utils_p.h"
 #include "visitor.h"
@@ -44,7 +44,6 @@ class KCalendarCore::TodoPrivate : public IncidencePrivate
     int mPercentComplete = 0; // to-do percent complete [0,100]
 
 public:
-
     TodoPrivate() = default;
     TodoPrivate(const TodoPrivate &other) = default;
 
@@ -133,6 +132,7 @@ void TodoPrivate::init(const TodoPrivate &other)
 
 bool TodoPrivate::validStatus(Incidence::Status status)
 {
+    // clang-format off
     constexpr unsigned validSet
         = 1u << Incidence::StatusNone
         | 1u << Incidence::StatusNeedsAction
@@ -140,6 +140,7 @@ bool TodoPrivate::validStatus(Incidence::Status status)
         | 1u << Incidence::StatusInProcess
         | 1u << Incidence::StatusCanceled;
     return validSet & (1u << status);
+    // clang-format on
 }
 
 //@endcond
@@ -184,10 +185,9 @@ bool Todo::equals(const IncidenceBase &todo) const
     } else {
         // If they weren't the same type IncidenceBase::equals would had returned false already
         const Todo *t = static_cast<const Todo *>(&todo);
-        return identical(dtDue(), t->dtDue())
-            && hasDueDate() == t->hasDueDate()
-            && hasStartDate() == t->hasStartDate() && ((completed() == t->completed()) || (!completed().isValid() && !t->completed().isValid()))
-            && hasCompletedDate() == t->hasCompletedDate() && percentComplete() == t->percentComplete();
+        return identical(dtDue(), t->dtDue()) && hasDueDate() == t->hasDueDate() && hasStartDate() == t->hasStartDate()
+            && ((completed() == t->completed()) || (!completed().isValid() && !t->completed().isValid())) && hasCompletedDate() == t->hasCompletedDate()
+            && percentComplete() == t->percentComplete();
     }
 }
 
@@ -307,7 +307,7 @@ void Todo::setCompleted(bool completed)
     }
     updated();
 
-    setStatus(completed ? StatusCompleted : StatusNone);    // Calls update()/updated().
+    setStatus(completed ? StatusCompleted : StatusNone); // Calls update()/updated().
 }
 
 QDateTime Todo::completed() const
@@ -362,7 +362,7 @@ void Todo::setPercentComplete(int percent)
     }
     updated();
     if (percent != 100 && status() == Incidence::StatusCompleted) {
-        setStatus(Incidence::StatusNone);   // Calls update()/updated().
+        setStatus(Incidence::StatusNone); // Calls update()/updated().
     }
 }
 

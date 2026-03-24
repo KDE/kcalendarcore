@@ -12,7 +12,7 @@
 
 using namespace KCalendarCore;
 
-class TestStatus: public QObject
+class TestStatus : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -45,15 +45,15 @@ private Q_SLOTS:
 
         Event e;
         e.setStatus(status);
-        QVERIFY( (e.status() == status) == okForEvent);
+        QVERIFY((e.status() == status) == okForEvent);
 
         Todo t;
         t.setStatus(status);
-        QVERIFY( (t.status() == status) == okForTodo);
+        QVERIFY((t.status() == status) == okForTodo);
 
         Journal j;
         j.setStatus(status);
-        QVERIFY( (j.status() == status) == okForJournal);
+        QVERIFY((j.status() == status) == okForJournal);
     }
 };
 

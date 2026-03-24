@@ -309,31 +309,31 @@ void ICalTimeZonesTest::testPragueTransitions()
         }
     }
 
-/* Except that the FreeBSD zic (zone-info-compiler, which is separate from
- * zdump) produces a slightly different output file than zic on Linux,
- * for instance they have different sizes:
- *  2312 Prague-freebsd (in FreeBSD 11 or so)
- *  2301 Prague-freebsd (in FreeBSD 13.2)
- *  2338 Prague-linux
- * The `zdump -v` output is the same for the two files. The Linux version
- * contains one extra tzh_ttisgmtcnt and one extra tzh_ttisstdcnt entry.
- *
- * To compile the zone-info files, obtain the tzdata sources (FreeBSD
- * has them in /usr/src/contrib/tzdata) and compile to a "fat" (all workarounds
- * enabled) file: `zic -b fat -d /tmp/zones europe` . Then check the generated
- * file /tmp/zones/Europe/Prague .
- *
- * Whatever the precise cause, on loading the TZ file, on older FreeBSD
- * Qt deduces an extra transition, at the end of 1978, with no change in
- * offzet or zone name:
- *  QDateTime(1949-10-02 01:00:00.000 UTC Qt::UTC) "CET" 3600
- *  QDateTime(1978-12-31 23:00:00.000 UTC Qt::UTC) "CET" 3600
- *  QDateTime(1979-04-01 01:00:00.000 UTC Qt::UTC) "CEST" 7200
- *
- * This additional transition made the test fail (also on old Debian).
- *
- * With FreeBSD 13.2, this is no longer an issue.
- */
+    /* Except that the FreeBSD zic (zone-info-compiler, which is separate from
+     * zdump) produces a slightly different output file than zic on Linux,
+     * for instance they have different sizes:
+     *  2312 Prague-freebsd (in FreeBSD 11 or so)
+     *  2301 Prague-freebsd (in FreeBSD 13.2)
+     *  2338 Prague-linux
+     * The `zdump -v` output is the same for the two files. The Linux version
+     * contains one extra tzh_ttisgmtcnt and one extra tzh_ttisstdcnt entry.
+     *
+     * To compile the zone-info files, obtain the tzdata sources (FreeBSD
+     * has them in /usr/src/contrib/tzdata) and compile to a "fat" (all workarounds
+     * enabled) file: `zic -b fat -d /tmp/zones europe` . Then check the generated
+     * file /tmp/zones/Europe/Prague .
+     *
+     * Whatever the precise cause, on loading the TZ file, on older FreeBSD
+     * Qt deduces an extra transition, at the end of 1978, with no change in
+     * offzet or zone name:
+     *  QDateTime(1949-10-02 01:00:00.000 UTC Qt::UTC) "CET" 3600
+     *  QDateTime(1978-12-31 23:00:00.000 UTC Qt::UTC) "CET" 3600
+     *  QDateTime(1979-04-01 01:00:00.000 UTC Qt::UTC) "CEST" 7200
+     *
+     * This additional transition made the test fail (also on old Debian).
+     *
+     * With FreeBSD 13.2, this is no longer an issue.
+     */
     QCOMPARE(transitions.count(), 2);
     QVERIFY(!occursIn1978);
 }

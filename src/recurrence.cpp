@@ -9,8 +9,8 @@
   SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#include "incidencebase.h"
 #include "recurrence.h"
+#include "incidencebase.h"
 #include "recurrencehelper_p.h"
 #include "utils_p.h"
 
@@ -18,9 +18,9 @@
 
 #include <QBitArray>
 #include <QDataStream>
+#include <QHash>
 #include <QTime>
 #include <QTimeZone>
-#include <QHash>
 
 using namespace KCalendarCore;
 
@@ -70,9 +70,8 @@ public:
 bool Recurrence::Private::operator==(const Recurrence::Private &p) const
 {
     //   qCDebug(KCALCORE_LOG) << mStartDateTime << p.mStartDateTime;
-    if (!identical(mStartDateTime, p.mStartDateTime) || mAllDay != p.mAllDay
-        || mRecurReadOnly != p.mRecurReadOnly || mExDates != p.mExDates || mExDateTimes != p.mExDateTimes || mRDates != p.mRDates
-        || mRDateTimes != p.mRDateTimes || mRDateTimePeriods != p.mRDateTimePeriods) {
+    if (!identical(mStartDateTime, p.mStartDateTime) || mAllDay != p.mAllDay || mRecurReadOnly != p.mRecurReadOnly || mExDates != p.mExDates
+        || mExDateTimes != p.mExDateTimes || mRDates != p.mRDates || mRDateTimes != p.mRDateTimes || mRDateTimePeriods != p.mRDateTimePeriods) {
         return false;
     }
 

@@ -31,7 +31,6 @@
 
 #include "kcalendarcore_debug.h"
 
-
 extern "C" {
 #include <libical/icaltimezone.h>
 }

@@ -295,7 +295,7 @@ void MemoryCalendarTest::testRawEventsForDate()
     QCOMPARE(cal->rawEventsForDate(QDate(2019, 11, 1)).count(), 1);
 }
 
-class TestCalendarObserver: public Calendar::CalendarObserver
+class TestCalendarObserver : public Calendar::CalendarObserver
 {
 public:
     TestCalendarObserver(const Calendar::Ptr &cal)
@@ -313,13 +313,15 @@ public:
     }
     bool hasIncidenceChanged(const Incidence::Ptr &incidence) const
     {
-        return std::find_if(mUpdated.constBegin(), mUpdated.constEnd(),
-                            [incidence] (const Incidence::Ptr &it) {
-                                return (it->uid() == incidence->uid()
-                                        && it->recurrenceId() == incidence->recurrenceId());
-                            }) != mUpdated.constEnd();
+        return std::find_if(mUpdated.constBegin(),
+                            mUpdated.constEnd(),
+                            [incidence](const Incidence::Ptr &it) {
+                                return (it->uid() == incidence->uid() && it->recurrenceId() == incidence->recurrenceId());
+                            })
+            != mUpdated.constEnd();
     }
     Incidence::List mUpdated;
+
 private:
     Calendar::Ptr mCalendar;
 };

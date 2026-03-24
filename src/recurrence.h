@@ -12,8 +12,8 @@
 #define KCALCORE_RECURRENCE_H
 
 #include "kcalendarcore_export.h"
-#include "recurrencerule.h"
 #include "period.h"
+#include "recurrencerule.h"
 
 class QBitArray;
 class QTimeZone;

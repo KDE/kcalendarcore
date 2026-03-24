@@ -7,8 +7,8 @@
   SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#include "incidencebase.h"
 #include "recurrencerule.h"
+#include "incidencebase.h"
 #include "kcalendarcore_debug.h"
 #include "recurrencehelper_p.h"
 #include "utils_p.h"
@@ -433,7 +433,7 @@ QDateTime Constraint::intervalDateTime(RecurrenceRule::PeriodType type) const
 
 bool Constraint::merge(const Constraint &interval)
 {
-// clang-format off
+    // clang-format off
 #define mergeConstraint( name, cmparison ) \
     if ( interval.name cmparison ) { \
         if ( !( name cmparison ) ) { \
@@ -815,11 +815,11 @@ RecurrenceRule::Private &RecurrenceRule::Private::operator=(const Private &p)
 
 bool RecurrenceRule::Private::operator==(const Private &r) const
 {
-    return mPeriod == r.mPeriod && identical(mDateStart, r.mDateStart) && mDuration == r.mDuration
-        && identical(mDateEnd, r.mDateEnd) && mFrequency == r.mFrequency && mIsReadOnly == r.mIsReadOnly
-        && mAllDay == r.mAllDay && mBySeconds == r.mBySeconds && mByMinutes == r.mByMinutes && mByHours == r.mByHours && mByDays == r.mByDays
-        && mByMonthDays == r.mByMonthDays && mByYearDays == r.mByYearDays && mByWeekNumbers == r.mByWeekNumbers && mByMonths == r.mByMonths
-        && mBySetPos == r.mBySetPos && mWeekStart == r.mWeekStart && mNoByRules == r.mNoByRules;
+    return mPeriod == r.mPeriod && identical(mDateStart, r.mDateStart) && mDuration == r.mDuration && identical(mDateEnd, r.mDateEnd)
+        && mFrequency == r.mFrequency && mIsReadOnly == r.mIsReadOnly && mAllDay == r.mAllDay && mBySeconds == r.mBySeconds && mByMinutes == r.mByMinutes
+        && mByHours == r.mByHours && mByDays == r.mByDays && mByMonthDays == r.mByMonthDays && mByYearDays == r.mByYearDays
+        && mByWeekNumbers == r.mByWeekNumbers && mByMonths == r.mByMonths && mBySetPos == r.mBySetPos && mWeekStart == r.mWeekStart
+        && mNoByRules == r.mNoByRules;
 }
 
 void RecurrenceRule::Private::clear()
@@ -1177,7 +1177,7 @@ void RecurrenceRule::Private::buildConstraints()
     int iend;
     Constraint::List tmp;
 
-// clang-format off
+    // clang-format off
 #define intConstraint( list, setElement ) \
     if ( !list.isEmpty() ) { \
         mNoByRules = false; \
@@ -1225,7 +1225,7 @@ void RecurrenceRule::Private::buildConstraints()
         tmp.clear();
     }
 
-// clang-format off
+    // clang-format off
 #define fixConstraint( setElement, value ) \
     { \
         for ( c = 0, cend = mConstraints.count();  c < cend;  ++c ) { \
@@ -2013,7 +2013,7 @@ void RecurrenceRule::dump() const
     qCDebug(KCALCORE_LOG) << "   Period type:" << int(recurrenceType()) << ", frequency:" << frequency();
     qCDebug(KCALCORE_LOG) << "   #occurrences:" << duration();
     qCDebug(KCALCORE_LOG) << "   start date:" << dumpTime(startDt(), allDay()) << ", end date:" << dumpTime(endDt(), allDay());
-// clang-format off
+    // clang-format off
 #define dumpByIntList(list,label) \
     if ( !list.isEmpty() ) {\
         QStringList lst;\

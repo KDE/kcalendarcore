@@ -49,8 +49,7 @@ void TestRecurrenceException::testUpdateDtStart()
     KCalendarCore::MemoryCalendar::Ptr calendar(new KCalendarCore::MemoryCalendar(QTimeZone::utc()));
     QVERIFY(calendar->addEvent(event));
 
-    KCalendarCore::Incidence::Ptr exception
-        = calendar->createException(event, dtstart.addDays(1));
+    KCalendarCore::Incidence::Ptr exception = calendar->createException(event, dtstart.addDays(1));
     QCOMPARE(exception->recurrenceId(), dtstart.addDays(1));
     exception->setDtStart(exception->recurrenceId().addSecs(-3600));
     QVERIFY(calendar->addIncidence(exception));

@@ -270,7 +270,7 @@ bool KCalendarCore::Todos::startDateMoreThan(const Todo::Ptr &t1, const Todo::Pt
 
 bool KCalendarCore::Todos::dueDateLessThan(const Todo::Ptr &t1, const Todo::Ptr &t2)
 {
-    if (!t1->hasDueDate() ) {
+    if (!t1->hasDueDate()) {
         return false;
     }
     if (!t2->hasDueDate()) {

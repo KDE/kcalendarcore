@@ -17,8 +17,8 @@
   @author Cornelius Schumacher \<schumacher@kde.org\>
 */
 
-#include "incidencebase.h"
 #include "period.h"
+#include "incidencebase.h"
 #include "utils_p.h"
 
 #include <QHash>
@@ -82,8 +82,7 @@ bool Period::operator<(const Period &other) const
 
 bool Period::operator==(const Period &other) const
 {
-    return identical(d->mStart, other.d->mStart) && identical(d->mEnd, other.d->mEnd)
-        && d->mHasDuration == other.d->mHasDuration;
+    return identical(d->mStart, other.d->mStart) && identical(d->mEnd, other.d->mEnd) && d->mHasDuration == other.d->mHasDuration;
 }
 
 Period &Period::operator=(const Period &other)

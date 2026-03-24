@@ -10,7 +10,7 @@
 
 using namespace KCalendarCore;
 
-class TestIdentical: public QObject
+class TestIdentical : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -61,13 +61,10 @@ private Q_SLOTS:
                                   << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 22), QTimeZone::systemTimeZone());
 
         // Both zones are UTC+0.
-        QTest::newRow("timeZone")
-            << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 22), QTimeZone("Africa/Abidjan"))
-            << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 22), QTimeZone("Africa/Accra"));
+        QTest::newRow("timeZone") << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 22), QTimeZone("Africa/Abidjan"))
+                                  << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 22), QTimeZone("Africa/Accra"));
 
-        QTest::newRow("invalid timeZone")
-            << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 22), QDateTime().timeZone())
-            << QDateTime();
+        QTest::newRow("invalid timeZone") << QDateTime(QDate(2022, 02, 22), QTime(22, 22, 22), QDateTime().timeZone()) << QDateTime();
     }
 
     void testFalse()

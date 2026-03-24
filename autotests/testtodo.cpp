@@ -67,7 +67,7 @@ void TodoTest::testCompare()
 
 void TodoTest::testDtDueEqual()
 {
-    QDateTime dt {QDate::currentDate(), QTime::currentTime(), QTimeZone(TEST_TZ)};
+    QDateTime dt{QDate::currentDate(), QTime::currentTime(), QTimeZone(TEST_TZ)};
     QVERIFY(dt.timeSpec() == Qt::TimeZone);
 
     Todo t1;
@@ -133,7 +133,7 @@ void TodoTest::testCopyConstructor()
     todo1.setDescription(QStringLiteral("This is a description of the first todo"));
     todo1.setLocation(QStringLiteral("the place"));
 
-    Todo todo2 {todo1};
+    Todo todo2{todo1};
     QVERIFY(todo1 == todo2);
 }
 
@@ -148,7 +148,7 @@ void TodoTest::testAssign()
     todo1.setLocation(QStringLiteral("the place"));
 
     IncidenceBase *todo2 = new Todo;
-    *todo2 = todo1;     // Use IncidenceBase's virtual assignment.
+    *todo2 = todo1; // Use IncidenceBase's virtual assignment.
     QVERIFY(todo1 == *todo2);
 
     // release todo2
@@ -501,25 +501,25 @@ void TodoTest::testDtDueComparison()
 
 void TodoTest::testDtDueChange()
 {
-    const QDate date {QDate::currentDate()};
-    const QTime time {1, 0, 0};
+    const QDate date{QDate::currentDate()};
+    const QTime time{1, 0, 0};
     Todo todo;
     // Note:  QDateTime's default timespec QTimeZone::LocalTime => "floating" time.
     todo.setDtDue(QDateTime(date, time));
 
     todo.resetDirtyFields();
-    todo.setDtDue(QDateTime(date, time));   // No change.
+    todo.setDtDue(QDateTime(date, time)); // No change.
     QVERIFY(todo.dirtyFields().empty());
 
-    todo.setDtDue(QDateTime(date, time).addDays(1));    // Normal change.
+    todo.setDtDue(QDateTime(date, time).addDays(1)); // Normal change.
     QCOMPARE(todo.dirtyFields(), QSet<IncidenceBase::Field>{IncidenceBase::FieldDtDue});
 
     todo.resetDirtyFields();
-    todo.setDtDue(QDateTime());     // "Unset" dtDue.
+    todo.setDtDue(QDateTime()); // "Unset" dtDue.
     QCOMPARE(todo.dirtyFields(), QSet<IncidenceBase::Field>{IncidenceBase::FieldDtDue});
 
     todo.resetDirtyFields();
-    todo.setDtDue(QDateTime(date, time));   // Setting an unset due datetime.
+    todo.setDtDue(QDateTime(date, time)); // Setting an unset due datetime.
     QCOMPARE(todo.dirtyFields(), QSet<IncidenceBase::Field>{IncidenceBase::FieldDtDue});
 
     // Change from a floating time to the same time in a fixed time zone.

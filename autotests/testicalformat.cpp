@@ -82,7 +82,7 @@ void ICalFormatTest::testDeserializeSerialize()
 
     const QString serialization = format.toString(calendar);
     QVERIFY(!serialization.isEmpty());
-    QCOMPARE(serialization.count(QString::fromLatin1("STATUS")), 1);  // ensure no extra empty STATUS:
+    QCOMPARE(serialization.count(QString::fromLatin1("STATUS")), 1); // ensure no extra empty STATUS:
     MemoryCalendar::Ptr check = MemoryCalendar::Ptr(new MemoryCalendar(QTimeZone::utc()));
     QVERIFY(format.fromString(check, serialization));
     Incidence::Ptr reparent = check->incidence(uid);
@@ -226,12 +226,9 @@ void ICalFormatTest::testDateTimeSerialization_data()
     QTest::addColumn<QByteArray>("dtStartData");
 
     QTest::newRow("UTC time spec") << QDateTime(QDate(2021, 4, 9), QTime(12, 00), QTimeZone::UTC) << QByteArray("DTSTART:20210409T120000Z");
-    QTest::newRow("UTC time zone")
-        << QDateTime(QDate(2021, 4, 9), QTime(12, 00), QTimeZone::utc())
-        << QByteArray("DTSTART:20210409T120000Z");
-    QTest::newRow("named time zone")
-        << QDateTime(QDate(2021, 4, 9), QTime(14, 00), QTimeZone("Europe/Paris"))
-        << QByteArray("DTSTART;TZID=Europe/Paris:20210409T140000");
+    QTest::newRow("UTC time zone") << QDateTime(QDate(2021, 4, 9), QTime(12, 00), QTimeZone::utc()) << QByteArray("DTSTART:20210409T120000Z");
+    QTest::newRow("named time zone") << QDateTime(QDate(2021, 4, 9), QTime(14, 00), QTimeZone("Europe/Paris"))
+                                     << QByteArray("DTSTART;TZID=Europe/Paris:20210409T140000");
 }
 
 void ICalFormatTest::testDateTimeSerialization()
@@ -247,7 +244,7 @@ void ICalFormatTest::testDateTimeSerialization()
     ICalFormat format;
     const QByteArray output = format.toRawString(event);
     const QList<QByteArray> lines = output.split('\n');
-    for (const QByteArray &line: lines) {
+    for (const QByteArray &line : lines) {
         if (line.startsWith(QByteArray("DTSTART"))) {
             QCOMPARE(line.chopped(1), dtStartData);
             break;
@@ -287,11 +284,9 @@ void ICalFormatTest::testRDate()
     const QDateTime ev2(QDate(2021, 8, 25), QTime(10, 0), QTimeZone::UTC);
     const QDateTime ev3(QDate(2021, 10, 27), QTime(10, 0), QTimeZone::UTC);
     const QDateTime ev4(QDate(2021, 12, 15), QTime(11, 0), QTimeZone::UTC);
-    QCOMPARE(event->recurrence()->rDateTimes(),
-             QList<QDateTime>() << ev1 << ev2 << ev3 << ev4);
+    QCOMPARE(event->recurrence()->rDateTimes(), QList<QDateTime>() << ev1 << ev2 << ev3 << ev4);
 
-    OccurrenceIterator it(*calendar, QDateTime(QDate(2021, 6, 1), QTime(0, 0)),
-                          QDateTime(QDate(2021, 12, 31), QTime(0, 0)));
+    OccurrenceIterator it(*calendar, QDateTime(QDate(2021, 6, 1), QTime(0, 0)), QDateTime(QDate(2021, 12, 31), QTime(0, 0)));
     QVERIFY(it.hasNext());
     it.next();
     QCOMPARE(it.occurrenceStartDate(), ev1);
@@ -322,13 +317,10 @@ void ICalFormatTest::testDateTime_data()
     QTest::addColumn<QDateTime>("dtStart");
 
     QTest::newRow("clock time") << QByteArray("DTSTART:20191113T130000") << QDateTime(QDate(2019, 11, 13), QTime(13, 00), QTimeZone::LocalTime);
-    QTest::newRow("date")
-        << QByteArray("DTSTART;VALUE=DATE:20191113")
-        << QDate(2019, 11, 13).startOfDay();
+    QTest::newRow("date") << QByteArray("DTSTART;VALUE=DATE:20191113") << QDate(2019, 11, 13).startOfDay();
     QTest::newRow("UTC time") << QByteArray("DTSTART:20191113T130000Z") << QDateTime(QDate(2019, 11, 13), QTime(13, 00), QTimeZone::UTC);
-    QTest::newRow("time zone time")
-        << QByteArray("DTSTART;TZID=Europe/Paris:20191113T130000")
-        << QDateTime(QDate(2019, 11, 13), QTime(13, 00), QTimeZone("Europe/Paris"));
+    QTest::newRow("time zone time") << QByteArray("DTSTART;TZID=Europe/Paris:20191113T130000")
+                                    << QDateTime(QDate(2019, 11, 13), QTime(13, 00), QTimeZone("Europe/Paris"));
 }
 
 void ICalFormatTest::testDateTime()
@@ -337,10 +329,8 @@ void ICalFormatTest::testDateTime()
     QFETCH(QDateTime, dtStart);
 
     // test fromString(QString)
-    const QByteArray serializedCalendar
-        = "BEGIN:VCALENDAR\nPRODID:-//K Desktop Environment//NONSGML libkcal 3.2//EN\nVERSION:2.0\nBEGIN:VEVENT\nUID:12345\n"
-          + dtStartData
-          + "\nEND:VEVENT\nEND:VCALENDAR";
+    const QByteArray serializedCalendar = "BEGIN:VCALENDAR\nPRODID:-//K Desktop Environment//NONSGML libkcal 3.2//EN\nVERSION:2.0\nBEGIN:VEVENT\nUID:12345\n"
+        + dtStartData + "\nEND:VEVENT\nEND:VCALENDAR";
 
     ICalFormat format;
     Incidence::Ptr event = format.fromString(QString::fromUtf8(serializedCalendar));
@@ -367,7 +357,7 @@ void ICalFormatTest::testUidGeneration()
     const auto events = calendar->events();
     QCOMPARE(events.count(), 1);
     const auto event = events[0];
-    QVERIFY( ! event->uid().isEmpty());
+    QVERIFY(!event->uid().isEmpty());
 }
 
 /**
@@ -395,7 +385,7 @@ void ICalFormatTest::testUidGenerationStability()
         "VERSION:2.0\n"
         "BEGIN:VEVENT\n"
         "SUMMARY:test\n"
-        "DTSTAMP:20201103T161340Z\n"    // Reordered.
+        "DTSTAMP:20201103T161340Z\n" // Reordered.
         "END:VEVENT\n"
         "END:VCALENDAR");
     auto calendar2 = MemoryCalendar::Ptr(new MemoryCalendar(QTimeZone::utc()));
@@ -432,7 +422,7 @@ void ICalFormatTest::testUidGenerationUniqueness()
         "BEGIN:VCALENDAR\n"
         "VERSION:2.0\n"
         "BEGIN:VEVENT\n"
-        "DTSTART:20201103T161340Z\n"    // Property name change.
+        "DTSTART:20201103T161340Z\n" // Property name change.
         "SUMMARY:test\n"
         "END:VEVENT\n"
         "END:VCALENDAR");
@@ -445,7 +435,7 @@ void ICalFormatTest::testUidGenerationUniqueness()
         "BEGIN:VCALENDAR\n"
         "VERSION:2.0\n"
         "BEGIN:VEVENT\n"
-        "DTSTAMP:20201103T161341Z\n"    // Property value changed.
+        "DTSTAMP:20201103T161341Z\n" // Property value changed.
         "SUMMARY:test\n"
         "END:VEVENT\n"
         "END:VCALENDAR");

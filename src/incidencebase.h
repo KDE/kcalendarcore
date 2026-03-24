@@ -1000,7 +1000,8 @@ protected:
      */
     virtual void deserialize(QDataStream &in);
 
-    enum VirtualHook {};
+    enum VirtualHook {
+    };
 
     /*!
       Standard trick to add virtuals later.

@@ -57,7 +57,7 @@ void AlarmTest::testCopyConstructor()
 {
     Alarm alarm1(nullptr);
     alarm1.setType(Alarm::Display);
-    Alarm alarm3 {alarm1};
+    Alarm alarm3{alarm1};
     QVERIFY(alarm1 == alarm3);
 }
 

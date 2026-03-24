@@ -20,8 +20,8 @@
 */
 
 #include "incidence.h"
-#include "incidence_p.h"
 #include "calformat.h"
+#include "incidence_p.h"
 #include "kcalendarcore_debug.h"
 #include "utils_p.h"
 
@@ -220,8 +220,7 @@ bool Incidence::equals(const IncidenceBase &incidence) const
     if (!recurrenceEqual) {
         recurrence(); // create if doesn't exist
         i2->recurrence(); // create if doesn't exist
-        recurrenceEqual = d->mRecurrence != nullptr && i2->d_func()->mRecurrence != nullptr
-            && *d->mRecurrence == *i2->d_func()->mRecurrence;
+        recurrenceEqual = d->mRecurrence != nullptr && i2->d_func()->mRecurrence != nullptr && *d->mRecurrence == *i2->d_func()->mRecurrence;
     }
 
     if (!qFuzzyCompare(d->mGeoLatitude, i2->d_func()->mGeoLatitude) || !qFuzzyCompare(d->mGeoLongitude, i2->d_func()->mGeoLongitude)) {
@@ -790,7 +789,7 @@ void Incidence::setPriority(int priority)
     }
 
     if (priority < 0 || priority > 9) {
-        qCWarning(KCALCORE_LOG)  << "Ignoring invalid priority" << priority;
+        qCWarning(KCALCORE_LOG) << "Ignoring invalid priority" << priority;
         return;
     }
 
@@ -810,7 +809,7 @@ int Incidence::priority() const
 void Incidence::setStatus(Incidence::Status status)
 {
     if (mReadOnly) {
-        qCWarning(KCALCORE_LOG)  << "Attempt to set status of read-only incidence";
+        qCWarning(KCALCORE_LOG) << "Attempt to set status of read-only incidence";
         return;
     }
 
@@ -822,7 +821,7 @@ void Incidence::setStatus(Incidence::Status status)
         setFieldDirty(FieldStatus);
         updated();
     } else {
-        qCWarning(KCALCORE_LOG)  << "Ignoring invalid status" << status << "for" << typeStr();
+        qCWarning(KCALCORE_LOG) << "Ignoring invalid status" << status << "for" << typeStr();
     }
 }
 
@@ -1181,7 +1180,7 @@ void Incidence::serialize(QDataStream &out) const
     serializeQDateTimeAsKDateTime(out, d->mCreated);
     out << d->mRevision << d->mDescription << d->mDescriptionIsRich << d->mSummary << d->mSummaryIsRich << d->mLocation << d->mLocationIsRich << d->mCategories
         << d->mResources << d->mStatusString << d->mPriority << d->mSchedulingID << d->mGeoLatitude << d->mGeoLongitude
-        << hasGeo();    // No longer used, but serialized/deserialized for compatibility.
+        << hasGeo(); // No longer used, but serialized/deserialized for compatibility.
     serializeQDateTimeAsKDateTime(out, d->mRecurrenceId);
     out << d->mThisAndFuture << d->mLocalOnly << d->mStatus << d->mSecrecy << (d->mRecurrence ? true : false) << (qint32)d->mAttachments.count()
         << (qint32)d->mAlarms.count() << (qint32)d->mConferences.count() << d->mRelatedToUid;
@@ -1205,7 +1204,7 @@ void Incidence::serialize(QDataStream &out) const
 
 void Incidence::deserialize(QDataStream &in)
 {
-    bool hasGeo;    // No longer used, but serialized/deserialized for compatibility.
+    bool hasGeo; // No longer used, but serialized/deserialized for compatibility.
     quint32 status;
     quint32 secrecy;
     bool hasRecurrence;

@@ -12,7 +12,7 @@
 #ifndef KCALCORE_INCIDENCEBASE_P_H
 #define KCALCORE_INCIDENCEBASE_P_H
 
-#include "incidencebase.h"      // For IncidenceBase::Field
+#include "incidencebase.h" // For IncidenceBase::Field
 
 namespace KCalendarCore
 {

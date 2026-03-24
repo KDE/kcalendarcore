@@ -16,8 +16,8 @@
   @author Cornelius Schumacher \<schumacher@kde.org\>
 */
 
-#include "incidence_p.h"
 #include "journal.h"
+#include "incidence_p.h"
 #include "visitor.h"
 
 #include "kcalendarcore_debug.h"
@@ -32,12 +32,14 @@ class KCalendarCore::JournalPrivate : public IncidencePrivate
 
 bool JournalPrivate::validStatus(Incidence::Status status)
 {
+    // clang-format off
     constexpr unsigned validSet
         = 1u << Incidence::StatusNone
         | 1u << Incidence::StatusDraft
         | 1u << Incidence::StatusFinal
         | 1u << Incidence::StatusCanceled;
     return validSet & (1u << status);
+    // clang-format on
 }
 
 //@endcond

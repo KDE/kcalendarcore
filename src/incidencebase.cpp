@@ -22,8 +22,8 @@
 */
 
 #include "incidencebase.h"
-#include "incidencebase_p.h"
 #include "calformat.h"
+#include "incidencebase_p.h"
 #include "utils_p.h"
 #include "visitor.h"
 
@@ -58,14 +58,14 @@ void IncidenceBasePrivate::init(const IncidenceBasePrivate &other)
 
 //@endcond
 
-IncidenceBase::IncidenceBase(IncidenceBasePrivate  *p)
+IncidenceBase::IncidenceBase(IncidenceBasePrivate *p)
     : d_ptr(p)
 {
     mReadOnly = false;
     setUid(CalFormat::createUniqueId());
 }
 
-IncidenceBase::IncidenceBase(const IncidenceBase &i, IncidenceBasePrivate  *p)
+IncidenceBase::IncidenceBase(const IncidenceBase &i, IncidenceBasePrivate *p)
     : CustomProperties(i)
     , d_ptr(p)
 {
@@ -670,8 +670,8 @@ QDataStream &KCalendarCore::operator>>(QDataStream &in, KCalendarCore::Incidence
     in >> *(static_cast<CustomProperties *>(i.data()));
     deserializeKDateTimeAsQDateTime(in, i->d_ptr->mLastModified);
     deserializeKDateTimeAsQDateTime(in, i->d_ptr->mDtStart);
-    in >> i->d_ptr->mOrganizer >> i->d_ptr->mUid >> i->d_ptr->mDuration >> i->d_ptr->mAllDay >> i->d_ptr->mHasDuration >> i->d_ptr->mComments >> i->d_ptr->mContacts >> attendeeCount
-        >> i->d_ptr->mUrl;
+    in >> i->d_ptr->mOrganizer >> i->d_ptr->mUid >> i->d_ptr->mDuration >> i->d_ptr->mAllDay >> i->d_ptr->mHasDuration >> i->d_ptr->mComments
+        >> i->d_ptr->mContacts >> attendeeCount >> i->d_ptr->mUrl;
 
     i->d_ptr->mAttendees.clear();
     i->d_ptr->mAttendees.reserve(attendeeCount);

@@ -10,7 +10,7 @@
 #ifndef KCALCORE_INCIDENCE_P_H
 #define KCALCORE_INCIDENCE_P_H
 
-#include "incidence.h"      // For Incidence::RelType, etc.
+#include "incidence.h" // For Incidence::RelType, etc.
 #include "incidencebase_p.h"
 
 namespace KCalendarCore

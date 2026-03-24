@@ -47,8 +47,7 @@ public:
         {
         }
 
-        Occurrence(const Incidence::Ptr &i, const QDateTime &recurrenceId,
-                   const QDateTime &startDate, const QDateTime &endDate)
+        Occurrence(const Incidence::Ptr &i, const QDateTime &recurrenceId, const QDateTime &startDate, const QDateTime &endDate)
             : incidence(i)
             , recurrenceId(recurrenceId)
             , startDate(startDate)
@@ -158,8 +157,7 @@ public:
                     }
                 }
             } else {
-                occurrenceList << Private::Occurrence(inc, {}, inc->dtStart(),
-                                                      inc->dateTime(Incidence::RoleEnd));
+                occurrenceList << Private::Occurrence(inc, {}, inc->dtStart(), inc->dateTime(Incidence::RoleEnd));
             }
         }
         occurrenceIt = QListIterator<Private::Occurrence>(occurrenceList);
