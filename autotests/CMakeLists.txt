@@ -3,17 +3,19 @@ include(ECMMarkAsTest)
 find_package(Qt6Test ${REQUIRED_QT_VERSION} CONFIG REQUIRED)
 
 # needed by loadcalendar
-file(
-    COPY ${CMAKE_CURRENT_SOURCE_DIR}/cal
-    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
-)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/cal DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 macro(macro_unit_tests)
     foreach(_testname ${ARGN})
         add_executable(${_testname} ${_testname}.cpp)
         add_test(NAME ${_testname} COMMAND ${_testname})
         ecm_mark_as_test(${_testname})
-        target_link_libraries(${_testname} KF6CalendarCore Qt6::Test LibIcal)
+        target_link_libraries(
+            ${_testname}
+            KF6CalendarCore
+            Qt6::Test
+            LibIcal
+        )
     endforeach()
 endmacro()
 
@@ -87,7 +89,11 @@ set_target_properties(
 # TODO: check if this can build with msvc now (and if it works on Windows)
 if(NOT MSVC)
     macro_unit_tests(testicaltimezones)
-    target_link_libraries(testicaltimezones Qt6::Core KF6::CalendarCore)
+    target_link_libraries(
+        testicaltimezones
+        Qt6::Core
+        KF6::CalendarCore
+    )
 endif()
 
 ########### Tests #######################
@@ -108,8 +114,7 @@ macro(kcalcore_run_single_test _prefix _f _test _testarg)
 
     # Write the output file in the build directory.
     string(
-        REGEX REPLACE
-        "${CMAKE_CURRENT_SOURCE_DIR}"
+        REGEX REPLACE "${CMAKE_CURRENT_SOURCE_DIR}"
         "${CMAKE_CURRENT_BINARY_DIR}"
         _outFile
         ${_f}
@@ -123,7 +128,8 @@ macro(kcalcore_run_single_test _prefix _f _test _testarg)
     )
     add_test(
         NAME ${_prefix}-${_fn}
-        COMMAND ${_runner} $<TARGET_FILE:${_test}> ${_testarg} ${_f} ${_outFile}
+        COMMAND
+            ${_runner} $<TARGET_FILE:${_test}> ${_testarg} ${_f} ${_outFile}
     )
 endmacro()
 
