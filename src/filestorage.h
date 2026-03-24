@@ -70,7 +70,7 @@ public:
     /*!
       Returns the calendar file name.
 
-      Returns a QString with the name of the calendar file for this storge.
+      Returns a QString with the name of the calendar file for this storage.
       \sa setFileName().
     */
     Q_REQUIRED_RESULT QString fileName() const;
