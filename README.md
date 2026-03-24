@@ -15,6 +15,6 @@ access to that calendar information via well known calendar formats
 
 ## Acknowledgments
 
-Credit goes to Eric Bossum \<eric@softwarestudio.org\> for his libical
+Credit goes to Eric Bossum <eric@softwarestudio.org> for his libical
 software that does most of the heavy-lifting of the iCalendar support
 that is abstracted by this API.
