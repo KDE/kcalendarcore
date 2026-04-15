@@ -1751,8 +1751,8 @@ QList<QDateTime> RecurrenceRule::timesInInterval(const QDateTime &dtStart, const
     }
 
     QDateTime st = start < d->mDateStart ? d->mDateStart : start;
-    bool done = false;
     if (d->mDuration > 0) {
+        bool done = false;
         if (!d->mCached) {
             d->buildCache();
         }

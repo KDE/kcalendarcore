@@ -176,8 +176,6 @@ static bool extractEmailAddressAndName(const QString &aStr, QString &mail, QStri
     bool bInQuotesOutsideOfEmail = false;
     int i = 0;
     int iAd = 0;
-    int iMailStart = 0;
-    int iMailEnd = 0;
     QChar c;
     unsigned int commentstack = 0;
 
@@ -223,6 +221,8 @@ static bool extractEmailAddressAndName(const QString &aStr, QString &mail, QStri
         }
 
     } else {
+        int iMailStart = 0;
+        int iMailEnd = 0;
         // Loop backwards until we find the start of the string
         // or a ',' that is outside of a comment
         //          and outside of quoted text before the leading '<'.

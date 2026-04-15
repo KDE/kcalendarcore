@@ -231,11 +231,10 @@ QStringList Calendar::categories() const
 {
     const Incidence::List rawInc = rawIncidences();
     QStringList uniqueCategories;
-    QStringList thisCats;
     // @TODO: For now just iterate over all incidences. In the future,
     // the list of categories should be built when reading the file.
     for (const Incidence::Ptr &inc : rawInc) {
-        thisCats = inc->categories();
+        QStringList thisCats = inc->categories();
         for (const auto &cat : std::as_const(thisCats)) {
             if (!uniqueCategories.contains(cat)) {
                 uniqueCategories.append(cat);

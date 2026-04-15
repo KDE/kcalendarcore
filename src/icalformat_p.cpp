@@ -343,9 +343,9 @@ icalcomponent *ICalFormatImpl::writeJournal(const Journal::Ptr &journal, TimeZon
     writeIncidence(vjournal, journal.staticCast<Incidence>(), tzUsedList);
 
     // start time
-    icalproperty *prop = nullptr;
     QDateTime dt = journal->dtStart();
     if (dt.isValid()) {
+        icalproperty *prop = nullptr;
         icaltimetype start;
         if (journal->allDay()) {
             start = writeICalDate(dt.date());

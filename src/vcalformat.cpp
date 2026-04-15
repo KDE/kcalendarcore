@@ -373,14 +373,13 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
 
             case Recurrence::rWeekly: {
                 QBitArray qba(7);
-                QString dayStr;
                 if (index == last) {
                     // e.g. W1 #0
                     qba.setBit(anEvent->dtStart().date().dayOfWeek() - 1);
                 } else {
                     // e.g. W1 SU #0
                     while (index < last) {
-                        dayStr = tmpStr.mid(index, 3);
+                        QString dayStr = tmpStr.mid(index, 3);
                         int dayNum = numFromDay(dayStr);
                         if (dayNum >= 0) {
                             qba.setBit(dayNum);
@@ -810,14 +809,13 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
 
             case Recurrence::rWeekly: {
                 QBitArray qba(7);
-                QString dayStr;
                 if (index == last) {
                     // e.g. W1 #0
                     qba.setBit(anEvent->dtStart().date().dayOfWeek() - 1);
                 } else {
                     // e.g. W1 SU #0
                     while (index < last) {
-                        dayStr = tmpStr.mid(index, 3);
+                        QString dayStr = tmpStr.mid(index, 3);
                         int dayNum = numFromDay(dayStr);
                         if (dayNum >= 0) {
                             qba.setBit(dayNum);
@@ -1372,15 +1370,14 @@ void VCalFormat::populate(VObject *vcal)
         // like vcal-tzoffset-daylightoffsets, or better yet,
         // vcal-hash<the former>
 
-        QStringList tzList;
-        QString tz;
         int utcOffset;
         if (parseTZOffsetISO8601(ts, utcOffset)) {
             // qCDebug(KCALCORE_LOG) << "got standard offset" << ts << utcOffset;
             // standard from tz
             // starting date for now 01011900
             QDateTime dt = QDateTime(QDateTime(QDate(1900, 1, 1), QTime(0, 0, 0)));
-            tz = QStringLiteral("STD;%1;false;%2").arg(QString::number(utcOffset), dt.toString());
+            QString tz = QStringLiteral("STD;%1;false;%2").arg(QString::number(utcOffset), dt.toString());
+            QStringList tzList;
             tzList.append(tz);
 
             // go through all the daylight tags
@@ -1634,7 +1631,6 @@ QByteArray VCalFormat::writeStatus(Attendee::PartStat status) const
 void VCalFormat::readCustomProperties(VObject *o, const Incidence::Ptr &i)
 {
     VObjectIterator iter;
-    char *s;
 
     initPropIterator(&iter, o);
     while (moreIteration(&iter)) {
@@ -1644,7 +1640,8 @@ void VCalFormat::readCustomProperties(VObject *o, const Incidence::Ptr &i)
         if ((curname[0] == 'X' && curname[1] == '-') && strcmp(curname, ICOrganizerProp) != 0) {
             // TODO - for the time being, we ignore the parameters part
             // and just do the value handling here
-            i->setNonKDECustomProperty(curname, QString::fromUtf8(s = fakeCString(vObjectUStringZValue(cur))));
+            char *s = fakeCString(vObjectUStringZValue(cur));
+            i->setNonKDECustomProperty(curname, QString::fromUtf8(s));
             deleteStr(s);
         }
     }
