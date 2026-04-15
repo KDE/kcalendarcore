@@ -6,3 +6,4 @@ Dependencies:
 Options:
  test-before-installing: True
  require-passing-tests-on: ['@all']
+ cppcheck-arguments: '--enable=warning,performance,portability,style --suppress-xml=cppcheck-suppressions.xml -DICAL_CHECK_VERSION(X,Y,Z)='
