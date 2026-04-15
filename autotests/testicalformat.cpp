@@ -196,7 +196,7 @@ void ICalFormatTest::testCuType()
 
     Incidence::Ptr event2 = format.fromString(serializedCalendar);
     QVERIFY(event2->attendeeCount() == 1);
-    Attendee attendee2 = event2->attendees()[0];
+    Attendee attendee2 = event2->attendees().at(0);
     QVERIFY(attendee2.cuType() == attendee.cuType());
     QVERIFY(attendee2.name() == attendee.name());
     QVERIFY(attendee2.email() == attendee.email());
@@ -216,7 +216,7 @@ void ICalFormatTest::testAlarm()
         + format.toString(event.staticCast<Incidence>()) + QLatin1String("\nEND:VCALENDAR");
 
     Incidence::Ptr event2 = format.fromString(serialized);
-    Alarm::Ptr alarm2 = event2->alarms()[0];
+    Alarm::Ptr alarm2 = event2->alarms().at(0);
     QCOMPARE(*alarm, *alarm2);
 }
 
