@@ -230,7 +230,7 @@ bool MemoryCalendar::deleteIncidenceInstances(const Incidence::Ptr &incidence)
             instances.append(it.value());
         }
     }
-    for (Incidence::Ptr instance : instances) {
+    for (Incidence::Ptr &instance : instances) {
         deleteIncidence(instance);
     }
 
