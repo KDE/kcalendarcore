@@ -391,7 +391,7 @@ Todo::List MemoryCalendar::rawTodos(const QDate &start, const QDate &end, const 
     QDateTime nd(end, QTime(23, 59, 59, 999), ts);
 
     // Get todos
-    for (const auto &incidence : d->mIncidences[Incidence::TypeTodo]) {
+    for (const auto &incidence : std::as_const(d->mIncidences[Incidence::TypeTodo])) {
         const auto todo = incidence.staticCast<Todo>();
 
         QDateTime rStart = todo->hasDueDate() ? todo->dtDue() : todo->hasStartDate() ? todo->dtStart() : QDateTime();
@@ -518,7 +518,7 @@ void MemoryCalendar::incidenceUpdated(const QString &uid, const QDateTime &recur
         // When dstart changes, move recurrence ids of exception accordingly.
         if (inc->recurs() && inc->dtStart() != d->mDtStartBeingUpdated) {
             const Duration delta(d->mDtStartBeingUpdated, inc->dtStart());
-            for (Incidence::Ptr exception : instances(inc)) {
+            for (Incidence::Ptr &exception : instances(inc)) {
                 exception->setRecurrenceId(delta.end(exception->recurrenceId()));
             }
         }
@@ -552,7 +552,7 @@ Event::List MemoryCalendar::rawEventsForDate(const QDate &date, const QTimeZone 
 
     // Iterate over all events. Look for recurring events that occur on this date
     const auto ts = timeZone.isValid() ? timeZone : this->timeZone();
-    for (const auto &event : d->mIncidences[Incidence::TypeEvent]) {
+    for (const auto &event : std::as_const(d->mIncidences[Incidence::TypeEvent])) {
         const auto ev = event.staticCast<Event>();
         if (ev->recurs()) {
             if (ev->isMultiDay()) {
@@ -588,7 +588,7 @@ Event::List MemoryCalendar::rawEvents(const QDate &start, const QDate &end, cons
     QDateTime nd(end, QTime(23, 59, 59, 999), ts);
 
     // Get non-recurring events
-    for (const auto &e : d->mIncidences[Incidence::TypeEvent]) {
+    for (const auto &e : std::as_const(d->mIncidences[Incidence::TypeEvent])) {
         const auto event = e.staticCast<Event>();
         QDateTime rStart = event->dtStart();
         if (nd.isValid() && nd < rStart) {

@@ -530,7 +530,7 @@ void Recurrence::shiftTimes(const QTimeZone &oldTz, const QTimeZone &newTz)
         rr->shiftTimes(oldTz, newTz);
     }
 
-    for (auto exR : d->mExRules) {
+    for (auto &exR : d->mExRules) {
         exR->shiftTimes(oldTz, newTz);
     }
 }

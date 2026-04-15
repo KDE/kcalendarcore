@@ -132,7 +132,8 @@ void XCalFormatPrivate::parseXCal(QXmlStreamReader &reader, const Calendar::Ptr 
         }
 
         if (reader.name().compare("iCalendar"_L1, Qt::CaseInsensitive) == 0) {
-            for (const auto &a : reader.namespaceDeclarations()) {
+            const auto declarations = reader.namespaceDeclarations();
+            for (const auto &a : declarations) {
                 if (a.namespaceUri() == "urn:ietf:params:xml:ns:icalendar-2.0"_L1) {
                     m_format = Rfc6321;
                 } else if (a.namespaceUri() == "urn:ietf:params:xml:ns:xcal"_L1) {
