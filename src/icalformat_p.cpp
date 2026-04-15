@@ -813,7 +813,7 @@ icalrecurrencetype ICalFormatImpl::writeRecurrenceRule(RecurrenceRule *recur)
     r.freq = toIcalEnum(recur->recurrenceType());
 #endif
 
-    int index = 0;
+    int index;
     QList<int> bys;
 
     // Now write out the BY* parts:
