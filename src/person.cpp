@@ -91,7 +91,7 @@ QString KCalendarCore::fullNameHelper(const QString &name, const QString &email)
     }
     // Taken from KContacts::Addressee::fullEmail
     QString fullName = name;
-    const QRegularExpression needQuotes(QStringLiteral("[^ 0-9A-Za-z\\x{0080}-\\x{FFFF}]"));
+    static QRegularExpression needQuotes(QStringLiteral("[^ 0-9A-Za-z\\x{0080}-\\x{FFFF}]"));
     bool weNeedToQuote = name.indexOf(needQuotes) != -1;
     if (weNeedToQuote) {
         if (fullName[0] != QLatin1Char('"')) {
