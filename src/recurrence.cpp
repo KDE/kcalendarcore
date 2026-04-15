@@ -466,7 +466,7 @@ void Recurrence::setEndDateTime(const QDateTime &dateTime)
 
 int Recurrence::duration() const
 {
-    RecurrenceRule *rrule = defaultRRuleConst();
+    const RecurrenceRule *rrule = defaultRRuleConst();
     return rrule ? rrule->duration() : 0;
 }
 
@@ -599,7 +599,7 @@ void Recurrence::setStartDateTime(const QDateTime &start, bool isAllDay)
 
 int Recurrence::frequency() const
 {
-    RecurrenceRule *rrule = defaultRRuleConst();
+    const RecurrenceRule *rrule = defaultRRuleConst();
     return rrule ? rrule->frequency() : 0;
 }
 
@@ -622,7 +622,7 @@ void Recurrence::setFrequency(int freq)
 
 int Recurrence::weekStart() const
 {
-    RecurrenceRule *rrule = defaultRRuleConst();
+    const RecurrenceRule *rrule = defaultRRuleConst();
     return rrule ? rrule->weekStart() : 1;
 }
 
@@ -631,7 +631,7 @@ QBitArray Recurrence::days() const
 {
     QBitArray days(7);
     days.fill(0);
-    RecurrenceRule *rrule = defaultRRuleConst();
+    const RecurrenceRule *rrule = defaultRRuleConst();
     if (rrule) {
         const QList<RecurrenceRule::WDayPos> &bydays = rrule->byDays();
         for (int i = 0; i < bydays.size(); ++i) {
@@ -648,7 +648,7 @@ QBitArray Recurrence::days() const
 // Emulate the old behavior
 QList<int> Recurrence::monthDays() const
 {
-    RecurrenceRule *rrule = defaultRRuleConst();
+    const RecurrenceRule *rrule = defaultRRuleConst();
     if (rrule) {
         return rrule->byMonthDays();
     } else {
@@ -659,7 +659,7 @@ QList<int> Recurrence::monthDays() const
 // Emulate the old behavior
 QList<RecurrenceRule::WDayPos> Recurrence::monthPositions() const
 {
-    RecurrenceRule *rrule = defaultRRuleConst();
+    const RecurrenceRule *rrule = defaultRRuleConst();
     return rrule ? rrule->byDays() : QList<RecurrenceRule::WDayPos>();
 }
 
@@ -667,7 +667,7 @@ QList<RecurrenceRule::WDayPos> Recurrence::monthPositions() const
 
 QList<int> Recurrence::yearDays() const
 {
-    RecurrenceRule *rrule = defaultRRuleConst();
+    const RecurrenceRule *rrule = defaultRRuleConst();
     return rrule ? rrule->byYearDays() : QList<int>();
 }
 
@@ -678,7 +678,7 @@ QList<int> Recurrence::yearDates() const
 
 QList<int> Recurrence::yearMonths() const
 {
-    RecurrenceRule *rrule = defaultRRuleConst();
+    const RecurrenceRule *rrule = defaultRRuleConst();
     return rrule ? rrule->byMonths() : QList<int>();
 }
 
@@ -796,7 +796,7 @@ void Recurrence::addMonthlyPos(short pos, ushort day)
         return;
     }
 
-    RecurrenceRule *rrule = defaultRRule(false);
+    const RecurrenceRule *rrule = defaultRRule(false);
     if (!rrule) {
         return;
     }
@@ -835,7 +835,7 @@ void Recurrence::addMonthlyDate(short day)
         return;
     }
 
-    RecurrenceRule *rrule = defaultRRule(true);
+    const RecurrenceRule *rrule = defaultRRule(true);
     if (!rrule) {
         return;
     }
@@ -880,7 +880,7 @@ void Recurrence::setYearly(int freq)
 // Daynumber within year
 void Recurrence::addYearlyDay(int day)
 {
-    RecurrenceRule *rrule = defaultRRule(false); // It must already exist!
+    const RecurrenceRule *rrule = defaultRRule(false); // It must already exist!
     if (!rrule) {
         return;
     }
@@ -940,7 +940,7 @@ void Recurrence::addYearlyMonth(short month)
         return;
     }
 
-    RecurrenceRule *rrule = defaultRRule(false);
+    const RecurrenceRule *rrule = defaultRRule(false);
     if (!rrule) {
         return;
     }
@@ -1509,11 +1509,11 @@ KCALENDARCORE_EXPORT QDataStream &KCalendarCore::operator<<(QDataStream &out, KC
     serializeQDateTimeAsKDateTime(out, r->d->mStartDateTime);
     out << r->d->mCachedType << r->d->mAllDay << r->d->mRecurReadOnly << r->d->mExDates << (qint32)r->d->mExRules.count() << (qint32)r->d->mRRules.count();
 
-    for (RecurrenceRule *rule : std::as_const(r->d->mExRules)) {
+    for (const RecurrenceRule *rule : std::as_const(r->d->mExRules)) {
         out << rule;
     }
 
-    for (RecurrenceRule *rule : std::as_const(r->d->mRRules)) {
+    for (const RecurrenceRule *rule : std::as_const(r->d->mRRules)) {
         out << rule;
     }
 

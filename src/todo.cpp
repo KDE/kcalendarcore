@@ -495,7 +495,7 @@ void Todo::setAllDay(bool allday)
 bool TodoPrivate::recurTodo(Todo *todo)
 {
     if (todo && todo->recurs()) {
-        Recurrence *r = todo->recurrence();
+        const Recurrence *r = todo->recurrence();
         const QDateTime recurrenceEndDateTime = r->endDateTime();
         QDateTime nextOccurrenceDateTime = todo->dtStart().isValid() ? r->getNextDateTime(todo->dtStart()) : r->getNextDateTime(QDateTime::currentDateTime());
 
