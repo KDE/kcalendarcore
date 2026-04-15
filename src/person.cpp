@@ -172,7 +172,7 @@ static bool extractEmailAddressAndName(const QString &aStr, QString &mail, QStri
     const int len = aStr.length();
     const char cQuotes = '"';
 
-    bool bInComment = false;
+    bool bInComment;
     bool bInQuotesOutsideOfEmail = false;
     int i = 0;
     int iAd = 0;
