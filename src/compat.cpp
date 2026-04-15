@@ -34,13 +34,14 @@ Compat *CompatFactory::createCompat(const QString &productId, const QString &imp
 {
     Compat *compat = nullptr;
 
+    static QRegularExpression regexp(QStringLiteral("[ /]"));
     int korg = productId.indexOf(QLatin1String("KOrganizer"));
     int outl9 = productId.indexOf(QLatin1String("Outlook 9.0"));
 
     if (korg >= 0) {
         int versionStart = productId.indexOf(QLatin1Char(' '), korg);
         if (versionStart >= 0) {
-            int versionStop = productId.indexOf(QRegularExpression(QStringLiteral("[ /]")), versionStart + 1);
+            int versionStop = productId.indexOf(regexp, versionStart + 1);
             if (versionStop >= 0) {
                 QString version = productId.mid(versionStart + 1, versionStop - versionStart - 1);
 
@@ -86,6 +87,7 @@ Compat::~Compat() = default;
 
 void Compat::fixEmptySummary(const Incidence::Ptr &incidence)
 {
+    static QRegularExpression regexp(QStringLiteral("\n.*"));
     // some stupid vCal exporters ignore the standard and use Description
     // instead of Summary for the default field. Correct for this: Copy the
     // first line of the description to the summary (if summary is just one
@@ -93,7 +95,7 @@ void Compat::fixEmptySummary(const Incidence::Ptr &incidence)
     if (incidence->summary().isEmpty() && !(incidence->description().isEmpty())) {
         QString oldDescription = incidence->description().trimmed();
         QString newSummary(oldDescription);
-        newSummary.remove(QRegularExpression(QStringLiteral("\n.*")));
+        newSummary.remove(regexp);
         incidence->setSummary(newSummary);
         if (oldDescription == newSummary) {
             incidence->setDescription(QLatin1String(""));
