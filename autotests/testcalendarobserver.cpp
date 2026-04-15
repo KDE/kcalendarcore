@@ -36,7 +36,7 @@ Q_SIGNALS:
     void incidenceAdded(const KCalendarCore::Incidence::Ptr &incidence);
     void incidenceChanged(const KCalendarCore::Incidence::Ptr &incidence);
     void incidenceAboutToBeDeleted(const KCalendarCore::Incidence::Ptr &incidence);
-    void incidenceDeleted(const KCalendarCore::Incidence::Ptr &incidence, const Calendar *calendar);
+    void incidenceDeleted(const KCalendarCore::Incidence::Ptr &incidence, const KCalendarCore::Calendar *calendar);
 
 protected:
     void calendarIncidenceAdded(const KCalendarCore::Incidence::Ptr &incidence) override
