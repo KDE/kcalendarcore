@@ -668,9 +668,6 @@ public:
      */
     Q_REQUIRED_RESULT QList<RecurrenceRule::WDayPos> yearPositions() const;
 
-    /*! Upper date limit for recurrences */
-    static const QDate MAX_DATE;
-
     /*!
       Debug output.
     */
