@@ -82,6 +82,32 @@ set_package_properties(
             REQUIRED
 )
 
+option(BUILD_PYTHON_BINDINGS "Build Python bindings" ON)
+
+# Only Linux and FreeBSD CI has the relevant packages
+if(ANDROID OR APPLE OR WIN32 OR HAIKU OR NOT BUILD_SHARED_LIBS)
+    set(BUILD_PYTHON_BINDINGS OFF)
+endif()
+
+if(BUILD_PYTHON_BINDINGS)
+    find_package(
+        Python3
+        3.9
+        REQUIRED
+        COMPONENTS
+            Interpreter
+            Development
+    )
+    find_package(Shiboken6 REQUIRED)
+    find_package(PySide6 REQUIRED)
+endif()
+
+add_feature_info(
+    PYTHON_BINDINGS
+    ${BUILD_PYTHON_BINDINGS}
+    "Python bindings"
+)
+
 ########### CMake Config Files ###########
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF6CalendarCore")
 
@@ -97,6 +123,11 @@ ecm_set_disabled_deprecation_versions(
 
 ########### Targets ###########
 add_subdirectory(src)
+
+if(BUILD_PYTHON_BINDINGS)
+    include(ECMGeneratePythonBindings)
+    add_subdirectory(python)
+endif()
 
 if(BUILD_TESTING)
     find_package(Qt6 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Test)

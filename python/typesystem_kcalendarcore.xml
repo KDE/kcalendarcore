@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<typesystem package="KCalendarCore">
+<!--
+SPDX-FileCopyrightText: 2026 Kevin Ottens <kevin.ottens@enioka.com>
+SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
+-->
+    <load-typesystem name="typesystem_core.xml" generate="no"/>
+    <load-typesystem name="typesystem_gui.xml" generate="no"/>
+
+    <namespace-type name="KCalendarCore">
+        <enum-type name="AccessMode"/>
+        <enum-type name="EventSortField"/>
+        <enum-type name="iTIPMethod"/>
+        <enum-type name="JournalSortField"/>
+        <enum-type name="SortDirection"/>
+        <enum-type name="TodoSortField"/>
+
+        <object-type name="Alarm">
+            <enum-type name="Type"/>
+        </object-type>
+        <value-type name="Attachment"/>
+        <value-type name="Attendee">
+            <enum-type name="CuType"/>
+            <enum-type name="PartStat"/>
+            <enum-type name="Role"/>
+        </value-type>
+        <object-type name="Calendar" disable-wrapper="yes"/>
+        <object-type name="CalendarListModel">
+            <enum-type name="Role"/>
+        </object-type>
+        <object-type name="CalendarPlugin" force-abstract="yes" disable-wrapper="yes"/>
+        <object-type name="CalendarPluginLoader"/>
+        <object-type name="CalFilter">
+            <enum-type name="Criteria"/>
+        </object-type>
+        <object-type name="CalFormat"/>
+        <object-type name="CalStorage"/>
+        <value-type name="Conference"/>
+        <object-type name="CustomProperties"/>
+        <value-type name="Duration">
+            <enum-type name="Type"/>
+        </value-type>
+        <object-type name="Event">
+            <enum-type name="Transparency"/>
+        </object-type>
+        <object-type name="Exception">
+            <enum-type name="ErrorCode"/>
+        </object-type>
+        <object-type name="FileStorage"/>
+        <object-type name="FreeBusy"/>
+        <object-type name="FreeBusyCache" force-abstract="yes" disable-wrapper="yes"/>
+        <object-type name="FreeBusyPeriod">
+            <enum-type name="FreeBusyType"/>
+        </object-type>
+        <object-type name="ICalFormat"/>
+        <object-type name="IncidenceBase">
+            <enum-type name="DateTimeRole"/>
+            <enum-type name="Field"/>
+            <enum-type name="IncidenceType"/>
+            <enum-type name="VirtualHook"/>
+            <object-type name="IncidenceObserver"/>
+            <modify-function signature="assign(const KCalendarCore::IncidenceBase &amp;)" remove="all"/>
+        </object-type>
+        <object-type name="Incidence">
+            <enum-type name="RelType"/>
+            <enum-type name="Secrecy"/>
+            <enum-type name="Status"/>
+        </object-type>
+        <object-type name="Journal"/>
+        <object-type name="MemoryCalendar"/>
+        <object-type name="OccurrenceIterator"/>
+        <value-type name="Period"/>
+        <object-type name="Person"/>
+        <object-type name="Recurrence">
+            <object-type name="RecurrenceObserver"/>
+        </object-type>
+        <value-type name="RecurrenceRule">
+            <object-type name="RuleObserver"/>
+            <enum-type name="PeriodType"/>
+            <modify-function signature="endDt(bool*) const">
+                <modify-argument index="1">
+                    <remove-argument />
+                </modify-argument>
+            </modify-function>
+        </value-type>
+        <object-type name="ScheduleMessage">
+            <enum-type name="Status"/>
+        </object-type>
+        <object-type name="Todo"/>
+        <object-type name="VCalFormat"/>
+        <object-type name="Visitor"/>
+
+        <namespace-type name="Events"/>
+        <namespace-type name="Todos"/>
+        <namespace-type name="Journals"/>
+        <namespace-type name="Incidences"/>
+
+    </namespace-type>
+
+</typesystem>
