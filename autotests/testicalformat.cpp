@@ -18,6 +18,7 @@
 
 QTEST_MAIN(ICalFormatTest)
 
+using namespace Qt::Literals;
 using namespace KCalendarCore;
 
 void ICalFormatTest::testDeserializeSerialize()
@@ -543,6 +544,33 @@ void ICalFormatTest::testAllDayRecurringUntil()
     auto recurrence = event->recurrence();
     QVERIFY(recurrence);
     QCOMPARE(recurrence->endDate(), QDate(2024, 4, 1));
+}
+
+void ICalFormatTest::testCalendarProperties()
+{
+    const auto input = R"(
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Hugo Calendar Templates//Event Template//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+UID:5562947a-9f8d-4a38-9ed5-1536cb3a21f0
+LAST-MODIFIED:20260414T171115Z
+URL:https://kde.org/community/calendar/
+REFRESH-INTERVAL;VALUE=DURATION:P1W
+SOURCE;VALUE=URI:https://kde.org/community/calendar/calendar.ics
+COLOR:crimson
+NAME;LANGUAGE=en-US:KDE Community Calendar
+DESCRIPTION;LANGUAGE=en-US:All the community events where you can find the KDE Community.
+X-WR-CALNAME:KDE Community Calendar
+X-WR-CALDESC:All the community events where you can find the KDE Community.
+END:VCALENDAR)";
+    ICalFormat format;
+    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+    QVERIFY(format.fromString(cal, QLatin1StringView(input)));
+    QCOMPARE(cal->color(), "crimson"_L1);
+    cal->setColor(u"blue"_s);
+    QVERIFY(format.toString(cal).contains("COLOR:blue"_L1));
 }
 
 #include "moc_testicalformat.cpp"

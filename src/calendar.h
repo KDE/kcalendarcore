@@ -258,6 +258,15 @@ class KCALENDARCORE_EXPORT Calendar : public QObject, public CustomProperties, p
     Q_PROPERTY(QIcon icon READ icon WRITE setIcon NOTIFY iconChanged)
 
     /*!
+     * \qmlproperty string calendar::color
+     */
+
+    /*!
+     * \property KCalendarCore::Calendar::color
+     */
+    Q_PROPERTY(QString color READ color WRITE setColor NOTIFY colorChanged)
+
+    /*!
      * \qmlproperty KCalendarCore::AccessMode calendar::accessMode
      */
 
@@ -463,6 +472,20 @@ public:
      * \sa icon()
      */
     void setIcon(const QIcon &icon);
+
+    /*!
+     * Returns this calendar's color.
+     * \sa RFC 7986 §5.9
+     * \since 6.26
+     */
+    [[nodiscard]] QString color() const;
+
+    /*!
+     * Sets this calendar's \a color.
+     * \since 6.26
+     * \sa color()
+     */
+    void setColor(const QString &color);
 
     /*!
      * Returns this calendar's AccessMode, i.e. whether it is writable or read-only.
@@ -1390,6 +1413,13 @@ Q_SIGNALS:
      * \sa icon()
      */
     void iconChanged();
+
+    /*!
+     * Emitted when the icon color changes.
+     * \since 6.26
+     * \sa color()
+     */
+    void colorChanged();
 
     /*!
      * Emitted when the AccessMode changes.

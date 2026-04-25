@@ -66,6 +66,7 @@ public:
     QString mId;
     QString mName;
     QIcon mIcon;
+    QString mColor;
     AccessMode mAccessMode = ReadWrite;
 };
 

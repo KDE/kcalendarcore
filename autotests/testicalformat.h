@@ -33,6 +33,7 @@ private Q_SLOTS:
     void testNonTextCustomProperties();
     void testAllDaySchedulingMessage();
     void testAllDayRecurringUntil();
+    void testCalendarProperties();
 };
 
 #endif

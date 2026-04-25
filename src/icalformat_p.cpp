@@ -2614,6 +2614,12 @@ icalcomponent *ICalFormatImpl::createCalendarComponent(const Calendar::Ptr &cal)
     icalproperty_set_x_name(p, IMPLEMENTATION_VERSION_XPROPERTY);
     icalcomponent_add_property(calendar, p);
 
+    // calendar color
+    if (cal && !cal->color().isEmpty()) {
+        auto p = icalproperty_new_color(cal->color().toUtf8().constData());
+        icalcomponent_add_property(calendar, p);
+    }
+
     // Add time zone
     // NOTE: Commented out since relevant timezones are added by the caller.
     // Previously we got some timezones listed twice in the ical file.
@@ -2733,6 +2739,11 @@ bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar)
             mParent->setException(new Exception(Exception::CalVersionUnknown));
             return false;
         }
+    }
+
+    // calendar color
+    if (p = icalcomponent_get_first_property(calendar, ICAL_COLOR_PROPERTY); p) {
+        cal->setColor(QString::fromUtf8(icalproperty_get_value_as_string(p)));
     }
 
     // Populate the calendar's time zone collection with all VTIMEZONE components

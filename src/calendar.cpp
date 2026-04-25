@@ -982,6 +982,20 @@ void Calendar::setIcon(const QIcon &icon)
     Q_EMIT iconChanged();
 }
 
+QString Calendar::color() const
+{
+    return d->mColor;
+}
+
+void Calendar::setColor(const QString &color)
+{
+    if (d->mColor == color) {
+        return;
+    }
+    d->mColor = color;
+    Q_EMIT colorChanged();
+}
+
 AccessMode Calendar::accessMode() const
 {
     return d->mAccessMode;
