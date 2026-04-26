@@ -568,9 +568,12 @@ END:VCALENDAR)";
     ICalFormat format;
     MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
     QVERIFY(format.fromString(cal, QLatin1StringView(input)));
+    QCOMPARE(cal->name(), "KDE Community Calendar"_L1);
     QCOMPARE(cal->color(), "crimson"_L1);
     cal->setColor(u"blue"_s);
+    cal->setName(u"Test Calendar Name"_s);
     QVERIFY(format.toString(cal).contains("COLOR:blue"_L1));
+    QVERIFY(format.toString(cal).contains("NAME:Test Calendar Name"_L1));
 }
 
 #include "moc_testicalformat.cpp"

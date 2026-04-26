@@ -2614,6 +2614,12 @@ icalcomponent *ICalFormatImpl::createCalendarComponent(const Calendar::Ptr &cal)
     icalproperty_set_x_name(p, IMPLEMENTATION_VERSION_XPROPERTY);
     icalcomponent_add_property(calendar, p);
 
+    // calendar name
+    if (cal && !cal->name().isEmpty()) {
+        auto p = icalproperty_new_name(cal->name().toUtf8().constData());
+        icalcomponent_add_property(calendar, p);
+    }
+
     // calendar color
     if (cal && !cal->color().isEmpty()) {
         auto p = icalproperty_new_color(cal->color().toUtf8().constData());
@@ -2739,6 +2745,11 @@ bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar)
             mParent->setException(new Exception(Exception::CalVersionUnknown));
             return false;
         }
+    }
+
+    // calendar name
+    if (p = icalcomponent_get_first_property(calendar, ICAL_NAME_PROPERTY); p) {
+        cal->setName(QString::fromUtf8(icalproperty_get_value_as_string(p)));
     }
 
     // calendar color
