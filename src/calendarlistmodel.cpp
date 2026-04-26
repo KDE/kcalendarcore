@@ -55,13 +55,15 @@ QVariant CalendarListModel::data(const QModelIndex &index, int role) const
     case NameRole:
         return cal->name();
     case IconRole:
-        return cal->icon();
+        return cal->icon().isNull() ? QVariant() : cal->icon();
     case CalendarRole:
         return QVariant::fromValue(cal.get());
     case AccessModeRole:
         return cal->accessMode();
     case IdRole:
         return cal->id();
+    case ColorRole:
+        return cal->color();
     }
 
     return {};
@@ -75,6 +77,7 @@ QHash<int, QByteArray> CalendarListModel::roleNames() const
     n.insert(CalendarRole, "calendar");
     n.insert(AccessModeRole, "accessMode");
     n.insert(IdRole, "id");
+    n.insert(ColorRole, "color");
     return n;
 }
 

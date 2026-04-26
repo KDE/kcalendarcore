@@ -45,6 +45,8 @@ public:
       The access mode of the calendar (see KCalendarCore::AccessMode).
       \value IdRole
       The internal calendar id.
+      \value ColorRole
+      The calendar color (since 6.26).
      */
     enum Role {
         NameRole = Qt::DisplayRole,
@@ -52,6 +54,7 @@ public:
         CalendarRole = Qt::UserRole,
         AccessModeRole,
         IdRole,
+        ColorRole,
     };
 
     [[nodiscard]] int rowCount(const QModelIndex &parent = {}) const override;
