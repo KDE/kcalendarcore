@@ -68,6 +68,15 @@ ecm_generate_python_bindings(
 
 target_link_libraries(${bindings_library} PRIVATE KF6CalendarCore)
 
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    target_compile_options(
+        ${bindings_library}
+        PRIVATE
+            -Wno-overloaded-virtual
+            -Wno-zero-as-null-pointer-constant
+    )
+endif()
+
 execute_process(
     COMMAND
         ${Python_EXECUTABLE} -Esc
