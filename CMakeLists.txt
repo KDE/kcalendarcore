@@ -30,6 +30,7 @@ include(KDECMakeSettings)
 include(KDEGitCommitHooks)
 include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 
+include(ECMInstalledLibraryCheck)
 include(ECMGenerateExportHeader)
 include(ECMGenerateHeaders)
 include(ECMGeneratePkgConfigFile)
