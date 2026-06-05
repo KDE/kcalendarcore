@@ -5,7 +5,7 @@ project(KCalendarCore VERSION ${KF_VERSION})
 
 # ECM setup
 include(FeatureSummary)
-find_package(ECM 6.26.0 NO_MODULE)
+find_package(ECM 6.27.0 NO_MODULE)
 set_package_properties(
     ECM
     PROPERTIES
