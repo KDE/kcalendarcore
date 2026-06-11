@@ -81,6 +81,9 @@ set_package_properties(
         TYPE
             REQUIRED
 )
+if(ANDROID)
+    find_package(Gradle REQUIRED)
+endif()
 
 option(BUILD_PYTHON_BINDINGS "Build Python bindings" ON)
 

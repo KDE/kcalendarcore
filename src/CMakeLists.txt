@@ -100,6 +100,20 @@ target_sources(
         xcalformat.cpp
         xcalformat.h
 )
+
+if(ANDROID)
+    add_subdirectory(android)
+    target_sources(
+        KF6CalendarCore
+        PRIVATE
+            android/androidcalendar.cpp
+            android/androidcalendarplugin.cpp
+            android/androidicalconverter.cpp
+            android/integration.cpp
+    )
+    target_compile_definitions(KF6CalendarCore PRIVATE -DQT_STATICPLUGIN)
+endif()
+
 ecm_qt_declare_logging_category(KF6CalendarCore
     HEADER kcalendarcore_debug.h
     IDENTIFIER KCALCORE_LOG
