@@ -564,16 +564,39 @@ NAME;LANGUAGE=en-US:KDE Community Calendar
 DESCRIPTION;LANGUAGE=en-US:All the community events where you can find the KDE Community.
 X-WR-CALNAME:KDE Community Calendar
 X-WR-CALDESC:All the community events where you can find the KDE Community.
+BEGIN:VEVENT
+X-MICROSOFT-LOCATIONS:[{"DisplayName":"{{location}}"\,"LocationAnnotation":""
+ \,"LocationUri":""\,"LocationStreet":""\,"LocationCity":""}]
+X-TEST-TEXT:my\\text\,testing:escape\;chars
+X-TEST-URI;VALUE=URI:geo:10.123456,-70.123456
+END:EVENT
 END:VCALENDAR)";
     ICalFormat format;
     MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
     QVERIFY(format.fromString(cal, QLatin1StringView(input)));
     QCOMPARE(cal->name(), "KDE Community Calendar"_L1);
     QCOMPARE(cal->color(), "crimson"_L1);
+    const auto events = cal->events();
+    QCOMPARE(events.size(), 1);
+
+    const auto event = events[0];
+    QCOMPARE(event->nonKDECustomProperty("X-MICROSOFT-LOCATIONS"),
+             QLatin1String(R"([{"DisplayName":"{{location}}","LocationAnnotation":"","LocationUri":"","LocationStreet":"","LocationCity":""}])"));
+    QCOMPARE(event->nonKDECustomProperty("X-TEST-TEXT"), QLatin1String(R"(my\text,testing:escape;chars)"));
+    QCOMPARE(event->nonKDECustomProperty("X-TEST-URI"), QLatin1String("geo:10.123456,-70.123456"));
+
     cal->setColor(u"blue"_s);
     cal->setName(u"Test Calendar Name"_s);
-    QVERIFY(format.toString(cal).contains("COLOR:blue"_L1));
-    QVERIFY(format.toString(cal).contains("NAME:Test Calendar Name"_L1));
+    auto output = format.toString(cal);
+    QVERIFY(output.contains("COLOR:blue"_L1));
+    QVERIFY(output.contains("NAME:Test Calendar Name"_L1));
+
+    auto trimmedOutput = output;
+    trimmedOutput.remove("\r\n "_L1);
+    QVERIFY(output.contains(R"(my\\text\,testing:escape\;chars)"_L1));
+    QVERIFY(output.contains("geo:10.123456,-70.123456"_L1));
+    QVERIFY(
+        trimmedOutput.contains(R"([{"DisplayName":"{{location}}"\,"LocationAnnotation":""\,"LocationUri":""\,"LocationStreet":""\,"LocationCity":""}])"_L1));
 }
 
 #include "moc_testicalformat.cpp"

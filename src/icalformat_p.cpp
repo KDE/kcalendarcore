@@ -604,21 +604,30 @@ void ICalFormatImpl::writeCustomProperties(icalcomponent *parent, CustomProperti
             // We don't write these properties to disk to disk
             continue;
         }
-        icalproperty *p = icalproperty_new_x(c.value().toUtf8().constData());
-        QString parameters = properties->nonKDECustomPropertyParameters(c.key());
 
+        icalproperty *p = icalproperty_new(ICAL_X_PROPERTY);
         // Minimalist parameter handler: extract icalparameter's out of
         // the given input text (not really parsing as such)
+        bool isText = true; // no VALUE= defaults to TEXT (RFC 5545 3.8.8.2)
+        QString parameters = properties->nonKDECustomPropertyParameters(c.key());
         if (!parameters.isEmpty()) {
             const QStringList sl = parameters.split(QLatin1Char(';'));
             for (const QString &parameter : sl) {
                 icalparameter *param = icalparameter_new_from_string(parameter.toUtf8().constData());
                 if (param) {
                     icalproperty_add_parameter(p, param);
+                    if (icalparameter_isa(param) == ICAL_VALUE_PARAMETER) {
+                        isText = icalparameter_get_value(param) == ICAL_VALUE_TEXT;
+                    }
                 }
             }
         }
 
+        if (isText) {
+            icalproperty_set_value(p, icalvalue_new_text(c.value().toUtf8().constData()));
+        } else {
+            icalproperty_set_value(p, icalvalue_new_string(c.value().toUtf8().constData()));
+        }
         icalproperty_set_x_name(p, c.key().constData());
         icalcomponent_add_property(parent, p);
     }
