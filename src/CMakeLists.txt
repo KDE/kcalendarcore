@@ -73,6 +73,7 @@ target_sources(
         journal.h
         memorycalendar.cpp
         memorycalendar.h
+        mimedata.cpp
         occurrenceiterator.cpp
         occurrenceiterator.h
         period.cpp
@@ -172,6 +173,7 @@ set(kcalendarcore_headers
     IncidenceBase
     Journal
     MemoryCalendar
+    MimeData
     OccurrenceIterator
     Period
     Person

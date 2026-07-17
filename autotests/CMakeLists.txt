@@ -63,6 +63,7 @@ macro_unit_tests(
   testvcalexport
   testcalendarobserver
   calendarlistmodeltest
+  mimedatatest
 )
 
 set_target_properties(
