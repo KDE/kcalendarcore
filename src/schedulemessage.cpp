@@ -88,3 +88,5 @@ QString ScheduleMessage::error() const
 {
     return d->mError;
 }
+
+#include "moc_schedulemessage.cpp"

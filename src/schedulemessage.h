@@ -63,6 +63,7 @@ enum iTIPMethod {
 */
 class KCALENDARCORE_EXPORT ScheduleMessage
 {
+    Q_GADGET
 public:
     /*!
       \enum KCalendarCore::ScheduleMessage::Status
@@ -89,6 +90,7 @@ public:
         RequestUpdate,
         Unknown,
     };
+    Q_ENUM(Status)
 
     /*!
       A shared pointer to a ScheduleMessage.
