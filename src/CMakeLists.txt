@@ -134,6 +134,8 @@ ecm_generate_export_header(KF6CalendarCore
     EXCLUDE_DEPRECATED_BEFORE_AND_AT ${EXCLUDE_DEPRECATED_BEFORE_AND_AT}
 )
 
+ecm_create_qm_loader(KF6CalendarCore kcalendarcore6_qt)
+
 target_include_directories(KF6CalendarCore INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF}/KCalendarCore>")
 
 target_link_libraries(

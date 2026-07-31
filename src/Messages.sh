@@ -1,6 +1,5 @@
-#! /bin/sh
-$XGETTEXT *.cpp -o $podir/libkcalcore.pot
-if ( test -e $podir/libkcalcore.pot )
-then
-  echo "Error: kdepimlibs/kcalcore library should NOT have i18n strings."
-fi
+#!/bin/sh
+# SPDX-FileCopyrightText: 2026 Volker Krause <vkrause@kde.org>
+# SPDX-License-Identifier: BSD-3-Clause
+
+$EXTRACT_TR_STRINGS `find . -name \*.cpp -o -name \*.h` -o $podir/kcalendarcore6_qt.pot

@@ -39,6 +39,7 @@ include(ECMDeprecationSettings)
 include(ECMSetupVersion)
 include(ECMQtDeclareLoggingCategory)
 include(ECMQmlModule)
+include(ECMPoQmTools)
 
 set(EXCLUDE_DEPRECATED_BEFORE_AND_AT
     0
@@ -163,6 +164,8 @@ if(NOT WIN32)
     INSTALL
     )
 endif()
+
+ecm_install_po_files_as_qm(poqm)
 
 include(ECMFeatureSummary)
 ecm_feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

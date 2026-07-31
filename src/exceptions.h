@@ -123,13 +123,19 @@ public:
       Returns the error code.
       Returns The ErrorCode for this exception.
     */
-    Q_REQUIRED_RESULT virtual ErrorCode code() const;
+    [[nodiscard]] virtual ErrorCode code() const;
 
     /*!
       Returns the arguments.
       Returns A QStringList with the argument list for this exception.
     */
-    Q_REQUIRED_RESULT virtual QStringList arguments() const;
+    [[nodiscard]] virtual QStringList arguments() const;
+
+    /*!
+      Returns a human translated human readable description of this error.
+      \since 6.30
+    */
+    [[nodiscard]] QString errorMessage() const;
 
 private:
     std::unique_ptr<ExceptionPrivate> d;
