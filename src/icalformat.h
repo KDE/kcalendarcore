@@ -181,9 +181,8 @@ public:
 
       Returns a QString containing the message if successful; 0 otherwise.
     */
-    Q_REQUIRED_RESULT QString createScheduleMessage(const IncidenceBase::Ptr &incidence, iTIPMethod method); // TODO KF7 return a QByteArray instead
+    Q_REQUIRED_RESULT QString createScheduleMessage(const IncidenceBase::Ptr &incidence, iTIPMethod method);
 
-#if KCALENDARCORE_ENABLE_DEPRECATED_SINCE(6, 30)
     /*!
       Parses a Calendar scheduling message string into ScheduleMessage object.
 
@@ -195,25 +194,7 @@ public:
       Returns a pointer to a ScheduleMessage object if successful; 0 otherwise.
       The calling routine may later free the return memory.
     */
-    KCALENDARCORE_DEPRECATED_VERSION(6, 30, "use the QByteArray overload instead")
     ScheduleMessage::Ptr parseScheduleMessage(const Calendar::Ptr &calendar, const QString &string);
-#endif
-
-    /*!
-      Parses a Calendar scheduling message string into ScheduleMessage object.
-
-      \a calendar is a pointer to a Calendar object associated with the
-      scheduling message. This calendar will also be searched for pre-existing
-      instances of the incidence referred to in the scheduling message.
-
-      \a messageText is containing the data to be parsed.
-
-      Returns a pointer to a ScheduleMessage object if successful; 0 otherwise.
-      The calling routine may later free the return memory.
-
-      \since 6.30 (took a QString as argument previously)
-    */
-    [[nodiscard]] ScheduleMessage::Ptr parseScheduleMessage(const Calendar::Ptr &calendar, const QByteArray &messageText);
 
     /*!
       Converts a QString into a FreeBusy object.
