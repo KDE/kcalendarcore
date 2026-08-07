@@ -506,7 +506,7 @@ void ICalFormatTest::testAllDaySchedulingMessage()
     const auto itipString = format.createScheduleMessage(event, KCalendarCore::iTIPRequest);
     QVERIFY(!itipString.isEmpty());
 
-    auto scheduleMsg = format.parseScheduleMessage(calendar, itipString);
+    auto scheduleMsg = format.parseScheduleMessage(calendar, itipString.toUtf8());
     QVERIFY(scheduleMsg->error().isEmpty());
 
     auto parsedEvent = scheduleMsg->event().staticCast<KCalendarCore::Event>();
