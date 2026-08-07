@@ -499,7 +499,14 @@ FreeBusy::Ptr ICalFormat::parseFreeBusy(const QString &str)
     return freeBusy;
 }
 
+#if KCALENDARCORE_BUILD_DEPRECATED_SINCE(6, 30)
 ScheduleMessage::Ptr ICalFormat::parseScheduleMessage(const Calendar::Ptr &cal, const QString &messageText)
+{
+    return parseScheduleMessage(cal, messageText.toUtf8());
+}
+#endif
+
+ScheduleMessage::Ptr ICalFormat::parseScheduleMessage(const Calendar::Ptr &cal, const QByteArray &messageText)
 {
     Q_D(ICalFormat);
     setTimeZone(cal->timeZone());
@@ -510,7 +517,7 @@ ScheduleMessage::Ptr ICalFormat::parseScheduleMessage(const Calendar::Ptr &cal, 
         return ScheduleMessage::Ptr();
     }
 
-    icalcomponent *message = icalparser_parse_string(messageText.toUtf8().constData());
+    icalcomponent *message = icalparser_parse_string(messageText.constData());
 
     if (!message) {
         setException(new Exception(Exception::ParseErrorUnableToParse));
