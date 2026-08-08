@@ -509,6 +509,26 @@ public:
     */
     Attendee &operator=(const Attendee &attendee);
 
+    /*!
+       Returns the translated display name of \a role.
+
+      \param role the Attendee::Role to convert to a string
+      \return the localized string representation of the attendee role
+
+      \since 6.30
+    */
+    [[nodiscard]] static QString roleName(Role role);
+
+    /*!
+      Returns a translated string representation of an Attendee participation status.
+
+      \param status the Attendee::PartStat to convert to a string
+      \return the localized string representation of the attendee status
+
+      \since 6.30
+    */
+    [[nodiscard]] static QString statusName(PartStat status);
+
 private:
     //@cond PRIVATE
     class Private;
