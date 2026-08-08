@@ -22,6 +22,7 @@
 #include "person.h"
 #include "person_p.h"
 
+#include <QCoreApplication>
 #include <QDataStream>
 
 using namespace KCalendarCore;
@@ -48,6 +49,11 @@ public:
     CustomProperties mCustomProperties;
     QString mName;
     QString mEmail;
+
+    static QString tr(const char *s, const char *c = nullptr, int n = -1)
+    {
+        return QCoreApplication::translate("KCalendarCore::Attendee", s, c, n);
+    }
 
 private:
     QString sCuType;
@@ -297,6 +303,44 @@ CustomProperties &Attendee::customProperties()
 const CustomProperties &Attendee::customProperties() const
 {
     return d->mCustomProperties;
+}
+
+QString Attendee::roleName(Attendee::Role role)
+{
+    switch (role) {
+    case Attendee::Chair:
+        return Attendee::Private::tr("Chair", "@item chairperson");
+    case Attendee::ReqParticipant:
+        return Attendee::Private::tr("Participant", "@item participation is required");
+    case Attendee::OptParticipant:
+        return Attendee::Private::tr("Optional Participant", "@item participation is optional");
+    case Attendee::NonParticipant:
+        return Attendee::Private::tr("Observer", "@item non-participant copied for information");
+    }
+    return {};
+}
+
+QString Attendee::statusName(Attendee::PartStat status)
+{
+    switch (status) {
+    case Attendee::NeedsAction:
+        return Attendee::Private::tr("Needs Action", "@item event, to-do or journal needs action");
+    case Attendee::Accepted:
+        return Attendee::Private::tr("Accepted", "@item event, to-do or journal accepted");
+    case Attendee::Declined:
+        return Attendee::Private::tr("Declined", "@item event, to-do or journal declined");
+    case Attendee::Tentative:
+        return Attendee::Private::tr("Tentative", "@item event or to-do tentatively accepted");
+    case Attendee::Delegated:
+        return Attendee::Private::tr("Delegated", "@item event or to-do delegated");
+    case Attendee::Completed:
+        return Attendee::Private::tr("Completed", "@item to-do completed");
+    case Attendee::InProcess:
+        return Attendee::Private::tr("In Process", "@item to-do in process of being completed");
+    case Attendee::None:
+        return Attendee::Private::tr("Unknown", "@item event or to-do status unknown");
+    }
+    return {};
 }
 
 QDataStream &KCalendarCore::operator<<(QDataStream &stream, const KCalendarCore::Attendee &attendee)
