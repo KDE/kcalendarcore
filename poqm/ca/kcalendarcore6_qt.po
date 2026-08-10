@@ -1,0 +1,117 @@
+# Translation of kcalendarcore6_qt.po to Catalan
+# Copyright (C) 2026 This_file_is_part_of_KDE
+# This file is distributed under the license LGPL version 2.1 or
+# version 3 or later versions approved by the membership of KDE e.V.
+#
+# SPDX-FileCopyrightText: 2026 Josep M. Ferrer <txemaq@gmail.com>
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"PO-Revision-Date: 2026-08-09 08:48+0200\n"
+"Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
+"Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
+"Language: ca\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Qt-Contexts: true\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 26.04.3\n"
+
+#: exceptions.cpp:74
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Load Error"
+msgstr "Error de càrrega"
+
+#: exceptions.cpp:76
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Save Error"
+msgstr "Error en desar"
+
+#: exceptions.cpp:78
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Parse Error in libical"
+msgstr "Error d'anàlisi a la «libical»"
+
+#: exceptions.cpp:80
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Parse Error in the kcalcore library"
+msgstr "Error d'anàlisi a la biblioteca «kcalcore»"
+
+#: exceptions.cpp:82
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "No calendar component found."
+msgstr "No s'ha trobat el component de calendari."
+
+#: exceptions.cpp:84 exceptions.cpp:104
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Expected iCalendar, got vCalendar format"
+msgstr "S'esperava iCalendar, s'ha obtingut el format vCalendar"
+
+#: exceptions.cpp:86
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "iCalendar Version 2.0 detected."
+msgstr "S'ha detectat iCalendar versió 2.0."
+
+#: exceptions.cpp:88 exceptions.cpp:106
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Expected iCalendar, got unknown format"
+msgstr "S'esperava iCalendar, s'ha obtingut un format desconegut"
+
+#: exceptions.cpp:90
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Restriction violation"
+msgstr "Infracció de restricció"
+
+#: exceptions.cpp:92
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "No writable resource found"
+msgstr "No s'ha trobat cap recurs on es pugui escriure"
+
+#: exceptions.cpp:95
+#, qt-format
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Error saving to '%1'."
+msgstr "Error en desar a «%1»."
+
+#: exceptions.cpp:98
+#, qt-format
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Could not save '%1'"
+msgstr "No s'ha pogut desar «%1»"
+
+#: exceptions.cpp:100
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "libical error"
+msgstr "Error de «libical»"
+
+#: exceptions.cpp:102
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "No VERSION property found"
+msgstr "No s'ha trobat la propietat VERSION"
+
+#: exceptions.cpp:108
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Object is not a freebusy, event, todo or journal"
+msgstr ""
+"L'objecte no és cap lliure/ocupat, esdeveniment, tasca pendent, ni diari"
+
+#: exceptions.cpp:110
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Message text is empty, unable to parse into a ScheduleMessage"
+msgstr ""
+"El text del missatge està buit, no s'ha pogut analitzar en un "
+"«ScheduleMessage»"
+
+#: exceptions.cpp:112
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "icalparser is unable to parse message text into a ScheduleMessage"
+msgstr ""
+"«icalparser» no ha pogut analitzar el text del missatge en un "
+"«ScheduleMessage»"
+
+#: exceptions.cpp:114
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Message does not contain ICAL_METHOD_PROPERTY"
+msgstr "El missatge no conté «ICAL_METHOD_PROPERTY»"

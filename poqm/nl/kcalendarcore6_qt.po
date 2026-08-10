@@ -1,0 +1,107 @@
+# SPDX-FileCopyrightText: 2026 Freek de Kruijf <freekdekruijf@kde.nl>
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"PO-Revision-Date: 2026-08-09 13:00+0200\n"
+"Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
+"Language-Team: \n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Qt-Contexts: true\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 26.04.3\n"
+
+#: exceptions.cpp:74
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Load Error"
+msgstr "Fout bij laden"
+
+#: exceptions.cpp:76
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Save Error"
+msgstr "Fout bij opslaan"
+
+#: exceptions.cpp:78
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Parse Error in libical"
+msgstr "Ontledingsfout in libical"
+
+#: exceptions.cpp:80
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Parse Error in the kcalcore library"
+msgstr "Ontledingsfout in bibliotheek kcalcore"
+
+#: exceptions.cpp:82
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "No calendar component found."
+msgstr "Geen agendacomponent gevonden."
+
+#: exceptions.cpp:84 exceptions.cpp:104
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Expected iCalendar, got vCalendar format"
+msgstr "Verwacht iCalendar-formaat, vCalendar-formaat ontvangen"
+
+#: exceptions.cpp:86
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "iCalendar Version 2.0 detected."
+msgstr "iCalendar versie 2.0 gevonden."
+
+#: exceptions.cpp:88 exceptions.cpp:106
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Expected iCalendar, got unknown format"
+msgstr "Verwacht iCalendar-formaat, onbekend formaat ontvangen"
+
+#: exceptions.cpp:90
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Restriction violation"
+msgstr "Overtreding van rechten"
+
+#: exceptions.cpp:92
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "No writable resource found"
+msgstr "Geen schrijfbare hulpbron gevonden"
+
+#: exceptions.cpp:95
+#, qt-format
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Error saving to '%1'."
+msgstr "Fout tijdens het opslaan naar '%1'."
+
+#: exceptions.cpp:98
+#, qt-format
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Could not save '%1'"
+msgstr "Kon niet opslaan naar '%1'"
+
+#: exceptions.cpp:100
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "libical error"
+msgstr "libical-fout"
+
+#: exceptions.cpp:102
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "No VERSION property found"
+msgstr "Geen VERSIE-eigenschap gevonden"
+
+#: exceptions.cpp:108
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Object is not a freebusy, event, todo or journal"
+msgstr "Object is geen vrijbezig, afspraak, taak of journaal"
+
+#: exceptions.cpp:110
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Message text is empty, unable to parse into a ScheduleMessage"
+msgstr ""
+"De berichttekst is leeg; kan niet worden ingevoerd tot een planningsbericht."
+
+#: exceptions.cpp:112
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "icalparser is unable to parse message text into a ScheduleMessage"
+msgstr "icalparser kan berichttekst niet invoeren in een planningsbericht"
+
+#: exceptions.cpp:114
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Message does not contain ICAL_METHOD_PROPERTY"
+msgstr "Bericht bevat geen ICAL_METHOD_PROPERTY"
