@@ -13,6 +13,8 @@
 #include "incidence.h" // For Incidence::RelType, etc.
 #include "incidencebase_p.h"
 
+#include <QCoreApplication>
+
 namespace KCalendarCore
 {
 
@@ -34,6 +36,11 @@ public:
     void init(Incidence *q, const IncidencePrivate &other);
 
     virtual bool validStatus(Incidence::Status);
+
+    static QString tr(const char *s, const char *c = nullptr, int n = -1)
+    {
+        return QCoreApplication::translate("KCalendarCore::IncidencePrivate", s, c, n);
+    }
 
     QDateTime mCreated; // creation datetime
     QString mDescription; // description string

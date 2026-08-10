@@ -855,6 +855,11 @@ QString Incidence::customStatus() const
     }
 }
 
+QString Incidence::statusName() const
+{
+    return status() == StatusX ? customStatus() : statusName(status());
+}
+
 void Incidence::setSecrecy(Incidence::Secrecy secrecy)
 {
     if (mReadOnly) {
@@ -1260,6 +1265,45 @@ void Incidence::deserialize(QDataStream &in)
     for (; it != end; ++it) {
         d->mRelatedToUid.insert(static_cast<Incidence::RelType>(it.key()), it.value());
     }
+}
+
+QString Incidence::secrecyName(Secrecy secrecy)
+{
+    switch (secrecy) {
+    case Incidence::SecrecyPublic:
+        return IncidencePrivate::tr("Public", "@item incidence access if for everyone");
+    case Incidence::SecrecyPrivate:
+        return IncidencePrivate::tr("Private", "@item incidence access is by owner only");
+    case Incidence::SecrecyConfidential:
+        return IncidencePrivate::tr("Confidential", "@item incidence access is by owner and a controlled group");
+    }
+    return {};
+}
+
+QString Incidence::statusName(Status status)
+{
+    switch (status) {
+    case Incidence::StatusTentative:
+        return IncidencePrivate::tr("Tentative", "@item event is tentative");
+    case Incidence::StatusConfirmed:
+        return IncidencePrivate::tr("Confirmed", "@item event is definite");
+    case Incidence::StatusCompleted:
+        return IncidencePrivate::tr("Completed", "@item to-do is complete");
+    case Incidence::StatusNeedsAction:
+        return IncidencePrivate::tr("Needs-Action", "@item to-do needs action");
+    case Incidence::StatusCanceled:
+        return IncidencePrivate::tr("Canceled", "@item event or to-do is canceled; journal is removed");
+    case Incidence::StatusInProcess:
+        return IncidencePrivate::tr("In-Process", "@item to-do is in process");
+    case Incidence::StatusDraft:
+        return IncidencePrivate::tr("Draft", "@item journal is in draft form");
+    case Incidence::StatusFinal:
+        return IncidencePrivate::tr("Final", "@item journal is in final form");
+    case Incidence::StatusX:
+    case Incidence::StatusNone:
+        break;
+    }
+    return {};
 }
 
 #include "moc_incidence.cpp"

@@ -195,6 +195,15 @@ class KCALENDARCORE_EXPORT Incidence : public IncidenceBase, public Recurrence::
     Q_PROPERTY(KCalendarCore::Incidence::Status status READ status WRITE setStatus)
 
     /*!
+     * \qmlproperty string incidence::statusName
+     */
+
+    /*!
+     * \property KCalendarCore::Incidence::statusName
+     */
+    Q_PROPERTY(QString status READ statusName)
+
+    /*!
      * \qmlproperty list<KCalendarCore::Attachment> incidence::attachments
      */
 
@@ -824,6 +833,16 @@ public:
     */
     Q_REQUIRED_RESULT Status status() const;
 
+    /*!
+      Returns a human readable and translated representation of the incidence status.
+
+      If the incidence has a custom status set, that is returned instead.
+
+      \sa status()
+      \since 6.30
+    */
+    [[nodiscard]] QString statusName() const;
+
     // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     // %%%%%  Other methods
     // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1095,6 +1114,20 @@ public:
       \since 4.12
      */
     Q_REQUIRED_RESULT static QStringList mimeTypes();
+
+    /*!
+      Returns a human readable and translated string for \a secrecy.
+
+      \since 6.30
+    */
+    [[nodiscard]] static QString secrecyName(Secrecy secrecy);
+
+    /*!
+      Returns  a human readable and translated string representation of \a status.
+
+      \since 6.30
+     */
+    [[nodiscard]] static QString statusName(Status status);
 
 protected:
     Incidence(const Incidence &) = delete;

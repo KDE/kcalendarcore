@@ -12,6 +12,8 @@
 #include <QTimeZone>
 #include <cmath>
 
+using namespace Qt::Literals;
+
 QTEST_MAIN(IncidenceTest)
 
 Q_DECLARE_METATYPE(KCalendarCore::Incidence::DateTimeRole)
@@ -172,6 +174,18 @@ void IncidenceTest::testGeo()
     QCOMPARE(inc.hasGeo(), false);
     QCOMPARE(inc.geoLatitude(), INVALID_LATLON);
     QCOMPARE(inc.geoLongitude(), INVALID_LATLON);
+}
+
+void IncidenceTest::testStatusName()
+{
+    Event ev;
+    ev.setStatus(Incidence::StatusConfirmed);
+    QVERIFY(!ev.statusName().isEmpty());
+    ev.setCustomStatus(u"My Status"_s);
+    QCOMPARE(ev.status(), Incidence::StatusX);
+    QCOMPARE(ev.statusName(), "My Status"_L1);
+    ev.setStatus(Incidence::StatusNone);
+    QVERIFY(ev.statusName().isEmpty());
 }
 
 void IncidenceTest::testRecurrenceTypeChange()
