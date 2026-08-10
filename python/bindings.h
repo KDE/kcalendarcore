@@ -39,3 +39,9 @@
 #include <KCalendarCore/Todo>
 #include <KCalendarCore/VCalFormat>
 #include <KCalendarCore/Visitor>
+
+namespace KCalendarCore
+{
+using CalendarPtr = Calendar::Ptr;
+using ScheduleMessagePtr = ScheduleMessage::Ptr;
+}

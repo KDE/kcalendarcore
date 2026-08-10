@@ -7,6 +7,9 @@ SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accept
     <load-typesystem name="typesystem_core.xml" generate="no"/>
     <load-typesystem name="typesystem_gui.xml" generate="no"/>
 
+    <smart-pointer-type name="QSharedPointer" type="shared" getter="data" reset-method="reset"
+            instantiations="KCalendarCore::Calendar=KCalendarCore::CalendarPtr,KCalendarCore::ScheduleMessage=KCalendarCore::ScheduleMessagePtr"/>
+
     <namespace-type name="KCalendarCore">
         <enum-type name="AccessMode"/>
         <enum-type name="EventSortField"/>

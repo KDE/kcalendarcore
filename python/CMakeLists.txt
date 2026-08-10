@@ -40,6 +40,8 @@ set(generated_sources
     ${CMAKE_CURRENT_BINARY_DIR}/KCalendarCore/kcalendarcore_occurrenceiterator_wrapper.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/KCalendarCore/kcalendarcore_period_wrapper.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/KCalendarCore/kcalendarcore_person_wrapper.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/KCalendarCore/qsharedpointer_calendar_wrapper.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/KCalendarCore/qsharedpointer_schedulemessage_wrapper.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/KCalendarCore/kcalendarcore_recurrence_recurrenceobserver_wrapper.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/KCalendarCore/kcalendarcore_recurrencerule_ruleobserver_wrapper.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/KCalendarCore/kcalendarcore_recurrencerule_wrapper.cpp
