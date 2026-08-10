@@ -42,7 +42,7 @@ public:
 
     static QString tr(const char *s, const char *c = nullptr, int n = -1)
     {
-        return QCoreApplication::translate("KCalendarCore::Exception", s, c, n);
+        return QCoreApplication::translate("KCalendarCore::ExceptionPrivate", s, c, n);
     }
 };
 
