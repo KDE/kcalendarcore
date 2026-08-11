@@ -1,111 +1,106 @@
-# SPDX-FileCopyrightText: 2026 Yuri Chornoivan <yurchor@ukr.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2026-08-09 15:08+0300\n"
-"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
-"Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
-"Language: uk\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
+"Language-Team: \n"
+"Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
-"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Lokalize 25.12.1\n"
+"X-Generator: Poedit 3.9\n"
 
 #: exceptions.cpp:74
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "Load Error"
-msgstr "Помилка завантаження"
+msgstr "Napaka pri nalaganju"
 
 #: exceptions.cpp:76
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "Save Error"
-msgstr "Помилка збереження"
+msgstr "Napaka pri shranjevanju"
 
 #: exceptions.cpp:78
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "Parse Error in libical"
-msgstr "Помилка розбору в libical"
+msgstr "Napaka pri razčlenjevanju v libical"
 
 #: exceptions.cpp:80
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "Parse Error in the kcalcore library"
-msgstr "Помилка розбору у бібліотеці lkcalcore"
+msgstr "Napaka pri razčlenjevanju v knjižnici kcalcore"
 
 #: exceptions.cpp:82
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "No calendar component found."
-msgstr "Не знайдений компонент календаря."
+msgstr "Ni najdene komponente koledarja."
 
 #: exceptions.cpp:84 exceptions.cpp:104
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "Expected iCalendar, got vCalendar format"
-msgstr "Очікувався формат iCalendar, але дані отримано у форматі vCalendar."
+msgstr "Pričakovan format iCalendar a prejet vCalendar"
 
 #: exceptions.cpp:86
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "iCalendar Version 2.0 detected."
-msgstr "Виявлено версію 2.0 iCalendar."
+msgstr "Zaznana je bila različica iCalendar 2.0."
 
 #: exceptions.cpp:88 exceptions.cpp:106
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "Expected iCalendar, got unknown format"
-msgstr "Очікувався формат iCalendar, але дані отримано у невідомому форматі."
+msgstr "Pričakovan iCalendar, a prejet neznan flormat"
 
 #: exceptions.cpp:90
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "Restriction violation"
-msgstr "Порушення обмежень"
+msgstr "Kršitev omejitve"
 
 #: exceptions.cpp:92
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "No writable resource found"
-msgstr "Не знайдено придатного до запису ресурсу"
+msgstr "Ni najdenega vira kamor bi bilo mogoče pisati"
 
 #: exceptions.cpp:95
 #, qt-format
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "Error saving to '%1'."
-msgstr "Помилка під час збереження до «%1»."
+msgstr "Napaka pri shranjevanju v '%1'."
 
 #: exceptions.cpp:98
 #, qt-format
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "Could not save '%1'"
-msgstr "Не вдалося зберегти «%1»"
+msgstr "Ni bilo mogoče shraniti '%1'"
 
 #: exceptions.cpp:100
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "libical error"
-msgstr "помилка libical"
+msgstr "napaka libical"
 
 #: exceptions.cpp:102
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "No VERSION property found"
-msgstr "Не знайдено властивості VERSION"
+msgstr "Ni bilo najdene lastnosti VERSION"
 
 #: exceptions.cpp:108
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "Object is not a freebusy, event, todo or journal"
-msgstr ""
-"Об'єкт не є даними щодо вільного/зайнятого часу, записом події, завдання або "
-"журналом"
+msgstr "Predmet ni prostost/zasedenost, dogodek, opravilo ali dnevnik"
 
 #: exceptions.cpp:110
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "Message text is empty, unable to parse into a ScheduleMessage"
 msgstr ""
-"Текст повідомлення є порожнім, не вдалося здійснити обробку до "
-"ScheduleMessage"
+"Besedilo sporočila je prazno, ni ga mogoče razčleniti v ScheduleMessage"
 
 #: exceptions.cpp:112
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "icalparser is unable to parse message text into a ScheduleMessage"
-msgstr "icalparser не вдалося обробити текст повідомлення до ScheduleMessage"
+msgstr "icalparser ne more razčleniti besedila sporočila v ScheduleMessage"
 
 #: exceptions.cpp:114
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "Message does not contain ICAL_METHOD_PROPERTY"
-msgstr "Повідомлення не містить ICAL_METHOD_PROPERTY"
+msgstr "Sporočilo ne vsebuje ICAL_METHOD_PROPERTY"
