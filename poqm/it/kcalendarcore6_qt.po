@@ -1,112 +1,111 @@
-#
-# SPDX-FileCopyrightText: 2026 Xavier Besnard <xavier.besnard@kde.org>
+# SPDX-FileCopyrightText: 2026 Luigi Toscano <luigi.toscano@tiscali.it>
 msgid ""
 msgstr ""
-"Project-Id-Version: kcalendarcore6_qt\n"
-"PO-Revision-Date: 2026-08-10 09:11+0200\n"
-"Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
-"Language-Team: fr\n"
-"Language: fr\n"
+"Project-Id-Version: \n"
+"PO-Revision-Date: 2026-08-10 01:11+0200\n"
+"Last-Translator: Luigi Toscano <luigi.toscano@tiscali.it>\n"
+"Language-Team: Italian <kde-i18n-it@kde.org>\n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 26.04.3\n"
 "X-Qt-Contexts: true\n"
 
 #: exceptions.cpp:74
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "Load Error"
-msgstr "Erreur de chargement"
+msgstr "Errore di caricamento"
 
 #: exceptions.cpp:76
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "Save Error"
-msgstr "Erreur d'enregistrement"
+msgstr "Errore di salvataggio"
 
 #: exceptions.cpp:78
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "Parse Error in libical"
-msgstr "Erreur d'analyse dans la bibliothèque « libical »"
+msgstr "Errore di analisi in libical"
 
 #: exceptions.cpp:80
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "Parse Error in the kcalcore library"
-msgstr "Erreur d'analyse dans la bibliothèque « kcalcore »"
+msgstr "Errore di analisi nella libreria kcalcore"
 
 #: exceptions.cpp:82
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "No calendar component found."
-msgstr "Aucun composant de calendrier n'a été trouvé."
+msgstr "Nessun componente calendario trovato."
 
 #: exceptions.cpp:84 exceptions.cpp:104
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "Expected iCalendar, got vCalendar format"
-msgstr "Format « iCalendar » attendu mais format « vCalendar » fourni"
+msgstr "Atteso formato iCalendar, il formato ricevuto è vCalendar"
 
 #: exceptions.cpp:86
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "iCalendar Version 2.0 detected."
-msgstr "Version 2.0 détecté du format « iCalendar »."
+msgstr "Rilevato iCalendar versione 2.0."
 
 #: exceptions.cpp:88 exceptions.cpp:106
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "Expected iCalendar, got unknown format"
-msgstr "Format « iCalendar » attendu mais format « vCalendar » fourni"
+msgstr "Atteso formato iCalendar, il formato ricevuto è di tipo sconosciuto"
 
 #: exceptions.cpp:90
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "Restriction violation"
-msgstr "Violation des restrictions"
+msgstr "Violazione di restrizione"
 
 #: exceptions.cpp:92
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "No writable resource found"
-msgstr "Aucune ressource accessible en écriture n'a été trouvée"
+msgstr "Nessuna risorsa scrivibile trovata"
 
 #: exceptions.cpp:95
 #, qt-format
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "Error saving to '%1'."
-msgstr "Erreur d'enregistrement dans « %1 »."
+msgstr "Errore salvando su «%1»."
 
 #: exceptions.cpp:98
 #, qt-format
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "Could not save '%1'"
-msgstr "Impossible d'enregistrer « %1 »"
+msgstr "Impossibile salvare «%1»"
 
 #: exceptions.cpp:100
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "libical error"
-msgstr "Erreur dans la bibliothèque « libical »"
+msgstr "errore di libical"
 
 #: exceptions.cpp:102
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "No VERSION property found"
-msgstr "Aucune propriété « VERSION » n'a été trouvée"
+msgstr "Proprietà VERSION non trovata"
 
 #: exceptions.cpp:108
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "Object is not a freebusy, event, todo or journal"
 msgstr ""
-"L'objet n'est pas un indicateur de disponibilité, un évènement, une tâche à "
-"faire ou un journal."
+"l'oggetto non è un oggetto freebusy (libero/occupato), event (evento), todo "
+"(cosa da fare) oppure journal (diario)"
 
 #: exceptions.cpp:110
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "Message text is empty, unable to parse into a ScheduleMessage"
 msgstr ""
-"Le texte du message est vide et impossible à analyser dans un ScheduleMessage"
+"Il testo del messaggio è vuoto, impossibile analizzare come ScheduleMessage"
 
 #: exceptions.cpp:112
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "icalparser is unable to parse message text into a ScheduleMessage"
 msgstr ""
-"Il est impossible pour le module « icalparser » d'analyser le texte du "
-"message dans un ScheduleMessage"
+"icalparser non è in grado di analizzare il testo del messaggio come "
+"ScheduleMessage"
 
 #: exceptions.cpp:114
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "Message does not contain ICAL_METHOD_PROPERTY"
-msgstr "Le message ne contient aucune propriété « ICAL_METHOD_PROPERTY »"
+msgstr "Il messaggio non contiene ICAL_METHOD_PROPERTY"
