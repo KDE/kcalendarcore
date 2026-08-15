@@ -1129,6 +1129,13 @@ public:
      */
     [[nodiscard]] static QString statusName(Status status);
 
+    /*!
+      Returns a human readable and translated description of the incidence's recurrence information.
+
+      \since 6.30
+    */
+    [[nodiscard]] QString recurrenceDescription() const;
+
 protected:
     Incidence(const Incidence &) = delete;
 

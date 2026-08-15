@@ -27,11 +27,13 @@
 
 #include <cmath>
 
+#include <QBitArray>
 #include <QStringList>
 #include <QTextDocument> // for .toHtmlEscaped() and Qt::mightBeRichText()
 #include <QTime>
 #include <QTimeZone>
 
+using namespace Qt::Literals;
 using namespace KCalendarCore;
 
 IncidencePrivate::IncidencePrivate() = default;
@@ -1304,6 +1306,387 @@ QString Incidence::statusName(Status status)
         break;
     }
     return {};
+}
+
+[[nodiscard]] static QString recurEnd(const Incidence *incidence)
+{
+    QString endstr;
+    if (incidence->allDay()) {
+        endstr = QLocale().toString(incidence->recurrence()->endDate());
+    } else {
+        endstr = QLocale().toString(incidence->recurrence()->endDateTime().toLocalTime(), QLocale::ShortFormat);
+    }
+    return endstr;
+}
+
+static void appendOccurenceCount(const Recurrence *recurrence, QString &s)
+{
+    if (recurrence->duration() > 0) {
+        //~ singular (one occurrence)
+        //~ plural (%n occurrences)
+        s += ' '_L1 + IncidencePrivate::tr("(%n occurrences)", "number of occurrences", recurrence->duration());
+    }
+}
+
+QString Incidence::recurrenceDescription() const
+{
+    if (hasRecurrenceId()) {
+        return {};
+    }
+
+    if (!recurs()) {
+        return IncidencePrivate::tr("No recurrence");
+    }
+
+    static QStringList dayList;
+    if (dayList.isEmpty()) {
+        dayList.append(IncidencePrivate::tr("31st Last"));
+        dayList.append(IncidencePrivate::tr("30th Last"));
+        dayList.append(IncidencePrivate::tr("29th Last"));
+        dayList.append(IncidencePrivate::tr("28th Last"));
+        dayList.append(IncidencePrivate::tr("27th Last"));
+        dayList.append(IncidencePrivate::tr("26th Last"));
+        dayList.append(IncidencePrivate::tr("25th Last"));
+        dayList.append(IncidencePrivate::tr("24th Last"));
+        dayList.append(IncidencePrivate::tr("23rd Last"));
+        dayList.append(IncidencePrivate::tr("22nd Last"));
+        dayList.append(IncidencePrivate::tr("21st Last"));
+        dayList.append(IncidencePrivate::tr("20th Last"));
+        dayList.append(IncidencePrivate::tr("19th Last"));
+        dayList.append(IncidencePrivate::tr("18th Last"));
+        dayList.append(IncidencePrivate::tr("17th Last"));
+        dayList.append(IncidencePrivate::tr("16th Last"));
+        dayList.append(IncidencePrivate::tr("15th Last"));
+        dayList.append(IncidencePrivate::tr("14th Last"));
+        dayList.append(IncidencePrivate::tr("13th Last"));
+        dayList.append(IncidencePrivate::tr("12th Last"));
+        dayList.append(IncidencePrivate::tr("11th Last"));
+        dayList.append(IncidencePrivate::tr("10th Last"));
+        dayList.append(IncidencePrivate::tr("9th Last"));
+        dayList.append(IncidencePrivate::tr("8th Last"));
+        dayList.append(IncidencePrivate::tr("7th Last"));
+        dayList.append(IncidencePrivate::tr("6th Last"));
+        dayList.append(IncidencePrivate::tr("5th Last"));
+        dayList.append(IncidencePrivate::tr("4th Last"));
+        dayList.append(IncidencePrivate::tr("3rd Last"));
+        dayList.append(IncidencePrivate::tr("2nd Last"));
+        dayList.append(IncidencePrivate::tr("Last", "last day of the month"));
+        dayList.append(IncidencePrivate::tr("unknown", "unknown day of the month")); // #31 - zero offset from UI
+        dayList.append(IncidencePrivate::tr("1st"));
+        dayList.append(IncidencePrivate::tr("2nd"));
+        dayList.append(IncidencePrivate::tr("3rd"));
+        dayList.append(IncidencePrivate::tr("4th"));
+        dayList.append(IncidencePrivate::tr("5th"));
+        dayList.append(IncidencePrivate::tr("6th"));
+        dayList.append(IncidencePrivate::tr("7th"));
+        dayList.append(IncidencePrivate::tr("8th"));
+        dayList.append(IncidencePrivate::tr("9th"));
+        dayList.append(IncidencePrivate::tr("10th"));
+        dayList.append(IncidencePrivate::tr("11th"));
+        dayList.append(IncidencePrivate::tr("12th"));
+        dayList.append(IncidencePrivate::tr("13th"));
+        dayList.append(IncidencePrivate::tr("14th"));
+        dayList.append(IncidencePrivate::tr("15th"));
+        dayList.append(IncidencePrivate::tr("16th"));
+        dayList.append(IncidencePrivate::tr("17th"));
+        dayList.append(IncidencePrivate::tr("18th"));
+        dayList.append(IncidencePrivate::tr("19th"));
+        dayList.append(IncidencePrivate::tr("20th"));
+        dayList.append(IncidencePrivate::tr("21st"));
+        dayList.append(IncidencePrivate::tr("22nd"));
+        dayList.append(IncidencePrivate::tr("23rd"));
+        dayList.append(IncidencePrivate::tr("24th"));
+        dayList.append(IncidencePrivate::tr("25th"));
+        dayList.append(IncidencePrivate::tr("26th"));
+        dayList.append(IncidencePrivate::tr("27th"));
+        dayList.append(IncidencePrivate::tr("28th"));
+        dayList.append(IncidencePrivate::tr("29th"));
+        dayList.append(IncidencePrivate::tr("30th"));
+        dayList.append(IncidencePrivate::tr("31st"));
+    }
+
+    const int weekStart = QLocale().firstDayOfWeek();
+
+    Recurrence const *recur = recurrence();
+
+    QString recurStr;
+    switch (recur->recurrenceType()) {
+    case Recurrence::rNone:
+        return IncidencePrivate::tr("No recurrence");
+
+    case Recurrence::rMinutely:
+        if (recur->duration() != -1) {
+            //~ singular Recurs every minute until %1
+            //~ plural Recurs every %n minutes until %1
+            recurStr = IncidencePrivate::tr("Recurs every %n minutes until %1", nullptr, recur->frequency()).arg(recurEnd(this));
+            appendOccurenceCount(recur, recurStr);
+        } else {
+            //~ singular Recurs every minute
+            //~ plural Recurs every %n minutes
+            recurStr = IncidencePrivate::tr("Recurs every %n minutes", nullptr, recur->frequency());
+        }
+        break;
+
+    case Recurrence::rHourly:
+        if (recur->duration() != -1) {
+            //~ singular Recurs hourly until %1
+            //~ plural Recurs every %n hours until %1
+            recurStr = IncidencePrivate::tr("Recurs every %n hours until %1", nullptr, recur->frequency()).arg(recurEnd(this));
+            appendOccurenceCount(recur, recurStr);
+        } else {
+            //~ singular Recurs hourly
+            //~ plural Recurs every %n hours
+            recurStr = IncidencePrivate::tr("Recurs every %n hours", nullptr, recur->frequency());
+        }
+        break;
+
+    case Recurrence::rDaily:
+        if (recur->duration() != -1) {
+            //~ singular Recurs daily until %1
+            //~ plural Recurs every %n days until %1
+            recurStr = IncidencePrivate::tr("Recurs every %n days until %1", nullptr, recur->frequency()).arg(recurEnd(this));
+            appendOccurenceCount(recur, recurStr);
+        } else {
+            //~ singular Recurs daily
+            //~ plural Recurs every %n days
+            recurStr = IncidencePrivate::tr("Recurs every %n days", nullptr, recur->frequency());
+        }
+        break;
+
+    case Recurrence::rWeekly: {
+        bool addSpace = false;
+        QString dayNames;
+        for (int i = 0; i < 7; ++i) {
+            if (recur->days().testBit((i + weekStart + 6) % 7)) {
+                if (addSpace) {
+                    dayNames.append(IncidencePrivate::tr(", ", "separator for list of days"));
+                }
+                dayNames.append(QLocale().dayName(((i + weekStart + 6) % 7) + 1, QLocale::ShortFormat));
+                addSpace = true;
+            }
+        }
+        if (dayNames.isEmpty()) {
+            dayNames = IncidencePrivate::tr("no days", "Recurs weekly on no days");
+        }
+        if (recur->duration() != -1) {
+            //~ singular Recurs weekly on %1 until %2
+            //~ plural Recurs every %n weeks on %1 until %2
+            recurStr = IncidencePrivate::tr("Recurs every %n weeks on %1 until %2", "Recurs weekly on [list of days] until end-date", recur->frequency())
+                           .arg(dayNames, recurEnd(this));
+            appendOccurenceCount(recur, recurStr);
+        } else {
+            //~ singular Recurs weekly on %1
+            //~ plural Recurs every %n weeks on %1
+            recurStr = IncidencePrivate::tr("Recurs every %n weeks on %1", "Recurs weekly on [list of days]", recur->frequency()).arg(dayNames);
+        }
+        break;
+    }
+    case Recurrence::rMonthlyPos:
+        if (!recur->monthPositions().isEmpty()) {
+            RecurrenceRule::WDayPos const rule = recur->monthPositions().at(0);
+            if (recur->duration() != -1) {
+                //~ singular Recurs every month on the %1 %2 until %3
+                //~ plural Recurs every %n months on the %1 %2 until %3
+                recurStr = IncidencePrivate::tr("Recurs every %n months on the %1 %2 until %3",
+                                                "Recurs every N months on the [2nd|3rd|...] weekdayname until end-date",
+                                                recur->frequency())
+                               .arg(dayList[rule.pos() + 31], QLocale().dayName(rule.day(), QLocale::LongFormat), recurEnd(this));
+                appendOccurenceCount(recur, recurStr);
+            } else {
+                //~ singular Recurs every month on the %1 %2
+                //~ plural Recurs every %n months on the %1 %2
+                recurStr =
+                    IncidencePrivate::tr("Recurs every %n months on the %1 %2", "Recurs every N months on the [2nd|3rd|...] weekdayname", recur->frequency())
+                        .arg(dayList[rule.pos() + 31], QLocale().dayName(rule.day(), QLocale::LongFormat));
+            }
+        }
+        break;
+    case Recurrence::rMonthlyDay:
+        if (!recur->monthDays().isEmpty()) {
+            int const days = recur->monthDays().at(0);
+            if (recur->duration() != -1) {
+                //~ singular Recurs monthly on the %1 day until %2
+                //~ plural Recurs every %n months on the %1 day until %2
+                recurStr = IncidencePrivate::tr("Recurs every %n months on the %1 day until %2",
+                                                "Recurs monthly on the [1st|2nd|...] day until end-date",
+                                                recur->frequency())
+                               .arg(dayList[days + 31], recurEnd(this));
+                appendOccurenceCount(recur, recurStr);
+            } else {
+                //~ singular Recurs monthly on the %1 day
+                //~ plural Recurs every %n month on the %1 day
+                recurStr = IncidencePrivate::tr("Recurs every %n month on the %1 day", "Recurs monthly on the [1st|2nd|...] day", recur->frequency())
+                               .arg(dayList[days + 31]);
+            }
+        }
+        break;
+    case Recurrence::rYearlyMonth:
+        if (recur->duration() != -1) {
+            if (!recur->yearDates().isEmpty() && !recur->yearMonths().isEmpty()) {
+                //~ singular Recurs yearly on %1 %2 until %3
+                //~ plural Recurs every %n years on %1 %2 until %3
+                recurStr =
+                    IncidencePrivate::tr("Recurs every %n years on %1 %2 until %3",
+                                         "Recurs Every N years on month-name [1st|2nd|...] until end-date",
+                                         recur->frequency())
+                        .arg(QLocale().monthName(recur->yearMonths().at(0), QLocale::LongFormat), dayList.at(recur->yearDates().at(0) + 31), recurEnd(this));
+                appendOccurenceCount(recur, recurStr);
+            }
+        } else {
+            if (!recur->yearDates().isEmpty() && !recur->yearMonths().isEmpty()) {
+                //~ singular Recurs yearly on %1 %2
+                //~ plural Recurs every %n years on %1 %2
+                recurStr = IncidencePrivate::tr("Recurs every %n years on %1 %2", "Recurs Every N years on month-name [1st|2nd|...]", recur->frequency())
+                               .arg(QLocale().monthName(recur->yearMonths().at(0), QLocale::LongFormat), dayList[recur->yearDates().at(0) + 31]);
+            } else {
+                if (!recur->yearMonths().isEmpty()) {
+                    recurStr = IncidencePrivate::tr("Recurs yearly on %1 %2", "Recurs Every year on month-name [1st|2nd|...]")
+                                   .arg(QLocale().monthName(recur->yearMonths().at(0), QLocale::LongFormat), dayList[recur->startDate().day() + 31]);
+                } else {
+                    recurStr = IncidencePrivate::tr("Recurs yearly on %1 %2", "Recurs Every year on month-name [1st|2nd|...]")
+                                   .arg(QLocale().monthName(recur->startDate().month(), QLocale::LongFormat), dayList[recur->startDate().day() + 31]);
+                }
+            }
+        }
+        break;
+    case Recurrence::rYearlyDay:
+        if (!recur->yearDays().isEmpty()) {
+            if (recur->duration() != -1) {
+                //~ singular Recurs every year on day %1 until %2
+                //~ plural Recurs every %n years on day %1 until %2
+                recurStr = IncidencePrivate::tr("Recurs every %n years on day %1 until %2", "Recurs every N years on day N until end-date", recur->frequency())
+                               .arg(QString::number(recur->yearDays().at(0)), recurEnd(this));
+                appendOccurenceCount(recur, recurStr);
+            } else {
+                //~ singular Recurs every year on day %1
+                //~ plural Recurs every %n years on day %1
+                recurStr = IncidencePrivate::tr("Recurs every %n years on day %1", "Recurs every N YEAR[S] on day N", recur->frequency())
+                               .arg(QString::number(recur->yearDays().at(0)));
+            }
+        }
+        break;
+    case Recurrence::rYearlyPos:
+        if (!recur->yearMonths().isEmpty() && !recur->yearPositions().isEmpty()) {
+            RecurrenceRule::WDayPos const rule = recur->yearPositions().at(0);
+            if (recur->duration() != -1) {
+                //~ singular Every year on the %1 %2 of %3 until %4
+                //~ plural Every %n years on the %1 %2 of %3 until %4
+                recurStr = IncidencePrivate::tr("Every %n years on the %1 %2 of %3 until %4",
+                                                "Every N years on the [2nd|3rd|...] weekdayname of monthname until end-date",
+                                                recur->frequency())
+                               .arg(dayList[rule.pos() + 31],
+                                    QLocale().dayName(rule.day(), QLocale::LongFormat),
+                                    QLocale().monthName(recur->yearMonths().at(0), QLocale::LongFormat),
+                                    recurEnd(this));
+                appendOccurenceCount(recur, recurStr);
+            } else {
+                //~ singular Every year on the %1 %2 of %3
+                //~ plural Every %n years on the %1 %2 of %3
+                recurStr =
+                    IncidencePrivate::tr("Every %n years on the %1 %2 of %3", "Every N years on the [2nd|3rd|...] weekdayname of monthname", recur->frequency())
+                        .arg(dayList[rule.pos() + 31],
+                             QLocale().dayName(rule.day(), QLocale::LongFormat),
+                             QLocale().monthName(recur->yearMonths().at(0), QLocale::LongFormat));
+            }
+        }
+        break;
+    }
+
+    if (recurStr.isEmpty()) {
+        recurStr = IncidencePrivate::tr("Incidence recurs");
+    }
+
+    // Now, append the EXDATEs
+    const auto exDtList = recur->exDateTimes();
+    static int const maxExDates = 7; // only print so many exceptions; after all, this is for tooltips and display purposes
+    int count = 0;
+    QStringList seen;
+    QStringList exStrList;
+    for (auto il = exDtList.cbegin(), end = exDtList.cend(); count < maxExDates && il != end; ++il) {
+        QString exDt;
+        switch (recur->recurrenceType()) {
+        case Recurrence::rMinutely:
+            exDt = IncidencePrivate::tr("minute %1").arg((*il).time().minute());
+            break;
+        case Recurrence::rHourly:
+            exDt = QLocale().toString((*il).time(), QLocale::ShortFormat);
+            break;
+        case Recurrence::rWeekly:
+            // exDt = QLocale().dayName((*il).date().dayOfWeek(), QLocale::ShortFormat);
+            exDt = QLocale().toString((*il).date(), QLocale::ShortFormat);
+            break;
+        case Recurrence::rYearlyMonth:
+            exDt = QString::number((*il).date().year());
+            break;
+        case Recurrence::rDaily:
+        case Recurrence::rMonthlyPos:
+        case Recurrence::rMonthlyDay:
+        case Recurrence::rYearlyDay:
+        case Recurrence::rYearlyPos:
+            exDt = QLocale().toString((*il).date(), QLocale::ShortFormat);
+            break;
+        default: // make clang-tidy happy
+            break;
+        }
+        if (!seen.contains(exDt)) {
+            count++;
+            seen << exDt;
+            exStrList << exDt;
+        }
+    }
+
+    DateList const exDList = recur->exDates();
+    DateList::ConstIterator dl;
+    const DateList::ConstIterator dlEnd(exDList.constEnd());
+    for (dl = exDList.constBegin(); count < maxExDates && dl != dlEnd; ++dl) {
+        QString exDt;
+        switch (recur->recurrenceType()) {
+        case Recurrence::rDaily:
+            exDt = QLocale().toString((*dl), QLocale::ShortFormat);
+            break;
+        case Recurrence::rWeekly:
+            // exStrList << calSys->weekDayName( (*dl), KCalendarSystem::ShortDayName );
+            // kolab/issue4735, should be ( excluding 3 days ), instead of excluding( Fr,Fr,Fr )
+            if (exStrList.isEmpty()) {
+                //~ singular 1 day
+                //~ plural %n days
+                exDt = IncidencePrivate::tr("%n days", nullptr, recur->exDates().count());
+            }
+            break;
+        case Recurrence::rMonthlyPos: // NOLINT(bugprone-branch-clone)
+            exDt = QLocale().toString((*dl), QLocale::ShortFormat);
+            break;
+        case Recurrence::rMonthlyDay:
+            exDt = QLocale().toString((*dl), QLocale::ShortFormat);
+            break;
+        case Recurrence::rYearlyMonth:
+            exDt = QString::number((*dl).year());
+            break;
+        case Recurrence::rYearlyDay: // NOLINT(bugprone-branch-clone)
+            exDt = QLocale().toString((*dl), QLocale::ShortFormat);
+            break;
+        case Recurrence::rYearlyPos:
+            exDt = QLocale().toString((*dl), QLocale::ShortFormat);
+            break;
+        default: // make clang-tidy happy
+            break;
+        }
+        if (!seen.contains(exDt)) {
+            count++;
+            seen << exDt;
+            exStrList << exDt;
+        }
+    }
+
+    if (!exStrList.isEmpty()) {
+        QString exStr = exStrList.join(u',');
+        if ((exDtList.count() + exDList.count()) > maxExDates) {
+            exStr = exStr + IncidencePrivate::tr("…", "ellipsis");
+        }
+        recurStr = IncidencePrivate::tr("%1 (excluding %2)").arg(recurStr, exStr);
+    }
+
+    return recurStr;
 }
 
 #include "moc_incidence.cpp"
