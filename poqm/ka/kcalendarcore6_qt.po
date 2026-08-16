@@ -13,6 +13,72 @@ msgstr ""
 "X-Generator: Poedit 3.9\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: attendee.cpp:312
+msgctxt "KCalendarCore::Attendee::Private|@item chairperson"
+msgid "Chair"
+msgstr ""
+
+#: attendee.cpp:314
+msgctxt "KCalendarCore::Attendee::Private|@item participation is required"
+msgid "Participant"
+msgstr ""
+
+#: attendee.cpp:316
+msgctxt "KCalendarCore::Attendee::Private|@item participation is optional"
+msgid "Optional Participant"
+msgstr ""
+
+#: attendee.cpp:318
+msgctxt ""
+"KCalendarCore::Attendee::Private|@item non-participant copied for information"
+msgid "Observer"
+msgstr ""
+
+#: attendee.cpp:327
+msgctxt ""
+"KCalendarCore::Attendee::Private|@item event, to-do or journal needs action"
+msgid "Needs Action"
+msgstr ""
+
+#: attendee.cpp:329
+msgctxt ""
+"KCalendarCore::Attendee::Private|@item event, to-do or journal accepted"
+msgid "Accepted"
+msgstr ""
+
+#: attendee.cpp:331
+msgctxt ""
+"KCalendarCore::Attendee::Private|@item event, to-do or journal declined"
+msgid "Declined"
+msgstr ""
+
+#: attendee.cpp:333
+msgctxt ""
+"KCalendarCore::Attendee::Private|@item event or to-do tentatively accepted"
+msgid "Tentative"
+msgstr ""
+
+#: attendee.cpp:335
+msgctxt "KCalendarCore::Attendee::Private|@item event or to-do delegated"
+msgid "Delegated"
+msgstr ""
+
+#: attendee.cpp:337
+msgctxt "KCalendarCore::Attendee::Private|@item to-do completed"
+msgid "Completed"
+msgstr ""
+
+#: attendee.cpp:339
+msgctxt ""
+"KCalendarCore::Attendee::Private|@item to-do in process of being completed"
+msgid "In Process"
+msgstr ""
+
+#: attendee.cpp:341
+msgctxt "KCalendarCore::Attendee::Private|@item event or to-do status unknown"
+msgid "Unknown"
+msgstr ""
+
 #: exceptions.cpp:74
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "Load Error"
@@ -105,3 +171,64 @@ msgstr ""
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "Message does not contain ICAL_METHOD_PROPERTY"
 msgstr "შეტყობინება ICAL_METHOD_PROPERTY-ს არ შეიცავს"
+
+#: incidence.cpp:1274
+msgctxt ""
+"KCalendarCore::IncidencePrivate|@item incidence access if for everyone"
+msgid "Public"
+msgstr ""
+
+#: incidence.cpp:1276
+msgctxt ""
+"KCalendarCore::IncidencePrivate|@item incidence access is by owner only"
+msgid "Private"
+msgstr ""
+
+#: incidence.cpp:1278
+msgctxt ""
+"KCalendarCore::IncidencePrivate|@item incidence access is by owner and a "
+"controlled group"
+msgid "Confidential"
+msgstr ""
+
+#: incidence.cpp:1287
+msgctxt "KCalendarCore::IncidencePrivate|@item event is tentative"
+msgid "Tentative"
+msgstr ""
+
+#: incidence.cpp:1289
+msgctxt "KCalendarCore::IncidencePrivate|@item event is definite"
+msgid "Confirmed"
+msgstr ""
+
+#: incidence.cpp:1291
+msgctxt "KCalendarCore::IncidencePrivate|@item to-do is complete"
+msgid "Completed"
+msgstr ""
+
+#: incidence.cpp:1293
+msgctxt "KCalendarCore::IncidencePrivate|@item to-do needs action"
+msgid "Needs-Action"
+msgstr ""
+
+#: incidence.cpp:1295
+msgctxt ""
+"KCalendarCore::IncidencePrivate|@item event or to-do is canceled; journal is "
+"removed"
+msgid "Canceled"
+msgstr ""
+
+#: incidence.cpp:1297
+msgctxt "KCalendarCore::IncidencePrivate|@item to-do is in process"
+msgid "In-Process"
+msgstr ""
+
+#: incidence.cpp:1299
+msgctxt "KCalendarCore::IncidencePrivate|@item journal is in draft form"
+msgid "Draft"
+msgstr ""
+
+#: incidence.cpp:1301
+msgctxt "KCalendarCore::IncidencePrivate|@item journal is in final form"
+msgid "Final"
+msgstr ""
