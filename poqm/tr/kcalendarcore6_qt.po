@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2026-08-09 18:43+0300\n"
+"PO-Revision-Date: 2026-08-16 18:21+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -16,68 +16,68 @@ msgstr ""
 #: attendee.cpp:312
 msgctxt "KCalendarCore::Attendee::Private|@item chairperson"
 msgid "Chair"
-msgstr ""
+msgstr "Başkan"
 
 #: attendee.cpp:314
 msgctxt "KCalendarCore::Attendee::Private|@item participation is required"
 msgid "Participant"
-msgstr ""
+msgstr "Katılımcı"
 
 #: attendee.cpp:316
 msgctxt "KCalendarCore::Attendee::Private|@item participation is optional"
 msgid "Optional Participant"
-msgstr ""
+msgstr "İsteğe bağlı katılımcı"
 
 #: attendee.cpp:318
 msgctxt ""
 "KCalendarCore::Attendee::Private|@item non-participant copied for information"
 msgid "Observer"
-msgstr ""
+msgstr "Gözlemci"
 
 #: attendee.cpp:327
 msgctxt ""
 "KCalendarCore::Attendee::Private|@item event, to-do or journal needs action"
 msgid "Needs Action"
-msgstr ""
+msgstr "Eylem gerekli"
 
 #: attendee.cpp:329
 msgctxt ""
 "KCalendarCore::Attendee::Private|@item event, to-do or journal accepted"
 msgid "Accepted"
-msgstr ""
+msgstr "Kabul edildi"
 
 #: attendee.cpp:331
 msgctxt ""
 "KCalendarCore::Attendee::Private|@item event, to-do or journal declined"
 msgid "Declined"
-msgstr ""
+msgstr "Reddedildi"
 
 #: attendee.cpp:333
 msgctxt ""
 "KCalendarCore::Attendee::Private|@item event or to-do tentatively accepted"
 msgid "Tentative"
-msgstr ""
+msgstr "Belirsiz"
 
 #: attendee.cpp:335
 msgctxt "KCalendarCore::Attendee::Private|@item event or to-do delegated"
 msgid "Delegated"
-msgstr ""
+msgstr "Devredilmiş"
 
 #: attendee.cpp:337
 msgctxt "KCalendarCore::Attendee::Private|@item to-do completed"
 msgid "Completed"
-msgstr ""
+msgstr "Tamamlanmış"
 
 #: attendee.cpp:339
 msgctxt ""
 "KCalendarCore::Attendee::Private|@item to-do in process of being completed"
 msgid "In Process"
-msgstr ""
+msgstr "Sürüyor"
 
 #: attendee.cpp:341
 msgctxt "KCalendarCore::Attendee::Private|@item event or to-do status unknown"
 msgid "Unknown"
-msgstr ""
+msgstr "Bilinmiyor"
 
 #: exceptions.cpp:74
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
@@ -175,59 +175,59 @@ msgstr "İleti, ICAL_METHOD_PROPERTY içermiyor"
 msgctxt ""
 "KCalendarCore::IncidencePrivate|@item incidence access if for everyone"
 msgid "Public"
-msgstr ""
+msgstr "Genel"
 
 #: incidence.cpp:1276
 msgctxt ""
 "KCalendarCore::IncidencePrivate|@item incidence access is by owner only"
 msgid "Private"
-msgstr ""
+msgstr "Özel"
 
 #: incidence.cpp:1278
 msgctxt ""
 "KCalendarCore::IncidencePrivate|@item incidence access is by owner and a "
 "controlled group"
 msgid "Confidential"
-msgstr ""
+msgstr "Gizli"
 
 #: incidence.cpp:1287
 msgctxt "KCalendarCore::IncidencePrivate|@item event is tentative"
 msgid "Tentative"
-msgstr ""
+msgstr "Belirsiz"
 
 #: incidence.cpp:1289
 msgctxt "KCalendarCore::IncidencePrivate|@item event is definite"
 msgid "Confirmed"
-msgstr ""
+msgstr "Onaylanmış"
 
 #: incidence.cpp:1291
 msgctxt "KCalendarCore::IncidencePrivate|@item to-do is complete"
 msgid "Completed"
-msgstr ""
+msgstr "Tamamlanmış"
 
 #: incidence.cpp:1293
 msgctxt "KCalendarCore::IncidencePrivate|@item to-do needs action"
 msgid "Needs-Action"
-msgstr ""
+msgstr "Eylem gerekiyor"
 
 #: incidence.cpp:1295
 msgctxt ""
 "KCalendarCore::IncidencePrivate|@item event or to-do is canceled; journal is "
 "removed"
 msgid "Canceled"
-msgstr ""
+msgstr "İptal edilmiş"
 
 #: incidence.cpp:1297
 msgctxt "KCalendarCore::IncidencePrivate|@item to-do is in process"
 msgid "In-Process"
-msgstr ""
+msgstr "Sürüyor"
 
 #: incidence.cpp:1299
 msgctxt "KCalendarCore::IncidencePrivate|@item journal is in draft form"
 msgid "Draft"
-msgstr ""
+msgstr "Taslak"
 
 #: incidence.cpp:1301
 msgctxt "KCalendarCore::IncidencePrivate|@item journal is in final form"
 msgid "Final"
-msgstr ""
+msgstr "Nihâî"
