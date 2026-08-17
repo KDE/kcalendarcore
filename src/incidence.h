@@ -201,7 +201,7 @@ class KCALENDARCORE_EXPORT Incidence : public IncidenceBase, public Recurrence::
     /*!
      * \property KCalendarCore::Incidence::statusName
      */
-    Q_PROPERTY(QString status READ statusName)
+    Q_PROPERTY(QString statusName READ statusName)
 
     /*!
      * \qmlproperty list<KCalendarCore::Attachment> incidence::attachments
