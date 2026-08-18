@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2026-08-10 17:21+0400\n"
+"PO-Revision-Date: 2026-08-17 21:15+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -17,68 +17,68 @@ msgstr ""
 #: attendee.cpp:312
 msgctxt "KCalendarCore::Attendee::Private|@item chairperson"
 msgid "Chair"
-msgstr ""
+msgstr "رئيس"
 
 #: attendee.cpp:314
 msgctxt "KCalendarCore::Attendee::Private|@item participation is required"
 msgid "Participant"
-msgstr ""
+msgstr "مشارك"
 
 #: attendee.cpp:316
 msgctxt "KCalendarCore::Attendee::Private|@item participation is optional"
 msgid "Optional Participant"
-msgstr ""
+msgstr "مشارك اختياري"
 
 #: attendee.cpp:318
 msgctxt ""
 "KCalendarCore::Attendee::Private|@item non-participant copied for information"
 msgid "Observer"
-msgstr ""
+msgstr "راصد"
 
 #: attendee.cpp:327
 msgctxt ""
 "KCalendarCore::Attendee::Private|@item event, to-do or journal needs action"
 msgid "Needs Action"
-msgstr ""
+msgstr "تحتاج إجراءً"
 
 #: attendee.cpp:329
 msgctxt ""
 "KCalendarCore::Attendee::Private|@item event, to-do or journal accepted"
 msgid "Accepted"
-msgstr ""
+msgstr "قُبلت"
 
 #: attendee.cpp:331
 msgctxt ""
 "KCalendarCore::Attendee::Private|@item event, to-do or journal declined"
 msgid "Declined"
-msgstr ""
+msgstr "رُفضت"
 
 #: attendee.cpp:333
 msgctxt ""
 "KCalendarCore::Attendee::Private|@item event or to-do tentatively accepted"
 msgid "Tentative"
-msgstr ""
+msgstr "متردّد"
 
 #: attendee.cpp:335
 msgctxt "KCalendarCore::Attendee::Private|@item event or to-do delegated"
 msgid "Delegated"
-msgstr ""
+msgstr "خُوّل أمرها"
 
 #: attendee.cpp:337
 msgctxt "KCalendarCore::Attendee::Private|@item to-do completed"
 msgid "Completed"
-msgstr ""
+msgstr "اكتملت"
 
 #: attendee.cpp:339
 msgctxt ""
 "KCalendarCore::Attendee::Private|@item to-do in process of being completed"
 msgid "In Process"
-msgstr ""
+msgstr "جارية"
 
 #: attendee.cpp:341
 msgctxt "KCalendarCore::Attendee::Private|@item event or to-do status unknown"
 msgid "Unknown"
-msgstr ""
+msgstr "مجهول"
 
 #: exceptions.cpp:74
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
@@ -176,59 +176,59 @@ msgstr "لا تحتوي ”الرسالة“ صفة ICAL_METHOD_PROPERTY"
 msgctxt ""
 "KCalendarCore::IncidencePrivate|@item incidence access if for everyone"
 msgid "Public"
-msgstr ""
+msgstr "عام"
 
 #: incidence.cpp:1276
 msgctxt ""
 "KCalendarCore::IncidencePrivate|@item incidence access is by owner only"
 msgid "Private"
-msgstr ""
+msgstr "خاص"
 
 #: incidence.cpp:1278
 msgctxt ""
 "KCalendarCore::IncidencePrivate|@item incidence access is by owner and a "
 "controlled group"
 msgid "Confidential"
-msgstr ""
+msgstr "سري"
 
 #: incidence.cpp:1287
 msgctxt "KCalendarCore::IncidencePrivate|@item event is tentative"
 msgid "Tentative"
-msgstr ""
+msgstr "متردّد"
 
 #: incidence.cpp:1289
 msgctxt "KCalendarCore::IncidencePrivate|@item event is definite"
 msgid "Confirmed"
-msgstr ""
+msgstr "مؤكدة"
 
 #: incidence.cpp:1291
 msgctxt "KCalendarCore::IncidencePrivate|@item to-do is complete"
 msgid "Completed"
-msgstr ""
+msgstr "اكتملت"
 
 #: incidence.cpp:1293
 msgctxt "KCalendarCore::IncidencePrivate|@item to-do needs action"
 msgid "Needs-Action"
-msgstr ""
+msgstr "تحتاج إجراءً"
 
 #: incidence.cpp:1295
 msgctxt ""
 "KCalendarCore::IncidencePrivate|@item event or to-do is canceled; journal is "
 "removed"
 msgid "Canceled"
-msgstr ""
+msgstr "مُلغاة"
 
 #: incidence.cpp:1297
 msgctxt "KCalendarCore::IncidencePrivate|@item to-do is in process"
 msgid "In-Process"
-msgstr ""
+msgstr "جارية"
 
 #: incidence.cpp:1299
 msgctxt "KCalendarCore::IncidencePrivate|@item journal is in draft form"
 msgid "Draft"
-msgstr ""
+msgstr "مسودة"
 
 #: incidence.cpp:1301
 msgctxt "KCalendarCore::IncidencePrivate|@item journal is in final form"
 msgid "Final"
-msgstr ""
+msgstr "نهائية"
