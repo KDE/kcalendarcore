@@ -1,0 +1,186 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Language: en\n"
+"X-Qt-Contexts: true\n"
+
+#: ../incidence.cpp:1327
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|number of occurrences"
+msgid "(%n occurrences)"
+msgid_plural "(%n occurrences)"
+msgstr[0] "(one occurrence)"
+msgstr[1] "(%n occurrences)"
+
+#: ../incidence.cpp:1421
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "Recurs every %n minutes until %1"
+msgid_plural "Recurs every %n minutes until %1"
+msgstr[0] "Recurs every minute until %1"
+msgstr[1] "Recurs every %n minutes until %1"
+
+#: ../incidence.cpp:1426
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "Recurs every %n minutes"
+msgid_plural "Recurs every %n minutes"
+msgstr[0] "Recurs every minute"
+msgstr[1] "Recurs every %n minutes"
+
+#: ../incidence.cpp:1434
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "Recurs every %n hours until %1"
+msgid_plural "Recurs every %n hours until %1"
+msgstr[0] "Recurs hourly until %1"
+msgstr[1] "Recurs every %n hours until %1"
+
+#: ../incidence.cpp:1439
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "Recurs every %n hours"
+msgid_plural "Recurs every %n hours"
+msgstr[0] "Recurs hourly"
+msgstr[1] "Recurs every %n hours"
+
+#: ../incidence.cpp:1447
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "Recurs every %n days until %1"
+msgid_plural "Recurs every %n days until %1"
+msgstr[0] "Recurs daily until %1"
+msgstr[1] "Recurs every %n days until %1"
+
+#: ../incidence.cpp:1452
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "Recurs every %n days"
+msgid_plural "Recurs every %n days"
+msgstr[0] "Recurs daily"
+msgstr[1] "Recurs every %n days"
+
+#: ../incidence.cpp:1474
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Recurs weekly on [list of days] until "
+"end-date"
+msgid "Recurs every %n weeks on %1 until %2"
+msgid_plural "Recurs every %n weeks on %1 until %2"
+msgstr[0] "Recurs weekly on %1 until %2"
+msgstr[1] "Recurs every %n weeks on %1 until %2"
+
+#: ../incidence.cpp:1480
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|Recurs weekly on [list of days]"
+msgid "Recurs every %n weeks on %1"
+msgid_plural "Recurs every %n weeks on %1"
+msgstr[0] "Recurs weekly on %1"
+msgstr[1] "Recurs every %n weeks on %1"
+
+#: ../incidence.cpp:1490
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Recurs every N months on the [2nd~|3rd~|...] "
+"weekdayname until end-date"
+msgid "Recurs every %n months on the %1 %2 until %3"
+msgid_plural "Recurs every %n months on the %1 %2 until %3"
+msgstr[0] "Recurs every month on the %1 %2 until %3"
+msgstr[1] "Recurs every %n months on the %1 %2 until %3"
+
+#: ../incidence.cpp:1499
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Recurs every N months on the [2nd~|3rd~|...] "
+"weekdayname"
+msgid "Recurs every %n months on the %1 %2"
+msgid_plural "Recurs every %n months on the %1 %2"
+msgstr[0] "Recurs every month on the %1 %2"
+msgstr[1] "Recurs every %n months on the %1 %2"
+
+#: ../incidence.cpp:1510
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Recurs monthly on the [1st~|2nd~|...] day "
+"until end-date"
+msgid "Recurs every %n months on the %1 day until %2"
+msgid_plural "Recurs every %n months on the %1 day until %2"
+msgstr[0] "Recurs monthly on the %1 day until %2"
+msgstr[1] "Recurs every %n months on the %1 day until %2"
+
+#: ../incidence.cpp:1518
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Recurs monthly on the [1st~|2nd~|...] day"
+msgid "Recurs every %n month on the %1 day"
+msgid_plural "Recurs every %n month on the %1 day"
+msgstr[0] "Recurs monthly on the %1 day"
+msgstr[1] "Recurs every %n month on the %1 day"
+
+#: ../incidence.cpp:1529
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Recurs Every N years on month-name "
+"[1st~|2nd~|...] until end-date"
+msgid "Recurs every %n years on %1 %2 until %3"
+msgid_plural "Recurs every %n years on %1 %2 until %3"
+msgstr[0] "Recurs yearly on %1 %2 until %3"
+msgstr[1] "Recurs every %n years on %1 %2 until %3"
+
+#: ../incidence.cpp:1539
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Recurs Every N years on month-name "
+"[1st~|2nd~|...]"
+msgid "Recurs every %n years on %1 %2"
+msgid_plural "Recurs every %n years on %1 %2"
+msgstr[0] "Recurs yearly on %1 %2"
+msgstr[1] "Recurs every %n years on %1 %2"
+
+#: ../incidence.cpp:1557
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Recurs every N years on day N until end-date"
+msgid "Recurs every %n years on day %1 until %2"
+msgid_plural "Recurs every %n years on day %1 until %2"
+msgstr[0] "Recurs every year on day %1 until %2"
+msgstr[1] "Recurs every %n years on day %1 until %2"
+
+#: ../incidence.cpp:1563
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|Recurs every N YEAR[S] on day N"
+msgid "Recurs every %n years on day %1"
+msgid_plural "Recurs every %n years on day %1"
+msgstr[0] "Recurs every year on day %1"
+msgstr[1] "Recurs every %n years on day %1"
+
+#: ../incidence.cpp:1574
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Every N years on the [2nd~|3rd~|...] "
+"weekdayname of monthname until end-date"
+msgid "Every %n years on the %1 %2 of %3 until %4"
+msgid_plural "Every %n years on the %1 %2 of %3 until %4"
+msgstr[0] "Every year on the %1 %2 of %3 until %4"
+msgstr[1] "Every %n years on the %1 %2 of %3 until %4"
+
+#: ../incidence.cpp:1586
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Every N years on the [2nd~|3rd~|...] "
+"weekdayname of monthname"
+msgid "Every %n years on the %1 %2 of %3"
+msgid_plural "Every %n years on the %1 %2 of %3"
+msgstr[0] "Every year on the %1 %2 of %3"
+msgstr[1] "Every %n years on the %1 %2 of %3"
+
+#: ../incidence.cpp:1653
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "%n days"
+msgid_plural "%n days"
+msgstr[0] "1 day"
+msgstr[1] "%n days"

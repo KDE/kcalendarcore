@@ -167,63 +167,601 @@ msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "Message does not contain ICAL_METHOD_PROPERTY"
 msgstr ""
 
-#: incidence.cpp:1274
+#: incidence.cpp:1276
 msgctxt ""
 "KCalendarCore::IncidencePrivate|@item incidence access if for everyone"
 msgid "Public"
 msgstr ""
 
-#: incidence.cpp:1276
+#: incidence.cpp:1278
 msgctxt ""
 "KCalendarCore::IncidencePrivate|@item incidence access is by owner only"
 msgid "Private"
 msgstr ""
 
-#: incidence.cpp:1278
+#: incidence.cpp:1280
 msgctxt ""
 "KCalendarCore::IncidencePrivate|@item incidence access is by owner and a "
 "controlled group"
 msgid "Confidential"
 msgstr ""
 
-#: incidence.cpp:1287
+#: incidence.cpp:1289
 msgctxt "KCalendarCore::IncidencePrivate|@item event is tentative"
 msgid "Tentative"
 msgstr ""
 
-#: incidence.cpp:1289
+#: incidence.cpp:1291
 msgctxt "KCalendarCore::IncidencePrivate|@item event is definite"
 msgid "Confirmed"
 msgstr ""
 
-#: incidence.cpp:1291
+#: incidence.cpp:1293
 msgctxt "KCalendarCore::IncidencePrivate|@item to-do is complete"
 msgid "Completed"
 msgstr ""
 
-#: incidence.cpp:1293
+#: incidence.cpp:1295
 msgctxt "KCalendarCore::IncidencePrivate|@item to-do needs action"
 msgid "Needs-Action"
 msgstr ""
 
-#: incidence.cpp:1295
+#: incidence.cpp:1297
 msgctxt ""
 "KCalendarCore::IncidencePrivate|@item event or to-do is canceled; journal is "
 "removed"
 msgid "Canceled"
 msgstr ""
 
-#: incidence.cpp:1297
+#: incidence.cpp:1299
 msgctxt "KCalendarCore::IncidencePrivate|@item to-do is in process"
 msgid "In-Process"
 msgstr ""
 
-#: incidence.cpp:1299
+#: incidence.cpp:1301
 msgctxt "KCalendarCore::IncidencePrivate|@item journal is in draft form"
 msgid "Draft"
 msgstr ""
 
-#: incidence.cpp:1301
+#: incidence.cpp:1303
 msgctxt "KCalendarCore::IncidencePrivate|@item journal is in final form"
 msgid "Final"
+msgstr ""
+
+#: incidence.cpp:1327
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|number of occurrences"
+msgid "(%n occurrences)"
+msgid_plural "(%n occurrences)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: incidence.cpp:1338 incidence.cpp:1415
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "No recurrence"
+msgstr ""
+
+#: incidence.cpp:1343
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "31st Last"
+msgstr ""
+
+#: incidence.cpp:1344
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "30th Last"
+msgstr ""
+
+#: incidence.cpp:1345
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "29th Last"
+msgstr ""
+
+#: incidence.cpp:1346
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "28th Last"
+msgstr ""
+
+#: incidence.cpp:1347
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "27th Last"
+msgstr ""
+
+#: incidence.cpp:1348
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "26th Last"
+msgstr ""
+
+#: incidence.cpp:1349
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "25th Last"
+msgstr ""
+
+#: incidence.cpp:1350
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "24th Last"
+msgstr ""
+
+#: incidence.cpp:1351
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "23rd Last"
+msgstr ""
+
+#: incidence.cpp:1352
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "22nd Last"
+msgstr ""
+
+#: incidence.cpp:1353
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "21st Last"
+msgstr ""
+
+#: incidence.cpp:1354
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "20th Last"
+msgstr ""
+
+#: incidence.cpp:1355
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "19th Last"
+msgstr ""
+
+#: incidence.cpp:1356
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "18th Last"
+msgstr ""
+
+#: incidence.cpp:1357
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "17th Last"
+msgstr ""
+
+#: incidence.cpp:1358
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "16th Last"
+msgstr ""
+
+#: incidence.cpp:1359
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "15th Last"
+msgstr ""
+
+#: incidence.cpp:1360
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "14th Last"
+msgstr ""
+
+#: incidence.cpp:1361
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "13th Last"
+msgstr ""
+
+#: incidence.cpp:1362
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "12th Last"
+msgstr ""
+
+#: incidence.cpp:1363
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "11th Last"
+msgstr ""
+
+#: incidence.cpp:1364
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "10th Last"
+msgstr ""
+
+#: incidence.cpp:1365
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "9th Last"
+msgstr ""
+
+#: incidence.cpp:1366
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "8th Last"
+msgstr ""
+
+#: incidence.cpp:1367
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "7th Last"
+msgstr ""
+
+#: incidence.cpp:1368
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "6th Last"
+msgstr ""
+
+#: incidence.cpp:1369
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "5th Last"
+msgstr ""
+
+#: incidence.cpp:1370
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "4th Last"
+msgstr ""
+
+#: incidence.cpp:1371
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "3rd Last"
+msgstr ""
+
+#: incidence.cpp:1372
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "2nd Last"
+msgstr ""
+
+#: incidence.cpp:1373
+msgctxt "KCalendarCore::IncidencePrivate|last day of the month"
+msgid "Last"
+msgstr ""
+
+#: incidence.cpp:1374
+msgctxt "KCalendarCore::IncidencePrivate|unknown day of the month"
+msgid "unknown"
+msgstr ""
+
+#: incidence.cpp:1375
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "1st"
+msgstr ""
+
+#: incidence.cpp:1376
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "2nd"
+msgstr ""
+
+#: incidence.cpp:1377
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "3rd"
+msgstr ""
+
+#: incidence.cpp:1378
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "4th"
+msgstr ""
+
+#: incidence.cpp:1379
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "5th"
+msgstr ""
+
+#: incidence.cpp:1380
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "6th"
+msgstr ""
+
+#: incidence.cpp:1381
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "7th"
+msgstr ""
+
+#: incidence.cpp:1382
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "8th"
+msgstr ""
+
+#: incidence.cpp:1383
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "9th"
+msgstr ""
+
+#: incidence.cpp:1384
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "10th"
+msgstr ""
+
+#: incidence.cpp:1385
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "11th"
+msgstr ""
+
+#: incidence.cpp:1386
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "12th"
+msgstr ""
+
+#: incidence.cpp:1387
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "13th"
+msgstr ""
+
+#: incidence.cpp:1388
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "14th"
+msgstr ""
+
+#: incidence.cpp:1389
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "15th"
+msgstr ""
+
+#: incidence.cpp:1390
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "16th"
+msgstr ""
+
+#: incidence.cpp:1391
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "17th"
+msgstr ""
+
+#: incidence.cpp:1392
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "18th"
+msgstr ""
+
+#: incidence.cpp:1393
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "19th"
+msgstr ""
+
+#: incidence.cpp:1394
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "20th"
+msgstr ""
+
+#: incidence.cpp:1395
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "21st"
+msgstr ""
+
+#: incidence.cpp:1396
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "22nd"
+msgstr ""
+
+#: incidence.cpp:1397
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "23rd"
+msgstr ""
+
+#: incidence.cpp:1398
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "24th"
+msgstr ""
+
+#: incidence.cpp:1399
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "25th"
+msgstr ""
+
+#: incidence.cpp:1400
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "26th"
+msgstr ""
+
+#: incidence.cpp:1401
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "27th"
+msgstr ""
+
+#: incidence.cpp:1402
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "28th"
+msgstr ""
+
+#: incidence.cpp:1403
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "29th"
+msgstr ""
+
+#: incidence.cpp:1404
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "30th"
+msgstr ""
+
+#: incidence.cpp:1405
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "31st"
+msgstr ""
+
+#: incidence.cpp:1421
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "Recurs every %n minutes until %1"
+msgid_plural "Recurs every %n minutes until %1"
+msgstr[0] ""
+msgstr[1] ""
+
+#: incidence.cpp:1426
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "Recurs every %n minutes"
+msgid_plural "Recurs every %n minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: incidence.cpp:1434
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "Recurs every %n hours until %1"
+msgid_plural "Recurs every %n hours until %1"
+msgstr[0] ""
+msgstr[1] ""
+
+#: incidence.cpp:1439
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "Recurs every %n hours"
+msgid_plural "Recurs every %n hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: incidence.cpp:1447
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "Recurs every %n days until %1"
+msgid_plural "Recurs every %n days until %1"
+msgstr[0] ""
+msgstr[1] ""
+
+#: incidence.cpp:1452
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "Recurs every %n days"
+msgid_plural "Recurs every %n days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: incidence.cpp:1462
+msgctxt "KCalendarCore::IncidencePrivate|separator for list of days"
+msgid ", "
+msgstr ""
+
+#: incidence.cpp:1469
+msgctxt "KCalendarCore::IncidencePrivate|Recurs weekly on no days"
+msgid "no days"
+msgstr ""
+
+#: incidence.cpp:1474
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Recurs weekly on [list of days] until end-"
+"date"
+msgid "Recurs every %n weeks on %1 until %2"
+msgid_plural "Recurs every %n weeks on %1 until %2"
+msgstr[0] ""
+msgstr[1] ""
+
+#: incidence.cpp:1480
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|Recurs weekly on [list of days]"
+msgid "Recurs every %n weeks on %1"
+msgid_plural "Recurs every %n weeks on %1"
+msgstr[0] ""
+msgstr[1] ""
+
+#: incidence.cpp:1490
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Recurs every N months on the [2nd~|3rd~|...] "
+"weekdayname until end-date"
+msgid "Recurs every %n months on the %1 %2 until %3"
+msgid_plural "Recurs every %n months on the %1 %2 until %3"
+msgstr[0] ""
+msgstr[1] ""
+
+#: incidence.cpp:1499
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Recurs every N months on the [2nd~|3rd~|...] "
+"weekdayname"
+msgid "Recurs every %n months on the %1 %2"
+msgid_plural "Recurs every %n months on the %1 %2"
+msgstr[0] ""
+msgstr[1] ""
+
+#: incidence.cpp:1510
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Recurs monthly on the [1st~|2nd~|...] day "
+"until end-date"
+msgid "Recurs every %n months on the %1 day until %2"
+msgid_plural "Recurs every %n months on the %1 day until %2"
+msgstr[0] ""
+msgstr[1] ""
+
+#: incidence.cpp:1518
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Recurs monthly on the [1st~|2nd~|...] day"
+msgid "Recurs every %n month on the %1 day"
+msgid_plural "Recurs every %n month on the %1 day"
+msgstr[0] ""
+msgstr[1] ""
+
+#: incidence.cpp:1529
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Recurs Every N years on month-name [1st~|"
+"2nd~|...] until end-date"
+msgid "Recurs every %n years on %1 %2 until %3"
+msgid_plural "Recurs every %n years on %1 %2 until %3"
+msgstr[0] ""
+msgstr[1] ""
+
+#: incidence.cpp:1539
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Recurs Every N years on month-name [1st~|"
+"2nd~|...]"
+msgid "Recurs every %n years on %1 %2"
+msgid_plural "Recurs every %n years on %1 %2"
+msgstr[0] ""
+msgstr[1] ""
+
+#: incidence.cpp:1543 incidence.cpp:1546
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Recurs Every year on month-name [1st~|"
+"2nd~|...]"
+msgid "Recurs yearly on %1 %2"
+msgstr ""
+
+#: incidence.cpp:1557
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Recurs every N years on day N until end-date"
+msgid "Recurs every %n years on day %1 until %2"
+msgid_plural "Recurs every %n years on day %1 until %2"
+msgstr[0] ""
+msgstr[1] ""
+
+#: incidence.cpp:1563
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|Recurs every N YEAR[S] on day N"
+msgid "Recurs every %n years on day %1"
+msgid_plural "Recurs every %n years on day %1"
+msgstr[0] ""
+msgstr[1] ""
+
+#: incidence.cpp:1574
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Every N years on the [2nd~|3rd~|...] "
+"weekdayname of monthname until end-date"
+msgid "Every %n years on the %1 %2 of %3 until %4"
+msgid_plural "Every %n years on the %1 %2 of %3 until %4"
+msgstr[0] ""
+msgstr[1] ""
+
+#: incidence.cpp:1586
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Every N years on the [2nd~|3rd~|...] "
+"weekdayname of monthname"
+msgid "Every %n years on the %1 %2 of %3"
+msgid_plural "Every %n years on the %1 %2 of %3"
+msgstr[0] ""
+msgstr[1] ""
+
+#: incidence.cpp:1596
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "Incidence recurs"
+msgstr ""
+
+#: incidence.cpp:1609
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "minute %1"
+msgstr ""
+
+#: incidence.cpp:1653
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "%n days"
+msgid_plural "%n days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: incidence.cpp:1684
+msgctxt "KCalendarCore::IncidencePrivate|ellipsis"
+msgid "…"
+msgstr ""
+
+#: incidence.cpp:1686
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "%1 (excluding %2)"
 msgstr ""
