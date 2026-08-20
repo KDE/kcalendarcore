@@ -12,6 +12,7 @@
 
 #include <QDebug>
 #include <QTest>
+#include <QTranslator>
 
 using namespace Qt::Literals;
 using namespace KCalendarCore;
@@ -28,6 +29,14 @@ class IncidencesTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
+    void initTestCase()
+    {
+        // manually load translation catalog, so this also works without installing first
+        auto t = new QTranslator(this);
+        std::ignore = t->load("../ECMPoQm/en/kcalendarcore6_qt.qm"_L1);
+        QCoreApplication::installTranslator(t);
+    }
+
     void testClone()
     {
         ICalFormat f;
@@ -73,7 +82,6 @@ private Q_SLOTS:
         r1->setDaily(1);
         r1->setEndDateTime(kdt.addDays(5)); // ends 5 days from now
         QString endDateStr = QLocale().toString(kdt.addDays(5).toLocalTime(), QLocale::ShortFormat);
-        QEXPECT_FAIL("", "missing en_US plural translation catalog", Continue);
         QCOMPARE(e1->recurrenceDescription(), "Recurs daily until %1"_L1.arg(endDateStr));
 
         r1->setFrequency(2);
@@ -97,7 +105,6 @@ private Q_SLOTS:
 
         r2->setDaily(1);
         r2->setEndDate(kdt.addDays(5).date()); // ends 5 days from now
-        QEXPECT_FAIL("", "missing en_US plural translation catalog", Continue);
         QCOMPARE(e2->recurrenceDescription(), "Recurs daily until %1"_L1.arg(endDateStr));
 
         r2->setFrequency(2);
@@ -120,7 +127,6 @@ private Q_SLOTS:
         r3->setHourly(1);
         r3->setEndDateTime(kdt.addSecs(5 * 60 * 60)); // ends 5 hrs from now
         endDateStr = QLocale().toString(r3->endDateTime().toLocalTime(), QLocale::ShortFormat);
-        QEXPECT_FAIL("", "missing en_US plural translation catalog", Continue);
         QCOMPARE(e3->recurrenceDescription(), "Recurs hourly until %1"_L1.arg(endDateStr));
 
         r3->setFrequency(2);
@@ -137,6 +143,6 @@ private Q_SLOTS:
     }
 };
 
-QTEST_APPLESS_MAIN(IncidencesTest)
+QTEST_GUILESS_MAIN(IncidencesTest) // needs a Q*Application for translations to load!
 
 #include "incidencestest.moc"
