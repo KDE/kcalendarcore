@@ -1418,7 +1418,8 @@ QString Incidence::recurrenceDescription() const
         if (recur->duration() != -1) {
             //~ singular Recurs every minute until %1
             //~ plural Recurs every %n minutes until %1
-            recurStr = IncidencePrivate::tr("Recurs every %n minutes until %1", nullptr, recur->frequency()).arg(recurEnd(this));
+            recurStr = IncidencePrivate::tr("Recurs every %n minutes until %1", "Event recurs every N minutes until <end time>", recur->frequency())
+                           .arg(recurEnd(this));
             appendOccurenceCount(recur, recurStr);
         } else {
             //~ singular Recurs every minute
@@ -1431,7 +1432,8 @@ QString Incidence::recurrenceDescription() const
         if (recur->duration() != -1) {
             //~ singular Recurs hourly until %1
             //~ plural Recurs every %n hours until %1
-            recurStr = IncidencePrivate::tr("Recurs every %n hours until %1", nullptr, recur->frequency()).arg(recurEnd(this));
+            recurStr =
+                IncidencePrivate::tr("Recurs every %n hours until %1", "Event recurs every N hours until <end time>", recur->frequency()).arg(recurEnd(this));
             appendOccurenceCount(recur, recurStr);
         } else {
             //~ singular Recurs hourly
@@ -1444,7 +1446,8 @@ QString Incidence::recurrenceDescription() const
         if (recur->duration() != -1) {
             //~ singular Recurs daily until %1
             //~ plural Recurs every %n days until %1
-            recurStr = IncidencePrivate::tr("Recurs every %n days until %1", nullptr, recur->frequency()).arg(recurEnd(this));
+            recurStr =
+                IncidencePrivate::tr("Recurs every %n days until %1", "Event recurs every N days until <end date>", recur->frequency()).arg(recurEnd(this));
             appendOccurenceCount(recur, recurStr);
         } else {
             //~ singular Recurs daily
