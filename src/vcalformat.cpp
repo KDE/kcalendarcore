@@ -1365,7 +1365,7 @@ void VCalFormat::populate(VObject *vcal)
         QString name = QLatin1String("VCAL") + ts;
         deleteStr(s);
 
-        // TODO: While using the timezone-offset + vcal as timezone is is
+        // TODO: While using the timezone-offset + vcal as timezone is
         // most likely unique, we should REALLY actually create something
         // like vcal-tzoffset-daylightoffsets, or better yet,
         // vcal-hash<the former>
