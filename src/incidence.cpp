@@ -1457,19 +1457,17 @@ QString Incidence::recurrenceDescription() const
         break;
 
     case Recurrence::rWeekly: {
-        bool addSpace = false;
-        QString dayNames;
+        QStringList dayList;
         for (int i = 0; i < 7; ++i) {
             if (recur->days().testBit((i + weekStart + 6) % 7)) {
-                if (addSpace) {
-                    dayNames.append(IncidencePrivate::tr(", ", "separator for list of days"));
-                }
-                dayNames.append(QLocale().dayName(((i + weekStart + 6) % 7) + 1, QLocale::ShortFormat));
-                addSpace = true;
+                dayList.append(QLocale().dayName(((i + weekStart + 6) % 7) + 1, QLocale::ShortFormat));
             }
         }
-        if (dayNames.isEmpty()) {
+        QString dayNames;
+        if (dayList.isEmpty()) {
             dayNames = IncidencePrivate::tr("no days", "Recurs weekly on no days");
+        } else {
+            dayNames = QLocale().createSeparatedList(dayList);
         }
         if (recur->duration() != -1) {
             //~ singular Recurs weekly on %1 until %2
