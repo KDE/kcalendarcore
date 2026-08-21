@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2026-08-16 18:21+0300\n"
+"PO-Revision-Date: 2026-08-20 21:22+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -237,332 +237,328 @@ msgstr "Nihâî"
 msgctxt "KCalendarCore::IncidencePrivate|number of occurrences"
 msgid "(%n occurrences)"
 msgid_plural "(%n occurrences)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "(%n oluş)"
+msgstr[1] "(%n oluş)"
 
 #: incidence.cpp:1338 incidence.cpp:1415
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "No recurrence"
-msgstr ""
+msgstr "Yinelenme yok"
 
 #: incidence.cpp:1343
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "31st Last"
-msgstr ""
+msgstr "31. son"
 
 #: incidence.cpp:1344
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "30th Last"
-msgstr ""
+msgstr "30. son"
 
 #: incidence.cpp:1345
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "29th Last"
-msgstr ""
+msgstr "29. son"
 
 #: incidence.cpp:1346
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "28th Last"
-msgstr ""
+msgstr "28. son"
 
 #: incidence.cpp:1347
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "27th Last"
-msgstr ""
+msgstr "27. son"
 
 #: incidence.cpp:1348
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "26th Last"
-msgstr ""
+msgstr "26. son"
 
 #: incidence.cpp:1349
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "25th Last"
-msgstr ""
+msgstr "25. son"
 
 #: incidence.cpp:1350
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "24th Last"
-msgstr ""
+msgstr "24. son"
 
 #: incidence.cpp:1351
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "23rd Last"
-msgstr ""
+msgstr "23. son"
 
 #: incidence.cpp:1352
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "22nd Last"
-msgstr ""
+msgstr "22. son"
 
 #: incidence.cpp:1353
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "21st Last"
-msgstr ""
+msgstr "21. son"
 
 #: incidence.cpp:1354
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "20th Last"
-msgstr ""
+msgstr "20. son"
 
 #: incidence.cpp:1355
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "19th Last"
-msgstr ""
+msgstr "19. son"
 
 #: incidence.cpp:1356
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "18th Last"
-msgstr ""
+msgstr "18. son"
 
 #: incidence.cpp:1357
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "17th Last"
-msgstr ""
+msgstr "17. son"
 
 #: incidence.cpp:1358
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "16th Last"
-msgstr ""
+msgstr "16. son"
 
 #: incidence.cpp:1359
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "15th Last"
-msgstr ""
+msgstr "15. son"
 
 #: incidence.cpp:1360
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "14th Last"
-msgstr ""
+msgstr "14. son"
 
 #: incidence.cpp:1361
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "13th Last"
-msgstr ""
+msgstr "13. son"
 
 #: incidence.cpp:1362
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "12th Last"
-msgstr ""
+msgstr "12. son"
 
 #: incidence.cpp:1363
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "11th Last"
-msgstr ""
+msgstr "11. son"
 
 #: incidence.cpp:1364
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "10th Last"
-msgstr ""
+msgstr "10. son"
 
 #: incidence.cpp:1365
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "9th Last"
-msgstr ""
+msgstr "9. son"
 
 #: incidence.cpp:1366
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "8th Last"
-msgstr ""
+msgstr "8. son"
 
 #: incidence.cpp:1367
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "7th Last"
-msgstr ""
+msgstr "7. son"
 
 #: incidence.cpp:1368
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "6th Last"
-msgstr ""
+msgstr "6. son"
 
 #: incidence.cpp:1369
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "5th Last"
-msgstr ""
+msgstr "5. son"
 
 #: incidence.cpp:1370
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "4th Last"
-msgstr ""
+msgstr "4. son"
 
 #: incidence.cpp:1371
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "3rd Last"
-msgstr ""
+msgstr "3. son"
 
 #: incidence.cpp:1372
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "2nd Last"
-msgstr ""
+msgstr "2. son"
 
 #: incidence.cpp:1373
 msgctxt "KCalendarCore::IncidencePrivate|last day of the month"
 msgid "Last"
-msgstr ""
+msgstr "son"
 
 #: incidence.cpp:1374
-#, fuzzy
-#| msgctxt ""
-#| "KCalendarCore::Attendee::Private|@item event or to-do status unknown"
-#| msgid "Unknown"
 msgctxt "KCalendarCore::IncidencePrivate|unknown day of the month"
 msgid "unknown"
-msgstr "Bilinmiyor"
+msgstr "bilinmeyen"
 
 #: incidence.cpp:1375
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "1st"
-msgstr ""
+msgstr "1."
 
 #: incidence.cpp:1376
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "2nd"
-msgstr ""
+msgstr "2."
 
 #: incidence.cpp:1377
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "3rd"
-msgstr ""
+msgstr "3."
 
 #: incidence.cpp:1378
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "4th"
-msgstr ""
+msgstr "4."
 
 #: incidence.cpp:1379
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "5th"
-msgstr ""
+msgstr "5."
 
 #: incidence.cpp:1380
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "6th"
-msgstr ""
+msgstr "6."
 
 #: incidence.cpp:1381
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "7th"
-msgstr ""
+msgstr "7."
 
 #: incidence.cpp:1382
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "8th"
-msgstr ""
+msgstr "8."
 
 #: incidence.cpp:1383
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "9th"
-msgstr ""
+msgstr "9."
 
 #: incidence.cpp:1384
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "10th"
-msgstr ""
+msgstr "10."
 
 #: incidence.cpp:1385
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "11th"
-msgstr ""
+msgstr "11."
 
 #: incidence.cpp:1386
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "12th"
-msgstr ""
+msgstr "12."
 
 #: incidence.cpp:1387
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "13th"
-msgstr ""
+msgstr "13."
 
 #: incidence.cpp:1388
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "14th"
-msgstr ""
+msgstr "14."
 
 #: incidence.cpp:1389
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "15th"
-msgstr ""
+msgstr "15."
 
 #: incidence.cpp:1390
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "16th"
-msgstr ""
+msgstr "16."
 
 #: incidence.cpp:1391
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "17th"
-msgstr ""
+msgstr "17."
 
 #: incidence.cpp:1392
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "18th"
-msgstr ""
+msgstr "18."
 
 #: incidence.cpp:1393
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "19th"
-msgstr ""
+msgstr "19."
 
 #: incidence.cpp:1394
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "20th"
-msgstr ""
+msgstr "20."
 
 #: incidence.cpp:1395
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "21st"
-msgstr ""
+msgstr "21."
 
 #: incidence.cpp:1396
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "22nd"
-msgstr ""
+msgstr "22."
 
 #: incidence.cpp:1397
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "23rd"
-msgstr ""
+msgstr "23."
 
 #: incidence.cpp:1398
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "24th"
-msgstr ""
+msgstr "24."
 
 #: incidence.cpp:1399
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "25th"
-msgstr ""
+msgstr "25."
 
 #: incidence.cpp:1400
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "26th"
-msgstr ""
+msgstr "26."
 
 #: incidence.cpp:1401
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "27th"
-msgstr ""
+msgstr "27."
 
 #: incidence.cpp:1402
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "28th"
-msgstr ""
+msgstr "28."
 
 #: incidence.cpp:1403
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "29th"
-msgstr ""
+msgstr "29."
 
 #: incidence.cpp:1404
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "30th"
-msgstr ""
+msgstr "30."
 
 #: incidence.cpp:1405
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "31st"
-msgstr ""
+msgstr "31."
 
 #: incidence.cpp:1421
 #, qt-format
