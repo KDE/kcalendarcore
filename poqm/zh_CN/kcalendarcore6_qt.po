@@ -18,68 +18,68 @@ msgstr ""
 #: attendee.cpp:312
 msgctxt "KCalendarCore::Attendee::Private|@item chairperson"
 msgid "Chair"
-msgstr ""
+msgstr "组织者"
 
 #: attendee.cpp:314
 msgctxt "KCalendarCore::Attendee::Private|@item participation is required"
 msgid "Participant"
-msgstr ""
+msgstr "参与者"
 
 #: attendee.cpp:316
 msgctxt "KCalendarCore::Attendee::Private|@item participation is optional"
 msgid "Optional Participant"
-msgstr ""
+msgstr "可选参与者"
 
 #: attendee.cpp:318
 msgctxt ""
 "KCalendarCore::Attendee::Private|@item non-participant copied for information"
 msgid "Observer"
-msgstr ""
+msgstr "观察者"
 
 #: attendee.cpp:327
 msgctxt ""
 "KCalendarCore::Attendee::Private|@item event, to-do or journal needs action"
 msgid "Needs Action"
-msgstr ""
+msgstr "待处理"
 
 #: attendee.cpp:329
 msgctxt ""
 "KCalendarCore::Attendee::Private|@item event, to-do or journal accepted"
 msgid "Accepted"
-msgstr ""
+msgstr "已接受"
 
 #: attendee.cpp:331
 msgctxt ""
 "KCalendarCore::Attendee::Private|@item event, to-do or journal declined"
 msgid "Declined"
-msgstr ""
+msgstr "已拒绝"
 
 #: attendee.cpp:333
 msgctxt ""
 "KCalendarCore::Attendee::Private|@item event or to-do tentatively accepted"
 msgid "Tentative"
-msgstr ""
+msgstr "暂定"
 
 #: attendee.cpp:335
 msgctxt "KCalendarCore::Attendee::Private|@item event or to-do delegated"
 msgid "Delegated"
-msgstr ""
+msgstr "已委派"
 
 #: attendee.cpp:337
 msgctxt "KCalendarCore::Attendee::Private|@item to-do completed"
 msgid "Completed"
-msgstr ""
+msgstr "已完成"
 
 #: attendee.cpp:339
 msgctxt ""
 "KCalendarCore::Attendee::Private|@item to-do in process of being completed"
 msgid "In Process"
-msgstr ""
+msgstr "进行中"
 
 #: attendee.cpp:341
 msgctxt "KCalendarCore::Attendee::Private|@item event or to-do status unknown"
 msgid "Unknown"
-msgstr ""
+msgstr "未知"
 
 #: exceptions.cpp:74
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
@@ -177,62 +177,62 @@ msgstr "消息不包含 ICAL_METHOD_PROPERTY"
 msgctxt ""
 "KCalendarCore::IncidencePrivate|@item incidence access if for everyone"
 msgid "Public"
-msgstr ""
+msgstr "公开"
 
 #: incidence.cpp:1278
 msgctxt ""
 "KCalendarCore::IncidencePrivate|@item incidence access is by owner only"
 msgid "Private"
-msgstr ""
+msgstr "私密"
 
 #: incidence.cpp:1280
 msgctxt ""
 "KCalendarCore::IncidencePrivate|@item incidence access is by owner and a "
 "controlled group"
 msgid "Confidential"
-msgstr ""
+msgstr "机密"
 
 #: incidence.cpp:1289
 msgctxt "KCalendarCore::IncidencePrivate|@item event is tentative"
 msgid "Tentative"
-msgstr ""
+msgstr "暂定"
 
 #: incidence.cpp:1291
 msgctxt "KCalendarCore::IncidencePrivate|@item event is definite"
 msgid "Confirmed"
-msgstr ""
+msgstr "已确认"
 
 #: incidence.cpp:1293
 msgctxt "KCalendarCore::IncidencePrivate|@item to-do is complete"
 msgid "Completed"
-msgstr ""
+msgstr "已完成"
 
 #: incidence.cpp:1295
 msgctxt "KCalendarCore::IncidencePrivate|@item to-do needs action"
 msgid "Needs-Action"
-msgstr ""
+msgstr "待处理"
 
 #: incidence.cpp:1297
 msgctxt ""
 "KCalendarCore::IncidencePrivate|@item event or to-do is canceled; journal is "
 "removed"
 msgid "Canceled"
-msgstr ""
+msgstr "已取消"
 
 #: incidence.cpp:1299
 msgctxt "KCalendarCore::IncidencePrivate|@item to-do is in process"
 msgid "In-Process"
-msgstr ""
+msgstr "进行中"
 
 #: incidence.cpp:1301
 msgctxt "KCalendarCore::IncidencePrivate|@item journal is in draft form"
 msgid "Draft"
-msgstr ""
+msgstr "草稿"
 
 #: incidence.cpp:1303
 msgctxt "KCalendarCore::IncidencePrivate|@item journal is in final form"
 msgid "Final"
-msgstr ""
+msgstr "定稿"
 
 #: incidence.cpp:1327
 #, qt-format
