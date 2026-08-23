@@ -565,8 +565,12 @@ msgid "31st"
 msgstr "31."
 
 #: incidence.cpp:1421
-#, qt-format
-msgctxt "KCalendarCore::IncidencePrivate|"
+#, fuzzy, qt-format
+#| msgctxt "KCalendarCore::IncidencePrivate|"
+#| msgid "Recurs every %n minutes until %1"
+#| msgid_plural "Recurs every %n minutes until %1"
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Event recurs every N minutes until <end time>"
 msgid "Recurs every %n minutes until %1"
 msgid_plural "Recurs every %n minutes until %1"
 msgstr[0] "Se ponavlja vsako %n minuto do %1"
@@ -574,7 +578,7 @@ msgstr[1] "Se ponavlja vsaki %n minuti do %1"
 msgstr[2] "Se ponavlja vsake %n minute do %1"
 msgstr[3] "Se ponavlja vsakih %n minut do %1"
 
-#: incidence.cpp:1426
+#: incidence.cpp:1427
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "Recurs every %n minutes"
@@ -584,9 +588,13 @@ msgstr[1] "Se ponavlja vsaki %n minuti"
 msgstr[2] "Se ponavlja vsake %n minute"
 msgstr[3] "Se ponavlja vsakih %n minut"
 
-#: incidence.cpp:1434
-#, qt-format
-msgctxt "KCalendarCore::IncidencePrivate|"
+#: incidence.cpp:1436
+#, fuzzy, qt-format
+#| msgctxt "KCalendarCore::IncidencePrivate|"
+#| msgid "Recurs every %n hours until %1"
+#| msgid_plural "Recurs every %n hours until %1"
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Event recurs every N hours until <end time>"
 msgid "Recurs every %n hours until %1"
 msgid_plural "Recurs every %n hours until %1"
 msgstr[0] "Se ponavlja vsako %n uro do %1"
@@ -594,7 +602,7 @@ msgstr[1] "Se ponavlja vsaki %n uri do %1"
 msgstr[2] "Se ponavlja vsake %n ure do %1"
 msgstr[3] "Se ponavlja vsakih %n ur do %1"
 
-#: incidence.cpp:1439
+#: incidence.cpp:1441
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "Recurs every %n hours"
@@ -604,9 +612,13 @@ msgstr[1] "Se ponavlja vsaki %n uri"
 msgstr[2] "Se ponavlja vsake %n ure"
 msgstr[3] "Se ponavlja vsakih %n ur"
 
-#: incidence.cpp:1447
-#, qt-format
-msgctxt "KCalendarCore::IncidencePrivate|"
+#: incidence.cpp:1450
+#, fuzzy, qt-format
+#| msgctxt "KCalendarCore::IncidencePrivate|"
+#| msgid "Recurs every %n days until %1"
+#| msgid_plural "Recurs every %n days until %1"
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Event recurs every N days until <end date>"
 msgid "Recurs every %n days until %1"
 msgid_plural "Recurs every %n days until %1"
 msgstr[0] "Se ponavlja vsak %n dan do %1"
@@ -614,7 +626,7 @@ msgstr[1] "Se ponavlja vsake %n dneva do %1"
 msgstr[2] "Se ponavlja vsake %n dni do %1"
 msgstr[3] "Se ponavlja vsakih %n dni do %1"
 
-#: incidence.cpp:1452
+#: incidence.cpp:1455
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "Recurs every %n days"
@@ -624,17 +636,12 @@ msgstr[1] "Se ponavlja vsaka %n dneva"
 msgstr[2] "Se ponavlja vsake %n dni"
 msgstr[3] "Se ponavlja vsakih %n dni"
 
-#: incidence.cpp:1462
-msgctxt "KCalendarCore::IncidencePrivate|separator for list of days"
-msgid ", "
-msgstr ", "
-
-#: incidence.cpp:1469
+#: incidence.cpp:1468
 msgctxt "KCalendarCore::IncidencePrivate|Recurs weekly on no days"
 msgid "no days"
 msgstr "ni dni"
 
-#: incidence.cpp:1474
+#: incidence.cpp:1475
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs weekly on [list of days] until end-"
@@ -646,7 +653,7 @@ msgstr[1] "Se ponavlja vsaka %n tedna na %1 do %2"
 msgstr[2] "Se ponavlja vsake %n tedne na %1 do %2"
 msgstr[3] "Se ponavlja vsakih %n tednov na %1 do %2"
 
-#: incidence.cpp:1480
+#: incidence.cpp:1481
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|Recurs weekly on [list of days]"
 msgid "Recurs every %n weeks on %1"
@@ -656,7 +663,7 @@ msgstr[1] "Se ponavlja vsaka %n tedna na %1"
 msgstr[2] "Se ponavlja vsake %n tedne na %1"
 msgstr[3] "Se ponavlja vsakih %n tednov na %1"
 
-#: incidence.cpp:1490
+#: incidence.cpp:1491
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs every N months on the [2nd~|3rd~|...] "
@@ -668,7 +675,7 @@ msgstr[1] "Se ponavlja vsaka %n meseca na %1 %2 do %3"
 msgstr[2] "Se ponavlja vsake %n mesece na %1 %2 do %3"
 msgstr[3] "Se ponavlja vsakih %n mesecev na %1 %2 do %3"
 
-#: incidence.cpp:1499
+#: incidence.cpp:1500
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs every N months on the [2nd~|3rd~|...] "
@@ -680,7 +687,7 @@ msgstr[1] "Se ponavlja vsaka %n meseca na %1 %2"
 msgstr[2] "Se ponavlja vsake %n mesece na %1 %2"
 msgstr[3] "Se ponavlja vsakih %n mesecev na %1 %2"
 
-#: incidence.cpp:1510
+#: incidence.cpp:1511
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs monthly on the [1st~|2nd~|...] day "
@@ -692,7 +699,7 @@ msgstr[1] "Ponavlja se vsaka %n meseca na %1. dan do %2"
 msgstr[2] "Ponavlja se vsake %n mesece na %1. dan do %2"
 msgstr[3] "Ponavlja se vsakih %n mesecev na %1. dan do %2"
 
-#: incidence.cpp:1518
+#: incidence.cpp:1519
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs monthly on the [1st~|2nd~|...] day"
@@ -703,7 +710,7 @@ msgstr[1] "Se ponavlja se vsaka %n meseca na %1. dan"
 msgstr[2] "Se ponavlja se vsake %n mesece na %1. dan"
 msgstr[3] "Se ponavlja se vsakih %n mesecev na %1. dan"
 
-#: incidence.cpp:1529
+#: incidence.cpp:1530
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs Every N years on month-name [1st~|"
@@ -715,7 +722,7 @@ msgstr[1] "Se ponavlja se vsaki %n leti na %1 %2 do %3"
 msgstr[2] "Se ponavlja se vsake %n leta na %1 %2 do %3"
 msgstr[3] "Se ponavlja se vsakih %n let na %1 %2 do %3"
 
-#: incidence.cpp:1539
+#: incidence.cpp:1540
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs Every N years on month-name [1st~|"
@@ -727,7 +734,7 @@ msgstr[1] "Se ponavlja vsaki %n leti na %1 %2"
 msgstr[2] "Se ponavlja vsaka %n leta na %1 %2"
 msgstr[3] "Se ponavlja vsakih %n let na %1 %2"
 
-#: incidence.cpp:1543 incidence.cpp:1546
+#: incidence.cpp:1544 incidence.cpp:1547
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs Every year on month-name [1st~|"
@@ -735,7 +742,7 @@ msgctxt ""
 msgid "Recurs yearly on %1 %2"
 msgstr "Se ponavlja vsako leto na %1 %2"
 
-#: incidence.cpp:1557
+#: incidence.cpp:1558
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs every N years on day N until end-date"
@@ -746,7 +753,7 @@ msgstr[1] "Se ponavlja vsaki %n leti na dan %1 do %2"
 msgstr[2] "Se ponavlja vsake %n leta na dan %1 do %2"
 msgstr[3] "Se ponavlja vsakih %n let na dan %1 do %2"
 
-#: incidence.cpp:1563
+#: incidence.cpp:1564
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|Recurs every N YEAR[S] on day N"
 msgid "Recurs every %n years on day %1"
@@ -756,7 +763,7 @@ msgstr[1] "Se ponavlja se vsaki %n leti na dan %1"
 msgstr[2] "Se ponavlja se vsake %n leta na dan %1"
 msgstr[3] "Se ponavlja se vsakih %n let na dan %1"
 
-#: incidence.cpp:1574
+#: incidence.cpp:1575
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Every N years on the [2nd~|3rd~|...] "
@@ -768,7 +775,7 @@ msgstr[1] "Vsaki %n leti na %1 %2 od %3 do %4"
 msgstr[2] "Vsaka %n leta na %1 %2 od %3 do %4"
 msgstr[3] "Vsakih %n let na %1 %2 od %3 do %4"
 
-#: incidence.cpp:1586
+#: incidence.cpp:1587
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Every N years on the [2nd~|3rd~|...] "
@@ -780,18 +787,18 @@ msgstr[1] "Vsaki %n leti na %1 %2 od %3"
 msgstr[2] "Vsake %n leta na %1 %2 od %3"
 msgstr[3] "Vsakih %n let na %1 %2 od %3"
 
-#: incidence.cpp:1596
+#: incidence.cpp:1597
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "Incidence recurs"
 msgstr "Incidenca se ponavlja"
 
-#: incidence.cpp:1609
+#: incidence.cpp:1610
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "minute %1"
 msgstr "minuta %1"
 
-#: incidence.cpp:1653
+#: incidence.cpp:1654
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "%n days"
@@ -801,13 +808,17 @@ msgstr[1] "%n dneva"
 msgstr[2] "%n dni"
 msgstr[3] "%n dni"
 
-#: incidence.cpp:1684
+#: incidence.cpp:1685
 msgctxt "KCalendarCore::IncidencePrivate|ellipsis"
 msgid "…"
 msgstr "…"
 
-#: incidence.cpp:1686
+#: incidence.cpp:1687
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "%1 (excluding %2)"
 msgstr "%1 (razen %2)"
+
+#~ msgctxt "KCalendarCore::IncidencePrivate|separator for list of days"
+#~ msgid ", "
+#~ msgstr ", "

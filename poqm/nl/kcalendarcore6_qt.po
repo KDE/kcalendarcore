@@ -562,14 +562,18 @@ msgid "31st"
 msgstr "31e"
 
 #: incidence.cpp:1421
-#, qt-format
-msgctxt "KCalendarCore::IncidencePrivate|"
+#, fuzzy, qt-format
+#| msgctxt "KCalendarCore::IncidencePrivate|"
+#| msgid "Recurs every %n minutes until %1"
+#| msgid_plural "Recurs every %n minutes until %1"
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Event recurs every N minutes until <end time>"
 msgid "Recurs every %n minutes until %1"
 msgid_plural "Recurs every %n minutes until %1"
 msgstr[0] "Herhaalt iedere %n minuut tot %1"
 msgstr[1] "Herhaalt iedere %n minuten tot %1"
 
-#: incidence.cpp:1426
+#: incidence.cpp:1427
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "Recurs every %n minutes"
@@ -577,15 +581,19 @@ msgid_plural "Recurs every %n minutes"
 msgstr[0] "Herhaalt iedere %n minuut"
 msgstr[1] "Herhaalt iedere %n minuten"
 
-#: incidence.cpp:1434
-#, qt-format
-msgctxt "KCalendarCore::IncidencePrivate|"
+#: incidence.cpp:1436
+#, fuzzy, qt-format
+#| msgctxt "KCalendarCore::IncidencePrivate|"
+#| msgid "Recurs every %n hours until %1"
+#| msgid_plural "Recurs every %n hours until %1"
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Event recurs every N hours until <end time>"
 msgid "Recurs every %n hours until %1"
 msgid_plural "Recurs every %n hours until %1"
 msgstr[0] "Herhaalt iedere %n uur tot %1"
 msgstr[1] "Herhaalt iedere %n uren tot %1"
 
-#: incidence.cpp:1439
+#: incidence.cpp:1441
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "Recurs every %n hours"
@@ -593,15 +601,19 @@ msgid_plural "Recurs every %n hours"
 msgstr[0] "Herhaalt iedere %n uur"
 msgstr[1] "Herhaalt iedere %n uren"
 
-#: incidence.cpp:1447
-#, qt-format
-msgctxt "KCalendarCore::IncidencePrivate|"
+#: incidence.cpp:1450
+#, fuzzy, qt-format
+#| msgctxt "KCalendarCore::IncidencePrivate|"
+#| msgid "Recurs every %n days until %1"
+#| msgid_plural "Recurs every %n days until %1"
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Event recurs every N days until <end date>"
 msgid "Recurs every %n days until %1"
 msgid_plural "Recurs every %n days until %1"
 msgstr[0] "Herhaalt iedere %n dag tot %1"
 msgstr[1] "Herhaalt iedere %n dagen tot %1"
 
-#: incidence.cpp:1452
+#: incidence.cpp:1455
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "Recurs every %n days"
@@ -609,17 +621,12 @@ msgid_plural "Recurs every %n days"
 msgstr[0] "Herhaalt iedere %n dag"
 msgstr[1] "Herhaalt iedere %n dagen"
 
-#: incidence.cpp:1462
-msgctxt "KCalendarCore::IncidencePrivate|separator for list of days"
-msgid ", "
-msgstr ", "
-
-#: incidence.cpp:1469
+#: incidence.cpp:1468
 msgctxt "KCalendarCore::IncidencePrivate|Recurs weekly on no days"
 msgid "no days"
 msgstr "geen dagen"
 
-#: incidence.cpp:1474
+#: incidence.cpp:1475
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs weekly on [list of days] until end-"
@@ -629,7 +636,7 @@ msgid_plural "Recurs every %n weeks on %1 until %2"
 msgstr[0] "Herhaalt iedere %n week op %1 tot %2"
 msgstr[1] "Herhaalt iedere %n weken op %1 tot %2"
 
-#: incidence.cpp:1480
+#: incidence.cpp:1481
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|Recurs weekly on [list of days]"
 msgid "Recurs every %n weeks on %1"
@@ -637,7 +644,7 @@ msgid_plural "Recurs every %n weeks on %1"
 msgstr[0] "Herhaalt iedere %n week op %1"
 msgstr[1] "Herhaalt iedere %n weken op %1"
 
-#: incidence.cpp:1490
+#: incidence.cpp:1491
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs every N months on the [2nd~|3rd~|...] "
@@ -647,7 +654,7 @@ msgid_plural "Recurs every %n months on the %1 %2 until %3"
 msgstr[0] "Herhaalt elke %n maand op de %1 %2 tot %3"
 msgstr[1] "Herhaalt elke %n maanden op de %1 %2 tot %3"
 
-#: incidence.cpp:1499
+#: incidence.cpp:1500
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs every N months on the [2nd~|3rd~|...] "
@@ -657,7 +664,7 @@ msgid_plural "Recurs every %n months on the %1 %2"
 msgstr[0] "Herhaalt elke %n maand op de %1 %2"
 msgstr[1] "Herhaalt elke %n maanden op de %1 %2"
 
-#: incidence.cpp:1510
+#: incidence.cpp:1511
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs monthly on the [1st~|2nd~|...] day "
@@ -667,7 +674,7 @@ msgid_plural "Recurs every %n months on the %1 day until %2"
 msgstr[0] "Herhaalt elke %n maand op de %1 dag tot %2"
 msgstr[1] "Herhaalt elke %n maanden op de %1 dag tot %2"
 
-#: incidence.cpp:1518
+#: incidence.cpp:1519
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs monthly on the [1st~|2nd~|...] day"
@@ -676,7 +683,7 @@ msgid_plural "Recurs every %n month on the %1 day"
 msgstr[0] "Herhaalt elke %n maand op de %1 dag"
 msgstr[1] "Herhaalt elke %n maanden op de %1 dag"
 
-#: incidence.cpp:1529
+#: incidence.cpp:1530
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs Every N years on month-name [1st~|"
@@ -686,7 +693,7 @@ msgid_plural "Recurs every %n years on %1 %2 until %3"
 msgstr[0] "Herhaalt iedere %n jaar op %1 %2 tot %3"
 msgstr[1] "Herhaalt iedere %n jaren op %1 %2 tot %3"
 
-#: incidence.cpp:1539
+#: incidence.cpp:1540
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs Every N years on month-name [1st~|"
@@ -696,7 +703,7 @@ msgid_plural "Recurs every %n years on %1 %2"
 msgstr[0] "Herhaalt iedere %n jaar op %1 %2"
 msgstr[1] "Herhaalt iedere %n jaren op %1 %2"
 
-#: incidence.cpp:1543 incidence.cpp:1546
+#: incidence.cpp:1544 incidence.cpp:1547
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs Every year on month-name [1st~|"
@@ -704,7 +711,7 @@ msgctxt ""
 msgid "Recurs yearly on %1 %2"
 msgstr "Herhaal ieder jaar op %1 %2"
 
-#: incidence.cpp:1557
+#: incidence.cpp:1558
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs every N years on day N until end-date"
@@ -713,7 +720,7 @@ msgid_plural "Recurs every %n years on day %1 until %2"
 msgstr[0] "Herhaalt iedere %n jaar op dag %1 tot %2"
 msgstr[1] "Herhaalt iedere %n jaren op dag %1 tot %2"
 
-#: incidence.cpp:1563
+#: incidence.cpp:1564
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|Recurs every N YEAR[S] on day N"
 msgid "Recurs every %n years on day %1"
@@ -721,7 +728,7 @@ msgid_plural "Recurs every %n years on day %1"
 msgstr[0] "Herhaalt iedere %n jaar op dag %1"
 msgstr[1] "Herhaalt iedere %n jaren op dag %1"
 
-#: incidence.cpp:1574
+#: incidence.cpp:1575
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Every N years on the [2nd~|3rd~|...] "
@@ -731,7 +738,7 @@ msgid_plural "Every %n years on the %1 %2 of %3 until %4"
 msgstr[0] "Elke %n jaar op de %1 %2 van %3 tot %4"
 msgstr[1] "Elke %n jaren op de %1 %2 van %3 tot %4"
 
-#: incidence.cpp:1586
+#: incidence.cpp:1587
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Every N years on the [2nd~|3rd~|...] "
@@ -741,18 +748,18 @@ msgid_plural "Every %n years on the %1 %2 of %3"
 msgstr[0] "Elke %n jaar op de %1 %2 van %3"
 msgstr[1] "Elke %n jaren op de %1 %2 van %3"
 
-#: incidence.cpp:1596
+#: incidence.cpp:1597
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "Incidence recurs"
 msgstr "Item herhalen"
 
-#: incidence.cpp:1609
+#: incidence.cpp:1610
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "minute %1"
 msgstr "minuut %1"
 
-#: incidence.cpp:1653
+#: incidence.cpp:1654
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "%n days"
@@ -760,13 +767,17 @@ msgid_plural "%n days"
 msgstr[0] "%n dag"
 msgstr[1] "%n dagen"
 
-#: incidence.cpp:1684
+#: incidence.cpp:1685
 msgctxt "KCalendarCore::IncidencePrivate|ellipsis"
 msgid "…"
 msgstr "…"
 
-#: incidence.cpp:1686
+#: incidence.cpp:1687
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "%1 (excluding %2)"
 msgstr "%1 (zonder %2)"
+
+#~ msgctxt "KCalendarCore::IncidencePrivate|separator for list of days"
+#~ msgid ", "
+#~ msgstr ", "

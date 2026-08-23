@@ -568,8 +568,12 @@ msgid "31st"
 msgstr "31-й"
 
 #: incidence.cpp:1421
-#, qt-format
-msgctxt "KCalendarCore::IncidencePrivate|"
+#, fuzzy, qt-format
+#| msgctxt "KCalendarCore::IncidencePrivate|"
+#| msgid "Recurs every %n minutes until %1"
+#| msgid_plural "Recurs every %n minutes until %1"
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Event recurs every N minutes until <end time>"
 msgid "Recurs every %n minutes until %1"
 msgid_plural "Recurs every %n minutes until %1"
 msgstr[0] "Повторюється кожну %n хвилину до %1"
@@ -577,7 +581,7 @@ msgstr[1] "Повторюється кожні %n хвилини до %1"
 msgstr[2] "Повторюється кожні %n хвилин до %1"
 msgstr[3] "Повторюється щохвилини до %1"
 
-#: incidence.cpp:1426
+#: incidence.cpp:1427
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "Recurs every %n minutes"
@@ -587,9 +591,13 @@ msgstr[1] "Повторюється кожні %n хвилини"
 msgstr[2] "Повторюється кожні %n хвилин"
 msgstr[3] "Повторюється щохвилини"
 
-#: incidence.cpp:1434
-#, qt-format
-msgctxt "KCalendarCore::IncidencePrivate|"
+#: incidence.cpp:1436
+#, fuzzy, qt-format
+#| msgctxt "KCalendarCore::IncidencePrivate|"
+#| msgid "Recurs every %n hours until %1"
+#| msgid_plural "Recurs every %n hours until %1"
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Event recurs every N hours until <end time>"
 msgid "Recurs every %n hours until %1"
 msgid_plural "Recurs every %n hours until %1"
 msgstr[0] "Повторюється кожну %n годину до %1"
@@ -597,7 +605,7 @@ msgstr[1] "Повторюється кожні %n години до %1"
 msgstr[2] "Повторюється кожні %n годин до %1"
 msgstr[3] "Повторюється щогодини до %1"
 
-#: incidence.cpp:1439
+#: incidence.cpp:1441
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "Recurs every %n hours"
@@ -607,9 +615,13 @@ msgstr[1] "Повторюється кожні %n години"
 msgstr[2] "Повторюється кожні %n годин"
 msgstr[3] "Повторюється щогодини"
 
-#: incidence.cpp:1447
-#, qt-format
-msgctxt "KCalendarCore::IncidencePrivate|"
+#: incidence.cpp:1450
+#, fuzzy, qt-format
+#| msgctxt "KCalendarCore::IncidencePrivate|"
+#| msgid "Recurs every %n days until %1"
+#| msgid_plural "Recurs every %n days until %1"
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Event recurs every N days until <end date>"
 msgid "Recurs every %n days until %1"
 msgid_plural "Recurs every %n days until %1"
 msgstr[0] "Повторюється кожен %n день до %1"
@@ -617,7 +629,7 @@ msgstr[1] "Повторюється кожні %n дні до %1"
 msgstr[2] "Повторюється кожні %n днів до %1"
 msgstr[3] "Повторюється щодня до %1"
 
-#: incidence.cpp:1452
+#: incidence.cpp:1455
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "Recurs every %n days"
@@ -627,17 +639,12 @@ msgstr[1] "Повторення кожен %n дні"
 msgstr[2] "Повторення кожен %n днів"
 msgstr[3] "Повторення щодня"
 
-#: incidence.cpp:1462
-msgctxt "KCalendarCore::IncidencePrivate|separator for list of days"
-msgid ", "
-msgstr ", "
-
-#: incidence.cpp:1469
+#: incidence.cpp:1468
 msgctxt "KCalendarCore::IncidencePrivate|Recurs weekly on no days"
 msgid "no days"
 msgstr "без днів"
 
-#: incidence.cpp:1474
+#: incidence.cpp:1475
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs weekly on [list of days] until end-"
@@ -649,7 +656,7 @@ msgstr[1] "Повторюється кожні %n тижні у %1 до %2"
 msgstr[2] "Повторюється кожні %n тижнів у %1 до %2"
 msgstr[3] "Повторюється щотижня у %1 до %2"
 
-#: incidence.cpp:1480
+#: incidence.cpp:1481
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|Recurs weekly on [list of days]"
 msgid "Recurs every %n weeks on %1"
@@ -659,7 +666,7 @@ msgstr[1] "Повторюється кожні %n тижні у %1"
 msgstr[2] "Повторюється кожні %n тижнів у %1"
 msgstr[3] "Повторюється щотижня у %1"
 
-#: incidence.cpp:1490
+#: incidence.cpp:1491
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs every N months on the [2nd~|3rd~|...] "
@@ -671,7 +678,7 @@ msgstr[1] "Повторюється кожні %n місяці у %1 %2 до %3"
 msgstr[2] "Повторюється кожні %n місяців у %1 %2 до %3"
 msgstr[3] "Повторюється щомісяця у %1 %2 до %3"
 
-#: incidence.cpp:1499
+#: incidence.cpp:1500
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs every N months on the [2nd~|3rd~|...] "
@@ -683,7 +690,7 @@ msgstr[1] "Повторюється кожні %n місяці у %1 %2"
 msgstr[2] "Повторюється кожні %n місяців у %1 %2"
 msgstr[3] "Повторюється щомісяця у %1 %2"
 
-#: incidence.cpp:1510
+#: incidence.cpp:1511
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs monthly on the [1st~|2nd~|...] day "
@@ -695,7 +702,7 @@ msgstr[1] "Повторюється кожні %n місяці у %1 день д
 msgstr[2] "Повторюється кожні %n місяців у %1 день до %2"
 msgstr[3] "Повторюється щомісяця у %1 день до %2"
 
-#: incidence.cpp:1518
+#: incidence.cpp:1519
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs monthly on the [1st~|2nd~|...] day"
@@ -706,7 +713,7 @@ msgstr[1] "Повторюється кожні %n місяці у %1 день"
 msgstr[2] "Повторюється кожні %n місяців у %1 день"
 msgstr[3] "Повторюється щомісяця у %1 день"
 
-#: incidence.cpp:1529
+#: incidence.cpp:1530
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs Every N years on month-name [1st~|"
@@ -718,7 +725,7 @@ msgstr[1] "Повторюється кожні %n роки у %1 %2 до %3"
 msgstr[2] "Повторюється кожні %n років у %1 %2 до %3"
 msgstr[3] "Повторюється щороку у %1 %2 до %3"
 
-#: incidence.cpp:1539
+#: incidence.cpp:1540
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs Every N years on month-name [1st~|"
@@ -730,7 +737,7 @@ msgstr[1] "Повторюється кожні %n роки у %1 %2"
 msgstr[2] "Повторюється кожні %n років у %1 %2"
 msgstr[3] "Повторюється щороку у %1 %2"
 
-#: incidence.cpp:1543 incidence.cpp:1546
+#: incidence.cpp:1544 incidence.cpp:1547
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs Every year on month-name [1st~|"
@@ -738,7 +745,7 @@ msgctxt ""
 msgid "Recurs yearly on %1 %2"
 msgstr "Повторюється кожен %1 рік у %2"
 
-#: incidence.cpp:1557
+#: incidence.cpp:1558
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs every N years on day N until end-date"
@@ -749,7 +756,7 @@ msgstr[1] "Повторюється кожні %n роки у %1 день до %
 msgstr[2] "Повторюється кожні %n років у %1 день до %2"
 msgstr[3] "Повторюється щороку у %1 день до %2"
 
-#: incidence.cpp:1563
+#: incidence.cpp:1564
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|Recurs every N YEAR[S] on day N"
 msgid "Recurs every %n years on day %1"
@@ -759,7 +766,7 @@ msgstr[1] "Повторюється кожні %n роки у день %1"
 msgstr[2] "Повторюється кожен %n років у день %1"
 msgstr[3] "Повторюється кожен рік у день %1"
 
-#: incidence.cpp:1574
+#: incidence.cpp:1575
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Every N years on the [2nd~|3rd~|...] "
@@ -771,7 +778,7 @@ msgstr[1] "Кожні %n роки у %1 %2 %3, до %4"
 msgstr[2] "Кожні %n років у %1 %2 %3, до %4"
 msgstr[3] "Щороку у %1 %2 %3, до %4"
 
-#: incidence.cpp:1586
+#: incidence.cpp:1587
 #, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Every N years on the [2nd~|3rd~|...] "
@@ -783,18 +790,18 @@ msgstr[1] "Кожен %n роки у %1 %2 %3"
 msgstr[2] "Кожен %n років у %1 %2 %3"
 msgstr[3] "Кожен щороку у %1 %2 %3"
 
-#: incidence.cpp:1596
+#: incidence.cpp:1597
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "Incidence recurs"
 msgstr "Подія повторюється"
 
-#: incidence.cpp:1609
+#: incidence.cpp:1610
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "minute %1"
 msgstr "хвилина %1"
 
-#: incidence.cpp:1653
+#: incidence.cpp:1654
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "%n days"
@@ -804,13 +811,17 @@ msgstr[1] "%n дні"
 msgstr[2] "%n днів"
 msgstr[3] "%n день"
 
-#: incidence.cpp:1684
+#: incidence.cpp:1685
 msgctxt "KCalendarCore::IncidencePrivate|ellipsis"
 msgid "…"
 msgstr "…"
 
-#: incidence.cpp:1686
+#: incidence.cpp:1687
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "%1 (excluding %2)"
 msgstr "%1 (без %2)"
+
+#~ msgctxt "KCalendarCore::IncidencePrivate|separator for list of days"
+#~ msgid ", "
+#~ msgstr ", "
