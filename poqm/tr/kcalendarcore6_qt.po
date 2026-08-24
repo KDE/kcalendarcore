@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2026-08-21 19:48+0300\n"
+"PO-Revision-Date: 2026-08-23 18:45+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -561,16 +561,13 @@ msgid "31st"
 msgstr "31."
 
 #: incidence.cpp:1421
-#, fuzzy, qt-format
-#| msgctxt "KCalendarCore::IncidencePrivate|"
-#| msgid "Recurs every %n minutes until %1"
-#| msgid_plural "Recurs every %n minutes until %1"
+#, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Event recurs every N minutes until <end time>"
 msgid "Recurs every %n minutes until %1"
 msgid_plural "Recurs every %n minutes until %1"
-msgstr[0] "%1 tarihine kadar her %n dakikada bir yinelenir"
-msgstr[1] "%1 tarihine kadar her %n dakikada bir yinelenir"
+msgstr[0] "%1 saatine kadar her %n dakikada bir yinelenir"
+msgstr[1] "%1 saatine kadar her %n dakikada bir yinelenir"
 
 #: incidence.cpp:1427
 #, qt-format
@@ -581,16 +578,13 @@ msgstr[0] "Her %n dakikada bir yinelenir"
 msgstr[1] "Her %n dakikada bir yinelenir"
 
 #: incidence.cpp:1436
-#, fuzzy, qt-format
-#| msgctxt "KCalendarCore::IncidencePrivate|"
-#| msgid "Recurs every %n hours until %1"
-#| msgid_plural "Recurs every %n hours until %1"
+#, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Event recurs every N hours until <end time>"
 msgid "Recurs every %n hours until %1"
 msgid_plural "Recurs every %n hours until %1"
-msgstr[0] "%1 tarihine kadar her %n saatte bir yinelenir"
-msgstr[1] "%1 tarihine kadar her %n saatte bir yinelenir"
+msgstr[0] "%1 saatine kadar her %n saatte bir yinelenir"
+msgstr[1] "%1 saatine kadar her %n saatte bir yinelenir"
 
 #: incidence.cpp:1441
 #, qt-format
@@ -601,10 +595,7 @@ msgstr[0] "Her %n saatte bir yinelenir"
 msgstr[1] "Her %n saatte bir yinelenir"
 
 #: incidence.cpp:1450
-#, fuzzy, qt-format
-#| msgctxt "KCalendarCore::IncidencePrivate|"
-#| msgid "Recurs every %n days until %1"
-#| msgid_plural "Recurs every %n days until %1"
+#, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Event recurs every N days until <end date>"
 msgid "Recurs every %n days until %1"

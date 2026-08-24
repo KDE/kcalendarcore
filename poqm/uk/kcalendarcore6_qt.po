@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2026-08-20 14:43+0300\n"
+"PO-Revision-Date: 2026-08-23 13:30+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -568,10 +568,7 @@ msgid "31st"
 msgstr "31-й"
 
 #: incidence.cpp:1421
-#, fuzzy, qt-format
-#| msgctxt "KCalendarCore::IncidencePrivate|"
-#| msgid "Recurs every %n minutes until %1"
-#| msgid_plural "Recurs every %n minutes until %1"
+#, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Event recurs every N minutes until <end time>"
 msgid "Recurs every %n minutes until %1"
@@ -592,10 +589,7 @@ msgstr[2] "Повторюється кожні %n хвилин"
 msgstr[3] "Повторюється щохвилини"
 
 #: incidence.cpp:1436
-#, fuzzy, qt-format
-#| msgctxt "KCalendarCore::IncidencePrivate|"
-#| msgid "Recurs every %n hours until %1"
-#| msgid_plural "Recurs every %n hours until %1"
+#, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Event recurs every N hours until <end time>"
 msgid "Recurs every %n hours until %1"
@@ -616,10 +610,7 @@ msgstr[2] "Повторюється кожні %n годин"
 msgstr[3] "Повторюється щогодини"
 
 #: incidence.cpp:1450
-#, fuzzy, qt-format
-#| msgctxt "KCalendarCore::IncidencePrivate|"
-#| msgid "Recurs every %n days until %1"
-#| msgid_plural "Recurs every %n days until %1"
+#, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Event recurs every N days until <end date>"
 msgid "Recurs every %n days until %1"

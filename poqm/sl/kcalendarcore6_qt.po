@@ -565,10 +565,7 @@ msgid "31st"
 msgstr "31."
 
 #: incidence.cpp:1421
-#, fuzzy, qt-format
-#| msgctxt "KCalendarCore::IncidencePrivate|"
-#| msgid "Recurs every %n minutes until %1"
-#| msgid_plural "Recurs every %n minutes until %1"
+#, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Event recurs every N minutes until <end time>"
 msgid "Recurs every %n minutes until %1"
@@ -589,10 +586,7 @@ msgstr[2] "Se ponavlja vsake %n minute"
 msgstr[3] "Se ponavlja vsakih %n minut"
 
 #: incidence.cpp:1436
-#, fuzzy, qt-format
-#| msgctxt "KCalendarCore::IncidencePrivate|"
-#| msgid "Recurs every %n hours until %1"
-#| msgid_plural "Recurs every %n hours until %1"
+#, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Event recurs every N hours until <end time>"
 msgid "Recurs every %n hours until %1"
@@ -613,16 +607,13 @@ msgstr[2] "Se ponavlja vsake %n ure"
 msgstr[3] "Se ponavlja vsakih %n ur"
 
 #: incidence.cpp:1450
-#, fuzzy, qt-format
-#| msgctxt "KCalendarCore::IncidencePrivate|"
-#| msgid "Recurs every %n days until %1"
-#| msgid_plural "Recurs every %n days until %1"
+#, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Event recurs every N days until <end date>"
 msgid "Recurs every %n days until %1"
 msgid_plural "Recurs every %n days until %1"
 msgstr[0] "Se ponavlja vsak %n dan do %1"
-msgstr[1] "Se ponavlja vsake %n dneva do %1"
+msgstr[1] "Se ponavlja vsaka %n dni do %1"
 msgstr[2] "Se ponavlja vsake %n dni do %1"
 msgstr[3] "Se ponavlja vsakih %n dni do %1"
 

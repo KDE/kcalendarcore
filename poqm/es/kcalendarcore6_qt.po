@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcalendarcore6_qt\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"PO-Revision-Date: 2026-08-20 00:53+0200\n"
+"PO-Revision-Date: 2026-08-23 16:13+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -572,10 +572,7 @@ msgid "31st"
 msgstr "31.ᵉʳ"
 
 #: incidence.cpp:1421
-#, fuzzy, qt-format
-#| msgctxt "KCalendarCore::IncidencePrivate|"
-#| msgid "Recurs every %n minutes until %1"
-#| msgid_plural "Recurs every %n minutes until %1"
+#, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Event recurs every N minutes until <end time>"
 msgid "Recurs every %n minutes until %1"
@@ -592,10 +589,7 @@ msgstr[0] "Se repite cada minuto"
 msgstr[1] "Se repite cada %n minutos"
 
 #: incidence.cpp:1436
-#, fuzzy, qt-format
-#| msgctxt "KCalendarCore::IncidencePrivate|"
-#| msgid "Recurs every %n hours until %1"
-#| msgid_plural "Recurs every %n hours until %1"
+#, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Event recurs every N hours until <end time>"
 msgid "Recurs every %n hours until %1"
@@ -612,10 +606,7 @@ msgstr[0] "Se repite cada hora"
 msgstr[1] "Se repite cada %n horas"
 
 #: incidence.cpp:1450
-#, fuzzy, qt-format
-#| msgctxt "KCalendarCore::IncidencePrivate|"
-#| msgid "Recurs every %n days until %1"
-#| msgid_plural "Recurs every %n days until %1"
+#, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Event recurs every N days until <end date>"
 msgid "Recurs every %n days until %1"
@@ -787,7 +778,3 @@ msgstr "…"
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "%1 (excluding %2)"
 msgstr "%1 (excepto %2)"
-
-#~ msgctxt "KCalendarCore::IncidencePrivate|separator for list of days"
-#~ msgid ", "
-#~ msgstr ", "

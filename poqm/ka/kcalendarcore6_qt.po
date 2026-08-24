@@ -562,10 +562,7 @@ msgid "31st"
 msgstr "ოცდამეთერთმეტე"
 
 #: incidence.cpp:1421
-#, fuzzy, qt-format
-#| msgctxt "KCalendarCore::IncidencePrivate|"
-#| msgid "Recurs every %n minutes until %1"
-#| msgid_plural "Recurs every %n minutes until %1"
+#, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Event recurs every N minutes until <end time>"
 msgid "Recurs every %n minutes until %1"
@@ -582,10 +579,7 @@ msgstr[0] "მეორდება ყოველ %n წუთში"
 msgstr[1] "მეორდება ყოველ %n წუთში"
 
 #: incidence.cpp:1436
-#, fuzzy, qt-format
-#| msgctxt "KCalendarCore::IncidencePrivate|"
-#| msgid "Recurs every %n hours until %1"
-#| msgid_plural "Recurs every %n hours until %1"
+#, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Event recurs every N hours until <end time>"
 msgid "Recurs every %n hours until %1"
@@ -602,10 +596,7 @@ msgstr[0] "მეორდება ყოველ %n საათში"
 msgstr[1] "მეორდება ყოველ %n საათში"
 
 #: incidence.cpp:1450
-#, fuzzy, qt-format
-#| msgctxt "KCalendarCore::IncidencePrivate|"
-#| msgid "Recurs every %n days until %1"
-#| msgid_plural "Recurs every %n days until %1"
+#, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Event recurs every N days until <end date>"
 msgid "Recurs every %n days until %1"

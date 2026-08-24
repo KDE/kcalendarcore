@@ -562,15 +562,12 @@ msgid "31st"
 msgstr "31 日"
 
 #: incidence.cpp:1421
-#, fuzzy, qt-format
-#| msgctxt "KCalendarCore::IncidencePrivate|"
-#| msgid "Recurs every %n minutes until %1"
-#| msgid_plural "Recurs every %n minutes until %1"
+#, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Event recurs every N minutes until <end time>"
 msgid "Recurs every %n minutes until %1"
 msgid_plural "Recurs every %n minutes until %1"
-msgstr[0] "每 %n 分钟重复一次，直到 %1 为止"
+msgstr[0] ""
 
 #: incidence.cpp:1427
 #, qt-format
@@ -580,15 +577,12 @@ msgid_plural "Recurs every %n minutes"
 msgstr[0] "每 %n 分钟重复一次"
 
 #: incidence.cpp:1436
-#, fuzzy, qt-format
-#| msgctxt "KCalendarCore::IncidencePrivate|"
-#| msgid "Recurs every %n hours until %1"
-#| msgid_plural "Recurs every %n hours until %1"
+#, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Event recurs every N hours until <end time>"
 msgid "Recurs every %n hours until %1"
 msgid_plural "Recurs every %n hours until %1"
-msgstr[0] "每 %n 小时重复一次，直到 %1 为止"
+msgstr[0] ""
 
 #: incidence.cpp:1441
 #, qt-format
@@ -598,15 +592,12 @@ msgid_plural "Recurs every %n hours"
 msgstr[0] "每 %n 小时重复一次"
 
 #: incidence.cpp:1450
-#, fuzzy, qt-format
-#| msgctxt "KCalendarCore::IncidencePrivate|"
-#| msgid "Recurs every %n days until %1"
-#| msgid_plural "Recurs every %n days until %1"
+#, qt-format
 msgctxt ""
 "KCalendarCore::IncidencePrivate|Event recurs every N days until <end date>"
 msgid "Recurs every %n days until %1"
 msgid_plural "Recurs every %n days until %1"
-msgstr[0] "每 %n 天重复一次，直到 %1 为止"
+msgstr[0] ""
 
 #: incidence.cpp:1455
 #, qt-format
@@ -758,7 +749,3 @@ msgstr "…"
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "%1 (excluding %2)"
 msgstr "%1 (不包括 %2)"
-
-#~ msgctxt "KCalendarCore::IncidencePrivate|separator for list of days"
-#~ msgid ", "
-#~ msgstr "、"
