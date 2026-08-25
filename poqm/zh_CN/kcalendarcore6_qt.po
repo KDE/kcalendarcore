@@ -567,7 +567,7 @@ msgctxt ""
 "KCalendarCore::IncidencePrivate|Event recurs every N minutes until <end time>"
 msgid "Recurs every %n minutes until %1"
 msgid_plural "Recurs every %n minutes until %1"
-msgstr[0] ""
+msgstr[0] "每 %n 分钟重复一次，直到 %1 为止"
 
 #: incidence.cpp:1427
 #, qt-format
@@ -582,7 +582,7 @@ msgctxt ""
 "KCalendarCore::IncidencePrivate|Event recurs every N hours until <end time>"
 msgid "Recurs every %n hours until %1"
 msgid_plural "Recurs every %n hours until %1"
-msgstr[0] ""
+msgstr[0] "每 %n 小时重复一次，直到 %1 为止"
 
 #: incidence.cpp:1441
 #, qt-format
@@ -597,7 +597,7 @@ msgctxt ""
 "KCalendarCore::IncidencePrivate|Event recurs every N days until <end date>"
 msgid "Recurs every %n days until %1"
 msgid_plural "Recurs every %n days until %1"
-msgstr[0] ""
+msgstr[0] "每 %n 天重复一次，直到 %1 为止"
 
 #: incidence.cpp:1455
 #, qt-format
