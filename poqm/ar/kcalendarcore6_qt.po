@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2026-08-17 21:15+0400\n"
+"PO-Revision-Date: 2026-08-29 17:18+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -238,178 +238,174 @@ msgstr "نهائية"
 msgctxt "KCalendarCore::IncidencePrivate|number of occurrences"
 msgid "(%n occurrences)"
 msgid_plural "(%n occurrences)"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "(ولا تكرار)"
+msgstr[1] "(تكرار واحد)"
+msgstr[2] "(تكراران)"
+msgstr[3] "(%n تكرارات)"
+msgstr[4] "(%n تكرارًا)"
+msgstr[5] "(%n تكرار)"
 
 #: incidence.cpp:1338 incidence.cpp:1415
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "No recurrence"
-msgstr ""
+msgstr "بلا تكرار"
 
 #: incidence.cpp:1343
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "31st Last"
-msgstr ""
+msgstr "الحادي والثلاثون من النهاية"
 
 #: incidence.cpp:1344
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "30th Last"
-msgstr ""
+msgstr "الثلاثون من النهاية"
 
 #: incidence.cpp:1345
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "29th Last"
-msgstr ""
+msgstr "التاسع والعشرون من النهاية"
 
 #: incidence.cpp:1346
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "28th Last"
-msgstr ""
+msgstr "الثامن والعشرون من النهاية"
 
 #: incidence.cpp:1347
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "27th Last"
-msgstr ""
+msgstr "السابع والعشرون من النهاية"
 
 #: incidence.cpp:1348
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "26th Last"
-msgstr ""
+msgstr "السادس والعشرون من النهاية"
 
 #: incidence.cpp:1349
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "25th Last"
-msgstr ""
+msgstr "الخامس والعشرون من النهاية"
 
 #: incidence.cpp:1350
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "24th Last"
-msgstr ""
+msgstr "الرابع والعشرون من النهاية"
 
 #: incidence.cpp:1351
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "23rd Last"
-msgstr ""
+msgstr "الثالث والعشرون من النهاية"
 
 #: incidence.cpp:1352
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "22nd Last"
-msgstr ""
+msgstr "الثاني والعشرون من النهاية"
 
 #: incidence.cpp:1353
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "21st Last"
-msgstr ""
+msgstr "الحادي والعشرون من النهاية"
 
 #: incidence.cpp:1354
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "20th Last"
-msgstr ""
+msgstr "العشرون من النهاية"
 
 #: incidence.cpp:1355
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "19th Last"
-msgstr ""
+msgstr "التاسع عشر من النهاية"
 
 #: incidence.cpp:1356
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "18th Last"
-msgstr ""
+msgstr "الثامن عشر من النهاية"
 
 #: incidence.cpp:1357
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "17th Last"
-msgstr ""
+msgstr "السابع عشر من النهاية"
 
 #: incidence.cpp:1358
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "16th Last"
-msgstr ""
+msgstr "السادس عشر من النهاية"
 
 #: incidence.cpp:1359
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "15th Last"
-msgstr ""
+msgstr "الخامس عشر من النهاية"
 
 #: incidence.cpp:1360
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "14th Last"
-msgstr ""
+msgstr "الرابع عشر من النهاية"
 
 #: incidence.cpp:1361
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "13th Last"
-msgstr ""
+msgstr "الثالث عشر من النهاية"
 
 #: incidence.cpp:1362
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "12th Last"
-msgstr ""
+msgstr "الثاني عشر من النهاية"
 
 #: incidence.cpp:1363
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "11th Last"
-msgstr ""
+msgstr "الحادي عشر من النهاية"
 
 #: incidence.cpp:1364
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "10th Last"
-msgstr ""
+msgstr "العاشر من النهاية"
 
 #: incidence.cpp:1365
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "9th Last"
-msgstr ""
+msgstr "التاسع من النهاية"
 
 #: incidence.cpp:1366
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "8th Last"
-msgstr ""
+msgstr "الثامن من النهاية"
 
 #: incidence.cpp:1367
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "7th Last"
-msgstr ""
+msgstr "السابع من النهاية"
 
 #: incidence.cpp:1368
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "6th Last"
-msgstr ""
+msgstr "السادس من النهاية"
 
 #: incidence.cpp:1369
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "5th Last"
-msgstr ""
+msgstr "الخامس من النهاية"
 
 #: incidence.cpp:1370
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "4th Last"
-msgstr ""
+msgstr "الرابع من النهاية"
 
 #: incidence.cpp:1371
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "3rd Last"
-msgstr ""
+msgstr "الثالث من النهاية"
 
 #: incidence.cpp:1372
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "2nd Last"
-msgstr ""
+msgstr "الثاني من النهاية"
 
 #: incidence.cpp:1373
 msgctxt "KCalendarCore::IncidencePrivate|last day of the month"
 msgid "Last"
-msgstr ""
+msgstr "الأخير"
 
 #: incidence.cpp:1374
-#, fuzzy
-#| msgctxt ""
-#| "KCalendarCore::Attendee::Private|@item event or to-do status unknown"
-#| msgid "Unknown"
 msgctxt "KCalendarCore::IncidencePrivate|unknown day of the month"
 msgid "unknown"
 msgstr "مجهول"
@@ -417,157 +413,157 @@ msgstr "مجهول"
 #: incidence.cpp:1375
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "1st"
-msgstr ""
+msgstr "الأول"
 
 #: incidence.cpp:1376
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "2nd"
-msgstr ""
+msgstr "الثاني"
 
 #: incidence.cpp:1377
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "3rd"
-msgstr ""
+msgstr "الثالث"
 
 #: incidence.cpp:1378
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "4th"
-msgstr ""
+msgstr "الرابع"
 
 #: incidence.cpp:1379
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "5th"
-msgstr ""
+msgstr "الخامس"
 
 #: incidence.cpp:1380
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "6th"
-msgstr ""
+msgstr "السادس"
 
 #: incidence.cpp:1381
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "7th"
-msgstr ""
+msgstr "السابع"
 
 #: incidence.cpp:1382
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "8th"
-msgstr ""
+msgstr "الثامن"
 
 #: incidence.cpp:1383
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "9th"
-msgstr ""
+msgstr "التاسع"
 
 #: incidence.cpp:1384
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "10th"
-msgstr ""
+msgstr "العاشر"
 
 #: incidence.cpp:1385
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "11th"
-msgstr ""
+msgstr "الحادي عشر"
 
 #: incidence.cpp:1386
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "12th"
-msgstr ""
+msgstr "الثاني عشر"
 
 #: incidence.cpp:1387
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "13th"
-msgstr ""
+msgstr "الثالث عشر"
 
 #: incidence.cpp:1388
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "14th"
-msgstr ""
+msgstr "الرابع عشر"
 
 #: incidence.cpp:1389
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "15th"
-msgstr ""
+msgstr "الخامس عشر"
 
 #: incidence.cpp:1390
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "16th"
-msgstr ""
+msgstr "السادس عشر"
 
 #: incidence.cpp:1391
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "17th"
-msgstr ""
+msgstr "السابع عشر"
 
 #: incidence.cpp:1392
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "18th"
-msgstr ""
+msgstr "الثامن عشر"
 
 #: incidence.cpp:1393
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "19th"
-msgstr ""
+msgstr "التاسع عشر"
 
 #: incidence.cpp:1394
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "20th"
-msgstr ""
+msgstr "العشرون"
 
 #: incidence.cpp:1395
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "21st"
-msgstr ""
+msgstr "الحادي والعشرون"
 
 #: incidence.cpp:1396
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "22nd"
-msgstr ""
+msgstr "الثاني والعشرون"
 
 #: incidence.cpp:1397
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "23rd"
-msgstr ""
+msgstr "الثالث والعشرون"
 
 #: incidence.cpp:1398
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "24th"
-msgstr ""
+msgstr "الرابع والعشرون"
 
 #: incidence.cpp:1399
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "25th"
-msgstr ""
+msgstr "الخامس والعشرون"
 
 #: incidence.cpp:1400
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "26th"
-msgstr ""
+msgstr "السادس والعشرون"
 
 #: incidence.cpp:1401
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "27th"
-msgstr ""
+msgstr "السابع والعشرون"
 
 #: incidence.cpp:1402
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "28th"
-msgstr ""
+msgstr "الثامن والعشرون"
 
 #: incidence.cpp:1403
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "29th"
-msgstr ""
+msgstr "التاسع والعشرون"
 
 #: incidence.cpp:1404
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "30th"
-msgstr ""
+msgstr "الثلاثون"
 
 #: incidence.cpp:1405
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "31st"
-msgstr ""
+msgstr "الحادي والثلاثون"
 
 #: incidence.cpp:1421
 #, qt-format
@@ -575,24 +571,24 @@ msgctxt ""
 "KCalendarCore::IncidencePrivate|Event recurs every N minutes until <end time>"
 msgid "Recurs every %n minutes until %1"
 msgid_plural "Recurs every %n minutes until %1"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "يتكرر باستمرار حتى %1"
+msgstr[1] "يتكرر كل دقيقة حتى %1"
+msgstr[2] "يتكرر كل دقيقتين حتى %1"
+msgstr[3] "يتكرر كل %n دقائق حتى %1"
+msgstr[4] "يتكرر كل %n دقيقة حتى %1"
+msgstr[5] "يتكرر كل %n دقيقة حتى %1"
 
 #: incidence.cpp:1427
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "Recurs every %n minutes"
 msgid_plural "Recurs every %n minutes"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "يتكرر باستمرار"
+msgstr[1] "يتكرر كل دقيقة"
+msgstr[2] "يتكرر كل دقيقتين"
+msgstr[3] "يتكرر كل %n دقائق"
+msgstr[4] "يتكرر كل %n دقيقة"
+msgstr[5] "يتكرر كل %n دقيقة"
 
 #: incidence.cpp:1436
 #, qt-format
@@ -600,24 +596,24 @@ msgctxt ""
 "KCalendarCore::IncidencePrivate|Event recurs every N hours until <end time>"
 msgid "Recurs every %n hours until %1"
 msgid_plural "Recurs every %n hours until %1"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "يتكرر باستمرار حتى %1"
+msgstr[1] "يتكرر كل ساعة حتى %1"
+msgstr[2] "يتكرر كل ساعتين حتى %1"
+msgstr[3] "يتكرر كل %n ساعات حتى %1"
+msgstr[4] "يتكرر كل %n ساعة حتى %1"
+msgstr[5] "يتكرر كل %n ساعة حتى %1"
 
 #: incidence.cpp:1441
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "Recurs every %n hours"
 msgid_plural "Recurs every %n hours"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "يتكرر باستمرار"
+msgstr[1] "يتكرر كل ساعة"
+msgstr[2] "يتكرر كل ساعتين"
+msgstr[3] "يتكرر كل %n ساعات"
+msgstr[4] "يتكرر كل %n ساعة"
+msgstr[5] "يتكرر كل %n ساعة"
 
 #: incidence.cpp:1450
 #, qt-format
@@ -625,29 +621,29 @@ msgctxt ""
 "KCalendarCore::IncidencePrivate|Event recurs every N days until <end date>"
 msgid "Recurs every %n days until %1"
 msgid_plural "Recurs every %n days until %1"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "يتكرر يوميًّا حتى %1"
+msgstr[1] "يتكرر كل يوم حتى %1"
+msgstr[2] "يتكرر كل يومين حتى %1"
+msgstr[3] "يتكرر كل %n أيام حتى %1"
+msgstr[4] "يتكرر كل %n يومًا حتى %1"
+msgstr[5] "يتكرر كل %n يوم حتى %1"
 
 #: incidence.cpp:1455
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "Recurs every %n days"
 msgid_plural "Recurs every %n days"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "يتكرر يوميًّا"
+msgstr[1] "يتكرر كل يوم"
+msgstr[2] "يتكرر كل يومين"
+msgstr[3] "يتكرر كل %n أيام"
+msgstr[4] "يتكرر كل %n يومًا"
+msgstr[5] "يتكرر كل %n يوم"
 
 #: incidence.cpp:1468
 msgctxt "KCalendarCore::IncidencePrivate|Recurs weekly on no days"
 msgid "no days"
-msgstr ""
+msgstr "بلا أي يوم"
 
 #: incidence.cpp:1475
 #, qt-format
@@ -656,24 +652,24 @@ msgctxt ""
 "date"
 msgid "Recurs every %n weeks on %1 until %2"
 msgid_plural "Recurs every %n weeks on %1 until %2"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "يتكرر أسبوعيًّا يوم %1 حتى %2"
+msgstr[1] "يتكرر كل أسبوع يوم %1 حتى %2"
+msgstr[2] "يتكرر كل أسبوعين يوم %1 حتى %2"
+msgstr[3] "يتكرر كل %n أسابيع يوم %1 حتى %2"
+msgstr[4] "يتكرر كل %n أسبوعًا يوم %1 حتى %2"
+msgstr[5] "يتكرر كل %n أسبوع يوم %1 حتى %2"
 
 #: incidence.cpp:1481
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|Recurs weekly on [list of days]"
 msgid "Recurs every %n weeks on %1"
 msgid_plural "Recurs every %n weeks on %1"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "يتكرر أسبوعيًّا يوم %1"
+msgstr[1] "يتكرر كل أسبوع يوم %1"
+msgstr[2] "يتكرر كل أسبوعين يوم %1"
+msgstr[3] "يتكرر كل %n أسابيع يوم %1"
+msgstr[4] "يتكرر كل %n أسبوعًا يوم %1"
+msgstr[5] "يتكرر كل %n أسبوع يوم %1"
 
 #: incidence.cpp:1491
 #, qt-format
@@ -682,12 +678,12 @@ msgctxt ""
 "weekdayname until end-date"
 msgid "Recurs every %n months on the %1 %2 until %3"
 msgid_plural "Recurs every %n months on the %1 %2 until %3"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "يتكرر شهريًّا في %1 %2 حتى %3"
+msgstr[1] "يتكرر كل شهر في %1 %2 حتى %3"
+msgstr[2] "يتكرر كل شهرين في %1 %2 حتى %3"
+msgstr[3] "يتكرر كل %n أشهر في %1 %2 حتى %3"
+msgstr[4] "يتكرر كل %n شهرًا في %1 %2 حتى %3"
+msgstr[5] "يتكرر كل %n شهر في %1 %2 حتى %3"
 
 #: incidence.cpp:1500
 #, qt-format
@@ -696,12 +692,12 @@ msgctxt ""
 "weekdayname"
 msgid "Recurs every %n months on the %1 %2"
 msgid_plural "Recurs every %n months on the %1 %2"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "يتكرر شهريًّا في %1 %2"
+msgstr[1] "يتكرر كل شهر في %1 %2"
+msgstr[2] "يتكرر كل شهرين في %1 %2"
+msgstr[3] "يتكرر كل %n أشهر في %1 %2"
+msgstr[4] "يتكرر كل %n شهرًا في %1 %2"
+msgstr[5] "يتكرر كل %n شهر في %1 %2"
 
 #: incidence.cpp:1511
 #, qt-format
@@ -710,12 +706,12 @@ msgctxt ""
 "until end-date"
 msgid "Recurs every %n months on the %1 day until %2"
 msgid_plural "Recurs every %n months on the %1 day until %2"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "يتكرر شهريًّا في اليوم %1 حتى %2"
+msgstr[1] "يتكرر كل شهر في اليوم %1 حتى %2"
+msgstr[2] "يتكرر كل شهرين في اليوم %1 حتى %2"
+msgstr[3] "يتكرر كل %n أشهر في اليوم %1 حتى %2"
+msgstr[4] "يتكرر كل %n شهرًا في اليوم %1 حتى %2"
+msgstr[5] "يتكرر كل %n شهر في اليوم %1 حتى %2"
 
 #: incidence.cpp:1519
 #, qt-format
@@ -723,12 +719,12 @@ msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs monthly on the [1st~|2nd~|...] day"
 msgid "Recurs every %n month on the %1 day"
 msgid_plural "Recurs every %n month on the %1 day"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "يتكرر شهريًّا في اليوم %1"
+msgstr[1] "يتكرر كل شهر في اليوم %1"
+msgstr[2] "يتكرر كل شهرين في اليوم %1"
+msgstr[3] "يتكرر كل %n أشهر في اليوم %1"
+msgstr[4] "يتكرر كل %n شهرًا في اليوم %1"
+msgstr[5] "يتكرر كل %n شهر في اليوم %1"
 
 #: incidence.cpp:1530
 #, qt-format
@@ -737,12 +733,12 @@ msgctxt ""
 "2nd~|...] until end-date"
 msgid "Recurs every %n years on %1 %2 until %3"
 msgid_plural "Recurs every %n years on %1 %2 until %3"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "يتكرر سنويًّا في %2 %1 حتى %3"
+msgstr[1] "يتكرر كل سنة في %2 %1 حتى %3"
+msgstr[2] "يتكرر كل سنتين في %2 %1 حتى %3"
+msgstr[3] "يتكرر كل %n سنوات في %2 %1 حتى %3"
+msgstr[4] "يتكرر كل %n سنةً في %2 %1 حتى %3"
+msgstr[5] "يتكرر كل %n سنة في %2 %1 حتى %3"
 
 #: incidence.cpp:1540
 #, qt-format
@@ -751,12 +747,12 @@ msgctxt ""
 "2nd~|...]"
 msgid "Recurs every %n years on %1 %2"
 msgid_plural "Recurs every %n years on %1 %2"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "يتكرر سنويًّا في %2 %1"
+msgstr[1] "يتكرر كل سنة في %2 %1"
+msgstr[2] "يتكرر كل سنتين في %2 %1"
+msgstr[3] "يتكرر كل %n سنوات في %2 %1"
+msgstr[4] "يتكرر كل %n سنةً في %2 %1"
+msgstr[5] "يتكرر كل %n سنة في %2 %1"
 
 #: incidence.cpp:1544 incidence.cpp:1547
 #, qt-format
@@ -764,7 +760,7 @@ msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs Every year on month-name [1st~|"
 "2nd~|...]"
 msgid "Recurs yearly on %1 %2"
-msgstr ""
+msgstr "يتكرر سنويًّا في %2 %1"
 
 #: incidence.cpp:1558
 #, qt-format
@@ -772,24 +768,24 @@ msgctxt ""
 "KCalendarCore::IncidencePrivate|Recurs every N years on day N until end-date"
 msgid "Recurs every %n years on day %1 until %2"
 msgid_plural "Recurs every %n years on day %1 until %2"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "يتكرر سنويًّا في اليوم %1 حتى %2"
+msgstr[1] "يتكرر كل سنة في اليوم %1 حتى %2"
+msgstr[2] "يتكرر كل سنتين في اليوم %1 حتى %2"
+msgstr[3] "يتكرر كل %n سنوات في اليوم %1 حتى %2"
+msgstr[4] "يتكرر كل %n سنةً في اليوم %1 حتى %2"
+msgstr[5] "يتكرر كل %n سنة في اليوم %1 حتى %2"
 
 #: incidence.cpp:1564
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|Recurs every N YEAR[S] on day N"
 msgid "Recurs every %n years on day %1"
 msgid_plural "Recurs every %n years on day %1"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "يتكرر سنويًّا في اليوم %1"
+msgstr[1] "يتكرر كل سنة في اليوم %1"
+msgstr[2] "يتكرر كل سنتين في اليوم %1"
+msgstr[3] "يتكرر كل %n سنوات في اليوم %1"
+msgstr[4] "يتكرر كل %n سنةً في اليوم %1"
+msgstr[5] "يتكرر كل %n سنة في اليوم %1"
 
 #: incidence.cpp:1575
 #, qt-format
@@ -798,12 +794,12 @@ msgctxt ""
 "weekdayname of monthname until end-date"
 msgid "Every %n years on the %1 %2 of %3 until %4"
 msgid_plural "Every %n years on the %1 %2 of %3 until %4"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "كل سنة في %1 %2 من %3 حتى %4"
+msgstr[1] "كل سنة في %1 %2 من %3 حتى %4"
+msgstr[2] "كل سنتين في %1 %2 من %3 حتى %4"
+msgstr[3] "كل %n سنوات في %1 %2 من %3 حتى %4"
+msgstr[4] "كل %n سنةً في %1 %2 من %3 حتى %4"
+msgstr[5] "كل %n سنة في %1 %2 من %3 حتى %4"
 
 #: incidence.cpp:1587
 #, qt-format
@@ -812,43 +808,43 @@ msgctxt ""
 "weekdayname of monthname"
 msgid "Every %n years on the %1 %2 of %3"
 msgid_plural "Every %n years on the %1 %2 of %3"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "كل سنة في %1 %2 من %3"
+msgstr[1] "كل سنة في %1 %2 من %3"
+msgstr[2] "كل سنتين في %1 %2 من %3"
+msgstr[3] "كل %n سنوات في %1 %2 من %3"
+msgstr[4] "كل %n سنةً في %1 %2 من %3"
+msgstr[5] "كل %n سنة في %1 %2 من %3"
 
 #: incidence.cpp:1597
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "Incidence recurs"
-msgstr ""
+msgstr "الحدوث يتكرّر"
 
 #: incidence.cpp:1610
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "minute %1"
-msgstr ""
+msgstr "الدقيقة %1"
 
 #: incidence.cpp:1654
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "%n days"
 msgid_plural "%n days"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "أقل من يوم"
+msgstr[1] "يوم واحد"
+msgstr[2] "يومان"
+msgstr[3] "%n أيام"
+msgstr[4] "%n يومًا"
+msgstr[5] "%n يوم"
 
 #: incidence.cpp:1685
 msgctxt "KCalendarCore::IncidencePrivate|ellipsis"
 msgid "…"
-msgstr ""
+msgstr "…"
 
 #: incidence.cpp:1687
 #, qt-format
 msgctxt "KCalendarCore::IncidencePrivate|"
 msgid "%1 (excluding %2)"
-msgstr ""
+msgstr "%1 (باستثناء %2)"
