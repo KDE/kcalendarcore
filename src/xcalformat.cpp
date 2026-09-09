@@ -71,9 +71,9 @@ public:
     } m_format = Rfc6321;
 
     void parseXCal(QXmlStreamReader &reader, const Calendar::Ptr &calendar);
-    void parseVcalendar(QXmlStreamReader &reader, const Calendar::Ptr &calendar, QStringView elemName);
-    void parseVevent(QXmlStreamReader &reader, const Event::Ptr &event, QStringView elemName);
-    void parseRRule(QXmlStreamReader &reader, RecurrenceRule *rrule, QStringView elemName);
+    void parseVcalendar(QXmlStreamReader &reader, const Calendar::Ptr &calendar, const QString &elemName);
+    void parseVevent(QXmlStreamReader &reader, const Event::Ptr &event, const QString &elemName);
+    void parseRRule(QXmlStreamReader &reader, RecurrenceRule *rrule, const QString &elemName);
     XCalProperty parseProperty(QXmlStreamReader &reader);
 };
 }
@@ -142,7 +142,7 @@ void XCalFormatPrivate::parseXCal(QXmlStreamReader &reader, const Calendar::Ptr 
             }
             reader.readNextStartElement();
         } else if (reader.name() == "vcalendar"_L1) {
-            parseVcalendar(reader, calendar, reader.name());
+            parseVcalendar(reader, calendar, reader.name().toString());
         } else {
             qCDebug(KCALCORE_LOG) << "unhandled xcal element" << reader.name();
             reader.skipCurrentElement();
@@ -150,7 +150,7 @@ void XCalFormatPrivate::parseXCal(QXmlStreamReader &reader, const Calendar::Ptr 
     }
 }
 
-void XCalFormatPrivate::parseVcalendar(QXmlStreamReader &reader, const Calendar::Ptr &calendar, QStringView elemName)
+void XCalFormatPrivate::parseVcalendar(QXmlStreamReader &reader, const Calendar::Ptr &calendar, const QString &elemName)
 {
     reader.readNext();
     while (!reader.atEnd() && !reader.hasError()) {
@@ -163,14 +163,14 @@ void XCalFormatPrivate::parseVcalendar(QXmlStreamReader &reader, const Calendar:
         }
 
         if (reader.name() == "components"_L1 && m_format == Rfc6321) {
-            parseVcalendar(reader, calendar, reader.name());
+            parseVcalendar(reader, calendar, reader.name().toString());
         } else if (reader.name() == "prodid"_L1) {
             mProductId = parseProperty(reader).toString();
         } else if (reader.name() == "properties"_L1 && m_format == Rfc6321) {
-            parseVcalendar(reader, calendar, reader.name());
+            parseVcalendar(reader, calendar, reader.name().toString());
         } else if (reader.name() == "vevent"_L1) {
             Event::Ptr event(new Event());
-            parseVevent(reader, event, reader.name());
+            parseVevent(reader, event, reader.name().toString());
             calendar->addEvent(event);
         } else {
             qCDebug(KCALCORE_LOG) << "unhandled xcal element" << reader.name();
@@ -179,7 +179,7 @@ void XCalFormatPrivate::parseVcalendar(QXmlStreamReader &reader, const Calendar:
     }
 }
 
-void XCalFormatPrivate::parseVevent(QXmlStreamReader &reader, const Event::Ptr &event, QStringView elemName)
+void XCalFormatPrivate::parseVevent(QXmlStreamReader &reader, const Event::Ptr &event, const QString &elemName)
 {
     reader.readNext();
     while (!reader.atEnd() && !reader.hasError()) {
@@ -241,7 +241,7 @@ void XCalFormatPrivate::parseVevent(QXmlStreamReader &reader, const Event::Ptr &
         } else if (reader.name() == "organizer"_L1) {
             event->setOrganizer(Person::fromFullName(parseProperty(reader).toString()));
         } else if (reader.name() == "properties"_L1 && m_format == Rfc6321) {
-            parseVevent(reader, event, reader.name());
+            parseVevent(reader, event, reader.name().toString());
         } else if (reader.name() == "rdate"_L1) {
             event->recurrence()->addRDateTimePeriod(parseProperty(reader).value.value<Period>());
         } else if (reader.name() == "recurrence-id"_L1) {
@@ -255,7 +255,7 @@ void XCalFormatPrivate::parseVevent(QXmlStreamReader &reader, const Event::Ptr &
                 }
             } else if (m_format == Rfc6321) {
                 auto rrule = std::make_unique<RecurrenceRule>();
-                parseRRule(reader, rrule.get(), reader.name());
+                parseRRule(reader, rrule.get(), reader.name().toString());
                 event->recurrence()->addRRule(rrule.release());
             } else {
                 reader.skipCurrentElement();
@@ -279,7 +279,7 @@ void XCalFormatPrivate::parseVevent(QXmlStreamReader &reader, const Event::Ptr &
     }
 }
 
-void XCalFormatPrivate::parseRRule(QXmlStreamReader &reader, RecurrenceRule *rrule, QStringView elemName)
+void XCalFormatPrivate::parseRRule(QXmlStreamReader &reader, RecurrenceRule *rrule, const QString &elemName)
 {
     reader.readNext();
     while (!reader.atEnd() && !reader.hasError()) {
@@ -304,7 +304,7 @@ void XCalFormatPrivate::parseRRule(QXmlStreamReader &reader, RecurrenceRule *rru
         } else if (reader.name() == "interval"_L1) {
             rrule->setFrequency(reader.readElementText().toInt());
         } else if (reader.name() == "recur"_L1) {
-            parseRRule(reader, rrule, reader.name());
+            parseRRule(reader, rrule, reader.name().toString());
         } else {
             qCDebug(KCALCORE_LOG) << "unhandled xcal element" << reader.name();
             reader.skipCurrentElement();
