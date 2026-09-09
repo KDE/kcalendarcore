@@ -403,6 +403,10 @@ icalcomponent *ICalTimeZoneParser::icalcomponentFromQTimeZone(const QTimeZone &t
                     } else {
                         icalcomponent_add_property(phaseComp1, prop);
                     }
+
+#if ICAL_CHECK_VERSION(3, 99, 99)
+                    icalrecurrencetype_unref(r);
+#endif
                 } else {
                     // Save dates for writing as RDATEs
                     for (int t = 0, tend = times.count() - 1; t < tend; ++t) {

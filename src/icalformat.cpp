@@ -368,6 +368,9 @@ QString ICalFormat::toString(RecurrenceRule *recurrence)
     icalproperty *property = icalproperty_new_rrule(recur);
     QString text = QString::fromUtf8(icalproperty_as_ical_string(property));
     icalproperty_free(property);
+#if ICAL_CHECK_VERSION(3, 99, 99)
+    icalrecurrencetype_unref(recur);
+#endif
     return text;
 }
 
@@ -400,6 +403,7 @@ bool ICalFormat::fromString(RecurrenceRule *recurrence, const QString &rrule)
     if (success) {
 #if ICAL_CHECK_VERSION(3, 99, 99)
         ICalFormatImpl::readRecurrence(*recur, recurrence);
+        icalrecurrencetype_unref(recur);
 #else
         ICalFormatImpl::readRecurrence(recur, recurrence);
 #endif

@@ -476,6 +476,9 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent, const Incidence::Ptr 
         struct icalrecurrencetype recur = writeRecurrenceRule(rule);
 #endif
         icalcomponent_add_property(parent, icalproperty_new_rrule(recur));
+#if ICAL_CHECK_VERSION(3, 99, 99)
+        icalrecurrencetype_unref(recur);
+#endif
     }
 
     const RecurrenceRule::List exrules(incidence->recurrence()->exRules());
@@ -489,6 +492,9 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent, const Incidence::Ptr 
         struct icalrecurrencetype recur = writeRecurrenceRule(rule);
 #endif
         icalcomponent_add_property(parent, icalproperty_new_exrule(recur));
+#if ICAL_CHECK_VERSION(3, 99, 99)
+        icalrecurrencetype_unref(recur);
+#endif
     }
 
     DateList dateList = incidence->recurrence()->exDates();
