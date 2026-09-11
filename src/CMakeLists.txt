@@ -223,3 +223,17 @@ ecm_qt_install_logging_categories(
 )
 
 ecm_generate_qdoc(KF6CalendarCore kcalendarcore.qdocconf)
+
+ecm_add_installed_library_check(KF6CalendarCore
+    PACKAGE_NAME "KF6CalendarCore"
+    PACKAGE_TARGET_NAMESPACE "KF6::"
+)
+
+ecm_installed_library_check_include_strings(KF6CalendarCore
+    HEADERS ${KCalendarCore_CamelCase_HEADERS}
+    PREFIX KCalendarCore
+)
+
+ecm_installed_library_check_version_preprocessor_macros(KF6CalendarCore
+    PREFIX KCALENDARCORE
+)
