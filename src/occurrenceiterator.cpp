@@ -104,62 +104,100 @@ public:
     void setupIterator(const Calendar &calendar, const Incidence::List &incidences)
     {
         for (const Incidence::Ptr &inc : std::as_const(incidences)) {
+            // We only handle exceptions using the main item
             if (inc->hasRecurrenceId()) {
                 continue;
             }
-            if (inc->recurs()) {
-                QHash<QDateTime, Incidence::Ptr> recurrenceIds;
-                QDateTime incidenceRecStart = inc->dateTime(Incidence::RoleRecurrenceStart);
-                // const bool isAllDay = inc->allDay();
-                const auto lstInstances = calendar.instances(inc);
-                for (const Incidence::Ptr &exception : lstInstances) {
-                    if (incidenceRecStart.isValid()) {
-                        recurrenceIds.insert(exception->recurrenceId().toTimeZone(incidenceRecStart.timeZone()), exception);
-                    }
-                }
-                const auto occurrences = inc->recurrence()->timesInInterval(start, end);
-                Incidence::Ptr incidence(inc);
-                Incidence::Ptr lastInc(inc);
-                qint64 offset(0);
-                qint64 lastOffset(0);
-                QDateTime occurrenceStartDate;
-                for (const auto &recurrenceId : std::as_const(occurrences)) {
-                    occurrenceStartDate = recurrenceId;
 
-                    bool resetIncidence = false;
-                    if (recurrenceIds.contains(recurrenceId)) {
-                        // TODO: exclude exceptions where the start/end is not within
-                        // (so the occurrence of the recurrence is omitted, but no exception is added)
-                        incidence = recurrenceIds.value(recurrenceId);
-                        occurrenceStartDate = incidence->dtStart();
-                        resetIncidence = !incidence->thisAndFuture();
-                        offset = incidence->recurrenceId().secsTo(incidence->dtStart());
-                        if (incidence->thisAndFuture()) {
-                            lastInc = incidence;
-                            lastOffset = offset;
-                        }
-                    } else if (inc != incidence) { // thisAndFuture exception is active
-                        occurrenceStartDate = occurrenceStartDate.addSecs(offset);
-                    }
-
-                    if (!occurrenceIsHidden(calendar, incidence, occurrenceStartDate)) {
-                        const Period period = inc->recurrence()->rDateTimePeriod(occurrenceStartDate);
-                        if (period.isValid()) {
-                            occurrenceList << Private::Occurrence(incidence, recurrenceId, occurrenceStartDate, period.end());
-                        } else {
-                            occurrenceList << Private::Occurrence(incidence, recurrenceId, occurrenceStartDate, occurrenceEnd(incidence, occurrenceStartDate));
-                        }
-                    }
-
-                    if (resetIncidence) {
-                        incidence = lastInc;
-                        offset = lastOffset;
-                    }
-                }
-            } else {
+            // If not recurring, add event immediately
+            if (!inc->recurs()) {
                 occurrenceList << Private::Occurrence(inc, {}, inc->dtStart(), inc->dateTime(Incidence::RoleEnd));
+                continue;
+            }
+
+            // Get a exception access structure
+            QHash<QDateTime, Incidence::Ptr> recurrenceIds;
+            QDateTime incidenceRecStart = inc->dateTime(Incidence::RoleRecurrenceStart);
+            const auto lstInstances = calendar.instances(inc);
+            for (const Incidence::Ptr &exception : lstInstances) {
+                if (incidenceRecStart.isValid()) {
+                    recurrenceIds.insert(exception->recurrenceId().toTimeZone(incidenceRecStart.timeZone()), exception);
+                }
+            }
+
+            // Get all occurrences of the recurring event
+            const auto occurrences = inc->recurrence()->timesInInterval(start, end);
+            Incidence::Ptr incidence(inc);
+            Incidence::Ptr lastInc(inc);
+            qint64 offset(0);
+            qint64 lastOffset(0);
+            QDateTime occurrenceStartDate;
+            for (const auto &recurrenceId : std::as_const(occurrences)) {
+                occurrenceStartDate = recurrenceId;
+
+                bool resetIncidence = false;
+                if (recurrenceIds.contains(recurrenceId)) {
+                    // TODO: exclude exceptions where the start/end is not within
+                    // (so the occurrence of the recurrence is omitted, but no exception is added)
+                    incidence = recurrenceIds.take(recurrenceId);
+                    occurrenceStartDate = incidence->dtStart();
+                    resetIncidence = !incidence->thisAndFuture();
+                    offset = incidence->recurrenceId().secsTo(incidence->dtStart());
+                    if (incidence->thisAndFuture()) {
+                        lastInc = incidence;
+                        lastOffset = offset;
+                    }
+                } else if (inc != incidence) { // thisAndFuture exception is active
+                    occurrenceStartDate = occurrenceStartDate.addSecs(offset);
+                }
+
+                if (!occurrenceIsHidden(calendar, incidence, occurrenceStartDate)) {
+                    const Period period = inc->recurrence()->rDateTimePeriod(occurrenceStartDate);
+                    if (period.isValid()) {
+                        occurrenceList << Private::Occurrence(incidence, recurrenceId, occurrenceStartDate, period.end());
+                    } else {
+                        occurrenceList << Private::Occurrence(incidence, recurrenceId, occurrenceStartDate, occurrenceEnd(incidence, occurrenceStartDate));
+                    }
+                }
+
+                if (resetIncidence) {
+                    incidence = lastInc;
+                    offset = lastOffset;
+                }
+            }
+
+            // Add exceptions that changed date so far the original occurrence isn't in the view
+            for (auto it = recurrenceIds.cbegin(); it != recurrenceIds.cend(); ++it) {
+                const auto &exceptionIncidence = it.value();
+                const auto recurrenceId = exceptionIncidence->recurrenceId();
+                const auto dtStart = exceptionIncidence->dtStart();
+                const auto dtEnd = exceptionIncidence->endDateForStart(dtStart);
+                const auto refStart = start.toTimeZone(dtStart.timeZone());
+                const auto refEnd = end.toTimeZone(dtStart.timeZone());
+                const auto isVisible = [&]() -> bool {
+                    if (dtStart < refStart) {
+                        return refStart < dtEnd;
+                    }
+                    return dtStart < refEnd;
+                }();
+                if (isVisible) {
+                    incidence = exceptionIncidence;
+                    occurrenceStartDate = exceptionIncidence->dtStart();
+                    if (!occurrenceIsHidden(calendar, exceptionIncidence, occurrenceStartDate)) {
+                        const auto period = inc->recurrence()->rDateTimePeriod(occurrenceStartDate);
+                        if (period.isValid()) {
+                            occurrenceList << Private::Occurrence(exceptionIncidence, recurrenceId, occurrenceStartDate, period.end());
+                        } else {
+                            occurrenceList << Private::Occurrence(exceptionIncidence,
+                                                                  recurrenceId,
+                                                                  occurrenceStartDate,
+                                                                  occurrenceEnd(exceptionIncidence, occurrenceStartDate));
+                        }
+                    }
+                }
             }
         }
+
         occurrenceIt = QListIterator<Private::Occurrence>(occurrenceList);
     }
 };
