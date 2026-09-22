@@ -1,0 +1,749 @@
+# SPDX-FileCopyrightText: 2026 Shinjo Park <peremen@gmail.com>
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"PO-Revision-Date: 2026-09-21 15:29+0200\n"
+"Last-Translator: Shinjo Park <peremen@gmail.com>\n"
+"Language-Team: Korean\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Lokalize 26.08.1\n"
+"X-Qt-Contexts: true\n"
+
+#: attendee.cpp:312
+msgctxt "KCalendarCore::Attendee::Private|@item chairperson"
+msgid "Chair"
+msgstr "의장"
+
+#: attendee.cpp:314
+msgctxt "KCalendarCore::Attendee::Private|@item participation is required"
+msgid "Participant"
+msgstr "참석자"
+
+#: attendee.cpp:316
+msgctxt "KCalendarCore::Attendee::Private|@item participation is optional"
+msgid "Optional Participant"
+msgstr "선택적 참석자"
+
+#: attendee.cpp:318
+msgctxt ""
+"KCalendarCore::Attendee::Private|@item non-participant copied for information"
+msgid "Observer"
+msgstr "관찰자"
+
+#: attendee.cpp:327
+msgctxt ""
+"KCalendarCore::Attendee::Private|@item event, to-do or journal needs action"
+msgid "Needs Action"
+msgstr "작업 필요"
+
+#: attendee.cpp:329
+msgctxt ""
+"KCalendarCore::Attendee::Private|@item event, to-do or journal accepted"
+msgid "Accepted"
+msgstr "수락함"
+
+#: attendee.cpp:331
+msgctxt ""
+"KCalendarCore::Attendee::Private|@item event, to-do or journal declined"
+msgid "Declined"
+msgstr "거부함"
+
+#: attendee.cpp:333
+msgctxt ""
+"KCalendarCore::Attendee::Private|@item event or to-do tentatively accepted"
+msgid "Tentative"
+msgstr "미확정"
+
+#: attendee.cpp:335
+msgctxt "KCalendarCore::Attendee::Private|@item event or to-do delegated"
+msgid "Delegated"
+msgstr "위임함"
+
+#: attendee.cpp:337
+msgctxt "KCalendarCore::Attendee::Private|@item to-do completed"
+msgid "Completed"
+msgstr "완료됨"
+
+#: attendee.cpp:339
+msgctxt ""
+"KCalendarCore::Attendee::Private|@item to-do in process of being completed"
+msgid "In Process"
+msgstr "진행 중"
+
+#: attendee.cpp:341
+msgctxt "KCalendarCore::Attendee::Private|@item event or to-do status unknown"
+msgid "Unknown"
+msgstr "알 수 없음"
+
+#: exceptions.cpp:74
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Load Error"
+msgstr "불러오기 오류"
+
+#: exceptions.cpp:76
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Save Error"
+msgstr "저장 오류"
+
+#: exceptions.cpp:78
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Parse Error in libical"
+msgstr "libical 해석 오류"
+
+#: exceptions.cpp:80
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Parse Error in the kcalcore library"
+msgstr "kcalcore 라이브러리 해석 오류"
+
+#: exceptions.cpp:82
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "No calendar component found."
+msgstr "달력 구성 요소를 찾을 수 없습니다."
+
+#: exceptions.cpp:84 exceptions.cpp:104
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Expected iCalendar, got vCalendar format"
+msgstr "iCalendar 형식을 예상했지만 vCalendar 형식을 받음"
+
+#: exceptions.cpp:86
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "iCalendar Version 2.0 detected."
+msgstr "iCalendar 버전 2.0을 감지했습니다."
+
+#: exceptions.cpp:88 exceptions.cpp:106
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Expected iCalendar, got unknown format"
+msgstr "iCalendar 형식을 예상했지만 알 수 없는 형식을 받음"
+
+#: exceptions.cpp:90
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Restriction violation"
+msgstr "제한 위배"
+
+#: exceptions.cpp:92
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "No writable resource found"
+msgstr "기록할 수 있는 리소스를 찾을 수 없음"
+
+#: exceptions.cpp:95
+#, qt-format
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Error saving to '%1'."
+msgstr "'%1'에 저장하는 중 오류가 발생했습니다."
+
+#: exceptions.cpp:98
+#, qt-format
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Could not save '%1'"
+msgstr "'%1'을(를) 저장할 수 없음"
+
+#: exceptions.cpp:100
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "libical error"
+msgstr "libical 오류"
+
+#: exceptions.cpp:102
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "No VERSION property found"
+msgstr "VERSION 속성을 찾을 수 없음"
+
+#: exceptions.cpp:108
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Object is not a freebusy, event, todo or journal"
+msgstr "객체가 freebusy, event, todo, journal이 아님"
+
+#: exceptions.cpp:110
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Message text is empty, unable to parse into a ScheduleMessage"
+msgstr "메시지 텍스트가 비어 있어서 ScheduleMessage로 해석할 수 없음"
+
+#: exceptions.cpp:112
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "icalparser is unable to parse message text into a ScheduleMessage"
+msgstr "icalparser에서 메시지 텍스트를 ScheduleMessage로 해석할 수 없음"
+
+#: exceptions.cpp:114
+msgctxt "KCalendarCore::ExceptionPrivate|@item"
+msgid "Message does not contain ICAL_METHOD_PROPERTY"
+msgstr "메시지에 ICAL_METHOD_PROPERTY가 없음"
+
+#: incidence.cpp:1276
+msgctxt ""
+"KCalendarCore::IncidencePrivate|@item incidence access if for everyone"
+msgid "Public"
+msgstr "공개"
+
+#: incidence.cpp:1278
+msgctxt ""
+"KCalendarCore::IncidencePrivate|@item incidence access is by owner only"
+msgid "Private"
+msgstr "비공개"
+
+#: incidence.cpp:1280
+msgctxt ""
+"KCalendarCore::IncidencePrivate|@item incidence access is by owner and a "
+"controlled group"
+msgid "Confidential"
+msgstr "기밀"
+
+#: incidence.cpp:1289
+msgctxt "KCalendarCore::IncidencePrivate|@item event is tentative"
+msgid "Tentative"
+msgstr "미확정"
+
+#: incidence.cpp:1291
+msgctxt "KCalendarCore::IncidencePrivate|@item event is definite"
+msgid "Confirmed"
+msgstr "확인됨"
+
+#: incidence.cpp:1293
+msgctxt "KCalendarCore::IncidencePrivate|@item to-do is complete"
+msgid "Completed"
+msgstr "완료됨"
+
+#: incidence.cpp:1295
+msgctxt "KCalendarCore::IncidencePrivate|@item to-do needs action"
+msgid "Needs-Action"
+msgstr "작업 필요"
+
+#: incidence.cpp:1297
+msgctxt ""
+"KCalendarCore::IncidencePrivate|@item event or to-do is canceled; journal is "
+"removed"
+msgid "Canceled"
+msgstr "취소됨"
+
+#: incidence.cpp:1299
+msgctxt "KCalendarCore::IncidencePrivate|@item to-do is in process"
+msgid "In-Process"
+msgstr "진행 중"
+
+#: incidence.cpp:1301
+msgctxt "KCalendarCore::IncidencePrivate|@item journal is in draft form"
+msgid "Draft"
+msgstr "초안"
+
+#: incidence.cpp:1303
+msgctxt "KCalendarCore::IncidencePrivate|@item journal is in final form"
+msgid "Final"
+msgstr "최종"
+
+#: incidence.cpp:1327
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|number of occurrences"
+msgid "(%n occurrences)"
+msgid_plural "(%n occurrences)"
+msgstr[0] "(%n회 반복됨)"
+
+#: incidence.cpp:1338 incidence.cpp:1415
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "No recurrence"
+msgstr "반복 없음"
+
+#: incidence.cpp:1343
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "31st Last"
+msgstr "마지막 날 31일 전"
+
+#: incidence.cpp:1344
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "30th Last"
+msgstr "마지막 날 30일 전"
+
+#: incidence.cpp:1345
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "29th Last"
+msgstr "마지막 날 29일 전"
+
+#: incidence.cpp:1346
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "28th Last"
+msgstr "마지막 날 28일 전"
+
+#: incidence.cpp:1347
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "27th Last"
+msgstr "마지막 날 27일 전"
+
+#: incidence.cpp:1348
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "26th Last"
+msgstr "마지막 날 26일 전"
+
+#: incidence.cpp:1349
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "25th Last"
+msgstr "마지막 날 25일 전"
+
+#: incidence.cpp:1350
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "24th Last"
+msgstr "마지막 날 24일 전"
+
+#: incidence.cpp:1351
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "23rd Last"
+msgstr "마지막 날 23일 전"
+
+#: incidence.cpp:1352
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "22nd Last"
+msgstr "마지막 날 22일 전"
+
+#: incidence.cpp:1353
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "21st Last"
+msgstr "마지막 날 21일 전"
+
+#: incidence.cpp:1354
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "20th Last"
+msgstr "마지막 날 20일 전"
+
+#: incidence.cpp:1355
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "19th Last"
+msgstr "마지막 날 19일 전"
+
+#: incidence.cpp:1356
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "18th Last"
+msgstr "마지막 날 18일 전"
+
+#: incidence.cpp:1357
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "17th Last"
+msgstr "마지막 날 17일 전"
+
+#: incidence.cpp:1358
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "16th Last"
+msgstr "마지막 날 16일 전"
+
+#: incidence.cpp:1359
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "15th Last"
+msgstr "마지막 날 15일 전"
+
+#: incidence.cpp:1360
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "14th Last"
+msgstr "마지막 날 14일 전"
+
+#: incidence.cpp:1361
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "13th Last"
+msgstr "마지막 날 13일 전"
+
+#: incidence.cpp:1362
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "12th Last"
+msgstr "마지막 날 12일 전"
+
+#: incidence.cpp:1363
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "11th Last"
+msgstr "마지막 날 11일 전"
+
+#: incidence.cpp:1364
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "10th Last"
+msgstr "마지막 날 10일 전"
+
+#: incidence.cpp:1365
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "9th Last"
+msgstr "마지막 날 9일 전"
+
+#: incidence.cpp:1366
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "8th Last"
+msgstr "마지막 날 8일 전"
+
+#: incidence.cpp:1367
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "7th Last"
+msgstr "마지막 날 7일 전"
+
+#: incidence.cpp:1368
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "6th Last"
+msgstr "마지막 날 6일 전"
+
+#: incidence.cpp:1369
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "5th Last"
+msgstr "마지막 날 5일 전"
+
+#: incidence.cpp:1370
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "4th Last"
+msgstr "마지막 날 4일 전"
+
+#: incidence.cpp:1371
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "3rd Last"
+msgstr "마지막 날 3일 전"
+
+#: incidence.cpp:1372
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "2nd Last"
+msgstr "마지막 날 2일 전"
+
+#: incidence.cpp:1373
+msgctxt "KCalendarCore::IncidencePrivate|last day of the month"
+msgid "Last"
+msgstr "마지막 날"
+
+#: incidence.cpp:1374
+msgctxt "KCalendarCore::IncidencePrivate|unknown day of the month"
+msgid "unknown"
+msgstr "알 수 없음"
+
+#: incidence.cpp:1375
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "1st"
+msgstr "첫 번째"
+
+#: incidence.cpp:1376
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "2nd"
+msgstr "두 번째"
+
+#: incidence.cpp:1377
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "3rd"
+msgstr "세 번째"
+
+#: incidence.cpp:1378
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "4th"
+msgstr "네 번째"
+
+#: incidence.cpp:1379
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "5th"
+msgstr "다섯 번째"
+
+#: incidence.cpp:1380
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "6th"
+msgstr "여섯 번째"
+
+#: incidence.cpp:1381
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "7th"
+msgstr "일곱 번째"
+
+#: incidence.cpp:1382
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "8th"
+msgstr "여뎗 번째"
+
+#: incidence.cpp:1383
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "9th"
+msgstr "아홉 번째"
+
+#: incidence.cpp:1384
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "10th"
+msgstr "열 번째"
+
+#: incidence.cpp:1385
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "11th"
+msgstr "열한 번째"
+
+#: incidence.cpp:1386
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "12th"
+msgstr "열두 번째"
+
+#: incidence.cpp:1387
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "13th"
+msgstr "열세 번째"
+
+#: incidence.cpp:1388
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "14th"
+msgstr "열네 번째"
+
+#: incidence.cpp:1389
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "15th"
+msgstr "열다섯 번째"
+
+#: incidence.cpp:1390
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "16th"
+msgstr "열여섯 번째"
+
+#: incidence.cpp:1391
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "17th"
+msgstr "열일곱 번째"
+
+#: incidence.cpp:1392
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "18th"
+msgstr "열여덟 번째"
+
+#: incidence.cpp:1393
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "19th"
+msgstr "열아홉 번째"
+
+#: incidence.cpp:1394
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "20th"
+msgstr "스무 번째"
+
+#: incidence.cpp:1395
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "21st"
+msgstr "스물한 번째"
+
+#: incidence.cpp:1396
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "22nd"
+msgstr "스물두 번째"
+
+#: incidence.cpp:1397
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "23rd"
+msgstr "스물세 번째"
+
+#: incidence.cpp:1398
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "24th"
+msgstr "스물네 번째"
+
+#: incidence.cpp:1399
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "25th"
+msgstr "스물다섯 번째"
+
+#: incidence.cpp:1400
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "26th"
+msgstr "스물여섯 번째"
+
+#: incidence.cpp:1401
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "27th"
+msgstr "스물일곱 번째"
+
+#: incidence.cpp:1402
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "28th"
+msgstr "스물여덟 번째"
+
+#: incidence.cpp:1403
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "29th"
+msgstr "스물아홉 번째"
+
+#: incidence.cpp:1404
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "30th"
+msgstr "서른 번째"
+
+#: incidence.cpp:1405
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "31st"
+msgstr "서른한 번째"
+
+#: incidence.cpp:1421
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Event recurs every N minutes until <end time>"
+msgid "Recurs every %n minutes until %1"
+msgid_plural "Recurs every %n minutes until %1"
+msgstr[0] "%1까지 매 %n분마다 반복됨"
+
+#: incidence.cpp:1427
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "Recurs every %n minutes"
+msgid_plural "Recurs every %n minutes"
+msgstr[0] "매 %n분마다 반복됨"
+
+#: incidence.cpp:1436
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Event recurs every N hours until <end time>"
+msgid "Recurs every %n hours until %1"
+msgid_plural "Recurs every %n hours until %1"
+msgstr[0] "%1까지 매 %n시간마다 반복됨"
+
+#: incidence.cpp:1441
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "Recurs every %n hours"
+msgid_plural "Recurs every %n hours"
+msgstr[0] "매 %n시간마다 반복됨"
+
+#: incidence.cpp:1450
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Event recurs every N days until <end date>"
+msgid "Recurs every %n days until %1"
+msgid_plural "Recurs every %n days until %1"
+msgstr[0] "%1까지 매 %n일마다 반복됨"
+
+#: incidence.cpp:1455
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "Recurs every %n days"
+msgid_plural "Recurs every %n days"
+msgstr[0] "매 %n일마다 반복됨"
+
+#: incidence.cpp:1468
+msgctxt "KCalendarCore::IncidencePrivate|Recurs weekly on no days"
+msgid "no days"
+msgstr "요일 없음"
+
+#: incidence.cpp:1475
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Recurs weekly on [list of days] until end-"
+"date"
+msgid "Recurs every %n weeks on %1 until %2"
+msgid_plural "Recurs every %n weeks on %1 until %2"
+msgstr[0] "%2까지 매 %n주 %1마다 반복됨"
+
+#: incidence.cpp:1481
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|Recurs weekly on [list of days]"
+msgid "Recurs every %n weeks on %1"
+msgid_plural "Recurs every %n weeks on %1"
+msgstr[0] "매 %n주 %1마다 반복됨"
+
+#: incidence.cpp:1491
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Recurs every N months on the [2nd~|3rd~|...] "
+"weekdayname until end-date"
+msgid "Recurs every %n months on the %1 %2 until %3"
+msgid_plural "Recurs every %n months on the %1 %2 until %3"
+msgstr[0] "%3까지 매 %n개월마다 %1 %2에 반복됨"
+
+#: incidence.cpp:1500
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Recurs every N months on the [2nd~|3rd~|...] "
+"weekdayname"
+msgid "Recurs every %n months on the %1 %2"
+msgid_plural "Recurs every %n months on the %1 %2"
+msgstr[0] "매 %n개월마다 %1 %2에 반복됨"
+
+#: incidence.cpp:1511
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Recurs monthly on the [1st~|2nd~|...] day "
+"until end-date"
+msgid "Recurs every %n months on the %1 day until %2"
+msgid_plural "Recurs every %n months on the %1 day until %2"
+msgstr[0] "%2까지 매 %n개월마다 %1 날에 반복됨"
+
+#: incidence.cpp:1519
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Recurs monthly on the [1st~|2nd~|...] day"
+msgid "Recurs every %n month on the %1 day"
+msgid_plural "Recurs every %n month on the %1 day"
+msgstr[0] "매 %n개월마다 %1 날에 반복됨"
+
+#: incidence.cpp:1530
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Recurs Every N years on month-name [1st~|"
+"2nd~|...] until end-date"
+msgid "Recurs every %n years on %1 %2 until %3"
+msgid_plural "Recurs every %n years on %1 %2 until %3"
+msgstr[0] "%3까지 매 %n년마다 %1 %2에 반복됨"
+
+#: incidence.cpp:1540
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Recurs Every N years on month-name [1st~|"
+"2nd~|...]"
+msgid "Recurs every %n years on %1 %2"
+msgid_plural "Recurs every %n years on %1 %2"
+msgstr[0] "매 %n년마다 %1 %2에 반복됨"
+
+#: incidence.cpp:1544 incidence.cpp:1547
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Recurs Every year on month-name [1st~|"
+"2nd~|...]"
+msgid "Recurs yearly on %1 %2"
+msgstr "매년마다 %1 %2에 반복됨"
+
+#: incidence.cpp:1558
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Recurs every N years on day N until end-date"
+msgid "Recurs every %n years on day %1 until %2"
+msgid_plural "Recurs every %n years on day %1 until %2"
+msgstr[0] "%2까지 매 %1년 %1에 반복됨"
+
+#: incidence.cpp:1564
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|Recurs every N YEAR[S] on day N"
+msgid "Recurs every %n years on day %1"
+msgid_plural "Recurs every %n years on day %1"
+msgstr[0] "매 %n년마다 %1일에 반복됨"
+
+#: incidence.cpp:1575
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Every N years on the [2nd~|3rd~|...] "
+"weekdayname of monthname until end-date"
+msgid "Every %n years on the %1 %2 of %3 until %4"
+msgid_plural "Every %n years on the %1 %2 of %3 until %4"
+msgstr[0] "%4까지 매 %n년마다 %3 %1 %2에 반복됨"
+
+#: incidence.cpp:1587
+#, qt-format
+msgctxt ""
+"KCalendarCore::IncidencePrivate|Every N years on the [2nd~|3rd~|...] "
+"weekdayname of monthname"
+msgid "Every %n years on the %1 %2 of %3"
+msgid_plural "Every %n years on the %1 %2 of %3"
+msgstr[0] "매 %n년마다 %3 %1 %2"
+
+#: incidence.cpp:1597
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "Incidence recurs"
+msgstr "반복됨"
+
+#: incidence.cpp:1610
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "minute %1"
+msgstr "%1분"
+
+#: incidence.cpp:1654
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "%n days"
+msgid_plural "%n days"
+msgstr[0] "%n일"
+
+#: incidence.cpp:1685
+msgctxt "KCalendarCore::IncidencePrivate|ellipsis"
+msgid "…"
+msgstr "…"
+
+#: incidence.cpp:1687
+#, qt-format
+msgctxt "KCalendarCore::IncidencePrivate|"
+msgid "%1 (excluding %2)"
+msgstr "%1(%2 제외)"
