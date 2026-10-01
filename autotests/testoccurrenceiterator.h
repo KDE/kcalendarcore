@@ -13,6 +13,7 @@ class TestOccurrenceIterator : public QObject
     Q_OBJECT
 private Q_SLOTS:
     void testIterationWithExceptions();
+    void testIterationWithExceptionInIteratorRange();
     void testEventsAndTodos();
     void testFilterCompletedTodos();
     void testAllDayEvents();
