@@ -114,6 +114,13 @@ public:
         }
     }
 
+    [[nodiscard]] bool isVisibleInTimeRange(const QDateTime &dtStart, const QDateTime &dtEnd) const
+    {
+        const auto refStart = start.toTimeZone(dtStart.timeZone());
+        const auto refEnd = end.toTimeZone(dtStart.timeZone());
+        return dtStart < refStart ? refStart <= dtEnd : dtStart <= refEnd;
+    }
+
     void setupIterator(const Calendar &calendar, const Incidence::List &incidences)
     {
         for (const Incidence::Ptr &inc : std::as_const(incidences)) {
@@ -149,7 +156,8 @@ public:
                 occurrenceStartDate = recurrenceId;
 
                 bool resetIncidence = false;
-                if (const auto exceptionIncidence = recurrenceIds.value(recurrenceId)) {
+                // Note: we "take" the recurrenceId to have a list of of remaining exceptions
+                if (const auto exceptionIncidence = recurrenceIds.take(recurrenceId)) {
                     // TODO: exclude exceptions where the start/end is not within
                     // (so the occurrence of the recurrence is omitted, but no exception is added)
                     incidence = exceptionIncidence;
@@ -170,6 +178,15 @@ public:
                 if (resetIncidence) {
                     incidence = lastInc;
                     offset = lastOffset;
+                }
+            }
+
+            // Add exceptions that changed date so far the original occurrence isn't in the view
+            for (const auto &exceptionIncidence : std::as_const(recurrenceIds)) {
+                const auto dtStart = exceptionIncidence->dtStart();
+                const auto dtEnd = exceptionIncidence->endDateForStart(dtStart);
+                if (isVisibleInTimeRange(dtStart, dtEnd)) {
+                    addOccurrenceToResult(calendar, exceptionIncidence, exceptionIncidence->recurrenceId(), dtStart);
                 }
             }
         }

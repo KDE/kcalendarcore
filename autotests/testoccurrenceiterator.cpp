@@ -75,6 +75,51 @@ void TestOccurrenceIterator::testIterationWithExceptions()
     QCOMPARE(occurrence, 3);
 }
 
+void TestOccurrenceIterator::testIterationWithExceptionInIteratorRange()
+{
+    // Following https://bugs.kde.org/show_bug.cgi?id=447966
+    // Exception was missing when the occurrence was NOT in the iterator range, but the exception was
+    KCalendarCore::MemoryCalendar calendar(QTimeZone::utc());
+
+    QDateTime start(QDate(2025, 10, 01), QTime(10, 0, 0), QTimeZone::UTC);
+    QDateTime end = start.addSecs(60 * 60);
+
+    QDateTime recurrenceId = start.addYears(1);
+    QDateTime exceptionStart = start.addYears(1).addMonths(2).addSecs(60 * 60); // 2026-01-01 11:00
+    QDateTime exceptionEnd = exceptionStart.addSecs(60 * 60);
+
+    QDateTime iteratorStart = exceptionStart.addDays(-7);
+    QDateTime iteratorEnd = exceptionStart.addDays(7);
+
+    KCalendarCore::Event::Ptr event1(new KCalendarCore::Event());
+    event1->setUid(QStringLiteral("event1"));
+    event1->setSummary(QStringLiteral("event1"));
+    event1->setDtStart(start);
+    event1->setDtEnd(end);
+    event1->recurrence()->setYearly(1);
+    calendar.addEvent(event1);
+
+    KCalendarCore::Event::Ptr exception(new KCalendarCore::Event());
+    exception->setUid(event1->uid());
+    exception->setSummary(QStringLiteral("exception"));
+    exception->setRecurrenceId(recurrenceId);
+    exception->setDtStart(exceptionStart);
+    exception->setDtEnd(exceptionEnd);
+    calendar.addEvent(exception);
+
+    int occurrence = 0;
+    KCalendarCore::OccurrenceIterator rIt(calendar, iteratorStart, iteratorEnd);
+    while (rIt.hasNext()) {
+        rIt.next();
+        occurrence++;
+        if (occurrence == 1) {
+            QCOMPARE(rIt.occurrenceStartDate(), exceptionStart);
+            QCOMPARE(rIt.incidence()->summary(), exception->summary());
+        }
+    }
+    QCOMPARE(occurrence, 1);
+}
+
 void TestOccurrenceIterator::testEventsAndTodos()
 {
     KCalendarCore::MemoryCalendar calendar(QTimeZone::utc());
