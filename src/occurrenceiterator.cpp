@@ -147,37 +147,23 @@ public:
 
             // Get all occurrences of the recurring event
             const auto occurrences = inc->recurrence()->timesInInterval(start, end);
-            Incidence::Ptr incidence(inc);
-            Incidence::Ptr lastInc(inc);
-            qint64 offset(0);
-            qint64 lastOffset(0);
-            QDateTime occurrenceStartDate;
-            for (const auto &recurrenceId : std::as_const(occurrences)) {
-                occurrenceStartDate = recurrenceId;
+            auto thisAndFutureIncidence = Incidence::Ptr();
+            qint64 thisAndFutureOffset(0);
 
-                bool resetIncidence = false;
+            for (const auto &recurrenceId : std::as_const(occurrences)) {
                 // Note: we "take" the recurrenceId to have a list of of remaining exceptions
                 if (const auto exceptionIncidence = recurrenceIds.take(recurrenceId)) {
-                    // TODO: exclude exceptions where the start/end is not within
-                    // (so the occurrence of the recurrence is omitted, but no exception is added)
-                    incidence = exceptionIncidence;
-                    occurrenceStartDate = incidence->dtStart();
-                    offset = incidence->recurrenceId().secsTo(incidence->dtStart());
-                    if (incidence->thisAndFuture()) {
-                        lastInc = incidence;
-                        lastOffset = offset;
-                    } else {
-                        resetIncidence = true;
+                    if (exceptionIncidence->thisAndFuture()) {
+                        thisAndFutureIncidence = exceptionIncidence;
+                        thisAndFutureOffset = exceptionIncidence->recurrenceId().secsTo(exceptionIncidence->dtStart());
                     }
-                } else if (inc != incidence) { // thisAndFuture exception is active
-                    occurrenceStartDate = occurrenceStartDate.addSecs(offset);
-                }
-
-                addOccurrenceToResult(calendar, incidence, recurrenceId, occurrenceStartDate);
-
-                if (resetIncidence) {
-                    incidence = lastInc;
-                    offset = lastOffset;
+                    addOccurrenceToResult(calendar, exceptionIncidence, recurrenceId, exceptionIncidence->dtStart());
+                } else {
+                    if (thisAndFutureIncidence) {
+                        addOccurrenceToResult(calendar, thisAndFutureIncidence, recurrenceId, recurrenceId.addSecs(thisAndFutureOffset));
+                    } else {
+                        addOccurrenceToResult(calendar, inc, recurrenceId, recurrenceId);
+                    }
                 }
             }
 
