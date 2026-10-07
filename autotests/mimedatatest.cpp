@@ -40,8 +40,9 @@ private Q_SLOTS:
         QVERIFY(cal);
         QCOMPARE(cal->incidences().size(), 1);
         QCOMPARE(cal->events().size(), 1);
-        QVERIFY(!cal->events()[0]->uid().isEmpty());
-        QCOMPARE(cal->events()[0]->uid(), originalUid);
+        const Event::Ptr ev2 = cal->events().at(0);
+        QVERIFY(!ev2->uid().isEmpty());
+        QCOMPARE(ev2->uid(), originalUid);
 
         QVERIFY(MimeData::decodeEvent(&mimeData));
         QVERIFY(!MimeData::decodeTodo(&mimeData));
