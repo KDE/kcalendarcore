@@ -45,37 +45,36 @@ namespace MimeData
 /*!
  * Populate \p mimeData with the content of \p calendar.
  */
-KCALENDARCORE_EXPORT void populate(QMimeData *mimeData, const KCalendarCore::Calendar::Ptr &cal);
+KCALENDARCORE_EXPORT void populate(QMimeData *mimeData, const QSharedPointer<KCalendarCore::Calendar> &cal);
 
 /*!
  * Populate \p mimeData with \p incidences.
  */
-KCALENDARCORE_EXPORT void populate(QMimeData *mimeData, const KCalendarCore::Incidence::List &incidences);
+KCALENDARCORE_EXPORT void populate(QMimeData *mimeData, const QList<QSharedPointer<KCalendarCore::Incidence>> &incidences);
 
 /*!
  * Create a calendar from \p mimeData.
  * If \p mimeData cannot be decoded, \c nullptr is returned.
  */
-[[nodiscard]] KCALENDARCORE_EXPORT Calendar::Ptr decodeCalendar(const QMimeData *mimeData);
+[[nodiscard]] KCALENDARCORE_EXPORT QSharedPointer<Calendar> decodeCalendar(const QMimeData *mimeData);
 
 /*!
  * Create a list of incidences from \p mimeData.
  * If \p mimeData cannot be decoded an empty list is returned.
  */
-[[nodiscard]] KCALENDARCORE_EXPORT Incidence::List decodeIncidences(const QMimeData *mimeData);
+[[nodiscard]] KCALENDARCORE_EXPORT QList<QSharedPointer<Incidence>> decodeIncidences(const QMimeData *mimeData);
 
 /*!
  * Create an event from \p mimeData.
  * If \p mimeData contains iCal data other than exactly one event, \c nullptr is returned.
  */
-[[nodiscard]] KCALENDARCORE_EXPORT Event::Ptr decodeEvent(const QMimeData *mimeData);
+[[nodiscard]] KCALENDARCORE_EXPORT QSharedPointer<Event> decodeEvent(const QMimeData *mimeData);
 
 /*!
  * Create a todo from \p mimeData.
  * If \p mimeData contains iCal data other than exactly one todo, \c nullptr is returned.
  */
-[[nodiscard]] KCALENDARCORE_EXPORT Todo::Ptr decodeTodo(const QMimeData *mimeData);
-
+[[nodiscard]] KCALENDARCORE_EXPORT QSharedPointer<Todo> decodeTodo(const QMimeData *mimeData);
 }
 }
 

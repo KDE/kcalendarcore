@@ -20,7 +20,7 @@ using namespace KCalendarCore;
 
 void MemoryCalendarTest::testValidity()
 {
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<MemoryCalendar> cal(new MemoryCalendar(QTimeZone::utc()));
     cal->setProductId(QStringLiteral("fredware calendar"));
     QVERIFY(cal->productId() == QLatin1String("fredware calendar"));
     QVERIFY(cal->timeZoneId() == QByteArrayLiteral("UTC"));
@@ -29,18 +29,18 @@ void MemoryCalendarTest::testValidity()
 
 void MemoryCalendarTest::testInvalidTimeZone()
 {
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone()));
+    QSharedPointer<MemoryCalendar> cal(new MemoryCalendar(QTimeZone()));
     // On invalid time zone, fallback to system time zone.
     QVERIFY(cal->timeZone() == QTimeZone::systemTimeZone());
 }
 
 void MemoryCalendarTest::testEvents()
 {
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<MemoryCalendar> cal(new MemoryCalendar(QTimeZone::utc()));
     cal->setProductId(QStringLiteral("fredware calendar"));
     QDate dt = QDate::currentDate();
 
-    Event::Ptr event1 = Event::Ptr(new Event());
+    auto event1 = QSharedPointer<Event>(new Event());
     event1->setUid(QStringLiteral("1"));
     event1->setDtStart(QDateTime(dt, {}));
     event1->setDtEnd(QDateTime(dt, {}).addDays(1));
@@ -49,7 +49,7 @@ void MemoryCalendarTest::testEvents()
     event1->setDescription(QStringLiteral("This is a description of the first event"));
     event1->setLocation(QStringLiteral("the place"));
 
-    Event::Ptr event2 = Event::Ptr(new Event());
+    auto event2 = QSharedPointer<Event>(new Event());
     event2->setUid(QStringLiteral("2"));
     event2->setDtStart(QDateTime(dt, {}).addDays(1));
     event2->setDtEnd(QDateTime(dt, {}).addDays(2));
@@ -68,11 +68,11 @@ void MemoryCalendarTest::testEvents()
 
 void MemoryCalendarTest::testIncidences()
 {
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<MemoryCalendar> cal(new MemoryCalendar(QTimeZone::utc()));
     cal->setProductId(QStringLiteral("fredware calendar"));
     QDate dt = QDate::currentDate();
 
-    Event::Ptr event1 = Event::Ptr(new Event());
+    auto event1 = QSharedPointer<Event>(new Event());
     event1->setUid(QStringLiteral("1"));
     event1->setDtStart(QDateTime(dt, {}));
     event1->setDtEnd(QDateTime(dt, {}).addDays(1));
@@ -81,7 +81,7 @@ void MemoryCalendarTest::testIncidences()
     event1->setDescription(QStringLiteral("This is a description of the first event"));
     event1->setLocation(QStringLiteral("the place"));
 
-    Event::Ptr event2 = Event::Ptr(new Event());
+    auto event2 = QSharedPointer<Event>(new Event());
     event2->setUid(QStringLiteral("2"));
     event2->setDtStart(QDateTime(dt, {}).addDays(1));
     event2->setDtEnd(QDateTime(dt, {}).addDays(2));
@@ -93,7 +93,7 @@ void MemoryCalendarTest::testIncidences()
     QVERIFY(cal->addEvent(event1));
     QVERIFY(cal->addEvent(event2));
 
-    Todo::Ptr todo1 = Todo::Ptr(new Todo());
+    auto todo1 = QSharedPointer<Todo>(new Todo());
     todo1->setUid(QStringLiteral("3"));
     todo1->setDtStart(QDateTime(dt, {}).addDays(1));
     todo1->setDtDue(QDateTime(dt, {}).addDays(2));
@@ -102,7 +102,7 @@ void MemoryCalendarTest::testIncidences()
     todo1->setDescription(QStringLiteral("This is a description of a todo"));
     todo1->setLocation(QStringLiteral("this place"));
 
-    Todo::Ptr todo2 = Todo::Ptr(new Todo());
+    auto todo2 = QSharedPointer<Todo>(new Todo());
     todo2->setUid(QStringLiteral("4"));
     todo2->setDtStart(QDateTime(dt, {}).addDays(1));
     todo2->setAllDay(true);
@@ -117,7 +117,7 @@ void MemoryCalendarTest::testIncidences()
     QVERIFY(store.save());
 
     QVERIFY(store.load());
-    Todo::Ptr todo = cal->incidence(QStringLiteral("4")).staticCast<Todo>();
+    auto todo = cal->incidence(QStringLiteral("4")).staticCast<Todo>();
     QVERIFY(todo->uid() == QLatin1Char('4'));
     QVERIFY(todo->summaryIsRich());
     QVERIFY(todo->locationIsRich());
@@ -129,15 +129,15 @@ void MemoryCalendarTest::testRelationsCrash()
     // Before, there was a crash that occurred only when reloading a calendar in which
     // the incidences had special relations.
     // This test tests that scenario, and will crash if it fails.
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<MemoryCalendar> cal(new MemoryCalendar(QTimeZone::utc()));
     FileStorage store1(cal, QLatin1String(ICALTESTDATADIR) + QLatin1String("test_relations.ics"));
     QVERIFY(store1.load());
-    const Todo::List oldTodos = cal->todos();
+    const auto oldTodos = cal->todos();
     qDebug() << "Loaded " << oldTodos.count() << " todos into oldTodos.";
 
     FileStorage store2(cal, QLatin1String(ICALTESTDATADIR) + QLatin1String("test_relations.ics"));
     QVERIFY(store2.load());
-    const Todo::List newTodos = cal->todos();
+    const auto newTodos = cal->todos();
     qDebug() << "Loaded " << newTodos.count() << " into newTodos.";
 
     // We can saftely access the old deleted todos here, since they are not really deleted
@@ -149,8 +149,8 @@ void MemoryCalendarTest::testRelationsCrash()
     // This doesn't makes sense so i commented it. when you load a calendar the second time
     // it reuses what it can, so oldTodo == newTodo
 
-    /*  foreach (const Todo::Ptr &oldTodo, oldTodos ) {
-        foreach (const Todo::Ptr &newTodo, newTodos ) {
+    /*  foreach (const QSharedPointer<Todo> &oldTodo, oldTodos ) {
+        foreach (const QSharedPointer<Todo> &newTodo, newTodos ) {
           QVERIFY( oldTodo != newTodo );
 
           // Make sure that none of the new todos point to an old, deleted todo
@@ -167,12 +167,12 @@ void MemoryCalendarTest::testRelationsCrash()
 
 void MemoryCalendarTest::testRecurrenceExceptions()
 {
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<MemoryCalendar> cal(new MemoryCalendar(QTimeZone::utc()));
     cal->setProductId(QStringLiteral("fredware calendar"));
     QDate dt = QDate::currentDate();
     QDateTime start(dt, {});
 
-    Event::Ptr event1 = Event::Ptr(new Event());
+    auto event1 = QSharedPointer<Event>(new Event());
     event1->setUid(QStringLiteral("1"));
     event1->setDtStart(start);
     event1->setDtEnd(start.addDays(1));
@@ -182,7 +182,7 @@ void MemoryCalendarTest::testRecurrenceExceptions()
     QVERIFY(cal->addEvent(event1));
 
     const QDateTime recurrenceId = event1->dtStart().addDays(1);
-    Event::Ptr exception1 = cal->createException(event1, recurrenceId).staticCast<Event>();
+    auto exception1 = cal->createException(event1, recurrenceId).staticCast<Event>();
     QCOMPARE(exception1->recurrenceId(), recurrenceId);
     QCOMPARE(exception1->uid(), event1->uid());
     exception1->setSummary(QStringLiteral("exception"));
@@ -193,12 +193,12 @@ void MemoryCalendarTest::testRecurrenceExceptions()
     QCOMPARE(cal->event(event1->uid()), event1);
     QCOMPARE(cal->event(event1->uid(), recurrenceId), exception1);
 
-    const Event::List incidences = cal->rawEvents(start.date(), start.addDays(3).date(), start.timeZone());
+    const auto incidences = cal->rawEvents(start.date(), start.addDays(3).date(), start.timeZone());
     // Contains incidence and exception
     QCOMPARE(incidences.size(), 2);
 
     // Returns only exceptions for an event
-    const Event::List exceptions = cal->eventInstances(event1);
+    const auto exceptions = cal->eventInstances(event1);
     QCOMPARE(exceptions.size(), 1);
     QCOMPARE(exceptions.first()->uid(), event1->uid());
     QCOMPARE(exceptions.first()->summary(), exception1->summary());
@@ -208,11 +208,11 @@ void MemoryCalendarTest::testChangeRecurId()
 {
     // When we change the recurring id, internal hashtables should be updated.
 
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<MemoryCalendar> cal(new MemoryCalendar(QTimeZone::utc()));
     QDateTime start(QDate::currentDate(), {});
 
     // Add main event
-    Event::Ptr event1 = Event::Ptr(new Event());
+    auto event1 = QSharedPointer<Event>(new Event());
     const QString uid = QStringLiteral("1");
     event1->setUid(uid);
     event1->setDtStart(start);
@@ -225,7 +225,7 @@ void MemoryCalendarTest::testChangeRecurId()
 
     // Add exception event:
     const QDateTime recurrenceId = event1->dtStart().addDays(1);
-    Event::Ptr exception1 = cal->createException(event1, recurrenceId).staticCast<Event>();
+    auto exception1 = cal->createException(event1, recurrenceId).staticCast<Event>();
     QCOMPARE(exception1->recurrenceId(), recurrenceId);
     QCOMPARE(exception1->uid(), event1->uid());
     exception1->setSummary(QStringLiteral("exception"));
@@ -233,7 +233,7 @@ void MemoryCalendarTest::testChangeRecurId()
     QVERIFY(cal->addEvent(exception1));
 
     const QString oldIdentifier = exception1->instanceIdentifier();
-    Incidence::Ptr foo = cal->instance(oldIdentifier);
+    auto foo = cal->instance(oldIdentifier);
     QVERIFY(foo && foo->hasRecurrenceId());
     // Now change the recurring id!
     exception1->setRecurrenceId(start.addDays(2));
@@ -247,13 +247,13 @@ void MemoryCalendarTest::testChangeRecurId()
     QVERIFY(foo);
 
     // Test hashing
-    Incidence::List incidences = cal->incidences();
+    auto incidences = cal->incidences();
     QVERIFY(incidences.count() == 2);
 
     QDateTime newRecId = start.addDays(2);
-    Incidence::Ptr main = cal->incidence(uid);
-    Incidence::Ptr exception = cal->incidence(uid, newRecId);
-    Incidence::Ptr noException = cal->incidence(uid, recurrenceId);
+    auto main = cal->incidence(uid);
+    auto exception = cal->incidence(uid, newRecId);
+    auto noException = cal->incidence(uid, recurrenceId);
     QVERIFY(!noException);
     QVERIFY(main);
     QVERIFY(exception);
@@ -267,9 +267,9 @@ void MemoryCalendarTest::testRawEventsForDate()
     // We're checking that events at a date in a given time zone
     // are properly returned for the day after / before if
     // the calendar is for another time zone.
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<MemoryCalendar> cal(new MemoryCalendar(QTimeZone::utc()));
 
-    Event::Ptr event = Event::Ptr(new Event());
+    auto event = QSharedPointer<Event>(new Event());
     event->setDtStart(QDateTime(QDate(2019, 10, 29), QTime(1, 30), QTimeZone("Asia/Ho_Chi_Minh")));
 
     QVERIFY(cal->addEvent(event));
@@ -298,7 +298,7 @@ void MemoryCalendarTest::testRawEventsForDate()
 class TestCalendarObserver : public Calendar::CalendarObserver
 {
 public:
-    TestCalendarObserver(const Calendar::Ptr &cal)
+    TestCalendarObserver(const QSharedPointer<Calendar> &cal)
         : mCalendar(cal)
     {
         cal->registerObserver(this);
@@ -307,30 +307,30 @@ public:
     {
         mCalendar->unregisterObserver(this);
     }
-    void calendarIncidenceChanged(const Incidence::Ptr &incidence) override
+    void calendarIncidenceChanged(const QSharedPointer<Incidence> &incidence) override
     {
         mUpdated.append(incidence);
     }
-    bool hasIncidenceChanged(const Incidence::Ptr &incidence) const
+    bool hasIncidenceChanged(const QSharedPointer<Incidence> &incidence) const
     {
         return std::find_if(mUpdated.constBegin(),
                             mUpdated.constEnd(),
-                            [incidence](const Incidence::Ptr &it) {
+                            [incidence](const QSharedPointer<Incidence> &it) {
                                 return (it->uid() == incidence->uid() && it->recurrenceId() == incidence->recurrenceId());
                             })
             != mUpdated.constEnd();
     }
-    Incidence::List mUpdated;
+    QList<QSharedPointer<Incidence>> mUpdated;
 
 private:
-    Calendar::Ptr mCalendar;
+    QSharedPointer<Calendar> mCalendar;
 };
 
 void MemoryCalendarTest::testRawEvents()
 {
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<MemoryCalendar> cal(new MemoryCalendar(QTimeZone::utc()));
 
-    Event::Ptr event = Event::Ptr(new Event());
+    auto event = QSharedPointer<Event>(new Event());
     // This event span in 20201011T2330Z - 20201012T2330Z
     event->setDtStart(QDateTime(QDate(2020, 10, 12), QTime(1, 30), QTimeZone("Europe/Paris")));
     event->setDtEnd(QDateTime(QDate(2020, 10, 13), QTime(1, 30), QTimeZone("Europe/Paris")));
@@ -373,9 +373,9 @@ void MemoryCalendarTest::testRawEvents()
 
 void MemoryCalendarTest::testDeleteIncidence()
 {
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<MemoryCalendar> cal(new MemoryCalendar(QTimeZone::utc()));
 
-    Event::Ptr event = Event::Ptr(new Event());
+    auto event = QSharedPointer<Event>(new Event());
     event->setDtStart(QDateTime(QDate(2021, 1, 4), QTime(10, 13), QTimeZone("Europe/Paris")));
 
     QVERIFY(cal->addEvent(event));
@@ -389,14 +389,14 @@ void MemoryCalendarTest::testDeleteIncidence()
     QVERIFY(cal->addEvent(event));
     QVERIFY(cal->instance(event->instanceIdentifier()));
 
-    Event::Ptr exception = Event::Ptr(event->clone());
+    auto exception = QSharedPointer<Event>(event->clone());
     exception->recurrence()->clear();
     exception->setRecurrenceId(event->dtStart().addDays(1));
     exception->setDtStart(event->dtStart().addDays(1).addSecs(3600));
     QVERIFY(cal->addEvent(exception));
     QVERIFY(cal->instance(exception->instanceIdentifier()));
 
-    Event::Ptr exception2 = Event::Ptr(event->clone());
+    auto exception2 = QSharedPointer<Event>(event->clone());
     exception2->recurrence()->clear();
     exception2->setRecurrenceId(event->dtStart().addDays(2));
     exception2->setDtStart(event->dtStart().addDays(2).addSecs(-3600));
@@ -416,10 +416,10 @@ void MemoryCalendarTest::testDeleteIncidence()
 
 void MemoryCalendarTest::testUpdateIncidence()
 {
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<MemoryCalendar> cal(new MemoryCalendar(QTimeZone::utc()));
 
     const QDateTime dt(QDate(2021, 02, 25), QTime(14, 0), QTimeZone::UTC);
-    Event::Ptr event(new Event());
+    QSharedPointer<Event> event(new Event());
     event->setCreated(dt);
     event->setLastModified(dt);
     event->setDtStart(dt);

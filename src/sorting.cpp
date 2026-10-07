@@ -176,7 +176,7 @@ DateTimeComparison compare(const QDateTime &dt1, bool isAllDay1, const QDateTime
     return (start1 == start2) ? Equal : (start1 < start2) ? Before : After;
 }
 
-bool KCalendarCore::Events::startDateLessThan(const Event::Ptr &e1, const Event::Ptr &e2)
+bool KCalendarCore::Events::startDateLessThan(const QSharedPointer<Event> &e1, const QSharedPointer<Event> &e2)
 {
     DateTimeComparison res = compare(e1->dtStart(), e1->allDay(), e2->dtStart(), e2->allDay());
     if (res == Equal) {
@@ -186,7 +186,7 @@ bool KCalendarCore::Events::startDateLessThan(const Event::Ptr &e1, const Event:
     }
 }
 
-bool KCalendarCore::Events::startDateMoreThan(const Event::Ptr &e1, const Event::Ptr &e2)
+bool KCalendarCore::Events::startDateMoreThan(const QSharedPointer<Event> &e1, const QSharedPointer<Event> &e2)
 {
     DateTimeComparison res = compare(e1->dtStart(), e1->allDay(), e2->dtStart(), e2->allDay());
     if (res == Equal) {
@@ -196,17 +196,17 @@ bool KCalendarCore::Events::startDateMoreThan(const Event::Ptr &e1, const Event:
     }
 }
 
-bool KCalendarCore::Events::summaryLessThan(const Event::Ptr &e1, const Event::Ptr &e2)
+bool KCalendarCore::Events::summaryLessThan(const QSharedPointer<Event> &e1, const QSharedPointer<Event> &e2)
 {
     return QString::compare(e1->summary(), e2->summary(), Qt::CaseInsensitive) < 0;
 }
 
-bool KCalendarCore::Events::summaryMoreThan(const Event::Ptr &e1, const Event::Ptr &e2)
+bool KCalendarCore::Events::summaryMoreThan(const QSharedPointer<Event> &e1, const QSharedPointer<Event> &e2)
 {
     return QString::compare(e1->summary(), e2->summary(), Qt::CaseInsensitive) > 0;
 }
 
-bool KCalendarCore::Events::endDateLessThan(const Event::Ptr &e1, const Event::Ptr &e2)
+bool KCalendarCore::Events::endDateLessThan(const QSharedPointer<Event> &e1, const QSharedPointer<Event> &e2)
 {
     DateTimeComparison res = compare(e1->dtEnd(), e1->allDay(), e2->dtEnd(), e2->allDay());
     if (res == Equal) {
@@ -216,7 +216,7 @@ bool KCalendarCore::Events::endDateLessThan(const Event::Ptr &e1, const Event::P
     }
 }
 
-bool KCalendarCore::Events::endDateMoreThan(const Event::Ptr &e1, const Event::Ptr &e2)
+bool KCalendarCore::Events::endDateMoreThan(const QSharedPointer<Event> &e1, const QSharedPointer<Event> &e2)
 {
     DateTimeComparison res = compare(e1->dtEnd(), e1->allDay(), e2->dtEnd(), e2->allDay());
     if (res == Equal) {
@@ -226,29 +226,29 @@ bool KCalendarCore::Events::endDateMoreThan(const Event::Ptr &e1, const Event::P
     }
 }
 
-bool KCalendarCore::Journals::dateLessThan(const Journal::Ptr &j1, const Journal::Ptr &j2)
+bool KCalendarCore::Journals::dateLessThan(const QSharedPointer<Journal> &j1, const QSharedPointer<Journal> &j2)
 {
     DateTimeComparison res = compare(j1->dtStart(), j1->allDay(), j2->dtStart(), j2->allDay());
     return (res & Before || res & AtStart);
 }
 
-bool KCalendarCore::Journals::dateMoreThan(const Journal::Ptr &j1, const Journal::Ptr &j2)
+bool KCalendarCore::Journals::dateMoreThan(const QSharedPointer<Journal> &j1, const QSharedPointer<Journal> &j2)
 {
     DateTimeComparison res = compare(j1->dtStart(), j1->allDay(), j2->dtStart(), j2->allDay());
     return (res & After || res & AtEnd);
 }
 
-bool KCalendarCore::Journals::summaryLessThan(const Journal::Ptr &j1, const Journal::Ptr &j2)
+bool KCalendarCore::Journals::summaryLessThan(const QSharedPointer<Journal> &j1, const QSharedPointer<Journal> &j2)
 {
     return QString::compare(j1->summary(), j2->summary(), Qt::CaseInsensitive) < 0;
 }
 
-bool KCalendarCore::Journals::summaryMoreThan(const Journal::Ptr &j1, const Journal::Ptr &j2)
+bool KCalendarCore::Journals::summaryMoreThan(const QSharedPointer<Journal> &j1, const QSharedPointer<Journal> &j2)
 {
     return QString::compare(j1->summary(), j2->summary(), Qt::CaseInsensitive) > 0;
 }
 
-bool KCalendarCore::Todos::startDateLessThan(const Todo::Ptr &t1, const Todo::Ptr &t2)
+bool KCalendarCore::Todos::startDateLessThan(const QSharedPointer<Todo> &t1, const QSharedPointer<Todo> &t2)
 {
     DateTimeComparison res = compare(t1->dtStart(), t1->allDay(), t2->dtStart(), t2->allDay());
     if (res == Equal) {
@@ -258,7 +258,7 @@ bool KCalendarCore::Todos::startDateLessThan(const Todo::Ptr &t1, const Todo::Pt
     }
 }
 
-bool KCalendarCore::Todos::startDateMoreThan(const Todo::Ptr &t1, const Todo::Ptr &t2)
+bool KCalendarCore::Todos::startDateMoreThan(const QSharedPointer<Todo> &t1, const QSharedPointer<Todo> &t2)
 {
     DateTimeComparison res = compare(t1->dtStart(), t1->allDay(), t2->dtStart(), t2->allDay());
     if (res == Equal) {
@@ -268,7 +268,7 @@ bool KCalendarCore::Todos::startDateMoreThan(const Todo::Ptr &t1, const Todo::Pt
     }
 }
 
-bool KCalendarCore::Todos::dueDateLessThan(const Todo::Ptr &t1, const Todo::Ptr &t2)
+bool KCalendarCore::Todos::dueDateLessThan(const QSharedPointer<Todo> &t1, const QSharedPointer<Todo> &t2)
 {
     if (!t1->hasDueDate()) {
         return false;
@@ -284,7 +284,7 @@ bool KCalendarCore::Todos::dueDateLessThan(const Todo::Ptr &t1, const Todo::Ptr 
     }
 }
 
-bool KCalendarCore::Todos::dueDateMoreThan(const Todo::Ptr &t1, const Todo::Ptr &t2)
+bool KCalendarCore::Todos::dueDateMoreThan(const QSharedPointer<Todo> &t1, const QSharedPointer<Todo> &t2)
 {
     if (!t2->hasDueDate()) {
         return false;
@@ -300,7 +300,7 @@ bool KCalendarCore::Todos::dueDateMoreThan(const Todo::Ptr &t1, const Todo::Ptr 
     }
 }
 
-bool KCalendarCore::Todos::priorityLessThan(const Todo::Ptr &t1, const Todo::Ptr &t2)
+bool KCalendarCore::Todos::priorityLessThan(const QSharedPointer<Todo> &t1, const QSharedPointer<Todo> &t2)
 {
     if (t1->priority() < t2->priority()) {
         return true;
@@ -311,7 +311,7 @@ bool KCalendarCore::Todos::priorityLessThan(const Todo::Ptr &t1, const Todo::Ptr
     }
 }
 
-bool KCalendarCore::Todos::priorityMoreThan(const Todo::Ptr &t1, const Todo::Ptr &t2)
+bool KCalendarCore::Todos::priorityMoreThan(const QSharedPointer<Todo> &t1, const QSharedPointer<Todo> &t2)
 {
     if (t1->priority() > t2->priority()) {
         return true;
@@ -322,7 +322,7 @@ bool KCalendarCore::Todos::priorityMoreThan(const Todo::Ptr &t1, const Todo::Ptr
     }
 }
 
-bool KCalendarCore::Todos::percentLessThan(const Todo::Ptr &t1, const Todo::Ptr &t2)
+bool KCalendarCore::Todos::percentLessThan(const QSharedPointer<Todo> &t1, const QSharedPointer<Todo> &t2)
 {
     if (t1->percentComplete() < t2->percentComplete()) {
         return true;
@@ -333,7 +333,7 @@ bool KCalendarCore::Todos::percentLessThan(const Todo::Ptr &t1, const Todo::Ptr 
     }
 }
 
-bool KCalendarCore::Todos::percentMoreThan(const Todo::Ptr &t1, const Todo::Ptr &t2)
+bool KCalendarCore::Todos::percentMoreThan(const QSharedPointer<Todo> &t1, const QSharedPointer<Todo> &t2)
 {
     if (t1->percentComplete() > t2->percentComplete()) {
         return true;
@@ -344,17 +344,17 @@ bool KCalendarCore::Todos::percentMoreThan(const Todo::Ptr &t1, const Todo::Ptr 
     }
 }
 
-bool KCalendarCore::Todos::summaryLessThan(const Todo::Ptr &t1, const Todo::Ptr &t2)
+bool KCalendarCore::Todos::summaryLessThan(const QSharedPointer<Todo> &t1, const QSharedPointer<Todo> &t2)
 {
     return QString::compare(t1->summary(), t2->summary(), Qt::CaseInsensitive) < 0;
 }
 
-bool KCalendarCore::Todos::summaryMoreThan(const Todo::Ptr &t1, const Todo::Ptr &t2)
+bool KCalendarCore::Todos::summaryMoreThan(const QSharedPointer<Todo> &t1, const QSharedPointer<Todo> &t2)
 {
     return QString::compare(t1->summary(), t2->summary(), Qt::CaseInsensitive) > 0;
 }
 
-bool KCalendarCore::Todos::createdLessThan(const Todo::Ptr &t1, const Todo::Ptr &t2)
+bool KCalendarCore::Todos::createdLessThan(const QSharedPointer<Todo> &t1, const QSharedPointer<Todo> &t2)
 {
     DateTimeComparison res = compare(t1->created(), t1->allDay(), t2->created(), t2->allDay());
     if (res == Equal) {
@@ -364,7 +364,7 @@ bool KCalendarCore::Todos::createdLessThan(const Todo::Ptr &t1, const Todo::Ptr 
     }
 }
 
-bool KCalendarCore::Todos::createdMoreThan(const Todo::Ptr &t1, const Todo::Ptr &t2)
+bool KCalendarCore::Todos::createdMoreThan(const QSharedPointer<Todo> &t1, const QSharedPointer<Todo> &t2)
 {
     DateTimeComparison res = compare(t1->created(), t1->allDay(), t2->created(), t2->allDay());
     if (res == Equal) {
@@ -374,7 +374,7 @@ bool KCalendarCore::Todos::createdMoreThan(const Todo::Ptr &t1, const Todo::Ptr 
     }
 }
 
-bool KCalendarCore::Incidences::dateLessThan(const Incidence::Ptr &i1, const Incidence::Ptr &i2)
+bool KCalendarCore::Incidences::dateLessThan(const QSharedPointer<Incidence> &i1, const QSharedPointer<Incidence> &i2)
 {
     DateTimeComparison res = compare(i1->dateTime(Incidence::RoleSort), i1->allDay(), i2->dateTime(Incidence::RoleSort), i2->allDay());
     if (res == Equal) {
@@ -384,7 +384,7 @@ bool KCalendarCore::Incidences::dateLessThan(const Incidence::Ptr &i1, const Inc
     }
 }
 
-bool KCalendarCore::Incidences::dateMoreThan(const Incidence::Ptr &i1, const Incidence::Ptr &i2)
+bool KCalendarCore::Incidences::dateMoreThan(const QSharedPointer<Incidence> &i1, const QSharedPointer<Incidence> &i2)
 {
     DateTimeComparison res = compare(i1->dateTime(Incidence::RoleSort), i1->allDay(), i2->dateTime(Incidence::RoleSort), i2->allDay());
     if (res == Equal) {
@@ -394,7 +394,7 @@ bool KCalendarCore::Incidences::dateMoreThan(const Incidence::Ptr &i1, const Inc
     }
 }
 
-bool KCalendarCore::Incidences::createdLessThan(const Incidence::Ptr &i1, const Incidence::Ptr &i2)
+bool KCalendarCore::Incidences::createdLessThan(const QSharedPointer<Incidence> &i1, const QSharedPointer<Incidence> &i2)
 {
     DateTimeComparison res = compare(i1->created(), i1->allDay(), i2->created(), i2->allDay());
     if (res == Equal) {
@@ -404,7 +404,7 @@ bool KCalendarCore::Incidences::createdLessThan(const Incidence::Ptr &i1, const 
     }
 }
 
-bool KCalendarCore::Incidences::createdMoreThan(const Incidence::Ptr &i1, const Incidence::Ptr &i2)
+bool KCalendarCore::Incidences::createdMoreThan(const QSharedPointer<Incidence> &i1, const QSharedPointer<Incidence> &i2)
 {
     DateTimeComparison res = compare(i1->created(), i1->allDay(), i2->created(), i2->allDay());
     if (res == Equal) {
@@ -414,17 +414,17 @@ bool KCalendarCore::Incidences::createdMoreThan(const Incidence::Ptr &i1, const 
     }
 }
 
-bool KCalendarCore::Incidences::summaryLessThan(const Incidence::Ptr &i1, const Incidence::Ptr &i2)
+bool KCalendarCore::Incidences::summaryLessThan(const QSharedPointer<Incidence> &i1, const QSharedPointer<Incidence> &i2)
 {
     return QString::compare(i1->summary(), i2->summary(), Qt::CaseInsensitive) < 0;
 }
 
-bool KCalendarCore::Incidences::summaryMoreThan(const Incidence::Ptr &i1, const Incidence::Ptr &i2)
+bool KCalendarCore::Incidences::summaryMoreThan(const QSharedPointer<Incidence> &i1, const QSharedPointer<Incidence> &i2)
 {
     return QString::compare(i1->summary(), i2->summary(), Qt::CaseInsensitive) > 0;
 }
 
-bool KCalendarCore::Incidences::categoriesLessThan(const Incidence::Ptr &i1, const Incidence::Ptr &i2)
+bool KCalendarCore::Incidences::categoriesLessThan(const QSharedPointer<Incidence> &i1, const QSharedPointer<Incidence> &i2)
 {
     const auto res = QString::compare(i1->categoriesStr(), i2->categoriesStr(), Qt::CaseSensitive);
     if (res == 0) {
@@ -434,7 +434,7 @@ bool KCalendarCore::Incidences::categoriesLessThan(const Incidence::Ptr &i1, con
     }
 }
 
-bool KCalendarCore::Incidences::categoriesMoreThan(const Incidence::Ptr &i1, const Incidence::Ptr &i2)
+bool KCalendarCore::Incidences::categoriesMoreThan(const QSharedPointer<Incidence> &i1, const QSharedPointer<Incidence> &i2)
 {
     const auto res = QString::compare(i1->categoriesStr(), i2->categoriesStr(), Qt::CaseSensitive);
     if (res == 0) {

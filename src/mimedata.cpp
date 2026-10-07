@@ -41,7 +41,7 @@ bool MimeData::canDecode(const QMimeData *mimeData)
     });
 }
 
-void MimeData::populate(QMimeData *mimeData, const KCalendarCore::Calendar::Ptr &calendar)
+void MimeData::populate(QMimeData *mimeData, const QSharedPointer<KCalendarCore::Calendar> &calendar)
 {
     Q_ASSERT(mimeData);
     ICalFormat format;
@@ -51,26 +51,26 @@ void MimeData::populate(QMimeData *mimeData, const KCalendarCore::Calendar::Ptr 
     }
 }
 
-void MimeData::populate(QMimeData *mimeData, const KCalendarCore::Incidence::List &incidences)
+void MimeData::populate(QMimeData *mimeData, const QList<QSharedPointer<KCalendarCore::Incidence>> &incidences)
 {
     if (incidences.isEmpty()) {
         return;
     }
 
-    const Calendar::Ptr calendar(new MemoryCalendar(QTimeZone::systemTimeZone()));
+    const QSharedPointer<Calendar> calendar(new MemoryCalendar(QTimeZone::systemTimeZone()));
     std::ranges::for_each(incidences, [&calendar](const auto &i) {
-        calendar->addIncidence(Incidence::Ptr(i->clone()));
+        calendar->addIncidence(QSharedPointer<Incidence>(i->clone()));
     });
     populate(mimeData, calendar);
 }
 
-Calendar::Ptr MimeData::decodeCalendar(const QMimeData *mimeData)
+QSharedPointer<Calendar> MimeData::decodeCalendar(const QMimeData *mimeData)
 {
     if (!mimeData) {
         return {};
     }
 
-    Calendar::Ptr calendar(new MemoryCalendar(QTimeZone::systemTimeZone()));
+    QSharedPointer<Calendar> calendar(new MemoryCalendar(QTimeZone::systemTimeZone()));
     if (mimeData->hasFormat(mimeType())) {
         const QByteArray payload = mimeData->data(mimeType());
         ICalFormat format;
@@ -92,39 +92,39 @@ Calendar::Ptr MimeData::decodeCalendar(const QMimeData *mimeData)
     return {};
 }
 
-Incidence::List MimeData::decodeIncidences(const QMimeData *mimeData)
+QList<QSharedPointer<Incidence>> MimeData::decodeIncidences(const QMimeData *mimeData)
 {
     const auto cal = decodeCalendar(mimeData);
     if (!cal) {
         return {};
     }
 
-    KCalendarCore::Incidence::List result;
-    const KCalendarCore::Incidence::List decodedIncidences = cal->incidences();
+    QList<QSharedPointer<KCalendarCore::Incidence>> result;
+    const QList<QSharedPointer<KCalendarCore::Incidence>> decodedIncidences = cal->incidences();
     result.reserve(decodedIncidences.size());
-    for (const KCalendarCore::Incidence::Ptr &i : decodedIncidences) {
-        result.push_back(KCalendarCore::Incidence::Ptr(i->clone()));
+    for (const QSharedPointer<KCalendarCore::Incidence> &i : decodedIncidences) {
+        result.push_back(QSharedPointer<KCalendarCore::Incidence>(i->clone()));
     }
 
     return result;
 }
 
-Event::Ptr MimeData::decodeEvent(const QMimeData *mimeData)
+QSharedPointer<Event> MimeData::decodeEvent(const QMimeData *mimeData)
 {
     const auto cal = decodeCalendar(mimeData);
     if (!cal) {
         return nullptr;
     }
     const auto events = cal->events();
-    return events.size() == 1 ? Event::Ptr(events.front()->clone()) : nullptr;
+    return events.size() == 1 ? QSharedPointer<Event>(events.front()->clone()) : nullptr;
 }
 
-Todo::Ptr MimeData::decodeTodo(const QMimeData *mimeData)
+QSharedPointer<Todo> MimeData::decodeTodo(const QMimeData *mimeData)
 {
     const auto cal = decodeCalendar(mimeData);
     if (!cal) {
         return nullptr;
     }
     const auto todos = cal->todos();
-    return todos.size() == 1 ? Todo::Ptr(todos.front()->clone()) : nullptr;
+    return todos.size() == 1 ? QSharedPointer<Todo>(todos.front()->clone()) : nullptr;
 }

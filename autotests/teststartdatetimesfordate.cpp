@@ -20,9 +20,9 @@ private Q_SLOTS:
     void testNonRecurringEvents();
 };
 
-Event::Ptr mkEvent(bool allDay, QDateTime dtStart, QDateTime dtEnd)
+QSharedPointer<Event> mkEvent(bool allDay, QDateTime dtStart, QDateTime dtEnd)
 {
-    Event::Ptr event = Event::Ptr(new Event());
+    auto event = QSharedPointer<Event>(new Event());
     event->setDtStart(dtStart);
     event->setDtEnd(dtEnd);
     event->setAllDay(allDay);

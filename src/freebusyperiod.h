@@ -56,8 +56,13 @@ public:
 
     /*!
        List of periods.
+
+       \deprecated [6.32] Use QList<FreeBusyPeriod> instead.
      */
+#if KCALENDARCORE_ENABLE_DEPRECATED_SINCE(6, 32)
+    KCALENDARCORE_DEPRECATED_VERSION(6, 32, "Use QList<FreeBusyPeriod> instead")
     typedef QList<FreeBusyPeriod> List;
+#endif
 
     /*!
       Constructs a period without a duration.

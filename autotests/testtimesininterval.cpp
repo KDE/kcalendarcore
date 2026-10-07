@@ -88,7 +88,7 @@ void TimesInIntervalTest::testSubDailyRecurrenceIntervalInclusive()
     const QDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), QTimeZone::UTC);
     const QDateTime end(QDate(2013, 03, 10), QTime(11, 0, 0), QTimeZone::UTC);
 
-    KCalendarCore::Event::Ptr event(new KCalendarCore::Event());
+    QSharedPointer<KCalendarCore::Event> event(new KCalendarCore::Event());
     event->setUid(QStringLiteral("event"));
     event->setDtStart(start);
     event->recurrence()->setHourly(1);
@@ -110,7 +110,7 @@ void TimesInIntervalTest::testSubDailyRecurrence2()
     const QDateTime start(QDate(2013, 03, 10), QTime(10, 2, 3), QTimeZone::UTC);
     const QDateTime end(QDate(2013, 03, 10), QTime(13, 4, 5), QTimeZone::UTC);
 
-    KCalendarCore::Event::Ptr event(new KCalendarCore::Event());
+    QSharedPointer<KCalendarCore::Event> event(new KCalendarCore::Event());
     event->setUid(QStringLiteral("event"));
     event->setDtStart(start);
     event->recurrence()->setHourly(1);
@@ -133,7 +133,7 @@ void TimesInIntervalTest::testSubDailyRecurrenceIntervalLimits()
     const QDateTime start(QDate(2013, 03, 10), QTime(10, 2, 3), QTimeZone::UTC);
     const QDateTime end(QDate(2013, 03, 10), QTime(12, 2, 3), QTimeZone::UTC);
 
-    KCalendarCore::Event::Ptr event(new KCalendarCore::Event());
+    QSharedPointer<KCalendarCore::Event> event(new KCalendarCore::Event());
     event->setUid(QStringLiteral("event"));
     event->setDtStart(start);
     event->recurrence()->setHourly(1);
@@ -256,7 +256,7 @@ void TimesInIntervalTest::testByDayRecurrence()
     const QDateTime intervalEnd = start.addDays(days);
     const QDateTime intervalStart = start.addDays(-days);
 
-    Event::Ptr event(new Event());
+    QSharedPointer<Event> event(new Event());
     event->setDtStart(start);
     event->setDtEnd(start.addSecs(3600));
 

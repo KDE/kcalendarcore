@@ -46,7 +46,7 @@ int main(int argc, char **argv)
     qDebug() << "Input file:" << input;
     qDebug() << "Output file:" << output;
 
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<MemoryCalendar> cal(new MemoryCalendar(QTimeZone::utc()));
     FileStorage instore(cal, input);
 
     if (!instore.load()) {

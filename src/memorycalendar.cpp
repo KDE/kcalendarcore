@@ -60,12 +60,12 @@ public:
      * List of all incidences.
      * First indexed by incidence->type(), then by incidence->uid();
      */
-    QMultiHash<QString, Incidence::Ptr> mIncidences[incidenceTypeCount];
+    QMultiHash<QString, QSharedPointer<Incidence>> mIncidences[incidenceTypeCount];
 
     /**
      * Has all incidences, indexed by identifier.
      */
-    QHash<QString, KCalendarCore::Incidence::Ptr> mIncidencesByIdentifier;
+    QHash<QString, QSharedPointer<KCalendarCore::Incidence>> mIncidencesByIdentifier;
 
     /**
      * Contains incidences ( to-dos; non-recurring, non-multiday events; journals; )
@@ -78,18 +78,20 @@ public:
      * but i merged them into one (indexed by type) because it simplifies code using
      * it. No need to if else based on type.
      */
-    QMultiHash<QDate, Incidence::Ptr> mIncidencesForDate[incidenceTypeCount];
+    QMultiHash<QDate, QSharedPointer<Incidence>> mIncidencesForDate[incidenceTypeCount];
 
-    void insertIncidence(const Incidence::Ptr &incidence);
+    void insertIncidence(const QSharedPointer<Incidence> &incidence);
 
-    Incidence::Ptr incidence(const QString &uid, IncidenceBase::IncidenceType type, const QDateTime &recurrenceId = {}) const;
+    QSharedPointer<Incidence> incidence(const QString &uid, IncidenceBase::IncidenceType type, const QDateTime &recurrenceId = {}) const;
 
     bool deleteIncidence(const QString &uid, IncidenceBase::IncidenceType type, const QDateTime &recurrenceId = {});
 
     void deleteAllIncidences(IncidenceBase::IncidenceType type);
 
     template<typename IncidenceType, typename Key>
-    void forIncidences(const QMultiHash<Key, Incidence::Ptr> &incidences, const Key &key, std::function<void(const typename IncidenceType::Ptr &)> &&op) const
+    void forIncidences(const QMultiHash<Key, QSharedPointer<Incidence>> &incidences,
+                       const Key &key,
+                       std::function<void(const QSharedPointer<IncidenceType> &)> &&op) const
     {
         for (auto it = incidences.constFind(key), end = incidences.cend(); it != end && it.key() == key; ++it) {
             op(it.value().template staticCast<IncidenceType>());
@@ -97,7 +99,7 @@ public:
     }
 
     template<typename IncidenceType, typename Key>
-    void forIncidences(const QMultiHash<Key, Incidence::Ptr> &incidences, std::function<void(const typename IncidenceType::Ptr &)> &&op) const
+    void forIncidences(const QMultiHash<Key, QSharedPointer<Incidence>> &incidences, std::function<void(const QSharedPointer<IncidenceType> &)> &&op) const
     {
         for (const auto &incidence : incidences) {
             op(incidence.template staticCast<IncidenceType>());
@@ -105,21 +107,21 @@ public:
     }
 
     template<typename IncidenceType>
-    typename IncidenceType::List castIncidenceList(const QMultiHash<QString, Incidence::Ptr> &incidences) const
+    QList<QSharedPointer<IncidenceType>> castIncidenceList(const QMultiHash<QString, QSharedPointer<Incidence>> &incidences) const
     {
-        typename IncidenceType::List list;
+        QList<QSharedPointer<IncidenceType>> list;
         list.reserve(incidences.size());
-        std::transform(incidences.cbegin(), incidences.cend(), std::back_inserter(list), [](const Incidence::Ptr &inc) {
+        std::transform(incidences.cbegin(), incidences.cend(), std::back_inserter(list), [](const QSharedPointer<Incidence> &inc) {
             return inc.staticCast<IncidenceType>();
         });
         return list;
     }
 
     template<typename IncidenceType>
-    typename IncidenceType::List incidenceInstances(IncidenceBase::IncidenceType type, const Incidence::Ptr &incidence) const
+    QList<QSharedPointer<IncidenceType>> incidenceInstances(IncidenceBase::IncidenceType type, const QSharedPointer<Incidence> &incidence) const
     {
-        typename IncidenceType::List list;
-        forIncidences<IncidenceType, QString>(mIncidences[type], incidence->uid(), [&list](const typename IncidenceType::Ptr &incidence) {
+        QList<QSharedPointer<IncidenceType>> list;
+        forIncidences<IncidenceType, QString>(mIncidences[type], incidence->uid(), [&list](const QSharedPointer<IncidenceType> &incidence) {
             if (incidence->hasRecurrenceId()) {
                 list.push_back(incidence);
             }
@@ -127,7 +129,8 @@ public:
         return list;
     }
 
-    Incidence::Ptr findIncidence(const QMultiHash<QString, Incidence::Ptr> &incidences, const QString &uid, const QDateTime &recurrenceId) const
+    QSharedPointer<Incidence>
+    findIncidence(const QMultiHash<QString, QSharedPointer<Incidence>> &incidences, const QString &uid, const QDateTime &recurrenceId) const
     {
         for (auto it = incidences.constFind(uid), end = incidences.cend(); it != end && it.key() == uid; ++it) {
             const auto &incidence = it.value();
@@ -190,7 +193,7 @@ void MemoryCalendar::doSetTimeZone(const QTimeZone &timeZone)
     }
 }
 
-bool MemoryCalendar::deleteIncidence(const Incidence::Ptr &incidence)
+bool MemoryCalendar::deleteIncidence(const QSharedPointer<Incidence> &incidence)
 {
     // Notify while the incidence is still available,
     // this is necessary so korganizer still has time to query for exceptions
@@ -213,9 +216,9 @@ bool MemoryCalendar::deleteIncidence(const Incidence::Ptr &incidence)
     return deleted;
 }
 
-bool MemoryCalendar::deleteIncidenceInstances(const Incidence::Ptr &incidence)
+bool MemoryCalendar::deleteIncidenceInstances(const QSharedPointer<Incidence> &incidence)
 {
-    Incidence::List instances;
+    QList<QSharedPointer<Incidence>> instances;
     for (auto it = d->mIncidences[incidence->type()].constFind(incidence->uid()), end = d->mIncidences[incidence->type()].constEnd();
          it != end && it.key() == incidence->uid();
          ++it) {
@@ -230,7 +233,7 @@ bool MemoryCalendar::deleteIncidenceInstances(const Incidence::Ptr &incidence)
             instances.append(it.value());
         }
     }
-    for (Incidence::Ptr &instance : instances) {
+    for (QSharedPointer<Incidence> &instance : instances) {
         deleteIncidence(instance);
     }
 
@@ -241,7 +244,7 @@ bool MemoryCalendar::deleteIncidenceInstances(const Incidence::Ptr &incidence)
 bool MemoryCalendar::Private::deleteIncidence(const QString &uid, IncidenceBase::IncidenceType type, const QDateTime &recurrenceId)
 {
     for (auto it = mIncidences[type].find(uid), end = mIncidences[type].end(); it != end && it.key() == uid; ++it) {
-        Incidence::Ptr incidence = it.value();
+        QSharedPointer<Incidence> incidence = it.value();
         if (recurrenceId.isNull() && incidence->hasRecurrenceId()) {
             continue;
         } else if (!recurrenceId.isNull() && (!incidence->hasRecurrenceId() || recurrenceId != incidence->recurrenceId())) {
@@ -268,12 +271,12 @@ void MemoryCalendar::Private::deleteAllIncidences(Incidence::IncidenceType incid
     mIncidencesForDate[incidenceType].clear();
 }
 
-Incidence::Ptr MemoryCalendar::Private::incidence(const QString &uid, Incidence::IncidenceType type, const QDateTime &recurrenceId) const
+QSharedPointer<Incidence> MemoryCalendar::Private::incidence(const QString &uid, Incidence::IncidenceType type, const QDateTime &recurrenceId) const
 {
     return findIncidence(mIncidences[type], uid, recurrenceId);
 }
 
-void MemoryCalendar::Private::insertIncidence(const Incidence::Ptr &incidence)
+void MemoryCalendar::Private::insertIncidence(const QSharedPointer<Incidence> &incidence)
 {
     const QString uid = incidence->uid();
     const Incidence::IncidenceType type = incidence->type();
@@ -300,7 +303,7 @@ void MemoryCalendar::Private::insertIncidence(const Incidence::Ptr &incidence)
 }
 //@endcond
 
-bool MemoryCalendar::addIncidence(const Incidence::Ptr &incidence)
+bool MemoryCalendar::addIncidence(const QSharedPointer<Incidence> &incidence)
 {
     d->insertIncidence(incidence);
 
@@ -313,66 +316,66 @@ bool MemoryCalendar::addIncidence(const Incidence::Ptr &incidence)
     return true;
 }
 
-bool MemoryCalendar::addEvent(const Event::Ptr &event)
+bool MemoryCalendar::addEvent(const QSharedPointer<Event> &event)
 {
     return addIncidence(event);
 }
 
-bool MemoryCalendar::deleteEvent(const Event::Ptr &event)
+bool MemoryCalendar::deleteEvent(const QSharedPointer<Event> &event)
 {
     return deleteIncidence(event);
 }
 
-bool MemoryCalendar::deleteEventInstances(const Event::Ptr &event)
+bool MemoryCalendar::deleteEventInstances(const QSharedPointer<Event> &event)
 {
     return deleteIncidenceInstances(event);
 }
 
-Event::Ptr MemoryCalendar::event(const QString &uid, const QDateTime &recurrenceId) const
+QSharedPointer<Event> MemoryCalendar::event(const QString &uid, const QDateTime &recurrenceId) const
 {
     return d->incidence(uid, Incidence::TypeEvent, recurrenceId).staticCast<Event>();
 }
 
-bool MemoryCalendar::addTodo(const Todo::Ptr &todo)
+bool MemoryCalendar::addTodo(const QSharedPointer<Todo> &todo)
 {
     return addIncidence(todo);
 }
 
-bool MemoryCalendar::deleteTodo(const Todo::Ptr &todo)
+bool MemoryCalendar::deleteTodo(const QSharedPointer<Todo> &todo)
 {
     return deleteIncidence(todo);
 }
 
-bool MemoryCalendar::deleteTodoInstances(const Todo::Ptr &todo)
+bool MemoryCalendar::deleteTodoInstances(const QSharedPointer<Todo> &todo)
 {
     return deleteIncidenceInstances(todo);
 }
 
-Todo::Ptr MemoryCalendar::todo(const QString &uid, const QDateTime &recurrenceId) const
+QSharedPointer<Todo> MemoryCalendar::todo(const QString &uid, const QDateTime &recurrenceId) const
 {
     return d->incidence(uid, Incidence::TypeTodo, recurrenceId).staticCast<Todo>();
 }
 
-Todo::List MemoryCalendar::rawTodos(TodoSortField sortField, SortDirection sortDirection) const
+QList<QSharedPointer<Todo>> MemoryCalendar::rawTodos(TodoSortField sortField, SortDirection sortDirection) const
 {
     return Calendar::sortTodos(d->castIncidenceList<Todo>(d->mIncidences[Incidence::TypeTodo]), sortField, sortDirection);
 }
 
-Todo::List MemoryCalendar::todoInstances(const Incidence::Ptr &todo, TodoSortField sortField, SortDirection sortDirection) const
+QList<QSharedPointer<Todo>> MemoryCalendar::todoInstances(const QSharedPointer<Incidence> &todo, TodoSortField sortField, SortDirection sortDirection) const
 {
     return Calendar::sortTodos(d->incidenceInstances<Todo>(Incidence::TypeTodo, todo), sortField, sortDirection);
 }
 
-Todo::List MemoryCalendar::rawTodosForDate(const QDate &date) const
+QList<QSharedPointer<Todo>> MemoryCalendar::rawTodosForDate(const QDate &date) const
 {
-    Todo::List todoList;
+    QList<QSharedPointer<Todo>> todoList;
 
-    d->forIncidences<Todo>(d->mIncidencesForDate[Incidence::TypeTodo], date, [&todoList](const Todo::Ptr &todo) {
+    d->forIncidences<Todo>(d->mIncidencesForDate[Incidence::TypeTodo], date, [&todoList](const QSharedPointer<Todo> &todo) {
         todoList.append(todo);
     });
 
     // Iterate over all todos. Look for recurring todoss that occur on this date
-    d->forIncidences<Todo>(d->mIncidences[Incidence::TypeTodo], [this, &todoList, &date](const Todo::Ptr &todo) {
+    d->forIncidences<Todo>(d->mIncidences[Incidence::TypeTodo], [this, &todoList, &date](const QSharedPointer<Todo> &todo) {
         if (todo->recurs() && todo->recursOn(date, timeZone())) {
             todoList.append(todo);
         }
@@ -381,11 +384,11 @@ Todo::List MemoryCalendar::rawTodosForDate(const QDate &date) const
     return todoList;
 }
 
-Todo::List MemoryCalendar::rawTodos(const QDate &start, const QDate &end, const QTimeZone &timeZone, bool inclusive) const
+QList<QSharedPointer<Todo>> MemoryCalendar::rawTodos(const QDate &start, const QDate &end, const QTimeZone &timeZone, bool inclusive) const
 {
     Q_UNUSED(inclusive); // use only exact dtDue/dtStart, not dtStart and dtEnd
 
-    Todo::List todoList;
+    QList<QSharedPointer<Todo>> todoList;
     const auto ts = timeZone.isValid() ? timeZone : this->timeZone();
     QDateTime st(start, QTime(0, 0, 0), ts);
     QDateTime nd(end, QTime(23, 59, 59, 999), ts);
@@ -429,12 +432,12 @@ Todo::List MemoryCalendar::rawTodos(const QDate &start, const QDate &end, const 
     return todoList;
 }
 
-Alarm::List MemoryCalendar::alarms(const QDateTime &from, const QDateTime &to, bool excludeBlockedAlarms) const
+QList<QSharedPointer<Alarm>> MemoryCalendar::alarms(const QDateTime &from, const QDateTime &to, bool excludeBlockedAlarms) const
 {
     Q_UNUSED(excludeBlockedAlarms);
-    Alarm::List alarmList;
+    QList<QSharedPointer<Alarm>> alarmList;
 
-    d->forIncidences<Event>(d->mIncidences[Incidence::TypeEvent], [this, &alarmList, &from, &to](const Event::Ptr &e) {
+    d->forIncidences<Event>(d->mIncidences[Incidence::TypeEvent], [this, &alarmList, &from, &to](const QSharedPointer<Event> &e) {
         if (e->recurs()) {
             appendRecurringAlarms(alarmList, e, from, to);
         } else {
@@ -442,7 +445,7 @@ Alarm::List MemoryCalendar::alarms(const QDateTime &from, const QDateTime &to, b
         }
     });
 
-    d->forIncidences<Todo>(d->mIncidences[IncidenceBase::TypeTodo], [this, &alarmList, &from, &to](const Todo::Ptr &t) {
+    d->forIncidences<Todo>(d->mIncidences[IncidenceBase::TypeTodo], [this, &alarmList, &from, &to](const QSharedPointer<Todo> &t) {
         if (!t->isCompleted()) {
             appendAlarms(alarmList, t, from, to);
             if (t->recurs()) {
@@ -468,7 +471,7 @@ void MemoryCalendar::setUpdateLastModifiedOnChange(bool update)
 
 void MemoryCalendar::incidenceUpdate(const QString &uid, const QDateTime &recurrenceId)
 {
-    Incidence::Ptr inc = incidence(uid, recurrenceId);
+    QSharedPointer<Incidence> inc = incidence(uid, recurrenceId);
 
     if (inc) {
         if (!d->mIncidenceBeingUpdated.isEmpty()) {
@@ -490,7 +493,7 @@ void MemoryCalendar::incidenceUpdate(const QString &uid, const QDateTime &recurr
 
 void MemoryCalendar::incidenceUpdated(const QString &uid, const QDateTime &recurrenceId)
 {
-    Incidence::Ptr inc = incidence(uid, recurrenceId);
+    QSharedPointer<Incidence> inc = incidence(uid, recurrenceId);
 
     if (inc) {
         if (d->mIncidenceBeingUpdated.isEmpty()) {
@@ -518,7 +521,7 @@ void MemoryCalendar::incidenceUpdated(const QString &uid, const QDateTime &recur
         // When dstart changes, move recurrence ids of exception accordingly.
         if (inc->recurs() && inc->dtStart() != d->mDtStartBeingUpdated) {
             const Duration delta(d->mDtStartBeingUpdated, inc->dtStart());
-            for (Incidence::Ptr &exception : instances(inc)) {
+            for (QSharedPointer<Incidence> &exception : instances(inc)) {
                 exception->setRecurrenceId(delta.end(exception->recurrenceId()));
             }
         }
@@ -530,9 +533,10 @@ void MemoryCalendar::incidenceUpdated(const QString &uid, const QDateTime &recur
     }
 }
 
-Event::List MemoryCalendar::rawEventsForDate(const QDate &date, const QTimeZone &timeZone, EventSortField sortField, SortDirection sortDirection) const
+QList<QSharedPointer<Event>>
+MemoryCalendar::rawEventsForDate(const QDate &date, const QTimeZone &timeZone, EventSortField sortField, SortDirection sortDirection) const
 {
-    Event::List eventList;
+    QList<QSharedPointer<Event>> eventList;
 
     if (!date.isValid()) {
         // There can't be events on invalid dates
@@ -546,7 +550,7 @@ Event::List MemoryCalendar::rawEventsForDate(const QDate &date, const QTimeZone 
     }
 
     // Iterate over all non-recurring, single-day events that start on this date
-    d->forIncidences<Event>(d->mIncidencesForDate[Incidence::TypeEvent], date, [&eventList](const Event::Ptr &event) {
+    d->forIncidences<Event>(d->mIncidencesForDate[Incidence::TypeEvent], date, [&eventList](const QSharedPointer<Event> &event) {
         eventList.append(event);
     });
 
@@ -580,9 +584,9 @@ Event::List MemoryCalendar::rawEventsForDate(const QDate &date, const QTimeZone 
     return Calendar::sortEvents(std::move(eventList), sortField, sortDirection);
 }
 
-Event::List MemoryCalendar::rawEvents(const QDate &start, const QDate &end, const QTimeZone &timeZone, bool inclusive) const
+QList<QSharedPointer<Event>> MemoryCalendar::rawEvents(const QDate &start, const QDate &end, const QTimeZone &timeZone, bool inclusive) const
 {
-    Event::List eventList;
+    QList<QSharedPointer<Event>> eventList;
     const auto ts = timeZone.isValid() ? timeZone : this->timeZone();
     QDateTime st(start, QTime(0, 0, 0), ts);
     QDateTime nd(end, QTime(23, 59, 59, 999), ts);
@@ -635,58 +639,59 @@ Event::List MemoryCalendar::rawEvents(const QDate &start, const QDate &end, cons
     return eventList;
 }
 
-Event::List MemoryCalendar::rawEvents(EventSortField sortField, SortDirection sortDirection) const
+QList<QSharedPointer<Event>> MemoryCalendar::rawEvents(EventSortField sortField, SortDirection sortDirection) const
 {
     return Calendar::sortEvents(d->castIncidenceList<Event>(d->mIncidences[Incidence::TypeEvent]), sortField, sortDirection);
 }
 
-Event::List MemoryCalendar::eventInstances(const Incidence::Ptr &event, EventSortField sortField, SortDirection sortDirection) const
+QList<QSharedPointer<Event>> MemoryCalendar::eventInstances(const QSharedPointer<Incidence> &event, EventSortField sortField, SortDirection sortDirection) const
 {
     return Calendar::sortEvents(d->incidenceInstances<Event>(Incidence::TypeEvent, event), sortField, sortDirection);
 }
 
-bool MemoryCalendar::addJournal(const Journal::Ptr &journal)
+bool MemoryCalendar::addJournal(const QSharedPointer<Journal> &journal)
 {
     return addIncidence(journal);
 }
 
-bool MemoryCalendar::deleteJournal(const Journal::Ptr &journal)
+bool MemoryCalendar::deleteJournal(const QSharedPointer<Journal> &journal)
 {
     return deleteIncidence(journal);
 }
 
-bool MemoryCalendar::deleteJournalInstances(const Journal::Ptr &journal)
+bool MemoryCalendar::deleteJournalInstances(const QSharedPointer<Journal> &journal)
 {
     return deleteIncidenceInstances(journal);
 }
 
-Journal::Ptr MemoryCalendar::journal(const QString &uid, const QDateTime &recurrenceId) const
+QSharedPointer<Journal> MemoryCalendar::journal(const QString &uid, const QDateTime &recurrenceId) const
 {
     return d->incidence(uid, Incidence::TypeJournal, recurrenceId).staticCast<Journal>();
 }
 
-Journal::List MemoryCalendar::rawJournals(JournalSortField sortField, SortDirection sortDirection) const
+QList<QSharedPointer<Journal>> MemoryCalendar::rawJournals(JournalSortField sortField, SortDirection sortDirection) const
 {
     return Calendar::sortJournals(d->castIncidenceList<Journal>(d->mIncidences[Incidence::TypeJournal]), sortField, sortDirection);
 }
 
-Journal::List MemoryCalendar::journalInstances(const Incidence::Ptr &journal, JournalSortField sortField, SortDirection sortDirection) const
+QList<QSharedPointer<Journal>>
+MemoryCalendar::journalInstances(const QSharedPointer<Incidence> &journal, JournalSortField sortField, SortDirection sortDirection) const
 {
     return Calendar::sortJournals(d->incidenceInstances<Journal>(Incidence::TypeJournal, journal), sortField, sortDirection);
 }
 
-Journal::List MemoryCalendar::rawJournalsForDate(const QDate &date) const
+QList<QSharedPointer<Journal>> MemoryCalendar::rawJournalsForDate(const QDate &date) const
 {
-    Journal::List journalList;
+    QList<QSharedPointer<Journal>> journalList;
 
-    d->forIncidences<Journal>(d->mIncidencesForDate[Incidence::TypeJournal], date, [&journalList](const Journal::Ptr &journal) {
+    d->forIncidences<Journal>(d->mIncidencesForDate[Incidence::TypeJournal], date, [&journalList](const QSharedPointer<Journal> &journal) {
         journalList.append(journal);
     });
 
     return journalList;
 }
 
-Incidence::Ptr MemoryCalendar::instance(const QString &identifier) const
+QSharedPointer<Incidence> MemoryCalendar::instance(const QString &identifier) const
 {
     return d->mIncidencesByIdentifier.value(identifier);
 }

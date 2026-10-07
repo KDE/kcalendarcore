@@ -89,8 +89,13 @@ class KCALENDARCORE_EXPORT Person
 public:
     /*!
       List of persons.
+
+      \deprecated [6.32] Use QList<Person> instead.
     */
+#if KCALENDARCORE_ENABLE_DEPRECATED_SINCE(6, 32)
+    KCALENDARCORE_DEPRECATED_VERSION(6, 32, "Use QList<Person> instead")
     typedef QList<Person> List;
+#endif
 
     /*!
       Constructs a blank person.

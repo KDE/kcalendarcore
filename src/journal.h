@@ -34,13 +34,23 @@ class KCALENDARCORE_EXPORT Journal : public Incidence
 public:
     /*!
       A shared pointer to a Journal object.
+
+      \deprecated [6.32] Use QSharedPointer<Journal> instead.
     */
+#if KCALENDARCORE_ENABLE_DEPRECATED_SINCE(6, 32)
+    KCALENDARCORE_DEPRECATED_VERSION(6, 32, "Use QSharedPointer<Journal> instead")
     typedef QSharedPointer<Journal> Ptr;
+#endif
 
     /*!
       List of journals.
+
+      \deprecated [6.32] Use QList<QSharedPointer<Journal>> instead.
     */
-    typedef QList<Ptr> List;
+#if KCALENDARCORE_ENABLE_DEPRECATED_SINCE(6, 32)
+    KCALENDARCORE_DEPRECATED_VERSION(6, 32, "Use QList<QSharedPointer<Journal>> instead")
+    typedef QList<QSharedPointer<Journal>> List;
+#endif
 
     ///@cond PRIVATE
     // needed for Akonadi polymorphic payload support
@@ -130,7 +140,7 @@ private:
     /*!
       \reimp
     */
-    bool accept(Visitor &v, const IncidenceBase::Ptr &incidence) override;
+    bool accept(Visitor &v, const QSharedPointer<IncidenceBase> &incidence) override;
 
     /*!
       Disabled, otherwise could be dangerous if you subclass Journal.
@@ -154,8 +164,8 @@ private:
 } // namespace KCalendarCore
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO(KCalendarCore::Journal::Ptr, Q_RELOCATABLE_TYPE);
-Q_DECLARE_METATYPE(KCalendarCore::Journal::Ptr)
+Q_DECLARE_TYPEINFO(QSharedPointer<KCalendarCore::Journal>, Q_RELOCATABLE_TYPE);
+Q_DECLARE_METATYPE(QSharedPointer<KCalendarCore::Journal>)
 Q_DECLARE_METATYPE(KCalendarCore::Journal *)
 //@endcond
 

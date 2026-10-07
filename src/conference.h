@@ -94,7 +94,12 @@ class KCALENDARCORE_EXPORT Conference
     Q_PROPERTY(QString language READ language WRITE setLanguage)
 
 public:
-    using List = QList<Conference>;
+    /*!
+      \deprecated [6.32] Use QList<Conference> instead.
+    */
+#if KCALENDARCORE_ENABLE_DEPRECATED_SINCE(6, 32)
+    using List KCALENDARCORE_DEPRECATED_VERSION(6, 32, "Use QList<Conference> instead") = QList<Conference>;
+#endif
 
     /*! Create a null Conference. */
     explicit Conference();

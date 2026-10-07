@@ -34,8 +34,13 @@ class KCALENDARCORE_EXPORT MemoryCalendar : public Calendar
 public:
     /*!
       A shared pointer to a MemoryCalendar
+
+      \deprecated [6.32] Use QSharedPointer<MemoryCalendar> instead.
     */
+#if KCALENDARCORE_ENABLE_DEPRECATED_SINCE(6, 32)
+    KCALENDARCORE_DEPRECATED_VERSION(6, 32, "Use QSharedPointer<MemoryCalendar> instead")
     typedef QSharedPointer<MemoryCalendar> Ptr;
+#endif
 
     /*!
       Constructs a MemoryCalendar object with a specified time zone \a timeZone.
@@ -75,44 +80,46 @@ public:
     /*!
       \reimp
     */
-    bool deleteIncidence(const Incidence::Ptr &incidence) override;
+    bool deleteIncidence(const QSharedPointer<Incidence> &incidence) override;
 
     /*!
        \reimp
     */
-    bool deleteIncidenceInstances(const Incidence::Ptr &incidence) override;
+    bool deleteIncidenceInstances(const QSharedPointer<Incidence> &incidence) override;
 
     /*!
        \reimp
     */
-    bool addIncidence(const Incidence::Ptr &incidence) override;
+    bool addIncidence(const QSharedPointer<Incidence> &incidence) override;
 
     // Event Specific Methods //
 
     /*!
       \reimp
     */
-    bool addEvent(const Event::Ptr &event) override;
+    bool addEvent(const QSharedPointer<Event> &event) override;
 
     /*!
       \reimp
     */
-    bool deleteEvent(const Event::Ptr &event) override;
+    bool deleteEvent(const QSharedPointer<Event> &event) override;
 
     /*!
       \reimp
     */
-    bool deleteEventInstances(const Event::Ptr &event) override;
+    bool deleteEventInstances(const QSharedPointer<Event> &event) override;
 
     /*!
       \reimp
     */
-    Q_REQUIRED_RESULT Event::List rawEvents(EventSortField sortField = EventSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const override;
+    Q_REQUIRED_RESULT QList<QSharedPointer<Event>> rawEvents(EventSortField sortField = EventSortUnsorted,
+                                                             SortDirection sortDirection = SortDirectionAscending) const override;
 
     /*!
       \reimp
     */
-    Q_REQUIRED_RESULT Event::List rawEvents(const QDate &start, const QDate &end, const QTimeZone &timeZone = {}, bool inclusive = false) const override;
+    Q_REQUIRED_RESULT QList<QSharedPointer<Event>>
+    rawEvents(const QDate &start, const QDate &end, const QTimeZone &timeZone = {}, bool inclusive = false) const override;
 
     /*!
       Returns an unfiltered list of all Events which occur on the given date.
@@ -128,120 +135,123 @@ public:
 
       Returns the list of unfiltered Events occurring on the specified QDate.
     */
-    Q_REQUIRED_RESULT Event::List rawEventsForDate(const QDate &date,
-                                                   const QTimeZone &timeZone = {},
-                                                   EventSortField sortField = EventSortUnsorted,
-                                                   SortDirection sortDirection = SortDirectionAscending) const override;
+    Q_REQUIRED_RESULT QList<QSharedPointer<Event>> rawEventsForDate(const QDate &date,
+                                                                    const QTimeZone &timeZone = {},
+                                                                    EventSortField sortField = EventSortUnsorted,
+                                                                    SortDirection sortDirection = SortDirectionAscending) const override;
 
     /*!
      * Returns an incidence by \a identifier.
      * \sa Incidence::instanceIdentifier()
      * \since 4.11
      */
-    Incidence::Ptr instance(const QString &identifier) const;
+    QSharedPointer<Incidence> instance(const QString &identifier) const;
 
     /*!
       \reimp
     */
-    Q_REQUIRED_RESULT Event::Ptr event(const QString &uid, const QDateTime &recurrenceId = {}) const override;
+    Q_REQUIRED_RESULT QSharedPointer<Event> event(const QString &uid, const QDateTime &recurrenceId = {}) const override;
 
     /*!
       \reimp
     */
-    Q_REQUIRED_RESULT Event::List eventInstances(const Incidence::Ptr &event,
-                                                 EventSortField sortField = EventSortUnsorted,
-                                                 SortDirection sortDirection = SortDirectionAscending) const override;
+    Q_REQUIRED_RESULT QList<QSharedPointer<Event>> eventInstances(const QSharedPointer<Incidence> &event,
+                                                                  EventSortField sortField = EventSortUnsorted,
+                                                                  SortDirection sortDirection = SortDirectionAscending) const override;
 
     // To-do Specific Methods //
 
     /*!
       \reimp
     */
-    bool addTodo(const Todo::Ptr &todo) override;
+    bool addTodo(const QSharedPointer<Todo> &todo) override;
 
     /*!
       \reimp
     */
-    bool deleteTodo(const Todo::Ptr &todo) override;
+    bool deleteTodo(const QSharedPointer<Todo> &todo) override;
 
     /*!
       \reimp
     */
-    bool deleteTodoInstances(const Todo::Ptr &todo) override;
+    bool deleteTodoInstances(const QSharedPointer<Todo> &todo) override;
 
     /*!
       \reimp
     */
-    Q_REQUIRED_RESULT Todo::List rawTodos(TodoSortField sortField = TodoSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const override;
+    Q_REQUIRED_RESULT QList<QSharedPointer<Todo>> rawTodos(TodoSortField sortField = TodoSortUnsorted,
+                                                           SortDirection sortDirection = SortDirectionAscending) const override;
 
     /*!
        \reimp
     */
-    Q_REQUIRED_RESULT Todo::List rawTodos(const QDate &start, const QDate &end, const QTimeZone &timeZone = {}, bool inclusive = false) const override;
+    Q_REQUIRED_RESULT QList<QSharedPointer<Todo>>
+    rawTodos(const QDate &start, const QDate &end, const QTimeZone &timeZone = {}, bool inclusive = false) const override;
 
     /*!
       \reimp
     */
-    Q_REQUIRED_RESULT Todo::List rawTodosForDate(const QDate &date) const override;
+    Q_REQUIRED_RESULT QList<QSharedPointer<Todo>> rawTodosForDate(const QDate &date) const override;
 
     /*!
       \reimp
     */
-    Q_REQUIRED_RESULT Todo::Ptr todo(const QString &uid, const QDateTime &recurrenceId = {}) const override;
+    Q_REQUIRED_RESULT QSharedPointer<Todo> todo(const QString &uid, const QDateTime &recurrenceId = {}) const override;
 
     /*!
       \reimp
     */
-    Q_REQUIRED_RESULT Todo::List
-    todoInstances(const Incidence::Ptr &todo, TodoSortField sortField = TodoSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const override;
+    Q_REQUIRED_RESULT QList<QSharedPointer<Todo>> todoInstances(const QSharedPointer<Incidence> &todo,
+                                                                TodoSortField sortField = TodoSortUnsorted,
+                                                                SortDirection sortDirection = SortDirectionAscending) const override;
 
     // Journal Specific Methods //
 
     /*!
       \reimp
     */
-    bool addJournal(const Journal::Ptr &journal) override;
+    bool addJournal(const QSharedPointer<Journal> &journal) override;
 
     /*!
       \reimp
     */
-    bool deleteJournal(const Journal::Ptr &journal) override;
+    bool deleteJournal(const QSharedPointer<Journal> &journal) override;
 
     /*!
       \reimp
     */
-    bool deleteJournalInstances(const Journal::Ptr &journal) override;
+    bool deleteJournalInstances(const QSharedPointer<Journal> &journal) override;
 
     /*!
       \reimp
     */
-    Q_REQUIRED_RESULT Journal::List rawJournals(JournalSortField sortField = JournalSortUnsorted,
-                                                SortDirection sortDirection = SortDirectionAscending) const override;
+    Q_REQUIRED_RESULT QList<QSharedPointer<Journal>> rawJournals(JournalSortField sortField = JournalSortUnsorted,
+                                                                 SortDirection sortDirection = SortDirectionAscending) const override;
 
     /*!
       \reimp
     */
-    Q_REQUIRED_RESULT Journal::List rawJournalsForDate(const QDate &date) const override;
+    Q_REQUIRED_RESULT QList<QSharedPointer<Journal>> rawJournalsForDate(const QDate &date) const override;
 
     /*!
       \reimp
     */
-    Journal::Ptr journal(const QString &uid, const QDateTime &recurrenceId = {}) const override;
+    QSharedPointer<Journal> journal(const QString &uid, const QDateTime &recurrenceId = {}) const override;
 
     /*!
       \reimp
                                           JournalSortField, SortDirection)const
     */
-    Q_REQUIRED_RESULT Journal::List journalInstances(const Incidence::Ptr &journal,
-                                                     JournalSortField sortField = JournalSortUnsorted,
-                                                     SortDirection sortDirection = SortDirectionAscending) const override;
+    Q_REQUIRED_RESULT QList<QSharedPointer<Journal>> journalInstances(const QSharedPointer<Incidence> &journal,
+                                                                      JournalSortField sortField = JournalSortUnsorted,
+                                                                      SortDirection sortDirection = SortDirectionAscending) const override;
 
     // Alarm Specific Methods //
 
     /*!
       \reimp
     */
-    Q_REQUIRED_RESULT Alarm::List alarms(const QDateTime &from, const QDateTime &to, bool excludeBlockedAlarms = false) const override;
+    Q_REQUIRED_RESULT QList<QSharedPointer<Alarm>> alarms(const QDateTime &from, const QDateTime &to, bool excludeBlockedAlarms = false) const override;
 
     /*!
       Return true if the memory calendar is updating the lastModified field

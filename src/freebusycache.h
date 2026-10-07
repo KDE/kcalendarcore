@@ -49,7 +49,7 @@ public:
 
       Returns true if the save was successful; false otherwise.
     */
-    virtual bool saveFreeBusy(const FreeBusy::Ptr &freebusy, const Person &person) = 0;
+    virtual bool saveFreeBusy(const QSharedPointer<FreeBusy> &freebusy, const Person &person) = 0;
 
     /*!
       Load freebusy information belonging to an email.
@@ -60,7 +60,7 @@ public:
       Returns A pointer to the FreeBusy object loaded for the specified email; returns 0 if
         there was some problem attempting to load the FreeBusy information.
     */
-    virtual FreeBusy::Ptr loadFreeBusy(const QString &email) = 0;
+    virtual QSharedPointer<FreeBusy> loadFreeBusy(const QString &email) = 0;
 
 protected:
     /*

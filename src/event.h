@@ -77,13 +77,23 @@ public:
 
     /*!
       A shared pointer to an Event object.
+
+      \deprecated [6.32] Use QSharedPointer<Event> instead.
     */
+#if KCALENDARCORE_ENABLE_DEPRECATED_SINCE(6, 32)
+    KCALENDARCORE_DEPRECATED_VERSION(6, 32, "Use QSharedPointer<Event> instead")
     typedef QSharedPointer<Event> Ptr;
+#endif
 
     /*!
       List of events.
+
+      \deprecated [6.32] Use QList<QSharedPointer<Event>> instead.
     */
-    typedef QList<Ptr> List;
+#if KCALENDARCORE_ENABLE_DEPRECATED_SINCE(6, 32)
+    KCALENDARCORE_DEPRECATED_VERSION(6, 32, "Use QList<QSharedPointer<Event>> instead")
+    typedef QList<QSharedPointer<Event>> List;
+#endif
 
     ///@cond PRIVATE
     // needed for Akonadi polymorphic payload support
@@ -272,7 +282,7 @@ private:
     /*!
       \reimp
     */
-    bool accept(Visitor &v, const IncidenceBase::Ptr &incidence) override;
+    bool accept(Visitor &v, const QSharedPointer<IncidenceBase> &incidence) override;
 
     /*!
       Disabled, otherwise could be dangerous if you subclass Event.
@@ -294,8 +304,8 @@ private:
 } // namespace KCalendarCore
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO(KCalendarCore::Event::Ptr, Q_RELOCATABLE_TYPE);
-Q_DECLARE_METATYPE(KCalendarCore::Event::Ptr)
+Q_DECLARE_TYPEINFO(QSharedPointer<KCalendarCore::Event>, Q_RELOCATABLE_TYPE);
+Q_DECLARE_METATYPE(QSharedPointer<KCalendarCore::Event>)
 Q_DECLARE_METATYPE(KCalendarCore::Event *)
 //@endcond
 

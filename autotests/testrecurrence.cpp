@@ -56,7 +56,7 @@ int main(int argc, char **argv)
         outstream = new QTextStream(&outfile);
     }
 
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<MemoryCalendar> cal(new MemoryCalendar(QTimeZone::utc()));
 
     QTimeZone viewZone;
     FileStorage store(cal, input);
@@ -69,10 +69,10 @@ int main(int argc, char **argv)
         viewZone = QTimeZone(tz.toUtf8());
     }
 
-    Incidence::List inc = cal->incidences();
+    auto inc = cal->incidences();
 
-    for (Incidence::List::Iterator it = inc.begin(); it != inc.end(); ++it) {
-        Incidence::Ptr incidence = *it;
+    for (QList<QSharedPointer<Incidence>>::Iterator it = inc.begin(); it != inc.end(); ++it) {
+        auto incidence = *it;
         qDebug() << "*+*+*+*+*+*+*+*+*+*";
         qDebug() << " ->" << incidence->summary() << "<-";
 

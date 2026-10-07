@@ -54,10 +54,10 @@ void ICalFormatTest::testDeserializeSerialize()
         "RECURRENCE-ID;TZID=Europe/Paris:20201104T100000\n"
         "END:VEVENT\n"
         "END:VCALENDAR");
-    MemoryCalendar::Ptr calendar = MemoryCalendar::Ptr(new MemoryCalendar(QTimeZone::utc()));
+    auto calendar = QSharedPointer<MemoryCalendar>(new MemoryCalendar(QTimeZone::utc()));
     QVERIFY(format.fromString(calendar, serializedCalendar));
     const QString uid = QString::fromLatin1("bd1d299d-3b03-4514-be69-e680ad2ff884");
-    Incidence::Ptr parent = calendar->incidence(uid);
+    auto parent = calendar->incidence(uid);
     QVERIFY(parent);
     const QDateTime start(QDate(2020, 11, 3), QTime(9, 0), QTimeZone::utc());
     QCOMPARE(parent->dtStart(), start);
@@ -70,7 +70,7 @@ void ICalFormatTest::testDeserializeSerialize()
     QCOMPARE(recur->duration(), 4);
     QCOMPARE(recur->recurrenceType(), static_cast<ushort>(Recurrence::rDaily));
 
-    Incidence::Ptr occurrence = calendar->incidence(uid, start.addDays(1));
+    auto occurrence = calendar->incidence(uid, start.addDays(1));
     QVERIFY(occurrence);
     const QDateTime startOcc(QDate(2020, 11, 4), QTime(10, 15), QTimeZone::utc());
     QCOMPARE(occurrence->dtStart(), startOcc);
@@ -84,12 +84,12 @@ void ICalFormatTest::testDeserializeSerialize()
     const QString serialization = format.toString(calendar);
     QVERIFY(!serialization.isEmpty());
     QCOMPARE(serialization.count(QString::fromLatin1("STATUS")), 1); // ensure no extra empty STATUS:
-    MemoryCalendar::Ptr check = MemoryCalendar::Ptr(new MemoryCalendar(QTimeZone::utc()));
+    auto check = QSharedPointer<MemoryCalendar>(new MemoryCalendar(QTimeZone::utc()));
     QVERIFY(format.fromString(check, serialization));
-    Incidence::Ptr reparent = check->incidence(uid);
+    auto reparent = check->incidence(uid);
     QVERIFY(reparent);
     QCOMPARE(*parent, *reparent);
-    Incidence::Ptr reoccurence = check->incidence(uid, start.addDays(1));
+    auto reoccurence = check->incidence(uid, start.addDays(1));
     QVERIFY(reoccurence);
     QCOMPARE(*occurrence, *reoccurence);
 }
@@ -98,7 +98,7 @@ void ICalFormatTest::testCharsets()
 {
     ICalFormat format;
     const QDate currentDate = QDate::currentDate();
-    Event::Ptr event = Event::Ptr(new Event());
+    auto event = QSharedPointer<Event>(new Event());
     event->setUid(QStringLiteral("12345"));
     event->setDtStart(QDateTime(currentDate, {}));
     event->setDtEnd(QDateTime(currentDate.addDays(1), {}));
@@ -120,12 +120,12 @@ void ICalFormatTest::testCharsets()
     const QString serializedCalendar = QLatin1String("BEGIN:VCALENDAR\nPRODID:-//K Desktop Environment//NONSGML libkcal 3.2//EN\nVERSION:2.0\n") + serialized
         + QLatin1String("\nEND:VCALENDAR");
 
-    Incidence::Ptr event2 = format.fromString(serializedCalendar);
+    auto event2 = format.fromString(serializedCalendar);
     QVERIFY(event->summary() == event2->summary());
     QVERIFY(event2->summary().toUtf8() == QByteArray(QString(utf_umlaut).toLatin1().constData()));
 
     // test save()
-    MemoryCalendar::Ptr calendar(new MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<MemoryCalendar> calendar(new MemoryCalendar(QTimeZone::utc()));
     calendar->addIncidence(event);
     QVERIFY(format.save(calendar, QLatin1String("hommer.ics")));
 
@@ -139,16 +139,16 @@ void ICalFormatTest::testCharsets()
     file.close();
 
     // Test load:
-    MemoryCalendar::Ptr calendar2(new MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<MemoryCalendar> calendar2(new MemoryCalendar(QTimeZone::utc()));
     QVERIFY(format.load(calendar2, QLatin1String("hommer.ics")));
     QVERIFY(calendar2->incidences().count() == 1);
 
-    Event::Ptr loadedEvent = calendar2->incidences().at(0).staticCast<Event>();
+    auto loadedEvent = calendar2->incidences().at(0).staticCast<Event>();
     QVERIFY(loadedEvent->summary().toUtf8() == QByteArray(QString(utf_umlaut).toLatin1().constData()));
     QVERIFY(*loadedEvent == *event);
 
     // Test fromRawString()
-    MemoryCalendar::Ptr calendar3(new MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<MemoryCalendar> calendar3(new MemoryCalendar(QTimeZone::utc()));
     QVERIFY(format.fromRawString(calendar3, bytesFromFile));
     QVERIFY(calendar3->incidences().count() == 1);
     QVERIFY(*calendar3->incidences().at(0) == *event);
@@ -161,14 +161,14 @@ void ICalFormatTest::testVolatileProperties()
     // Volatile properties are not written to the serialized data
     ICalFormat format;
     const QDate currentDate = QDate::currentDate();
-    Event::Ptr event = Event::Ptr(new Event());
+    auto event = QSharedPointer<Event>(new Event());
     event->setUid(QStringLiteral("12345"));
     event->setDtStart(QDateTime(currentDate, {}));
     event->setDtEnd(QDateTime(currentDate.addDays(1), {}));
     event->setAllDay(true);
     event->setCustomProperty("VOLATILE", "FOO", QStringLiteral("BAR"));
     QString string = format.toICalString(event);
-    Incidence::Ptr incidence = format.fromString(string);
+    auto incidence = format.fromString(string);
 
     QCOMPARE(incidence->uid(), QStringLiteral("12345"));
     QVERIFY(incidence->customProperties().isEmpty());
@@ -178,7 +178,7 @@ void ICalFormatTest::testCuType()
 {
     ICalFormat format;
     const QDate currentDate = QDate::currentDate();
-    Event::Ptr event(new Event());
+    QSharedPointer<Event> event(new Event());
     event->setUid(QStringLiteral("12345"));
     event->setDtStart(QDateTime(currentDate, {}));
     event->setDtEnd(QDateTime(currentDate.addDays(1), {}));
@@ -195,7 +195,7 @@ void ICalFormatTest::testCuType()
     const QString serializedCalendar = QLatin1String("BEGIN:VCALENDAR\nPRODID:-//K Desktop Environment//NONSGML libkcal 3.2//EN\nVERSION:2.0\n") + serialized
         + QLatin1String("\nEND:VCALENDAR");
 
-    Incidence::Ptr event2 = format.fromString(serializedCalendar);
+    auto event2 = format.fromString(serializedCalendar);
     QVERIFY(event2->attendeeCount() == 1);
     Attendee attendee2 = event2->attendees().at(0);
     QVERIFY(attendee2.cuType() == attendee.cuType());
@@ -207,17 +207,17 @@ void ICalFormatTest::testAlarm()
 {
     ICalFormat format;
 
-    Event::Ptr event(new Event);
+    QSharedPointer<Event> event(new Event);
     event->setDtStart(QDate(2017, 03, 24).startOfDay());
-    Alarm::Ptr alarm = event->newAlarm();
+    auto alarm = event->newAlarm();
     alarm->setType(Alarm::Display);
     alarm->setStartOffset(Duration(0));
 
     const QString serialized = QLatin1String("BEGIN:VCALENDAR\nPRODID:-//K Desktop Environment//NONSGML libkcal 3.2//EN\nVERSION:2.0\n")
         + format.toString(event.staticCast<Incidence>()) + QLatin1String("\nEND:VCALENDAR");
 
-    Incidence::Ptr event2 = format.fromString(serialized);
-    Alarm::Ptr alarm2 = event2->alarms().at(0);
+    auto event2 = format.fromString(serialized);
+    auto alarm2 = event2->alarms().at(0);
     QCOMPARE(*alarm, *alarm2);
 }
 
@@ -237,7 +237,7 @@ void ICalFormatTest::testDateTimeSerialization()
     QFETCH(QDateTime, dtStart);
     QFETCH(QByteArray, dtStartData);
 
-    Incidence::Ptr event(new Event);
+    QSharedPointer<Incidence> event(new Event);
     QVERIFY(event);
     event->setDtStart(dtStart);
     QCOMPARE(event->dtStart(), dtStart);
@@ -274,10 +274,10 @@ void ICalFormatTest::testRDate()
         "UID:5FC21473F5CC80CCC12586E70033ED9C-Lotus_Notes_Generated\n"
         "END:VEVENT\n"
         "END:VCALENDAR\n");
-    MemoryCalendar::Ptr calendar(new MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<MemoryCalendar> calendar(new MemoryCalendar(QTimeZone::utc()));
     QVERIFY(format.fromString(calendar, serializedCalendar));
     const QString uid = QString::fromLatin1("5FC21473F5CC80CCC12586E70033ED9C-Lotus_Notes_Generated");
-    Incidence::Ptr event = calendar->incidence(uid);
+    auto event = calendar->incidence(uid);
     QVERIFY(event);
     QVERIFY(event->recurs());
 
@@ -334,7 +334,7 @@ void ICalFormatTest::testDateTime()
         + dtStartData + "\nEND:VEVENT\nEND:VCALENDAR";
 
     ICalFormat format;
-    Incidence::Ptr event = format.fromString(QString::fromUtf8(serializedCalendar));
+    auto event = format.fromString(QString::fromUtf8(serializedCalendar));
     QVERIFY(event);
     QCOMPARE(dtStart, event->dtStart());
 }
@@ -352,7 +352,7 @@ void ICalFormatTest::testUidGeneration()
         "SUMMARY:test\n"
         "END:VEVENT\n"
         "END:VCALENDAR");
-    auto calendar = MemoryCalendar::Ptr(new MemoryCalendar(QTimeZone::utc()));
+    auto calendar = QSharedPointer<MemoryCalendar>(new MemoryCalendar(QTimeZone::utc()));
     ICalFormat format;
     QVERIFY(format.fromString(calendar, serializedCalendar));
     const auto events = calendar->events();
@@ -376,7 +376,7 @@ void ICalFormatTest::testUidGenerationStability()
         "SUMMARY:test\n"
         "END:VEVENT\n"
         "END:VCALENDAR");
-    auto calendar1 = MemoryCalendar::Ptr(new MemoryCalendar(QTimeZone::utc()));
+    auto calendar1 = QSharedPointer<MemoryCalendar>(new MemoryCalendar(QTimeZone::utc()));
     QVERIFY(format.fromString(calendar1, serializedCalendar1));
     const auto events1 = calendar1->events();
     QCOMPARE(events1.count(), 1);
@@ -389,7 +389,7 @@ void ICalFormatTest::testUidGenerationStability()
         "DTSTAMP:20201103T161340Z\n" // Reordered.
         "END:VEVENT\n"
         "END:VCALENDAR");
-    auto calendar2 = MemoryCalendar::Ptr(new MemoryCalendar(QTimeZone::utc()));
+    auto calendar2 = QSharedPointer<MemoryCalendar>(new MemoryCalendar(QTimeZone::utc()));
     QVERIFY(format.fromString(calendar2, serializedCalendar2));
     const auto events2 = calendar2->events();
     QCOMPARE(events2.count(), 1);
@@ -414,7 +414,7 @@ void ICalFormatTest::testUidGenerationUniqueness()
         "SUMMARY:test\n"
         "END:VEVENT\n"
         "END:VCALENDAR");
-    auto calendar1 = MemoryCalendar::Ptr(new MemoryCalendar(QTimeZone::utc()));
+    auto calendar1 = QSharedPointer<MemoryCalendar>(new MemoryCalendar(QTimeZone::utc()));
     QVERIFY(format.fromString(calendar1, serializedCalendar1));
     const auto events1 = calendar1->events();
     QCOMPARE(events1.count(), 1);
@@ -427,7 +427,7 @@ void ICalFormatTest::testUidGenerationUniqueness()
         "SUMMARY:test\n"
         "END:VEVENT\n"
         "END:VCALENDAR");
-    auto calendar2 = MemoryCalendar::Ptr(new MemoryCalendar(QTimeZone::utc()));
+    auto calendar2 = QSharedPointer<MemoryCalendar>(new MemoryCalendar(QTimeZone::utc()));
     QVERIFY(format.fromString(calendar2, serializedCalendar2));
     const auto events2 = calendar2->events();
     QCOMPARE(events2.count(), 1);
@@ -440,7 +440,7 @@ void ICalFormatTest::testUidGenerationUniqueness()
         "SUMMARY:test\n"
         "END:VEVENT\n"
         "END:VCALENDAR");
-    auto calendar3 = MemoryCalendar::Ptr(new MemoryCalendar(QTimeZone::utc()));
+    auto calendar3 = QSharedPointer<MemoryCalendar>(new MemoryCalendar(QTimeZone::utc()));
     QVERIFY(format.fromString(calendar3, serializedCalendar3));
     const auto events3 = calendar3->events();
     QCOMPARE(events3.count(), 1);
@@ -480,7 +480,7 @@ void ICalFormatTest::testNonTextCustomProperties()
         "END:VEVENT\n"
         "END:VCALENDAR\n");
     ICalFormat format;
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<MemoryCalendar> cal(new MemoryCalendar(QTimeZone::utc()));
     QVERIFY(format.fromString(cal, input));
     const auto events = cal->events();
     QCOMPARE(events.size(), 1);
@@ -493,7 +493,7 @@ void ICalFormatTest::testNonTextCustomProperties()
 
 void ICalFormatTest::testAllDaySchedulingMessage()
 {
-    auto event = KCalendarCore::Event::Ptr::create();
+    auto event = QSharedPointer<KCalendarCore::Event>::create();
     event->setSummary(QStringLiteral("All Day Event"));
     event->setDtStart(QDateTime(QDate(2023, 10, 13), QTime(0, 0, 0), QTimeZone("Europe/Prague")));
     event->setDtEnd(QDateTime(QDate(2023, 10, 15), QTime(0, 0, 0), QTimeZone("Europe/Prague")));
@@ -502,7 +502,7 @@ void ICalFormatTest::testAllDaySchedulingMessage()
     event->setAllDay(true);
 
     ICalFormat format;
-    auto calendar = MemoryCalendar::Ptr::create(QTimeZone::utc());
+    auto calendar = QSharedPointer<MemoryCalendar>::create(QTimeZone::utc());
     const auto itipString = format.createScheduleMessage(event, KCalendarCore::iTIPRequest);
     QVERIFY(!itipString.isEmpty());
 
@@ -535,7 +535,7 @@ void ICalFormatTest::testAllDayRecurringUntil()
         "END:VEVENT\n"
         "END:VCALENDAR\n");
     ICalFormat format;
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<MemoryCalendar> cal(new MemoryCalendar(QTimeZone::utc()));
     QVERIFY(format.fromString(cal, input));
     const auto events = cal->events();
     QCOMPARE(events.size(), 1);
@@ -572,7 +572,7 @@ X-TEST-URI;VALUE=URI:geo:10.123456,-70.123456
 END:EVENT
 END:VCALENDAR)";
     ICalFormat format;
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<MemoryCalendar> cal(new MemoryCalendar(QTimeZone::utc()));
     QVERIFY(format.fromString(cal, QLatin1StringView(input)));
     QCOMPARE(cal->name(), "KDE Community Calendar"_L1);
     QCOMPARE(cal->color(), "crimson"_L1);

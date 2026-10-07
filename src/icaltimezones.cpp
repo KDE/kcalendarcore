@@ -152,7 +152,7 @@ ICalTimeZoneParser::ICalTimeZoneParser(ICalTimeZoneCache *cache)
 {
 }
 
-void ICalTimeZoneParser::updateTzEarliestDate(const IncidenceBase::Ptr &incidence, TimeZoneEarliestDate *earliest)
+void ICalTimeZoneParser::updateTzEarliestDate(const QSharedPointer<IncidenceBase> &incidence, TimeZoneEarliestDate *earliest)
 {
     for (auto role : {IncidenceBase::RoleStartTimeZone, IncidenceBase::RoleEndTimeZone}) {
         const auto dt = incidence->dateTime(role);

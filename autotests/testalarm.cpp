@@ -63,11 +63,11 @@ void AlarmTest::testCopyConstructor()
 
 void AlarmTest::testSerializer_data()
 {
-    QTest::addColumn<KCalendarCore::Alarm::Ptr>("alarm");
-    Alarm::Ptr a1 = Alarm::Ptr(new Alarm(nullptr));
-    Alarm::Ptr a2 = Alarm::Ptr(new Alarm(nullptr));
-    Alarm::Ptr a3 = Alarm::Ptr(new Alarm(nullptr));
-    Alarm::Ptr a4 = Alarm::Ptr(new Alarm(nullptr));
+    QTest::addColumn<QSharedPointer<KCalendarCore::Alarm>>("alarm");
+    auto a1 = QSharedPointer<Alarm>(new Alarm(nullptr));
+    auto a2 = QSharedPointer<Alarm>(new Alarm(nullptr));
+    auto a3 = QSharedPointer<Alarm>(new Alarm(nullptr));
+    auto a4 = QSharedPointer<Alarm>(new Alarm(nullptr));
 
     a1->setType(Alarm::Email);
     a2->setType(Alarm::Procedure);
@@ -82,7 +82,7 @@ void AlarmTest::testSerializer_data()
 
     a1->setMailSubject(QStringLiteral("empty subject"));
 
-    Person::List persons;
+    QList<Person> persons;
     persons << Person(QStringLiteral("a"), QStringLiteral("a@a.pt")) << Person(QStringLiteral("b"), QStringLiteral("b@b.pt"));
     a1->setMailAddresses(persons);
     a1->setMailAttachment(QStringLiteral("foo attachment"));
@@ -107,13 +107,13 @@ void AlarmTest::testSerializer_data()
 
 void AlarmTest::testSerializer()
 {
-    QFETCH(KCalendarCore::Alarm::Ptr, alarm);
+    QFETCH(QSharedPointer<KCalendarCore::Alarm>, alarm);
 
     QByteArray array;
     QDataStream stream(&array, QIODevice::WriteOnly);
     stream << alarm; // Serialize
 
-    Alarm::Ptr alarm2 = Alarm::Ptr(new Alarm(nullptr));
+    auto alarm2 = QSharedPointer<Alarm>(new Alarm(nullptr));
     QDataStream stream2(&array, QIODevice::ReadOnly);
     stream2 >> alarm2; // deserialize
     QVERIFY(*alarm == *alarm2);

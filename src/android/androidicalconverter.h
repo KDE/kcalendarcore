@@ -18,10 +18,10 @@ class AndroidIcalConverter
 {
 public:
     /** Convert Android event data to KCalendarCore::Event. */
-    static KCalendarCore::Event::Ptr readEvent(const JniEventData &data);
+    static QSharedPointer<KCalendarCore::Event> readEvent(const JniEventData &data);
 
     /** Convert an KCalendarCore::Event to a Android event data. */
-    static JniEventData writeEvent(const KCalendarCore::Event::Ptr &event);
+    static JniEventData writeEvent(const QSharedPointer<KCalendarCore::Event> &event);
 
 private:
     friend class AndroidIcalConverterTest;
@@ -32,9 +32,9 @@ private:
     static JniAttendeeData writeAttendee(const KCalendarCore::Attendee &attendee);
 
     /** Convert Android reminder data to KCalendarCore::Alarm. */
-    static KCalendarCore::Alarm::Ptr readAlarm(const JniReminderData &data, KCalendarCore::Incidence *parent);
+    static QSharedPointer<KCalendarCore::Alarm> readAlarm(const JniReminderData &data, KCalendarCore::Incidence *parent);
     /** Convert KCalendarCore::Alarm to Android reminder data. */
-    static JniReminderData writeAlarm(const KCalendarCore::Alarm::Ptr &alarm);
+    static JniReminderData writeAlarm(const QSharedPointer<KCalendarCore::Alarm> &alarm);
 
     /** Add a decoded DAVx⁵ extended property to @p incidence. */
     static void addExtendedProperty(KCalendarCore::Incidence *incidence, const QString &name, const QString &value);

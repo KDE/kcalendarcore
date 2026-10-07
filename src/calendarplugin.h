@@ -38,7 +38,7 @@ public:
      *
      * Returns QList of calendars.
      */
-    virtual QList<Calendar::Ptr> calendars() const = 0;
+    virtual QList<QSharedPointer<Calendar>> calendars() const = 0;
 
 Q_SIGNALS:
     /*!

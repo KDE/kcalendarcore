@@ -39,7 +39,7 @@ CalFormat::~CalFormat()
     clearException();
 }
 
-bool CalFormat::fromString(const Calendar::Ptr &calendar, const QString &string)
+bool CalFormat::fromString(const QSharedPointer<Calendar> &calendar, const QString &string)
 {
     return fromRawString(calendar, string.toUtf8());
 }

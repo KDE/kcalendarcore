@@ -19,7 +19,7 @@ class MimeDataTest : public QObject
 private Q_SLOTS:
     static void testMimeData()
     {
-        const Event::Ptr ev(new Event());
+        const QSharedPointer<Event> ev(new Event());
         ev->setSummary(u"Summary"_s);
         ev->setDtStart(QDateTime(QDate(2010, 8, 8), {}));
         ev->setDtEnd(QDateTime(QDate(2010, 8, 9), {}));
@@ -27,7 +27,7 @@ private Q_SLOTS:
         const auto originalUid = ev->uid();
         QVERIFY(!originalUid.isEmpty());
 
-        Incidence::List incidencesToCopy;
+        QList<QSharedPointer<Incidence>> incidencesToCopy;
         incidencesToCopy.append(ev);
 
         QMimeData mimeData;

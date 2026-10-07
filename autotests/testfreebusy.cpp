@@ -24,7 +24,7 @@ void FreeBusyTest::testValidity()
 
 void FreeBusyTest::testAddSort()
 {
-    Period::List periods;
+    QList<Period> periods;
 
     const QDateTime firstq1DateTime(QDate(2007, 7, 23), QTime(7, 0, 0), QTimeZone::UTC);
     Period q1(firstq1DateTime, QDateTime(QDate(2007, 7, 23), QTime(8, 0, 0), QTimeZone::UTC));
@@ -50,7 +50,7 @@ void FreeBusyTest::testAddSort()
     const QDateTime thirdfb1DateTime(QDate(2007, 6, 27), QTime(7, 0, 0), QTimeZone::UTC);
     fb1.addPeriod(thirdfb1DateTime, QDateTime(QDate(2007, 6, 27), QTime(8, 0, 0), QTimeZone::UTC));
 
-    Period::List busyPeriods = fb1.busyPeriods();
+    auto busyPeriods = fb1.busyPeriods();
     QVERIFY(!busyPeriods.isEmpty());
     QCOMPARE(busyPeriods.last().end(), QDateTime(QDate(2007, 10, 27), QTime(8, 0, 0), QTimeZone::UTC));
 }
@@ -84,7 +84,7 @@ void FreeBusyTest::testCopyConstructor()
 void FreeBusyTest::testDataStream()
 {
     const QDateTime firstDateTime(QDate(2007, 7, 23), QTime(7, 0, 0), QTimeZone::UTC);
-    FreeBusy::Ptr fb1(new FreeBusy(firstDateTime, QDateTime(QDate(2007, 7, 23), QTime(8, 0, 0), QTimeZone::UTC)));
+    QSharedPointer<FreeBusy> fb1(new FreeBusy(firstDateTime, QDateTime(QDate(2007, 7, 23), QTime(8, 0, 0), QTimeZone::UTC)));
 
     QByteArray byteArray;
     QDataStream out_stream(&byteArray, QIODevice::WriteOnly);
@@ -93,7 +93,7 @@ void FreeBusyTest::testDataStream()
 
     QDataStream in_stream(&byteArray, QIODevice::ReadOnly);
 
-    FreeBusy::Ptr fb2;
+    QSharedPointer<FreeBusy> fb2;
 
     in_stream >> fb2;
 

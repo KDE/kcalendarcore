@@ -58,14 +58,14 @@ public:
     /*!
       \reimp
     */
-    bool load(const Calendar::Ptr &calendar, const QString &fileName) override;
+    bool load(const QSharedPointer<Calendar> &calendar, const QString &fileName) override;
 
     /*!
       \reimp
     */
-    bool save(const Calendar::Ptr &calendar, const QString &fileName) override;
+    bool save(const QSharedPointer<Calendar> &calendar, const QString &fileName) override;
 
-    // make CalFromat::fromString(const Calendar::Ptr &calendar, const QString&, const QString&) visible here as well
+    // make CalFromat::fromString(const QSharedPointer<Calendar> &calendar, const QString&, const QString&) visible here as well
     using CalFormat::fromString;
 
     /*!
@@ -76,7 +76,7 @@ public:
       Returns non-zero pointer if the parsing was successful; 0 otherwise.
       \sa CalFormat::fromString(), fromRawString()
     */
-    Incidence::Ptr fromString(const QString &string);
+    QSharedPointer<Incidence> fromString(const QString &string);
 
     /*!
       Parses a bytearray, returning the first iCal component as an Incidence, ignoring timezone information.
@@ -89,7 +89,7 @@ public:
       Returns non-zero pointer if the parsing was successful; 0 otherwise.
       \sa fromString(const QString &), fromRawString()
     */
-    Incidence::Ptr readIncidence(const QByteArray &string);
+    QSharedPointer<Incidence> readIncidence(const QByteArray &string);
 
     /*!
       Parses a string and fills a RecurrenceRule object with the information.
@@ -114,12 +114,12 @@ public:
     /*!
       \reimp
     */
-    Q_REQUIRED_RESULT bool fromRawString(const Calendar::Ptr &calendar, const QByteArray &string) override;
+    Q_REQUIRED_RESULT bool fromRawString(const QSharedPointer<Calendar> &calendar, const QByteArray &string) override;
 
     /*!
       \reimp
     */
-    Q_REQUIRED_RESULT QString toString(const Calendar::Ptr &calendar) override;
+    Q_REQUIRED_RESULT QString toString(const QSharedPointer<Calendar> &calendar) override;
 
     /*!
       Converts an Incidence to a QString.
@@ -129,7 +129,7 @@ public:
 
       Returns the QString will be Null if the conversion was unsuccessful.
     */
-    Q_REQUIRED_RESULT QString toString(const Incidence::Ptr &incidence);
+    Q_REQUIRED_RESULT QString toString(const QSharedPointer<Incidence> &incidence);
 
     /*!
       Converts an Incidence to a QByteArray.
@@ -140,7 +140,7 @@ public:
       Returns the QString will be Null if the conversion was unsuccessful.
       \since 4.7
     */
-    Q_REQUIRED_RESULT QByteArray toRawString(const Incidence::Ptr &incidence);
+    Q_REQUIRED_RESULT QByteArray toRawString(const QSharedPointer<Incidence> &incidence);
 
     /*!
       Converts a RecurrenceRule to a QString.
@@ -170,7 +170,7 @@ public:
 
       Returns the QString will be Null if the conversion was unsuccessful.
     */
-    Q_REQUIRED_RESULT QString toICalString(const Incidence::Ptr &incidence);
+    Q_REQUIRED_RESULT QString toICalString(const QSharedPointer<Incidence> &incidence);
 
     /*!
       Creates a scheduling message string for an Incidence.
@@ -181,7 +181,7 @@ public:
 
       Returns a QString containing the message if successful; 0 otherwise.
     */
-    Q_REQUIRED_RESULT QString createScheduleMessage(const IncidenceBase::Ptr &incidence, iTIPMethod method); // TODO KF7 return a QByteArray instead
+    Q_REQUIRED_RESULT QString createScheduleMessage(const QSharedPointer<IncidenceBase> &incidence, iTIPMethod method); // TODO KF7 return a QByteArray instead
 
 #if KCALENDARCORE_ENABLE_DEPRECATED_SINCE(6, 30)
     /*!
@@ -196,7 +196,7 @@ public:
       The calling routine may later free the return memory.
     */
     KCALENDARCORE_DEPRECATED_VERSION(6, 30, "use the QByteArray overload instead")
-    ScheduleMessage::Ptr parseScheduleMessage(const Calendar::Ptr &calendar, const QString &string);
+    QSharedPointer<ScheduleMessage> parseScheduleMessage(const QSharedPointer<Calendar> &calendar, const QString &string);
 #endif
 
     /*!
@@ -213,7 +213,7 @@ public:
 
       \since 6.30 (took a QString as argument previously)
     */
-    [[nodiscard]] ScheduleMessage::Ptr parseScheduleMessage(const Calendar::Ptr &calendar, const QByteArray &messageText);
+    [[nodiscard]] QSharedPointer<ScheduleMessage> parseScheduleMessage(const QSharedPointer<Calendar> &calendar, const QByteArray &messageText);
 
     /*!
       Converts a QString into a FreeBusy object.
@@ -223,7 +223,7 @@ public:
 
       \note Do not attempt to free the FreeBusy memory from the calling routine.
     */
-    FreeBusy::Ptr parseFreeBusy(const QString &string);
+    QSharedPointer<FreeBusy> parseFreeBusy(const QString &string);
 
     /*!
       Sets the iCalendar time zone.

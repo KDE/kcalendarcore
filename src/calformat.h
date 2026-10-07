@@ -53,7 +53,7 @@ public:
 
       Returns true if successful; false otherwise.
     */
-    virtual bool load(const Calendar::Ptr &calendar, const QString &fileName) = 0;
+    virtual bool load(const QSharedPointer<Calendar> &calendar, const QString &fileName) = 0;
 
     /*!
       Writes the calendar to disk.
@@ -64,7 +64,7 @@ public:
 
       Returns true if successful; false otherwise.
     */
-    virtual bool save(const Calendar::Ptr &calendar, const QString &fileName) = 0;
+    virtual bool save(const QSharedPointer<Calendar> &calendar, const QString &fileName) = 0;
 
     /*!
       Loads a calendar from a string.
@@ -78,7 +78,7 @@ public:
 
       \since 5.97
     */
-    bool fromString(const Calendar::Ptr &calendar, const QString &string);
+    bool fromString(const QSharedPointer<Calendar> &calendar, const QString &string);
 
     /*!
       Parses a utf8 encoded string, returning the first iCal component
@@ -93,7 +93,7 @@ public:
       Returns true if successful; false otherwise.
       \sa fromString(), toString().
     */
-    virtual bool fromRawString(const Calendar::Ptr &calendar, const QByteArray &string) = 0;
+    virtual bool fromRawString(const QSharedPointer<Calendar> &calendar, const QByteArray &string) = 0;
 
     /*!
       Returns the calendar as a string.
@@ -104,7 +104,7 @@ public:
       an empty string otherwise.
       \sa fromString(), fromRawString().
     */
-    virtual QString toString(const Calendar::Ptr &calendar) = 0;
+    virtual QString toString(const QSharedPointer<Calendar> &calendar) = 0;
 
     /*!
       Clears the exception status.

@@ -293,8 +293,13 @@ class KCALENDARCORE_EXPORT Calendar : public QObject, public CustomProperties, p
 public:
     /*!
       A shared pointer to a Calendar
+
+      \deprecated [6.32] Use QSharedPointer<Calendar> instead.
     */
+#if KCALENDARCORE_ENABLE_DEPRECATED_SINCE(6, 32)
+    KCALENDARCORE_DEPRECATED_VERSION(6, 32, "Use QSharedPointer<Calendar> instead")
     typedef QSharedPointer<Calendar> Ptr;
+#endif
 
     /*!
       Constructs a calendar with a specified time zone \a timeZone.
@@ -553,7 +558,7 @@ public:
 
       \sa deleteIncidence()
     */
-    virtual bool addIncidence(const Incidence::Ptr &incidence);
+    virtual bool addIncidence(const QSharedPointer<Incidence> &incidence);
 
     /*!
       Removes an Incidence from the calendar.
@@ -564,14 +569,14 @@ public:
 
       \sa addIncidence()
     */
-    virtual bool deleteIncidence(const Incidence::Ptr &incidence);
+    virtual bool deleteIncidence(const QSharedPointer<Incidence> &incidence);
 
     /*!
       Returns a filtered list of all Incidences for this Calendar.
 
       Returns the list of all filtered Incidences.
     */
-    virtual Incidence::List incidences() const;
+    virtual QList<QSharedPointer<Incidence>> incidences() const;
 
     /*!
       Returns a filtered list of all Incidences which occur on the given date.
@@ -580,14 +585,14 @@ public:
 
       Returns the list of filtered Incidences occurring on the specified date.
     */
-    virtual Incidence::List incidences(const QDate &date) const;
+    virtual QList<QSharedPointer<Incidence>> incidences(const QDate &date) const;
 
     /*!
       Returns an unfiltered list of all Incidences for this Calendar.
 
       Returns the list of all unfiltered Incidences.
     */
-    virtual Incidence::List rawIncidences() const;
+    virtual QList<QSharedPointer<Incidence>> rawIncidences() const;
 
     /*!
       Returns an unfiltered list of all exceptions of this recurring incidence.
@@ -596,7 +601,7 @@ public:
 
       Returns the list of all unfiltered exceptions.
     */
-    virtual Incidence::List instances(const Incidence::Ptr &incidence) const;
+    virtual QList<QSharedPointer<Incidence>> instances(const QSharedPointer<Incidence> &incidence) const;
 
     /*!
       Returns the Incidence associated with the given unique identifier.
@@ -608,7 +613,7 @@ public:
       Returns a pointer to the Incidence.
       A null pointer is returned if no such Incidence exists.
     */
-    Incidence::Ptr incidence(const QString &uid, const QDateTime &recurrenceId = {}) const;
+    QSharedPointer<Incidence> incidence(const QString &uid, const QDateTime &recurrenceId = {}) const;
 
     /*!
       Delete all incidences that are instances of recurring incidence \a incidence.
@@ -617,7 +622,7 @@ public:
 
       Returns true if delete was successful; false otherwise
     */
-    virtual bool deleteIncidenceInstances(const Incidence::Ptr &incidence) = 0;
+    virtual bool deleteIncidenceInstances(const QSharedPointer<Incidence> &incidence) = 0;
 
     /*!
       Returns the Incidence associated with the given scheduling identifier.
@@ -627,7 +632,7 @@ public:
       Returns a pointer to the Incidence.
       A null pointer is returned if no such Incidence exists.
     */
-    virtual Incidence::Ptr incidenceFromSchedulingID(const QString &sid) const;
+    virtual QSharedPointer<Incidence> incidenceFromSchedulingID(const QString &sid) const;
 
     /*!
       Searches all events and todos for an incidence with this
@@ -636,7 +641,7 @@ public:
       \a sid is a unique scheduling identifier string.
 
      */
-    virtual Incidence::List incidencesFromSchedulingID(const QString &sid) const;
+    virtual QList<QSharedPointer<Incidence>> incidencesFromSchedulingID(const QString &sid) const;
 
     /*!
       Create a merged list of Events, Todos, and Journals.
@@ -649,7 +654,8 @@ public:
 
       Returns a list of merged Incidences.
     */
-    static Incidence::List mergeIncidenceList(const Event::List &events, const Todo::List &todos, const Journal::List &journals);
+    static QList<QSharedPointer<Incidence>>
+    mergeIncidenceList(const QList<QSharedPointer<Event>> &events, const QList<QSharedPointer<Todo>> &todos, const QList<QSharedPointer<Journal>> &journals);
 
     /*!
       Flag that a change to a Calendar Incidence is starting.
@@ -657,7 +663,7 @@ public:
       \a incidence is a pointer to the Incidence that will be changing.
 
     */
-    virtual bool beginChange(const Incidence::Ptr &incidence);
+    virtual bool beginChange(const QSharedPointer<Incidence> &incidence);
 
     /*!
       Flag that a change to a Calendar Incidence has completed.
@@ -665,7 +671,7 @@ public:
       \a incidence is a pointer to the Incidence that was changed.
 
     */
-    virtual bool endChange(const Incidence::Ptr &incidence);
+    virtual bool endChange(const QSharedPointer<Incidence> &incidence);
 
     /*!
       Creates an exception for an occurrence from a recurring Incidence.
@@ -683,7 +689,7 @@ public:
       Returns a pointer to a new exception incidence with \a recurrenceId set.
       \since 4.11
     */
-    static Incidence::Ptr createException(const Incidence::Ptr &incidence, const QDateTime &recurrenceId, bool thisAndFuture = false);
+    static QSharedPointer<Incidence> createException(const QSharedPointer<Incidence> &incidence, const QDateTime &recurrenceId, bool thisAndFuture = false);
 
     // Event Specific Methods //
 
@@ -696,7 +702,7 @@ public:
 
       \sa deleteEvent()
     */
-    virtual bool addEvent(const Event::Ptr &event) = 0;
+    virtual bool addEvent(const QSharedPointer<Event> &event) = 0;
 
     /*!
       Removes an Event from the calendar.
@@ -707,7 +713,7 @@ public:
 
       \sa addEvent()
     */
-    virtual bool deleteEvent(const Event::Ptr &event) = 0;
+    virtual bool deleteEvent(const QSharedPointer<Event> &event) = 0;
 
     /*!
       Delete all events that are instances of recurring event \a event.
@@ -716,7 +722,7 @@ public:
 
       Returns true if delete was successful; false otherwise
     */
-    virtual bool deleteEventInstances(const Event::Ptr &event) = 0;
+    virtual bool deleteEventInstances(const QSharedPointer<Event> &event) = 0;
 
     /*!
       Sort a list of Events.
@@ -730,7 +736,7 @@ public:
       Returns a list of Events sorted as specified.
       \since 5.95
     */
-    static Event::List sortEvents(Event::List &&eventList, EventSortField sortField, SortDirection sortDirection);
+    static QList<QSharedPointer<Event>> sortEvents(QList<QSharedPointer<Event>> &&eventList, EventSortField sortField, SortDirection sortDirection);
 
     /*!
       Returns a sorted, filtered list of all Events for this Calendar.
@@ -741,7 +747,7 @@ public:
 
       Returns the list of all filtered Events sorted as specified.
     */
-    virtual Event::List events(EventSortField sortField = EventSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const;
+    virtual QList<QSharedPointer<Event>> events(EventSortField sortField = EventSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const;
 
     /*!
       Returns a filtered list of all Events which occur on the given timestamp.
@@ -750,7 +756,7 @@ public:
 
       Returns the list of filtered Events occurring on the specified timestamp.
     */
-    Q_REQUIRED_RESULT Event::List events(const QDateTime &dt) const;
+    Q_REQUIRED_RESULT QList<QSharedPointer<Event>> events(const QDateTime &dt) const;
 
     /*!
       Returns a filtered list of all Events occurring within a date range.
@@ -768,7 +774,7 @@ public:
       Returns the list of filtered Events occurring within the specified
       date range.
     */
-    Q_REQUIRED_RESULT Event::List events(const QDate &start, const QDate &end, const QTimeZone &timeZone = {}, bool inclusive = false) const;
+    Q_REQUIRED_RESULT QList<QSharedPointer<Event>> events(const QDate &start, const QDate &end, const QTimeZone &timeZone = {}, bool inclusive = false) const;
 
     /*!
       Returns a sorted, filtered list of all Events which occur on the given
@@ -786,10 +792,10 @@ public:
 
       Returns the list of sorted, filtered Events occurring on \a date.
     */
-    Q_REQUIRED_RESULT Event::List events(const QDate &date,
-                                         const QTimeZone &timeZone = {},
-                                         EventSortField sortField = EventSortUnsorted,
-                                         SortDirection sortDirection = SortDirectionAscending) const;
+    Q_REQUIRED_RESULT QList<QSharedPointer<Event>> events(const QDate &date,
+                                                          const QTimeZone &timeZone = {},
+                                                          EventSortField sortField = EventSortUnsorted,
+                                                          SortDirection sortDirection = SortDirectionAscending) const;
 
     /*!
       Returns a sorted, unfiltered list of all Events for this Calendar.
@@ -800,7 +806,8 @@ public:
 
       Returns the list of all unfiltered Events sorted as specified.
     */
-    virtual Event::List rawEvents(EventSortField sortField = EventSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const = 0;
+    virtual QList<QSharedPointer<Event>> rawEvents(EventSortField sortField = EventSortUnsorted,
+                                                   SortDirection sortDirection = SortDirectionAscending) const = 0;
 
     /*!
       Returns an unfiltered list of all Events occurring within a date range.
@@ -818,7 +825,7 @@ public:
       Returns the list of unfiltered Events occurring within the specified
       date range.
     */
-    virtual Event::List rawEvents(const QDate &start, const QDate &end, const QTimeZone &timeZone = {}, bool inclusive = false) const = 0;
+    virtual QList<QSharedPointer<Event>> rawEvents(const QDate &start, const QDate &end, const QTimeZone &timeZone = {}, bool inclusive = false) const = 0;
 
     /*!
       Returns a sorted, unfiltered list of all Events which occur on the given
@@ -836,10 +843,10 @@ public:
 
       Returns the list of sorted, unfiltered Events occurring on \a date
     */
-    virtual Event::List rawEventsForDate(const QDate &date,
-                                         const QTimeZone &timeZone = {},
-                                         EventSortField sortField = EventSortUnsorted,
-                                         SortDirection sortDirection = SortDirectionAscending) const = 0;
+    virtual QList<QSharedPointer<Event>> rawEventsForDate(const QDate &date,
+                                                          const QTimeZone &timeZone = {},
+                                                          EventSortField sortField = EventSortUnsorted,
+                                                          SortDirection sortDirection = SortDirectionAscending) const = 0;
 
     /*!
       Returns the Event associated with the given unique identifier.
@@ -851,7 +858,7 @@ public:
       Returns a pointer to the Event.
       A null pointer is returned if no such Event exists.
     */
-    virtual Event::Ptr event(const QString &uid, const QDateTime &recurrenceId = {}) const = 0;
+    virtual QSharedPointer<Event> event(const QString &uid, const QDateTime &recurrenceId = {}) const = 0;
 
     /*!
       Returns a sorted, unfiltered list of all possible instances for this recurring Event.
@@ -864,8 +871,9 @@ public:
 
       Returns the list of all unfiltered event instances sorted as specified.
     */
-    virtual Event::List
-    eventInstances(const Incidence::Ptr &event, EventSortField sortField = EventSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const = 0;
+    virtual QList<QSharedPointer<Event>> eventInstances(const QSharedPointer<Incidence> &event,
+                                                        EventSortField sortField = EventSortUnsorted,
+                                                        SortDirection sortDirection = SortDirectionAscending) const = 0;
 
     // Todo Specific Methods //
 
@@ -878,7 +886,7 @@ public:
 
       \sa deleteTodo()
     */
-    virtual bool addTodo(const Todo::Ptr &todo) = 0;
+    virtual bool addTodo(const QSharedPointer<Todo> &todo) = 0;
 
     /*!
       Removes a Todo from the calendar.
@@ -889,7 +897,7 @@ public:
 
       \sa addTodo()
     */
-    virtual bool deleteTodo(const Todo::Ptr &todo) = 0;
+    virtual bool deleteTodo(const QSharedPointer<Todo> &todo) = 0;
 
     /*!
       Delete all to-dos that are instances of recurring to-do \a todo.
@@ -898,7 +906,7 @@ public:
 
       Returns true if delete was successful; false otherwise
     */
-    virtual bool deleteTodoInstances(const Todo::Ptr &todo) = 0;
+    virtual bool deleteTodoInstances(const QSharedPointer<Todo> &todo) = 0;
 
     /*!
       Sort a list of Todos.
@@ -913,7 +921,7 @@ public:
 
       \since 5.95
     */
-    static Todo::List sortTodos(Todo::List &&todoList, TodoSortField sortField, SortDirection sortDirection);
+    static QList<QSharedPointer<Todo>> sortTodos(QList<QSharedPointer<Todo>> &&todoList, TodoSortField sortField, SortDirection sortDirection);
 
     /*!
       Returns a sorted, filtered list of all Todos for this Calendar.
@@ -924,7 +932,7 @@ public:
 
       Returns the list of all filtered Todos sorted as specified.
     */
-    virtual Todo::List todos(TodoSortField sortField = TodoSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const;
+    virtual QList<QSharedPointer<Todo>> todos(TodoSortField sortField = TodoSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const;
 
     /*!
       Returns a filtered list of all Todos which are due on the specified date.
@@ -933,7 +941,7 @@ public:
 
       Returns the list of filtered Todos due on the specified date.
     */
-    virtual Todo::List todos(const QDate &date) const;
+    virtual QList<QSharedPointer<Todo>> todos(const QDate &date) const;
 
     /*!
       Returns a filtered list of all Todos occurring within a date range.
@@ -951,7 +959,7 @@ public:
       Returns the list of filtered Todos occurring within the specified
       date range.
     */
-    virtual Todo::List todos(const QDate &start, const QDate &end, const QTimeZone &timeZone = {}, bool inclusive = false) const;
+    virtual QList<QSharedPointer<Todo>> todos(const QDate &start, const QDate &end, const QTimeZone &timeZone = {}, bool inclusive = false) const;
 
     /*!
       Returns a sorted, unfiltered list of all Todos for this Calendar.
@@ -962,7 +970,7 @@ public:
 
       Returns the list of all unfiltered Todos sorted as specified.
     */
-    virtual Todo::List rawTodos(TodoSortField sortField = TodoSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const = 0;
+    virtual QList<QSharedPointer<Todo>> rawTodos(TodoSortField sortField = TodoSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const = 0;
 
     /*!
       Returns an unfiltered list of all Todos which due on the specified date.
@@ -971,7 +979,7 @@ public:
 
       Returns the list of unfiltered Todos due on the specified date.
     */
-    virtual Todo::List rawTodosForDate(const QDate &date) const = 0;
+    virtual QList<QSharedPointer<Todo>> rawTodosForDate(const QDate &date) const = 0;
 
     /*!
       Returns an unfiltered list of all Todos occurring within a date range.
@@ -989,7 +997,7 @@ public:
       Returns the list of unfiltered Todos occurring within the specified
       date range.
     */
-    virtual Todo::List rawTodos(const QDate &start, const QDate &end, const QTimeZone &timeZone = {}, bool inclusive = false) const = 0;
+    virtual QList<QSharedPointer<Todo>> rawTodos(const QDate &start, const QDate &end, const QTimeZone &timeZone = {}, bool inclusive = false) const = 0;
 
     /*!
       Returns the Todo associated with the given unique identifier.
@@ -1001,7 +1009,7 @@ public:
       Returns a pointer to the Todo.
       A null pointer is returned if no such Todo exists.
     */
-    virtual Todo::Ptr todo(const QString &uid, const QDateTime &recurrenceId = {}) const = 0;
+    virtual QSharedPointer<Todo> todo(const QString &uid, const QDateTime &recurrenceId = {}) const = 0;
 
     /*!
       Returns a sorted, unfiltered list of all possible instances for this recurring Todo.
@@ -1014,8 +1022,9 @@ public:
 
       Returns the list of all unfiltered todo instances sorted as specified.
     */
-    virtual Todo::List
-    todoInstances(const Incidence::Ptr &todo, TodoSortField sortField = TodoSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const = 0;
+    virtual QList<QSharedPointer<Todo>> todoInstances(const QSharedPointer<Incidence> &todo,
+                                                      TodoSortField sortField = TodoSortUnsorted,
+                                                      SortDirection sortDirection = SortDirectionAscending) const = 0;
 
     // Journal Specific Methods //
 
@@ -1028,7 +1037,7 @@ public:
 
       \sa deleteJournal()
     */
-    virtual bool addJournal(const Journal::Ptr &journal) = 0;
+    virtual bool addJournal(const QSharedPointer<Journal> &journal) = 0;
 
     /*!
       Removes a Journal from the calendar.
@@ -1039,7 +1048,7 @@ public:
 
       \sa addJournal()
     */
-    virtual bool deleteJournal(const Journal::Ptr &journal) = 0;
+    virtual bool deleteJournal(const QSharedPointer<Journal> &journal) = 0;
 
     /*!
       Delete all journals that are instances of recurring journal \a journal.
@@ -1048,7 +1057,7 @@ public:
 
       Returns true if delete was successful; false otherwise
     */
-    virtual bool deleteJournalInstances(const Journal::Ptr &journal) = 0;
+    virtual bool deleteJournalInstances(const QSharedPointer<Journal> &journal) = 0;
 
     /*!
       Sort a list of Journals.
@@ -1062,7 +1071,7 @@ public:
       Returns a list of Journals sorted as specified.
       \since 5.95
     */
-    static Journal::List sortJournals(Journal::List &&journalList, JournalSortField sortField, SortDirection sortDirection);
+    static QList<QSharedPointer<Journal>> sortJournals(QList<QSharedPointer<Journal>> &&journalList, JournalSortField sortField, SortDirection sortDirection);
 
     /*!
       Returns a sorted, filtered list of all Journals for this Calendar.
@@ -1073,7 +1082,8 @@ public:
 
       Returns the list of all filtered Journals sorted as specified.
     */
-    virtual Journal::List journals(JournalSortField sortField = JournalSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const;
+    virtual QList<QSharedPointer<Journal>> journals(JournalSortField sortField = JournalSortUnsorted,
+                                                    SortDirection sortDirection = SortDirectionAscending) const;
 
     /*!
       Returns a filtered list of all Journals for on the specified date.
@@ -1082,7 +1092,7 @@ public:
 
       Returns the list of filtered Journals for the specified date.
     */
-    virtual Journal::List journals(const QDate &date) const;
+    virtual QList<QSharedPointer<Journal>> journals(const QDate &date) const;
 
     /*!
       Returns a sorted, unfiltered list of all Journals for this Calendar.
@@ -1093,7 +1103,8 @@ public:
 
       Returns the list of all unfiltered Journals sorted as specified.
     */
-    virtual Journal::List rawJournals(JournalSortField sortField = JournalSortUnsorted, SortDirection sortDirection = SortDirectionAscending) const = 0;
+    virtual QList<QSharedPointer<Journal>> rawJournals(JournalSortField sortField = JournalSortUnsorted,
+                                                       SortDirection sortDirection = SortDirectionAscending) const = 0;
 
     /*!
       Returns an unfiltered list of all Journals for on the specified date.
@@ -1102,7 +1113,7 @@ public:
 
       Returns the list of unfiltered Journals for the specified date.
     */
-    virtual Journal::List rawJournalsForDate(const QDate &date) const = 0;
+    virtual QList<QSharedPointer<Journal>> rawJournalsForDate(const QDate &date) const = 0;
 
     /*!
       Returns the Journal associated with the given unique identifier.
@@ -1114,7 +1125,7 @@ public:
       Returns a pointer to the Journal.
       A null pointer is returned if no such Journal exists.
     */
-    virtual Journal::Ptr journal(const QString &uid, const QDateTime &recurrenceId = {}) const = 0;
+    virtual QSharedPointer<Journal> journal(const QString &uid, const QDateTime &recurrenceId = {}) const = 0;
 
     /*!
       Returns a sorted, unfiltered list of all instances for this recurring Journal.
@@ -1127,9 +1138,9 @@ public:
 
       Returns the list of all unfiltered journal instances sorted as specified.
     */
-    virtual Journal::List journalInstances(const Incidence::Ptr &journal,
-                                           JournalSortField sortField = JournalSortUnsorted,
-                                           SortDirection sortDirection = SortDirectionAscending) const = 0;
+    virtual QList<QSharedPointer<Journal>> journalInstances(const QSharedPointer<Incidence> &journal,
+                                                            JournalSortField sortField = JournalSortUnsorted,
+                                                            SortDirection sortDirection = SortDirectionAscending) const = 0;
 
     // Filter Specific Methods //
 
@@ -1167,7 +1178,7 @@ public:
 
       Returns the list of Alarms for the for the specified time range.
     */
-    virtual Alarm::List alarms(const QDateTime &from, const QDateTime &to, bool excludeBlockedAlarms = false) const = 0;
+    virtual QList<QSharedPointer<Alarm>> alarms(const QDateTime &from, const QDateTime &to, bool excludeBlockedAlarms = false) const = 0;
 
     /*!
       Return a list of Alarms that occur before the specified timestamp.
@@ -1178,7 +1189,7 @@ public:
 
       \since 5.77
     */
-    Q_REQUIRED_RESULT Alarm::List alarmsTo(const QDateTime &to) const;
+    Q_REQUIRED_RESULT QList<QSharedPointer<Alarm>> alarmsTo(const QDateTime &to) const;
 
     // Observer Specific Methods //
 
@@ -1213,7 +1224,7 @@ public:
           \a incidence is a pointer to the Incidence that was inserted.
 
         */
-        virtual void calendarIncidenceAdded(const Incidence::Ptr &incidence);
+        virtual void calendarIncidenceAdded(const QSharedPointer<Incidence> &incidence);
 
         /*!
           Notify the Observer that an Incidence has been modified.
@@ -1221,7 +1232,7 @@ public:
           \a incidence is a pointer to the Incidence that was modified.
 
         */
-        virtual void calendarIncidenceChanged(const Incidence::Ptr &incidence);
+        virtual void calendarIncidenceChanged(const QSharedPointer<Incidence> &incidence);
 
         /*!
           Notify the Observer that an Incidence will be removed.
@@ -1229,7 +1240,7 @@ public:
           \a incidence is a pointer to the Incidence that will be removed.
 
         */
-        virtual void calendarIncidenceAboutToBeDeleted(const Incidence::Ptr &incidence);
+        virtual void calendarIncidenceAboutToBeDeleted(const QSharedPointer<Incidence> &incidence);
 
         /*!
           Notify the Observer that an Incidence has been removed.
@@ -1241,7 +1252,7 @@ public:
 
           \since 4.83.0
         */
-        virtual void calendarIncidenceDeleted(const Incidence::Ptr &incidence, const Calendar *calendar);
+        virtual void calendarIncidenceDeleted(const QSharedPointer<Incidence> &incidence, const Calendar *calendar);
 
         /*!
           Notify the Observer that an addition of Incidence has been canceled.
@@ -1249,7 +1260,7 @@ public:
           \a incidence is a pointer to the Incidence that was removed.
 
         */
-        virtual void calendarIncidenceAdditionCanceled(const Incidence::Ptr &incidence);
+        virtual void calendarIncidenceAdditionCanceled(const QSharedPointer<Incidence> &incidence);
     };
 
     /*!
@@ -1300,7 +1311,7 @@ protected:
       \a incidence is a pointer to the Incidence object that was inserted.
 
     */
-    void notifyIncidenceAdded(const Incidence::Ptr &incidence);
+    void notifyIncidenceAdded(const QSharedPointer<Incidence> &incidence);
 
     /*!
       Let Calendar subclasses notify that they modified an Incidence.
@@ -1308,7 +1319,7 @@ protected:
       \a incidence is a pointer to the Incidence object that was modified.
 
     */
-    void notifyIncidenceChanged(const Incidence::Ptr &incidence);
+    void notifyIncidenceChanged(const QSharedPointer<Incidence> &incidence);
 
     /*!
       Let Calendar subclasses notify that they will remove an Incidence.
@@ -1316,7 +1327,7 @@ protected:
       \a incidence is a pointer to the Incidence object that will be removed.
 
     */
-    void notifyIncidenceAboutToBeDeleted(const Incidence::Ptr &incidence);
+    void notifyIncidenceAboutToBeDeleted(const QSharedPointer<Incidence> &incidence);
 
     /*!
       Let Calendar subclasses notify that they removed an Incidence.
@@ -1324,7 +1335,7 @@ protected:
       \a incidence is a pointer to the Incidence object that has been removed.
 
     */
-    void notifyIncidenceDeleted(const Incidence::Ptr &incidence);
+    void notifyIncidenceDeleted(const QSharedPointer<Incidence> &incidence);
 
     /*!
       Let Calendar subclasses notify that they canceled addition of an Incidence.
@@ -1332,7 +1343,7 @@ protected:
       \a incidence is a pointer to the Incidence object that addition as canceled.
 
     */
-    void notifyIncidenceAdditionCanceled(const Incidence::Ptr &incidence);
+    void notifyIncidenceAdditionCanceled(const QSharedPointer<Incidence> &incidence);
 
     /*!
       \reimp
@@ -1361,7 +1372,7 @@ protected:
       \a to is the upper range of the next Alarm repetition.
 
     */
-    void appendAlarms(Alarm::List &alarms, const Incidence::Ptr &incidence, const QDateTime &from, const QDateTime &to) const;
+    void appendAlarms(QList<QSharedPointer<Alarm>> &alarms, const QSharedPointer<Incidence> &incidence, const QDateTime &from, const QDateTime &to) const;
 
     /*!
       Appends alarms of recurring events in interval to list of alarms.
@@ -1376,7 +1387,8 @@ protected:
       \a to is the upper range of the next Alarm repetition.
 
     */
-    void appendRecurringAlarms(Alarm::List &alarms, const Incidence::Ptr &incidence, const QDateTime &from, const QDateTime &to) const;
+    void
+    appendRecurringAlarms(QList<QSharedPointer<Alarm>> &alarms, const QSharedPointer<Incidence> &incidence, const QDateTime &from, const QDateTime &to) const;
 
     /*!
      * Sets the loading state of this calendar to \a isLoading.
@@ -1461,6 +1473,6 @@ private:
 
 }
 
-Q_DECLARE_METATYPE(KCalendarCore::Calendar::Ptr)
+Q_DECLARE_METATYPE(QSharedPointer<KCalendarCore::Calendar>)
 
 #endif

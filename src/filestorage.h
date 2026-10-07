@@ -35,8 +35,13 @@ class KCALENDARCORE_EXPORT FileStorage : public CalStorage
 public:
     /*!
       A shared pointer to a FileStorage.
+
+      \deprecated [6.32] Use QSharedPointer<FileStorage> instead.
     */
+#if KCALENDARCORE_ENABLE_DEPRECATED_SINCE(6, 32)
+    KCALENDARCORE_DEPRECATED_VERSION(6, 32, "Use QSharedPointer<FileStorage> instead")
     typedef QSharedPointer<FileStorage> Ptr;
+#endif
 
     /*!
       Constructs a new FileStorage object for Calendar \a calendar with format
@@ -51,7 +56,7 @@ public:
       memory for \a format is deleted by this destructor. If no format is
       specified, then iCalendar format is assumed.
     */
-    explicit FileStorage(const Calendar::Ptr &calendar, const QString &fileName = QString(), KCalendarCore::CalFormat *format = nullptr);
+    explicit FileStorage(const QSharedPointer<Calendar> &calendar, const QString &fileName = QString(), KCalendarCore::CalFormat *format = nullptr);
 
     /*!
       Destructor.

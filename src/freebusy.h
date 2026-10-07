@@ -41,19 +41,29 @@ class FreeBusyPrivate;
 */
 class KCALENDARCORE_EXPORT FreeBusy : public IncidenceBase
 {
-    friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &s, const KCalendarCore::FreeBusy::Ptr &freebusy);
-    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &s, KCalendarCore::FreeBusy::Ptr &freebusy);
+    friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &s, const QSharedPointer<KCalendarCore::FreeBusy> &freebusy);
+    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &s, QSharedPointer<KCalendarCore::FreeBusy> &freebusy);
 
 public:
     /*!
       A shared pointer to a FreeBusy object.
+
+      \deprecated [6.32] Use QSharedPointer<FreeBusy> instead.
     */
+#if KCALENDARCORE_ENABLE_DEPRECATED_SINCE(6, 32)
+    KCALENDARCORE_DEPRECATED_VERSION(6, 32, "Use QSharedPointer<FreeBusy> instead")
     typedef QSharedPointer<FreeBusy> Ptr;
+#endif
 
     /*!
       List of FreeBusy objects.
+
+      \deprecated [6.32] Use QList<QSharedPointer<FreeBusy>> instead.
     */
-    typedef QList<Ptr> List;
+#if KCALENDARCORE_ENABLE_DEPRECATED_SINCE(6, 32)
+    KCALENDARCORE_DEPRECATED_VERSION(6, 32, "Use QList<QSharedPointer<FreeBusy>> instead")
+    typedef QList<QSharedPointer<FreeBusy>> List;
+#endif
 
     /*!
       Constructs an free/busy without any periods.
@@ -74,7 +84,7 @@ public:
       \a busyPeriods is a list of periods.
 
     */
-    explicit FreeBusy(const Period::List &busyPeriods);
+    explicit FreeBusy(const QList<Period> &busyPeriods);
 
     /*!
       Constructs a free/busy from a list of periods.
@@ -82,7 +92,7 @@ public:
       \a busyPeriods is a list of periods.
 
     */
-    explicit FreeBusy(const FreeBusyPeriod::List &busyPeriods);
+    explicit FreeBusy(const QList<FreeBusyPeriod> &busyPeriods);
 
     /*!
       Constructs a free/busy from a single period.
@@ -104,7 +114,7 @@ public:
       \a end is the end date/time of the period.
 
     */
-    FreeBusy(const Event::List &events, const QDateTime &start, const QDateTime &end);
+    FreeBusy(const QList<QSharedPointer<Event>> &events, const QDateTime &start, const QDateTime &end);
 
     /*!
       Destroys a free/busy.
@@ -156,12 +166,12 @@ public:
     /*!
       Returns the list of all periods within the free/busy.
     */
-    Q_REQUIRED_RESULT Period::List busyPeriods() const;
+    Q_REQUIRED_RESULT QList<Period> busyPeriods() const;
 
     /*!
       Returns the list of all periods within the free/busy.
     */
-    Q_REQUIRED_RESULT FreeBusyPeriod::List fullBusyPeriods() const;
+    Q_REQUIRED_RESULT QList<FreeBusyPeriod> fullBusyPeriods() const;
 
     /*!
       Adds a period to the freebusy list and sorts the list.
@@ -191,7 +201,7 @@ public:
       \a list is a list of Period objects.
 
     */
-    void addPeriods(const Period::List &list);
+    void addPeriods(const QList<Period> &list);
 
     /*!
       Adds a list of periods to the freebusy object and then sorts that list.
@@ -201,7 +211,7 @@ public:
       \a list is a list of FreeBusyPeriod objects.
 
     */
-    void addPeriods(const FreeBusyPeriod::List &list);
+    void addPeriods(const QList<FreeBusyPeriod> &list);
 
     /*!
       Sorts the list of free/busy periods into ascending order.
@@ -214,7 +224,7 @@ public:
       \a freebusy is a pointer to a valid FreeBusy object.
 
     */
-    void merge(const FreeBusy::Ptr &freebusy);
+    void merge(const QSharedPointer<FreeBusy> &freebusy);
 
     /*!
       \reimp
@@ -262,7 +272,7 @@ private:
     /*!
       \reimp
     */
-    bool accept(Visitor &v, const IncidenceBase::Ptr &incidence) override;
+    bool accept(Visitor &v, const QSharedPointer<IncidenceBase> &incidence) override;
 
     /*!
       Disabled, otherwise could be dangerous if you subclass FreeBusy.
@@ -278,16 +288,16 @@ private:
 /*!
   Serializes the \a freebusy object into the \a stream.
 */
-KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalendarCore::FreeBusy::Ptr &freebusy);
+KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const QSharedPointer<KCalendarCore::FreeBusy> &freebusy);
 /*!
   Initializes the \a freebusy object from the \a stream.
 */
-KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalendarCore::FreeBusy::Ptr &freebusy);
+KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream, QSharedPointer<KCalendarCore::FreeBusy> &freebusy);
 }
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO(KCalendarCore::FreeBusy::Ptr, Q_RELOCATABLE_TYPE);
-Q_DECLARE_METATYPE(KCalendarCore::FreeBusy::Ptr)
+Q_DECLARE_TYPEINFO(QSharedPointer<KCalendarCore::FreeBusy>, Q_RELOCATABLE_TYPE);
+Q_DECLARE_METATYPE(QSharedPointer<KCalendarCore::FreeBusy>)
 //@endcond
 
 #endif

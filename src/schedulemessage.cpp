@@ -21,7 +21,7 @@ public:
     {
     }
 
-    IncidenceBase::Ptr mIncidence;
+    QSharedPointer<IncidenceBase> mIncidence;
     iTIPMethod mMethod;
     Status mStatus;
     QString mError;
@@ -32,7 +32,7 @@ public:
 };
 //@endcond
 
-ScheduleMessage::ScheduleMessage(const IncidenceBase::Ptr &incidence, iTIPMethod method, ScheduleMessage::Status status)
+ScheduleMessage::ScheduleMessage(const QSharedPointer<IncidenceBase> &incidence, iTIPMethod method, ScheduleMessage::Status status)
     : d(new KCalendarCore::ScheduleMessage::Private)
 {
     d->mIncidence = incidence;
@@ -45,7 +45,7 @@ ScheduleMessage::~ScheduleMessage()
     delete d;
 }
 
-IncidenceBase::Ptr ScheduleMessage::event() const
+QSharedPointer<IncidenceBase> ScheduleMessage::event() const
 {
     return d->mIncidence;
 }

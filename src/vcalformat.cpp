@@ -66,9 +66,9 @@ void removeAllVCal(QList<QSharedPointer<K>> &c, const QSharedPointer<K> &x)
 class KCalendarCore::VCalFormatPrivate : public CalFormatPrivate
 {
 public:
-    Calendar::Ptr mCalendar;
-    Event::List mEventsRelate; // Events with relations
-    Todo::List mTodosRelate; // To-dos with relations
+    QSharedPointer<Calendar> mCalendar;
+    QList<QSharedPointer<Event>> mEventsRelate; // Events with relations
+    QList<QSharedPointer<Todo>> mTodosRelate; // To-dos with relations
     QSet<QByteArray> mManuallyWrittenExtensionFields; // X- fields that are manually dumped
 };
 //@endcond
@@ -91,7 +91,7 @@ static void mimeErrorHandler(char *e)
     qCWarning(KCALCORE_LOG) << "Error parsing vCalendar file:" << e;
 }
 
-bool VCalFormat::load(const Calendar::Ptr &calendar, const QString &fileName)
+bool VCalFormat::load(const QSharedPointer<Calendar> &calendar, const QString &fileName)
 {
     Q_D(VCalFormat);
     d->mCalendar = calendar;
@@ -123,7 +123,7 @@ bool VCalFormat::load(const Calendar::Ptr &calendar, const QString &fileName)
     return true;
 }
 
-bool VCalFormat::save(const Calendar::Ptr &calendar, const QString &fileName)
+bool VCalFormat::save(const QSharedPointer<Calendar> &calendar, const QString &fileName)
 {
     Q_UNUSED(calendar);
     Q_UNUSED(fileName);
@@ -131,7 +131,7 @@ bool VCalFormat::save(const Calendar::Ptr &calendar, const QString &fileName)
     return false;
 }
 
-bool VCalFormat::fromRawString(const Calendar::Ptr &calendar, const QByteArray &string)
+bool VCalFormat::fromRawString(const QSharedPointer<Calendar> &calendar, const QByteArray &string)
 {
     Q_D(VCalFormat);
     d->mCalendar = calendar;
@@ -160,7 +160,7 @@ bool VCalFormat::fromRawString(const Calendar::Ptr &calendar, const QByteArray &
     return true;
 }
 
-QString VCalFormat::toString(const Calendar::Ptr &calendar)
+QString VCalFormat::toString(const QSharedPointer<Calendar> &calendar)
 {
     Q_UNUSED(calendar);
 
@@ -168,14 +168,14 @@ QString VCalFormat::toString(const Calendar::Ptr &calendar)
     return {};
 }
 
-Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
+QSharedPointer<Todo> VCalFormat::VTodoToEvent(VObject *vtodo)
 {
     Q_D(VCalFormat);
     VObject *vo = nullptr;
     VObjectIterator voi;
     char *s = nullptr;
 
-    Todo::Ptr anEvent(new Todo);
+    QSharedPointer<Todo> anEvent(new Todo);
 
     // creation date
     if ((vo = isAPropertyOf(vtodo, VCDCreatedProp)) != nullptr) {
@@ -526,7 +526,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
 
     // alarm stuff
     if ((vo = isAPropertyOf(vtodo, VCDAlarmProp))) {
-        Alarm::Ptr alarm;
+        QSharedPointer<Alarm> alarm;
         VObject *a = isAPropertyOf(vo, VCRunTimeProp);
         VObject *b = isAPropertyOf(vo, VCDisplayStringProp);
 
@@ -548,7 +548,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
     }
 
     if ((vo = isAPropertyOf(vtodo, VCAAlarmProp))) {
-        Alarm::Ptr alarm;
+        QSharedPointer<Alarm> alarm;
         VObject *a;
         VObject *b;
         a = isAPropertyOf(vo, VCRunTimeProp);
@@ -572,7 +572,7 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
     }
 
     if ((vo = isAPropertyOf(vtodo, VCPAlarmProp))) {
-        Alarm::Ptr alarm;
+        QSharedPointer<Alarm> alarm;
         VObject *a = isAPropertyOf(vo, VCRunTimeProp);
         VObject *b = isAPropertyOf(vo, VCProcedureNameProp);
 
@@ -626,14 +626,14 @@ Todo::Ptr VCalFormat::VTodoToEvent(VObject *vtodo)
     return anEvent;
 }
 
-Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
+QSharedPointer<Event> VCalFormat::VEventToEvent(VObject *vevent)
 {
     Q_D(VCalFormat);
     VObject *vo = nullptr;
     VObjectIterator voi;
     char *s = nullptr;
 
-    Event::Ptr anEvent(new Event);
+    QSharedPointer<Event> anEvent(new Event);
 
     // creation date
     if ((vo = isAPropertyOf(vevent, VCDCreatedProp)) != nullptr) {
@@ -1051,7 +1051,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
 
     // alarm stuff
     if ((vo = isAPropertyOf(vevent, VCDAlarmProp))) {
-        Alarm::Ptr alarm;
+        QSharedPointer<Alarm> alarm;
         VObject *a = isAPropertyOf(vo, VCRunTimeProp);
         VObject *b = isAPropertyOf(vo, VCDisplayStringProp);
 
@@ -1074,7 +1074,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
     }
 
     if ((vo = isAPropertyOf(vevent, VCAAlarmProp))) {
-        Alarm::Ptr alarm;
+        QSharedPointer<Alarm> alarm;
         VObject *a;
         VObject *b;
         a = isAPropertyOf(vo, VCRunTimeProp);
@@ -1099,7 +1099,7 @@ Event::Ptr VCalFormat::VEventToEvent(VObject *vevent)
     }
 
     if ((vo = isAPropertyOf(vevent, VCPAlarmProp))) {
-        Alarm::Ptr alarm;
+        QSharedPointer<Alarm> alarm;
         VObject *a;
         VObject *b;
         a = isAPropertyOf(vo, VCRunTimeProp);
@@ -1328,7 +1328,7 @@ void VCalFormat::populate(VObject *vcal)
 
     VObjectIterator i;
     VObject *curVO;
-    Event::Ptr anEvent;
+    QSharedPointer<Event> anEvent;
     bool hasTimeZone = false; // The calendar came with a TZ and not UTC
     QTimeZone previousZone; // If we add a new TZ we should leave the spec as it was before
 
@@ -1477,7 +1477,7 @@ void VCalFormat::populate(VObject *vcal)
                     anEvent->setDtStart(dtStart);
                     anEvent->setDtEnd(dtEnd);
                 }
-                Event::Ptr old =
+                QSharedPointer<Event> old =
                     !anEvent->hasRecurrenceId() ? d->mCalendar->event(anEvent->uid()) : d->mCalendar->event(anEvent->uid(), anEvent->recurrenceId());
 
                 if (old) {
@@ -1491,7 +1491,7 @@ void VCalFormat::populate(VObject *vcal)
                 }
             }
         } else if (strcmp(vObjectName(curVO), VCTodoProp) == 0) {
-            Todo::Ptr aTodo = VTodoToEvent(curVO);
+            QSharedPointer<Todo> aTodo = VTodoToEvent(curVO);
             if (aTodo) {
                 if (hasTimeZone && !aTodo->allDay() && aTodo->dtStart().timeZone() == QTimeZone::utc()) {
                     // This sounds stupid but is how others are doing it, so here
@@ -1508,7 +1508,8 @@ void VCalFormat::populate(VObject *vcal)
                         aTodo->setDtDue(dtDue);
                     }
                 }
-                Todo::Ptr old = !aTodo->hasRecurrenceId() ? d->mCalendar->todo(aTodo->uid()) : d->mCalendar->todo(aTodo->uid(), aTodo->recurrenceId());
+                QSharedPointer<Todo> old =
+                    !aTodo->hasRecurrenceId() ? d->mCalendar->todo(aTodo->uid()) : d->mCalendar->todo(aTodo->uid(), aTodo->recurrenceId());
                 if (old) {
                     if (aTodo->revision() > old->revision()) {
                         d->mCalendar->deleteTodo(old); // move old to deleted
@@ -1628,7 +1629,7 @@ QByteArray VCalFormat::writeStatus(Attendee::PartStat status) const
     }
 }
 
-void VCalFormat::readCustomProperties(VObject *o, const Incidence::Ptr &i)
+void VCalFormat::readCustomProperties(VObject *o, const QSharedPointer<Incidence> &i)
 {
     VObjectIterator iter;
 
@@ -1647,7 +1648,7 @@ void VCalFormat::readCustomProperties(VObject *o, const Incidence::Ptr &i)
     }
 }
 
-void VCalFormat::writeCustomProperties(VObject *o, const Incidence::Ptr &i)
+void VCalFormat::writeCustomProperties(VObject *o, const QSharedPointer<Incidence> &i)
 {
     Q_D(VCalFormat);
     const QMap<QByteArray, QString> custom = i->customProperties();

@@ -17,7 +17,7 @@ using namespace KCalendarCore;
 
 void FileStorageTest::testValidity()
 {
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<MemoryCalendar> cal(new MemoryCalendar(QTimeZone::utc()));
     FileStorage fs(cal, QStringLiteral("fred.ics"));
     QCOMPARE(fs.fileName(), QStringLiteral("fred.ics"));
     QCOMPARE(fs.calendar().data(), cal.data());
@@ -25,12 +25,12 @@ void FileStorageTest::testValidity()
 
 void FileStorageTest::testSave()
 {
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<MemoryCalendar> cal(new MemoryCalendar(QTimeZone::utc()));
     FileStorage fs(cal, QStringLiteral("fred.ics"));
 
     QDate dt = QDate::currentDate();
 
-    Event::Ptr event1 = Event::Ptr(new Event());
+    auto event1 = QSharedPointer<Event>(new Event());
     event1->setUid(QStringLiteral("1"));
     event1->setDtStart(QDateTime(dt, {}));
     event1->setDtEnd(QDateTime(dt, {}).addDays(1));
@@ -39,7 +39,7 @@ void FileStorageTest::testSave()
     event1->setLocation(QStringLiteral("the place"));
     cal->addEvent(event1);
 
-    Event::Ptr event2 = Event::Ptr(new Event());
+    auto event2 = QSharedPointer<Event>(new Event());
     event2->setUid(QStringLiteral("2"));
     event2->setDtStart(QDateTime(dt, {}).addDays(1));
     event2->setDtEnd(QDateTime(dt, {}).addDays(2));
@@ -56,12 +56,12 @@ void FileStorageTest::testSave()
 
 void FileStorageTest::testSaveLoadSave()
 {
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<MemoryCalendar> cal(new MemoryCalendar(QTimeZone::utc()));
     FileStorage fs(cal, QStringLiteral("fred.ics"));
 
     QDate dt = QDate::currentDate();
 
-    Event::Ptr event1 = Event::Ptr(new Event());
+    auto event1 = QSharedPointer<Event>(new Event());
     event1->setUid(QStringLiteral("1"));
     event1->setDtStart(QDateTime(dt, {}));
     event1->setDtEnd(QDateTime(dt, {}).addDays(1));
@@ -70,7 +70,7 @@ void FileStorageTest::testSaveLoadSave()
     event1->setLocation(QStringLiteral("the place"));
     cal->addEvent(event1);
 
-    Event::Ptr event2 = Event::Ptr(new Event());
+    auto event2 = QSharedPointer<Event>(new Event());
     event2->setUid(QStringLiteral("2"));
     event2->setDtStart(QDateTime(dt, {}).addDays(1));
     event2->setDtEnd(QDateTime(dt, {}).addDays(2));
@@ -84,7 +84,7 @@ void FileStorageTest::testSaveLoadSave()
     QVERIFY(fs.close());
     QVERIFY(fs.open());
     QVERIFY(fs.load());
-    Event::Ptr e = fs.calendar()->incidence(QStringLiteral("1")).staticCast<Event>();
+    auto e = fs.calendar()->incidence(QStringLiteral("1")).staticCast<Event>();
     QVERIFY(e != nullptr);
     QVERIFY(fs.close());
     QFile::remove(QStringLiteral("fred.ics"));
@@ -100,7 +100,7 @@ void FileStorageTest::testSpecialChars()
     const QDate currentDate = QDate::currentDate();
     const QString uid(QStringLiteral("12345"));
 
-    Event::Ptr event = Event::Ptr(new Event());
+    auto event = QSharedPointer<Event>(new Event());
     event->setUid(uid);
     event->setDtStart(QDateTime(currentDate, {}));
     event->setDtEnd(QDateTime(currentDate.addDays(1), {}));
@@ -110,7 +110,7 @@ void FileStorageTest::testSpecialChars()
     event->setSummary(QString(latin1_umlaut));
 
     // Save to file:
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<MemoryCalendar> cal(new MemoryCalendar(QTimeZone::utc()));
     FileStorage fs(cal, QStringLiteral("bart.ics"));
     cal->addEvent(event);
 
@@ -119,12 +119,12 @@ void FileStorageTest::testSpecialChars()
     QVERIFY(fs.close());
 
     // Load again:
-    MemoryCalendar::Ptr otherCalendar(new MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<MemoryCalendar> otherCalendar(new MemoryCalendar(QTimeZone::utc()));
     FileStorage otherFs(otherCalendar, QStringLiteral("bart.ics"));
     QVERIFY(otherFs.open());
     QVERIFY(otherFs.load());
 
-    Event::Ptr otherEvent = otherCalendar->incidence(uid).staticCast<Event>();
+    auto otherEvent = otherCalendar->incidence(uid).staticCast<Event>();
     QVERIFY(otherFs.close());
 
     QVERIFY(otherEvent);

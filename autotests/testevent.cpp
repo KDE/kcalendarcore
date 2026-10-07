@@ -53,7 +53,7 @@ void EventTest::testSetRoles()
     QFETCH(QDateTime, expectedDtStart);
     QFETCH(QDateTime, expectedDtEnd);
 
-    Event::Ptr event = Event::Ptr(new Event());
+    auto event = QSharedPointer<Event>(new Event());
     event->setDtStart(originalDtStart);
     event->setDtEnd(originalDtEnd);
     event->setAllDay(allDayEvent);
@@ -125,13 +125,13 @@ void EventTest::testCompareAlarms()
 {
     Event event1;
     event1.setUid(QStringLiteral("uid"));
-    Alarm::Ptr alarm1 = event1.newAlarm();
+    auto alarm1 = event1.newAlarm();
     alarm1->setType(Alarm::Email);
     alarm1->setMailAddress(Person(QStringLiteral("name"), QStringLiteral("email@foo.com")));
 
     Event event2;
     event2.setUid(QStringLiteral("uid"));
-    Alarm::Ptr alarm2 = event2.newAlarm();
+    auto alarm2 = event2.newAlarm();
     alarm2->setType(Alarm::Email);
     alarm2->setMailAddress(Person(QStringLiteral("name"), QStringLiteral("email@foo.com")));
 
@@ -212,17 +212,17 @@ void EventTest::testAssign()
 
 void EventTest::testSerializer_data()
 {
-    QTest::addColumn<KCalendarCore::Event::Ptr>("event");
+    QTest::addColumn<QSharedPointer<KCalendarCore::Event>>("event");
     QDateTime today = QDateTime::currentDateTimeUtc();
     QDateTime yesterday = today.addDays(-1);
 
-    Event::Ptr event1 = Event::Ptr(new Event());
+    auto event1 = QSharedPointer<Event>(new Event());
     Attendee attendee1(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com"));
     event1->addAttendee(attendee1);
     event1->setDtStart(yesterday);
     event1->setDtEnd(today);
 
-    Event::Ptr event2 = Event::Ptr(new Event());
+    auto event2 = QSharedPointer<Event>(new Event());
     Attendee attendee2(QStringLiteral("fred"), QStringLiteral("fred@flintstone.com"));
     event2->addAttendee(attendee2);
     event2->setDtStart(yesterday);
@@ -242,15 +242,15 @@ void EventTest::testSerializer_data()
 
 void EventTest::testSerializer()
 {
-    QFETCH(KCalendarCore::Event::Ptr, event);
-    IncidenceBase::Ptr incidenceBase = event.staticCast<KCalendarCore::IncidenceBase>();
+    QFETCH(QSharedPointer<KCalendarCore::Event>, event);
+    auto incidenceBase = event.staticCast<KCalendarCore::IncidenceBase>();
 
     QByteArray array;
     QDataStream stream(&array, QIODevice::WriteOnly);
     stream << incidenceBase;
 
-    Event::Ptr event2 = Event::Ptr(new Event());
-    IncidenceBase::Ptr incidenceBase2 = event2.staticCast<KCalendarCore::IncidenceBase>();
+    auto event2 = QSharedPointer<Event>(new Event());
+    auto incidenceBase2 = event2.staticCast<KCalendarCore::IncidenceBase>();
     QVERIFY(*event != *event2);
     QDataStream stream2(&array, QIODevice::ReadOnly);
     stream2 >> incidenceBase2;

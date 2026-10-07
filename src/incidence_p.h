@@ -47,14 +47,14 @@ public:
     QString mSummary; // summary string
     QString mLocation; // location string
     QStringList mCategories; // category list
-    Attachment::List mAttachments; // attachments list
-    Alarm::List mAlarms; // alarms list
+    QList<Attachment> mAttachments; // attachments list
+    QList<QSharedPointer<Alarm>> mAlarms; // alarms list
     QStringList mResources; // resources list (not calendar resources)
     QString mStatusString; // status string, for custom status
     QString mSchedulingID; // ID for scheduling mails
     QMap<Incidence::RelType, QString> mRelatedToUid; // incidence uid this is related to, for each relType
     QDateTime mRecurrenceId; // recurrenceId
-    Conference::List mConferences; // conference list
+    QList<Conference> mConferences; // conference list
 
     float mGeoLatitude = INVALID_LATLON; // Specifies latitude in decimal degrees
     float mGeoLongitude = INVALID_LATLON; // Specifies longitude in decimal degrees

@@ -25,13 +25,13 @@ void IncidenceRelationTest::testRelations()
     // todo1
     // \- todo2
 
-    Todo::Ptr todo1 = Todo::Ptr(new Todo());
+    auto todo1 = QSharedPointer<Todo>(new Todo());
     todo1->setSummary(QStringLiteral("todo"));
 
-    Todo::Ptr todo2 = Todo::Ptr(new Todo());
+    auto todo2 = QSharedPointer<Todo>(new Todo());
     todo2->setSummary(QStringLiteral("sub-todo"));
 
-    Todo::Ptr todo3 = Todo::Ptr(new Todo());
+    auto todo3 = QSharedPointer<Todo>(new Todo());
     todo3->setSummary(QStringLiteral("sub-sub-todo"));
 
     todo3->setRelatedTo(todo2->uid());

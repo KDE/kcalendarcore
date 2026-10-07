@@ -45,7 +45,7 @@ public:
     bool mUpdatedPending = false; // true if an update has occurred since startUpdates()
     bool mAllDay = false; // true if the incidence is all-day
     bool mHasDuration = false; // true if the incidence has a duration
-    Attendee::List mAttendees; // list of incidence attendees
+    QList<Attendee> mAttendees; // list of incidence attendees
     QStringList mComments; // list of incidence comments
     QStringList mContacts; // list of incidence contacts
     QList<IncidenceBase::IncidenceObserver *> mObservers; // list of incidence observers

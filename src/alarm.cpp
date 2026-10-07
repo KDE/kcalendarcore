@@ -54,7 +54,7 @@ public:
     QString mFile; // program to run/optional audio file to play
     QString mMailSubject; // subject of email
     QStringList mMailAttachFiles; // filenames to attach to email
-    Person::List mMailAddresses; // who to mail for reminder
+    QList<Person> mMailAddresses; // who to mail for reminder
 
     QDateTime mAlarmTime; // time at which to trigger the alarm
     Duration mAlarmSnoozeTime; // how long after alarm to snooze before
@@ -112,7 +112,7 @@ Alarm &Alarm::operator=(const Alarm &a)
     return *this;
 }
 
-static bool compareMailAddresses(const Person::List &list1, const Person::List &list2)
+static bool compareMailAddresses(const QList<Person> &list1, const QList<Person> &list2)
 {
     if (list1.count() == list2.count()) {
         for (int i = 0; i < list1.count(); ++i) {
@@ -299,7 +299,7 @@ QString Alarm::programArguments() const
     return (d->mType == Procedure) ? d->mDescription : QString();
 }
 
-void Alarm::setEmailAlarm(const QString &subject, const QString &text, const Person::List &addressees, const QStringList &attachments)
+void Alarm::setEmailAlarm(const QString &subject, const QString &text, const QList<Person> &addressees, const QStringList &attachments)
 {
     if (d->mParent) {
         d->mParent->update();
@@ -328,7 +328,7 @@ void Alarm::setMailAddress(const Person &mailAddress)
     }
 }
 
-void Alarm::setMailAddresses(const Person::List &mailAddresses)
+void Alarm::setMailAddresses(const QList<Person> &mailAddresses)
 {
     if (d->mType == Email) {
         if (d->mParent) {
@@ -354,9 +354,9 @@ void Alarm::addMailAddress(const Person &mailAddress)
     }
 }
 
-Person::List Alarm::mailAddresses() const
+QList<Person> Alarm::mailAddresses() const
 {
-    return (d->mType == Email) ? d->mMailAddresses : Person::List();
+    return (d->mType == Email) ? d->mMailAddresses : QList<Person>();
 }
 
 void Alarm::setMailSubject(const QString &mailAlarmSubject)
@@ -817,7 +817,7 @@ int Alarm::locationRadius() const
     return d->mLocationRadius;
 }
 
-QDataStream &KCalendarCore::operator<<(QDataStream &out, const KCalendarCore::Alarm::Ptr &a)
+QDataStream &KCalendarCore::operator<<(QDataStream &out, const QSharedPointer<KCalendarCore::Alarm> &a)
 {
     if (a) {
         out << ((quint32)a->d->mType) << a->d->mAlarmSnoozeTime << a->d->mAlarmRepeatCount << a->d->mEndOffset << a->d->mHasTime << a->d->mAlarmEnabled
@@ -830,7 +830,7 @@ QDataStream &KCalendarCore::operator<<(QDataStream &out, const KCalendarCore::Al
     return out;
 }
 
-QDataStream &KCalendarCore::operator>>(QDataStream &in, const KCalendarCore::Alarm::Ptr &a)
+QDataStream &KCalendarCore::operator>>(QDataStream &in, const QSharedPointer<KCalendarCore::Alarm> &a)
 {
     if (a) {
         quint32 type;

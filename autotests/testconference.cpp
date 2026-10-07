@@ -92,7 +92,7 @@ void ConferenceTest::testDataStream()
 
 void ConferenceTest::testLoading()
 {
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<MemoryCalendar> cal(new MemoryCalendar(QTimeZone::utc()));
     FileStorage store(cal, QLatin1String(ICALTESTDATADIR) + QLatin1String("test_conference.ics"));
     QVERIFY(store.load());
     const auto events = cal->events();

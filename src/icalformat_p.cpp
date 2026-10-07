@@ -87,22 +87,22 @@ public:
 
     ~ToComponentVisitor() override;
 
-    bool visit(const Event::Ptr &e) override
+    bool visit(const QSharedPointer<Event> &e) override
     {
         mComponent = mImpl->writeEvent(e, mTzUsedList);
         return true;
     }
-    bool visit(const Todo::Ptr &t) override
+    bool visit(const QSharedPointer<Todo> &t) override
     {
         mComponent = mImpl->writeTodo(t, mTzUsedList);
         return true;
     }
-    bool visit(const Journal::Ptr &j) override
+    bool visit(const QSharedPointer<Journal> &j) override
     {
         mComponent = mImpl->writeJournal(j, mTzUsedList);
         return true;
     }
-    bool visit(const FreeBusy::Ptr &fb) override
+    bool visit(const QSharedPointer<FreeBusy> &fb) override
     {
         mComponent = mImpl->writeFreeBusy(fb, mMethod);
         return true;
@@ -143,7 +143,7 @@ QString ICalFormatImpl::loadedProductId() const
     return mLoadedProductId;
 }
 
-icalcomponent *ICalFormatImpl::writeIncidence(const IncidenceBase::Ptr &incidence, iTIPMethod method, TimeZoneList *tzUsedList)
+icalcomponent *ICalFormatImpl::writeIncidence(const QSharedPointer<IncidenceBase> &incidence, iTIPMethod method, TimeZoneList *tzUsedList)
 {
     ToComponentVisitor v(this, method, tzUsedList);
     if (incidence->accept(v, incidence)) {
@@ -153,7 +153,7 @@ icalcomponent *ICalFormatImpl::writeIncidence(const IncidenceBase::Ptr &incidenc
     }
 }
 
-icalcomponent *ICalFormatImpl::writeTodo(const Todo::Ptr &todo, TimeZoneList *tzUsedList)
+icalcomponent *ICalFormatImpl::writeTodo(const QSharedPointer<Todo> &todo, TimeZoneList *tzUsedList)
 {
     icalcomponent *vtodo = icalcomponent_new(ICAL_VTODO_COMPONENT);
 
@@ -215,7 +215,7 @@ icalcomponent *ICalFormatImpl::writeTodo(const Todo::Ptr &todo, TimeZoneList *tz
     return vtodo;
 }
 
-icalcomponent *ICalFormatImpl::writeEvent(const Event::Ptr &event, TimeZoneList *tzUsedList)
+icalcomponent *ICalFormatImpl::writeEvent(const QSharedPointer<Event> &event, TimeZoneList *tzUsedList)
 {
     icalcomponent *vevent = icalcomponent_new(ICAL_VEVENT_COMPONENT);
 
@@ -269,7 +269,7 @@ icalcomponent *ICalFormatImpl::writeEvent(const Event::Ptr &event, TimeZoneList 
     return vevent;
 }
 
-icalcomponent *ICalFormatImpl::writeFreeBusy(const FreeBusy::Ptr &freebusy, iTIPMethod method)
+icalcomponent *ICalFormatImpl::writeFreeBusy(const QSharedPointer<FreeBusy> &freebusy, iTIPMethod method)
 {
     icalcomponent *vfreebusy = icalcomponent_new(ICAL_VFREEBUSY_COMPONENT);
 
@@ -283,7 +283,7 @@ icalcomponent *ICalFormatImpl::writeFreeBusy(const FreeBusy::Ptr &freebusy, iTIP
     icalcomponent_add_property(vfreebusy, icalproperty_new_uid(freebusy->uid().toUtf8().constData()));
 
     // Loops through all the periods in the freebusy object
-    FreeBusyPeriod::List list = freebusy->fullBusyPeriods();
+    QList<FreeBusyPeriod> list = freebusy->fullBusyPeriods();
     icalperiodtype period = icalperiodtype_null_period();
     for (int i = 0, count = list.count(); i < count; ++i) {
         const FreeBusyPeriod fbPeriod = list[i];
@@ -336,7 +336,7 @@ icalcomponent *ICalFormatImpl::writeFreeBusy(const FreeBusy::Ptr &freebusy, iTIP
     return vfreebusy;
 }
 
-icalcomponent *ICalFormatImpl::writeJournal(const Journal::Ptr &journal, TimeZoneList *tzUsedList)
+icalcomponent *ICalFormatImpl::writeJournal(const QSharedPointer<Journal> &journal, TimeZoneList *tzUsedList)
 {
     icalcomponent *vjournal = icalcomponent_new(ICAL_VJOURNAL_COMPONENT);
 
@@ -359,7 +359,7 @@ icalcomponent *ICalFormatImpl::writeJournal(const Journal::Ptr &journal, TimeZon
     return vjournal;
 }
 
-void ICalFormatImpl::writeIncidence(icalcomponent *parent, const Incidence::Ptr &incidence, TimeZoneList *tzUsedList)
+void ICalFormatImpl::writeIncidence(icalcomponent *parent, const QSharedPointer<Incidence> &incidence, TimeZoneList *tzUsedList)
 {
     if (incidence->schedulingID() != incidence->uid()) {
         // We need to store the UID in here. The rawSchedulingID will
@@ -465,7 +465,7 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent, const Incidence::Ptr 
         icalcomponent_add_property(parent, p);
     }
 
-    const RecurrenceRule::List rrules(incidence->recurrence()->rRules());
+    const QList<RecurrenceRule *> rrules(incidence->recurrence()->rRules());
     for (RecurrenceRule *rule : rrules) {
 #if ICAL_CHECK_VERSION(3, 99, 99)
         struct icalrecurrencetype *recur = writeRecurrenceRule(rule);
@@ -481,7 +481,7 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent, const Incidence::Ptr 
 #endif
     }
 
-    const RecurrenceRule::List exrules(incidence->recurrence()->exRules());
+    const QList<RecurrenceRule *> exrules(incidence->recurrence()->exRules());
     for (RecurrenceRule *rule : exrules) {
 #if ICAL_CHECK_VERSION(3, 99, 99)
         struct icalrecurrencetype *recur = writeRecurrenceRule(rule);
@@ -531,7 +531,7 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent, const Incidence::Ptr 
     }
 
     // attachments
-    const Attachment::List attachments = incidence->attachments();
+    const QList<Attachment> attachments = incidence->attachments();
     for (const auto &at : attachments) {
         icalcomponent_add_property(parent, writeAttachment(at));
     }
@@ -557,7 +557,7 @@ void ICalFormatImpl::writeIncidence(icalcomponent *parent, const Incidence::Ptr 
 }
 
 //@cond PRIVATE
-void ICalFormatImpl::writeIncidenceBase(icalcomponent *parent, const IncidenceBase::Ptr &incidenceBase)
+void ICalFormatImpl::writeIncidenceBase(icalcomponent *parent, const QSharedPointer<IncidenceBase> &incidenceBase)
 {
     // organizer stuff
     if (!incidenceBase->organizer().isEmpty()) {
@@ -1027,7 +1027,7 @@ icalrecurrencetype ICalFormatImpl::writeRecurrenceRule(RecurrenceRule *recur)
 #endif
 }
 
-icalcomponent *ICalFormatImpl::writeAlarm(const Alarm::Ptr &alarm)
+icalcomponent *ICalFormatImpl::writeAlarm(const QSharedPointer<Alarm> &alarm)
 {
     if (alarm->enabled()) {
         alarm->setCustomProperty(APP_NAME_FOR_XPROPERTIES, ENABLED_ALARM_XPROPERTY, QStringLiteral("TRUE"));
@@ -1058,7 +1058,7 @@ icalcomponent *ICalFormatImpl::writeAlarm(const Alarm::Ptr &alarm)
         break;
     case Alarm::Email: {
         action = ICAL_ACTION_EMAIL;
-        const Person::List addresses = alarm->mailAddresses();
+        const QList<Person> addresses = alarm->mailAddresses();
         for (const auto &ad : addresses) {
             if (!ad.email().isEmpty()) {
                 icalproperty *p = icalproperty_new_attendee(QByteArray(QByteArray("MAILTO:") + ad.email().toUtf8()).constData());
@@ -1141,9 +1141,9 @@ icalproperty *ICalFormatImpl::writeConference(const Conference &conference)
     return p;
 }
 
-Todo::Ptr ICalFormatImpl::readTodo(icalcomponent *vtodo, const ICalTimeZoneCache *tzlist)
+QSharedPointer<Todo> ICalFormatImpl::readTodo(icalcomponent *vtodo, const ICalTimeZoneCache *tzlist)
 {
-    Todo::Ptr todo(new Todo);
+    QSharedPointer<Todo> todo(new Todo);
 
     readIncidence(vtodo, todo, tzlist);
 
@@ -1206,9 +1206,9 @@ Todo::Ptr ICalFormatImpl::readTodo(icalcomponent *vtodo, const ICalTimeZoneCache
     return todo;
 }
 
-Event::Ptr ICalFormatImpl::readEvent(icalcomponent *vevent, const ICalTimeZoneCache *tzlist)
+QSharedPointer<Event> ICalFormatImpl::readEvent(icalcomponent *vevent, const ICalTimeZoneCache *tzlist)
 {
-    Event::Ptr event(new Event);
+    QSharedPointer<Event> event(new Event);
 
     readIncidence(vevent, event, tzlist);
 
@@ -1280,15 +1280,15 @@ Event::Ptr ICalFormatImpl::readEvent(icalcomponent *vevent, const ICalTimeZoneCa
     return event;
 }
 
-FreeBusy::Ptr ICalFormatImpl::readFreeBusy(icalcomponent *vfreebusy)
+QSharedPointer<FreeBusy> ICalFormatImpl::readFreeBusy(icalcomponent *vfreebusy)
 {
-    FreeBusy::Ptr freebusy(new FreeBusy);
+    QSharedPointer<FreeBusy> freebusy(new FreeBusy);
 
     readIncidenceBase(vfreebusy, freebusy);
 
     icalproperty *p = icalcomponent_get_first_property(vfreebusy, ICAL_ANY_PROPERTY);
 
-    FreeBusyPeriod::List periods;
+    QList<FreeBusyPeriod> periods;
 
     while (p) {
         icalproperty_kind kind = icalproperty_isa(p);
@@ -1365,9 +1365,9 @@ FreeBusy::Ptr ICalFormatImpl::readFreeBusy(icalcomponent *vfreebusy)
     return freebusy;
 }
 
-Journal::Ptr ICalFormatImpl::readJournal(icalcomponent *vjournal, const ICalTimeZoneCache *tzList)
+QSharedPointer<Journal> ICalFormatImpl::readJournal(icalcomponent *vjournal, const ICalTimeZoneCache *tzList)
 {
-    Journal::Ptr journal(new Journal);
+    QSharedPointer<Journal> journal(new Journal);
     readIncidence(vjournal, journal, tzList);
 
     journal->resetDirtyFields();
@@ -1609,7 +1609,7 @@ Attachment ICalFormatImpl::readAttachment(icalproperty *attach)
     return attachment;
 }
 
-void ICalFormatImpl::readIncidence(icalcomponent *parent, const Incidence::Ptr &incidence, const ICalTimeZoneCache *tzlist)
+void ICalFormatImpl::readIncidence(icalcomponent *parent, const QSharedPointer<Incidence> &incidence, const ICalTimeZoneCache *tzlist)
 {
     readIncidenceBase(parent, incidence);
 
@@ -1856,7 +1856,7 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent, const Incidence::Ptr &
     }
 
     // iterate through all conferences
-    Conference::List conferences;
+    QList<Conference> conferences;
     for (auto *conf = icalcomponent_get_first_property(parent, ICAL_CONFERENCE_PROPERTY); conf;
          conf = icalcomponent_get_next_property(parent, ICAL_CONFERENCE_PROPERTY)) {
         conferences.push_back(readConference(conf));
@@ -1871,7 +1871,7 @@ void ICalFormatImpl::readIncidence(icalcomponent *parent, const Incidence::Ptr &
 }
 
 //@cond PRIVATE
-void ICalFormatImpl::readIncidenceBase(icalcomponent *parent, const IncidenceBase::Ptr &incidenceBase)
+void ICalFormatImpl::readIncidenceBase(icalcomponent *parent, const QSharedPointer<IncidenceBase> &incidenceBase)
 {
     icalproperty *p = icalcomponent_get_first_property(parent, ICAL_ANY_PROPERTY);
     bool uidProcessed = false;
@@ -1984,7 +1984,7 @@ void ICalFormatImpl::readCustomProperties(icalcomponent *parent, CustomPropertie
 }
 //@endcond
 
-void ICalFormatImpl::readRecurrenceRule(icalproperty *rrule, const Incidence::Ptr &incidence)
+void ICalFormatImpl::readRecurrenceRule(icalproperty *rrule, const QSharedPointer<Incidence> &incidence)
 {
     Recurrence *recur = incidence->recurrence();
 
@@ -2005,7 +2005,7 @@ void ICalFormatImpl::readRecurrenceRule(icalproperty *rrule, const Incidence::Pt
     recur->addRRule(recurrule);
 }
 
-void ICalFormatImpl::readExceptionRule(icalproperty *rrule, const Incidence::Ptr &incidence)
+void ICalFormatImpl::readExceptionRule(icalproperty *rrule, const QSharedPointer<Incidence> &incidence)
 {
 #if ICAL_CHECK_VERSION(3, 99, 99)
     struct icalrecurrencetype *r = icalproperty_get_exrule(rrule);
@@ -2129,9 +2129,9 @@ void ICalFormatImpl::readRecurrence(const struct icalrecurrencetype &r, Recurren
     // preserved
 }
 
-void ICalFormatImpl::readAlarm(icalcomponent *alarm, const Incidence::Ptr &incidence)
+void ICalFormatImpl::readAlarm(icalcomponent *alarm, const QSharedPointer<Incidence> &incidence)
 {
-    Alarm::Ptr ialarm = incidence->newAlarm();
+    QSharedPointer<Alarm> ialarm = incidence->newAlarm();
     ialarm->setRepeatCount(0);
     ialarm->setEnabled(true);
 
@@ -2609,7 +2609,7 @@ Duration ICalFormatImpl::readICalDuration(const icaldurationtype &d)
     }
 }
 
-icalcomponent *ICalFormatImpl::createCalendarComponent(const Calendar::Ptr &cal)
+icalcomponent *ICalFormatImpl::createCalendarComponent(const QSharedPointer<Calendar> &cal)
 {
     icalcomponent *calendar;
 
@@ -2668,11 +2668,11 @@ icalcomponent *ICalFormatImpl::createCalendarComponent(const Calendar::Ptr &cal)
     return calendar;
 }
 
-Incidence::Ptr ICalFormatImpl::readOneIncidence(icalcomponent *calendar, const ICalTimeZoneCache *tzlist)
+QSharedPointer<Incidence> ICalFormatImpl::readOneIncidence(icalcomponent *calendar, const ICalTimeZoneCache *tzlist)
 {
     if (!calendar) {
         qCWarning(KCALCORE_LOG) << "Populate called with empty calendar";
-        return Incidence::Ptr();
+        return QSharedPointer<Incidence>();
     }
     icalcomponent *c = icalcomponent_get_first_component(calendar, ICAL_VEVENT_COMPONENT);
     if (c) {
@@ -2687,13 +2687,13 @@ Incidence::Ptr ICalFormatImpl::readOneIncidence(icalcomponent *calendar, const I
         return readJournal(c, tzlist);
     }
     qCWarning(KCALCORE_LOG) << "Found no incidence";
-    return Incidence::Ptr();
+    return QSharedPointer<Incidence>();
 }
 
 // take a raw vcalendar (i.e. from a file on disk, clipboard, etc. etc.
 // and break it down from its tree-like format into the dictionary format
 // that is used internally in the ICalFormatImpl.
-bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar)
+bool ICalFormatImpl::populate(const QSharedPointer<Calendar> &cal, icalcomponent *calendar)
 {
     // qCDebug(KCALCORE_LOG)<<"Populate called";
 
@@ -2787,10 +2787,10 @@ bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar)
 
     icalcomponent *c = icalcomponent_get_first_component(calendar, ICAL_VTODO_COMPONENT);
     while (c) {
-        Todo::Ptr todo = readTodo(c, &timeZoneCache);
+        QSharedPointer<Todo> todo = readTodo(c, &timeZoneCache);
         if (todo) {
             // qCDebug(KCALCORE_LOG) << "todo is not zero";;
-            Todo::Ptr old = cal->todo(todo->uid(), todo->recurrenceId());
+            QSharedPointer<Todo> old = cal->todo(todo->uid(), todo->recurrenceId());
             if (old) {
                 if (old->uid().isEmpty()) {
                     qCWarning(KCALCORE_LOG) << "Skipping invalid VTODO";
@@ -2815,10 +2815,10 @@ bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar)
     // Iterate through all events
     c = icalcomponent_get_first_component(calendar, ICAL_VEVENT_COMPONENT);
     while (c) {
-        Event::Ptr event = readEvent(c, &timeZoneCache);
+        QSharedPointer<Event> event = readEvent(c, &timeZoneCache);
         if (event) {
             // qCDebug(KCALCORE_LOG) << "event is not zero";
-            Event::Ptr old = cal->event(event->uid(), event->recurrenceId());
+            QSharedPointer<Event> old = cal->event(event->uid(), event->recurrenceId());
             if (old) {
                 if (old->uid().isEmpty()) {
                     qCWarning(KCALCORE_LOG) << "Skipping invalid VEVENT";
@@ -2844,9 +2844,9 @@ bool ICalFormatImpl::populate(const Calendar::Ptr &cal, icalcomponent *calendar)
     // Iterate through all journals
     c = icalcomponent_get_first_component(calendar, ICAL_VJOURNAL_COMPONENT);
     while (c) {
-        Journal::Ptr journal = readJournal(c, &timeZoneCache);
+        QSharedPointer<Journal> journal = readJournal(c, &timeZoneCache);
         if (journal) {
-            Journal::Ptr old = cal->journal(journal->uid(), journal->recurrenceId());
+            QSharedPointer<Journal> old = cal->journal(journal->uid(), journal->recurrenceId());
             if (old) {
                 if (journal->revision() > old->revision()) {
                     cal->deleteJournal(old); // move old to deleted
@@ -2930,7 +2930,7 @@ void ICalFormatImpl::dumpIcalRecurrence( const icalrecurrencetype &r )
 }
 */
 
-icalcomponent *ICalFormatImpl::createScheduleComponent(const IncidenceBase::Ptr &incidence, iTIPMethod method)
+icalcomponent *ICalFormatImpl::createScheduleComponent(const QSharedPointer<IncidenceBase> &incidence, iTIPMethod method)
 {
     icalcomponent *message = createCalendarComponent();
 

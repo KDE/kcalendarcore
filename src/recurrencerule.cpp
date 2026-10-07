@@ -179,8 +179,6 @@ bool RecurrenceRule::WDayPos::operator!=(const RecurrenceRule::WDayPos &pos2) co
 class Constraint
 {
 public:
-    typedef QList<Constraint> List;
-
     Constraint()
     {
     }
@@ -735,7 +733,7 @@ public:
     QList<int> mBySetPos; // values: position -366 to -1 and 1-366
     short mWeekStart; // first day of the week (1=Monday, 7=Sunday)
 
-    Constraint::List mConstraints;
+    QList<Constraint> mConstraints;
     QList<RuleObserver *> mObservers;
 
     // Cache for duration
@@ -1175,7 +1173,7 @@ void RecurrenceRule::Private::buildConstraints()
     int cend;
     int i;
     int iend;
-    Constraint::List tmp;
+    QList<Constraint> tmp;
 
     // clang-format off
 #define intConstraint( list, setElement ) \

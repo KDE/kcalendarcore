@@ -19,7 +19,7 @@ AndroidCalendar::AndroidCalendar(const QTimeZone &tz, const QString &owner, jlon
 
 AndroidCalendar::~AndroidCalendar() = default;
 
-bool AndroidCalendar::deleteIncidenceInstances(const KCalendarCore::Incidence::Ptr &incidence)
+bool AndroidCalendar::deleteIncidenceInstances(const QSharedPointer<KCalendarCore::Incidence> &incidence)
 {
     switch (incidence->type()) {
     case KCalendarCore::IncidenceBase::TypeEvent:
@@ -35,17 +35,18 @@ bool AndroidCalendar::deleteIncidenceInstances(const KCalendarCore::Incidence::P
     return false;
 }
 
-KCalendarCore::Event::List AndroidCalendar::rawEvents(KCalendarCore::EventSortField sortField, KCalendarCore::SortDirection sortDirection) const
+QList<QSharedPointer<KCalendarCore::Event>> AndroidCalendar::rawEvents(KCalendarCore::EventSortField sortField,
+                                                                       KCalendarCore::SortDirection sortDirection) const
 {
     const auto jniEvents = m_calendar.rawEvents();
-    KCalendarCore::Event::List result;
+    QList<QSharedPointer<KCalendarCore::Event>> result;
     result.reserve(jniEvents.size());
     std::transform(jniEvents.begin(), jniEvents.end(), std::back_inserter(result), &AndroidIcalConverter::readEvent);
     registerEvents(result);
     return sortEvents(std::move(result), sortField, sortDirection);
 }
 
-bool AndroidCalendar::addEvent(const KCalendarCore::Event::Ptr &event)
+bool AndroidCalendar::addEvent(const QSharedPointer<KCalendarCore::Event> &event)
 {
     // set the organizer to the calendar owner if not otherwise specified
     // this is checked by several Android calendar apps to decide whether they
@@ -65,7 +66,7 @@ bool AndroidCalendar::addEvent(const KCalendarCore::Event::Ptr &event)
     return result;
 }
 
-bool AndroidCalendar::deleteEvent(const KCalendarCore::Event::Ptr &event)
+bool AndroidCalendar::deleteEvent(const QSharedPointer<KCalendarCore::Event> &event)
 {
     m_incidences.erase({event->uid(), event->recurrenceId()});
     event->unRegisterObserver(this);
@@ -76,7 +77,7 @@ bool AndroidCalendar::deleteEvent(const KCalendarCore::Event::Ptr &event)
     return m_calendar.deleteEvent(event->uid());
 }
 
-bool AndroidCalendar::deleteEventInstances(const KCalendarCore::Event::Ptr &event)
+bool AndroidCalendar::deleteEventInstances(const QSharedPointer<KCalendarCore::Event> &event)
 {
     event->unRegisterObserver(this);
     for (auto it = m_incidences.begin(); it != m_incidences.end();) {
@@ -91,28 +92,28 @@ bool AndroidCalendar::deleteEventInstances(const KCalendarCore::Event::Ptr &even
     return m_calendar.deleteEventInstances(event->uid());
 }
 
-KCalendarCore::Event::List AndroidCalendar::rawEvents(const QDate &start, const QDate &end, const QTimeZone &timeZone, bool inclusive) const
+QList<QSharedPointer<KCalendarCore::Event>> AndroidCalendar::rawEvents(const QDate &start, const QDate &end, const QTimeZone &timeZone, bool inclusive) const
 {
     const auto startMSec = QDateTime(start, {0, 0}, timeZone.isValid() ? timeZone : QTimeZone::systemTimeZone()).toMSecsSinceEpoch();
     const auto endMSecs = QDateTime(end, {0, 0}, timeZone.isValid() ? timeZone : QTimeZone::systemTimeZone()).addDays(1).toMSecsSinceEpoch();
     const auto jniEvents = m_calendar.rawEvents(startMSec, endMSecs, inclusive);
 
-    KCalendarCore::Event::List result;
+    QList<QSharedPointer<KCalendarCore::Event>> result;
     result.reserve(result.size());
     std::transform(jniEvents.begin(), jniEvents.end(), std::back_inserter(result), &AndroidIcalConverter::readEvent);
     registerEvents(result);
     return result;
 }
 
-KCalendarCore::Event::List AndroidCalendar::rawEventsForDate(const QDate &date,
-                                                             const QTimeZone &timeZone,
-                                                             KCalendarCore::EventSortField sortField,
-                                                             KCalendarCore::SortDirection sortDirection) const
+QList<QSharedPointer<KCalendarCore::Event>> AndroidCalendar::rawEventsForDate(const QDate &date,
+                                                                              const QTimeZone &timeZone,
+                                                                              KCalendarCore::EventSortField sortField,
+                                                                              KCalendarCore::SortDirection sortDirection) const
 {
     return Calendar::sortEvents(rawEvents(date, date, timeZone, false), sortField, sortDirection);
 }
 
-KCalendarCore::Event::Ptr AndroidCalendar::event(const QString &uid, const QDateTime &recurrenceId) const
+QSharedPointer<KCalendarCore::Event> AndroidCalendar::event(const QString &uid, const QDateTime &recurrenceId) const
 {
     // check if we know this one already first
     const auto it = m_incidences.find({uid, recurrenceId});
@@ -120,7 +121,7 @@ KCalendarCore::Event::Ptr AndroidCalendar::event(const QString &uid, const QDate
         return (*it).second;
     }
 
-    KCalendarCore::Event::Ptr event;
+    QSharedPointer<KCalendarCore::Event> event;
     if (recurrenceId.isValid()) {
         event = AndroidIcalConverter::readEvent(m_calendar.event(uid, recurrenceId.toMSecsSinceEpoch()));
     } else {
@@ -130,13 +131,13 @@ KCalendarCore::Event::Ptr AndroidCalendar::event(const QString &uid, const QDate
     return event;
 }
 
-KCalendarCore::Event::List AndroidCalendar::eventInstances(const KCalendarCore::Incidence::Ptr &event,
-                                                           KCalendarCore::EventSortField sortField,
-                                                           KCalendarCore::SortDirection sortDirection) const
+QList<QSharedPointer<KCalendarCore::Event>> AndroidCalendar::eventInstances(const QSharedPointer<KCalendarCore::Incidence> &event,
+                                                                            KCalendarCore::EventSortField sortField,
+                                                                            KCalendarCore::SortDirection sortDirection) const
 {
     const auto jniEvents = m_calendar.eventInstances(event->uid());
 
-    KCalendarCore::Event::List result;
+    QList<QSharedPointer<KCalendarCore::Event>> result;
     result.reserve(result.size());
     std::transform(jniEvents.begin(), jniEvents.end(), std::back_inserter(result), &AndroidIcalConverter::readEvent);
     registerEvents(result);
@@ -144,38 +145,38 @@ KCalendarCore::Event::List AndroidCalendar::eventInstances(const KCalendarCore::
 }
 
 // BEGIN todo interface, not available in standard Android (needs OpenTasks - https://github.com/dmfs/opentasks)
-bool AndroidCalendar::addTodo(const KCalendarCore::Todo::Ptr &todo)
+bool AndroidCalendar::addTodo(const QSharedPointer<KCalendarCore::Todo> &todo)
 {
     Q_UNUSED(todo);
     return false;
 }
 
-bool AndroidCalendar::deleteTodo(const KCalendarCore::Todo::Ptr &todo)
+bool AndroidCalendar::deleteTodo(const QSharedPointer<KCalendarCore::Todo> &todo)
 {
     Q_UNUSED(todo);
     return false;
 }
 
-bool AndroidCalendar::deleteTodoInstances(const KCalendarCore::Todo::Ptr &todo)
+bool AndroidCalendar::deleteTodoInstances(const QSharedPointer<KCalendarCore::Todo> &todo)
 {
     Q_UNUSED(todo);
     return false;
 }
 
-KCalendarCore::Todo::List AndroidCalendar::rawTodos(KCalendarCore::TodoSortField sortField, KCalendarCore::SortDirection sortDirection) const
+QList<QSharedPointer<KCalendarCore::Todo>> AndroidCalendar::rawTodos(KCalendarCore::TodoSortField sortField, KCalendarCore::SortDirection sortDirection) const
 {
     Q_UNUSED(sortField);
     Q_UNUSED(sortDirection);
     return {};
 }
 
-KCalendarCore::Todo::List AndroidCalendar::rawTodosForDate(const QDate &date) const
+QList<QSharedPointer<KCalendarCore::Todo>> AndroidCalendar::rawTodosForDate(const QDate &date) const
 {
     Q_UNUSED(date);
     return {};
 }
 
-KCalendarCore::Todo::List AndroidCalendar::rawTodos(const QDate &start, const QDate &end, const QTimeZone &timeZone, bool inclusive) const
+QList<QSharedPointer<KCalendarCore::Todo>> AndroidCalendar::rawTodos(const QDate &start, const QDate &end, const QTimeZone &timeZone, bool inclusive) const
 {
     Q_UNUSED(start);
     Q_UNUSED(end);
@@ -184,16 +185,16 @@ KCalendarCore::Todo::List AndroidCalendar::rawTodos(const QDate &start, const QD
     return {};
 }
 
-KCalendarCore::Todo::Ptr AndroidCalendar::todo(const QString &uid, const QDateTime &recurrenceId) const
+QSharedPointer<KCalendarCore::Todo> AndroidCalendar::todo(const QString &uid, const QDateTime &recurrenceId) const
 {
     Q_UNUSED(uid);
     Q_UNUSED(recurrenceId);
     return {};
 }
 
-KCalendarCore::Todo::List AndroidCalendar::todoInstances(const KCalendarCore::Incidence::Ptr &todo,
-                                                         KCalendarCore::TodoSortField sortField,
-                                                         KCalendarCore::SortDirection sortDirection) const
+QList<QSharedPointer<KCalendarCore::Todo>> AndroidCalendar::todoInstances(const QSharedPointer<KCalendarCore::Incidence> &todo,
+                                                                          KCalendarCore::TodoSortField sortField,
+                                                                          KCalendarCore::SortDirection sortDirection) const
 {
     Q_UNUSED(todo);
     Q_UNUSED(sortField);
@@ -203,47 +204,48 @@ KCalendarCore::Todo::List AndroidCalendar::todoInstances(const KCalendarCore::In
 // END todo interface
 
 // BEGIN journal interface, not available on Android
-bool AndroidCalendar::addJournal(const KCalendarCore::Journal::Ptr &journal)
+bool AndroidCalendar::addJournal(const QSharedPointer<KCalendarCore::Journal> &journal)
 {
     Q_UNUSED(journal);
     return false;
 }
 
-bool AndroidCalendar::deleteJournal(const KCalendarCore::Journal::Ptr &journal)
+bool AndroidCalendar::deleteJournal(const QSharedPointer<KCalendarCore::Journal> &journal)
 {
     Q_UNUSED(journal);
     return false;
 }
 
-bool AndroidCalendar::deleteJournalInstances(const KCalendarCore::Journal::Ptr &journal)
+bool AndroidCalendar::deleteJournalInstances(const QSharedPointer<KCalendarCore::Journal> &journal)
 {
     Q_UNUSED(journal);
     return false;
 }
 
-KCalendarCore::Journal::List AndroidCalendar::rawJournals(KCalendarCore::JournalSortField sortField, KCalendarCore::SortDirection sortDirection) const
+QList<QSharedPointer<KCalendarCore::Journal>> AndroidCalendar::rawJournals(KCalendarCore::JournalSortField sortField,
+                                                                           KCalendarCore::SortDirection sortDirection) const
 {
     Q_UNUSED(sortField);
     Q_UNUSED(sortDirection);
     return {};
 }
 
-KCalendarCore::Journal::List AndroidCalendar::rawJournalsForDate(const QDate &date) const
+QList<QSharedPointer<KCalendarCore::Journal>> AndroidCalendar::rawJournalsForDate(const QDate &date) const
 {
     Q_UNUSED(date);
     return {};
 }
 
-KCalendarCore::Journal::Ptr AndroidCalendar::journal(const QString &uid, const QDateTime &recurrenceId) const
+QSharedPointer<KCalendarCore::Journal> AndroidCalendar::journal(const QString &uid, const QDateTime &recurrenceId) const
 {
     Q_UNUSED(uid);
     Q_UNUSED(recurrenceId);
     return {};
 }
 
-KCalendarCore::Journal::List AndroidCalendar::journalInstances(const KCalendarCore::Incidence::Ptr &journal,
-                                                               KCalendarCore::JournalSortField sortField,
-                                                               KCalendarCore::SortDirection sortDirection) const
+QList<QSharedPointer<KCalendarCore::Journal>> AndroidCalendar::journalInstances(const QSharedPointer<KCalendarCore::Incidence> &journal,
+                                                                                KCalendarCore::JournalSortField sortField,
+                                                                                KCalendarCore::SortDirection sortDirection) const
 {
     Q_UNUSED(journal);
     Q_UNUSED(sortField);
@@ -252,7 +254,7 @@ KCalendarCore::Journal::List AndroidCalendar::journalInstances(const KCalendarCo
 }
 // END journal interface
 
-KCalendarCore::Alarm::List AndroidCalendar::alarms(const QDateTime &from, const QDateTime &to, bool excludeBlockedAlarms) const
+QList<QSharedPointer<KCalendarCore::Alarm>> AndroidCalendar::alarms(const QDateTime &from, const QDateTime &to, bool excludeBlockedAlarms) const
 {
     // TODO
     return {};
@@ -284,14 +286,14 @@ void AndroidCalendar::incidenceUpdated(const QString &uid, const QDateTime &recu
     }
 }
 
-void AndroidCalendar::registerEvents(const KCalendarCore::Event::List &events) const
+void AndroidCalendar::registerEvents(const QList<QSharedPointer<KCalendarCore::Event>> &events) const
 {
     for (const auto &event : events) {
         registerEvent(event);
     }
 }
 
-void AndroidCalendar::registerEvent(const KCalendarCore::Event::Ptr &event) const
+void AndroidCalendar::registerEvent(const QSharedPointer<KCalendarCore::Event> &event) const
 {
     if (!event) {
         return;

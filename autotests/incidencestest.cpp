@@ -41,25 +41,25 @@ private Q_SLOTS:
     {
         ICalFormat f;
 
-        Event::Ptr event1 = Event::Ptr(new Event);
+        auto event1 = QSharedPointer<Event>(new Event);
         event1->setSummary(QStringLiteral("Test Event"));
         event1->recurrence()->setDaily(2);
         event1->recurrence()->setDuration(3);
         event1->setSchedulingID(QStringLiteral("foo"));
         QString eventString1 = f.toString(event1.staticCast<Incidence>());
 
-        Incidence::Ptr event2 = Incidence::Ptr(event1->clone());
+        auto event2 = QSharedPointer<Incidence>(event1->clone());
         QCOMPARE(event1->uid(), event2->uid());
         QCOMPARE(event1->schedulingID(), event2->schedulingID());
 
         QString eventString2 = f.toString(event2.staticCast<Incidence>());
         QCOMPARE(eventString1, eventString2);
 
-        Todo::Ptr todo1 = Todo::Ptr(new Todo);
+        auto todo1 = QSharedPointer<Todo>(new Todo);
         todo1->setSummary(QStringLiteral("Test todo"));
         QString todoString1 = f.toString(todo1.staticCast<Incidence>());
 
-        Incidence::Ptr todo2 = Incidence::Ptr(todo1->clone());
+        auto todo2 = QSharedPointer<Incidence>(todo1->clone());
         QString todoString2 = f.toString(todo2);
         QCOMPARE(todoString1, todoString2);
     }
@@ -67,7 +67,7 @@ private Q_SLOTS:
     void testRecurrenceDescription()
     {
         // TEST: A daily recurrence with date exclusions //
-        const Event::Ptr e1 = Event::Ptr(new Event());
+        const auto e1 = QSharedPointer<Event>(new Event());
 
         const QDate day(2010, 10, 3);
         const QTime tim(12, 0, 0);
@@ -97,7 +97,7 @@ private Q_SLOTS:
         QCOMPARE(e1->recurrenceDescription(), "Recurs every 2 days until %1 (excluding %2,%3)"_L1.arg(endDateStr, exDateStr, exDateStr2));
 
         // TEST: An daily recurrence, with datetime exclusions //
-        const Event::Ptr e2 = Event::Ptr(new Event());
+        const auto e2 = QSharedPointer<Event>(new Event());
         e2->setDtStart(kdt);
         e2->setDtEnd(kdt.addSecs(60 * 60)); // 1hr event
 
@@ -118,7 +118,7 @@ private Q_SLOTS:
         QCOMPARE(e2->recurrenceDescription(), "Recurs every 2 days until %1 (excluding %2,%3)"_L1.arg(endDateStr, exDateStr, exDateStr2));
 
         // TEST: An hourly recurrence, with exclusions //
-        const Event::Ptr e3 = Event::Ptr(new Event());
+        const auto e3 = QSharedPointer<Event>(new Event());
         e3->setDtStart(kdt);
         e3->setDtEnd(kdt.addSecs(60 * 60)); // 1hr event
 

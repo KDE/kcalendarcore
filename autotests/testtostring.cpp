@@ -20,12 +20,12 @@ class TestToString : public QObject
 private Q_SLOTS:
     void testToString()
     {
-        Event::Ptr ev = Event::Ptr(new Event);
+        auto ev = QSharedPointer<Event>(new Event);
         ev->setSummary(QStringLiteral("Griazi"));
         ICalFormat iformat;
         QString icalstr = iformat.toICalString(ev);
 
-        Incidence::Ptr ev2 = iformat.fromString(icalstr);
+        auto ev2 = iformat.fromString(icalstr);
         QVERIFY(ev2);
         QCOMPARE(ev2->summary(), QLatin1String("Griazi"));
     }

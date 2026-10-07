@@ -208,7 +208,7 @@ void Todo::setDtDue(const QDateTime &dtDue, bool first)
     // int diffsecs = d->mDtDue.secsTo(dtDue);
 
     /*if (mReadOnly) return;
-    const Alarm::List& alarms = alarms();
+    const QList<QSharedPointer<Alarm>>& alarms = alarms();
     for (Alarm *alarm = alarms.first(); alarm; alarm = alarms.next()) {
       if (alarm->enabled()) {
         alarm->setTime(alarm->time().addSecs(diffsecs));
@@ -227,7 +227,7 @@ void Todo::setDtDue(const QDateTime &dtDue, bool first)
         setDtStart(dtDue);
     }
 
-    /*const Alarm::List& alarms = alarms();
+    /*const QList<QSharedPointer<Alarm>>& alarms = alarms();
     for (Alarm *alarm = alarms.first(); alarm; alarm = alarms.next())
       alarm->setAlarmStart(d->mDtDue);*/
     endUpdates();
@@ -530,7 +530,7 @@ bool TodoPrivate::recurTodo(Todo *todo)
 }
 //@endcond
 
-bool Todo::accept(Visitor &v, const IncidenceBase::Ptr &incidence)
+bool Todo::accept(Visitor &v, const QSharedPointer<IncidenceBase> &incidence)
 {
     return v.visit(incidence.staticCast<Todo>());
 }
@@ -561,7 +561,7 @@ QDateTime Todo::dateTime(DateTimeRole role) const
         if (alarms().isEmpty()) {
             return QDateTime();
         } else {
-            Alarm::Ptr alarm = alarms().at(0);
+            QSharedPointer<Alarm> alarm = alarms().at(0);
             if (alarm->hasStartOffset() && hasStartDate()) {
                 return dtStart();
             } else if (alarm->hasEndOffset() && hasDueDate()) {

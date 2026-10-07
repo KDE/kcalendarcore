@@ -66,44 +66,44 @@ bool KCalendarCore::CalFilter::operator==(const CalFilter &filter) const
         && d->mEmailList == filter.d->mEmailList && d->mCompletedTimeSpan == filter.d->mCompletedTimeSpan;
 }
 
-void CalFilter::apply(Event::List *eventList) const
+void CalFilter::apply(QList<QSharedPointer<Event>> *eventList) const
 {
     if (!d->mEnabled) {
         return;
     }
 
-    auto it = std::remove_if(eventList->begin(), eventList->end(), [this](const Incidence::Ptr &incidence) {
+    auto it = std::remove_if(eventList->begin(), eventList->end(), [this](const QSharedPointer<Incidence> &incidence) {
         return !filterIncidence(incidence);
     });
     eventList->erase(it, eventList->end());
 }
 
 // TODO: avoid duplicating apply() code
-void CalFilter::apply(Todo::List *todoList) const
+void CalFilter::apply(QList<QSharedPointer<Todo>> *todoList) const
 {
     if (!d->mEnabled) {
         return;
     }
 
-    auto it = std::remove_if(todoList->begin(), todoList->end(), [this](const Incidence::Ptr &incidence) {
+    auto it = std::remove_if(todoList->begin(), todoList->end(), [this](const QSharedPointer<Incidence> &incidence) {
         return !filterIncidence(incidence);
     });
     todoList->erase(it, todoList->end());
 }
 
-void CalFilter::apply(Journal::List *journalList) const
+void CalFilter::apply(QList<QSharedPointer<Journal>> *journalList) const
 {
     if (!d->mEnabled) {
         return;
     }
 
-    auto it = std::remove_if(journalList->begin(), journalList->end(), [this](const Incidence::Ptr &incidence) {
+    auto it = std::remove_if(journalList->begin(), journalList->end(), [this](const QSharedPointer<Incidence> &incidence) {
         return !filterIncidence(incidence);
     });
     journalList->erase(it, journalList->end());
 }
 
-bool CalFilter::filterIncidence(const Incidence::Ptr &incidence) const
+bool CalFilter::filterIncidence(const QSharedPointer<Incidence> &incidence) const
 {
     if (!d->mEnabled) {
         return true;
@@ -113,7 +113,7 @@ bool CalFilter::filterIncidence(const Incidence::Ptr &incidence) const
         return true;
     }
 
-    Todo::Ptr todo = incidence.dynamicCast<Todo>();
+    QSharedPointer<Todo> todo = incidence.dynamicCast<Todo>();
     if (todo) {
         if ((d->mCriteria & HideCompletedTodos) && todo->isCompleted()) {
             // Check if completion date is suffently long ago:
@@ -128,7 +128,7 @@ bool CalFilter::filterIncidence(const Incidence::Ptr &incidence) const
 
         if (d->mCriteria & HideNoMatchingAttendeeTodos) {
             bool iAmOneOfTheAttendees = false;
-            const Attendee::List &attendees = todo->attendees();
+            const QList<Attendee> &attendees = todo->attendees();
             if (!attendees.isEmpty()) {
                 iAmOneOfTheAttendees = std::any_of(attendees.cbegin(), attendees.cend(), [this](const Attendee &att) {
                     return d->mEmailList.contains(att.email());

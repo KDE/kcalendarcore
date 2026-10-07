@@ -41,7 +41,13 @@ public:
         /*! This method is called on each change of the recurrence object */
         virtual void recurrenceChanged(RecurrenceRule *) = 0;
     };
+    /*!
+      \deprecated [6.32] Use QList<RecurrenceRule *> instead.
+    */
+#if KCALENDARCORE_ENABLE_DEPRECATED_SINCE(6, 32)
+    KCALENDARCORE_DEPRECATED_VERSION(6, 32, "Use QList<RecurrenceRule *> instead")
     typedef QList<RecurrenceRule *> List;
+#endif
 
     /*!
        \enum KCalendarCore::RecurrenceRule::PeriodType

@@ -45,7 +45,7 @@ public:
       \a event is a pointer to a valid Event object.
 
     */
-    virtual bool visit(const Event::Ptr &event);
+    virtual bool visit(const QSharedPointer<Event> &event);
 
     /*!
       Reimplement this function in your concrete subclass of
@@ -54,7 +54,7 @@ public:
       \a todo is a pointer to a valid Todo object.
 
     */
-    virtual bool visit(const Todo::Ptr &todo);
+    virtual bool visit(const QSharedPointer<Todo> &todo);
 
     /*!
       Reimplement this function in your concrete subclass of
@@ -63,7 +63,7 @@ public:
       \a journal is a pointer to a valid Journal object.
 
     */
-    virtual bool visit(const Journal::Ptr &journal);
+    virtual bool visit(const QSharedPointer<Journal> &journal);
 
     /*!
       Reimplement this function in your concrete subclass of
@@ -72,7 +72,7 @@ public:
       \a freebusy is a pointer to a valid FreeBusy object.
 
     */
-    virtual bool visit(const FreeBusy::Ptr &freebusy);
+    virtual bool visit(const QSharedPointer<FreeBusy> &freebusy);
 
 protected:
     /*!

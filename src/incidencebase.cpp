@@ -123,8 +123,8 @@ bool IncidenceBase::equals(const IncidenceBase &other) const
 
     // TODO Does the order of attendees in the list really matter?
     // Please delete this comment if you know it's ok, kthx
-    const Attendee::List list = attendees();
-    const Attendee::List otherList = other.attendees();
+    const QList<Attendee> list = attendees();
+    const QList<Attendee> otherList = other.attendees();
 
     if (list.size() != otherList.size()) {
         return false;
@@ -160,7 +160,7 @@ bool IncidenceBase::equals(const IncidenceBase &other) const
     return a && b && c && d && e && f && g;
 }
 
-bool IncidenceBase::accept(Visitor &v, const IncidenceBase::Ptr &incidence)
+bool IncidenceBase::accept(Visitor &v, const QSharedPointer<IncidenceBase> &incidence)
 {
     Q_UNUSED(v);
     Q_UNUSED(incidence);
@@ -379,7 +379,7 @@ void IncidenceBase::addAttendee(const Attendee &a, bool doupdate)
     }
 }
 
-Attendee::List IncidenceBase::attendees() const
+QList<Attendee> IncidenceBase::attendees() const
 {
     return d_ptr->mAttendees;
 }
@@ -389,7 +389,7 @@ int IncidenceBase::attendeeCount() const
     return d_ptr->mAttendees.count();
 }
 
-void IncidenceBase::setAttendees(const Attendee::List &attendees, bool doUpdate)
+void IncidenceBase::setAttendees(const QList<Attendee> &attendees, bool doUpdate)
 {
     if (mReadOnly) {
         return;
@@ -614,7 +614,7 @@ bool KCalendarCore::identical(const QDateTime &dt1, const QDateTime &dt2)
     return (dt1.timeSpec() == dt2.timeSpec() && dt1.timeZone() == dt2.timeZone()) || (isUtc(dt1) && isUtc(dt2));
 }
 
-QDataStream &KCalendarCore::operator<<(QDataStream &out, const KCalendarCore::IncidenceBase::Ptr &i)
+QDataStream &KCalendarCore::operator<<(QDataStream &out, const QSharedPointer<KCalendarCore::IncidenceBase> &i)
 {
     if (!i) {
         return out;
@@ -640,7 +640,7 @@ QDataStream &KCalendarCore::operator<<(QDataStream &out, const KCalendarCore::In
     return out;
 }
 
-QDataStream &KCalendarCore::operator>>(QDataStream &in, KCalendarCore::IncidenceBase::Ptr &i)
+QDataStream &KCalendarCore::operator>>(QDataStream &in, QSharedPointer<KCalendarCore::IncidenceBase> &i)
 {
     if (!i) {
         return in;

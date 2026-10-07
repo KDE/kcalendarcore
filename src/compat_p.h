@@ -70,21 +70,21 @@ public:
       @param incidence is a pointer to an Incidence object that may
       need its recurrence rule fixed.
     */
-    virtual void fixRecurrence(const Incidence::Ptr &incidence);
+    virtual void fixRecurrence(const QSharedPointer<Incidence> &incidence);
 
     /**
       Fixes an empty summary for an incidence.
       @param incidence is a pointer to an Incidence object that may need
       its summary fixed.
     */
-    virtual void fixEmptySummary(const Incidence::Ptr &incidence);
+    virtual void fixEmptySummary(const QSharedPointer<Incidence> &incidence);
 
     /**
       Fixes the alarms list an incidence.
       @param incidence is a pointer to an Incidence object that may need
       its alarms fixed.
     */
-    virtual void fixAlarms(const Incidence::Ptr &incidence);
+    virtual void fixAlarms(const QSharedPointer<Incidence> &incidence);
 
     /**
       Fixes the end date for floating events.
@@ -107,7 +107,7 @@ public:
     /**
       Sets the created and dtstamp.
     */
-    virtual void setCreatedToDtStamp(const Incidence::Ptr &incidence, const QDateTime &dtstamp);
+    virtual void setCreatedToDtStamp(const QSharedPointer<Incidence> &incidence, const QDateTime &dtstamp);
 };
 
 /**
@@ -124,19 +124,19 @@ public:
       @copydoc
       Compat::fixRecurrence()
     */
-    void fixRecurrence(const Incidence::Ptr &incidence) override;
+    void fixRecurrence(const QSharedPointer<Incidence> &incidence) override;
 
     /**
       @copydoc
       Compat::fixEmptySummary()
     */
-    void fixEmptySummary(const Incidence::Ptr &incidence) override;
+    void fixEmptySummary(const QSharedPointer<Incidence> &incidence) override;
 
     /**
       @copydoc
       Compat::fixAlarms()
     */
-    void fixAlarms(const Incidence::Ptr &incidence) override;
+    void fixAlarms(const QSharedPointer<Incidence> &incidence) override;
 
     /**
       @copydoc
@@ -160,7 +160,7 @@ public:
       @copydoc
       Compat::setCreatedToDtStamp()
     */
-    void setCreatedToDtStamp(const Incidence::Ptr &incidence, const QDateTime &dtstamp) override;
+    void setCreatedToDtStamp(const QSharedPointer<Incidence> &incidence, const QDateTime &dtstamp) override;
 
 private:
     Q_DISABLE_COPY(CompatDecorator)
@@ -184,7 +184,7 @@ public:
       @copydoc
       Compat::fixRecurrence()
     */
-    void fixRecurrence(const Incidence::Ptr &incidence) override;
+    void fixRecurrence(const QSharedPointer<Incidence> &incidence) override;
 };
 
 /**
@@ -217,7 +217,7 @@ public:
       @copydoc
       Compat::fixRecurrence()
     */
-    void fixRecurrence(const Incidence::Ptr &incidence) override;
+    void fixRecurrence(const QSharedPointer<Incidence> &incidence) override;
 };
 
 /**
@@ -248,7 +248,7 @@ public:
       @copydoc
       Compat::fixRecurrence()
     */
-    void fixRecurrence(const Incidence::Ptr &incidence) override;
+    void fixRecurrence(const QSharedPointer<Incidence> &incidence) override;
 };
 
 /**
@@ -280,7 +280,7 @@ public:
       @copydoc
       Compat::fixAlarms()
     */
-    void fixAlarms(const Incidence::Ptr &incidence) override;
+    void fixAlarms(const QSharedPointer<Incidence> &incidence) override;
 };
 
 /**
@@ -295,7 +295,7 @@ public:
       @copydoc
       Compat::setCreatedToDtStamp()
     */
-    void setCreatedToDtStamp(const Incidence::Ptr &incidence, const QDateTime &dtstamp) override;
+    void setCreatedToDtStamp(const QSharedPointer<Incidence> &incidence, const QDateTime &dtstamp) override;
 };
 
 }

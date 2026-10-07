@@ -19,12 +19,12 @@ public:
     explicit AndroidCalendarPlugin(QObject *parent = nullptr, const QVariantList &args = {});
     ~AndroidCalendarPlugin();
 
-    QList<KCalendarCore::Calendar::Ptr> calendars() const override;
+    QList<QSharedPointer<KCalendarCore::Calendar>> calendars() const override;
 
 private:
     void loadCalendars() const;
 
-    mutable QList<KCalendarCore::Calendar::Ptr> m_calendars;
+    mutable QList<QSharedPointer<KCalendarCore::Calendar>> m_calendars;
     JniCalendarPlugin m_jni;
 };
 

@@ -123,7 +123,7 @@ public:
       \a eventList is a list of Events to filter.
 
     */
-    void apply(Event::List *eventList) const;
+    void apply(QList<QSharedPointer<Event>> *eventList) const;
 
     /*!
       Applies the filter to a list of To-dos. All to-dos not matching the
@@ -132,7 +132,7 @@ public:
       \a todoList is a list of To-dos to filter.
 
     */
-    void apply(Todo::List *todoList) const;
+    void apply(QList<QSharedPointer<Todo>> *todoList) const;
 
     /*!
       Applies the filter to a list of Journals. All journals not matching the
@@ -141,7 +141,7 @@ public:
       \a journalList is a list of Journals to filter.
 
     */
-    void apply(Journal::List *journalList) const;
+    void apply(QList<QSharedPointer<Journal>> *journalList) const;
 
     /*!
       Applies the filter criteria to the specified Incidence.
@@ -150,7 +150,7 @@ public:
 
       Returns true if the Incidence passes the criteria; false otherwise.
     */
-    Q_REQUIRED_RESULT bool filterIncidence(const Incidence::Ptr &incidence) const;
+    Q_REQUIRED_RESULT bool filterIncidence(const QSharedPointer<Incidence> &incidence) const;
 
     /*!
       Enables or disables the filter.

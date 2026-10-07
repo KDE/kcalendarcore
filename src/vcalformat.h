@@ -73,22 +73,22 @@ public:
     /*!
       \reimp
     */
-    bool load(const Calendar::Ptr &calendar, const QString &fileName) override;
+    bool load(const QSharedPointer<Calendar> &calendar, const QString &fileName) override;
 
     /*!
       \reimp
     */
-    bool save(const Calendar::Ptr &calendar, const QString &fileName) override;
+    bool save(const QSharedPointer<Calendar> &calendar, const QString &fileName) override;
 
     /*!
       \reimp
     */
-    Q_REQUIRED_RESULT QString toString(const Calendar::Ptr &calendar) override;
+    Q_REQUIRED_RESULT QString toString(const QSharedPointer<Calendar> &calendar) override;
 
     /*!
       \reimp
     */
-    Q_REQUIRED_RESULT bool fromRawString(const Calendar::Ptr &calendar, const QByteArray &string) override;
+    Q_REQUIRED_RESULT bool fromRawString(const QSharedPointer<Calendar> &calendar, const QByteArray &string) override;
 
 protected:
     /*!
@@ -97,7 +97,7 @@ protected:
       \a vtodo is a pointer to a valid VObject object.
 
     */
-    Todo::Ptr VTodoToEvent(VObject *vtodo);
+    QSharedPointer<Todo> VTodoToEvent(VObject *vtodo);
 
     /*!
       Translates a VObject into a Event and returns a pointer to it.
@@ -105,7 +105,7 @@ protected:
       \a vevent is a pointer to a valid VObject object.
 
     */
-    Event::Ptr VEventToEvent(VObject *vevent);
+    QSharedPointer<Event> VEventToEvent(VObject *vevent);
 
     /*!
       Parse TZ tag from \a timezone.
@@ -206,8 +206,8 @@ protected:
     */
     QByteArray writeStatus(Attendee::PartStat status) const;
 
-    void readCustomProperties(VObject *o, const Incidence::Ptr &i);
-    void writeCustomProperties(VObject *o, const Incidence::Ptr &i);
+    void readCustomProperties(VObject *o, const QSharedPointer<Incidence> &i);
+    void writeCustomProperties(VObject *o, const QSharedPointer<Incidence> &i);
 
 private:
     //@cond PRIVATE

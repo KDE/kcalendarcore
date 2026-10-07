@@ -109,8 +109,8 @@ void IncidencePrivate::init(Incidence *q, const IncidencePrivate &other)
     // We need to really duplicate the objects stored therein, otherwise deleting
     // i will also delete all attachments from this object (setAutoDelete...)
     mAlarms.reserve(other.mAlarms.count());
-    for (const Alarm::Ptr &alarm : std::as_const(other.mAlarms)) {
-        Alarm::Ptr b(new Alarm(*alarm.data()));
+    for (const QSharedPointer<Alarm> &alarm : std::as_const(other.mAlarms)) {
+        QSharedPointer<Alarm> b(new Alarm(*alarm.data()));
         b->setParent(q);
         mAlarms.append(b);
     }
@@ -151,7 +151,7 @@ Incidence::~Incidence()
     // Alarm has a raw incidence pointer, so we must set it to 0
     // so Alarm doesn't use it after Incidence is destroyed
     Q_D(const Incidence);
-    for (const Alarm::Ptr &alarm : std::as_const(d->mAlarms)) {
+    for (const QSharedPointer<Alarm> &alarm : std::as_const(d->mAlarms)) {
         alarm->setParent(nullptr);
     }
     delete d->mRecurrence;
@@ -188,13 +188,13 @@ bool Incidence::equals(const IncidenceBase &incidence) const
     // If they weren't the same type IncidenceBase::equals would had returned false already
     const Incidence *i2 = static_cast<const Incidence *>(&incidence);
 
-    const Alarm::List alarmList = alarms();
-    const Alarm::List otherAlarmsList = i2->alarms();
+    const QList<QSharedPointer<Alarm>> alarmList = alarms();
+    const QList<QSharedPointer<Alarm>> otherAlarmsList = i2->alarms();
     if (alarmList.count() != otherAlarmsList.count()) {
         return false;
     }
 
-    auto matchFunc = [](const Alarm::Ptr &a, const Alarm::Ptr &b) {
+    auto matchFunc = [](const QSharedPointer<Alarm> &a, const QSharedPointer<Alarm> &b) {
         return *a == *b;
     };
 
@@ -204,8 +204,8 @@ bool Incidence::equals(const IncidenceBase &incidence) const
         return false;
     }
 
-    const Attachment::List attachmentList = attachments();
-    const Attachment::List otherAttachmentList = i2->attachments();
+    const QList<Attachment> attachmentList = attachments();
+    const QList<Attachment> otherAttachmentList = i2->attachments();
     if (attachmentList.count() != otherAttachmentList.count()) {
         return false;
     }
@@ -738,16 +738,16 @@ void Incidence::deleteAttachments(const QString &mime)
     }
 }
 
-Attachment::List Incidence::attachments() const
+QList<Attachment> Incidence::attachments() const
 {
     Q_D(const Incidence);
     return d->mAttachments;
 }
 
-Attachment::List Incidence::attachments(const QString &mime) const
+QList<Attachment> Incidence::attachments(const QString &mime) const
 {
     Q_D(const Incidence);
-    Attachment::List attachments;
+    QList<Attachment> attachments;
     for (const Attachment &attachment : std::as_const(d->mAttachments)) {
         if (attachment.mimeType() == mime) {
             attachments.append(attachment);
@@ -881,20 +881,20 @@ Incidence::Secrecy Incidence::secrecy() const
     return d->mSecrecy;
 }
 
-Alarm::List Incidence::alarms() const
+QList<QSharedPointer<Alarm>> Incidence::alarms() const
 {
     Q_D(const Incidence);
     return d->mAlarms;
 }
 
-Alarm::Ptr Incidence::newAlarm()
+QSharedPointer<Alarm> Incidence::newAlarm()
 {
-    Alarm::Ptr alarm(new Alarm(this));
+    QSharedPointer<Alarm> alarm(new Alarm(this));
     addAlarm(alarm);
     return alarm;
 }
 
-void Incidence::addAlarm(const Alarm::Ptr &alarm)
+void Incidence::addAlarm(const QSharedPointer<Alarm> &alarm)
 {
     Q_D(Incidence);
     update();
@@ -903,7 +903,7 @@ void Incidence::addAlarm(const Alarm::Ptr &alarm)
     updated();
 }
 
-void Incidence::removeAlarm(const Alarm::Ptr &alarm)
+void Incidence::removeAlarm(const QSharedPointer<Alarm> &alarm)
 {
     Q_D(Incidence);
     const int index = d->mAlarms.indexOf(alarm);
@@ -927,12 +927,12 @@ void Incidence::clearAlarms()
 bool Incidence::hasEnabledAlarms() const
 {
     Q_D(const Incidence);
-    return std::any_of(d->mAlarms.cbegin(), d->mAlarms.cend(), [](const Alarm::Ptr &alarm) {
+    return std::any_of(d->mAlarms.cbegin(), d->mAlarms.cend(), [](const QSharedPointer<Alarm> &alarm) {
         return alarm->enabled();
     });
 }
 
-Conference::List Incidence::conferences() const
+QList<Conference> Incidence::conferences() const
 {
     Q_D(const Incidence);
     return d->mConferences;
@@ -947,7 +947,7 @@ void Incidence::addConference(const Conference &conference)
     updated();
 }
 
-void Incidence::setConferences(const Conference::List &conferences)
+void Incidence::setConferences(const QList<Conference> &conferences)
 {
     update();
     Q_D(Incidence);
@@ -1200,7 +1200,7 @@ void Incidence::serialize(QDataStream &out) const
         out << attachment;
     }
 
-    for (const Alarm::Ptr &alarm : std::as_const(d->mAlarms)) {
+    for (const QSharedPointer<Alarm> &alarm : std::as_const(d->mAlarms)) {
         out << alarm;
     }
 
@@ -1245,7 +1245,7 @@ void Incidence::deserialize(QDataStream &in)
 
     d->mAlarms.reserve(alarmCount);
     for (int i = 0; i < alarmCount; ++i) {
-        Alarm::Ptr alarm = Alarm::Ptr(new Alarm(this));
+        QSharedPointer<Alarm> alarm = QSharedPointer<Alarm>(new Alarm(this));
         in >> alarm;
         d->mAlarms.append(alarm);
     }

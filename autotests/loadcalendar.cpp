@@ -28,14 +28,14 @@ int main(int argc, char **argv)
     QCoreApplication::setApplicationVersion(QStringLiteral("0.1"));
     parser.process(app);
 
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<MemoryCalendar> cal(new MemoryCalendar(QTimeZone::utc()));
     FileStorage store(cal, QStringLiteral("cal"));
     if (!store.load()) {
         qWarning() << "Error storing into memory calendar";
         return EXIT_FAILURE;
     }
 
-    Todo::List todoList;
+    QList<QSharedPointer<Todo>> todoList;
 
     // Build dictionary to look up Task object from Todo uid.  Each task is a
     // QListViewItem, and is initially added with the view as the parent.

@@ -23,7 +23,7 @@ AndroidCalendarPlugin::AndroidCalendarPlugin(QObject *parent, const QVariantList
 
 AndroidCalendarPlugin::~AndroidCalendarPlugin() = default;
 
-QList<KCalendarCore::Calendar::Ptr> AndroidCalendarPlugin::calendars() const
+QList<QSharedPointer<KCalendarCore::Calendar>> AndroidCalendarPlugin::calendars() const
 {
     if (m_calendars.isEmpty()) {
         loadCalendars();
@@ -53,7 +53,7 @@ void AndroidCalendarPlugin::loadCalendars() const
             cal->setColor(QColor::fromRgba(c).name());
         }
 
-        m_calendars.push_back(KCalendarCore::Calendar::Ptr(cal));
+        m_calendars.push_back(QSharedPointer<KCalendarCore::Calendar>(cal));
     }
 }
 

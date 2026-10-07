@@ -50,8 +50,8 @@ public:
 
     bool operator==(const Private &p) const;
 
-    RecurrenceRule::List mExRules;
-    RecurrenceRule::List mRRules;
+    QList<RecurrenceRule *> mExRules;
+    QList<RecurrenceRule *> mRRules;
     QList<QDateTime> mRDateTimes;
     QHash<QDateTime, Period> mRDateTimePeriods; // Map RDate starts with periods if any
     DateList mRDates;
@@ -1242,7 +1242,7 @@ QDateTime Recurrence::getPreviousDateTime(const QDateTime &afterDateTime) const
 
 /***************************** PROTECTED FUNCTIONS ***************************/
 
-RecurrenceRule::List Recurrence::rRules() const
+QList<RecurrenceRule *> Recurrence::rRules() const
 {
     return d->mRRules;
 }
@@ -1281,7 +1281,7 @@ void Recurrence::deleteRRule(RecurrenceRule *rrule)
     updated();
 }
 
-RecurrenceRule::List Recurrence::exRules() const
+QList<RecurrenceRule *> Recurrence::exRules() const
 {
     return d->mExRules;
 }

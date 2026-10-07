@@ -35,13 +35,23 @@ class KCALENDARCORE_EXPORT Todo : public Incidence
 public:
     /*!
       A shared pointer to a Todo object.
+
+      \deprecated [6.32] Use QSharedPointer<Todo> instead.
     */
+#if KCALENDARCORE_ENABLE_DEPRECATED_SINCE(6, 32)
+    KCALENDARCORE_DEPRECATED_VERSION(6, 32, "Use QSharedPointer<Todo> instead")
     typedef QSharedPointer<Todo> Ptr;
+#endif
 
     /*!
       List of to-dos.
+
+      \deprecated [6.32] Use QList<QSharedPointer<Todo>> instead.
     */
-    typedef QList<Ptr> List;
+#if KCALENDARCORE_ENABLE_DEPRECATED_SINCE(6, 32)
+    KCALENDARCORE_DEPRECATED_VERSION(6, 32, "Use QList<QSharedPointer<Todo>> instead")
+    typedef QList<QSharedPointer<Todo>> List;
+#endif
 
     ///@cond PRIVATE
     // needed for Akonadi polymorphic payload support
@@ -361,7 +371,7 @@ private:
     /*!
       \reimp
     */
-    bool accept(Visitor &v, const IncidenceBase::Ptr &incidence) override;
+    bool accept(Visitor &v, const QSharedPointer<IncidenceBase> &incidence) override;
 
     /*!
       Disabled, otherwise could be dangerous if you subclass Todo.
@@ -383,8 +393,8 @@ private:
 } // namespace KCalendarCore
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO(KCalendarCore::Todo::Ptr, Q_RELOCATABLE_TYPE);
-Q_DECLARE_METATYPE(KCalendarCore::Todo::Ptr)
+Q_DECLARE_TYPEINFO(QSharedPointer<KCalendarCore::Todo>, Q_RELOCATABLE_TYPE);
+Q_DECLARE_METATYPE(QSharedPointer<KCalendarCore::Todo>)
 Q_DECLARE_METATYPE(KCalendarCore::Todo *)
 //@endcond
 

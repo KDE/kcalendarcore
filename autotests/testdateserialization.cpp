@@ -32,22 +32,22 @@ void TestDateSerialization::testNewRecurringTodo()
     QDateTime startDate = QDate(2015, 3, 24).startOfDay();
     QDateTime dueDate{startDate.addDays(1)};
 
-    Todo::Ptr todo(new Todo);
+    QSharedPointer<Todo> todo(new Todo);
     todo->setDtStart(startDate);
     todo->setDtDue(dueDate, true);
     todo->setAllDay(true);
     todo->recurrence()->setMonthly(1);
 
-    MemoryCalendar::Ptr cal{new MemoryCalendar(QTimeZone::utc())};
+    QSharedPointer<MemoryCalendar> cal{new MemoryCalendar(QTimeZone::utc())};
     cal->addIncidence(todo);
 
     ICalFormat format;
     const QString result = format.toString(cal);
 
-    Incidence::Ptr i = format.fromString(result);
+    auto i = format.fromString(result);
     QVERIFY(i);
     QVERIFY(i->type() == IncidenceBase::IncidenceType::TypeTodo);
-    Todo::Ptr newTodo = i.staticCast<Todo>();
+    auto newTodo = i.staticCast<Todo>();
     QCOMPARE(newTodo->dtStart(true), startDate);
     QCOMPARE(newTodo->dtStart(false), startDate);
     QCOMPARE(newTodo->dtDue(true), dueDate);
@@ -65,25 +65,25 @@ void TestDateSerialization::testTodoCompletedOnce()
     QDateTime startDate = QDate(QDate::currentDate().year(), QDate::currentDate().month(), 1).startOfDay();
     QDateTime dueDate{startDate.addDays(1)};
 
-    Todo::Ptr todo(new Todo);
+    QSharedPointer<Todo> todo(new Todo);
     todo->setDtStart(startDate);
     todo->setDtDue(dueDate, true);
     todo->setAllDay(true);
     todo->recurrence()->setMonthly(1);
 
-    MemoryCalendar::Ptr cal{new MemoryCalendar(QTimeZone::utc())};
+    QSharedPointer<MemoryCalendar> cal{new MemoryCalendar(QTimeZone::utc())};
     cal->addIncidence(todo);
 
     ICalFormat format;
     QString result = format.toString(cal);
 
-    Incidence::Ptr i = format.fromString(result);
+    auto i = format.fromString(result);
     QVERIFY(i);
     QVERIFY(i->type() == IncidenceBase::IncidenceType::TypeTodo);
     todo = i.staticCast<Todo>();
     todo->setCompleted(dueDate);
 
-    cal = MemoryCalendar::Ptr{new MemoryCalendar(QTimeZone::utc())};
+    cal = QSharedPointer<MemoryCalendar>{new MemoryCalendar(QTimeZone::utc())};
     cal->addIncidence(todo);
     result = format.toString(cal);
 
@@ -98,16 +98,16 @@ void TestDateSerialization::testUTCOffset()
 {
     QDateTime startDate({2022, 3, 6}, {10, 25}, QTimeZone::fromSecondsAheadOfUtc(3600));
 
-    Event::Ptr event(new Event);
+    QSharedPointer<Event> event(new Event);
     event->setDtStart(startDate);
 
-    MemoryCalendar::Ptr cal{new MemoryCalendar(QTimeZone::utc())};
+    QSharedPointer<MemoryCalendar> cal{new MemoryCalendar(QTimeZone::utc())};
     cal->addIncidence(event);
 
     ICalFormat format;
     QString result = format.toString(cal);
 
-    Incidence::Ptr i = format.fromString(result);
+    auto i = format.fromString(result);
     QVERIFY(i);
     QCOMPARE(i->dtStart(), startDate);
     // Qt::OffsetFromUTC is turned into Qt::Timezone with a "UTC+/-X" timezone right now

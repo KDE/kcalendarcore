@@ -96,21 +96,21 @@ public:
       existing in @p calendar are not affected except that if a new incidence
       with the same UID is found, the existing incidence is replaced.
     */
-    bool populate(const Calendar::Ptr &calendar, icalcomponent *fs);
+    bool populate(const QSharedPointer<Calendar> &calendar, icalcomponent *fs);
 
-    Incidence::Ptr readOneIncidence(icalcomponent *calendar, const ICalTimeZoneCache *tzlist);
+    QSharedPointer<Incidence> readOneIncidence(icalcomponent *calendar, const ICalTimeZoneCache *tzlist);
 
-    icalcomponent *writeIncidence(const IncidenceBase::Ptr &incidence, iTIPMethod method = iTIPRequest, TimeZoneList *tzUsedList = nullptr);
+    icalcomponent *writeIncidence(const QSharedPointer<IncidenceBase> &incidence, iTIPMethod method = iTIPRequest, TimeZoneList *tzUsedList = nullptr);
 
-    icalcomponent *writeTodo(const Todo::Ptr &todo, TimeZoneList *tzUsedList = nullptr);
+    icalcomponent *writeTodo(const QSharedPointer<Todo> &todo, TimeZoneList *tzUsedList = nullptr);
 
-    icalcomponent *writeEvent(const Event::Ptr &event, TimeZoneList *tzUsedList = nullptr);
+    icalcomponent *writeEvent(const QSharedPointer<Event> &event, TimeZoneList *tzUsedList = nullptr);
 
-    icalcomponent *writeJournal(const Journal::Ptr &journal, TimeZoneList *tzUsedList = nullptr);
+    icalcomponent *writeJournal(const QSharedPointer<Journal> &journal, TimeZoneList *tzUsedList = nullptr);
 
-    icalcomponent *writeFreeBusy(const FreeBusy::Ptr &freebusy, iTIPMethod method = iTIPPublish);
+    icalcomponent *writeFreeBusy(const QSharedPointer<FreeBusy> &freebusy, iTIPMethod method = iTIPPublish);
 
-    void writeIncidence(icalcomponent *parent, const Incidence::Ptr &incidence, TimeZoneList *tzUsedList = nullptr);
+    void writeIncidence(icalcomponent *parent, const QSharedPointer<Incidence> &incidence, TimeZoneList *tzUsedList = nullptr);
 
     icalproperty *writeDescription(const QString &description, bool isRich = false);
     icalproperty *writeSummary(const QString &summary, bool isRich = false);
@@ -124,22 +124,22 @@ public:
 #else
     icalrecurrencetype writeRecurrenceRule(RecurrenceRule *recur);
 #endif
-    icalcomponent *writeAlarm(const Alarm::Ptr &alarm);
+    icalcomponent *writeAlarm(const QSharedPointer<Alarm> &alarm);
     icalproperty *writeConference(const Conference &conference);
 
     QString extractErrorProperty(icalcomponent *);
-    Todo::Ptr readTodo(icalcomponent *vtodo, const ICalTimeZoneCache *tzList);
-    Event::Ptr readEvent(icalcomponent *vevent, const ICalTimeZoneCache *tzList);
-    FreeBusy::Ptr readFreeBusy(icalcomponent *vfreebusy);
-    Journal::Ptr readJournal(icalcomponent *vjournal, const ICalTimeZoneCache *tzList);
+    QSharedPointer<Todo> readTodo(icalcomponent *vtodo, const ICalTimeZoneCache *tzList);
+    QSharedPointer<Event> readEvent(icalcomponent *vevent, const ICalTimeZoneCache *tzList);
+    QSharedPointer<FreeBusy> readFreeBusy(icalcomponent *vfreebusy);
+    QSharedPointer<Journal> readJournal(icalcomponent *vjournal, const ICalTimeZoneCache *tzList);
     Attendee readAttendee(icalproperty *attendee);
     Person readOrganizer(icalproperty *organizer);
     static Attachment readAttachment(icalproperty *attach);
-    void readIncidence(icalcomponent *parent, const Incidence::Ptr &incidence, const ICalTimeZoneCache *tzList);
-    static void readRecurrenceRule(icalproperty *rrule, const Incidence::Ptr &event);
-    static void readExceptionRule(icalproperty *rrule, const Incidence::Ptr &incidence);
+    void readIncidence(icalcomponent *parent, const QSharedPointer<Incidence> &incidence, const ICalTimeZoneCache *tzList);
+    static void readRecurrenceRule(icalproperty *rrule, const QSharedPointer<Incidence> &event);
+    static void readExceptionRule(icalproperty *rrule, const QSharedPointer<Incidence> &incidence);
     static void readRecurrence(const struct icalrecurrencetype &r, RecurrenceRule *recur);
-    static void readAlarm(icalcomponent *alarm, const Incidence::Ptr &incidence);
+    static void readAlarm(icalcomponent *alarm, const QSharedPointer<Incidence> &incidence);
     Conference readConference(icalproperty *conference);
 
     /**
@@ -221,9 +221,9 @@ public:
 
     static icaldatetimeperiodtype writeICalDatePeriod(const QDate &date);
 
-    icalcomponent *createCalendarComponent(const Calendar::Ptr &calendar = Calendar::Ptr());
+    icalcomponent *createCalendarComponent(const QSharedPointer<Calendar> &calendar = QSharedPointer<Calendar>());
 
-    icalcomponent *createScheduleComponent(const IncidenceBase::Ptr &incidence, iTIPMethod method);
+    icalcomponent *createScheduleComponent(const QSharedPointer<IncidenceBase> &incidence, iTIPMethod method);
 
     [[nodiscard]] static iTIPMethod fromIcalEnum(icalproperty_method value);
     [[nodiscard]] static icalproperty_method toIcalEnum(iTIPMethod value);
@@ -242,15 +242,15 @@ protected:
     // void dumpIcalRecurrence( const icalrecurrencetype &r );
 
 private:
-    void writeIncidenceBase(icalcomponent *parent, const IncidenceBase::Ptr &);
-    void readIncidenceBase(icalcomponent *parent, const IncidenceBase::Ptr &);
+    void writeIncidenceBase(icalcomponent *parent, const QSharedPointer<IncidenceBase> &);
+    void readIncidenceBase(icalcomponent *parent, const QSharedPointer<IncidenceBase> &);
     void writeCustomProperties(icalcomponent *parent, CustomProperties *);
     static void readCustomProperties(icalcomponent *parent, CustomProperties *);
 
     ICalFormat *mParent = nullptr;
     QString mLoadedProductId; // PRODID string loaded from calendar file
-    Event::List mEventsRelate; // events with relations
-    Todo::List mTodosRelate; // todos with relations
+    QList<QSharedPointer<Event>> mEventsRelate; // events with relations
+    QList<QSharedPointer<Todo>> mTodosRelate; // todos with relations
     std::unique_ptr<Compat> mCompat;
 };
 

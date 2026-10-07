@@ -36,17 +36,17 @@ public:
     FreeBusyPrivate() = default;
     FreeBusyPrivate(const FreeBusyPrivate &other) = default;
 
-    FreeBusyPrivate(const FreeBusyPeriod::List &busyPeriods)
+    FreeBusyPrivate(const QList<FreeBusyPeriod> &busyPeriods)
         : IncidenceBasePrivate()
         , mBusyPeriods(busyPeriods)
     {
     }
 
     void init(const FreeBusyPrivate &other);
-    void init(const Event::List &events, const QDateTime &start, const QDateTime &end);
+    void init(const QList<QSharedPointer<Event>> &events, const QDateTime &start, const QDateTime &end);
 
     QDateTime mDtEnd; // end datetime
-    FreeBusyPeriod::List mBusyPeriods; // list of periods
+    QList<FreeBusyPeriod> mBusyPeriods; // list of periods
 
     // This is used for creating a freebusy object for the current user
     bool addLocalPeriod(const QDateTime &eventStart, const QDateTime &eventEnd);
@@ -81,7 +81,7 @@ FreeBusy::FreeBusy(const QDateTime &start, const QDateTime &end)
     setDtEnd(end); // NOLINT false clang-analyzer-optin.cplusplus.VirtualCall
 }
 
-FreeBusy::FreeBusy(const Event::List &events, const QDateTime &start, const QDateTime &end)
+FreeBusy::FreeBusy(const QList<QSharedPointer<Event>> &events, const QDateTime &start, const QDateTime &end)
     : FreeBusy()
 {
     setDtStart(start); // NOLINT false clang-analyzer-optin.cplusplus.VirtualCall
@@ -92,7 +92,7 @@ FreeBusy::FreeBusy(const Event::List &events, const QDateTime &start, const QDat
 }
 
 //@cond PRIVATE
-void FreeBusyPrivate::init(const Event::List &eventList, const QDateTime &start, const QDateTime &end)
+void FreeBusyPrivate::init(const QList<QSharedPointer<Event>> &eventList, const QDateTime &start, const QDateTime &end)
 {
     const qint64 duration = start.daysTo(end);
     QDate day;
@@ -110,11 +110,11 @@ void FreeBusyPrivate::init(const Event::List &eventList, const QDateTime &start,
         // in a lot of duplicated code. Instead, make a copy of the event and
         // set the period to the full day(s). This trick works for recurring,
         // multiday, and single day all-day events.
-        Event::Ptr allDayEvent;
+        QSharedPointer<Event> allDayEvent;
         if (event->allDay()) {
             // addDay event. Do the hack
             qCDebug(KCALCORE_LOG) << "All-day event";
-            allDayEvent = Event::Ptr(new Event(*event));
+            allDayEvent = QSharedPointer<Event>(new Event(*event));
 
             // Set the start and end times to be on midnight
             QDateTime st = allDayEvent->dtStart();
@@ -172,13 +172,13 @@ void FreeBusyPrivate::init(const Event::List &eventList, const QDateTime &start,
 }
 //@endcond
 
-FreeBusy::FreeBusy(const Period::List &busyPeriods)
+FreeBusy::FreeBusy(const QList<Period> &busyPeriods)
     : IncidenceBase(new FreeBusyPrivate())
 {
     addPeriods(busyPeriods);
 }
 
-FreeBusy::FreeBusy(const FreeBusyPeriod::List &busyPeriods)
+FreeBusy::FreeBusy(const QList<FreeBusyPeriod> &busyPeriods)
     : IncidenceBase(new FreeBusyPrivate(busyPeriods))
 {
 }
@@ -215,9 +215,9 @@ QDateTime FreeBusy::dtEnd() const
     return d->mDtEnd;
 }
 
-Period::List FreeBusy::busyPeriods() const
+QList<Period> FreeBusy::busyPeriods() const
 {
-    Period::List res;
+    QList<Period> res;
 
     Q_D(const FreeBusy);
     res.reserve(d->mBusyPeriods.count());
@@ -228,7 +228,7 @@ Period::List FreeBusy::busyPeriods() const
     return res;
 }
 
-FreeBusyPeriod::List FreeBusy::fullBusyPeriods() const
+QList<FreeBusyPeriod> FreeBusy::fullBusyPeriods() const
 {
     Q_D(const FreeBusy);
     return d->mBusyPeriods;
@@ -240,7 +240,7 @@ void FreeBusy::sortList()
     d->sortBusyPeriods();
 }
 
-void FreeBusy::addPeriods(const Period::List &list)
+void FreeBusy::addPeriods(const QList<Period> &list)
 {
     Q_D(FreeBusy);
     d->mBusyPeriods.reserve(d->mBusyPeriods.count() + list.count());
@@ -250,7 +250,7 @@ void FreeBusy::addPeriods(const Period::List &list)
     sortList();
 }
 
-void FreeBusy::addPeriods(const FreeBusyPeriod::List &list)
+void FreeBusy::addPeriods(const QList<FreeBusyPeriod> &list)
 {
     Q_D(FreeBusy);
     d->mBusyPeriods += list;
@@ -271,7 +271,7 @@ void FreeBusy::addPeriod(const QDateTime &start, const Duration &duration)
     sortList();
 }
 
-void FreeBusy::merge(const FreeBusy::Ptr &freeBusy)
+void FreeBusy::merge(const QSharedPointer<FreeBusy> &freeBusy)
 {
     if (freeBusy->dtStart() < dtStart()) {
         setDtStart(freeBusy->dtStart());
@@ -282,7 +282,7 @@ void FreeBusy::merge(const FreeBusy::Ptr &freeBusy)
     }
 
     Q_D(FreeBusy);
-    const Period::List periods = freeBusy->busyPeriods();
+    const QList<Period> periods = freeBusy->busyPeriods();
     d->mBusyPeriods.reserve(d->mBusyPeriods.count() + periods.count());
     for (const auto &p : periods) {
         d->mBusyPeriods.append(FreeBusyPeriod(p.start(), p.end()));
@@ -329,7 +329,7 @@ bool FreeBusy::equals(const IncidenceBase &freeBusy) const
     }
 }
 
-bool FreeBusy::accept(Visitor &v, const IncidenceBase::Ptr &incidence)
+bool FreeBusy::accept(Visitor &v, const QSharedPointer<IncidenceBase> &incidence)
 {
     return v.visit(incidence.staticCast<FreeBusy>());
 }
@@ -396,14 +396,14 @@ QLatin1String KCalendarCore::FreeBusy::freeBusyMimeType()
     return QLatin1String("application/x-vnd.akonadi.calendar.freebusy");
 }
 
-QDataStream &KCalendarCore::operator<<(QDataStream &stream, const KCalendarCore::FreeBusy::Ptr &freebusy)
+QDataStream &KCalendarCore::operator<<(QDataStream &stream, const QSharedPointer<KCalendarCore::FreeBusy> &freebusy)
 {
     KCalendarCore::ICalFormat format;
     QString data = format.createScheduleMessage(freebusy, iTIPPublish);
     return stream << data;
 }
 
-QDataStream &KCalendarCore::operator>>(QDataStream &stream, KCalendarCore::FreeBusy::Ptr &freebusy)
+QDataStream &KCalendarCore::operator>>(QDataStream &stream, QSharedPointer<KCalendarCore::FreeBusy> &freebusy)
 {
     QString freeBusyVCal;
     stream >> freeBusyVCal;

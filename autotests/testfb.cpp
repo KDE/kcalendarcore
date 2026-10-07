@@ -42,10 +42,10 @@ private Q_SLOTS:
             "END:VCALENDAR\n");
 
         ICalFormat format;
-        FreeBusy::Ptr fb = format.parseFreeBusy(fbString);
+        auto fb = format.parseFreeBusy(fbString);
         QCOMPARE(fb->fullBusyPeriods().size(), 2);
         QCOMPARE(fb->dtStart(), QDateTime({1970, 1, 1}, {0, 0}, QTimeZone::UTC));
-        const FreeBusyPeriod::List lst = fb->fullBusyPeriods();
+        const auto lst = fb->fullBusyPeriods();
         const auto &freebusy1 = lst.at(0);
         QCOMPARE(freebusy1.start(), QDateTime({1970, 1, 1}, {0, 0}, QTimeZone::UTC));
         QCOMPARE(freebusy1.end(), QDateTime({1970, 1, 1}, {0, 0}, QTimeZone::UTC));

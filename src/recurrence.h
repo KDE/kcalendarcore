@@ -674,7 +674,7 @@ public:
     void dump() const;
 
     // RRULE
-    Q_REQUIRED_RESULT RecurrenceRule::List rRules() const;
+    Q_REQUIRED_RESULT QList<RecurrenceRule *> rRules() const;
     /*!
       Add a recurrence rule to the recurrence.
 
@@ -703,7 +703,7 @@ public:
     void deleteRRule(RecurrenceRule *rrule);
 
     // EXRULE
-    Q_REQUIRED_RESULT RecurrenceRule::List exRules() const;
+    Q_REQUIRED_RESULT QList<RecurrenceRule *> exRules() const;
 
     /*!
       Add an exception rule to the recurrence.

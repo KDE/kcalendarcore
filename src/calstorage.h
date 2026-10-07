@@ -40,7 +40,7 @@ public:
       Constructs a new storage object for a calendar.
       \a calendar is a pointer to a valid Calendar object.
     */
-    explicit CalStorage(const Calendar::Ptr &calendar);
+    explicit CalStorage(const QSharedPointer<Calendar> &calendar);
 
     ~CalStorage() override;
 
@@ -48,7 +48,7 @@ public:
       Returns the calendar for this storage object.
       Returns A pointer to the calendar whose storage is being managed.
     */
-    Calendar::Ptr calendar() const;
+    QSharedPointer<Calendar> calendar() const;
 
     /*!
       Opens the calendar for storage.

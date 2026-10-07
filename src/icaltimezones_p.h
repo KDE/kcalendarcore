@@ -70,7 +70,7 @@ public:
 
     void parse(icalcomponent *calendar);
 
-    static void updateTzEarliestDate(const IncidenceBase::Ptr &incidence, TimeZoneEarliestDate *earliestDate);
+    static void updateTzEarliestDate(const QSharedPointer<IncidenceBase> &incidence, TimeZoneEarliestDate *earliestDate);
 
     static icaltimezone *icaltimezoneFromQTimeZone(const QTimeZone &qtz, const QDateTime &earliest);
     static QByteArray vcaltimezoneFromQTimeZone(const QTimeZone &qtz, const QDateTime &earliest);

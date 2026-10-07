@@ -158,8 +158,13 @@ class KCALENDARCORE_EXPORT Attachment
 public:
     /*!
       List of attachments.
+
+      \deprecated [6.32] Use QList<Attachment> instead.
     */
+#if KCALENDARCORE_ENABLE_DEPRECATED_SINCE(6, 32)
+    KCALENDARCORE_DEPRECATED_VERSION(6, 32, "Use QList<Attachment> instead")
     typedef QList<Attachment> List;
+#endif
 
     /*!
       Constructs an empty attachment.

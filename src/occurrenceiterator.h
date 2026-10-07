@@ -46,7 +46,7 @@ public:
      * of \a incidence between \a start and \a end (inclusive)
      */
     OccurrenceIterator(const Calendar &calendar,
-                       const KCalendarCore::Incidence::Ptr &incidence,
+                       const QSharedPointer<KCalendarCore::Incidence> &incidence,
                        const QDateTime &start = QDateTime(),
                        const QDateTime &end = QDateTime());
     ~OccurrenceIterator();
@@ -60,7 +60,7 @@ public:
     /*!
      * Returns either main incidence or exception, depending on occurrence.
      */
-    Incidence::Ptr incidence() const;
+    QSharedPointer<Incidence> incidence() const;
 
     /*!
      * Returns the start date of the occurrence

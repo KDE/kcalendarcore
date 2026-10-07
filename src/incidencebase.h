@@ -202,8 +202,13 @@ class KCALENDARCORE_EXPORT IncidenceBase : public CustomProperties
 public:
     /*!
       A shared pointer to an IncidenceBase.
+
+      \deprecated [6.32] Use QSharedPointer<IncidenceBase> instead.
     */
+#if KCALENDARCORE_ENABLE_DEPRECATED_SINCE(6, 32)
+    KCALENDARCORE_DEPRECATED_VERSION(6, 32, "Use QSharedPointer<IncidenceBase> instead")
     typedef QSharedPointer<IncidenceBase> Ptr;
+#endif
 
     /*!
       \enum KCalendarCore::IncidenceBase::IncidenceType
@@ -504,7 +509,7 @@ public:
      \a incidence is a valid IncidenceBase object for visiting.
 
     */
-    virtual bool accept(Visitor &v, const IncidenceBase::Ptr &incidence);
+    virtual bool accept(Visitor &v, const QSharedPointer<IncidenceBase> &incidence);
 
     /*!
       Returns the incidence type.
@@ -760,13 +765,13 @@ public:
        \a doUpdate If true the Observers are notified, if false they are not.
 
     */
-    void setAttendees(const Attendee::List &attendees, bool doUpdate = true);
+    void setAttendees(const QList<Attendee> &attendees, bool doUpdate = true);
 
     /*!
       Returns a list of incidence attendees.
       All pointers in the list are valid.
     */
-    Q_REQUIRED_RESULT Attendee::List attendees() const;
+    Q_REQUIRED_RESULT QList<Attendee> attendees() const;
 
     /*!
       Returns the number of incidence attendees.
@@ -1025,9 +1030,9 @@ protected:
     IncidenceBasePrivate *const d_ptr;
 
 private:
-    friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const KCalendarCore::IncidenceBase::Ptr &);
+    friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &stream, const QSharedPointer<KCalendarCore::IncidenceBase> &);
 
-    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream, KCalendarCore::IncidenceBase::Ptr &);
+    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &stream, QSharedPointer<KCalendarCore::IncidenceBase> &);
 };
 
 /*!
@@ -1047,17 +1052,17 @@ KCALENDARCORE_EXPORT bool identical(const QDateTime &dt1, const QDateTime &dt2);
  *
  * \since 4.12
  */
-KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalendarCore::IncidenceBase::Ptr &);
+KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &out, const QSharedPointer<KCalendarCore::IncidenceBase> &);
 
 /*!
  * Incidence deserializer.
  *
  * \since 4.12
  */
-KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &in, KCalendarCore::IncidenceBase::Ptr &);
+KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &in, QSharedPointer<KCalendarCore::IncidenceBase> &);
 }
 
 Q_DECLARE_METATYPE(KCalendarCore::IncidenceBase *)
-Q_DECLARE_METATYPE(KCalendarCore::IncidenceBase::Ptr)
+Q_DECLARE_METATYPE(QSharedPointer<KCalendarCore::IncidenceBase>)
 
 #endif

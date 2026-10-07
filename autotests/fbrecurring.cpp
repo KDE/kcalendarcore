@@ -23,9 +23,9 @@ int main()
 {
     ICalFormat f;
 
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<MemoryCalendar> cal(new MemoryCalendar(QTimeZone::utc()));
 
-    Event::Ptr event1 = Event::Ptr(new Event);
+    auto event1 = QSharedPointer<Event>(new Event);
     event1->setSummary(QStringLiteral("A"));
     event1->setDtStart(QDateTime(QDate(2006, 1, 1), QTime(12, 0, 0)));
     event1->setDtEnd(QDateTime(QDate(2006, 1, 1), QTime(13, 0, 0)));
@@ -35,7 +35,7 @@ int main()
     cout << f.toICalString(event1).toLocal8Bit().data() << endl;
     cal->addEvent(event1);
 
-    Event::Ptr event2 = Event::Ptr(new Event);
+    auto event2 = QSharedPointer<Event>(new Event);
     event2->setSummary(QStringLiteral("B"));
     event2->setDtStart(QDateTime(QDate(2006, 1, 1), QTime(13, 0, 0)));
     event2->setDtEnd(QDateTime(QDate(2006, 1, 1), QTime(14, 0, 0)));
@@ -48,7 +48,7 @@ int main()
     QDateTime start(QDate(2006, 1, 2), QTime(0, 0, 0));
     QDateTime end(QDate(2006, 1, 3), QTime(0, 0, 0));
 
-    FreeBusy::Ptr freebusy = FreeBusy::Ptr(new FreeBusy(cal->rawEvents(start.date(), end.date()), start, end));
+    auto freebusy = QSharedPointer<FreeBusy>(new FreeBusy(cal->rawEvents(start.date(), end.date()), start, end));
     QString result = f.createScheduleMessage(freebusy, iTIPPublish);
     cout << result.toLocal8Bit().data() << endl;
 

@@ -94,8 +94,13 @@ public:
 
     /*!
       A shared pointer to a ScheduleMessage.
+
+      \deprecated [6.32] Use QSharedPointer<ScheduleMessage> instead.
     */
+#if KCALENDARCORE_ENABLE_DEPRECATED_SINCE(6, 32)
+    KCALENDARCORE_DEPRECATED_VERSION(6, 32, "Use QSharedPointer<ScheduleMessage> instead")
     typedef QSharedPointer<ScheduleMessage> Ptr;
+#endif
 
     /*!
       Creates a scheduling message with method as defined in iTIPMethod and a status.
@@ -106,7 +111,7 @@ public:
       \a status a Status.
 
     */
-    ScheduleMessage(const IncidenceBase::Ptr &incidence, iTIPMethod method, Status status);
+    ScheduleMessage(const QSharedPointer<IncidenceBase> &incidence, iTIPMethod method, Status status);
 
     /*!
       Destructor.
@@ -116,7 +121,7 @@ public:
     /*!
       Returns the event associated with this message.
     */
-    IncidenceBase::Ptr event() const;
+    QSharedPointer<IncidenceBase> event() const;
 
     /*!
       Returns the iTIP method associated with this message.

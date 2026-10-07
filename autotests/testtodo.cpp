@@ -283,17 +283,17 @@ void TodoTest::testStatus()
 
 void TodoTest::testSerializer_data()
 {
-    QTest::addColumn<KCalendarCore::Todo::Ptr>("todo");
+    QTest::addColumn<QSharedPointer<KCalendarCore::Todo>>("todo");
 
     QDateTime today = QDateTime::currentDateTimeUtc();
     QDateTime yesterday = today.addDays(-1);
 
-    Todo::Ptr todo1 = Todo::Ptr(new Todo());
-    Todo::Ptr todo2 = Todo::Ptr(new Todo());
-    Todo::Ptr todo3 = Todo::Ptr(new Todo());
-    Todo::Ptr todo4 = Todo::Ptr(new Todo());
-    Todo::Ptr todo5 = Todo::Ptr(new Todo());
-    Todo::Ptr todo6 = Todo::Ptr(new Todo());
+    auto todo1 = QSharedPointer<Todo>(new Todo());
+    auto todo2 = QSharedPointer<Todo>(new Todo());
+    auto todo3 = QSharedPointer<Todo>(new Todo());
+    auto todo4 = QSharedPointer<Todo>(new Todo());
+    auto todo5 = QSharedPointer<Todo>(new Todo());
+    auto todo6 = QSharedPointer<Todo>(new Todo());
 
     todo1->setSummary(QStringLiteral("Summary"), false);
     todo1->setDescription(QStringLiteral("description"), false);
@@ -356,15 +356,15 @@ void TodoTest::testSerializer_data()
 
 void TodoTest::testSerializer()
 {
-    QFETCH(KCalendarCore::Todo::Ptr, todo);
-    IncidenceBase::Ptr incidenceBase = todo.staticCast<KCalendarCore::IncidenceBase>();
+    QFETCH(QSharedPointer<KCalendarCore::Todo>, todo);
+    auto incidenceBase = todo.staticCast<KCalendarCore::IncidenceBase>();
 
     QByteArray array;
     QDataStream stream(&array, QIODevice::WriteOnly);
     stream << incidenceBase;
 
-    Todo::Ptr todo2 = Todo::Ptr(new Todo());
-    IncidenceBase::Ptr incidenceBase2 = todo2.staticCast<KCalendarCore::IncidenceBase>();
+    auto todo2 = QSharedPointer<Todo>(new Todo());
+    auto incidenceBase2 = todo2.staticCast<KCalendarCore::IncidenceBase>();
     QVERIFY(*todo != *todo2);
     QDataStream stream2(&array, QIODevice::ReadOnly);
     stream2 >> incidenceBase2;

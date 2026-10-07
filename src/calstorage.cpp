@@ -28,15 +28,15 @@ using namespace KCalendarCore;
 class Q_DECL_HIDDEN KCalendarCore::CalStorage::Private
 {
 public:
-    Private(const Calendar::Ptr &cal)
+    Private(const QSharedPointer<Calendar> &cal)
         : mCalendar(cal)
     {
     }
-    Calendar::Ptr mCalendar;
+    QSharedPointer<Calendar> mCalendar;
 };
 //@endcond
 
-CalStorage::CalStorage(const Calendar::Ptr &calendar)
+CalStorage::CalStorage(const QSharedPointer<Calendar> &calendar)
     : d(new KCalendarCore::CalStorage::Private(calendar))
 {
 }
@@ -46,7 +46,7 @@ CalStorage::~CalStorage()
     delete d;
 }
 
-Calendar::Ptr CalStorage::calendar() const
+QSharedPointer<Calendar> CalStorage::calendar() const
 {
     return d->mCalendar;
 }

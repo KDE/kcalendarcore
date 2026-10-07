@@ -84,7 +84,7 @@ bool Journal::equals(const IncidenceBase &journal) const
     return Incidence::equals(journal);
 }
 
-bool Journal::accept(Visitor &v, const IncidenceBase::Ptr &incidence)
+bool Journal::accept(Visitor &v, const QSharedPointer<IncidenceBase> &incidence)
 {
     return v.visit(incidence.staticCast<Journal>());
 }

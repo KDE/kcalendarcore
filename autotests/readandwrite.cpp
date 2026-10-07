@@ -53,7 +53,7 @@ int main(int argc, char **argv)
         return 0;
     }
 
-    MemoryCalendar::Ptr cal(new MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<MemoryCalendar> cal(new MemoryCalendar(QTimeZone::utc()));
     FileStorage instore(cal, input);
 
     if (!instore.load()) {

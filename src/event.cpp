@@ -270,7 +270,7 @@ void Event::setAllDay(bool allday)
     }
 }
 
-bool Event::accept(Visitor &v, const IncidenceBase::Ptr &incidence)
+bool Event::accept(Visitor &v, const QSharedPointer<IncidenceBase> &incidence)
 {
     return v.visit(incidence.staticCast<Event>());
 }
@@ -297,7 +297,7 @@ QDateTime Event::dateTime(DateTimeRole role) const
         if (alarms().isEmpty()) {
             return QDateTime();
         } else {
-            Alarm::Ptr alarm = alarms().at(0);
+            QSharedPointer<Alarm> alarm = alarms().at(0);
             return alarm->hasStartOffset() ? dtStart() : dtEnd();
         }
     default:

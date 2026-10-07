@@ -42,6 +42,6 @@
 
 namespace KCalendarCore
 {
-using CalendarPtr = Calendar::Ptr;
-using ScheduleMessagePtr = ScheduleMessage::Ptr;
+using CalendarPtr = QSharedPointer<Calendar>;
+using ScheduleMessagePtr = QSharedPointer<ScheduleMessage>;
 }

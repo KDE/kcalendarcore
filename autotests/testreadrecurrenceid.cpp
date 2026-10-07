@@ -22,7 +22,7 @@ void TestReadRecurrenceId::testReadSingleException()
     QVERIFY(file.open(QIODevice::ReadOnly));
     //   qDebug() << file.readAll();
 
-    KCalendarCore::Incidence::Ptr i = format.fromString(QString::fromUtf8(file.readAll()));
+    auto i = format.fromString(QString::fromUtf8(file.readAll()));
     if (!i) {
         qWarning() << "Failed to parse incidence!";
         if (format.exception()) {
@@ -38,7 +38,7 @@ void TestReadRecurrenceId::testReadSingleExceptionWithThisAndFuture()
     KCalendarCore::ICalFormat format;
     QFile file(QLatin1String(ICALTESTDATADIR) + QLatin1String("test_recurrenceid_thisandfuture.ics"));
     QVERIFY(file.open(QIODevice::ReadOnly));
-    KCalendarCore::Incidence::Ptr i = format.fromString(QString::fromUtf8(file.readAll()));
+    auto i = format.fromString(QString::fromUtf8(file.readAll()));
     QVERIFY(i);
     QVERIFY(i->hasRecurrenceId());
     QVERIFY(i->thisAndFuture());
@@ -46,9 +46,9 @@ void TestReadRecurrenceId::testReadSingleExceptionWithThisAndFuture()
 
 void TestReadRecurrenceId::testReadWriteSingleExceptionWithThisAndFuture()
 {
-    KCalendarCore::MemoryCalendar::Ptr cal(new KCalendarCore::MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<KCalendarCore::MemoryCalendar> cal(new KCalendarCore::MemoryCalendar(QTimeZone::utc()));
     KCalendarCore::ICalFormat format;
-    KCalendarCore::Incidence::Ptr inc(new KCalendarCore::Event);
+    QSharedPointer<KCalendarCore::Incidence> inc(new KCalendarCore::Event);
     QTimeZone tz("Europe/Berlin");
     QDateTime startDate(QDate(2015, 1, 2), QTime(3, 4, 5), tz);
     inc->setDtStart(startDate);
@@ -58,7 +58,7 @@ void TestReadRecurrenceId::testReadWriteSingleExceptionWithThisAndFuture()
     const QString result = format.toString(cal);
     qDebug() << result;
 
-    KCalendarCore::Incidence::Ptr i = format.fromString(result);
+    auto i = format.fromString(result);
     QVERIFY(i);
     QVERIFY(i->hasRecurrenceId());
     QVERIFY(i->thisAndFuture());
@@ -67,7 +67,7 @@ void TestReadRecurrenceId::testReadWriteSingleExceptionWithThisAndFuture()
 
 void TestReadRecurrenceId::testReadExceptionWithMainEvent()
 {
-    KCalendarCore::MemoryCalendar::Ptr calendar(new KCalendarCore::MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<KCalendarCore::MemoryCalendar> calendar(new KCalendarCore::MemoryCalendar(QTimeZone::utc()));
     KCalendarCore::ICalFormat format;
     QFile file(QLatin1String(ICALTESTDATADIR) + QLatin1String("test_recurrenceid.ics"));
     QVERIFY(file.open(QIODevice::ReadOnly));

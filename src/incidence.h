@@ -300,13 +300,23 @@ public:
 
     /*!
       A shared pointer to an Incidence.
+
+      \deprecated [6.32] Use QSharedPointer<Incidence> instead.
     */
+#if KCALENDARCORE_ENABLE_DEPRECATED_SINCE(6, 32)
+    KCALENDARCORE_DEPRECATED_VERSION(6, 32, "Use QSharedPointer<Incidence> instead")
     typedef QSharedPointer<Incidence> Ptr;
+#endif
 
     /*!
       List of incidences.
+
+      \deprecated [6.32] Use QList<QSharedPointer<Incidence>> instead.
     */
-    typedef QList<Ptr> List;
+#if KCALENDARCORE_ENABLE_DEPRECATED_SINCE(6, 32)
+    KCALENDARCORE_DEPRECATED_VERSION(6, 32, "Use QList<QSharedPointer<Incidence>> instead")
+    typedef QList<QSharedPointer<Incidence>> List;
+#endif
 
     Incidence() = delete;
 
@@ -763,7 +773,7 @@ public:
       Returns a list of all incidence attachments.
       \sa attachments( const QString &).
     */
-    Q_REQUIRED_RESULT Attachment::List attachments() const;
+    Q_REQUIRED_RESULT QList<Attachment> attachments() const;
 
     /*!
       Returns a list of all incidence attachments with the specified MIME type.
@@ -772,7 +782,7 @@ public:
 
       \sa attachments().
     */
-    Q_REQUIRED_RESULT Attachment::List attachments(const QString &mime) const;
+    Q_REQUIRED_RESULT QList<Attachment> attachments(const QString &mime) const;
 
     /*!
       Removes all attachments and frees the memory used by them.
@@ -970,12 +980,12 @@ public:
     /*!
       Returns a list of all incidence alarms.
     */
-    Q_REQUIRED_RESULT Alarm::List alarms() const;
+    Q_REQUIRED_RESULT QList<QSharedPointer<Alarm>> alarms() const;
 
     /*!
       Create a new incidence alarm.
     */
-    Alarm::Ptr newAlarm();
+    QSharedPointer<Alarm> newAlarm();
 
     /*!
       Adds an alarm to the incidence.
@@ -984,7 +994,7 @@ public:
 
       \sa removeAlarm().
     */
-    void addAlarm(const Alarm::Ptr &alarm);
+    void addAlarm(const QSharedPointer<Alarm> &alarm);
 
     /*!
       Removes the specified alarm from the incidence.
@@ -993,7 +1003,7 @@ public:
 
       \sa addAlarm().
     */
-    void removeAlarm(const Alarm::Ptr &alarm);
+    void removeAlarm(const QSharedPointer<Alarm> &alarm);
 
     /*!
       Removes all alarms.
@@ -1014,7 +1024,7 @@ public:
      * Returns list of all incidence conferencing methods.
      * \since 5.77
      */
-    Q_REQUIRED_RESULT Conference::List conferences() const;
+    Q_REQUIRED_RESULT QList<Conference> conferences() const;
 
     /*!
      * Replaces all conferences in the incidence with given \a conferences
@@ -1023,7 +1033,7 @@ public:
      *
      * \since 5.77
      */
-    void setConferences(const Conference::List &conferences);
+    void setConferences(const QList<Conference> &conferences);
 
     /*!
      * Adds a conference to the incidence.
@@ -1190,7 +1200,7 @@ inline size_t qHash(const QSharedPointer<KCalendarCore::Incidence> &key, size_t 
 //@endcond
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO(KCalendarCore::Incidence::Ptr, Q_RELOCATABLE_TYPE);
+Q_DECLARE_TYPEINFO(QSharedPointer<KCalendarCore::Incidence>, Q_RELOCATABLE_TYPE);
 Q_DECLARE_METATYPE(KCalendarCore::Incidence *)
 //@endcond
 

@@ -23,59 +23,65 @@ public:
     ~AndroidCalendar();
 
     // KCalendarCore::Calendar interface
-    bool deleteIncidenceInstances(const KCalendarCore::Incidence::Ptr &incidence) override;
+    bool deleteIncidenceInstances(const QSharedPointer<KCalendarCore::Incidence> &incidence) override;
 
-    bool addEvent(const KCalendarCore::Event::Ptr &event) override;
-    bool deleteEvent(const KCalendarCore::Event::Ptr &event) override;
-    bool deleteEventInstances(const KCalendarCore::Event::Ptr &event) override;
-    KCalendarCore::Event::List rawEvents(KCalendarCore::EventSortField sortField = KCalendarCore::EventSortUnsorted,
-                                         KCalendarCore::SortDirection sortDirection = KCalendarCore::SortDirectionAscending) const override;
-    KCalendarCore::Event::List rawEvents(const QDate &start, const QDate &end, const QTimeZone &timeZone = {}, bool inclusive = false) const override;
-    KCalendarCore::Event::List rawEventsForDate(const QDate &date,
-                                                const QTimeZone &timeZone = {},
-                                                KCalendarCore::EventSortField sortField = KCalendarCore::EventSortUnsorted,
-                                                KCalendarCore::SortDirection sortDirection = KCalendarCore::SortDirectionAscending) const override;
-    KCalendarCore::Event::Ptr event(const QString &uid, const QDateTime &recurrenceId = {}) const override;
-    KCalendarCore::Event::List eventInstances(const KCalendarCore::Incidence::Ptr &event,
-                                              KCalendarCore::EventSortField sortField = KCalendarCore::EventSortUnsorted,
-                                              KCalendarCore::SortDirection sortDirection = KCalendarCore::SortDirectionAscending) const override;
+    bool addEvent(const QSharedPointer<KCalendarCore::Event> &event) override;
+    bool deleteEvent(const QSharedPointer<KCalendarCore::Event> &event) override;
+    bool deleteEventInstances(const QSharedPointer<KCalendarCore::Event> &event) override;
+    QList<QSharedPointer<KCalendarCore::Event>> rawEvents(KCalendarCore::EventSortField sortField = KCalendarCore::EventSortUnsorted,
+                                                          KCalendarCore::SortDirection sortDirection = KCalendarCore::SortDirectionAscending) const override;
+    QList<QSharedPointer<KCalendarCore::Event>>
+    rawEvents(const QDate &start, const QDate &end, const QTimeZone &timeZone = {}, bool inclusive = false) const override;
+    QList<QSharedPointer<KCalendarCore::Event>>
+    rawEventsForDate(const QDate &date,
+                     const QTimeZone &timeZone = {},
+                     KCalendarCore::EventSortField sortField = KCalendarCore::EventSortUnsorted,
+                     KCalendarCore::SortDirection sortDirection = KCalendarCore::SortDirectionAscending) const override;
+    QSharedPointer<KCalendarCore::Event> event(const QString &uid, const QDateTime &recurrenceId = {}) const override;
+    QList<QSharedPointer<KCalendarCore::Event>>
+    eventInstances(const QSharedPointer<KCalendarCore::Incidence> &event,
+                   KCalendarCore::EventSortField sortField = KCalendarCore::EventSortUnsorted,
+                   KCalendarCore::SortDirection sortDirection = KCalendarCore::SortDirectionAscending) const override;
 
-    bool addTodo(const KCalendarCore::Todo::Ptr &todo) override;
-    bool deleteTodo(const KCalendarCore::Todo::Ptr &todo) override;
-    bool deleteTodoInstances(const KCalendarCore::Todo::Ptr &todo) override;
-    KCalendarCore::Todo::List rawTodos(KCalendarCore::TodoSortField sortField = KCalendarCore::TodoSortUnsorted,
-                                       KCalendarCore::SortDirection sortDirection = KCalendarCore::SortDirectionAscending) const override;
-    KCalendarCore::Todo::List rawTodosForDate(const QDate &date) const override;
-    KCalendarCore::Todo::List rawTodos(const QDate &start, const QDate &end, const QTimeZone &timeZone = {}, bool inclusive = false) const override;
-    KCalendarCore::Todo::Ptr todo(const QString &uid, const QDateTime &recurrenceId = {}) const override;
-    KCalendarCore::Todo::List todoInstances(const KCalendarCore::Incidence::Ptr &todo,
-                                            KCalendarCore::TodoSortField sortField = KCalendarCore::TodoSortUnsorted,
-                                            KCalendarCore::SortDirection sortDirection = KCalendarCore::SortDirectionAscending) const override;
+    bool addTodo(const QSharedPointer<KCalendarCore::Todo> &todo) override;
+    bool deleteTodo(const QSharedPointer<KCalendarCore::Todo> &todo) override;
+    bool deleteTodoInstances(const QSharedPointer<KCalendarCore::Todo> &todo) override;
+    QList<QSharedPointer<KCalendarCore::Todo>> rawTodos(KCalendarCore::TodoSortField sortField = KCalendarCore::TodoSortUnsorted,
+                                                        KCalendarCore::SortDirection sortDirection = KCalendarCore::SortDirectionAscending) const override;
+    QList<QSharedPointer<KCalendarCore::Todo>> rawTodosForDate(const QDate &date) const override;
+    QList<QSharedPointer<KCalendarCore::Todo>>
+    rawTodos(const QDate &start, const QDate &end, const QTimeZone &timeZone = {}, bool inclusive = false) const override;
+    QSharedPointer<KCalendarCore::Todo> todo(const QString &uid, const QDateTime &recurrenceId = {}) const override;
+    QList<QSharedPointer<KCalendarCore::Todo>> todoInstances(const QSharedPointer<KCalendarCore::Incidence> &todo,
+                                                             KCalendarCore::TodoSortField sortField = KCalendarCore::TodoSortUnsorted,
+                                                             KCalendarCore::SortDirection sortDirection = KCalendarCore::SortDirectionAscending) const override;
 
-    bool addJournal(const KCalendarCore::Journal::Ptr &journal) override;
-    bool deleteJournal(const KCalendarCore::Journal::Ptr &journal) override;
-    bool deleteJournalInstances(const KCalendarCore::Journal::Ptr &journal) override;
-    KCalendarCore::Journal::List rawJournals(KCalendarCore::JournalSortField sortField = KCalendarCore::JournalSortUnsorted,
-                                             KCalendarCore::SortDirection sortDirection = KCalendarCore::SortDirectionAscending) const override;
-    KCalendarCore::Journal::List rawJournalsForDate(const QDate &date) const override;
-    KCalendarCore::Journal::Ptr journal(const QString &uid, const QDateTime &recurrenceId = {}) const override;
-    KCalendarCore::Journal::List journalInstances(const KCalendarCore::Incidence::Ptr &journal,
-                                                  KCalendarCore::JournalSortField sortField = KCalendarCore::JournalSortUnsorted,
-                                                  KCalendarCore::SortDirection sortDirection = KCalendarCore::SortDirectionAscending) const override;
+    bool addJournal(const QSharedPointer<KCalendarCore::Journal> &journal) override;
+    bool deleteJournal(const QSharedPointer<KCalendarCore::Journal> &journal) override;
+    bool deleteJournalInstances(const QSharedPointer<KCalendarCore::Journal> &journal) override;
+    QList<QSharedPointer<KCalendarCore::Journal>>
+    rawJournals(KCalendarCore::JournalSortField sortField = KCalendarCore::JournalSortUnsorted,
+                KCalendarCore::SortDirection sortDirection = KCalendarCore::SortDirectionAscending) const override;
+    QList<QSharedPointer<KCalendarCore::Journal>> rawJournalsForDate(const QDate &date) const override;
+    QSharedPointer<KCalendarCore::Journal> journal(const QString &uid, const QDateTime &recurrenceId = {}) const override;
+    QList<QSharedPointer<KCalendarCore::Journal>>
+    journalInstances(const QSharedPointer<KCalendarCore::Incidence> &journal,
+                     KCalendarCore::JournalSortField sortField = KCalendarCore::JournalSortUnsorted,
+                     KCalendarCore::SortDirection sortDirection = KCalendarCore::SortDirectionAscending) const override;
 
-    KCalendarCore::Alarm::List alarms(const QDateTime &from, const QDateTime &to, bool excludeBlockedAlarms = false) const override;
+    QList<QSharedPointer<KCalendarCore::Alarm>> alarms(const QDateTime &from, const QDateTime &to, bool excludeBlockedAlarms = false) const override;
 
     // KCalendarCore::IncidenceObserver interface
     void incidenceUpdate(const QString &uid, const QDateTime &recurrenceId) override;
     void incidenceUpdated(const QString &uid, const QDateTime &recurrenceId) override;
 
 private:
-    void registerEvents(const KCalendarCore::Event::List &events) const;
-    void registerEvent(const KCalendarCore::Event::Ptr &event) const;
+    void registerEvents(const QList<QSharedPointer<KCalendarCore::Event>> &events) const;
+    void registerEvent(const QSharedPointer<KCalendarCore::Event> &event) const;
 
     JniCalendar m_calendar;
     const QString m_owner;
-    mutable std::unordered_map<IncidenceKey, KCalendarCore::Event::Ptr> m_incidences;
+    mutable std::unordered_map<IncidenceKey, QSharedPointer<KCalendarCore::Event>> m_incidences;
 };
 
 #endif // KCALENDARCORE_ANDROIDCALENDAR_H

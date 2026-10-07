@@ -114,24 +114,24 @@ void JournalTest::testAssign()
 
 void JournalTest::testSerializer_data()
 {
-    QTest::addColumn<KCalendarCore::Journal::Ptr>("journal");
+    QTest::addColumn<QSharedPointer<KCalendarCore::Journal>>("journal");
 
-    Journal::Ptr journal1 = Journal::Ptr(new Journal());
+    auto journal1 = QSharedPointer<Journal>(new Journal());
 
     QTest::newRow("journal") << journal1;
 }
 
 void JournalTest::testSerializer()
 {
-    QFETCH(KCalendarCore::Journal::Ptr, journal);
-    IncidenceBase::Ptr incidenceBase = journal.staticCast<KCalendarCore::IncidenceBase>();
+    QFETCH(QSharedPointer<KCalendarCore::Journal>, journal);
+    auto incidenceBase = journal.staticCast<KCalendarCore::IncidenceBase>();
 
     QByteArray array;
     QDataStream stream(&array, QIODevice::WriteOnly);
     stream << incidenceBase;
 
-    Journal::Ptr journal2 = Journal::Ptr(new Journal());
-    IncidenceBase::Ptr incidenceBase2 = journal2.staticCast<KCalendarCore::IncidenceBase>();
+    auto journal2 = QSharedPointer<Journal>(new Journal());
+    auto incidenceBase2 = journal2.staticCast<KCalendarCore::IncidenceBase>();
     QVERIFY(*journal != *journal2);
     QDataStream stream2(&array, QIODevice::ReadOnly);
     stream2 >> incidenceBase2;

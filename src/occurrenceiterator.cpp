@@ -47,7 +47,7 @@ public:
         {
         }
 
-        Occurrence(const Incidence::Ptr &i, const QDateTime &recurrenceId, const QDateTime &startDate, const QDateTime &endDate)
+        Occurrence(const QSharedPointer<Incidence> &i, const QDateTime &recurrenceId, const QDateTime &startDate, const QDateTime &endDate)
             : incidence(i)
             , recurrenceId(recurrenceId)
             , startDate(startDate)
@@ -55,7 +55,7 @@ public:
         {
         }
 
-        Incidence::Ptr incidence;
+        QSharedPointer<Incidence> incidence;
         QDateTime recurrenceId;
         QDateTime startDate;
         QDateTime endDate;
@@ -69,16 +69,16 @@ public:
      * When filtering completed to-dos, the CalFilter doesn't hide
      * them if it's a recurring to-do.
      */
-    bool occurrenceIsHidden(const Calendar &calendar, const Incidence::Ptr &inc, const QDateTime &occurrenceDate)
+    bool occurrenceIsHidden(const Calendar &calendar, const QSharedPointer<Incidence> &inc, const QDateTime &occurrenceDate)
     {
         if ((inc->type() == Incidence::TypeTodo) && calendar.filter() && (calendar.filter()->criteria() & KCalendarCore::CalFilter::HideCompletedTodos)) {
             if (inc->recurs()) {
-                const Todo::Ptr todo = inc.staticCast<Todo>();
+                const QSharedPointer<Todo> todo = inc.staticCast<Todo>();
                 if (todo && (occurrenceDate < todo->dtDue())) {
                     return true;
                 }
             } else if (inc->hasRecurrenceId()) {
-                const Todo::Ptr mainTodo = calendar.todo(inc->uid());
+                const QSharedPointer<Todo> mainTodo = calendar.todo(inc->uid());
                 if (mainTodo && mainTodo->isCompleted()) {
                     return true;
                 }
@@ -87,7 +87,7 @@ public:
         return false;
     }
 
-    QDateTime occurrenceEnd(const Incidence::Ptr &inc, const QDateTime &start)
+    QDateTime occurrenceEnd(const QSharedPointer<Incidence> &inc, const QDateTime &start)
     {
         if (inc->hasDuration()) {
             return inc->duration().end(start);
@@ -101,25 +101,25 @@ public:
         return QDateTime();
     }
 
-    void setupIterator(const Calendar &calendar, const Incidence::List &incidences)
+    void setupIterator(const Calendar &calendar, const QList<QSharedPointer<Incidence>> &incidences)
     {
-        for (const Incidence::Ptr &inc : std::as_const(incidences)) {
+        for (const QSharedPointer<Incidence> &inc : std::as_const(incidences)) {
             if (inc->hasRecurrenceId()) {
                 continue;
             }
             if (inc->recurs()) {
-                QHash<QDateTime, Incidence::Ptr> recurrenceIds;
+                QHash<QDateTime, QSharedPointer<Incidence>> recurrenceIds;
                 QDateTime incidenceRecStart = inc->dateTime(Incidence::RoleRecurrenceStart);
                 // const bool isAllDay = inc->allDay();
                 const auto lstInstances = calendar.instances(inc);
-                for (const Incidence::Ptr &exception : lstInstances) {
+                for (const QSharedPointer<Incidence> &exception : lstInstances) {
                     if (incidenceRecStart.isValid()) {
                         recurrenceIds.insert(exception->recurrenceId().toTimeZone(incidenceRecStart.timeZone()), exception);
                     }
                 }
                 const auto occurrences = inc->recurrence()->timesInInterval(start, end);
-                Incidence::Ptr incidence(inc);
-                Incidence::Ptr lastInc(inc);
+                QSharedPointer<Incidence> incidence(inc);
+                QSharedPointer<Incidence> lastInc(inc);
                 qint64 offset(0);
                 qint64 lastOffset(0);
                 QDateTime occurrenceStartDate;
@@ -182,19 +182,19 @@ OccurrenceIterator::OccurrenceIterator(const Calendar &calendar, const QDateTime
     d->start = start;
     d->end = end;
 
-    Event::List events = calendar.rawEvents(start.date(), end.date(), start.timeZone());
+    QList<QSharedPointer<Event>> events = calendar.rawEvents(start.date(), end.date(), start.timeZone());
     if (calendar.filter()) {
         calendar.filter()->apply(&events);
     }
 
-    Todo::List todos = calendar.rawTodos(start.date(), end.date(), start.timeZone());
+    QList<QSharedPointer<Todo>> todos = calendar.rawTodos(start.date(), end.date(), start.timeZone());
     if (calendar.filter()) {
         calendar.filter()->apply(&todos);
     }
 
-    Journal::List journals;
-    const Journal::List allJournals = calendar.rawJournals();
-    for (const KCalendarCore::Journal::Ptr &journal : allJournals) {
+    QList<QSharedPointer<Journal>> journals;
+    const QList<QSharedPointer<Journal>> allJournals = calendar.rawJournals();
+    for (const QSharedPointer<KCalendarCore::Journal> &journal : allJournals) {
         const QDate journalStart = journal->dtStart().toTimeZone(start.timeZone()).date();
         if (journal->dtStart().isValid() && journalStart >= start.date() && journalStart <= end.date()) {
             journals << journal;
@@ -205,17 +205,17 @@ OccurrenceIterator::OccurrenceIterator(const Calendar &calendar, const QDateTime
         calendar.filter()->apply(&journals);
     }
 
-    const Incidence::List incidences = KCalendarCore::Calendar::mergeIncidenceList(events, todos, journals);
+    const QList<QSharedPointer<Incidence>> incidences = KCalendarCore::Calendar::mergeIncidenceList(events, todos, journals);
     d->setupIterator(calendar, incidences);
 }
 
-OccurrenceIterator::OccurrenceIterator(const Calendar &calendar, const Incidence::Ptr &incidence, const QDateTime &start, const QDateTime &end)
+OccurrenceIterator::OccurrenceIterator(const Calendar &calendar, const QSharedPointer<Incidence> &incidence, const QDateTime &start, const QDateTime &end)
     : d(new KCalendarCore::OccurrenceIterator::Private(this))
 {
     Q_ASSERT(incidence);
     d->start = start;
     d->end = end;
-    d->setupIterator(calendar, Incidence::List() << incidence);
+    d->setupIterator(calendar, QList<QSharedPointer<Incidence>>() << incidence);
 }
 
 OccurrenceIterator::~OccurrenceIterator()
@@ -232,7 +232,7 @@ void OccurrenceIterator::next()
     d->current = d->occurrenceIt.next();
 }
 
-Incidence::Ptr OccurrenceIterator::incidence() const
+QSharedPointer<Incidence> OccurrenceIterator::incidence() const
 {
     return d->current.incidence;
 }

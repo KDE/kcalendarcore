@@ -127,7 +127,7 @@ void RecurTodoTest::testNonAllDay()
 
 void RecurTodoTest::testIsAllDay()
 {
-    KCalendarCore::Todo::Ptr todo(new KCalendarCore::Todo());
+    QSharedPointer<KCalendarCore::Todo> todo(new KCalendarCore::Todo());
     todo->setUid(QStringLiteral("todo"));
     todo->setDtStart(QDateTime(QDate(2013, 03, 10), QTime(10, 0, 0), QTimeZone::UTC));
     todo->setDtDue(QDateTime(QDate(2013, 03, 10), QTime(10, 0, 0), QTimeZone::UTC));
@@ -136,7 +136,7 @@ void RecurTodoTest::testIsAllDay()
     QCOMPARE(todo->allDay(), false);
     QCOMPARE(todo->recurrence()->allDay(), false);
 
-    KCalendarCore::Todo::Ptr allDay(new KCalendarCore::Todo());
+    QSharedPointer<KCalendarCore::Todo> allDay(new KCalendarCore::Todo());
     allDay->setUid(QStringLiteral("todo"));
     allDay->setDtStart(QDateTime(QDate(2013, 03, 10), {}, QTimeZone::UTC));
     allDay->setDtDue(QDateTime(QDate(2013, 03, 10), {}, QTimeZone::UTC));
@@ -149,7 +149,7 @@ void RecurTodoTest::testIsAllDay()
 
 void RecurTodoTest::testHasDueDate()
 {
-    KCalendarCore::Todo::Ptr todo(new KCalendarCore::Todo());
+    QSharedPointer<KCalendarCore::Todo> todo(new KCalendarCore::Todo());
     todo->setUid(QStringLiteral("todo"));
     todo->setDtStart(QDateTime(QDate(2013, 03, 10), QTime(10, 0, 0), QTimeZone::UTC));
     todo->recurrence()->setDaily(1);
@@ -177,7 +177,7 @@ void RecurTodoTest::testRecurTodo()
     QFETCH(QDateTime, dtstart);
     QFETCH(QDateTime, dtdue);
 
-    KCalendarCore::Todo::Ptr todo(new KCalendarCore::Todo());
+    QSharedPointer<KCalendarCore::Todo> todo(new KCalendarCore::Todo());
     todo->setUid(QStringLiteral("todo"));
     todo->setDtStart(dtstart);
     todo->setDtDue(dtdue);
@@ -213,14 +213,14 @@ void RecurTodoTest::testRecurTodo()
 void RecurTodoTest::testDtStart()
 {
     QDateTime start(QDate(2013, 03, 10), QTime(10, 0, 0), QTimeZone::UTC);
-    KCalendarCore::Todo::Ptr todo(new KCalendarCore::Todo());
+    QSharedPointer<KCalendarCore::Todo> todo(new KCalendarCore::Todo());
     todo->setUid(QStringLiteral("todo"));
     todo->setDtStart(start);
     todo->recurrence()->setDaily(1);
     todo->recurrence()->setDuration(2);
     QCOMPARE(todo->dtStart(), start);
 
-    KCalendarCore::Todo::Ptr todoWithDue(new KCalendarCore::Todo());
+    QSharedPointer<KCalendarCore::Todo> todoWithDue(new KCalendarCore::Todo());
     todoWithDue->setUid(QStringLiteral("todoWithDue"));
     todoWithDue->setDtStart(start);
     todoWithDue->setDtDue(QDateTime(start).addSecs(60));
@@ -234,7 +234,7 @@ void RecurTodoTest::testRecurrenceBasedOnDtStart()
     const QDateTime dtstart(QDate(2013, 03, 10), QTime(10, 0, 0), QTimeZone::UTC);
     const QDateTime dtdue(QDate(2013, 03, 10), QTime(11, 0, 0), QTimeZone::UTC);
 
-    KCalendarCore::Todo::Ptr todo(new KCalendarCore::Todo());
+    QSharedPointer<KCalendarCore::Todo> todo(new KCalendarCore::Todo());
     todo->setUid(QStringLiteral("todo"));
     todo->setDtStart(dtstart);
     todo->setDtDue(dtdue);
@@ -252,7 +252,7 @@ void RecurTodoTest::testRecurrenceBasedOnDue()
 {
     const QDateTime dtdue(QDate(2013, 03, 10), QTime(11, 0, 0), QTimeZone::UTC);
 
-    KCalendarCore::Todo::Ptr todo(new KCalendarCore::Todo());
+    QSharedPointer<KCalendarCore::Todo> todo(new KCalendarCore::Todo());
     todo->setUid(QStringLiteral("todo"));
     todo->setDtDue(dtdue);
     todo->recurrence()->setDaily(1);
@@ -272,7 +272,7 @@ void RecurTodoTest::testRecurrenceExdates()
     const QDateTime dtstart(QDate(2013, 03, 10), QTime(10, 0, 0), QTimeZone::UTC);
     const QDateTime dtdue(QDate(2013, 03, 10), QTime(11, 0, 0), QTimeZone::UTC);
 
-    KCalendarCore::Todo::Ptr todo(new KCalendarCore::Todo());
+    QSharedPointer<KCalendarCore::Todo> todo(new KCalendarCore::Todo());
     todo->setUid(QStringLiteral("todo"));
     todo->setDtStart(dtstart);
     todo->setDtDue(dtdue);

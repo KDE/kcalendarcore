@@ -77,13 +77,23 @@ public:
 
     /*!
       A shared pointer to an Alarm object.
+
+      \deprecated [6.32] Use QSharedPointer<Alarm> instead.
     */
+#if KCALENDARCORE_ENABLE_DEPRECATED_SINCE(6, 32)
+    KCALENDARCORE_DEPRECATED_VERSION(6, 32, "Use QSharedPointer<Alarm> instead")
     typedef QSharedPointer<Alarm> Ptr;
+#endif
 
     /*!
       List of alarms.
+
+      \deprecated [6.32] Use QList<QSharedPointer<Alarm>> instead.
     */
-    typedef QList<Ptr> List;
+#if KCALENDARCORE_ENABLE_DEPRECATED_SINCE(6, 32)
+    KCALENDARCORE_DEPRECATED_VERSION(6, 32, "Use QList<QSharedPointer<Alarm>> instead")
+    typedef QList<QSharedPointer<Alarm>> List;
+#endif
 
     // Can't find a way to use a shared pointer here.
     // Inside incidence.cpp, it does alarm->setParent( this )
@@ -302,7 +312,7 @@ public:
       \sa setMailSubject(), setMailText(), setMailAddresses(),
       setMailAttachments()
     */
-    void setEmailAlarm(const QString &subject, const QString &text, const Person::List &addressees, const QStringList &attachments = QStringList());
+    void setEmailAlarm(const QString &subject, const QString &text, const QList<Person> &addressees, const QStringList &attachments = QStringList());
 
     /*!
       Sets the email address of an Email type alarm.
@@ -326,7 +336,7 @@ public:
       \sa setMailSubject(), setMailText(), setMailAddress(),
       setMailAttachments(), setMailAttachment(), mailAddresses()
     */
-    void setMailAddresses(const Person::List &mailAlarmAddresses);
+    void setMailAddresses(const QList<Person> &mailAlarmAddresses);
 
     /*!
       Adds an address to the list of email addresses to send mail to when the
@@ -346,7 +356,7 @@ public:
 
       \sa addMailAddress(), setMailAddress(), setMailAddresses()
     */
-    Q_REQUIRED_RESULT Person::List mailAddresses() const;
+    Q_REQUIRED_RESULT QList<Person> mailAddresses() const;
 
     /*!
       Sets the subject line of a mail message for an Email alarm type.
@@ -686,28 +696,27 @@ private:
     class Private;
     Private *const d;
     //@endcond
-    friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &s, const KCalendarCore::Alarm::Ptr &);
-    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &s, const KCalendarCore::Alarm::Ptr &);
+    friend KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &s, const QSharedPointer<KCalendarCore::Alarm> &);
+    friend KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &s, const QSharedPointer<KCalendarCore::Alarm> &);
 };
 /*!
  * Alarm serializer.
  *
  * \since 4.12
  */
-KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &out, const KCalendarCore::Alarm::Ptr &);
+KCALENDARCORE_EXPORT QDataStream &operator<<(QDataStream &out, const QSharedPointer<KCalendarCore::Alarm> &);
 
 /*!
  * Alarm deserializer.
  *
  * \since 4.12
  */
-KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &in, const KCalendarCore::Alarm::Ptr &);
-
+KCALENDARCORE_EXPORT QDataStream &operator>>(QDataStream &in, const QSharedPointer<KCalendarCore::Alarm> &);
 }
 
 //@cond PRIVATE
-Q_DECLARE_TYPEINFO(KCalendarCore::Alarm::Ptr, Q_RELOCATABLE_TYPE);
-Q_DECLARE_METATYPE(KCalendarCore::Alarm::Ptr)
+Q_DECLARE_TYPEINFO(QSharedPointer<KCalendarCore::Alarm>, Q_RELOCATABLE_TYPE);
+Q_DECLARE_METATYPE(QSharedPointer<KCalendarCore::Alarm>)
 //@endcond
 
 #endif

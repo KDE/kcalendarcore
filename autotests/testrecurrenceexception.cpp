@@ -16,7 +16,7 @@ void TestRecurrenceException::testCreateTodoException()
     const QDateTime dtdue(QDate(2013, 03, 10), QTime(11, 0, 0), QTimeZone::UTC);
     const QDateTime recurrenceId(QDateTime(dtstart).addDays(1));
 
-    KCalendarCore::Todo::Ptr todo(new KCalendarCore::Todo());
+    QSharedPointer<KCalendarCore::Todo> todo(new KCalendarCore::Todo());
     todo->setUid(QStringLiteral("todo"));
     todo->setDtStart(dtstart);
     todo->setDtDue(dtdue);
@@ -25,7 +25,7 @@ void TestRecurrenceException::testCreateTodoException()
     todo->setCreated(dtstart);
     todo->setLastModified(dtstart);
 
-    const KCalendarCore::Todo::Ptr exception = KCalendarCore::MemoryCalendar::createException(todo, recurrenceId, false).staticCast<KCalendarCore::Todo>();
+    const auto exception = KCalendarCore::MemoryCalendar::createException(todo, recurrenceId, false).staticCast<KCalendarCore::Todo>();
     QCOMPARE(exception->dtStart(), recurrenceId);
     QCOMPARE(exception->dtDue(), QDateTime(dtdue).addDays(1));
     QVERIFY(exception->created() >= todo->created());
@@ -40,16 +40,16 @@ void TestRecurrenceException::testUpdateDtStart()
 {
     const QDateTime dtstart(QDate(2025, 07, 22), QTime(13, 55, 0), QTimeZone::UTC);
 
-    KCalendarCore::Event::Ptr event(new KCalendarCore::Event);
+    QSharedPointer<KCalendarCore::Event> event(new KCalendarCore::Event);
     event->setDtStart(dtstart);
     event->setDtEnd(dtstart.addSecs(300));
     event->recurrence()->setDaily(1);
     event->recurrence()->setDuration(2);
 
-    KCalendarCore::MemoryCalendar::Ptr calendar(new KCalendarCore::MemoryCalendar(QTimeZone::utc()));
+    QSharedPointer<KCalendarCore::MemoryCalendar> calendar(new KCalendarCore::MemoryCalendar(QTimeZone::utc()));
     QVERIFY(calendar->addEvent(event));
 
-    KCalendarCore::Incidence::Ptr exception = calendar->createException(event, dtstart.addDays(1));
+    auto exception = calendar->createException(event, dtstart.addDays(1));
     QCOMPARE(exception->recurrenceId(), dtstart.addDays(1));
     exception->setDtStart(exception->recurrenceId().addSecs(-3600));
     QVERIFY(calendar->addIncidence(exception));

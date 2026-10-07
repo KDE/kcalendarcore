@@ -47,7 +47,7 @@ public:
 };
 //@endcond
 
-FileStorage::FileStorage(const Calendar::Ptr &cal, const QString &fileName, CalFormat *format)
+FileStorage::FileStorage(const QSharedPointer<Calendar> &cal, const QString &fileName, CalFormat *format)
     : CalStorage(cal)
     , d(new Private(fileName, format))
 {

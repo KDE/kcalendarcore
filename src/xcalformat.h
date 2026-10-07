@@ -33,19 +33,19 @@ public:
       @copydoc
       CalFormat::load()
     */
-    bool load(const Calendar::Ptr &calendar, const QString &fileName) override;
+    bool load(const QSharedPointer<Calendar> &calendar, const QString &fileName) override;
 
     /** Does nothing. */
-    bool save(const Calendar::Ptr &calendar, const QString &fileName) override;
+    bool save(const QSharedPointer<Calendar> &calendar, const QString &fileName) override;
 
     /**
       @copydoc
       CalFormat::fromRawString()
     */
-    bool fromRawString(const Calendar::Ptr &calendar, const QByteArray &string) override;
+    bool fromRawString(const QSharedPointer<Calendar> &calendar, const QByteArray &string) override;
 
     /** Does nothing. */
-    [[nodiscard]] QString toString(const Calendar::Ptr &calendar) override;
+    [[nodiscard]] QString toString(const QSharedPointer<Calendar> &calendar) override;
 
 private:
     //@cond PRIVATE

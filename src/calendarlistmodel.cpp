@@ -15,7 +15,7 @@ namespace KCalendarCore
 class CalendarListModelPrivate
 {
 public:
-    QList<Calendar::Ptr> calendars;
+    QList<QSharedPointer<Calendar>> calendars;
 };
 }
 

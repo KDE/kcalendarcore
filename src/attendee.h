@@ -255,8 +255,13 @@ public:
 
     /*!
       List of attendees.
+
+      \deprecated [6.32] Use QList<Attendee> instead.
     */
+#if KCALENDARCORE_ENABLE_DEPRECATED_SINCE(6, 32)
+    KCALENDARCORE_DEPRECATED_VERSION(6, 32, "Use QList<Attendee> instead")
     typedef QList<Attendee> List;
+#endif
 
     /*! Create a null Attendee. */
     Attendee();

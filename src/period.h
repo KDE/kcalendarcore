@@ -40,8 +40,13 @@ class KCALENDARCORE_EXPORT Period
 public:
     /*!
        List of periods.
+
+       \deprecated [6.32] Use QList<Period> instead.
      */
+#if KCALENDARCORE_ENABLE_DEPRECATED_SINCE(6, 32)
+    KCALENDARCORE_DEPRECATED_VERSION(6, 32, "Use QList<Period> instead")
     typedef QList<Period> List;
+#endif
 
     /*!
       Constructs a period without a duration.

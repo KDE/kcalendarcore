@@ -85,7 +85,7 @@ Compat *CompatFactory::createCompat(const QString &productId, const QString &imp
 
 Compat::~Compat() = default;
 
-void Compat::fixEmptySummary(const Incidence::Ptr &incidence)
+void Compat::fixEmptySummary(const QSharedPointer<Incidence> &incidence)
 {
     static QRegularExpression regexp(QStringLiteral("\n.*"));
     // some stupid vCal exporters ignore the standard and use Description
@@ -103,7 +103,7 @@ void Compat::fixEmptySummary(const Incidence::Ptr &incidence)
     }
 }
 
-void Compat::fixAlarms(const Incidence::Ptr &incidence)
+void Compat::fixAlarms(const QSharedPointer<Incidence> &incidence)
 {
     Q_UNUSED(incidence);
 }
@@ -113,7 +113,7 @@ void Compat::fixFloatingEnd(QDate &date)
     Q_UNUSED(date);
 }
 
-void Compat::fixRecurrence(const Incidence::Ptr &incidence)
+void Compat::fixRecurrence(const QSharedPointer<Incidence> &incidence)
 {
     Q_UNUSED(incidence);
     // Prevent use of compatibility mode during subsequent changes by the application
@@ -130,7 +130,7 @@ bool Compat::useTimeZoneShift() const
     return true;
 }
 
-void Compat::setCreatedToDtStamp(const Incidence::Ptr &incidence, const QDateTime &dtstamp)
+void Compat::setCreatedToDtStamp(const QSharedPointer<Incidence> &incidence, const QDateTime &dtstamp)
 {
     Q_UNUSED(incidence);
     Q_UNUSED(dtstamp);
@@ -143,12 +143,12 @@ CompatDecorator::CompatDecorator(Compat *compat)
 
 CompatDecorator::~CompatDecorator() = default;
 
-void CompatDecorator::fixEmptySummary(const Incidence::Ptr &incidence)
+void CompatDecorator::fixEmptySummary(const QSharedPointer<Incidence> &incidence)
 {
     m_compat->fixEmptySummary(incidence);
 }
 
-void CompatDecorator::fixAlarms(const Incidence::Ptr &incidence)
+void CompatDecorator::fixAlarms(const QSharedPointer<Incidence> &incidence)
 {
     m_compat->fixAlarms(incidence);
 }
@@ -158,7 +158,7 @@ void CompatDecorator::fixFloatingEnd(QDate &date)
     m_compat->fixFloatingEnd(date);
 }
 
-void CompatDecorator::fixRecurrence(const Incidence::Ptr &incidence)
+void CompatDecorator::fixRecurrence(const QSharedPointer<Incidence> &incidence)
 {
     m_compat->fixRecurrence(incidence);
 }
@@ -173,12 +173,12 @@ bool CompatDecorator::useTimeZoneShift() const
     return m_compat->useTimeZoneShift();
 }
 
-void CompatDecorator::setCreatedToDtStamp(const Incidence::Ptr &incidence, const QDateTime &dtstamp)
+void CompatDecorator::setCreatedToDtStamp(const QSharedPointer<Incidence> &incidence, const QDateTime &dtstamp)
 {
     m_compat->setCreatedToDtStamp(incidence, dtstamp);
 }
 
-void CompatPre35::fixRecurrence(const Incidence::Ptr &incidence)
+void CompatPre35::fixRecurrence(const QSharedPointer<Incidence> &incidence)
 {
     Recurrence *recurrence = incidence->recurrence();
     if (recurrence) {
@@ -204,7 +204,7 @@ int CompatPre34::fixPriority(int priority)
     }
 }
 
-void CompatPre32::fixRecurrence(const Incidence::Ptr &incidence)
+void CompatPre32::fixRecurrence(const QSharedPointer<Incidence> &incidence)
 {
     Recurrence *recurrence = incidence->recurrence();
     if (recurrence->recurs() && recurrence->duration() > 0) {
@@ -219,7 +219,7 @@ void CompatPre31::fixFloatingEnd(QDate &endDate)
     endDate = endDate.addDays(1);
 }
 
-void CompatPre31::fixRecurrence(const Incidence::Ptr &incidence)
+void CompatPre31::fixRecurrence(const QSharedPointer<Incidence> &incidence)
 {
     CompatPre32::fixRecurrence(incidence);
 
@@ -284,14 +284,14 @@ void CompatPre31::fixRecurrence(const Incidence::Ptr &incidence)
     }
 }
 
-void CompatOutlook9::fixAlarms(const Incidence::Ptr &incidence)
+void CompatOutlook9::fixAlarms(const QSharedPointer<Incidence> &incidence)
 {
     if (!incidence) {
         return;
     }
 
-    const Alarm::List alarms = incidence->alarms();
-    for (const Alarm::Ptr &al : alarms) {
+    const QList<QSharedPointer<Alarm>> alarms = incidence->alarms();
+    for (const QSharedPointer<Alarm> &al : alarms) {
         if (al && al->hasStartOffset()) {
             Duration offsetDuration = al->startOffset();
             int offs = offsetDuration.asSeconds();
@@ -313,7 +313,7 @@ CompatPre410::CompatPre410(Compat *decoratedCompat)
 {
 }
 
-void CompatPre410::setCreatedToDtStamp(const Incidence::Ptr &incidence, const QDateTime &dtstamp)
+void CompatPre410::setCreatedToDtStamp(const QSharedPointer<Incidence> &incidence, const QDateTime &dtstamp)
 {
     if (dtstamp.isValid()) {
         incidence->setCreated(dtstamp);

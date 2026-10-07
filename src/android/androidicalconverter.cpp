@@ -24,14 +24,14 @@ namespace ical
 using property_ptr = std::unique_ptr<icalproperty, decltype(&icalproperty_free)>;
 }
 
-KCalendarCore::Event::Ptr AndroidIcalConverter::readEvent(const JniEventData &data)
+QSharedPointer<KCalendarCore::Event> AndroidIcalConverter::readEvent(const JniEventData &data)
 {
     if (!data.isValid()) {
         return nullptr;
     }
 
     KCalendarCore::ICalFormat format;
-    KCalendarCore::Event::Ptr ev(new KCalendarCore::Event);
+    QSharedPointer<KCalendarCore::Event> ev(new KCalendarCore::Event);
     qDebug() << data.title;
 
     ev->setSummary(data.title);
@@ -128,7 +128,7 @@ KCalendarCore::Event::Ptr AndroidIcalConverter::readEvent(const JniEventData &da
     return ev;
 }
 
-JniEventData AndroidIcalConverter::writeEvent(const KCalendarCore::Event::Ptr &event)
+JniEventData AndroidIcalConverter::writeEvent(const QSharedPointer<KCalendarCore::Event> &event)
 {
     KCalendarCore::ICalFormat format;
 
@@ -236,9 +236,9 @@ JniEventData AndroidIcalConverter::writeEvent(const KCalendarCore::Event::Ptr &e
     return data;
 }
 
-KCalendarCore::Alarm::Ptr AndroidIcalConverter::readAlarm(const JniReminderData &data, KCalendarCore::Incidence *parent)
+QSharedPointer<KCalendarCore::Alarm> AndroidIcalConverter::readAlarm(const JniReminderData &data, KCalendarCore::Incidence *parent)
 {
-    KCalendarCore::Alarm::Ptr alarm(new KCalendarCore::Alarm(parent));
+    QSharedPointer<KCalendarCore::Alarm> alarm(new KCalendarCore::Alarm(parent));
     alarm->setStartOffset(KCalendarCore::Duration(-data.minutes * 60, KCalendarCore::Duration::Seconds));
     if (data.method == CalendarContract::RemindersColumns::METHOD_EMAIL || data.method == CalendarContract::RemindersColumns::METHOD_SMS) {
         alarm->setType(KCalendarCore::Alarm::Email);
@@ -248,7 +248,7 @@ KCalendarCore::Alarm::Ptr AndroidIcalConverter::readAlarm(const JniReminderData 
     return alarm;
 }
 
-JniReminderData AndroidIcalConverter::writeAlarm(const KCalendarCore::Alarm::Ptr &alarm)
+JniReminderData AndroidIcalConverter::writeAlarm(const QSharedPointer<KCalendarCore::Alarm> &alarm)
 {
     JniReminderData data;
     data.minutes = -alarm->startOffset().asSeconds() / 60;

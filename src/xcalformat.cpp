@@ -70,9 +70,9 @@ public:
         Legacy // https://datatracker.ietf.org/doc/html/draft-royer-calsch-xcal-03
     } m_format = Rfc6321;
 
-    void parseXCal(QXmlStreamReader &reader, const Calendar::Ptr &calendar);
-    void parseVcalendar(QXmlStreamReader &reader, const Calendar::Ptr &calendar, const QString &elemName);
-    void parseVevent(QXmlStreamReader &reader, const Event::Ptr &event, const QString &elemName);
+    void parseXCal(QXmlStreamReader &reader, const QSharedPointer<Calendar> &calendar);
+    void parseVcalendar(QXmlStreamReader &reader, const QSharedPointer<Calendar> &calendar, const QString &elemName);
+    void parseVevent(QXmlStreamReader &reader, const QSharedPointer<Event> &event, const QString &elemName);
     void parseRRule(QXmlStreamReader &reader, RecurrenceRule *rrule, const QString &elemName);
     XCalProperty parseProperty(QXmlStreamReader &reader);
 };
@@ -120,7 +120,7 @@ QDate XCalProperty::toDate() const
     return {};
 }
 
-void XCalFormatPrivate::parseXCal(QXmlStreamReader &reader, const Calendar::Ptr &calendar)
+void XCalFormatPrivate::parseXCal(QXmlStreamReader &reader, const QSharedPointer<Calendar> &calendar)
 {
     while (!reader.atEnd() && !reader.hasError()) {
         if (reader.isEndDocument()) {
@@ -150,7 +150,7 @@ void XCalFormatPrivate::parseXCal(QXmlStreamReader &reader, const Calendar::Ptr 
     }
 }
 
-void XCalFormatPrivate::parseVcalendar(QXmlStreamReader &reader, const Calendar::Ptr &calendar, const QString &elemName)
+void XCalFormatPrivate::parseVcalendar(QXmlStreamReader &reader, const QSharedPointer<Calendar> &calendar, const QString &elemName)
 {
     reader.readNext();
     while (!reader.atEnd() && !reader.hasError()) {
@@ -169,7 +169,7 @@ void XCalFormatPrivate::parseVcalendar(QXmlStreamReader &reader, const Calendar:
         } else if (reader.name() == "properties"_L1 && m_format == Rfc6321) {
             parseVcalendar(reader, calendar, reader.name().toString());
         } else if (reader.name() == "vevent"_L1) {
-            Event::Ptr event(new Event());
+            QSharedPointer<Event> event(new Event());
             parseVevent(reader, event, reader.name().toString());
             calendar->addEvent(event);
         } else {
@@ -179,7 +179,7 @@ void XCalFormatPrivate::parseVcalendar(QXmlStreamReader &reader, const Calendar:
     }
 }
 
-void XCalFormatPrivate::parseVevent(QXmlStreamReader &reader, const Event::Ptr &event, const QString &elemName)
+void XCalFormatPrivate::parseVevent(QXmlStreamReader &reader, const QSharedPointer<Event> &event, const QString &elemName)
 {
     reader.readNext();
     while (!reader.atEnd() && !reader.hasError()) {
@@ -396,7 +396,7 @@ XCalFormat::XCalFormat()
 
 XCalFormat::~XCalFormat() = default;
 
-bool XCalFormat::load(const Calendar::Ptr &calendar, const QString &fileName)
+bool XCalFormat::load(const QSharedPointer<Calendar> &calendar, const QString &fileName)
 {
     Q_D(XCalFormat);
     clearException();
@@ -418,13 +418,13 @@ bool XCalFormat::load(const Calendar::Ptr &calendar, const QString &fileName)
     return true;
 }
 
-bool XCalFormat::save([[maybe_unused]] const Calendar::Ptr &calendar, [[maybe_unused]] const QString &fileName)
+bool XCalFormat::save([[maybe_unused]] const QSharedPointer<Calendar> &calendar, [[maybe_unused]] const QString &fileName)
 {
     qCWarning(KCALCORE_LOG) << "Exporting into xCalendar is not supported";
     return false;
 }
 
-bool XCalFormat::fromRawString(const Calendar::Ptr &calendar, const QByteArray &string)
+bool XCalFormat::fromRawString(const QSharedPointer<Calendar> &calendar, const QByteArray &string)
 {
     Q_D(XCalFormat);
     clearException();
@@ -440,7 +440,7 @@ bool XCalFormat::fromRawString(const Calendar::Ptr &calendar, const QByteArray &
     return true;
 }
 
-QString XCalFormat::toString([[maybe_unused]] const Calendar::Ptr &calendar)
+QString XCalFormat::toString([[maybe_unused]] const QSharedPointer<Calendar> &calendar)
 {
     qCWarning(KCALCORE_LOG) << "Exporting into xCalendar is not supported";
     return {};

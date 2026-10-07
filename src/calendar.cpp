@@ -53,19 +53,19 @@ public:
     {
     }
 
-    bool visit(const Event::Ptr &e) override
+    bool visit(const QSharedPointer<Event> &e) override
     {
         return mResource->addEvent(e);
     }
-    bool visit(const Todo::Ptr &t) override
+    bool visit(const QSharedPointer<Todo> &t) override
     {
         return mResource->addTodo(t);
     }
-    bool visit(const Journal::Ptr &j) override
+    bool visit(const QSharedPointer<Journal> &j) override
     {
         return mResource->addJournal(j);
     }
-    bool visit(const FreeBusy::Ptr &) override
+    bool visit(const QSharedPointer<FreeBusy> &) override
     {
         return false;
     }
@@ -88,22 +88,22 @@ public:
     {
     }
 
-    bool visit(const Event::Ptr &e) override
+    bool visit(const QSharedPointer<Event> &e) override
     {
         mResource->deleteEvent(e);
         return true;
     }
-    bool visit(const Todo::Ptr &t) override
+    bool visit(const QSharedPointer<Todo> &t) override
     {
         mResource->deleteTodo(t);
         return true;
     }
-    bool visit(const Journal::Ptr &j) override
+    bool visit(const QSharedPointer<Journal> &j) override
     {
         mResource->deleteJournal(j);
         return true;
     }
-    bool visit(const FreeBusy::Ptr &) override
+    bool visit(const QSharedPointer<FreeBusy> &) override
     {
         return false;
     }
@@ -196,17 +196,17 @@ void Calendar::shiftTimes(const QTimeZone &oldZone, const QTimeZone &newZone)
 
     int i;
     int end;
-    Event::List ev = events();
+    QList<QSharedPointer<Event>> ev = events();
     for (i = 0, end = ev.count(); i < end; ++i) {
         ev[i]->shiftTimes(oldZone, newZone);
     }
 
-    Todo::List to = todos();
+    QList<QSharedPointer<Todo>> to = todos();
     for (i = 0, end = to.count(); i < end; ++i) {
         to[i]->shiftTimes(oldZone, newZone);
     }
 
-    Journal::List jo = journals();
+    QList<QSharedPointer<Journal>> jo = journals();
     for (i = 0, end = jo.count(); i < end; ++i) {
         jo[i]->shiftTimes(oldZone, newZone);
     }
@@ -229,11 +229,11 @@ CalFilter *Calendar::filter() const
 
 QStringList Calendar::categories() const
 {
-    const Incidence::List rawInc = rawIncidences();
+    const QList<QSharedPointer<Incidence>> rawInc = rawIncidences();
     QStringList uniqueCategories;
     // @TODO: For now just iterate over all incidences. In the future,
     // the list of categories should be built when reading the file.
-    for (const Incidence::Ptr &inc : rawInc) {
+    for (const QSharedPointer<Incidence> &inc : rawInc) {
         QStringList thisCats = inc->categories();
         for (const auto &cat : std::as_const(thisCats)) {
             if (!uniqueCategories.contains(cat)) {
@@ -244,27 +244,27 @@ QStringList Calendar::categories() const
     return uniqueCategories;
 }
 
-Incidence::List Calendar::incidences(const QDate &date) const
+QList<QSharedPointer<Incidence>> Calendar::incidences(const QDate &date) const
 {
     return mergeIncidenceList(events(date), todos(date), journals(date));
 }
 
-Incidence::List Calendar::incidences() const
+QList<QSharedPointer<Incidence>> Calendar::incidences() const
 {
     return mergeIncidenceList(events(), todos(), journals());
 }
 
-Incidence::List Calendar::rawIncidences() const
+QList<QSharedPointer<Incidence>> Calendar::rawIncidences() const
 {
     return mergeIncidenceList(rawEvents(), rawTodos(), rawJournals());
 }
 
-Incidence::List Calendar::instances(const Incidence::Ptr &incidence) const
+QList<QSharedPointer<Incidence>> Calendar::instances(const QSharedPointer<Incidence> &incidence) const
 {
     if (incidence) {
-        Event::List elist;
-        Todo::List tlist;
-        Journal::List jlist;
+        QList<QSharedPointer<Event>> elist;
+        QList<QSharedPointer<Todo>> tlist;
+        QList<QSharedPointer<Journal>> jlist;
 
         if (incidence->type() == Incidence::TypeEvent) {
             elist = eventInstances(incidence);
@@ -275,11 +275,11 @@ Incidence::List Calendar::instances(const Incidence::Ptr &incidence) const
         }
         return mergeIncidenceList(elist, tlist, jlist);
     } else {
-        return Incidence::List();
+        return QList<QSharedPointer<Incidence>>();
     }
 }
 
-Event::List Calendar::sortEvents(Event::List &&eventList, EventSortField sortField, SortDirection sortDirection)
+QList<QSharedPointer<Event>> Calendar::sortEvents(QList<QSharedPointer<Event>> &&eventList, EventSortField sortField, SortDirection sortDirection)
 {
     switch (sortField) {
     case EventSortUnsorted:
@@ -313,35 +313,35 @@ Event::List Calendar::sortEvents(Event::List &&eventList, EventSortField sortFie
     return eventList;
 }
 
-Event::List Calendar::events(const QDate &date, const QTimeZone &timeZone, EventSortField sortField, SortDirection sortDirection) const
+QList<QSharedPointer<Event>> Calendar::events(const QDate &date, const QTimeZone &timeZone, EventSortField sortField, SortDirection sortDirection) const
 {
-    Event::List el = rawEventsForDate(date, timeZone, sortField, sortDirection);
+    QList<QSharedPointer<Event>> el = rawEventsForDate(date, timeZone, sortField, sortDirection);
     d->mFilter->apply(&el);
     return el;
 }
 
-Event::List Calendar::events(const QDateTime &dt) const
+QList<QSharedPointer<Event>> Calendar::events(const QDateTime &dt) const
 {
-    Event::List el = rawEventsForDate(dt.date(), dt.timeZone());
+    QList<QSharedPointer<Event>> el = rawEventsForDate(dt.date(), dt.timeZone());
     d->mFilter->apply(&el);
     return el;
 }
 
-Event::List Calendar::events(const QDate &start, const QDate &end, const QTimeZone &timeZone, bool inclusive) const
+QList<QSharedPointer<Event>> Calendar::events(const QDate &start, const QDate &end, const QTimeZone &timeZone, bool inclusive) const
 {
-    Event::List el = rawEvents(start, end, timeZone, inclusive);
+    QList<QSharedPointer<Event>> el = rawEvents(start, end, timeZone, inclusive);
     d->mFilter->apply(&el);
     return el;
 }
 
-Event::List Calendar::events(EventSortField sortField, SortDirection sortDirection) const
+QList<QSharedPointer<Event>> Calendar::events(EventSortField sortField, SortDirection sortDirection) const
 {
-    Event::List el = rawEvents(sortField, sortDirection);
+    QList<QSharedPointer<Event>> el = rawEvents(sortField, sortDirection);
     d->mFilter->apply(&el);
     return el;
 }
 
-bool Calendar::addIncidence(const Incidence::Ptr &incidence)
+bool Calendar::addIncidence(const QSharedPointer<Incidence> &incidence)
 {
     if (!incidence) {
         return false;
@@ -351,7 +351,7 @@ bool Calendar::addIncidence(const Incidence::Ptr &incidence)
     return incidence->accept(v, incidence);
 }
 
-bool Calendar::deleteIncidence(const Incidence::Ptr &incidence)
+bool Calendar::deleteIncidence(const QSharedPointer<Incidence> &incidence)
 {
     if (!incidence) {
         return false;
@@ -367,14 +367,14 @@ bool Calendar::deleteIncidence(const Incidence::Ptr &incidence)
     }
 }
 
-Incidence::Ptr Calendar::createException(const Incidence::Ptr &incidence, const QDateTime &recurrenceId, bool thisAndFuture)
+QSharedPointer<Incidence> Calendar::createException(const QSharedPointer<Incidence> &incidence, const QDateTime &recurrenceId, bool thisAndFuture)
 {
     Q_ASSERT(recurrenceId.isValid());
     if (!incidence || !incidence->recurs() || !recurrenceId.isValid()) {
-        return Incidence::Ptr();
+        return QSharedPointer<Incidence>();
     }
 
-    Incidence::Ptr newInc(incidence->clone());
+    QSharedPointer<Incidence> newInc(incidence->clone());
     const QDateTime current = QDateTime::currentDateTimeUtc();
     newInc->setCreated(current);
     newInc->setLastModified(current);
@@ -402,9 +402,9 @@ Incidence::Ptr Calendar::createException(const Incidence::Ptr &incidence, const 
     return newInc;
 }
 
-Incidence::Ptr Calendar::incidence(const QString &uid, const QDateTime &recurrenceId) const
+QSharedPointer<Incidence> Calendar::incidence(const QString &uid, const QDateTime &recurrenceId) const
 {
-    Incidence::Ptr i = event(uid, recurrenceId);
+    QSharedPointer<Incidence> i = event(uid, recurrenceId);
     if (i) {
         return i;
     }
@@ -418,28 +418,28 @@ Incidence::Ptr Calendar::incidence(const QString &uid, const QDateTime &recurren
     return i;
 }
 
-Incidence::List Calendar::incidencesFromSchedulingID(const QString &sid) const
+QList<QSharedPointer<Incidence>> Calendar::incidencesFromSchedulingID(const QString &sid) const
 {
-    Incidence::List result;
-    const Incidence::List incidences = rawIncidences();
-    std::copy_if(incidences.cbegin(), incidences.cend(), std::back_inserter(result), [&sid](const Incidence::Ptr &in) {
+    QList<QSharedPointer<Incidence>> result;
+    const QList<QSharedPointer<Incidence>> incidences = rawIncidences();
+    std::copy_if(incidences.cbegin(), incidences.cend(), std::back_inserter(result), [&sid](const QSharedPointer<Incidence> &in) {
         return in->schedulingID() == sid;
     });
     return result;
 }
 
-Incidence::Ptr Calendar::incidenceFromSchedulingID(const QString &uid) const
+QSharedPointer<Incidence> Calendar::incidenceFromSchedulingID(const QString &uid) const
 {
-    const Incidence::List incidences = rawIncidences();
+    const QList<QSharedPointer<Incidence>> incidences = rawIncidences();
     const auto itEnd = incidences.cend();
-    auto it = std::find_if(incidences.cbegin(), itEnd, [&uid](const Incidence::Ptr &in) {
+    auto it = std::find_if(incidences.cbegin(), itEnd, [&uid](const QSharedPointer<Incidence> &in) {
         return in->schedulingID() == uid;
     });
 
-    return it != itEnd ? *it : Incidence::Ptr();
+    return it != itEnd ? *it : QSharedPointer<Incidence>();
 }
 
-Todo::List Calendar::sortTodos(Todo::List &&todoList, TodoSortField sortField, SortDirection sortDirection)
+QList<QSharedPointer<Todo>> Calendar::sortTodos(QList<QSharedPointer<Todo>> &&todoList, TodoSortField sortField, SortDirection sortDirection)
 {
     // Note that To-dos may not have Start DateTimes nor due DateTimes.
     switch (sortField) {
@@ -506,28 +506,28 @@ Todo::List Calendar::sortTodos(Todo::List &&todoList, TodoSortField sortField, S
     return todoList;
 }
 
-Todo::List Calendar::todos(TodoSortField sortField, SortDirection sortDirection) const
+QList<QSharedPointer<Todo>> Calendar::todos(TodoSortField sortField, SortDirection sortDirection) const
 {
-    Todo::List tl = rawTodos(sortField, sortDirection);
+    QList<QSharedPointer<Todo>> tl = rawTodos(sortField, sortDirection);
     d->mFilter->apply(&tl);
     return tl;
 }
 
-Todo::List Calendar::todos(const QDate &date) const
+QList<QSharedPointer<Todo>> Calendar::todos(const QDate &date) const
 {
-    Todo::List el = rawTodosForDate(date);
+    QList<QSharedPointer<Todo>> el = rawTodosForDate(date);
     d->mFilter->apply(&el);
     return el;
 }
 
-Todo::List Calendar::todos(const QDate &start, const QDate &end, const QTimeZone &timeZone, bool inclusive) const
+QList<QSharedPointer<Todo>> Calendar::todos(const QDate &start, const QDate &end, const QTimeZone &timeZone, bool inclusive) const
 {
-    Todo::List tl = rawTodos(start, end, timeZone, inclusive);
+    QList<QSharedPointer<Todo>> tl = rawTodos(start, end, timeZone, inclusive);
     d->mFilter->apply(&tl);
     return tl;
 }
 
-Journal::List Calendar::sortJournals(Journal::List &&journalList, JournalSortField sortField, SortDirection sortDirection)
+QList<QSharedPointer<Journal>> Calendar::sortJournals(QList<QSharedPointer<Journal>> &&journalList, JournalSortField sortField, SortDirection sortDirection)
 {
     switch (sortField) {
     case JournalSortUnsorted:
@@ -553,16 +553,16 @@ Journal::List Calendar::sortJournals(Journal::List &&journalList, JournalSortFie
     return journalList;
 }
 
-Journal::List Calendar::journals(JournalSortField sortField, SortDirection sortDirection) const
+QList<QSharedPointer<Journal>> Calendar::journals(JournalSortField sortField, SortDirection sortDirection) const
 {
-    Journal::List jl = rawJournals(sortField, sortDirection);
+    QList<QSharedPointer<Journal>> jl = rawJournals(sortField, sortDirection);
     d->mFilter->apply(&jl);
     return jl;
 }
 
-Journal::List Calendar::journals(const QDate &date) const
+QList<QSharedPointer<Journal>> Calendar::journals(const QDate &date) const
 {
-    Journal::List el = rawJournalsForDate(date);
+    QList<QSharedPointer<Journal>> el = rawJournalsForDate(date);
     d->mFilter->apply(&el);
     return el;
 }
@@ -577,28 +577,28 @@ void Calendar::CalendarObserver::calendarModified(bool modified, Calendar *calen
     Q_UNUSED(calendar);
 }
 
-void Calendar::CalendarObserver::calendarIncidenceAdded(const Incidence::Ptr &incidence)
+void Calendar::CalendarObserver::calendarIncidenceAdded(const QSharedPointer<Incidence> &incidence)
 {
     Q_UNUSED(incidence);
 }
 
-void Calendar::CalendarObserver::calendarIncidenceChanged(const Incidence::Ptr &incidence)
+void Calendar::CalendarObserver::calendarIncidenceChanged(const QSharedPointer<Incidence> &incidence)
 {
     Q_UNUSED(incidence);
 }
 
-void Calendar::CalendarObserver::calendarIncidenceAboutToBeDeleted(const Incidence::Ptr &incidence)
+void Calendar::CalendarObserver::calendarIncidenceAboutToBeDeleted(const QSharedPointer<Incidence> &incidence)
 {
     Q_UNUSED(incidence);
 }
 
-void Calendar::CalendarObserver::calendarIncidenceDeleted(const Incidence::Ptr &incidence, const Calendar *calendar)
+void Calendar::CalendarObserver::calendarIncidenceDeleted(const QSharedPointer<Incidence> &incidence, const Calendar *calendar)
 {
     Q_UNUSED(incidence);
     Q_UNUSED(calendar);
 }
 
-void Calendar::CalendarObserver::calendarIncidenceAdditionCanceled(const Incidence::Ptr &incidence)
+void Calendar::CalendarObserver::calendarIncidenceAdditionCanceled(const QSharedPointer<Incidence> &incidence)
 {
     Q_UNUSED(incidence);
 }
@@ -643,7 +643,7 @@ bool Calendar::isModified() const
 
 void Calendar::incidenceUpdated(const QString &uid, const QDateTime &recurrenceId)
 {
-    Incidence::Ptr inc = incidence(uid, recurrenceId);
+    QSharedPointer<Incidence> inc = incidence(uid, recurrenceId);
 
     if (!inc) {
         return;
@@ -664,7 +664,7 @@ void Calendar::doSetTimeZone(const QTimeZone &timeZone)
     Q_UNUSED(timeZone);
 }
 
-void Calendar::notifyIncidenceAdded(const Incidence::Ptr &incidence)
+void Calendar::notifyIncidenceAdded(const QSharedPointer<Incidence> &incidence)
 {
     if (!incidence) {
         return;
@@ -688,7 +688,7 @@ void Calendar::notifyIncidenceAdded(const Incidence::Ptr &incidence)
     }
 }
 
-void Calendar::notifyIncidenceChanged(const Incidence::Ptr &incidence)
+void Calendar::notifyIncidenceChanged(const QSharedPointer<Incidence> &incidence)
 {
     if (!incidence) {
         return;
@@ -703,7 +703,7 @@ void Calendar::notifyIncidenceChanged(const Incidence::Ptr &incidence)
     }
 }
 
-void Calendar::notifyIncidenceAboutToBeDeleted(const Incidence::Ptr &incidence)
+void Calendar::notifyIncidenceAboutToBeDeleted(const QSharedPointer<Incidence> &incidence)
 {
     if (!incidence) {
         return;
@@ -718,7 +718,7 @@ void Calendar::notifyIncidenceAboutToBeDeleted(const Incidence::Ptr &incidence)
     }
 }
 
-void Calendar::notifyIncidenceDeleted(const Incidence::Ptr &incidence)
+void Calendar::notifyIncidenceDeleted(const QSharedPointer<Incidence> &incidence)
 {
     if (!incidence) {
         return;
@@ -733,7 +733,7 @@ void Calendar::notifyIncidenceDeleted(const Incidence::Ptr &incidence)
     }
 }
 
-void Calendar::notifyIncidenceAdditionCanceled(const Incidence::Ptr &incidence)
+void Calendar::notifyIncidenceAdditionCanceled(const QSharedPointer<Incidence> &incidence)
 {
     if (!incidence) {
         return;
@@ -764,9 +764,11 @@ QString Calendar::productId() const
 }
 
 /** static */
-Incidence::List Calendar::mergeIncidenceList(const Event::List &events, const Todo::List &todos, const Journal::List &journals)
+QList<QSharedPointer<Incidence>> Calendar::mergeIncidenceList(const QList<QSharedPointer<Event>> &events,
+                                                              const QList<QSharedPointer<Todo>> &todos,
+                                                              const QList<QSharedPointer<Journal>> &journals)
 {
-    Incidence::List incidences;
+    QList<QSharedPointer<Incidence>> incidences;
     incidences.reserve(events.count() + todos.count() + journals.count());
 
     int i;
@@ -786,13 +788,13 @@ Incidence::List Calendar::mergeIncidenceList(const Event::List &events, const To
     return incidences;
 }
 
-bool Calendar::beginChange(const Incidence::Ptr &incidence)
+bool Calendar::beginChange(const QSharedPointer<Incidence> &incidence)
 {
     Q_UNUSED(incidence);
     return true;
 }
 
-bool Calendar::endChange(const Incidence::Ptr &incidence)
+bool Calendar::endChange(const QSharedPointer<Incidence> &incidence)
 {
     Q_UNUSED(incidence);
     return true;
@@ -803,11 +805,11 @@ void Calendar::setObserversEnabled(bool enabled)
     d->mObserversEnabled = enabled;
 }
 
-void Calendar::appendAlarms(Alarm::List &alarms, const Incidence::Ptr &incidence, const QDateTime &from, const QDateTime &to) const
+void Calendar::appendAlarms(QList<QSharedPointer<Alarm>> &alarms, const QSharedPointer<Incidence> &incidence, const QDateTime &from, const QDateTime &to) const
 {
     QDateTime preTime = from.addSecs(-1);
 
-    Alarm::List alarmlist = incidence->alarms();
+    QList<QSharedPointer<Alarm>> alarmlist = incidence->alarms();
     for (int i = 0, iend = alarmlist.count(); i < iend; ++i) {
         if (alarmlist[i]->enabled()) {
             QDateTime dt = alarmlist[i]->nextRepetition(preTime);
@@ -819,16 +821,19 @@ void Calendar::appendAlarms(Alarm::List &alarms, const Incidence::Ptr &incidence
     }
 }
 
-void Calendar::appendRecurringAlarms(Alarm::List &alarms, const Incidence::Ptr &incidence, const QDateTime &from, const QDateTime &to) const
+void Calendar::appendRecurringAlarms(QList<QSharedPointer<Alarm>> &alarms,
+                                     const QSharedPointer<Incidence> &incidence,
+                                     const QDateTime &from,
+                                     const QDateTime &to) const
 {
     QDateTime dt;
     bool endOffsetValid = false;
     Duration endOffset(0);
     Duration period(from, to);
 
-    Alarm::List alarmlist = incidence->alarms();
+    QList<QSharedPointer<Alarm>> alarmlist = incidence->alarms();
     for (int i = 0, iend = alarmlist.count(); i < iend; ++i) {
-        Alarm::Ptr a = alarmlist[i];
+        QSharedPointer<Alarm> a = alarmlist[i];
         if (a->enabled()) {
             if (a->hasTime()) {
                 // The alarm time is defined as an absolute date/time
@@ -933,7 +938,7 @@ bool Calendar::batchAdding() const
     return d->batchAddingInProgress;
 }
 
-Alarm::List Calendar::alarmsTo(const QDateTime &to) const
+QList<QSharedPointer<Alarm>> Calendar::alarmsTo(const QDateTime &to) const
 {
     return alarms(QDateTime(QDate(1900, 1, 1), QTime(0, 0, 0)), to);
 }
