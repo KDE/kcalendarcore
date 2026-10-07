@@ -75,6 +75,95 @@ void TestOccurrenceIterator::testIterationWithExceptions()
     QCOMPARE(occurrence, 3);
 }
 
+void TestOccurrenceIterator::testIterationWithExceptionOutsideIteratorRange()
+{
+    KCalendarCore::MemoryCalendar calendar(QTimeZone::utc());
+
+    QDateTime start(QDate(2025, 10, 01), QTime(10, 0, 0), QTimeZone::UTC);
+    QDateTime end = start.addSecs(60 * 60);
+
+    QDateTime recurrenceId = start.addDays(1);
+    QDateTime exceptionStart = start.addDays(3).addSecs(60 * 60); // outside of iterator range
+    QDateTime exceptionEnd = exceptionStart.addSecs(60 * 60);
+
+    QDateTime iteratorEnd = end.addDays(2); // 3 occurrences 0, 1, 2
+
+    KCalendarCore::Event::Ptr event1(new KCalendarCore::Event());
+    event1->setUid(QStringLiteral("event1"));
+    event1->setSummary(QStringLiteral("event1"));
+    event1->setDtStart(start);
+    event1->setDtEnd(end);
+    event1->recurrence()->setDaily(1);
+    calendar.addEvent(event1);
+
+    KCalendarCore::Event::Ptr exception(new KCalendarCore::Event());
+    exception->setUid(event1->uid());
+    exception->setSummary(QStringLiteral("exception"));
+    exception->setRecurrenceId(recurrenceId);
+    exception->setDtStart(exceptionStart);
+    exception->setDtEnd(exceptionEnd);
+    calendar.addEvent(exception);
+
+    int occurrence = 0;
+    KCalendarCore::OccurrenceIterator rIt(calendar, start, iteratorEnd);
+    while (rIt.hasNext()) {
+        rIt.next();
+        occurrence++;
+        if (occurrence == 1) {
+            QCOMPARE(rIt.occurrenceStartDate(), start);
+            QCOMPARE(rIt.incidence()->summary(), event1->summary());
+        }
+        if (occurrence == 2) {
+            QCOMPARE(rIt.occurrenceStartDate(), start.addDays(2));
+            QCOMPARE(rIt.incidence()->summary(), event1->summary());
+        }
+    }
+    QCOMPARE(occurrence, 2);
+}
+
+void TestOccurrenceIterator::testIterationWithThisAndFutureOutsideIteratorRange()
+{
+    KCalendarCore::MemoryCalendar calendar(QTimeZone::utc());
+
+    QDateTime start(QDate(2025, 10, 01), QTime(10, 0, 0), QTimeZone::UTC);
+    QDateTime end = start.addSecs(60 * 60);
+
+    QDateTime recurrenceId = start.addDays(1);
+    QDateTime exceptionStart = start.addDays(3).addSecs(60 * 60); // outside of iterator range
+    QDateTime exceptionEnd = exceptionStart.addSecs(60 * 60);
+
+    QDateTime iteratorEnd = end.addDays(2); // 3 occurrences 0, 1, 2
+
+    KCalendarCore::Event::Ptr event1(new KCalendarCore::Event());
+    event1->setUid(QStringLiteral("event1"));
+    event1->setSummary(QStringLiteral("event1"));
+    event1->setDtStart(start);
+    event1->setDtEnd(end);
+    event1->recurrence()->setDaily(1);
+    calendar.addEvent(event1);
+
+    KCalendarCore::Event::Ptr exception(new KCalendarCore::Event());
+    exception->setUid(event1->uid());
+    exception->setSummary(QStringLiteral("exception"));
+    exception->setRecurrenceId(recurrenceId);
+    exception->setDtStart(exceptionStart);
+    exception->setDtEnd(exceptionEnd);
+    exception->setThisAndFuture(true);
+    calendar.addEvent(exception);
+
+    int occurrence = 0;
+    KCalendarCore::OccurrenceIterator rIt(calendar, start, iteratorEnd);
+    while (rIt.hasNext()) {
+        rIt.next();
+        occurrence++;
+        if (occurrence == 1) {
+            QCOMPARE(rIt.occurrenceStartDate(), start);
+            QCOMPARE(rIt.incidence()->summary(), event1->summary());
+        }
+    }
+    QCOMPARE(occurrence, 1);
+}
+
 void TestOccurrenceIterator::testIterationWithExceptionInIteratorRange()
 {
     // Following https://bugs.kde.org/show_bug.cgi?id=447966
@@ -224,7 +313,7 @@ void TestOccurrenceIterator::testWithExceptionThisAndFuture()
     QDateTime exceptionStart2(QDate(2013, 03, 13), QTime(14, 0, 0), QTimeZone::UTC);
     QDateTime exceptionEnd2(QDate(2013, 03, 13), QTime(15, 0, 0), QTimeZone::UTC);
 
-    QDateTime actualEnd(QDate(2013, 03, 14), QTime(11, 0, 0), QTimeZone::UTC);
+    QDateTime actualEnd(QDate(2013, 03, 14), QTime(15, 0, 0), QTimeZone::UTC);
 
     KCalendarCore::Event::Ptr event1(new KCalendarCore::Event());
     event1->setUid(QStringLiteral("event1"));

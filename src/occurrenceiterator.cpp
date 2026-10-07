@@ -153,14 +153,23 @@ public:
             for (const auto &recurrenceId : std::as_const(occurrences)) {
                 // Note: we "take" the recurrenceId to have a list of of remaining exceptions
                 if (const auto exceptionIncidence = recurrenceIds.take(recurrenceId)) {
+                    const auto exceptionDtStart = exceptionIncidence->dtStart();
+                    const auto exceptionDtEnd = exceptionIncidence->endDateForStart(exceptionDtStart);
+                    if (isVisibleInTimeRange(exceptionDtStart, exceptionDtEnd)) {
+                        addOccurrenceToResult(calendar, exceptionIncidence, recurrenceId, exceptionIncidence->dtStart());
+                    }
+
                     if (exceptionIncidence->thisAndFuture()) {
                         thisAndFutureIncidence = exceptionIncidence;
                         thisAndFutureOffset = exceptionIncidence->recurrenceId().secsTo(exceptionIncidence->dtStart());
                     }
-                    addOccurrenceToResult(calendar, exceptionIncidence, recurrenceId, exceptionIncidence->dtStart());
                 } else {
                     if (thisAndFutureIncidence) {
-                        addOccurrenceToResult(calendar, thisAndFutureIncidence, recurrenceId, recurrenceId.addSecs(thisAndFutureOffset));
+                        const auto dtStart = recurrenceId.addSecs(thisAndFutureOffset);
+                        const auto dtEnd = thisAndFutureIncidence->endDateForStart(dtStart);
+                        if (isVisibleInTimeRange(dtStart, dtEnd)) {
+                            addOccurrenceToResult(calendar, thisAndFutureIncidence, recurrenceId, dtStart);
+                        }
                     } else {
                         addOccurrenceToResult(calendar, inc, recurrenceId, recurrenceId);
                     }
