@@ -132,7 +132,6 @@ include(FindPackageHandleStandardArgs)
 
 find_package_handle_standard_args(
     LibIcal
-    FOUND_VAR LibIcal_FOUND
     REQUIRED_VARS
         LibIcal_LIBRARIES
         LibIcal_INCLUDE_DIRS
