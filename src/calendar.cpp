@@ -629,8 +629,10 @@ void Calendar::setModified(bool modified)
 {
     if (modified != d->mModified || d->mNewObserver) {
         d->mNewObserver = false;
-        for (CalendarObserver *observer : std::as_const(d->mObservers)) {
-            observer->calendarModified(modified, this);
+        if (d->mObserversEnabled) {
+            for (CalendarObserver *observer : std::as_const(d->mObservers)) {
+                observer->calendarModified(modified, this);
+            }
         }
         d->mModified = modified;
     }
