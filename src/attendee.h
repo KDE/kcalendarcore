@@ -24,7 +24,7 @@ namespace KCalendarCore
 {
 /*!
   \qmlvaluetype attendee
-  \inqmlmodule org.kde.kcalendarcore
+  \inqmlmodule org.kde.calendarcore
   \nativetype KCalendarCore::Attendee
   \brief
   Represents information related to an attendee of an Calendar Incidence,

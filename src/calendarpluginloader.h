@@ -15,7 +15,7 @@ namespace KCalendarCore
 
 /*!
  * \qmlvaluetype calendarPluginLoader
- * \inqmlmodule org.kde.kcalendarcore
+ * \inqmlmodule org.kde.calendarcore
  * \nativetype KCalendarCore::CalendarPluginLoader
  * \brief
  * Provides access to a KCalendarCore::CalendarPlugin instance, if available.

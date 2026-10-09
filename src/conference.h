@@ -20,7 +20,7 @@ namespace KCalendarCore
 {
 /*!
   \qmlvaluetype conference
-  \inqmlmodule org.kde.kcalendarcore
+  \inqmlmodule org.kde.calendarcore
   \nativetype KCalendarCore::Conference
 
   \brief

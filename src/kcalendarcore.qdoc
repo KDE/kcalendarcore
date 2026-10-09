@@ -9,7 +9,7 @@
 */
 
 /*!
-    \qmlmodule org.kde.kcalendarcore
+    \qmlmodule org.kde.calendarcore
     \title KCalendarCore QML Types
     \ingroup qmlmodules
     \brief This library provides access to and handling of calendar data.

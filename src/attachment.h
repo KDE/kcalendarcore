@@ -25,7 +25,7 @@ namespace KCalendarCore
 {
 /*!
   \qmlvaluetype attachment
-  \inqmlmodule org.kde.kcalendarcore
+  \inqmlmodule org.kde.calendarcore
   \nativetype KCalendarCore::Attachment
   \brief
   Represents information related to an attachment for a Calendar Incidence.

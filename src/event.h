@@ -25,7 +25,7 @@ class EventPrivate;
 
 /*!
   \qmlvaluetype event
-  \inqmlmodule org.kde.kcalendarcore
+  \inqmlmodule org.kde.calendarcore
   \nativetype KCalendarCore::Event
   \brief
   This class provides an Event in the sense of RFC2445.

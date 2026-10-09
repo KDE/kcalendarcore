@@ -71,7 +71,7 @@ class IncidenceBasePrivate;
 
 /*!
   \qmlvaluetype incidenceBase
-  \inqmlmodule org.kde.kcalendarcore
+  \inqmlmodule org.kde.calendarcore
   \nativetype KCalendarCore::IncidenceBase
   \brief
   An abstract class that provides a common base for all calendar incidence

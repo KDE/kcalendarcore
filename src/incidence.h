@@ -36,7 +36,7 @@ class IncidencePrivate;
 
 /*!
   \qmlvaluetype incidence
-  \inqmlmodule org.kde.kcalendarcore
+  \inqmlmodule org.kde.calendarcore
   \nativetype KCalendarCore::Incidence
   \brief
   Provides the abstract base class common to non-FreeBusy (Events, To-dos,

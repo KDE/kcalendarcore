@@ -157,7 +157,7 @@ Q_ENUM_NS(AccessMode)
 
 /*!
   \qmlvaluetype calendar
-  \inqmlmodule org.kde.kcalendarcore
+  \inqmlmodule org.kde.calendarcore
   \nativetype KCalendarCore::Calendar
   \brief
   Represents the main calendar class.

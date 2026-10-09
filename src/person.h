@@ -26,7 +26,7 @@ namespace KCalendarCore
 {
 /*!
   \qmlvaluetype person
-  \inqmlmodule org.kde.kcalendarcore
+  \inqmlmodule org.kde.calendarcore
   \nativetype KCalendarCore::Person
 
   \brief
