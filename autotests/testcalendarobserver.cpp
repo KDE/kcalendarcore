@@ -77,6 +77,7 @@ void CalendarObserverTest::testAdd()
     QCOMPARE(spy.count(), 1);
     QList<QVariant> arguments = spy.takeFirst();
     QCOMPARE(arguments.at(0).value<KCalendarCore::Incidence::Ptr>(), static_cast<KCalendarCore::Incidence::Ptr>(event1));
+    cal->unregisterObserver(&ob);
 }
 
 void CalendarObserverTest::testChange()
@@ -95,6 +96,7 @@ void CalendarObserverTest::testChange()
     QCOMPARE(spy.count(), 1);
     QList<QVariant> arguments = spy.takeFirst();
     QCOMPARE(arguments.at(0).value<KCalendarCore::Incidence::Ptr>(), static_cast<KCalendarCore::Incidence::Ptr>(event1));
+    cal->unregisterObserver(&ob);
 }
 
 void CalendarObserverTest::testDelete()
@@ -120,6 +122,7 @@ void CalendarObserverTest::testDelete()
     arguments = spy2.takeFirst();
     QCOMPARE(arguments.at(0).value<KCalendarCore::Incidence::Ptr>(), static_cast<KCalendarCore::Incidence::Ptr>(event1));
     QCOMPARE(arguments.at(1).value<const Calendar *>(), cal.data());
+    cal->unregisterObserver(&ob);
 }
 
 #include "moc_testcalendarobserver.cpp"
