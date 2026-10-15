@@ -18,6 +18,8 @@
 #include <QStringList>
 #include <QTime>
 
+#include <libical/ical.h>
+
 using namespace KCalendarCore;
 
 // Maximum number of intervals to process
@@ -1178,6 +1180,7 @@ void RecurrenceRule::Private::buildConstraints()
     Constraint::List tmp;
 
     // clang-format off
+#if ICAL_CHECK_VERSION(3, 99, 99)
 #define intConstraint( list, setElement ) \
     if ( !list.isEmpty() ) { \
         mNoByRules = false; \
@@ -1199,8 +1202,31 @@ void RecurrenceRule::Private::buildConstraints()
             tmp.clear(); \
         } \
     }
+#else
+#define intConstraint( list, max, setElement ) \
+    if ( !list.isEmpty() ) { \
+        mNoByRules = false; \
+        iend = std::min(list.count(), static_cast<qsizetype>(max)); \
+        if ( iend == 1 ) { \
+            for ( c = 0, cend = mConstraints.count();  c < cend;  ++c ) { \
+                mConstraints[c].setElement( list[0] ); \
+            } \
+        } else { \
+            tmp.reserve(mConstraints.count() * iend); \
+            for ( c = 0, cend = mConstraints.count();  c < cend;  ++c ) { \
+                for ( i = 0;  i < iend && list[i] != ICAL_RECURRENCE_ARRAY_MAX;  ++i ) { \
+                    con = mConstraints[c]; \
+                    con.setElement( list[i] ); \
+                    tmp.append( con ); \
+                } \
+            } \
+            mConstraints = tmp; \
+            tmp.clear(); \
+        } \
+    }
+#endif
     // clang-format on
-
+#if ICAL_CHECK_VERSION(3, 99, 99)
     intConstraint(mBySeconds, setSecond);
     intConstraint(mByMinutes, setMinute);
     intConstraint(mByHours, setHour);
@@ -1208,13 +1234,27 @@ void RecurrenceRule::Private::buildConstraints()
     intConstraint(mByMonths, setMonth);
     intConstraint(mByYearDays, setYearday);
     intConstraint(mByWeekNumbers, setWeeknumber);
+#else
+    intConstraint(mBySeconds, ICAL_BY_SECOND_SIZE, setSecond);
+    intConstraint(mByMinutes, ICAL_BY_MINUTE_SIZE, setMinute);
+    intConstraint(mByHours, ICAL_BY_HOUR_SIZE, setHour);
+    intConstraint(mByMonthDays, ICAL_BY_MONTHDAY_SIZE, setDay);
+    intConstraint(mByMonths, ICAL_BY_MONTH_SIZE, setMonth);
+    intConstraint(mByYearDays, ICAL_BY_YEARDAY_SIZE, setYearday);
+    intConstraint(mByWeekNumbers, ICAL_BY_WEEKNO_SIZE, setWeeknumber);
+#endif
 #undef intConstraint
 
     if (!mByDays.isEmpty()) {
         mNoByRules = false;
         tmp.reserve(mConstraints.count() * mByDays.count());
         for (c = 0, cend = mConstraints.count(); c < cend; ++c) {
+#if ICAL_CHECK_VERSION(3, 99, 99)
             for (i = 0, iend = mByDays.count(); i < iend; ++i) {
+#else
+            const int iend = std::min(mByDays.count(), static_cast<qsizetype>(ICAL_BY_DAY_SIZE));
+            for (i = 0; i < iend && mByDays[i].day() != ICAL_RECURRENCE_ARRAY_MAX && mByDays[i].pos() != ICAL_RECURRENCE_ARRAY_MAX; ++i) {
+#endif
                 con = mConstraints[c];
                 con.setWeekday(mByDays[i].day());
                 con.setWeekdaynr(mByDays[i].pos());
