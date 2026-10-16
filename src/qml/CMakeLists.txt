@@ -17,4 +17,4 @@ target_link_libraries(
         Qt6::Qml
 )
 
-ecm_finalize_qml_module(kcalendarcoreqml)
+ecm_finalize_qml_module(kcalendarcoreqml EXPORT KF6CalendarCoreTargets)
