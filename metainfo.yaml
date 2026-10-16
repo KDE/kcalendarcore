@@ -2,11 +2,11 @@ description: The KDE calendar access library
 tier: 1
 type: functional
 platforms:
-    - name: All
+  - name: All
 portingAid: false
 deprecated: false
 libraries:
-    - cmake: "KF6::CalendarCore"
+  - cmake: "KF6::CalendarCore"
 cmakename: KF6CalendarCore
 
 public_lib: true
