@@ -4,11 +4,11 @@
     SPDX-License-Identifier: CC0-1.0
 -->
 <rules>
-    <dependencies>
-        <lib name="KF6CalendarCore">
-            <depends>
-                <jar bundling="1" file="jar/KF6CalendarCore.aar"/>
-            </depends>
-        </lib>
-    </dependencies>
+  <dependencies>
+    <lib name="KF6CalendarCore">
+      <depends>
+        <jar bundling="1" file="jar/KF6CalendarCore.aar"/>
+      </depends>
+    </lib>
+  </dependencies>
 </rules>
