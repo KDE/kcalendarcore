@@ -1,16 +1,17 @@
 # SPDX-FileCopyrightText: 2026 Alois Spitzbart <spitz234@hotmail.com>
+# SPDX-FileCopyrightText: 2026 Frank Steinmetzger <dev-kde@felsenfleischer.de>
 msgid ""
 msgstr ""
 "Project-Id-Version: kcalendarcore6_qt\n"
-"PO-Revision-Date: 2026-09-18 20:30+0200\n"
-"Last-Translator: Alois Spitzbart <spitz234@hotmail.com>\n"
+"PO-Revision-Date: 2026-09-24 21:56+0200\n"
+"Last-Translator: Frank Steinmetzger <dev-kde@felsenfleischer.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 26.11.70\n"
+"X-Generator: Lokalize 26.08.1\n"
 "X-Qt-Contexts: true\n"
 
 #: attendee.cpp:312
@@ -139,7 +140,7 @@ msgstr "Fehler beim Speichern unter „%1“."
 #, qt-format
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
 msgid "Could not save '%1'"
-msgstr "„%1“ kann nicht gespeichert werden."
+msgstr "„%1“ kann nicht gespeichert werden"
 
 #: exceptions.cpp:100
 msgctxt "KCalendarCore::ExceptionPrivate|@item"
