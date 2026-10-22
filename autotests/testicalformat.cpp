@@ -50,6 +50,7 @@ void ICalFormatTest::testDeserializeSerialize()
         "DTSTART;TZID=Europe/Paris:20201104T111500\n"
         "DTEND;TZID=Europe/Paris:20201104T121500\n"
         "SUMMARY:test recur\n"
+        "GEO:49.42612;7.75473\n"
         "COLOR:khaki\n"
         "RECURRENCE-ID;TZID=Europe/Paris:20201104T100000\n"
         "END:VEVENT\n"
@@ -80,6 +81,9 @@ void ICalFormatTest::testDeserializeSerialize()
     QCOMPARE(occurrence->revision(), 1);
     QVERIFY(occurrence->hasRecurrenceId());
     QCOMPARE(occurrence->recurrenceId(), start.addDays(1));
+    QVERIFY(occurrence->hasGeo());
+    QVERIFY(qFuzzyCompare(occurrence->geoLatitude(), 49.42612F));
+    QVERIFY(qFuzzyCompare(occurrence->geoLongitude(), 7.75473F));
 
     const QString serialization = format.toString(calendar);
     QVERIFY(!serialization.isEmpty());
@@ -569,6 +573,7 @@ X-MICROSOFT-LOCATIONS:[{"DisplayName":"{{location}}"\,"LocationAnnotation":""
  \,"LocationUri":""\,"LocationStreet":""\,"LocationCity":""}]
 X-TEST-TEXT:my\\text\,testing:escape\;chars
 X-TEST-URI;VALUE=URI:geo:10.123456,-70.123456
+GEO:49.42612;7.7547
 END:EVENT
 END:VCALENDAR)";
     ICalFormat format;
@@ -584,7 +589,9 @@ END:VCALENDAR)";
              QLatin1String(R"([{"DisplayName":"{{location}}","LocationAnnotation":"","LocationUri":"","LocationStreet":"","LocationCity":""}])"));
     QCOMPARE(event->nonKDECustomProperty("X-TEST-TEXT"), QLatin1String(R"(my\text,testing:escape;chars)"));
     QCOMPARE(event->nonKDECustomProperty("X-TEST-URI"), QLatin1String("geo:10.123456,-70.123456"));
-
+    QVERIFY(event->hasGeo());
+    QVERIFY(qFuzzyCompare(event->geoLatitude(), 49.42612F));
+    QVERIFY(qFuzzyCompare(event->geoLongitude(), 7.75473F));
     cal->setColor(u"blue"_s);
     cal->setName(u"Test Calendar Name"_s);
     auto output = format.toString(cal);

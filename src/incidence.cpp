@@ -1056,7 +1056,7 @@ void Incidence::setGeoLatitude(float geolatitude)
         geolatitude = INVALID_LATLON;
     }
     if (geolatitude != INVALID_LATLON && (geolatitude < -90.0 || geolatitude > 90.0)) {
-        qCWarning(KCALCORE_LOG) << "Ignoring invalid  latitude" << geolatitude;
+        qCWarning(KCALCORE_LOG) << "Ignoring invalid latitude" << geolatitude;
         return;
     }
 
@@ -1084,7 +1084,7 @@ void Incidence::setGeoLongitude(float geolongitude)
         geolongitude = INVALID_LATLON;
     }
     if (geolongitude != INVALID_LATLON && (geolongitude < -180.0 || geolongitude > 180.0)) {
-        qCWarning(KCALCORE_LOG) << "Ignoring invalid  longitude" << geolongitude;
+        qCWarning(KCALCORE_LOG) << "Ignoring invalid longitude" << geolongitude;
         return;
     }
 
