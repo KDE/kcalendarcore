@@ -18,7 +18,6 @@
 
 #include "customproperties.h"
 
-#include "kcalendarcore_debug.h"
 #include <QDataStream>
 
 using namespace KCalendarCore;

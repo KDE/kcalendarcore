@@ -62,10 +62,6 @@ typedef QList<QDate> DateList;
 /*! List of times */
 typedef QList<QDateTime> DateTimeList;
 
-class Event;
-class Todo;
-class Journal;
-class FreeBusy;
 class Visitor;
 class IncidenceBasePrivate;
 
